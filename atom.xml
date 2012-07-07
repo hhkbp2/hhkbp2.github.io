@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-07-07T15:26:26+08:00</updated>
+  <updated>2012-07-07T15:44:10+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,5 +12,14 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://clisp.github.com/blog/2012/07/07/hello-world/"/>
+    <updated>2012-07-07T15:37:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2012/07/07/hello-world</id>
+    <content type="html"><![CDATA[<p>Hello World!</p>
+]]></content>
+  </entry>
   
 </feed>
