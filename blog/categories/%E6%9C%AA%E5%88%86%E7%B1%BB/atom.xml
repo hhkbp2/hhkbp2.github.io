@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 未分类 | Dylan.Wen's Blog]]></title>
+  <link href="http://clisp.github.com/blog/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/atom.xml" rel="self"/>
+  <link href="http://clisp.github.com/"/>
+  <updated>2012-07-08T04:03:13+08:00</updated>
+  <id>http://clisp.github.com/</id>
+  <author>
+    <name><![CDATA[Dylan.Wen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[入手神器hhkb]]></title>
+    <link href="http://clisp.github.com/blog/2012/06/24/get-one-hhkb/"/>
+    <updated>2012-06-24T21:39:45+08:00</updated>
+    <id>http://clisp.github.com/blog/2012/06/24/get-one-hhkb</id>
+    <content type="html"><![CDATA[<p>蛋痛过度，一时头脑发热，订了一把hhkb pro2。</p>
+
+<p>静电容的价格一如既往的坑爹，加上日元汇率像丰胸广告里的产品一样坚挺，萌购价格不计运费已经高到1.8K，于是直接上花尽国行。花尽在淘宝有两个店，一个叫“键步如飞”，一个叫“花尽数码专营店”，同属于花尽，但负责管理的部门不同，因为后者是天猫店，所以同样的货品直接贵一百，两才都有保修单，只是后者多一张发票，所以对比来看我的理解是，钞票和发票都是一张纸，两纸等价。</p>
+
+<p>hhkb一共有黑白两种颜色和有刻无刻两种键帽，所以总共有4种组合，我输入英文使用programmer dvorak布局，所以订的是无刻字版本，hhkb的键帽用的是热升华技术，如果用的是标准qwerty键位的话，还是建议入有刻版本。颜色方面，白色的hhkb有部分键是浅灰色的，白色底色上的灰白过滤比较复古，而黑色则键盘本身和键帽同色，比较低调，个人更喜欢亮骚的白色。</p>
+
+<p>快递到手，拆封拍照，拆开时让人眼前一亮，hhkb的做工细节真的是好，键盘本体颜色比较白，比想象中要白一些，不像filco有点奶黄，不过估计过几年，两个都一样。键帽材质是pbt，和cherry的白pbt不一样，hhkb的键帽顶面即手指接触面，做了轻微的磨砂处理，手指摸上去有点纹理感，不像cherry白pbt那么滑。按键手感方面，静电容果然比较特别，比较像薄膜，但无论是下按还是回弹，都能明显感受到下面的弹簧，也就是人们常说的“手感比较Q”，和mx轴相比则差别较大，因为静电容的段落感不明显，特别是在快速输入的时候。习惯了用段落感强烈压力系数大的青轴，再用hhkb，就像习惯了用斧头大戟，转去用短刀匕首，别有一番趣味。敲键的声音不大，相对于青轴小很多，区别相当明显，特别是空格大键。平时用钢板青，一敲键盘就好像要天开地裂女娲出现，用hhkb基本上没有多大的声音，当然夜深人静时还是会明显察觉到敲键有声。可以想象type-s声音会更小，但普通版本声音也已经够小了。</p>
+
+<p>因为我一直用linux和emacs，所以hhkb的键位也很容易适应。control键换到caps位置已经用了好几年，早就习惯了，F区也用得不多，方向键的话，除了emacs，firefox, foxit pdf reader外，有时还是需要用一下，把后面的dip开关的sw4打开就好。经过一轮调教后，最后6个dip成了这样：</p>
+
+<p>sw1, on
+sw2, off sw1和sw2形成lite ext模式
+sw3, on backspace常用一些
+sw4, on 左手也有fn了，这样左右手合作按方向键或page up, page down键就比较方便了
+sw5, on alt键大一些好，因为在emacs里面它就是meta
+sw6, off 没用到wake up功能</p>
+
+<p>hhkb的backspace键下移到了原来反斜杠的位置，其实这样布局更科学，因为用backspace的次数远远多于反斜杠，但开始的时候还是会打错，特别是在盲打的情况下，很多时候都条件反射的把小指移到最右上角的位置。至于hhkb要用fn来触发方向键或功能键，个人觉得相当的自然，就像C-n和Fn-/没太多的区别，emacs党你们都懂的。</p>
+
+<p>前段时间转到dvorak，发现用dvorak输入英文，手指的左右平移多了，上下移动少了，打起字来果然比qwerty舒服，至于说输入速度什么的，个人没什么感觉，其实我需要的只是一般速度的输入，目前用dvorak还是比较慢，大概只有多年使用的qwerty一半速度，不过不会造成什么困扰——可能我本来盲打就慢，写代码的话，要想得多一些快一些，输入慢一些不是问题。中文输入则用五笔多年，而五笔的字根是按qwerty来分布的，所以一直无法全部转到dvorak布局下。于是面前一把hhkb白无刻，英文pro dvorak，中文qwerty，两个布局换着用，手指在一片白茫茫的键帽上信步来回，正所谓“眼前无字，心中有字”，与东瀛电影“眼前有码，心中无码”有着异曲同工之妙。</p>
+
+<p>最后上几张真相。</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_145612.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_145612.jpg" alt="hhkb外包装盒" /></a></p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_151548.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_151548.jpg" alt="hhkb盒子开封" /></a></p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_152623.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_152623.jpg" alt="hhkb键帽特写近照" /></a></p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_154129.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_154129.jpg" alt="hhkb白无刻与filco二代白对比" /></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[金杯月明夜，与君醉梦乡]]></title>
+    <link href="http://clisp.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight/"/>
+    <updated>2012-02-19T01:41:44+08:00</updated>
+    <id>http://clisp.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight</id>
+    <content type="html"><![CDATA[<p>  ——读乔治.R.R.马丁的《肉院情人》</p>
+
+<p>克劳修斯告诉我们，说我们生活所在的这个宇宙，是会热寂的，物体从高温会变低温，从有序变无序，总之一切都在衰老变坏，一去不返无可挽留。但这个宇宙中有很多事情看起来恰恰向着相反的方向发展，比如进化，又比如爱情。</p>
+
+<p>小时候看粤剧《帝女花》，不明白为什么一对夫妻好端端的要一起喝毒酒寻死，问周围的大人也没问出个详细究竟——很多人听粤剧都并不那么深究内里的剧情。后来年岁渐长，慢慢积累多了书本知识人情世故，才懂得在那国愁家恨世事变迁之下，一份爱情最后也竟会变成两杯毒酒，一段唱词。剧中最惊艳的是，那红装妖娆的长平公主一手抛袖，一手甩袖，长衣飘舞，台上幽幽唱道，"落花满天蔽月光，借一杯附荐凤台上..."，教人不禁黯然动容，原来殉情也可以如此优雅动人。</p>
+
+<p>爱情总是美好的，但美好的爱情亦难长久，特别是在乱世动荡之中。像我们一般的普通人，既不是生逢乱世，也没能经历跌荡起伏的人生，只是一个平凡得不能再平凡，在21世纪朝九晚五或者更糟糕的朝九晚九的小白领，又如何能遇上能如此美好，轰轰烈烈的爱情？倘若遇上太现实的女生，跟你说"有房有车吗？只要你是高帅富，我就喜欢"，也只能哑然失笑。纯粹的美好爱情，也许只能在大戏里面遥远地感受一下而已了。</p>
+
+<p>所以说，无论什么时代，爱情都是很难寻得的。</p>
+
+<p>看完《肉院情人》，我第一个想到的是，一个人一生中经历无数的恋爱分开，和一个人一生只经历一段或几段恋爱分开，然后进入死循环，轮回无数次，这两者有什么不同？</p>
+
+<p>也许，乔治马丁老爷子给了我这个问题的答案。</p>
+
+<p>试想一下，如果你活在某个未来的时代一个叫斯卡拉奇星的地方，要寻找爱情，你必须先要是个年轻小伙不懂爱也不懂情，不过却有养活自己的能力并且能够自由走动，但是要当故事主角的话，还需要本领高强经历曲折，苦个心智劳个筋骨什么的。而在这部《肉院情人》里面，主角的名字叫崔格。</p>
+
+<p>每个年轻小伙都有第一次，当然主角也不例外，崔格的第一次，是在肉院妓馆里发生的，然后我们的主角，身为优秀控尸人，在漫长而空虚的时光中，内心却期待着爱情，渐渐成为肉院熟客，最后发现原来肉院并不是他的追求。</p>
+
+<p>每个年轻小伙都有初恋情人，当然主角也不例外，崔格的初恋情人，是乔西，那个燃起他生命和激情火焰的女孩子，但乔西只希望与崔格做朋友。于是崔格依然孤独。</p>
+
+<p>于是他离开，去了另一个星球，远方。在那里，崔格认识更多的人，走过了更多的地方，当然，也见到了更多的肉院妓馆。直到遇到下一段爱情。</p>
+
+<p>下一段爱以“萝瑞”这个名字开始。萝瑞喜欢崔格，但也喜欢崔格的好友唐纳利，最后萝瑞选择了唐纳利，崔格出局了，然后他难过彷徨，前无未有的痛苦迷乱，于是他走得更远更广，最后他去了做之前他最鄙视职业，竞技斗场控尸人，有了夫人，成了一个不相信爱情的男人。</p>
+
+<p>马丁老爷子的作品也看过多部了，在这部《肉院情人》里面，老爷子继续发挥着长抒情善说理的文笔，但非常少见的是，用了大段的笔墨来做性描写，来表达情爱的主题。文中对孤独，对爱情的思考也比较的独特与消极，笔下荒芜而苍凉。我想，老爷子年轻时必然也有过类似的孤独感，对爱情经过深深的迷惑与思考，不然那笔下如何能写得如此出色？很多写景的抒情的段落都写得很简洁清朗，但又寂寞萧索，如同主角的感情际遇，仿佛即使是最庞大喧嚣的城市，最明亮辉煌的建筑，也透着一股冷感。读完全文，我想这部《肉院情人》也许只告诉我们一个物理学认识，云雨交欢也许是对抗热寂的一种方法，但爱情不是。</p>
+
+<p>那么爱情，到底是什么呢？</p>
+
+<p>爱情，就像是满天月华夜的两杯毒酒；是控尸人世界的无数次相爱与背叛，亲密与分开；是苦追寻，求不得的无限轮回；是甜蜜的许诺，也是残忍的谎言。</p>
+
+<p>因此，如果有一天你爱上了某个女孩，不妨对她说，爱情难得，欢笑亦少，漫长的夜晚之后，是白天和另一个夜晚，是广袤宇宙的热寂，我们为何不趁着良辰佳景，共醉今宵呢？</p>
+
+<p>PS: 最后录一段文中的文字</p>
+
+<p>"  '你很幸运。'有时他这么对她说...'非常幸运。他们骗你说，世上有种东西叫爱情。他们教你去做傻乎乎的美梦，要你去相信梦，去追梦。他们告诉你，你，以及世上所有的人，都有命中注定的伴侣。但这是一派胡言。宇宙并不公平，从来就没有公平过...这是一个绝望的谎言，绝望的人们用它来互相欺骗，并且试图欺骗自己......'  "</p>
+
+<p>再PS：迷幻汤上有了《肉院情人》的全文，见<a href="http://mihuan.yo2.cn/archives/660739">这里</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Color Theme Darkmate for Eclipse]]></title>
+    <link href="http://clisp.github.com/blog/2011/05/08/color-theme-darkmate-for-eclipse/"/>
+    <updated>2011-05-08T22:54:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/05/08/color-theme-darkmate-for-eclipse</id>
+    <content type="html"><![CDATA[<p>Darkmate原本是一个gEdit的配色主题，大概在两年多之前我用过这个主题(那时我主要使用gEdit作为编辑器)，觉得不错，后来逐渐将它移植到eclipse和emacs(主编辑器转到emacs)。</p>
+
+<p>emacs下的darkmate主题参考我的文章</p>
+
+<p><a href="http://www.xlambda.com/2010/03/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></p>
+
+<p><a href="http://www.xlambda.com/2010/01/%e7%bb%99emacs%e6%b7%bb%e5%8a%a0%e5%a4%9a%e7%a7%8d%e9%85%8d%e8%89%b2%e4%b8%bb%e9%a2%98/">给emacs添加多种配色主题</a></p>
+
+<p><a href="https://bitbucket.org/dylanwen/eclipse_config/src">这里</a>提供对应Eclipse的配色主题 下载 ,目前包含c++(cdt)，java(jdt)，python(pydev)的配色设置。</p>
+
+<p>c++配色截图如下：
+<a href="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_c++_style2.png"><img src="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_c++_style2.png" alt="color theme darkmate for eclipse c++ screenshot" /></a></p>
+
+<p>java配色截图如下：
+<a href="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_java_style2.png"><img src="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_java_style2.png" alt="color theme darkmate for eclipse java screenshot" /></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hack a New Theme Style]]></title>
+    <link href="http://clisp.github.com/blog/2010/11/22/hack-a-new-theme-style/"/>
+    <updated>2010-11-22T09:53:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2010/11/22/hack-a-new-theme-style</id>
+    <content type="html"><![CDATA[<p>这两天粗粗看了一下html&amp;css的文档，经过一番调教把blog的改为目前的风格，配色是按终端的tango主题来做的，见下图：</p>
+
+<p><img src="http://www.xlambda.com/pub/image/tango_theme.png" alt="screenshot of system tango color theme" /></p>
+
+<p>新风格看起来更养眼一点，调整版式/色彩/间距相当花费时间，不过此过程也学到一些html&amp;css的知识。用All 60s All The Time的DJ的话来说，"What's the point of DIY? It's to suit yourself, isn't it?"</p>
+
+<p>感谢几个html&amp;css站点，上面维护的入门文档既免费又写得简明，让我这个新手不用面对陡峭的learning curve，如果所有编程语言（python, 我相信已经有了）有这种挂有免费简明教程的在线站点，世界会美好很多。</p>
+
+<p>感谢galeki的帮忙。</p>
+
+<p>Thank All 60s All The Time, the free streaming radio, for your company all the time, with great free music and boring money saving web-site advertisements.</p>
+
+<p>On hacking.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[change eclipse start-up splash to your favour]]></title>
+    <link href="http://clisp.github.com/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/"/>
+    <updated>2010-01-27T11:36:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour</id>
+    <content type="html"><![CDATA[<p>很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。</p>
+
+<h3>1. 更换默认的splash</h3>
+
+<h4>1) 在命令行参数加上</h4>
+
+<pre><code>-Dosgi.splashLocation=/opt/eclipse/splash.bmp
+</code></pre>
+
+<p>或在eclipse根目录(对于网上下载的版本是根目录，对于linux各发行版下安装版本，请参照各发行版对应eclipse包)下的配置文件eclispe.ini中加入上面一行。意即指明启动splash的地址。定义osgi.splashLocation，会覆盖osgi.splashPath的定义，即用自定义的splash替换默认的那个。</p>
+
+<h4>2) 在eclipse/configuration/config.ini中加入一行</h4>
+
+<pre><code>osgi.splashLocation = ${你的splash路径}
+</code></pre>
+
+<p>如在linux下有</p>
+
+<pre><code>osgi.splashLocation = /usr/lib/eclipse/YUKI.bmp
+</code></pre>
+
+<p>(上面的/usr/lib/eclipse/即为ubuntu 8.04下的含有eclipse.ini的目录)</p>
+
+<p>在windows下有</p>
+
+<pre><code>osgi.splashLocation = D:/software/eclipse/splash.bmp
+</code></pre>
+
+<h4>3) 直接替换原来的splash图片文件</h4>
+
+<p>参考在config.ini中osgi.splashPath定义，找到默认splash图片文件在文件系统中的位置。如在ubuntu 8.04下的config.ini有</p>
+
+<pre><code>osgi.splashPath = platform:/base/plugins/org.eclipse.platform
+</code></pre>
+
+<p>于是可以在</p>
+
+<pre><code>/usr/lib/eclipse/plugins/org.eclipse.platform_3.2.2.r322_v20070117b
+</code></pre>
+
+<p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
+
+<p>效果见截图：<br/>
+<img src="http://www.xlambda.com/pub/image/eclipse_splash.png" alt="eclipse splash screenshot" /></p>
+
+<h3>2. 制作个性的splash</h3>
+
+<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的......Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
+
+<p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
+
+<p><img src="http://www.xlambda.com/pub/image/sexy_eclipse_splash.bmp" alt="sexy eclipse splash" /></p>
+]]></content>
+  </entry>
+  
+</feed>

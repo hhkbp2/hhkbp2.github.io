@@ -1,0 +1,851 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dylan.Wen's Blog</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="在冰河的博客看到有这样一本书，所以找来看了。谢谢冰河辛苦将它翻译在中文(翻译虽然不算完美，但对我来说也足够好了)，帮我们减少了阅读过程的英语语言障碍。 想起来，上两周有朋友过来坐，问到说，&#8221;看这样一本书有什么用呢？&#8221;。于是又想到豆瓣上有人对这本书开的一个玩笑，说， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/page/4/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dylan.Wen's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dylan.Wen's Blog</a></h1>
+  
+    <h2>与时间为伴</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/14/reading-note-of-practical-common-lisp/">《实用common Lisp编程》读书笔记 (一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-14T22:34:28+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在冰河的博客看到有这样一本书，所以找来看了。谢谢冰河辛苦将它翻译在中文(翻译虽然不算完美，但对我来说也足够好了)，帮我们减少了阅读过程的英语语言障碍。</p>
+
+<p>想起来，上两周有朋友过来坐，问到说，&#8221;看这样一本书有什么用呢？&#8221;。于是又想到豆瓣上有人对这本书开的一个玩笑，说，不知道这样一本国内首本正规出版的common lisp中文书，能为国内多创造几个lisp程序员。对我来说，成为专业的lisp程序员应该不会了，不过我会坚持把这本书读完。</p>
+
+<p>嗯，始终觉得，玩emacs的人，终究会走到lisp这一步，或早或晚，或scheme或common lisp，或sicp或pcl。</p>
+
+<h3>译者序</h3>
+
+<p>小述了lisp的历史，lisp的特点等，译者学习lisp/参与lisp开发的历史。</p>
+
+<h3>致读者</h3>
+
+<p>本书讲述的方式注重实用性</p>
+
+<h3>第一章 绪言：为什么是lisp</h3>
+
+<h4>1.1 为什么是lisp</h4>
+
+<p>lisp语言的一些特点：动态，可编程，适合用于探索</p>
+
+<h4>1.2 lisp的诞生</h4>
+
+<p>lisp/common lisp的历史，common lisp与scheme的比较</p>
+
+<h4>1.3 本书面向的读者</h4>
+
+<p>感兴趣的人，知道lisp但想编写实用程序，想学习多门语言(而lisp只是其中一门)的人</p>
+
+<h3>第二章 周而复始：REPL简介</h3>
+
+<p>选择lisp in a box(common lisp实现，emacs + slime)</p>
+
+<h4>2.1 选择一个lisp实现</h4>
+
+<p>linux/windows/mac os: allegro common lisp<br/>
+linux: cmucl->sbcl<br/>
+mac os: openmcl</p>
+
+<h4>2.2 安装和运行lisp in a box</h4>
+
+<p>emacs常用概念和操作简介</p>
+
+<h4>2.3 放开思想：交互式编程</h4>
+
+<p>REPL(read-eval-print-loop)，读取－求值－打印循环<br/>
+交互式开发环境</p>
+
+<h4>2.4 体验REPL</h4>
+
+<p>初次认识slime的交互界面</p>
+
+<h4>2.5 lisp风格的&#8221;Hello, world&#8221;</h4>
+
+<p>函数FORMAT</p>
+
+<pre><code>(FORMAT destination control-string &amp;rest format-arguments)
+</code></pre>
+
+<p>定义函数特殊表DEFUN</p>
+
+<pre><code>(DEFUN function-name (arguemnts)
+       function-body)
+</code></pre>
+
+<h4>2.6 保存工作成果</h4>
+
+<p>lisp源文件后缀.lisp, .cl<br/>
+slime的使用<br/>
+tab键：自动补全，自动缩进<br/>
+自动高亮匹配括号<br/>
+自动插入匹配括号：命令slime-close-parens-at-point，快捷键C-c c-q<br/>
+编译当前函数：命令slime-compile-defun，快捷键C-c C-c<br/>
+将s表达式发送slime执行：快捷键C-c C-z或C-x b<br/>
+退出：输入逗号，quit(sayoonara)<br/>
+启动：M-x slime<br/>
+调试器使用简介<br/>
+加载源文件：(load file-path)<br/>
+编译源文件：(compile-file file)，返回FASL文件名字<br/>
+改变当前工作目录：输入逗号，cd<br/>
+直接在emacs slime mode中加载源文件：命令slime-load-file，快捷键C-c C-l<br/>
+直接在emacs slime mode中编译源文件：快捷键C-c M-k</p>
+
+<h3>第三章 实践：简单的数据库</h3>
+
+<h4>3.1 CD和记录</h4>
+
+<p>创建列表，属性表，定义函数<br/>
+取出属性表中属性：函数GETF的使用</p>
+
+<h4>3.2 录入CD</h4>
+
+<p>定义变量：特殊表DEFVAR<br/>
+全局变量命名约定：符号*开头和结尾</p>
+
+<h4>3.3 查看数据库内容</h4>
+
+<pre><code>FORMAT函数的打印格式
+~a    将实参打印成可读形式
+~t    制表
+~{~}  列表循环
+~%    换行
+</code></pre>
+
+<h4>3.4 改进用户交互</h4>
+
+<p>FORCE-OUTPUT确保打印提示符之前不会等待换行<br/>
+变量<em>query-io</em> 关联到终端的输入流全局变量<br/>
+READ-LINE函数读取单行文本<br/>
+PARSE-INTEGER函数将字符串转换为整数，:junk-allowed参数允许不报错返回nil<br/>
+OR宏，短路逻辑或<br/>
+Y-OR-N-P函数，提示输入y/Y，n/N<br/>
+LOOP宏，一种循环的简单形式<br/>
+RETURN函数，退出函数</p>
+
+<h4>3.5 保存和加载数据库</h4>
+
+<p>WITH-OPEN-FILE宏，打开文件并将流绑定变量，最后保证正确关闭文件<br/>
+:directtion :output :if-exists :supersede选项，默认为:input<br/>
+PRINT函数，将lisp对象打印成可以被lisp读取器读回来的形式<br/>
+WITH-STANDARD-IO-SYNTAX宏，确保那些影响READ/PRINT行为的特定变量设置成默认标准值<br/>
+SETF宏，主要的赋值操作符</p>
+
+<h4>3.6 查询数据库</h4>
+
+<p>REMOVE-IF-NOT函数，取出目标列表中不匹配谓词的元素组成新列表，非原地操作，返回新列表</p>
+
+<pre><code>(remove-if-not predicate sequence)
+</code></pre>
+
+<p>例如</p>
+
+<pre><code>(remove-if-not #'evenp '(1 2 3 4 5 6 7 8 9 10))
+</code></pre>
+
+<p>取出列表中的所有偶数<br/>
+#&#8217;记号，通过函数名，获取函数<br/>
+LAMBDA，定义匿名函数(闭包)特殊表<br/>
+函数&amp;key关键字，声明关键字形参，将实参对应绑定到关键字上，形式有<br/>
+1. 简单名称<br/>
+2. 形参名，默认值和supplied-p形参的列表<br/>
+AND函数，短路逻辑与</p>
+
+<h4>3.7 更新已有的记录——WHERE再战江湖</h4>
+
+<p>SETF通用赋值操作符，可用于对各种位置进行赋值<br/>
+REMOVE-IF函数，取出目标列表中匹配谓词的元素组成新列表，非原地操作，返回新列表</p>
+
+<h4>3.8 消除重复，获益良多</h4>
+
+<p>介绍lisp宏：当一个lisp表达式包含了宏调用时，lisp编译器不再直接对参数求值，而是直接传递未经求值的参数给宏生成器，后者通过宏定义生成一个新的lisp表达式，插入到原来宏的位置进行求值<br/>
+REVERSE函数，生成一个逆序的新列表<br/>
+DEFMACRO特殊表，用来定义宏，类似于用DEFUN定义函数<br/>
+函数/宏&amp;rest关键字，声明可变参数，参数将收集到一个单一列表中<br/>
+函数MACROEXPAND-1来精确地看到宏的扩展代码</p>
+
+<h4>3.9 总结</h4>
+
+<p>宏使得代码更有效且更通用</p>
+
+<h3>第4章 语法与语义</h3>
+
+<h4>4.1 括号里都可以有什么</h4>
+
+<p>Lisp == 大量不合理的多余括号(Lots of Irritating Superfluous Parentheses)<br/>
+John McCarthy未实现的M表达式</p>
+
+<h4>4.2 打开黑箱</h4>
+
+<p>大多数编程语言的处理过程(解释器或编译器)：词法分析->语法分析->翻译器<br/>
+common lisp处理过程：读取(器)->求值(器)</p>
+
+<h4>4.3 S-表达式</h4>
+
+<p>S-表达式的元素包括：列表(list)，原子(atom)<br/>
+列表：由括号包围，包含任何数量由空格分隔的元素<br/>
+原子：基本数据类型</p>
+
+<p>基本原子数据类型<br/>
+数字：整数，比值，浮点数，复数(不同表示方式的相同对象)<br/>
+字符串：双引号包围着的字符序列，转义<br/>
+符号(名字)：几乎任何字符(除了空格，句点，开/闭括号，双引号，单引号，逗号，冒号，分号，反斜杠，竖线)，允许转义，大小写不敏感
+命名约定：<br/>
+全局变量，名字的开始和结尾有&#8221;<em>&#8221;<br/>
+常量名，以&#8221;+&#8221;字符开始和结尾<br/>
+语言标准定义的名字：A-Z, </em>, +, -, /, 1, 2, &lt;, =, >, &amp;</p>
+
+<h4>4.4 作为lisp形式的S-表达式</h4>
+
+<p>原子分为符号与自求值对象<br/>
+列表分为函数调用形式(function call form)，宏形式(macro form)和特殊形式(special form)</p>
+
+<h4>4.5 函数调用</h4>
+
+<p>形式</p>
+
+<pre><code>(function-name argument*)
+</code></pre>
+
+<p>先对除第一个元素外的每一个元素进行求值，最后调用第一个元素为符号的函数</p>
+
+<h4>4.6 特殊操作符</h4>
+
+<pre><code>1) IF
+(if test-form then-form [ else-form])
+2) QUOTE
+(quote elems) == '(elems)
+3) LET
+(let (variable-lists) do-things)
+</code></pre>
+
+<h4>4.7 宏</h4>
+
+<p>宏的两阶段求值过程：<br/>
+1) 宏形参不经求值被传递到宏定义<br/>
+2) 宏返回展开式，并在原地替换原来宏调用进行求值</p>
+
+<h4>4.8 真，假和等价</h4>
+
+<p>真：除NIL(空列表)外其它所有值，T是专门的真值，t == &#8216;t<br/>
+假：NIL == nil == () == &#8216;nil == &#8216;()<br/>
+4个通用的等价谓词(一个比一个宽松)：<br/>
+EQ，比较对象标识<br/>
+EQL，同类型对象，值相同时等价<br/>
+EQUAL，在递归上具有相同结构和内容的列表视为等价<br/>
+EQUALP，比较字符串时忽略大小写，不同数据类型的相等值为等价</p>
+
+<h4>4.9 格式化lisp代码</h4>
+
+<pre><code>按键     命令                    作用  
+Tab      indent-for-tab-command  缩进当前行  
+C-M-q    indent-sexp             缩进整个表达式  
+C-c M-q  slime-reindent-defun    重新缩进整个函数  
+</code></pre>
+
+<p>有经验的lisp程序员倾向于依赖编辑器来自动处理缩进。<br/>
+正确的缩进可以确保代码美观，可以检测结构错误。</p>
+
+<p>注释说明：<br/>
+1) 4个分号用于文件头注释<br/>
+2) 3个分号用于段落注释<br/>
+3) 2个分号用于代码块注释，与要测试的代码块具有相同缩进<br/>
+4) 1个分号用于单行后面的注释</p>
+
+<h3>第5章 函数</h3>
+
+<h4>5.1 定义新函数</h4>
+
+<p>DEFUN宏用于定义函数，基本结构</p>
+
+<pre><code>(defun name (parameter*)
+  "Optional documentation string."
+  body-form*)
+</code></pre>
+
+<p>documentation函数用于查看函数文档字符串</p>
+
+<pre><code>(documentation 'foo 'function)
+</code></pre>
+
+<h4>5.2 函数形参列表</h4>
+
+<p>必要形参</p>
+
+<h4>5.3 可选形参</h4>
+
+<p>关键字&amp;optional声明可选形参，可以有默认值，可以判断是否显式传值</p>
+
+<h4>5.4 剩余形参</h4>
+
+<p>关键字&amp;rest声明剩余形参</p>
+
+<h4>5.5 关键字形参</h4>
+
+<p>关键字&amp;key声明关键字形参,可以有默认值，可以判断是否显式传值，可以自定义调用的形参名字</p>
+
+<h4>5.6 混合不同的形参类型</h4>
+
+<p>可用组合： &amp;optional + &amp;rest<br/>
+不可用组合：　&amp;optional + &amp;key, &amp;rest + &amp;key</p>
+
+<p>常用风格：<br/>
+&amp;optional + &amp;key -> &amp;key<br/>
+&amp;rest + &amp;key -> 剩余参数，关键字参数都会被绑定</p>
+
+<h4>5.7 函数返回值</h4>
+
+<p>RETURN-FROM从BLOCK特殊操作符定义的代码块中返回，从函数中返回</p>
+
+<h4>5.8 作为数据的函数——高阶函数</h4>
+
+<p>特殊操作符FUNCTION，用来获取函数对象，类似#&#8217;<br/>
+函数FUNCALL，参数是被调用的函数对象，以及确切的实参<br/>
+函数APPLY，第一个参数是一个函数对象，第二个参数是一个列表</p>
+
+<h4>5.9 匿名函数</h4>
+
+<p>LAMBDA表达式用来创建匿名函数，形式</p>
+
+<pre><code>(lambda (parameters) body)
+</code></pre>
+
+<p>LAMBDA语法糖：</p>
+
+<pre><code>(lambda () 42) == (function (lambda () 42)) == #'(lambda () 42)
+</code></pre>
+
+<h3>第6章 变量</h3>
+
+<p>common lisp里有两种类型的变量：词法(lexical)变量和动态(dynamic)变量</p>
+
+<h4>6.1 变量的基础知识</h4>
+
+<p>引入新变量的方式：<br/>
+1) 将一个变量赋新值<br/>
+2) 定义函数形参<br/>
+3) LET特殊操作符，形式</p>
+
+<pre><code>(let (variable*)
+  body-form*)
+</code></pre>
+
+<p>4) DOTIMES循环<br/>
+5) LET*特殊操作符</p>
+
+<h4>6.2 词法变量和闭包</h4>
+
+<p>common lisp中的变量绑定形式是词法作用域。通过lambda创建匿名函数，封装闭包</p>
+
+<h4>6.3 动态变量</h4>
+
+<p>common lisp中有两种创建全局变量的方式：DEFVAR，DEFPARAMETER<br/>
+DEFVAR, SETF, MAKUNBOUND</p>
+
+<p>通过作用域，生存期两个方面来看<br/>
+词法变量：词法作用域，不确定的生存期<br/>
+动态变量：不确定的作用域，动态的生存期</p>
+
+<p>每个由DEFVAR和DEFPARAMETER定义的变量，其名字都将自动变成全局特殊的。<br/>
+动态绑定全局变量，使得<br/>
+1) 上游代码可以通过重新绑定值来改变下游代码的行为<br/>
+2) 下游代码可以为栈上一级所建立的绑定赋新值</p>
+
+<h4>6.4 常量</h4>
+
+<p>所有的常量都是全局，使用DEFCONSTANT定义，形式</p>
+
+<pre><code>(defconstant name initial-vlaue-form [ documentation-string ])
+</code></pre>
+
+<p>命名约定：名字的开始和结尾为+符号</p>
+
+<h4>6.5 赋值</h4>
+
+<p>common lisp的通用赋值操作符SETF宏，形式</p>
+
+<pre><code>(setf place value)
+</code></pre>
+
+<p>可同时赋多个值，SETF表达式返回赋予的值value，支持嵌套调用，如</p>
+
+<pre><code>(setf x (setf y (random 10)))
+</code></pre>
+
+<h4>6.6 广义赋值</h4>
+
+<p>SETF可以为任何&#8221;位置&#8221;赋值，可以为变量，数组元素，和类字段赋值</p>
+
+<h4>6.7 其他修改位置的方式</h4>
+
+<p>修改宏INCF和DECF，增1，减1<br/>
+宏ROTATEF，交换变量的值<br/>
+宏SHIFTF，左移变量值</p>
+
+<h2>第7章 宏：标准控制构造</h2>
+
+<p>common lisp宏是一种其它编程语言所没有独特特性。<br/>
+在common lisp扩展语言的方法有：<br/>
+1. 在语言核心上添加标准库<br/>
+2. 通过宏定义新的句法抽象，扩展语言的核心</p>
+
+<h4>7.1 WHEN和UNLESS</h4>
+
+<p>宏WHEN，功能类似于if，形式</p>
+
+<pre><code>(when condition
+  body-form*)
+</code></pre>
+
+<p>等价于宏</p>
+
+<pre><code>(defmacro when (condition &amp;rest body)
+  `(if ,condition (progn ,@body)))
+</code></pre>
+
+<p>宏unless，功能类似于if，形式</p>
+
+<pre><code>(defmacro unless (condition &amp;rest body)
+  `(if (not ,condition) (progn ,@body)))
+</code></pre>
+
+<h4>7.2 COND</h4>
+
+<p>宏COND，表达分支选择，形式</p>
+
+<pre><code>(cond
+  (condition-1 form-1*)
+  .
+  .
+  .
+  (condition-N form-N*))
+</code></pre>
+
+<p>常用风格</p>
+
+<pre><code>(cond (a (do-x))
+      (b (do-y))
+      (c (do-z)))
+</code></pre>
+
+<h4>7.3 AND，OR和NOT</h4>
+
+<p>布尔逻辑操作符AND，OR和NOT<br/>
+函数NOT，对真值取反，(not nil) -> t，(not t) -> nil<br/>
+宏AND，对任意数量的子表达式进行逻辑与，支持短路<br/>
+宏OR，对任意数量的子表达式进行逻辑或，支持短路</p>
+
+<h4>7.4 循环</h4>
+
+<p>提供goto机制的特殊操作符：TAGBODY，GO<br/>
+底层通用循环构造DO，强大，但应用复杂<br/>
+lisp提供了另外两个宏：<br/>
+1) DOLIST，在列表元素上循环<br/>
+2) DOTIMES，计数循环<br/>
+日常使用规则：优先使用DOLIST和DOTIMES，在这两个宏无法满足需要时，在DO之上构建自定义的循环构造<br/>
+另外，宏LOOP提供一种成熟的微型语言，以类似英语的方式来表达循环构造</p>
+
+<h4>7.5 DOLIST和DOTIMES</h4>
+
+<p>宏DOLIST，在一个列表元素上循环操作，基本形式</p>
+
+<pre><code>(dolist (var list-form)
+  body-form*)
+</code></pre>
+
+<p>宏DOTIMES，用于循环计数的高级循环构造，和DOLIST相似</p>
+
+<pre><code>(dotimes (var count-form)
+  body-form*)
+</code></pre>
+
+<p>可以使用return随时中断循环，循环可以嵌套</p>
+
+<h4>7.6 DO</h4>
+
+<p>强大灵活的循环形式，允许绑定任意数量的变量，控制变量在每次循环的改变方式，自定义测试条件来决定何时终止循环，定义DO表达式整体的返回值。形式</p>
+
+<pre><code>(do (variable-definition*)
+    (end-test-form result-form*)
+  statement*)
+</code></pre>
+
+<h4>7.7 强大的LOOP</h4>
+
+<p>LOOP宏可以提供两种类似的循环：<br/>
+1) 在多种数据结构上循环：列表，向量，哈希表，包<br/>
+2) 循环时以多种方式和计算值：收集，计数，求和，最小化，最大化</p>
+
+<p>LOOP宏有两类：简化的和扩展的<br/>
+简化版本：</p>
+
+<pre><code>(loop
+  body-form*)
+</code></pre>
+
+<p>不绑定任何变量的无限变量，使用RETURN退出循环<br/>
+扩展版本：<br/>
+across, and, below, collecting, counting, finally, for, from, summing, then, to</p>
+
+<h3>第8章 如何自定义宏</h3>
+
+<h4>8.1 Mac的故事：只是一个故事</h4>
+
+<p>Mac是一个宏编译器</p>
+
+<h4>8.2 宏展开期和运行期</h4>
+
+<p>宏展开期：使用宏的代码被完全展开成实际可以运行的代码(代码被解释/翻译期间)<br/>
+运行期：代码运行的时期(最终代码实际运行的时间段)</p>
+
+<p>WHEN宏可以定义为</p>
+
+<pre><code>(defmacro when (condition &amp;rest body)
+  `(if ,condition (progn ,@body)))
+</code></pre>
+
+<h4>8.3 DEFMACRO</h4>
+
+<p>DEFMACRO基本框架：</p>
+
+<pre><code>(defmacro name (parameter*)
+  "Optional documentation string."
+  body-form*)
+</code></pre>
+
+<p>编写宏需要两端代码：宏的调用方式和宏展开后的样子<br/>
+编写的步骤：<br/>
+1) 编写宏的示例用法，以及它应该展开成的代码<br/>
+2) 编写从示例用法的参数中生成展开后代码的代码<br/>
+3) 确保宏抽象不会“泄漏”</p>
+
+<h4>8.4 示例宏：do-primes</h4>
+
+<p>do-primes宏的调用方式</p>
+
+<h4>8.5 宏形参</h4>
+
+<p>编写do-primes宏，传递参数的两种方式：单一列表参数和分解开的列表参数<br/>
+编写宏可以使用&amp;optional, &amp;key和&amp;rest等关键字</p>
+
+<h4>8.6 生成展开式</h4>
+
+<p>反引用语法<br/>
+APPEND函数：将任意数量的列表实参拼接成单一列表<br/>
+函数MACROEXPAND-1和函数MACROEXPAND，查看宏的展开代码，可以用来作调试<br/>
+do-primes宏的第一个实现</p>
+
+<h4>8.7 堵住漏洞</h4>
+
+<p>8.6一节中do-primes宏的实现有3个漏洞：<br/>
+1) 多重求值<br/>
+修改使得每个实参只求值一次，而且保留求值顺序<br/>
+2) 宏实现内部创建的变量名泄漏<br/>
+使得函数GENSYM来产生新的唯一标识符名字(符号)</p>
+
+<p>编写do-primes宏的堵漏过程中总结出编写宏时常用规则：<br/>
+1) 展开式中参数的求值顺序与给出的实参相同<br/>
+2) 参数只求值一次，避免多次求值<br/>
+3) 使用GENSYM函数来创建实现内部变量名，避免泄漏</p>
+
+<h4>8.8 用于编写宏的宏</h4>
+
+<p>用宏1来生成宏2，用宏2来生成实际代码<br/>
+调用形式展开时，展开多次宏调用</p>
+
+<h4>8.9 超越简单的宏</h4>
+
+<p>宏的作用：<br/>
+1) 减少代码重复，减少工作量<br/>
+2) 提供表达代码的新方式</p>
+
+<h3>第9章 实践：建立单元测试框架</h3>
+
+<p>编写代码做一个简单的lisp单元测试框架</p>
+
+<h4>9.1 两个最初的尝试</h4>
+
+<p>测试函数的原型</p>
+
+<h4>9.2 重构</h4>
+
+<p>运用函数和宏来消除代码重复</p>
+
+<h4>9.3 修复返回值</h4>
+
+<p>函数添加返回值，组织test case</p>
+
+<h4>9.4 更好的结果输出</h4>
+
+<p>引入动态变量，输出结果中加入测试用例路径信息</p>
+
+<h4>9.5　抽象诞生</h4>
+
+<p>引入宏自动生成test suite，组织test case</p>
+
+<h4>9.6 测试层次体系</h4>
+
+<p>修改宏支持test suite ->　test suite -> test case的层次组织</p>
+
+<h4>9.7 总结</h4>
+
+<p>一个总共26行的小测试框架的编写过程，也是lisp编程的一般方式。<br/>
+通用的方法是不变的：<br/>
+从简单版本开始演化，消除代码重复，简化调用方式，定义针对问题集的微型语言，更高程度的抽象，改进结果输出等</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/13/wordpress-upgrade/">升级了wordpress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-13T21:58:54+08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>升到了3.3.1中文版，体验果然是比以前好了，至于人格嘛&#8230;&#8230;</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/02/wordpress_3.3.11.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/02/wordpress_3.3.11.jpg" alt="wordpress 3.3.1更新信息" /></a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/02/13/thank-you-for-all-your-love/">我只是一个有点神经质的混蛋，谢谢你们的关心和爱</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-13T01:11:39+08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我有一个朋友，他总问我最近忙不忙加班多不多。我有一个朋友，他喜欢叫我去喝酒。我有一个朋友，他问了好多次《在路上》这本书讲的是什么。我有一个朋友，隔了二年之后，给我回了一封信。</p>
+
+<p>春节放假回家，我见到买了房买了车的朋友，见到已经结婚生子的朋友，见到计划结婚生子的朋友，也见到像我一样单身的朋友。</p>
+
+<p>春节那段时间，天气比较冷，常下雨。在老家小镇家中，夜里特别安静，远山不见雨雾，近村不闻狗吠，灯下静思，仿佛周遭的时光也变慢了，但时光并没变慢，只是让人觉察出时光的流逝。时光过得飞快，有曾经熟悉的朋友因疏远变得陌生，有原来陌生的朋友因多了来往而变得熟悉，仿佛只是一眨眼间，当年的青头少年慢慢都走向青年中年，结婚生子，忙于奔波生活，忧心车房妻儿，不知不觉间，时光就这样经过。</p>
+
+<p>也不记得，当我还是少年的时候自己对这个世界未来的样子有什么设想，是不是现在这个样子，只是现实往往总有那一些地方，令人觉得有点不舒服，仿佛夏季热天鞋子里面的沙子。现在翻起大概二年之前，给朋友冬写的信，里面说道：</p>
+
+<p>&#8220;&#8230;很多时候是为了谋一份生活而到处奔波，一个城市的是否有归属感，其实就在于那里是否有相知相熟的朋友。</p>
+
+<p>回头看看，初中的同学大概都结婚了，高中的同学很多也成家了，只剩下一堆老爸无权家里无钱的大学同学们还在城市打拼，房价高企，安定的生活遥遥无期。在别人眼里，这些人白天穿得衣冠楚楚，出入光鲜的高级写字楼，好像真是已经成为高级白领社会精英，其实每个人自己心里清楚，只有晚上疲倦地回到租住的小出租屋面对着自我时，才深深体会到作为80后这一代人的悲哀。时代在不断变化，就如狄更斯所言，这是最好的时代，也是最坏的时代，我觉得无论是好是坏都只因我们活在这个时代，而我们要更好地活下去。</p>
+
+<p>&#8230;十年之前，我断然想不到世事经过如此多的变化后，这一时刻我会开始给你写这样一封信。我想，类似地，现在谁也无法想像十年之后，世界会变成什么样子。
+&#8221;</p>
+
+<p>说的就是一个打工仔在城市奔波挣扎的心曲。在这之前呢，有多久没有正经地给朋友写过信了？也许是三年五年，也许是十年八年。我记得我写的第一封信，是小学的二年级时候，写给亲戚的一封问候信，那时我识字不多，即便是短短的一封信，也写了不少错字别字，后来老妈(那时还很年轻)拿去“检阅”，还在家里大声读出来，闹出不少笑话。到现在，我们的通信方式如此发达，可能已经没有人写信了吧。时代的变化让很多曾经的日常事物变成历史，比如信，比如红白游戏机，cd walkman&#8230;&#8230;现在的90后，应该不会知道，曾经有一个时代，远在两地的朋友之间的交流是要写信的吧。</p>
+
+<p>通讯方式也多也发达，可以打电话吧，手机已经普及人手一台，可以发短信吧，短短的几行字马上就能收到，也可以发邮件吧，长篇大论亦可，也可以在即时通讯工具上聊吧，能马上得到响应。只是，在通讯方式越来越发达，认识的朋友越来越多的今天，我感受到的与朋友深入沟通的愿望，已经慢慢变少，犹如装在漏斗里的沙子。还是怀念曾经那时，与远方的朋友聊上几句，就要正儿八经地找洁白的信纸，找好看的信封，想好要表达什么内容，再找个很少受功课晚修的打扰的“神圣”夜晚，灯下信笔写来，写完封好还要找个闲时去投递，一去一来，两人聊上几句至少也要花上半个月&#8230;&#8230;虽然漫长，但是过程很享受，至少，能这样聊起来的朋友都是很交心的朋友。</p>
+
+<p>也许我只是怀念那个时代。有人说，回忆总是美好的，人经历时间的洗涤，会将回忆美化，所以回忆总是美好，而当时的实际没有那么的美好。</p>
+
+<p>也许吧，也许。</p>
+
+<p>在这样的一个夜晚，我只是有点怀念我所有的朋友们。我只是一个有点神经质的混蛋，谢谢你们一直以来这么多年的关心和爱。终有一天，我会死去，不会再记得你们所有的人每一个人，这是多么遗憾的事啊。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/07/hello-world/">Hello World</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/get-one-hhkb/">入手神器hhkb</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/rainny-days-in-june/">蛙鸣六月</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/16/tell-me-its-all-right/">Tell Me It&#8217;s All Right</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/25/twnotebook-2/">铁瓦克记事簿</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Dylan.Wen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

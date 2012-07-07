@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Thought on Bit Representation of Primitive Integer Type in C/C++ - Dylan.Wen's Blog</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。 看天下大势如此，营利的博客业务开始衰落了。 2009/8/7 13:34:10 &lt;&lt;C++ Primer>> mentions when talking about primitive &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dylan.Wen's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dylan.Wen's Blog</a></h1>
+  
+    <h2>与时间为伴</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Thought on Bit Representation of Primitive Integer Type in C/C++</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-28T08:36:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。</p>
+
+<p>看天下大势如此，营利的博客业务开始衰落了。</p>
+
+<p>2009/8/7 13:34:10</p>
+
+<p>&lt;&lt;C++ Primer>> mentions when talking about primitive integer type as follows:</p>
+
+<p>For the unsigned types, a negative value is always out of range. An object of unsigned type may never hold a negative value. Some languages make it illegal to assign a negative value to an unsigned type, but C++ does not.</p>
+
+<p>In C++ it is perfectly legal to assign a negative number to an object with unsigned type. The result is the negative value modulo the size of the type. So, if we assign 1 to an 8-bit unsigned char, the resulting value will be 255, which is 1 modulo 256.</p>
+
+<p>at page 37 (&lt;&lt;C++ Primer, 4th>> English, Posts &amp; Telecom Press, 2006)</p>
+
+<p>Why a negative number which is assigned to a unsigned type would become a modulo of it? Is it because of the bit represatation? To validate the situation, I write this short code fragement(take char for example to figure out the bit representation):</p>
+
+<pre><code>//: bit_inter.cc
+#include &lt;iostream&gt;
+using std::cout;
+using std::endl;
+#include &lt;climits&gt;
+template &lt;typename T&gt;
+void print_binary(const T tchar)
+{
+for(int ix = sizeof(tchar)*8 - 1; ix &gt;= 0 ; --ix)
+{
+if( tchar &amp; (1&lt;&lt;ix) )
+cout &lt;&lt; "1";
+else
+cout &lt;&lt; "0";
+}
+}
+#define PRINT_BIT_INTER(x) \
+cout &lt;&lt; (int)x &lt;&lt; "\t" &lt;&lt; " binary representation: " &lt;&lt; "\t"; print_binary(x); cout &lt;&lt; endl;
+int main()
+{
+unsigned char uchar;
+signed char schar;
+cout &lt;&lt; "the limit of type char and unsigned char:" &lt;&lt; endl;
+cout &lt;&lt; "size of signed char: " &lt;&lt; sizeof (signed char) &lt;&lt; "\t" &lt;&lt; "size of unsigned char: " &lt;&lt; sizeof (unsigned char) &lt;&lt; endl;
+cout &lt;&lt; "SCHAR_MIN: " &lt;&lt; SCHAR_MIN &lt;&lt; "\t" &lt;&lt; "SCHAR_MAX: " &lt;&lt; SCHAR_MAX &lt;&lt; "\t" &lt;&lt; "UCHAR_MAX: " &lt;&lt; UCHAR_MAX &lt;&lt; endl;
+cout &lt;&lt; "the representation of type char and unsigned char:" &lt;&lt; endl;
+schar = 127;
+PRINT_BIT_INTER(schar);
+schar = 0;
+PRINT_BIT_INTER(schar);
+schar = -1;
+PRINT_BIT_INTER(schar);
+schar = -127;
+PRINT_BIT_INTER(schar);
+schar = -128;
+PRINT_BIT_INTER(schar);
+uchar = 0;
+PRINT_BIT_INTER(uchar);
+uchar = 128;
+PRINT_BIT_INTER(uchar);
+uchar = 255;
+PRINT_BIT_INTER(uchar);
+return 0;
+}
+
+//* output:(match 100%)
+the limit of type char and unsigned char:
+size of signed char: 1  size of unsigned char: 1
+SCHAR_MIN: -128 SCHAR_MAX: 127  UCHAR_MAX: 255
+the representation of type char and unsigned char:
+127      binary representation:         01111111
+0        binary representation:         00000000
+-1       binary representation:         11111111
+-127     binary representation:         10000001
+-128     binary representation:         10000000
+0        binary representation:         00000000
+128      binary representation:         10000000
+255      binary representation:         11111111
+
+*///:~ bit_inter.cc
+</code></pre>
+
+<p>now the bit representation of type char set is clear\:</p>
+
+<pre><code>bit representation    unsigned char    signed char:
+11111111              255                  -1
+10000001              129                  -127
+10000000              128                  -128
+01111111              127                  127
+00000001              1                     1
+00000000              0                     0
+</code></pre>
+
+<p>so we could conclude that the same bit representation gives different value when representating in different type, signed char or unsigned char.</p>
+
+<p>when assigning a negative number, e.g. -1, to a unsigned char, e.g. named uchar, what C/C++ actually does is keep the bit represetation of -1 intact and copy it into the location where the unsigned char uchar lies. So by the way of unsigned char value representing, the unsigned char now have the value 255. It seems C++ have calculated the modulo, -1 % 256 = 255 for us.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-28T08:36:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-c-/'>C/C++</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/11/24/like-a-rolling-stone/" title="Previous Post: Like a Rolling Stone">&laquo; Like a Rolling Stone</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/11/28/my-personal-errata-for-c-primer/" title="Next Post: My Personal Errata for C++ Primer">My Personal Errata for C++ Primer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/07/hello-world/">Hello World</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/get-one-hhkb/">入手神器hhkb</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/rainny-days-in-june/">蛙鸣六月</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/16/tell-me-its-all-right/">Tell Me It's All Right</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/25/twnotebook-2/">铁瓦克记事簿</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Dylan.Wen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

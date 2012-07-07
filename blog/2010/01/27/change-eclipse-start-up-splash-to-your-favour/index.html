@@ -1,0 +1,258 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>change eclipse start-up splash to your favour - Dylan.Wen's Blog</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。 1. 更换默认的splash 1) 在命令行参数加上 -Dosgi.splashLocation=/opt/eclipse/splash.bmp 或在eclipse根目录( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dylan.Wen's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dylan.Wen's Blog</a></h1>
+  
+    <h2>与时间为伴</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Change Eclipse Start-up Splash to Your Favour</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。</p>
+
+<h3>1. 更换默认的splash</h3>
+
+<h4>1) 在命令行参数加上</h4>
+
+<pre><code>-Dosgi.splashLocation=/opt/eclipse/splash.bmp
+</code></pre>
+
+<p>或在eclipse根目录(对于网上下载的版本是根目录，对于linux各发行版下安装版本，请参照各发行版对应eclipse包)下的配置文件eclispe.ini中加入上面一行。意即指明启动splash的地址。定义osgi.splashLocation，会覆盖osgi.splashPath的定义，即用自定义的splash替换默认的那个。</p>
+
+<h4>2) 在eclipse/configuration/config.ini中加入一行</h4>
+
+<pre><code>osgi.splashLocation = ${你的splash路径}
+</code></pre>
+
+<p>如在linux下有</p>
+
+<pre><code>osgi.splashLocation = /usr/lib/eclipse/YUKI.bmp
+</code></pre>
+
+<p>(上面的/usr/lib/eclipse/即为ubuntu 8.04下的含有eclipse.ini的目录)</p>
+
+<p>在windows下有</p>
+
+<pre><code>osgi.splashLocation = D:/software/eclipse/splash.bmp
+</code></pre>
+
+<h4>3) 直接替换原来的splash图片文件</h4>
+
+<p>参考在config.ini中osgi.splashPath定义，找到默认splash图片文件在文件系统中的位置。如在ubuntu 8.04下的config.ini有</p>
+
+<pre><code>osgi.splashPath = platform:/base/plugins/org.eclipse.platform
+</code></pre>
+
+<p>于是可以在</p>
+
+<pre><code>/usr/lib/eclipse/plugins/org.eclipse.platform_3.2.2.r322_v20070117b
+</code></pre>
+
+<p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
+
+<p>效果见截图：<br/>
+<img src="http://www.xlambda.com/pub/image/eclipse_splash.png" alt="eclipse splash screenshot" /></p>
+
+<h3>2. 制作个性的splash</h3>
+
+<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的&#8230;&#8230;Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
+
+<p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
+
+<p><img src="http://www.xlambda.com/pub/image/sexy_eclipse_splash.bmp" alt="sexy eclipse splash" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/未分类/'>未分类</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/01/12/add-color-theme-for-emacs/" title="Previous Post: 给emacs添加多种配色主题">&laquo; 给emacs添加多种配色主题</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/03/01/color-theme-darkmate-for-emacs/" title="Next Post: Color Theme Darkmate for Emacs">Color Theme Darkmate for Emacs &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/07/hello-world/">Hello World</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/get-one-hhkb/">入手神器hhkb</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/rainny-days-in-june/">蛙鸣六月</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/16/tell-me-its-all-right/">Tell Me It's All Right</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/25/twnotebook-2/">铁瓦克记事簿</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Dylan.Wen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

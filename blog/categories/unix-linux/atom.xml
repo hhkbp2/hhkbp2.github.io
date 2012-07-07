@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Unix/Linux | Dylan.Wen's Blog]]></title>
+  <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
+  <link href="http://clisp.github.com/"/>
+  <updated>2012-07-08T04:03:13+08:00</updated>
+  <id>http://clisp.github.com/</id>
+  <author>
+    <name><![CDATA[Dylan.Wen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[gnome-shell扩展管理]]></title>
+    <link href="http://clisp.github.com/blog/2012/03/04/manage-gnome-shell-extensions/"/>
+    <updated>2012-03-04T18:13:18+08:00</updated>
+    <id>http://clisp.github.com/blog/2012/03/04/manage-gnome-shell-extensions</id>
+    <content type="html"><![CDATA[<p>之前写了两篇小文：</p>
+
+<p><a href="http://www.xlambda.com/2011/11/%e6%9d%af%e5%85%b7%e7%9a%84%e8%af%9e%e7%94%9f/">《杯具的诞生》</a>
+<a href="http://www.xlambda.com/2011/11/%e6%8a%98%e8%85%begnome-shell/">《折腾gnome-shell》</a></p>
+
+<p>介绍了安装gnome-shell之后的一些使用情况。这里继续向大家介绍一下，不久前上线的gnome-shell扩展的官方网页：<br/>
+<a href="https://extensions.gnome.org/">https://extensions.gnome.org/</a></p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_site.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_site.png" alt="gnome-shell扩展官方网页" /></a></p>
+
+<p>在这个页面里，按功能划分了几个tab：扩展的浏览/索引查找(打开网页的默认tab "Extensions")，已安装的扩展的启用/禁用/卸载等管理(tab "Install extensions")，注册帐号登录(tab "Add yours")。页面风格一如gnome继往的简洁明了，也许是因为上线没多久，目前提供的功能不多，所以网页标题里打上了"Alpha"字样，但使用起来的感受比较好，相对于之前gnome-shell扩展没有一个统一管理的界面，这个网站的出现大大地提高了用户体验。从使用方式上来看，比较像debian/ubuntu的软件管理器(中心)，把所有可用的包统一到同一个界面，提供了安装/卸载，或启用/禁用的功能，于是查找/试用gnome-shell的扩展变得非常简易。</p>
+
+<p>这里收录了数量众多的扩展，比较赞的一点就是，从gnome 3.2之后，安装了gnome-shell之后，只要安装了"gnome shell integration"这个包，就可以直接在网页上来安装扩展了，类似于用firefox在firefox的扩展官方网页上安装扩展，看到喜欢的扩展，点击一下，扩展包就自动下载到本地，并自动安装好，至于版本兼容，安装到哪个目录这么些问题，不用用户折腾处理，实在很省心吧。比firefox的扩展管理网页更好的是，gnome-shell的扩展网页还提供了按钮来启用/禁用/卸载按钮，扩展管理起来相当方便。相对使用本地客户端"gnome-shell-integration"来启用/禁用扩展的方式，这个网页版的功能更强大，也更方便。</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_installed_manage.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_installed_manage.png" alt="gnome-shell已经安装的扩展管理" /></a></p>
+
+<p>接下来show一下目前我安装的使用gnome-shell扩展吧，按字母序排：</p>
+
+<ol>
+<li><p>advanced settings in user menu<br/>
+ 在应用程序菜单，添加有"木偶"图标的"Advanced Settings"项，打开就是gnome-shell-integration的配置界面，见下面图中的红字1标出部分</p></li>
+<li><p>Application Menu<br/>
+ 将gnome-shell默认的任务栏左上角"Application"按钮，换成老版gnome应用程序菜单按钮，点击打开应用程序列表，见图中红字2部分</p>
+
+<p> <a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_application_menu.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_application_menu.png" alt="gnome-shell应用程序菜单" /></a></p></li>
+<li><p>Auto Move Windows<br/>
+ 应用程序创建新窗口时，移动到特定某个workspace，没有图形的配置工具，用得不多</p></li>
+<li><p>Battery Percentage Indicator<br/>
+ 电池电量指示器，对笔记本特别有用</p>
+
+<p> <a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_battery_indicator.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_battery_indicator.png" alt="gnome-shell电量显示扩展" /></a></p></li>
+<li><p>Dock<br/>
+ 给桌面添加一Dock，Dock里面的内容同Overview模式下左边的Dash一致，感觉与Dash有点重复了</p></li>
+<li><p>gTile<br/>
+ 功能类似awesome，平铺式窗口布局管理器，用得比较少，暂时我还没摸熟用法，作为一个插件，比起awesome来要轻量不少</p></li>
+<li><p>Lock Keys<br/>
+ 在面板上显示Numlock和Capslock的状态，在没有键盘灯的情况比较有用，对像我一样交换Capslock和其它键的也好用</p>
+
+<p> <a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_lock_keys.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_lock_keys.png" alt="gnome-shell键盘状态指示器" /></a></p></li>
+<li><p>Media player indicator<br/>
+ 在面板上添加音乐播放器的指示图标，这个在老gnome上也有了，支持Rhythmbox和amarok，但不支持audacious，有点遗憾，因为我常用后者</p>
+
+<p> <a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_music_player_indicator.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_music_player_indicator.png" alt="gnome-shell音乐播放指示器" /></a></p></li>
+<li><p>Move Clock<br/>
+ 将时钟从顶部面板中间位置移动到右边，风格像老的gnome，时钟format可以通过dconf配置，这个扩展是必不可少的，从截图中可以看到效果</p></li>
+<li><p>Music Integration<br/>
+在通知栏上添加音乐播放器的整合，类似于前面的8</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_music_integration.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_music_integration.png" alt="gnome-shell音乐整合" /></a></p></li>
+<li><p>Native Window Placement<br/>
+令Overview模式下，窗口的预览更紧凑一些，而不是每个窗口都同一大小</p></li>
+<li><p>Panel Favorites<br/>
+将Overview模式中Dash上的快捷方式放到顶部面板，提供了类似老版gnome的面板快捷方式，必不可少的一个扩展，见上面图中的红字12部分</p></li>
+<li><p>Places Status Indicator<br/>
+在面板上添加目录快捷访问图标，就像老版gnome面板上的"Places"</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_places_indicator.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_places_indicator.png" alt="gnome-shell目录访问快捷方式" /></a></p></li>
+<li><p>Recent Items<br/>
+在面板上添加最近访问的文件列表图标，就像老版gnome面板上"Places"菜单下拉出来的"Recent Files"</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_recent_items.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_recent_items.png" alt="gnome-shell最近打开文件列表" /></a></p></li>
+<li><p>Remove Accesibility<br/>
+删除面板上的"辅助"图标，这个扩展也是必需的，因为那个图标对很多人来说几乎没用</p></li>
+<li><p>Remove Panel App Menu<br/>
+去掉面板上当前打开窗口的指示图标，个人感觉如果没有底部面板，顶部面板有这个指示图标还是挺有用的，如果有了底部面板，像我就喜欢用tint2，就可以把这个顶部面板的去掉更清爽，效果见上图上红字16部分</p></li>
+<li><p>Shut Down Menu<br/>
+将顶部面板中用户名图标下拉的"Suspend"菜单项，改为"Shut Down"，在之前的文章我批评过gnome-shell默认安装下没有关机菜单的这一"反人类"设置，这个扩展是必需的</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_shutdown.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_shutdown.png" alt="gnome-shell面板关机按钮" /></a></p></li>
+<li><p>Static Workspaces<br/>
+与tint2等底部面板搭配起来比较好用，像我一样不习惯gnome-shell默认的动态创建workspace的行为，可以试用一下</p></li>
+<li><p>Timer<br/>
+在顶部面板添加一个简单的面板小时钟，功能比较弱</p></li>
+<li><p>Trash<br/>
+在顶部面板添加回收站图标</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_trash.png"><img src="http://www.xlambda.com/wp-content/uploads/2012/03/gnome-shell_extension_ss_trash.png" alt="gnome-shell面板回收站快捷方式" /></a></p></li>
+</ol>
+
+
+<p>在安装了一堆的扩展之后，搭配tint2，我机器上的这个gnome-shell的使用体验和老版的gnome就差不多相同了，只是有些小变化。在刚装上gnome-shell，没有装扩展的时候，我曾经觉得它十分的不好用，于是写了上面的第一个文章《杯具的诞生》，吐槽了一番，到今天gnome-shell的用户体验已经比当初好出很多倍。</p>
+
+<p>对比来看，老版gnome更像是A餐B餐，软件包就那么几个，全部plugin用到的没用到的都绑在里面，装上之后，每个用户爱用哪个plugin就配哪个plugin，而gnome-shell更像是自助餐，用户喜欢用哪个再自行下载安装启用，而越来越多的扩展出现，提供了不断丰富的功能和操作方式，像从网页点击按钮直接安装扩展这种便捷方式就是老版gnome所没有的，从这个角度来看，gnome-shell灵活和定制性强的优势已经开始慢慢展示出来。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[折腾gnome-shell]]></title>
+    <link href="http://clisp.github.com/blog/2011/11/13/tinker-with-gnome-shell/"/>
+    <updated>2011-11-13T00:13:03+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/11/13/tinker-with-gnome-shell</id>
+    <content type="html"><![CDATA[<p>转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。</p>
+
+<h3>修改面板为gnome2风格</h3>
+
+<p>gnome-shell的"Activity"风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处：</p>
+
+<ul>
+<li><p>顶部面板不能放置applet或快捷方式，长长的一条面板中间只标示时间，显示不够紧凑</p></li>
+<li><p>而没dock的情形下，要启动程序/切换workspace，鼠标需要到移到左上方的"Activity"按钮位置，点击类似dock的程序快捷方式，或者点击/application，查找程序名字，或者移到右边的workspace选择栏，相当麻烦。虽然常用的几个程序/切换workspace我都习惯于用快捷键，不过有时还是需要用鼠标来启动程序，gnome-shell比gnome2多了应用程序名字搜索功能，不过使用起来鼠标过多，效率降低</p></li>
+<li><p>取消了任务栏，但支持Alt+Tab切换程序，而且支持窗口预览</p></li>
+<li><p>没有关机键，关机需要打开Suspend下拉列表，按Alt唤出Shutdown项，不够方便</p></li>
+</ul>
+
+
+<p>这几个问题皆因本来习惯了gnome2，而gnome-shell的面板风格相对gnome3有所改变所致。由于gnome-shell目前还没在UI上开放用户定制选项，要定制它只能通过改代码方式来做。后来想到这么多的人从gnome2迁移到gnome3，想把gnome-shell定制成gnome2风格的需求应该不少吧，果然在网上找到一篇文章<a href="http://wowubuntu.com/gnome-shell-extensions-brings-gnome2.html">《新的Gnome Shell扩展带来一种类似于Gnome2的用户体验》</a>，讲的是将gnome3的面板定制为gnome2风格，它主要对gnome-shell有以下几个修改：</p>
+
+<ol>
+<li>将时间显示移到顶部面板的一边，同gnome2</li>
+<li>将快捷方式放入顶部面板，这些快捷方式都来自Overview模式(也就是点击Activity按钮后进入的界面)左边的Dash(Overview模式界面左边像dock的那个家伙)</li>
+<li>将顶部面板的"Activity"按钮换做Application按钮，下拉列表就是分类的应用程序快捷方式，同gnome2的Application菜单</li>
+<li>将gnome3动态变化的workspace个数限制为静态不动</li>
+<li>将Suspend按钮改为Shutdown按钮，弹出的Shutdown对话框风格与gnome2一致</li>
+<li>添加底部任务栏</li>
+</ol>
+
+
+<h3>添加底部任务栏</h3>
+
+<p>与稳定不换的顶部面板不同，底部任务栏的这个位置，我曾经使用过gnome2任务栏面板，dock和dockbarx，也用过多个不同的dock，最喜欢的也用得最久的是cairo dock，效果好配置性强，缺点在于主题图标不完善bug也不少，docky则比较简洁，配置性稍弱，而且很多人都不喜欢libmono这个大块头，至于awn则是好久之前用过了，感觉一般没有深究。dockbarx是一个gnome2面板的插件，主要提供程序分组和快捷方式功能，有点像是windows 7的任务栏风格，问题在于不够稳定。</p>
+
+<p>应用上面提到的扩展，就可以在底部添加gnome2默认标配的任务栏，但是这个位置我更喜欢安装tint2来作为底部任务栏，因为它即可以作为任务栏，也可以放入其它的东西，如快捷方式，系统托盘或时钟等，也可作为一个workspace切换器，而且它配置性比较强，深得openbox等其他wm使用者的喜爱。我到它的官方网站找了一个示例配置文件，使用起来觉得效果也不错，风格与之前用的docbarx比较像。</p>
+
+<h3>更换gnome-shell主题</h3>
+
+<p>之前一直用的主题是浅色系的elementrary-borderless，转到gnome-shell之后，界面黑乎乎的一片相当不清爽，于是另外换了一个主题，资源请参考：</p>
+
+<p><a href="http://wowubuntu.com/5-gnome-shell-theme.html">《5 个漂亮的 Gnome Shell 主题》</a><br/>
+<a href="http://wowubuntu.com/gnome-shell-theme.html">《Gnome Shell 主题：New Adwaita-White 及 Black Glass》</a></p>
+
+<p>目前gnome-shell官方没有提供更换主题的工具，据说是因为这个功能并不是太受到重视。要换主题的话有两种方法：</p>
+
+<ol>
+<li><p>使用GNOME Shell用户主题扩展(User-Theme Extension)，它的包名是gnome-shell-extensions-user-theme。将主题文件下载到./themes/THEME-NAME/gnome-shell中，然后就可以通过Gnome Tweak Tool来选择不同的主题了</p></li>
+<li><p>将下载的主题文件直接覆盖系统主题目录/usr/share/gnome-shell/theme(记得先备份一下)，然后按Alt+F2打开命令启动器，并键入"r"或"rt"更新主题</p></li>
+</ol>
+
+
+<p>虽然只是修改不多，但折腾完之后感觉比原来默认的gnome-shell好用得多，gnome-shell的默认配置的确扯淡，但它的可配置性强大，可以预见到将来会出现越来越多的扩展，一些好用的扩展会进入源方源，让我们广大用户使用体验更好一些选择更多一些。</p>
+
+<p>最后帖上一张折腾后的桌面截图：</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2011/11/gnome-shell-mss2.png"><img src="http://www.xlambda.com/wp-content/uploads/2011/11/gnome-shell-mss2.png" alt="折腾后的gnome-shell截图" /></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[杯具的诞生]]></title>
+    <link href="http://clisp.github.com/blog/2011/11/09/gnome-shell-it-just-happens/"/>
+    <updated>2011-11-09T22:52:51+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/11/09/gnome-shell-it-just-happens</id>
+    <content type="html"><![CDATA[<p>今天这篇日志主要是讲一个故事：</p>
+
+<p>从前有个阿叔，他叫本华，有一天他将系统升级到了gnome3，具杯的使用体验让他痛苦不已，促使他开始思考杯具的本质，然后他着手写了处女作品《具杯的诞生》，成为一代哲学家。</p>
+
+<p>(故事完，热烈掌声响起，一浪接一浪，一浪接一浪......)</p>
+
+<p>我的debian系统是testing/sid混合源，由于平时更新勤快，所以一般每次更新的更新包都不多，昨晚因为gnome-panel上声音控制的applet启动加载有错，添加applet的对话框也找不到那个applet，尝试卸载并清空配置重装gnome-applet的时候，一不留神使用了apt的-y选项，然后去喝杯水打个转回来，发现已经更新了几百M的包，重启之后就已经是gnome-shell接管了桌面，然后更新管理器提示更新3.0内核等等，再来一次更新个几百M。</p>
+
+<p>第一次与gnome-shell亲密接触，才发现它的用户体验是既坑爹又坑哥，与gnome2的习惯相差太远，抛开黑乎乎空荡荡的上边栏不说，抛开横竖让人找不着北的菜单栏不说，抛开迟钝的界面响应和突然死亡的X不说，也抛开各种华而不实的效果，但无论如何，关机键要给哥留一个吧，难道真的要我看着"Suspend"菜单按Alt键，或者直接命令行shutdown？ 这个设计也太反用户，反人类了吧，让思念关机键的哥情何以堪？</p>
+
+<p>在此具杯之下，我只有一句话想说:“Well done，gnome3，你已经成功让我恶心到了”。在你统治的X下我会业业兢兢，学会即时保存所有的文本，在2012到来之前学会欣赏你的突然死亡特效，学会习惯于忘记马上卸载掉你并找回你前任gnome2的想法并假装与你相处得愉快幸福，最后要学会的是带着期待生活，期待有一天，经过改进的你真的让人在使用中体验到方便愉快，然后让人不得不称赞说：</p>
+
+<p>“Well done, gnome3.”</p>
+
+<p><a href="http://www.xlambda.com/wp-content/uploads/2011/11/gnome-shell-ss1.png"><img src="http://www.xlambda.com/wp-content/uploads/2011/11/gnome-shell-ss1.png" alt="gnome-shell截图1" /></a>
+<a href="http://www.xlambda.com/wp-content/uploads/2011/11/gnome-shell-ss2.png"><img src="http://www.xlambda.com/wp-content/uploads/2011/11/gnome-shell-ss2.png" alt="gnome-shell截图2" /></a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Build sock on Linux]]></title>
+    <link href="http://clisp.github.com/blog/2011/03/07/build-sock-on-linux/"/>
+    <updated>2011-03-07T20:27:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/03/07/build-sock-on-linux</id>
+    <content type="html"><![CDATA[<p>sock是已故网络专家Richard Stevens在TCP/IP Illustrated volume 1(简称TCPv1)中为试验网络协议而写的一个程序，可以用于客户端和服务器模式，也可应用多种选项，详细用法请参考TCPv1，这里只简单记录一下如何在Linux平台下编译sock程序。</p>
+
+<p>到TCPv1的网站<br/>
+http://www.kohala.com/start/tcpipiv1.html<br/>
+下载源代码，并解压到本地目录。然后进入下面的sock目录，应用patch</p>
+
+<hr />
+
+<pre><code>--- Makefile.old    1993-12-09 21:32:37.000000000 +0800
++++ Makefile    2011-03-07 11:45:10.452949704 +0800
+@@ -1,7 +1,15 @@
++# to customize make internal variables for compilation on Linux
++kernel   := $(shell uname -s)
++
+ # Change the following as required:
+ CC = gcc
+
+-CFLAGS = -ansi -Wall -Dsun -D__STDC__=0
++ifneq "$(kernel)" "Linux"
++    CFLAGS   += -ansi -Wall -Dsun -D__STDC__=0
++else
++    CFLAGS   += -Wall
++endif
++
+ # My flags for gcc/solaris 2.3:  -ansi -Wall -Dsun -D__STDC__=0
+ # Add in -DGCC_STRUCT_PROBLEM for gcc versions 1.x under SunOS 4.x
+ # Add in -D__STDC__=0 for gcc under Solaris 2 (for Sun's screwy headers)
+@@ -9,10 +17,12 @@
+ # Add in -D_SOCKADDR_LEN for DEC OSF/1 (see &lt;sys/socket.h&gt;)
+
+ # Following line for SVR4, Solaris 2.x
+-LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
+-
++ifneq "$(kernel)" "Linux"
++    LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
++else
+ # Following line for 4.4BSD, BSD/386, SunOS 4.x, AIX 3.2.2, OSF/1
+-#LIBS  =
++    LIBS   =
++endif
+
+ PROGS =    sock
+ OBJS = buffers.o cliopen.o crlf.o error.o loop.o main.o \
+</code></pre>
+
+<hr />
+
+<pre><code>--- strerror.c.old  1993-12-09 21:32:37.000000000 +0800
++++ strerror.c  2011-03-07 12:24:12.625068359 +0800
+@@ -1,7 +1,7 @@
+ #include   &lt;stdio.h&gt;
+
+-extern char    *sys_errlist[];
+-extern int sys_nerr;
++//extern char  *sys_errlist[];
++//extern int   sys_nerr;
+
+ char *
+ strerror(int error)
+</code></pre>
+
+<p>然后构建</p>
+
+<pre><code>$ make
+</code></pre>
+
+<p>即可。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My Errata of UNPe3]]></title>
+    <link href="http://clisp.github.com/blog/2011/03/06/my-errata-of-unpe3/"/>
+    <updated>2011-03-06T19:31:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/03/06/my-errata-of-unpe3</id>
+    <content type="html"><![CDATA[<p>This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition</p>
+
+<ol>
+<li><p>p248 line 4 of paragraph 1:<br/>
+"vefiry by running netstat on freebsd)"<br/>
+should be<br/>
+"verify by running netstat on freebsd4)"<br/>
+freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p></li>
+<li><p>p324 line 2 of paragraph 2, below the first testga command output, "-h bsdi" should be "-h freebsd4".</p></li>
+<li><p>p681 the section title "6.4 TCP Echo Server Using Threads" should be "26.4 TCP Echo Server Using Threads".</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

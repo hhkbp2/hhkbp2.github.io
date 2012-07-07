@@ -1,0 +1,690 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Debian Wheezy on ThinkPad X201i - Dylan.Wen's Blog</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="最近在岗顶太平洋电脑城2期入手一台ThinkPad(简称tp) X201i, 型号是3249CBC，它是去年的老产品了，标配CPU i370, 2G内存250G硬盘，属于市面上tp X201i系列的最低配置了，最新的升级型号3249CQC把CPU升级成了i380，变化不大。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/2011/03/06/debian-wheezy-on-thinkpad-x201i/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Dylan.Wen's Blog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dylan.Wen's Blog</a></h1>
+  
+    <h2>与时间为伴</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Debian Wheezy on ThinkPad X201i</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T18:35:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近在岗顶太平洋电脑城2期入手一台ThinkPad(简称tp) X201i, 型号是3249CBC，它是去年的老产品了，标配CPU i370, 2G内存250G硬盘，属于市面上tp X201i系列的最低配置了，最新的升级型号3249CQC把CPU升级成了i380，变化不大。其实tp的硬件配置性价比不算高，可以说是比较低的，只是我觉得它的键盘和散热都做得比较好，重量也轻，其实硬件方面稍逊一些关系也不大，预算有限，所以选了3249CBC，加了2G三星金条，带发票，随机送一个提包和一个鼠标。附图</p>
+
+<p><a href="http://www.xlambda.com/pub/image/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg"><img src="http://www.xlambda.com/pub/image/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg" alt="thinkpad x201i on desktop" /></a></p>
+
+<p>新机器默认安装的是Windows 7 Home Base，硬盘也只有一个200多G的C:分区，其实还有一个1G大小的引导分区，看起来是ThinkVantage的安装分区，一个大小约10G的做系统镜像备份的分区，后两者都隐藏了。</p>
+
+<p>我一直使用Debian testing作为日常桌面系统，所以新机器拿回来之后的第一件事，便是安装Debian了。今年2月初，Debian发布了最新的stable版本6 Squeeze，于是Wheezy进入了testing。下面流水帐地小记一下Wheezy的安装。</p>
+
+<h3>1. 下载testing的安装image</h3>
+
+<p>下载的镜像有好多，我个人习惯到cdimage或163的镜像源上下载，如cdimage源的weekly build<br/>
+http://cdimage.debian.org/cdimage/weekly-builds/<br/>
+或在163的源<br/>
+http://mirrors.163.com/debian-cd/</p>
+
+<p>选择amd64目标下的cd image下载，由于历史原因，这里的“amd64”指的是64位系统，而不是只适用于amd的CPU。X201的CPU架构是intel，如选用i386下的下载，则为32位，amd64下的则为64位。安装64位系统能充分利用我的新机器的4G内存。</p>
+
+<p>由于X201i系列都没有光驱，我用外接移动硬盘直接在硬盘上安装，这就需要硬盘安装的installer。到163的源<br/>
+http://mirrors.163.com/debian/dists/testing/main/installer-amd64/current/images/hd-media/
+下载</p>
+
+<pre><code>boot.img.gz
+initrd.gz
+vmlinuz
+</code></pre>
+
+<p>这几个文件，进行文本界面的引导安装。同目录下还有一个目录gtk，下面有图形界面安装的相应的包initrd.gz和vmlinuz，不过我尝试过用gtk目录下的文件替换上面文本界面的文件来引导安装，没能成功引导。</p>
+
+<p>将这些installer和安装image如</p>
+
+<pre><code>debian-testing-amd64-CD-1.iso
+</code></pre>
+
+<p>或</p>
+
+<pre><code>debian-6.0.0-amd64-CD-1.iso
+</code></pre>
+
+<p>放入到移动硬盘FAT32分区下(注意，Debian installer不能读出NTFS分区里的iso文件，所以不能用dvd image来进行硬盘安装——dvd image的大小超过4G，不能放在FAT32下。较方便的方式是下载cd image放入FAT32分区，我的移动硬盘专门设了一个FAT32格式的小分区，即是为了方便有时在不同的电脑硬盘安装linux)。</p>
+
+<p>用grub{,2}引导系统，进入命令行模式，输入命令</p>
+
+<pre><code># root (hd1,5)                     &lt;=== (hd0,5)是安装文件所在的FAT32分区
+# linux /vmlinuz                   &lt;=== 指明内核文件，grub的kernel命令在grub2里被linux替代了
+# initrd /initrd.gz
+# boot
+</code></pre>
+
+<p>进入文本安装界面。整个安装过程和一般linux安装过程十分相似。注意两点：安装时不要启用网络，installer就不会在线搜索更新，安装过程会快很多；手动分区，按自己的需求定制分区。我只用一个linux，于将grub安装在MBR。整个安装过程在我的新机器上不到30分钟就运行完毕。</p>
+
+<h3>2. 更新软件源，安装需要的软件包</h3>
+
+<p>由于安装时我没有起用网络，第一次进入系统首先配置好网络，我这里用的是pppoe，安装pppoe包</p>
+
+<pre><code># aptitude install pppoeconf
+</code></pre>
+
+<p>然后配置好用户名密码</p>
+
+<pre><code># pppoeconf
+</code></pre>
+
+<p>如果可以用DHCP就更方便了，直接启动DHCP客户端。<br/>
+然后找个更新源update一下，安装包</p>
+
+<pre><code>network-manager
+</code></pre>
+
+<p>来管理网络。也可安装包</p>
+
+<pre><code>apt-spy
+</code></pre>
+
+<p>来寻找速度较快的更新源：</p>
+
+<pre><code># apt-get install apt-spy
+# apt-spy update                     &lt;== 下载最新的更新源列表
+# apt-spy -d testing -a asia -t 5    &lt;== 对选定的源列表进行连接速度的测试
+</code></pre>
+
+<p>apt-spy会测试连接得到速度最快的更新源，记录在/etc/apt/sources.list.d/apt-spy.list中。之后apt-get update时会自动连接apt-spy.list中的更新源更新软件列表。apt-spy的使用参考5。</p>
+
+<h3>3. 安装常用软件</h3>
+
+<p>刚才的硬盘安装只默认安装了一个粗糙的系统，要用得舒服的话还要安装很多软件包，做一番配置。下面列出一些我需要的包，由于不知道这些包系统默认是否默认已经安装，所以一并导入到命令行安装。</p>
+
+<pre><code>gnome-core               --- gnome核心组件
+gnome-audio              --- 声音支持
+gnome-media              --- 多媒体支持
+gnome-utils              --- 小工具如dictionary，printscreen等
+gnome-system-monitor     --- 系统监视程序
+gnome-main-menu          --- panel主菜单插件
+alacarte                 --- gnome菜单编辑器
+gksu                     --- 支持su/sudo的Gtk+前端
+file-roller              --- 文件管理器
+rar                      --- 常用的压缩/解压工具
+unrar
+p7zip
+p7zip-rar
+p7zip-full
+synaptic                 --- Debian传统图形界面软件包管理器
+software-center          --- Ubuntu引入的图形界面软件包管理器
+thinkfan                 --- thinkpad风扇升降频自动控制程序
+network-config           --- 网络配置和管理前端
+network-manager
+network-manager-gnome
+dhcp3-client
+gnome-netstatus-applet   --- panel网络监视插件
+gnome-nettool            --- gnome网络工具
+gnome-network-admin
+iceweasel                --- 网页浏览器，与firefox只是名字不同
+flashplugin-nonfree      --- 浏览器插件Adobe Flash播放器
+icedove                  --- 邮件客户端，与thunderbird只是名字不同
+multiget                 --- 下载客户端
+build-essential          --- 构建Debian软件包的开发软件包
+gedit-plugins            --- 各种gedit扩展
+gedit-latex-plugin       --- gedit的latex扩展
+emacs23                  --- emacs编辑器版本23
+emacs23-el
+emacs-goodies-el
+emacs23-common-non-dfsg
+emms                     --- emacs多媒体扩展
+erc                      --- emacs irc扩展
+spell                    --- 拼写检查
+aspell
+global                   --- 源代码搜索和浏览
+eclipse                  --- eclipse开发环境
+meld                     --- 文件/文件夹对比
+mercurial                --- 版本管理
+tortoisehg               --- merucrial的图形化前端
+audacious                --- 音乐播放器
+rhythmbox                --- 另一个音乐播放器
+mplayer                  --- 音视频播放
+mplayer-doc
+smplayer
+vlc
+mozilla-plugin-vlc
+gimp                     --- 图像编辑器
+gimp-help-en
+gthumb                   --- 图像查看器
+ibus                     --- 输入法
+ibus-table-wubi          --- 五笔码表
+ibus-pinyin              --- 拼音码表
+qipmsg                   --- 基于Qt的飞鸽传书
+libqt-dev
+libasound-dev
+chmsee                   --- chm阅读器
+gnochm
+debian-reference-zh-cn   --- debian中文参考文档
+latex                    --- latex系统
+texlive-latex-base
+latex-cjk-chinese*
+ttf-arphic-bkai00mp
+ttf-arphic-bsmi00lp
+ttf-arphic-bkai00mp
+ttf-arphic-bsmi00lp
+ttf-arphic-gbsn00lp
+ttf-arphic-gkai00mp
+ttf-dejima-mincho
+ttf-kiloji
+ttf-thai-tlwg
+ttf-arphic-ukai
+ttf-arphic-uming
+ttf-baekmuk
+ttf-sazanami-gothic
+ttf-sazanami-mincho
+ttf-unfonts-core
+ttf-unfonts-extra
+ttf-vlgothic
+psutils
+t1utils
+texlive-latex-extra      --- xelatex等包
+tex-gyre                 --- gyre字体
+auctex                   --- emacs latex扩展
+ntfs-3g                  --- ntfs支持
+ntfs-config
+rxvt-unicode             --- rxvt终端
+rxvt-unicode-ml
+poppler-data             --- pdf编码
+fbreader                 --- 电子书阅读器
+stardict                 --- 本地字典
+openoffice.org-writer    --- 文档编辑器
+openoffice.org-impress
+openoffice.org-calc
+openoffice.org-help-en-us
+openoffice.org-help-zh-cn
+openoffice.org-l10n-en-us
+openoffice.org-l10n-zh-cn
+</code></pre>
+
+<p>添加virtualbox的官方源(见sources.list的virtualbox部分)，安装</p>
+
+<pre><code>virtualbox-4.0           --- 虚拟机
+</code></pre>
+
+<p>添加Debian的multimedia源，安装Adobe PDF Reader 64位</p>
+
+<pre><code>acroread                 --- pdf阅读器
+acroread-data
+acroread-debian-files
+acroread-l10n-en
+acroread-plugins
+acroread-dictionary-en
+mozilla-acroread
+</code></pre>
+
+<p>安装skype，因为skype官方没有64位版本，只有安装它的32位版本了。需要安装64位平台的32位支持库</p>
+
+<pre><code>ia32-libs
+ia32-libs-gtk
+</code></pre>
+
+<p>然后下载skype的debian包并安装</p>
+
+<pre><code>$ dpkg -i --force-architecture ./skype-debian_2.1.0.81-1_i386.deb
+</code></pre>
+
+<p>最后卸掉新安装系统默认带的evolution，totem，我很少用它们。</p>
+
+<h3>4. 常用配置</h3>
+
+<h4>4.1 testing和unstable混合系统</h4>
+
+<p>这里就不详细介绍什么是testing/unstable等Debian的版本管理内容了。在testing配置的系统上混合unstable，在稳定的基础上可以有选择性的更新更快的软件，或者尝鲜试用某些unstable的软件包。</p>
+
+<p>首先在sources.list里加入unstable的源，见6 sources.list的unstable部分。然后配置apt控制软件版本的优先级。<br/>
+在/etc/apt/apt.conf中写入(如果此文件不存在则新建一个)</p>
+
+<pre><code>### apt.conf begin
+
+APT::Default-Release “testing”;
+
+### apt.conf end
+</code></pre>
+
+<p>指明以testing为主要软件包版本。</p>
+
+<p>然后为testing/unstable配置优先级关系，在/etc/apt/preferences中写入(如果此文件不存在则新建一个)</p>
+
+<pre><code>### preferences begin
+
+Package: *
+Pin: release o=Debian,a=testing
+Pin-Priority: 900
+
+Package: *
+Pin: release o=Debian,a=unstable
+Pin-Priority: 700
+
+### preferences end
+</code></pre>
+
+<p>要进一步了解这部分配置的意思，可以参考</p>
+
+<pre><code>$ man apt_preferences
+</code></pre>
+
+<p>应用这个配置，在安装软件包时apt一般会先寻找testing仓库，如果找到该软件包就安装。否则再寻找unstable仓库，如找到则安装。如需要强制忽略此优先级安装unstable的版本，可在apt-get/aptitude的命令行指明-t选项，具体参考相关手册文档。</p>
+
+<h4>4.2 字体</h4>
+
+<p>从软件源安装字体</p>
+
+<pre><code># aptitude install ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy
+</code></pre>
+
+<p>然后继续添加几个常用的字体</p>
+
+<pre><code>Monaco_Yahei
+VeraSansYuanTi
+</code></pre>
+
+<p>和几个windows下的字体，这部分字体就不一一列举了(没买windows系统，使用windows字体是侵权行为，你懂的)。</p>
+
+<p>将所有字体按文件夹整理到文件夹dw_customized，将它放到/usr/share/fonts(新字体对所有用户都可用)或~/fonts(新字体只有自己可用)。
+最后，使用命令更新系统字体缓存</p>
+
+<pre><code># fc-cache -fv
+</code></pre>
+
+<h4>4.3 配置迁移</h4>
+
+<p>从之前的旧系统直接复制一些程序的配置即可在新的系统上用，它们有</p>
+
+<pre><code>.aspell.en.prepl
+.aspell.en.pws
+.bash_profile
+.bashrc
+.chmsee/
+.config/
+.conky/
+.eclipse/
+.emacs
+.emacs.d/
+.emms/
+.eshell/
+.FBReader/
+.fonts/
+.gconf/
+.gnome2/
+.icedove/
+.icons/
+.ibus/
+.mozilla/
+.mplayer/
+.MultiGet/
+.profile
+.qipmsg/
+.screenrc/
+.themes/
+.tortoisehg/
+.VirtualBox/
+.Xdefaults
+.xmodmap
+.Xresources
+</code></pre>
+
+<h4>4.4 语言</h4>
+
+<p>个人喜欢将系统默认语言设置为英语，使用命令</p>
+
+<pre><code># dpkg-reconfigure locales
+</code></pre>
+
+<p>重新配置locale，激活</p>
+
+<pre><code>en_US.UTF8 UTF8   --- default
+zh_CN.UTF8 UTF8
+</code></pre>
+
+<p>两种语言，并设置第一种为系统默认语言即可。设置好后注销再登录即生效。</p>
+
+<h4>4.5 快捷键和系统外观</h4>
+
+<p>到这里，大部分配置都已经完成，但是还需要手动配置几处让系统更便于使用。<br/>
+打开gnome配置编辑器</p>
+
+<pre><code>$ gconf-editor
+</code></pre>
+
+<p>修改相应的键值。</p>
+
+<h5>4.5.1 应用程序</h5>
+
+<p>在</p>
+
+<pre><code>/apps/metacity/keybinding_commands
+/apps/metacity/global_keybindings
+</code></pre>
+
+<p>下添加常用的应用程序快捷键，如gnome-termianl，emacs等。</p>
+
+<h5>4.5.2 工作空间</h5>
+
+<p>将下面两项修改为顺手的快捷键</p>
+
+<pre><code>/apps/metacity/global_keybindings/switch_to_workspace_left
+/apps/metacity/global_keybindings/display_desktop
+</code></pre>
+
+<h5>4.5.3 桌面显示</h5>
+
+<p>在/apps/nautilus/desktop下，去掉</p>
+
+<pre><code>computer_icon_visible
+home_icon_visible
+trash_icon_visible
+</code></pre>
+
+<p>几个选项的勾。</p>
+
+<h5>4.5.4 panel时钟显示</h5>
+
+<p>到/apps/panel/applets下，找到时钟的applet，再在它的prefs目录下，修改
+format为custom
+custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
+
+<h4>4.6 系统菜单</h4>
+
+<p>rxvt-unicode安装好后在系统菜单没有启动项，手动添加一个，命令输入urxvtcd，添加向导会自动找到rxvt的图标。</p>
+
+<h4>4.7 启动加载项</h4>
+
+<p>在[System] -> [Preferences] -> [Startup Application]中添加conky的启动项，将启动命令指向.conky/conky_start.sh</p>
+
+<h4>4.8 显示器/屏保</h4>
+
+<p>检查显示器的刷新频率是否为60Hz，将屏保设为Floating Debian。</p>
+
+<h4>4.9 外观</h4>
+
+<p>设置主题，壁纸，鼠标风格。</p>
+
+<h4>4.10 个人文件</h4>
+
+<p>最后，将旧系统使用的所有文件复制到新系统home下。</p>
+
+<p>到这里新系统的安装配置工作已经全部完成。X201i上的所有硬件，包括CPU，硬盘，键盘(音量调整，Fn快捷键)，触摸板，小红点，屏幕，屏幕灯，电源管理，CPU风扇，全部运行良好。</p>
+
+<p>日常使用中发现：即使开机后同时打开40多个程序，从Debian的系统监视器看到CPU的占用率也不高，内存的使用情况也很少超过2G，看来Wheezy对内存的大小要求不高，我买机器时另外加的2G内存算是白加了；机器的散热做得很好，我常常是每天都开机十几个小时，键盘和手托部位附近的温度只比体温略高，接触到的话只是略感温暖，也用过几个其它品牌的本本，个人感觉这个X201i的散热做得算是最好的，没有之一；也很安静，即使在夜深人静的时候也只听能到有轻微的声音；X201i的重量较轻，没有带那些我不需要的硬件如光驱，显卡，摄像头等；注意要安装CPU风扇自动控制程序，否则风扇会一直全速转，耗电/声音都比较大，目前用的是thinkfan，也尝试安装过其它的软件包如fancontrol等，不过感觉还是thinkfan好用，配置也最简单——就是不用配置，只需安装好它一个包就OK了；缺点就是屏幕较小，屏幕分辨率只有1280*800，相对台式机的屏幕较小，相对一般14寸的本也会明显觉得屏幕小，为了看得清楚，我把系统的字体调整得较大(在linux里面，字体大小是很方便调整的)，不过写程序的时候，全屏能浏览到的代码行数还是比较少，一些与屏幕分辨率大小相关的程序如conky的尺寸和布局也需要调整一下。</p>
+
+<p>最后附上系统截图</p>
+
+<p><a href="http://www.xlambda.com/pub/image/debian_wheezy_on_tpX201i.png"><img src="http://www.xlambda.com/pub/image/debian_wheezy_on_tpX201i.png" alt="debian wheezy on thinkpad x201i" /></a></p>
+
+<h3>5. apt-spy的使用</h3>
+
+<p>常用选项</p>
+
+<pre><code>-d distribution 指定debian的发行版本，例如stable, testing, unstable。除升级外，必须使用此参数。
+-a area 选择进行测试的区域，例如 aisa, europe, north-america等。这种区域信息保存在/etc/apt-spy.conf文件中，可参考此文件来给出命令行参数，关键字ALL表示全部的区域。
+-c config 指定配置文件。
+-e number 指定测试的服务器数量。
+-f file 测试时抓取制定的文件（文件相对 debian base 的路径）。
+-i file 指定输入的文件，配合 -w 参数使用。
+-m mirror-list 指定要升级的镜像列表文件。
+-o output-file 重定向输出到指定文件。
+-p proxy 指定使用的代理服务器，需要遵从 [server]:[port] 的格式。
+-s country_list 指定要进行测试的国家。不能和 -a 参数同时使用。
+-t time 指定进行测试时每台服务器的超时时间，以秒为单位，只能是正整数。使用较小的超时时间来测试可以过滤掉连接较慢服务器，得到连接较快的服务器。
+-u update-URL 从指定的 URL 获得镜像列表更新。
+-w file 输出 -i 参数提供的服务器列表中速度最快的前几台镜像服务器（缺省是前 5 台）。
+-n number 制定 -w 参数输出的服务器数量。
+-v 输出版本信息。
+-h 输出帮助信息
+</code></pre>
+
+<h3>6. 分享sources.list</h3>
+
+<p>由于使用了apt-spy，除了某些特定软件如virtualbox的源之外，对于一般软件包sources.list的设置变得相对将要了，这里还是分享一下我的sources.list。</p>
+
+<pre><code>### sources.list begin
+#
+# A mixed testing/unstable system
+
+# deb cdrom:[Debian GNU/Linux 6.0.0 _Squeeze_ - Official amd64 CD Binary-1 20110205-18:15]/ squeeze main
+# deb cdrom:[Debian GNU/Linux 6.0.0 _Squeeze_ - Official amd64 CD Binary-1 20110205-18:15]/ squeeze main
+
+deb http://security.debian.org/ testing/updates main contrib non-free
+deb-src http://security.debian.org/ testing/updates main contrib non-free
+
+## testing sources
+# preferred testing
+
+# 163 source
+deb http://mirrors.163.com/debian/ testing main non-free contrib
+deb-src http://mirrors.163.com/debian/ testing main non-free contrib
+
+deb http://ftp.debian.org/debian/ testing main contrib non-free
+deb-src http://ftp.debian.org/debian/ testing main contrib non-free
+
+deb http://http.us.debian.org/debian testing main contrib non-free
+deb-src http://http.us.debian.org/debian testing main contrib non-free
+
+# ustc
+deb http://debian.ustc.edu.cn/debian testing main non-free contrib
+deb-src http://debian.ustc.edu.cn/debian testing main non-free contrib
+deb http://debian.ustc.edu.cn/debian-security testing/updates main
+
+# multimedia -- acroread
+deb ftp://ftp.debian-multimedia.org testing main non-free
+
+# virtualbox source
+deb http://download.virtualbox.org/virtualbox/debian squeeze non-free contrib
+
+# update and proposed update
+#Added by software-properties
+deb http://security.debian.org/ squeeze/updates contrib non-free main
+deb http://ftp.debian.org/debian/ squeeze-proposed-updates contrib non-free main
+
+## unstable sources
+# unstable is the complement
+
+deb http://mirrors.163.com/debian/ unstable main non-free contrib
+deb-src http://mirrors.163.com/debian/ unstable main non-free contrib
+
+deb http://ftp.debian.org/debian/ unstable main contrib non-free
+deb-src http://ftp.debian.org/debian/ unstable main contrib non-free
+
+deb http://http.us.debian.org/debian unstable main contrib non-free
+deb-src http://http.us.debian.org/debian unstable main contrib non-free
+
+### sources.list end
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T18:35:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/unix-linux/'>Unix/Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/03/03/great-tools-rxvt-unicode-and-gnu-screen/" title="Previous Post: 解牛利刃rxvt-unicode, GNU screen">&laquo; 解牛利刃rxvt-unicode, GNU screen</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/03/06/my-errata-of-unpe3/" title="Next Post: My Errata of UNPe3">My Errata of UNPe3 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/07/hello-world/">Hello World</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/get-one-hhkb/">入手神器hhkb</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/24/rainny-days-in-june/">蛙鸣六月</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/06/16/tell-me-its-all-right/">Tell Me It's All Right</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/25/twnotebook-2/">铁瓦克记事簿</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Dylan.Wen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C/C++ | Dylan.Wen's Blog]]></title>
+  <link href="http://clisp.github.com/blog/categories/c-c-/atom.xml" rel="self"/>
+  <link href="http://clisp.github.com/"/>
+  <updated>2012-07-08T04:03:13+08:00</updated>
+  <id>http://clisp.github.com/</id>
+  <author>
+    <name><![CDATA[Dylan.Wen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[《Effective C++》读书笔记]]></title>
+    <link href="http://clisp.github.com/blog/2011/07/24/reading-notes-of-effective-cpp/"/>
+    <updated>2011-07-24T23:37:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/07/24/reading-notes-of-effective-cpp</id>
+    <content type="html"><![CDATA[<p>昨晚在网上看到一条新闻说“伞哥”离开网易，跟着链接到了<a href="http://tianchunbinghe.blog.163.com/">“伞哥”的博客</a>上看，惊叹不已，既佩服“伞哥”写博客之多，也敬仰他对lisp的热爱和工作生活中的真性情。牛人都是乐于分享，长于撰文的。很久没有在我的blog上发文了，贴一份之前的读书笔记吧。看来有空还是多码码字，人生才能向着剽悍的方向发展。</p>
+
+<h4>Item 1: View C++ as a federation of languages.</h4>
+
+<p>C++是一种多范型编程语言，它主要有４种子语言：<br/>
+1) C  经典的C语言部分<br/>
+2) 面向对象  类，继承，多态等<br/>
+3) 模板  C++的泛型编程部分<br/>
+4) STL  标准模板库<br/>
+每个子语言都有自己的编程规则，当多种子语言混合的时候要注意这些规则的不同。</p>
+
+<h4>Item 2: Prefer consts, enums and inlines to #defines.</h4>
+
+<p>用编译器特性比用预处理器特性编程更好。<br/>
+1) 用const，enum hack来定义常量，替代#defines<br/>
+2) 用函数(无论inline与否)来定义操作，而不用#define宏<br/>
+3) 预处理的#include/#ifdef/#ifndef指命依然很有用</p>
+
+<h4>Item 3: Use const whenever possible.</h4>
+
+<p>C++里关键字const用法有多种。其中两种用法：<br/>
+1) 用const修饰(成员/非成员)函数返回值，防止返回值被意外修改，例如operator*()<br/>
+2) const成员函数，可以被const对象调用。<br/>
+const共有两种，bitwise const和logic const。const成员函数保证对象的bitwise const，logic const需要程序逻辑来保证。<br/>
+关键字mutable让non-staic成员变量在const成员函数中去掉bitwise const的限制，使得它可以被修改。<br/>
+3) 如果对应的成员函数const版本和non-const版本实现一致，可以通过在non-const版本的实现中调用const版本来避免代码重复。</p>
+
+<h4>Item 4: Make sure that objects are initialized before they're used.</h4>
+
+<p>C++中全局的非静态对象(包括简单类型，用户自定义类型)不会被自动初始化。<br/>
+总是初始化对象。学会使用构造函数初始化列表。针对不同编译单元中相互依赖的静态全局变量初始化顺序问题，可以通过将全局静态变量嵌入到全局静态函数来解决。</p>
+
+<h4>Item 5: Know what functions C++ silently writes and calls.</h4>
+
+<p>如果用户没有定义，编译器会隐式自动生成类的默认构造函数，析构函数，复制构造函数，赋值运算符。</p>
+
+<h4>Item 6: Explicitly disallow the use of compiler generated functions you do not want.</h4>
+
+<p>默认构造函数，析构函数，复制构造函数，赋值运算符这几个成员函数，如果用户定义了自己的版本，则编译器不会再生成对应的版本，即使是private或没有实现。<br/>
+可以通过将复制构造函数和赋值运算符声明为private来禁止复制和赋值，使用boost库的noncopyable类是其中一种方法。</p>
+
+<pre><code>#include &lt;boost/utility.hpp&gt;
+class UserClass : private boost::noncopyable {
+// the definition of UserClass
+// blabla...
+}
+</code></pre>
+
+<h4>Item 7: Declare destructors virtual in polymorphic base classes.</h4>
+
+<p>多态的基类(有任何虚成员函数的类)应该有virtual的析构函数。<br/>
+不是多态的基类不应该的析构函数不应该为virtual。<br/>
+std::string和所有STL容器类析构函数都不为virtual，不适合作为多态基类。</p>
+
+<h4>Item 8: Prevent exceptions from leaving destructors.</h4>
+
+<p>析构函数不能抛出异常，如果析构函数执行的语句有可能抛出异常，要在析构函数内部处理完毕。<br/>
+如果类的用户需要析构过程中某些动作的异常作出反应，则将这些动作放到一个普通成员函数。<br/>
+在析构函数处理异常的几种选择：<br/>
+1) 终止程序<br/>
+2) 吃掉异常，不向上抛出</p>
+
+<h4>Item 9: Never call virtual functions during construction of destruction.</h4>
+
+<p>在基类的构造函数中调用虚函数只会在对象的基类部分调用基类版本对应的虚函数，因为继承类的部分还没初始化。<br/>
+不要在构造函数或析构函数中调用虚函数。</p>
+
+<h4>Item 10: Have assignment operators return a reference to *this</h4>
+
+<p>作为一个惯例，让赋值操作符返回*this的引用，以支持连续赋值语句。</p>
+
+<h4>Item 11: Handler assignment to self in operator=.</h4>
+
+<p>在赋值操作符成员实现里处理自赋值的情况。通过安排好语句的顺序，copy-and-swap两种方法来保证实现的正确性和健壮性。</p>
+
+<h4>Item 12: Copy all parts of an object.</h4>
+
+<p>写复制构造函数要注意复制整个类的所有部分，包括每一个成员变量和它的基类部分。<br/>
+复制构造函数和赋值运算符的实现往往有类似或相同的部分，多写一个私有的共用函数来避免代码重复。</p>
+
+<h4>Item 13: Use objects to manage resources.</h4>
+
+<p>用对象来管理资源的关键两点：<br/>
+1) RAII，资源一申请到立即创建资源管理对象<br/>
+2) 资源管理对象用它的析构函数来保证资源得到释放<br/>
+已有的库中几种资源管理对象：<br/>
+1) std::auto_ptr，独有的智能指针<br/>
+2) tr1::shared_ptr/boost::shared_ptr，引用计数实现的多享智能指针<br/>
+3) boost::scoped_arry和boot::shared_array，1)和2)的数组版本，释放资源调用delete []</p>
+
+<h4>Item 14: Think carefully about copying behavior in resource-managing classes.</h4>
+
+<p>RAII对象的复制行为可以实现为以下几种:<br/>
+1) 不允许复制，如用#### Item 6的noncopyable类<br/>
+2) 对底层资源用引用计数方式，tr1::shared_ptr支持定制deleter<br/>
+3) 复制底层资源<br/>
+4) 转移对底层资源的所有权</p>
+
+<h4>Item 15: Provide access to raw resources in resource managing classes.</h4>
+
+<p>RAII类应该提供成员函数来返回底层资源。对库层资源的访问有两种方式，显式的调用此成员函数，或通过RAII类提供的类型转换成员函数。</p>
+
+<h4>Item 16: Use the same form in corresponding uses of new and delete.</h4>
+
+<p>正确使用对应形式的new和delete操作符：<br/>
+1) new <-> delete<br/>
+2) new [] <-> delete []<br/>
+否则会造成undefined行为。</p>
+
+<h4>Item 17: Store newed objects in smart pointers in standalone statements.</h4>
+
+<p>申请资源来生成RAII类应该是单独一个语句，不要将它嵌入到其它语句中，小心因为语句执行顺序的不确定而造成的资源泄漏。</p>
+
+<h4>Item 18: Make interfaces easy to use correctly and hard to use incorrectly.</h4>
+
+<p>好的接口应该是易于正确使用，难于错误使用的。设计接口时应该在心里保持这样一种认识。<br/>
+促进正确使用的方法包括接口的一致性，保持与内置数据类型行为一致。<br/>
+避免错误使用的方法包括创建新类型，限制在类型上的操作，限制对象的取值范围，以及消除客户使用时的资源管理责任。</p>
+
+<h4>Item 19: Treat class design as type design.</h4>
+
+<p>类设计就是类型设计。设计类里可以从以下几个方面来考虑：<br/>
+1) 新类型的对象如何被创建和销毁<br/>
+2) 对象的初始化和赋值有什么区别<br/>
+3) 新类型对象如何passed by value<br/>
+4) 新类型对象的合法取值<br/>
+5) 新类型需要配合哪个继承体系<br/>
+6) 新类型需要哪种类型转换<br/>
+7) 新类型应该包含哪些操作<br/>
+8 ) #### Item 6中的4个编译自动生成函数，哪个需要声明为private<br/>
+9) 新类型的隐藏需求，如效率，异常安全性的保证<br/>
+10) 新类型需要多大程度的通用，类，还是类模板<br/>
+11) 真的需要一个新的类型吗，还是在已有的类上添点功能</p>
+
+<h4>Item 20: Prefer pass-by-reference-to-const to pass-by-value.</h4>
+
+<p>对于类对象来说，pass-by-value会调用复制构造函数生成一个函数内的临时对象，也会产生切片问题。<br/>
+合适的情况下应该多用pass-by-reference-to-const，避免调用复制构造函数。<br/>
+对于内置数据类型和STL迭代器，函数对象，还是保持pass-by-value。</p>
+
+<h4>Item 21: Don't try to return a reference when you must return an object.</h4>
+
+<p>当选择返回对象还是返回对象的引用时，考虑哪一种能提供正确的行为。不要过分考虑调用复制构造函数的效率问题。</p>
+
+<h4>Item 22: Declare data members private.</h4>
+
+<p>将类接口声明为public，将成员变量声明为private。<br/>
+从封装性来看，protected并不比public封装性好多少。大部分情况用public和private足矣。</p>
+
+<h4>Item 23: Prefer non-member non-friend functions to member functions.</h4>
+
+<p>在可以实现相同的功能时，优先用non-member non-friend function，而不用member function，来提高封装性，名空间文件的管理灵活性，和相关功能的扩展性。</p>
+
+<h4>Item 24: Declare non-member functions when type conversions should apply to all parameters.</h4>
+
+<p>如果要在某个函数的所有参数上做类型转换，将它实现为non-member function，最好是non-friend。</p>
+
+<h4>Item 25: Consider support for a non-throwing swap.</h4>
+
+<p>为你写的新类型提供一个不抛异常的swap成员函数，还有非成员的swap函数，特例化std::swap模板函数。</p>
+
+<h4>Item 26: Postpone variable definitions as long as possible.</h4>
+
+<p>尽可能延后变量定义出现的时机。这样可以增加程序的清晰性，改善效率。</p>
+
+<h4>Item 27: Minimize casting.</h4>
+
+<p>C形式的转型：<br/>
+(T) expression<br/>
+T(expression)<br/>
+C++支持4种特有形式的转型：<br/>
+1) const_cast，拿掉对象的const特性<br/>
+2) dynamic_cast，安全向下转型，执行性能较差<br/>
+3) reinterpret_cast，低层次的不可移植转型<br/>
+4) static_cast，强制隐式转型，如non-const转为const，int转为double<br/>
+优先采用新形式的转型，它们更专用，更易用识别。<br/>
+尽量避免转型。</p>
+
+<h4>Item 28: Avoid returning "handles" to object internals.</h4>
+
+<p>避免返回对象内部的handle(包括引用，指针，迭代器)，const成员函数应该保证logic const，能增加类的封装性，避免产生悬挂的handle。</p>
+
+<h4>Item 29: Strive for exception-safe code.</h4>
+
+<p>异常安全的函数有3种层次的保证：<br/>
+1) 基本保证，如异常抛出，对象内部状态前后一致，但程序的状态不可知。函数一般可以提供这种层次的保证<br/>
+2) 强烈保证，如异常抛出，程序回到之前状态不变。往往可通过copy-and-swap来实现<br/>
+3) 不抛出异常，决不抛出异常</p>
+
+<h4>Item 30: Understand the ins and outs of inlining.</h4>
+
+<p>只将inline用在频繁调用的小函数上，头文件的函数模板不必一定是inline的。用inline来优化性能之前，先测量函数的调用频繁程度，确定函数值得用inline手动优化。</p>
+
+<h4>Item 31: Minimize compilation dependencies between files.</h4>
+
+<p>只依赖于声明，不依赖于定义，可以使文件之间的编译依赖最小化，有两种方法达到这种效果，一是Handle class(pimpl idiom)，一是Interface class。</p>
+
+<h4>Item 32: Make sure public inheritance models "is-a".</h4>
+
+<p>public继承塑造出"is-a"关系，每个子类对象都是一个父类对象。</p>
+
+<h4>Item 33: Avoid hiding inherited names.</h4>
+
+<p>子类的名字会隐藏基类内的名字，如果你的确需要这种特性，用using声明可以将基类的名字变为可见。</p>
+
+<h4>Item 34: Differenctiate between inheritance of interface and inheritance of implementation</h4>
+
+<p>public继承总是接口继承。<br/>
+基类的纯虚函数意味着让子类只继承接口。<br/>
+基类的非纯的虚函数意味着让子类继承接口和实现。<br/>
+基类的非虚函数意味着让子类继承函数接口及一份唯一的实现。</p>
+
+<h4>Item 35: Consider alternatives to virtual functions.</h4>
+
+<p>基于虚函数的继承有几种替代方法：<br/>
+1) NVI手法的Template Method模式<br/>
+2) 通过函数指针实现的策略模式(Strategy Pattern)<br/>
+3) 通过tr1::function模板实现的策略模式(Strategy Pattern)<br/>
+4) 经典的策略模式(Strategy Pattern)</p>
+
+<h4>Item 36: Never redefine an inherited non-virtual function.</h4>
+
+<p>绝不重新定义继承得来的非虚函数。</p>
+
+<h4>Item 37: Never redefine a function's inherited default parameter value.</h4>
+
+<p>虚函数是动态绑定的，参数默认值是静态绑定的，因此绝不要重新重义一个继承而来的默认参数值。</p>
+
+<h4>Item 38: Model "has-a" or "is-implemented-in-term-of" through composition.</h4>
+
+<p>组合与继承在类关系上表达两种完全不同的意思。<br/>
+组合，有两种意思，在应用领域，意味着"has-a"(拥有)的关系，在实现领域，意味着"is-implemented-in-terms-of"(根据某物实现出)的关系。具体是哪一种意思，取决于使用场景。</p>
+
+<h4>Item 39: Use private inheritance judiciously.</h4>
+
+<p>Private继承意味着两个类有"is-implemented-in-terms-of"关系，通常来说组合更好一些。</p>
+
+<h4>Item 40: Use multiple inheritance judiciously.</h4>
+
+<p>严重慎用多重继承，大多数需要用多重继承的场景都可以找到一个不用重继承的解决方案。</p>
+
+<h4>Item 41: Understand implicit interfaces and compile time polymorphism.</h4>
+
+<p>类和模板都支持接口和多态。<br/>
+对类来说，接口是显式的，基于函数签名，多态则通过虚函数发生于运行期。<br/>
+对模板来说，接口是隐式的，基于有效表达式，多态是通过模板实例化和函数重载的定位发生于编译期。</p>
+
+<h4>Item 42: Understand the two meanings of typename.</h4>
+
+<p>在声明模板参数时，类型关键字class和typename是可互换的。<br/>
+关键字typename还有另一个独特的作用：标识嵌套从属类型名字。例外情况是在继承蕨类声明列表和成员初始化列表中，这时不需要typename——C++是一门折腾的语言，读到这里你已经了解这么多了，珍惜生命，远离C++。</p>
+
+<h4>Item 43: Know how to access names in templatized base classes.</h4>
+
+<p>在模板子类中通过使用"this->"可以指明使用基模板类中的成员。</p>
+
+<h4>Item 44: Factor parameter-independent code out of templates.</h4>
+
+<p>让模板实例化尽可能的共用代码来重复代码，避免模板造成的代码膨胀。<br/>
+因非类型模板参数造成的代码膨胀，往往可通过以函数参数或成员变量替换模板参数的办法来消除。</p>
+
+<h4>Item 45: Use member function templates to accept "all compatible types."</h4>
+
+<p>用成员函数模板为所有兼容类型生成函数。<br/>
+对于复制构造函数和赋值操作符，即使声明了成员函数模板，也要声明常规的这两个函数。</p>
+
+<h4>Item 46: Define non-member functions inside templates when type conversions are desired.</h4>
+
+<p>当我们编写一个类模板，而它提供的相关函数支持所有函数参数都需要隐式类型转换时，将那些函数定义为类模板内部的friend函数。</p>
+
+<h4>Item 47: Use traits classes for information about types.</h4>
+
+<p>traits类保存了类型的相关信息，在编译期间可用traits类来进行类型匹配。</p>
+
+<h4>Item 48: Be aware of template meta-programming.</h4>
+
+<p>模板元编程(TMP)是以C++模板写成的，执行于C++编译器内的程序，有其独特的编程方法。<br/>
+TMP被证明是个turing-complete的，但目前还处于发展的初期阶段。非主流，可亵玩。</p>
+
+<h4>Item 49: Understand the behavior of the new-handler.</h4>
+
+<p>set_new_handler()允许用户指定一个函数new-handler，在内存分配失败时被回调。<br/>
+new-handler应该做的事情可以是：<br/>
+1) 让更多内存变成可用<br/>
+2) 安装另一个new_handler<br/>
+3) 卸掉new-handler<br/>
+4) 抛出异常bad_alloc(或子类)<br/>
+5) 直接终止程序，abort或exit</p>
+
+<h4>Item 50: Understand when it makes sense to replace nwe and delete.</h4>
+
+<p>有许多理由需要自定义new和delete运算符，包括改善性能，检测使用错误，收集使用统计数据等。</p>
+
+<h4>Item 51: 自定义new和delete运算符时要遵守惯例</h4>
+
+<p>new操作符是应该是这样的：有能力处理0字节申请，在无法申请到足够内存时，调用new-handler。
+delete操作符也应该能处理null指针。</p>
+
+<h4>Item 52: Write placement delete if you write placement new.</h4>
+
+<p>placement new和placement delete是成双出现的，不能只写一个。定制placement new和placement delete小心遮掩它们的全局默认版本。C++陷阱很多的。</p>
+
+<h4>Item 53: Pay attention to compiler warnings.</h4>
+
+<p>写C++代码，一定要留意编译器警告，并熟悉这些警告的意思。不然就自求多福吧。</p>
+
+<h4>Item 54: Familiarize yourself with the standard library, including TR1.</h4>
+
+<p>C++98标准包括：标准模板库STL，io流系统，国际化支持，数学运算支持，异常体系，C89标准。<br/>
+TR1标准覆盖范围比较广泛，不一一列举止，目前没有成熟的实现，boost可以作为一个临时候选。</p>
+
+<h4>Item 55: Familiarize yourself with Boost.</h4>
+
+<p>boost是一个社区，一个网站，一个开源C++库。<br/>
+Boost为TR1的多个组件提供了不错的实现。<br/>
+Boost是一个从飞机大炮到浴缸马桶无所不包的库，也是一个脑死亡的最佳去处，居家旅行必备。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Funnies in Sources]]></title>
+    <link href="http://clisp.github.com/blog/2011/05/07/the-funnies-in-sources/"/>
+    <updated>2011-05-07T21:43:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/05/07/the-funnies-in-sources</id>
+    <content type="html"><![CDATA[<p>想必每位码农(coding farmer)都有过这样的经历，在浏览源代码时，除了有时会看到迷一般的逻辑和天马行空的代码风格之外，还不时会发现一些独特有趣的表达，注释等。下面记录一下我曾经看过的一些有趣的片断，希望在曾经写出过这样的代码或被这样的代码折腾过的读者当中引起一些共鸣，以飨一笑，仅供娱乐。</p>
+
+<h5>1. linux kernel 2.6, git revision:5895198c56d131cc696556a45f7ff0ea99ac297b, kernel/fork.c:7</h5>
+
+<pre><code>/*
+ *  'fork.c' contains the help-routines for the 'fork' system call
+ * (see also entry.S and others).
+ * Fork is rather simple, once you get the hang of it, but the memory
+ * management can be a bitch. See 'mm/memory.c': 'copy_page_range()'
+ */
+</code></pre>
+
+<h5>2. thrift, svn revision:1096750, lib/cpp/src/async/TAsyncProcessor.h:75</h5>
+
+<pre><code>// XXX I'm lazy for now
+namespace apache { namespace thrift {
+    using apache::thrift::async::TAsyncProcessor;
+}}
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My Personal Errata for C++ Primer]]></title>
+    <link href="http://clisp.github.com/blog/2010/11/28/my-personal-errata-for-c-primer/"/>
+    <updated>2010-11-28T09:00:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2010/11/28/my-personal-errata-for-c-primer</id>
+    <content type="html"><![CDATA[<p>There is an official errata for C++ Primer, 4th on informIT website with the URL:</p>
+
+<p>http://www.informit.com/content/images/9780201721485/Errata/Lippman_0201721481_Errata.html</p>
+
+<p>Here i list the other errata I found so far. The Warning must be given first that all the items raised as follows is just the statements of myself so that they might be not errata in true and not all the errata are included here( Maybe there is absolutely no such a list of errata which could give that warranty). And I don't think I would keep updating all the time.</p>
+
+<ul>
+<li><p>Page 101: In paragraph 4 behind</p>
+
+<p>  vector<int>::iterator mid = vi.begin() + vi.size() / 2;</p></li>
+</ul>
+
+
+<p>the word "ivec" of the sentence "This code initializes mid to refer to the element nearest to the middle of ivec.", should be "vi" apparently.</p>
+
+<ul>
+<li><p>Page 129: In paragraph 2 below title "Pointers and Typedefs", given the code</p>
+
+<p>  "typedef string *pstring;
+  const pstring cstr;"</p></li>
+</ul>
+
+
+<p>the two occurances of "a pointer to const pstring" in the text</p>
+
+<p>"what is the type of cstr? The simple answer is that it is a pointer to const pstring. The deeper question is: what underlying type does a pointer to const pstring represent?"</p>
+
+<p>should be revised to "a const pstring".</p>
+
+<ul>
+<li><p>Page 136: In "Initializing a Dynamically Allocated Array" section, paragraph 2, the code fragment comment is wrong. when using an empty pair of parentheses, the array is value-initialized. So we get the correct interpretation as follows:</p>
+
+<p>  int *pia2 = new int[10](); // array of 10 int, in which every element is value-initialized to 0</p></li>
+<li><p>Page 138: the second line of the first code fragment in grey box "CONTRASTING C-STYLE STRINGS AND C++ LIBRARY STRINGS", should be:</p>
+
+<p>  const size_t len = strlen(pc) + 1;  // space to allocate</p></li>
+</ul>
+
+
+<p>rather than</p>
+
+<pre><code>const size_t len = strlen(pc + 1);  // space to allocate
+</code></pre>
+
+<ul>
+<li><p>Page 159: Of Paragraph 2, "the second cout" should be "the third cout" to indicate this statement</p>
+
+<p>  cout &lt;&lt; 10 &lt;&lt; 42;</p></li>
+</ul>
+
+
+<p>is equal to</p>
+
+<pre><code>(cout &lt;&lt; 10) &lt;&lt; 42;
+</code></pre>
+
+<p>which doesn't do the right.</p>
+
+<ul>
+<li>Page 289: In "Interrogating and Controlling the State of Stream" section, the code fragment</li>
+</ul>
+
+
+<hr />
+
+<pre><code>    int ival;
+    // read cin and test only for EOF; loop is executed even if there are other IO failures
+    while(cin&gt;&gt;ival, !cin.eof()){
+       if(cin.bad()) // input stream is corrupted; bail out
+          throw runtime_error("IO stream corrupted");
+       if(cin.fail()){                      // bad input
+           cerr&lt;&lt; "bad data, try again";    // warn the user
+           cin.clear(istream::failbit);     // reset the stream
+           continue;                        // get next input
+       }
+       //ok to process ival
+    }
+</code></pre>
+
+<p>is in error interpreting misleadingly. As the following paragraph explained, when the standard input cin fail to read into ival, it would enter into the second if statement block(line 6 - line 10) , and the cin.failbit is set, cin.fail() returns true. If we wants to reset the stream, the argument passed to clear() must be istream::goodbit other than istream::failbit. To grasp more usage of IO library function clear, refer to the C++ reference(http://www.cppreference.com/wiki/):</p>
+
+<pre><code>Syntax:
+
+#include &lt;fstream&gt;
+void clear( iostate flags = ios::goodbit );
+
+The function clear() does two things:
+
+* it clears all io_stream_state_flags associated with the current stream,
+* and sets the flags denoted by flags
+
+The flags argument defaults to ios::goodbit, which means that by default, all flags will be cleared and ios::goodbit will be set.
+</code></pre>
+
+<p>As described above, although clear function that take a strm::iostate parameter seems confusing, making us misunderstand that it would clean the state of  iostate bit argument given, actually it turns off the the other iostate bits but the argument iostate bit given and turn on the latter. So, in the code fragment line 8, the argument which should be passed to clear() is istream::goodbit in terms of semanteme. Or we could call clear() directly with no argument. With the default argument ios::goodbit provided, that is equal to call clear(istream::goodbit). And after the call to clear(), the neglect of dealing with the input buffer will cause series problem. Because cin doesn't skip the input it fail to read, in the next trip of while it will still try to read the input that causes cin fail one trip before.</p>
+
+<p>Let's see what would happen if we take the original pratice, as it was shown in line 8 above, calling clear() with argument istream::failbit. If cin encounter a character rather than a num and fail to read into ival before end of file, cin.failbit will be set and cin.fail() will return true. Inside the while loop, the condition test in line 6 will result true and the block from line 6 to line 10 will be executed. In line 6, function clear would invalid all the other io state but valid the failbit. Because only failbit of cin is set, this statement doesn't change anything. And  then we execute a continue to return to the start of the while to try to read the same character into ival. Obvously cin will fail again as before. Then the block from line 6 to line 10 will be executed again. In this way, It will leads to infinite loop.</p>
+
+<p>So we know there are two points we should revise: one is to reset the stream state correctly, the other is to reposition the input buffer for cin. Correct code is:</p>
+
+<hr />
+
+<pre><code>    int ival;
+    //   read cin and test only for EOF; loop is executed even if there are other IO failures
+    while(cin&gt;&gt;ival, !cin.eof()){
+       if(cin.bad())         //  input stream is corrupted; bail out
+          throw runtime_error("IO stream corrupted");
+       if(cin.fail()){                        // bad input
+          cerr&lt;&lt; "bad data, try again";       // warn the user
+          cin.clear();                        // reset the stream, equivalent to clear(istream::goodbit)
+          cin.igore();                        // skip the invalid character in input buffer that cause cin fail
+          continue;                           // get next input
+       }
+       //ok to process ival
+    }
+</code></pre>
+
+<ul>
+<li><p>Page 301: In the last sentence of paragraph 1, the contents of format_message should be</p>
+
+<p>  val1: 512\nval2: 1024\n</p></li>
+</ul>
+
+
+<p>rather than</p>
+
+<pre><code>val1: 512\nval2: 1024  
+</code></pre>
+
+<p>Given the ostringstream format_message is construct to be empty, it is apparent what format_message would be after the statement</p>
+
+<pre><code>format_message &lt;&lt; "val1" &lt;&lt; val1 &lt;&lt; "\n"
+               &lt;&lt; "val2" &lt;&lt; val2 &lt;&lt; "\n" ;
+</code></pre>
+
+<p>insert the indicated text into it.</p>
+
+<ul>
+<li><p>Page 304: line 4 of paragraph 1, "They they can ba applied to", "They they" should be "They".</p></li>
+<li><p>Page 321: In paragraph 2, it says the code does that "reads each element, processes it and adds a new element
+following the original". But the example code fail to do that. In the while loop</p>
+
+<p>  while (first != last) {
+  // do some processing
+  // insert new value and reassign first, which otherwise would be invalid
+  first = v.insert(first, 42);
+  ++first; // advance first just past the element we added
+  }</p></li>
+</ul>
+
+
+<p>a iterator increment statement should be added, as the following</p>
+
+<pre><code>while (first != last) {
+// do some processing
+// advance first to the next element or the one past the end
+++first;
+// insert new value and reassign first, which otherwise would be invalid
+first = v.insert(first, 42);
+++first; // advance first just past the element we added
+}
+</code></pre>
+
+<p>And the following example code in the same page should be changed like this as well.</p>
+
+<ul>
+<li><p>Page 329: At nest to last sentence in paragraph 2 which discusses the assign member function taking a pair of iterator parameters, the last word "slist2" should be "slist1". It's obvious that the statement</p>
+
+<p>  slist1.assign( slist2.begin(), slist2.end() );</p></li>
+</ul>
+
+
+<p>deletes all the elements in slist1, and then copies the elements from slist2 into slist1.</p>
+
+<ul>
+<li><p>Page 347: Exercise 9.39, in the definition of line2, a semicolon is missing.</p></li>
+<li><p>Page 372: In section 10.4,  the page number is wrong in item 1 of the operations set supports.<br/>
+"All the common container operations listed in Section 10.2(p.358)."<br/>
+should be<br/>
+"All the common container operations listed in Section 10.2(p.359)."</p></li>
+<li><p>Page 374: Section 10.4.2, line 1, "On page 369" should be "On page 368".</p></li>
+<li><p>Page 423: Exercise 11.29, line 2, "in Section 11.2.3(p.400)" should be "in Section 11.2.3(p.401)".</p></li>
+<li><p>Page 713: the paragraph after the first code example, "If another namespace (say, AddisonWesley) also provides a TextQuery class", "TextQuery" should be "Query".</p></li>
+<li><p>Page 813: In section "Algorithms to Find a Subsequence", the description of "search_n", line 3, in<br/>
+"occurrences of the given value"<br/>
+"value" should be "val".</p></li>
+<li><p>Source code:
+15/makefile, line 19, the command "mk-basket2" should be "./mk_basket2" for sh/bash.
+16/overcomp.cc, line 36, one include directive missing for function strcmp(): "#include <cstring>"
+16/overcomp2.cc, the same with the previous.
+18/Queue.h, line 50, in the code:</p>
+
+<p>  template <class It> Queue(It, It): head(0), tail(0)
+  { copy(beg, end); }</p></li>
+</ul>
+
+
+<p>two parameters miss their name. It should be</p>
+
+<pre><code>template &lt;class It&gt; Queue(It beg, It end): head(0), tail(0)
+{ copy(beg, end); }
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A Thought on Bit Representation of Primitive Integer Type in C/C++]]></title>
+    <link href="http://clisp.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc/"/>
+    <updated>2010-11-28T08:36:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc</id>
+    <content type="html"><![CDATA[<p>老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。</p>
+
+<p>看天下大势如此，营利的博客业务开始衰落了。</p>
+
+<p>2009/8/7 13:34:10</p>
+
+<p>&lt;&lt;C++ Primer>> mentions when talking about primitive integer type as follows:</p>
+
+<p>For the unsigned types, a negative value is always out of range. An object of unsigned type may never hold a negative value. Some languages make it illegal to assign a negative value to an unsigned type, but C++ does not.</p>
+
+<p>In C++ it is perfectly legal to assign a negative number to an object with unsigned type. The result is the negative value modulo the size of the type. So, if we assign 1 to an 8-bit unsigned char, the resulting value will be 255, which is 1 modulo 256.</p>
+
+<p>at page 37 (&lt;&lt;C++ Primer, 4th>> English, Posts &amp; Telecom Press, 2006)</p>
+
+<p>Why a negative number which is assigned to a unsigned type would become a modulo of it? Is it because of the bit represatation? To validate the situation, I write this short code fragement(take char for example to figure out the bit representation):</p>
+
+<pre><code>//: bit_inter.cc
+#include &lt;iostream&gt;
+using std::cout;
+using std::endl;
+#include &lt;climits&gt;
+template &lt;typename T&gt;
+void print_binary(const T tchar)
+{
+for(int ix = sizeof(tchar)*8 - 1; ix &gt;= 0 ; --ix)
+{
+if( tchar &amp; (1&lt;&lt;ix) )
+cout &lt;&lt; "1";
+else
+cout &lt;&lt; "0";
+}
+}
+#define PRINT_BIT_INTER(x) \
+cout &lt;&lt; (int)x &lt;&lt; "\t" &lt;&lt; " binary representation: " &lt;&lt; "\t"; print_binary(x); cout &lt;&lt; endl;
+int main()
+{
+unsigned char uchar;
+signed char schar;
+cout &lt;&lt; "the limit of type char and unsigned char:" &lt;&lt; endl;
+cout &lt;&lt; "size of signed char: " &lt;&lt; sizeof (signed char) &lt;&lt; "\t" &lt;&lt; "size of unsigned char: " &lt;&lt; sizeof (unsigned char) &lt;&lt; endl;
+cout &lt;&lt; "SCHAR_MIN: " &lt;&lt; SCHAR_MIN &lt;&lt; "\t" &lt;&lt; "SCHAR_MAX: " &lt;&lt; SCHAR_MAX &lt;&lt; "\t" &lt;&lt; "UCHAR_MAX: " &lt;&lt; UCHAR_MAX &lt;&lt; endl;
+cout &lt;&lt; "the representation of type char and unsigned char:" &lt;&lt; endl;
+schar = 127;
+PRINT_BIT_INTER(schar);
+schar = 0;
+PRINT_BIT_INTER(schar);
+schar = -1;
+PRINT_BIT_INTER(schar);
+schar = -127;
+PRINT_BIT_INTER(schar);
+schar = -128;
+PRINT_BIT_INTER(schar);
+uchar = 0;
+PRINT_BIT_INTER(uchar);
+uchar = 128;
+PRINT_BIT_INTER(uchar);
+uchar = 255;
+PRINT_BIT_INTER(uchar);
+return 0;
+}
+
+//* output:(match 100%)
+the limit of type char and unsigned char:
+size of signed char: 1  size of unsigned char: 1
+SCHAR_MIN: -128 SCHAR_MAX: 127  UCHAR_MAX: 255
+the representation of type char and unsigned char:
+127      binary representation:         01111111
+0        binary representation:         00000000
+-1       binary representation:         11111111
+-127     binary representation:         10000001
+-128     binary representation:         10000000
+0        binary representation:         00000000
+128      binary representation:         10000000
+255      binary representation:         11111111
+
+*///:~ bit_inter.cc
+</code></pre>
+
+<p>now the bit representation of type char set is clear\:</p>
+
+<pre><code>bit representation    unsigned char    signed char:
+11111111              255                  -1
+10000001              129                  -127
+10000000              128                  -128
+01111111              127                  127
+00000001              1                     1
+00000000              0                     0
+</code></pre>
+
+<p>so we could conclude that the same bit representation gives different value when representating in different type, signed char or unsigned char.</p>
+
+<p>when assigning a negative number, e.g. -1, to a unsigned char, e.g. named uchar, what C/C++ actually does is keep the bit represetation of -1 intact and copy it into the location where the unsigned char uchar lies. So by the way of unsigned char value representing, the unsigned char now have the value 255. It seems C++ have calculated the modulo, -1 % 256 = 255 for us.</p>
+]]></content>
+  </entry>
+  
+</feed>
