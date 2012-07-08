@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 存储 | Dylan.Wen's Blog]]></title>
+  <title><![CDATA[Category: 存储 | xlambda]]></title>
   <link href="http://clisp.github.com/blog/categories/%E5%AD%98%E5%82%A8/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-07-08T05:40:00+08:00</updated>
+  <updated>2012-07-08T15:37:31+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
