@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hello World - xlambda</title>
+  <title>Darkmate Theme - xlambda</title>
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="Hello World!
-">
+  <meta name="description" content="Darkmate Theme darkmate是一个gedit主题的名字，我用过之后觉得不错，后来将这个主题的配色移植到了Emacs和eclipse。 Emacs的darkmate主题 介绍 Emacs下的主题多用Color Theme扩展来管理，它的介绍文章请看这里。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://clisp.github.com/blog/2012/07/07/hello-world/">
+  <link rel="canonical" href="http://clisp.github.com/blog/darkmate-theme/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -66,78 +65,106 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Hello World</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-07T15:37:00+08:00" pubdate data-updated="true">Jul 7<span>th</span>, 2012</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
+    <h1 class="entry-title">Darkmate Theme</h1>
     
   </header>
+  
+  <p>darkmate是一个gedit主题的名字，我用过之后觉得不错，后来将这个主题的配色移植到了Emacs和eclipse。</p>
 
+<h2>Emacs的darkmate主题</h2>
 
-<div class="entry-content"><p>Hello World!</p>
+<h3>介绍</h3>
+
+<p>Emacs下的主题多用Color Theme扩展来管理，它的介绍文章请看<a href="/blog/2010/01/12/add-color-theme-for-emacs/">这里</a>。我在使用这个扩展来定制配色的时候，发现在它的6.6.0版本下有一个问题：只能准确地指定GUI下的配色，终端下配色与GUI相差较远。看过源代码后，确认是代码有一个bug，于是做bug fix写了color-theme+.el(详细参考<a href="/blog/2010/03/color-theme-darkmate-for-emacs/">这篇文章</a>)，同时也给Color Theme的原作者报了bug。</p>
+
+<p>有了color-theme+.el，就可以既准确地定制GUI和终端下的配色，于是我将darkmate也做成了一个Color Theme主题文件。由于配色较多，我把各种配色按不同的内容分开成多个不同的文件。</p>
+
+<p>所有配色相关的代码文件列表(按字母序排序)及各自对应的内容如下：</p>
+
+<pre><code>calendar-face-settings.el   ---&gt; calendar
+basic-face-settings.el      ---&gt; 基本配色
+color-theme-darkmate.el     ---&gt; Color Theme主文件
+color-theme+.el             ---&gt; 前面所述的bug fix
+color-theme-settings.el     ---&gt; Color Theme相关配置
+dired+-face-settings.el     ---&gt; dired+扩展
+ecb-face-settings.el        ---&gt; ecb
+emms-face-settings.el       ---&gt; emms
+erc-face-settings.el        ---&gt; erc
+flyspell-face-settings.el   ---&gt; flyspell
+ido-face-settings.el        ---&gt; ido
+isearch-face-settings.el    ---&gt; isearch
+jde-face-settings.el        ---&gt; Java开发
+linum-face-settings.el      ---&gt; linum扩展
+paren-face-settings.el      ---&gt; 括号配对
+tabbar-face-settings.el     ---&gt; tabbar
+</code></pre>
+
+<p>要在emacs中加载darkmate配色，到<a href="https://bitbucket.org/dylanwen/elispport/src">这里</a>下载上面的文件后，需要在dot emacs文件中添加</p>
+
+<pre><code>(require 'basic-faces-settings)
+;; 加载Color Theme扩展
+(require 'color-theme-settings)
+;; 加载定制的darkmate主题
+(require 'color-theme-darkmate)
+(color-theme-darkmate)
+</code></pre>
+
+<p>即可加载主要的配色配置。对应其它扩展的各个文件，可以根据各人的使用需要另外添加，如使用erc的人可以在dot emacs文件中添加</p>
+
+<pre><code>;; 加载erc配色配置
+(require 'erc-face-settings)
+</code></pre>
+
+<p>而使用JDE来做Java开发的人可以添加</p>
+
+<pre><code>;; 加载jde配色配置
+(require 'jde-face-settings)
+</code></pre>
+
+<h3>效果</h3>
+
+<p>GUI下的配色效果见下面截图：</p>
+
+<p>C++:
+<img src="http://www.xlambda.com/wp-content/uploads/2012/03/darkmate_cpp_screenshot.png" alt="Emacs darkmate主题C++截图" /></p>
+
+<p>Java:
+<img src="http://www.xlambda.com/wp-content/uploads/2012/03/darkmate_java_screenshot.png" alt="Emacs darkmate主题Java截图" /></p>
+
+<p>Python:
+<img src="http://www.xlambda.com/wp-content/uploads/2012/03/darkmate_python_screenshot.png" alt="Emacs darkmate主题Python截图" /></p>
+
+<p>gnome-terminal(tango 16色)下的配色效果见下面截图：</p>
+
+<p>C++:
+<img src="http://www.xlambda.com/wp-content/uploads/2012/03/darkmate_cpp_term_screenshot.png" alt="Emacs darkmate主题C++终端截图" /></p>
+
+<p>Java:
+<img src="http://www.xlambda.com/wp-content/uploads/2012/03/darkmate_java_term_screenshot.png" alt="Emacs darkmate主题Java终端截图" />]</p>
+
+<p>Python:
+<img src="http://www.xlambda.com/wp-content/uploads/2012/03/darkmate_python_term_screenshot.png" alt="Emacs darkmate主题Python终端截图" /></p>
+
+<h2>eclipse的darkmate主题</h2>
+
+<p>参考<a href="/blog/2011/05/color-theme-darkmate-for-eclipse/">这篇文章</a></p>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  
+  
 </div>
 
-
-  <footer>
-    <p class="meta">
       
+    </footer>
   
-
-<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-07T15:37:00+08:00" pubdate data-updated="true">Jul 7<span>th</span>, 2012</time>
-      
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/06/24/get-one-hhkb/" title="Previous Post: 入手神器hhkb">&laquo; 入手神器hhkb</a>
-      
-      
-    </p>
-  </footer>
 </article>
 
   <section>
@@ -211,8 +238,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://clisp.github.com/blog/2012/07/07/hello-world/';
-        var disqus_url = 'http://clisp.github.com/blog/2012/07/07/hello-world/';
+        var disqus_identifier = 'http://clisp.github.com/blog/darkmate-theme/index.html';
+        var disqus_url = 'http://clisp.github.com/blog/darkmate-theme/index.html';
         var disqus_script = 'embed.js';
       
     (function () {

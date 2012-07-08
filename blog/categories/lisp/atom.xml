@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lisp | xlambda]]></title>
   <link href="http://clisp.github.com/blog/categories/lisp/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-07-08T16:47:20+08:00</updated>
+  <updated>2012-07-08T23:41:05+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -73,12 +73,7 @@ mac os: openmcl</p>
 
 <p>函数FORMAT</p>
 
-<p>{% codeblock lang:lisp %}</p>
-
-<pre><code>(FORMAT destination control-string &amp;rest format-arguments)
-</code></pre>
-
-<p>{% endcodeblock %}</p>
+<p>Liquid error: ClassNotFound: no lexer for alias 'lisp' found</p>
 
 <p>定义函数特殊表DEFUN</p>
 
