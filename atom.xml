@@ -4,7 +4,7 @@
   <title><![CDATA[xlambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-07-08T23:41:05+08:00</updated>
+  <updated>2012-07-11T02:02:32+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -154,8 +154,8 @@ sw6, off 没用到wake up功能</p>
     <id>http://clisp.github.com/blog/2012/03/04/manage-gnome-shell-extensions</id>
     <content type="html"><![CDATA[<p>之前写了两篇小文：</p>
 
-<p><a href="http://www.xlambda.com/2011/11/%e6%9d%af%e5%85%b7%e7%9a%84%e8%af%9e%e7%94%9f/">《杯具的诞生》</a>
-<a href="http://www.xlambda.com/2011/11/%e6%8a%98%e8%85%begnome-shell/">《折腾gnome-shell》</a></p>
+<p><a href="http://clisp.github.com/blog/2011/11/09/gnome-shell-it-just-happens/">《杯具的诞生》</a><br/>
+<a href="http://clisp.github.com/blog/2011/11/13/tinker-with-gnome-shell/">《折腾gnome-shell》</a></p>
 
 <p>介绍了安装gnome-shell之后的一些使用情况。这里继续向大家介绍一下，不久前上线的gnome-shell扩展的官方网页：<br/>
 <a href="https://extensions.gnome.org/">https://extensions.gnome.org/</a></p>
