@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | xlambda]]></title>
   <link href="http://clisp.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-07-11T02:11:57+08:00</updated>
+  <updated>2012-07-13T00:19:42+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -18,7 +18,7 @@
     <link href="http://clisp.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs/"/>
     <updated>2011-03-02T18:19:00+08:00</updated>
     <id>http://clisp.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs</id>
-    <content type="html"><![CDATA[<p><a href="http://www.xlambda.com/pub/image/code_rain_matrix.jpg"><img src="http://www.xlambda.com/pub/image/code_rain_matrix.jpg" alt="the source view screenshot of The Matrix" /></a></p>
+    <content type="html"><![CDATA[<p><a href="/images/uploads/code_rain_matrix.jpg"><img src="/images/uploads/code_rain_matrix.jpg" alt="the source view screenshot of The Matrix" /></a></p>
 
 <pre><code>"What is the Matrix?
 Control."
@@ -52,13 +52,13 @@ Control."
 
 <p>终端:</p>
 
-<p><img src="http://www.xlambda.com/pub/image/zone-matrix-under-console.jpg" alt="`zone-matrix' under console" /></p>
+<p><img src="/images/uploads/zone-matrix-under-console.jpg" alt="`zone-matrix' under console" /></p>
 
 <p>主要在终端下使用，终端下能用的颜色不多，表现力还是很有限的，有时间的话再添加多一些变化。也添加了支持X的部分代码，所以在X下也能用。</p>
 
 <p>X window:</p>
 
-<p><img src="http://www.xlambda.com/pub/image/zone-matrix-under-X.jpg" alt="`zone-matrix' under X" /></p>
+<p><img src="/images/uploads/zone-matrix-under-X.jpg" alt="`zone-matrix' under X" /></p>
 
 <p>已知的问题有：</p>
 

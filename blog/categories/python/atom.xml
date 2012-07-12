@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | xlambda]]></title>
   <link href="http://clisp.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-07-11T02:11:57+08:00</updated>
+  <updated>2012-07-13T00:19:42+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -18,7 +18,7 @@
     <link href="http://clisp.github.com/blog/2011/05/16/reading-notes-of-py4sa-cn/"/>
     <updated>2011-05-16T02:05:00+08:00</updated>
     <id>http://clisp.github.com/blog/2011/05/16/reading-notes-of-py4sa-cn</id>
-    <content type="html"><![CDATA[<p><a href="http://www.xlambda.com/pub/image/py4sa_cn_cover.jpg"><img src="http://www.xlambda.com/pub/image/py4sa_cn_cover.jpg" alt="py4sa cn cover" /></a></p>
+    <content type="html"><![CDATA[<p><a href="/images/uploads/py4sa_cn_cover.jpg"><img src="/images/uploads/py4sa_cn_cover.jpg" alt="py4sa cn cover" /></a></p>
 
 <p>——评《Python UNIX和Linux系统管理指南》</p>
 

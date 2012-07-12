@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 未分类 | xlambda]]></title>
   <link href="http://clisp.github.com/blog/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-07-11T02:11:57+08:00</updated>
+  <updated>2012-07-13T00:19:42+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -41,13 +41,13 @@ sw6, off 没用到wake up功能</p>
 
 <p>最后上几张真相。</p>
 
-<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_145612.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_145612.jpg" alt="hhkb外包装盒" /></a></p>
+<p><a href="/images/uploads/2012/06/IMG_20120622_145612.jpg"><img src="/images/uploads/2012/06/IMG_20120622_145612.jpg" alt="hhkb外包装盒" /></a></p>
 
-<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_151548.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_151548.jpg" alt="hhkb盒子开封" /></a></p>
+<p><a href="/images/uploads/2012/06/IMG_20120622_151548.jpg"><img src="/images/uploads/2012/06/IMG_20120622_151548.jpg" alt="hhkb盒子开封" /></a></p>
 
-<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_152623.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_152623.jpg" alt="hhkb键帽特写近照" /></a></p>
+<p><a href="/images/uploads/2012/06/IMG_20120622_152623.jpg"><img src="/images/uploads/2012/06/IMG_20120622_152623.jpg" alt="hhkb键帽特写近照" /></a></p>
 
-<p><a href="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_154129.jpg"><img src="http://www.xlambda.com/wp-content/uploads/2012/06/IMG_20120622_154129.jpg" alt="hhkb白无刻与filco二代白对比" /></a></p>
+<p><a href="/images/uploads/2012/06/IMG_20120622_154129.jpg"><img src="/images/uploads/2012/06/IMG_20120622_154129.jpg" alt="hhkb白无刻与filco二代白对比" /></a></p>
 ]]></content>
   </entry>
   
@@ -112,10 +112,10 @@ sw6, off 没用到wake up功能</p>
 <p><a href="https://bitbucket.org/dylanwen/eclipse_config/src">这里</a>提供对应Eclipse的配色主题 下载 ,目前包含c++(cdt)，java(jdt)，python(pydev)的配色设置。</p>
 
 <p>c++配色截图如下：
-<a href="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_c++_style2.png"><img src="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_c++_style2.png" alt="color theme darkmate for eclipse c++ screenshot" /></a></p>
+<a href="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg" alt="color theme darkmate for eclipse c++ screenshot" /></a></p>
 
 <p>java配色截图如下：
-<a href="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_java_style2.png"><img src="http://www.xlambda.com/pub/image/eclipse_color_theme_darkmate_java_style2.png" alt="color theme darkmate for eclipse java screenshot" /></a></p>
+<a href="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg" alt="color theme darkmate for eclipse java screenshot" /></a></p>
 ]]></content>
   </entry>
   
@@ -126,7 +126,7 @@ sw6, off 没用到wake up功能</p>
     <id>http://clisp.github.com/blog/2010/11/22/hack-a-new-theme-style</id>
     <content type="html"><![CDATA[<p>这两天粗粗看了一下html&amp;css的文档，经过一番调教把blog的改为目前的风格，配色是按终端的tango主题来做的，见下图：</p>
 
-<p><img src="http://www.xlambda.com/pub/image/tango_theme.png" alt="screenshot of system tango color theme" /></p>
+<p><img src="/images/uploads/tango_theme.jpg" alt="screenshot of system tango color theme" /></p>
 
 <p>新风格看起来更养眼一点，调整版式/色彩/间距相当花费时间，不过此过程也学到一些html&amp;css的知识。用All 60s All The Time的DJ的话来说，"What's the point of DIY? It's to suit yourself, isn't it?"</p>
 
@@ -188,7 +188,7 @@ sw6, off 没用到wake up功能</p>
 <p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
 
 <p>效果见截图：<br/>
-<img src="http://www.xlambda.com/pub/image/eclipse_splash.png" alt="eclipse splash screenshot" /></p>
+<img src="/images/uploads/eclipse_splash.jpg" alt="eclipse splash screenshot" /></p>
 
 <h3>2. 制作个性的splash</h3>
 
@@ -196,7 +196,7 @@ sw6, off 没用到wake up功能</p>
 
 <p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
 
-<p><img src="http://www.xlambda.com/pub/image/sexy_eclipse_splash.bmp" alt="sexy eclipse splash" /></p>
+<p><img src="/images/uploads/sexy_eclipse_splash.jpg" alt="sexy eclipse splash" /></p>
 ]]></content>
   </entry>
   
