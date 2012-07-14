@@ -226,4 +226,8 @@
         <loc>http://clisp.github.com/</loc>
         <lastmod>2012-07-13T00:06:16+08:00</lastmod>
     </url>
+    <url>
+        <loc>http://clisp.github.com/404.html</loc>
+        <lastmod>2012-07-14T18:32:03+08:00</lastmod>
+    </url>
 </urlset>
