@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="——评《Python UNIX和Linux系统管理指南》 手上这本《Python UNIX和Linux系统管理指南》(以下简称py4sa_cn，py4sa是对应的英文版《Python for UNIX and Linux System Administration》的缩写，cn表示中文译版) &hellip;">
+  <meta name="description" content="很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,7 +72,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/05/16/reading-notes-of-py4sa-cn/">一份缺少诚意的中式什果沙拉</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/03/21/debian-returns/">便，我回来了</a></h1>
     
     
       <p class="meta">
@@ -88,142 +88,22 @@
   
 
 
-<time datetime="2011-05-16T02:05:00+08:00" pubdate data-updated="true">May 16<span>th</span>, 2011</time>
+<time datetime="2010-03-21T15:00:00+08:00" pubdate data-updated="true">Mar 21<span>st</span>, 2010</time>
         
-         | <a href="/blog/2011/05/16/reading-notes-of-py4sa-cn/#disqus_thread">Comments</a>
+         | <a href="/blog/2010/03/21/debian-returns/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="/images/uploads/py4sa_cn_cover.jpg"><img src="/images/uploads/py4sa_cn_cover.jpg" alt="py4sa cn cover" /></a></p>
+  <div class="entry-content"><p>很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了，想给我的PC升升级了。</p>
 
-<p>——评《Python UNIX和Linux系统管理指南》</p>
+<p>ubuntu的版本支持时间很有限，即使是LTS，桌面版本也只支持3年，3年之后退役之时怎么办呢，唯有升下一个版本了。而版本升级却不是那么平滑，难免或多或少有问题。虽然我没做过版本升级，不过论坛上有做小白鼠牺牲的也不是一个两个了。不过能用3年的人估计也少，都是有新版本来了就立马升级（重装）上去，之前在论坛就有帖子问有没有人一个版本连续用2年，跟帖的人不少，却没有一个真的用到2年。</p>
 
-<p>手上这本《Python UNIX和Linux系统管理指南》(以下简称py4sa_cn，py4sa是对应的英文版《Python for UNIX and Linux System Administration》的缩写，cn表示中文译版)从卓越亚马逊网购拿到已经有2周，不过一直只是搁在书桌上没有看，这几天有空的时候随手翻看了一下，到今天14日这一本薄薄的400多页的书已经全部看过一遍，看完掩卷，感觉就像在饥肠辘辘的情况下刚刚吃过一份缺少诚意的中式什果沙拉。</p>
+<p>今天再回过头来看看，平滑升级真的是一个很好的特征。与其几年一次重装，不如每天一坨，稳定地升级上去。稳定，对于“漂”在外面的我很有杀伤力。</p>
 
-<p>《py4sa_cn》这本书主要介绍Python作为一门简单易用，具有强大库功能支持的语言如何应用到管理UNIX和Linux服务器上，正如书的封底《Red Hat Magazine》的评价所说，是针对Python的入门者，读者不需要有Shell编程经验，其实这个定位其实比较尴尬，因为这样一本书的读者其实主要有两种，一种是有UNIX/Linux系统管理的工作需要或经验，一种是Python的爱好(学习)者，当然两种读者可能会有交集，而前者不会没有Shell编程背景，也不会满意于系统管理或编程方面入门级的唠叨，而后者(我也是其中一个)更多的在于扩充知识面，了解Python与系统管理这两者的结合点，这本书也不会是学习python的第一本书，所以没必要从零开始讲(如详细讲述str的方法)，而《py4sa_cn》给人的感觉就像是它要做第一种读者的第一本Python书，或者第二种读者的第一本系统管理书，而这两个目标都完成得不好，在这点上个人觉得不够给力。</p>
-
-<p>书中内容的确讲得很浅白，涉及的范围面很广，不过每个方面都是蜻蜓点水，简单介绍一下背景和使用，加插几个例子，缺少深入的内容，只可以作为起点扩大视野，从书中给出的线索开始找其它资料代码进一步扩展和深入，从英文版原书两位作者的背景介绍来看，两位应该都是牛人，书中的内容涉猎范围的确很广，体现了两位作者的功力，对于我这样一个菜鸟来说，就像是刘姥姥走了大观园，各种的模块框架术语让我目不暇接眼花瞭乱，但是定位之低内容之浅以及为数众多的行文前后索引和排版错误，又让人觉得它像是匆忙赶工的书稿而非成品。O&#8217;Reilly官网这本书的页面上有一个勘误表，不过很明显并非大部分的错误都收录了进去。到了中文译版，这些错误并没有被发现和修正，反而有更多的新问题被引入。我读书没有写读书笔记的习惯，不过对于写得好自己喜欢的书，如果看到有错误一般都会记录下来，做一个勘误表，像之前的Cpp Primer勘误或UNPe3勘误，不过这本书的话，看来觉得意趣廖廖，搞得没有列勘误表的兴致了。</p>
-
-<p>举几个例子说明在阅读《py4sa_cn》过程中发现的问题：</p>
-
-<h4>1. 行文印刷或排版错误类</h4>
-
-<h5>1.1 第43页最后一句</h5>
-
-<p>&#8220;%wquickref中的%ho帮助行同使用标准的%who?返回&#8221;<br/>
-这里可能是张无忌大教主来做过一次乾坤小挪移，正确的应该是<br/>
-&#8220;%quickref中的%who帮助行同使用标准的%who?返回&#8221;</p>
-
-<h5>1.2 第102页第2段第1句</h5>
-
-<p>&#8220;Finditer()是对findall()的略微修改&#8221;<br/>
-这里有microsoft office word的影子，Python的标识符可是大小写敏感的。</p>
-
-<h5>1.3 第116页，&#8221;StringIO&#8221;一节下面第2段</h5>
-
-<p>&#8221;&#8217;并将字符串&#8221;This is&#8230;\nnreadline()should see&#8221;&#8221;&#8217;<br/>
-有错，应该是&#8221;\nreadline() should&#8221;。</p>
-
-<h5>1.4 第124面，&#8221;Element Tree&#8221;一节下，示例代码Out[3]中，后面的</xml>应该是没有的</h5>
-
-<h5>1.5 第249页名人简介框框，第1句</h5>
-
-<p>&#8220;Kevin Gibbs是Google App Engine中的先进技术。Kevin在2004年加入Google&#8221;<br/>
-这个&#8230;估计Kevin Gibbs本人看到会震精吧。</p>
-
-<h5>1.6 第392页，&#8221;Unix Mashups: 整合Shell命令到Python命令行工具中&#8221;一节第2段第1行</h5>
-
-<p>&#8220;另外，混合一个命令行工具和纯Pyton&#8221;<br/>
-明显拼写错误了。即使完全不会技术的审校也轻易能看出来，除非他不知道在审的书是什么书名。</p>
-
-<h4>2. 代码错误类</h4>
-
-<h5>2.1 第155页，第3个代码示例中，命令行</h5>
-
-<pre><code>'''
-$ python port_checker_tcp.py -a 192.168.1.15 -p 81 &amp;&amp; echo "FAILURE"
-'''
-</code></pre>
-
-<p>其中的&#8221;&amp;&amp;&#8221;应该是&#8221;||&#8221;才对，英文版原书也是&#8221;||&#8221;，估计从原书copy然后paste的时候搞混了，向广大中小学生证明了一点：其实抄或者说复制粘贴也是需要专业的精神的，否则一不小心抄错了或者把别的同学的名字也抄下来了，敢情闹笑话不是。</p>
-
-<h5>2.2 第383页，以例13-1 sysargv.py的代码实现，来敲命令行</h5>
-
-<pre><code>"./sysargv.py foo"
-</code></pre>
-
-<p>命令行是不可能出现</p>
-
-<pre><code>"['./sysargv.py', 'test']"
-</code></pre>
-
-<p>的，看来张教主又出现了。这个问题英文版原书也有。</p>
-
-<h4>3. 硬译乱译类</h4>
-
-<h5>3.1 第53页，&#8221;可变扩展&#8221;一节中第1段第2行</h5>
-
-<p>&#8220;其中，第一个是可变扩展（Variable Expansion）&#8221;<br/>
-第1次看到这个句子的时候我愕然了一下，然后看看标题是大黑体的&#8221;可变扩展&#8221;，不禁哑然失笑。我不想猜测译者是怎么翻译这本书的用的是哪种工具，不过如果真的要猜测的话，那么出现在我脑海中的第一件事物就是自动翻译软件，如google翻译或金山快译。Variable Expansion这里面的Variable不译成变量(名词)而译为可变的(形容词)，我觉得真是相当突兀的，用时下流行的话来说，就是被雷到了，而且是里嫩外焦那种。</p>
-
-<h5>3.2 第109页第3段第2行</h5>
-
-<pre><code>'''使用"try/finally"代码块将文件进行封闭是一个非常有用的方法，尤其是在使用write()调用时。'''
-</code></pre>
-
-<p>这里我前后来回看了几次都不明白什么叫做&#8221;将文件进行封闭&#8221;，直接找来原文，原来是</p>
-
-<pre><code>'''It is good practice to wrap your file opens with a try/finally block, especially when you are using write() calls.'''
-</code></pre>
-
-<p>姑且不论这个&#8221;将文件进行封闭&#8221;是什么意思，那个&#8221;非常有用的方法&#8221;是怎么来的呢?难道&#8221;好的实践&#8221;这么直白的意思还要意译？</p>
-
-<h5>3.3 第186页，&#8221;使用路径，目录和文件&#8221;一节第2段第1行</h5>
-
-<p>&#8220;通常，Python的标准库有一些杀死工具，可以停止作业的执行。&#8221;<br/>
-&#8220;杀死工具&#8221;一词看得我半荦半素，直接找到原文<br/>
-&#8220;As always, the Standard Library in Python has some killer tools to get the job done.&#8221;<br/>
-What？原来如此！难怪前后文都没有说到kill进程，但突然冒出这样的一句。又见自动翻译软件！其实它的意思是Python的标准库中有一些杀手级工具，可以帮你完成工作，这里的工作结合上下文来看是指进行与路径，目录和文件相关的操作。</p>
-
-<h5>3.4 第191页倒数第2段第3行</h5>
-
-<p>&#8220;注意，line[7]之所以返回了file11.txt，是因为dirB是dirA的超集。而在line[6]中之所以结果为空，是因为dirA包含了dirB的全部内容。&#8221;
-这样一来相当于睁大眼睛说瞎话了，英文版原文是<br/>
-&#8220;Notice that line [7] returns file11.txt because dirB is a superset of dirA, but in line [6] the results are empty because dirA contains all of the same items as dirB.&#8221;<br/>
-其实很简单，dirA和dirB是两个集合，dirA是dirB的子集，dirB是dirA的超集，两者分别为</p>
-
-<pre><code>In [3]: dirA
-Out[3]: set(['file1.txt', 'file00.txt', 'file0.txt'])
-In [5]: dirB
-Out[5]: set(['file1.txt', 'file00.txt', 'file11.txt', 'file0.txt'])
-</code></pre>
-
-<h5>3.5 第302页第一行</h5>
-
-<p>&#8220;在例10-16中，我们告诉tracd在screen中运行。一旦进程开始运行，可以简单地使用Ctrl-A进行分离。如果希望重新连接，使用Ctrl-D。&#8221;
-这句话太强大了，一下就把我这个GNU screen小资深用户搞迷糊了。来看英文版原文<br/>
-&#8220;In Example 10-16, we tell tracd to run within screen. Once the process starts, we can then simply detach using Ctrl-A, then Ctrl-D, if we ever want to reattach.&#8221;<br/>
-意思是说，用screen跑进程可以先detach，什么时候想回到这个环境再reattch，detach的话用的是Ctrl-A后接Ctrl-D这两个快捷键组合，其中Ctrl-A是screen默认配置下的控制键组合的前缀。翻译出来的中文真是断句如神强大无匹七零八落。</p>
-
-<h4>4. 前言不搭后语类</h4>
-
-<h5>4.1 第397页，&#8221;整合配置文件&#8221;一节下面第3段最后一句</h5>
-
-<p>&#8220;请参阅前一章以获得更多的使用ConfigParser模块的细节信息。&#8221;<br/>
-而前一章根本就没有讲到ConfigParser，这个错误来自英文版原书。</p>
-
-<p>其实还有很多问题，比如代码示例没有标注源文件文件名，不方便找到对应的源码文件；示例代码缩进乱排乱摆犹如街上的走鬼小摊，要知道Python是一种以缩进来表示代码结构的语言；提供下载的代码也显得相当敷衍，比如</p>
-
-<pre><code>code/code/data/code/enumarate_file_dir_path.py
-code/code/data/code/enumarate_paths.py
-</code></pre>
-
-<p>这两个文件其实代码是一样的；排版英文字符间距大小不一；代码示例中命令行有时有命令行提示符&#8221;$&#8221;，有时没有提示符，显得相当随意；纸质太差。</p>
-
-<p>上面举例列出的问题并不是我在阅读《py4sa_cn》过程中发现的全部，在更多的读者的雪亮眼睛面前，相信也将会有更多的错误被发现。这种种问题都显得这本书的出版质量与O&#8217;Reilly的大名相去甚远，有的是印刷排版的小错误，但是有的地方体现出来的，更多的是缺乏好好做一本书的诚意。总的来说，这本书的将Python与系统管理结合角度新颖，覆盖范围也比较广泛，虽然内容过浅，也算是一本值得一读的入门级轻松读物，一碟开胃小菜，就像一份什果沙拉，里面的鲜果种类不少，但吃起来味道比较淡，加上来一个毁一个来两个毁一双的中式做法，最多也只能算是一份缺少诚意的中式什果沙拉。建议直接读英文版，中英文两个版本的电子书在网上都很容易找得到，至于中文版的纸版书是否值得一买，这就不好乱下评价鼓惑读者了，各人有各自的判断，作为一个支付真金白银买了这本纸版书的读者，我在这里分享一下自己的感受，并衷心表达两点希望：1. 世界和平；2. 码出来的字对本文读者有所帮助。吐槽完毕。</p>
+<p>于是重回Debian，重装系统。PC上的硬盘太老，经过多年摧残，坏道多多。而上面的叉p常常是几个月都不用一次，干脆全部格掉。用gnome testing的镜像安装好后，简单升级配置一下，就已经很好用了。界面虽然简洁了一点，不过胜在速度快，跑起来快很多，即使iceweasel也比旧的firefox快，简单比较了一下，安装的包少了500多个，没有深究是哪些包。看来还是大便对于渐渐变成命令控的我更有吸引力些。才发现还有debian-reference-zh-cn这么好的文档。</p>
 </div>
   
   
@@ -236,7 +116,7 @@ code/code/data/code/enumarate_paths.py
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/05/08/color-theme-darkmate-for-eclipse/">Color Theme Darkmate for Eclipse</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></h1>
     
     
       <p class="meta">
@@ -252,30 +132,57 @@ code/code/data/code/enumarate_paths.py
   
 
 
-<time datetime="2011-05-08T22:54:00+08:00" pubdate data-updated="true">May 8<span>th</span>, 2011</time>
+<time datetime="2010-03-01T03:34:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2010</time>
         
-         | <a href="/blog/2011/05/08/color-theme-darkmate-for-eclipse/#disqus_thread">Comments</a>
+         | <a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Darkmate原本是一个gEdit的配色主题，大概在两年多之前我用过这个主题(那时我主要使用gEdit作为编辑器)，觉得不错，后来逐渐将它移植到eclipse和emacs(主编辑器转到emacs)。</p>
+  <div class="entry-content"><p>Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and try to fontify Emacs as the font-lock facilities do, I found there is a bug in the Color Theme latest version 6.6.0 package.</p>
 
-<p>emacs下的darkmate主题参考我的文章</p>
+<p>Line 689 of the source file &#8220;color-theme.el&#8221;, in the defination of function &#8220;color-theme-spec-compat&#8221;, it uses &#8220;cadar&#8221; to fetch out the property of only the first element of face specification, rather than fetch out the whole specification. So give the face specification as</p>
 
-<p><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></p>
+<pre><code>(dired-mark
+      ((((class color) (min-colors 88)) (:foreground "red"))
+       (((class color) (min-colors 16)) (:foreground "green"))
+       (((class color) (min-colors 8)) (:foreground "blue"))
+       (((type tty) (class mono)) (:foreground "white"))
+       (t (:foreground "red"))))
+</code></pre>
 
-<p><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></p>
+<p>It is a correct face specification(refer to macro `defface&#8217; for more information of face specification), and &#8220;dired-mark&#8221; should be in color &#8220;green&#8221; under 16-color environment and &#8220;blue&#8221; under 8-color environment. However function &#8220;color-theme-spec-compat&#8221; just set &#8220;dired-mark&#8221; to be &#8220;red&#8221; in any case. It reduces the flexibility of face-lock facilities of Emacs when using Color Theme.</p>
 
-<p><a href="https://bitbucket.org/dylanwen/eclipse_config/src">这里</a>提供对应Eclipse的配色主题 下载 ,目前包含c++(cdt)，java(jdt)，python(pydev)的配色设置。</p>
+<p>To fix this, I revise the defination of &#8220;color-theme-spec-compat&#8221; like</p>
 
-<p>c++配色截图如下：
-<a href="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg" alt="color theme darkmate for eclipse c++ screenshot" /></a></p>
+<pre><code>(defun color-theme-spec-compat (spec)
+  "An redifination of `color-theme-spec-compat' of `color-theme'.
+To apply different face settings according to different term types."
+  (let (compat-spec props)
+    (dolist (dis-atts spec)
+      (setq props (cadr dis-atts))
+      (when (plist-member props :bold)
+        (setq props (color-theme-plist-delete props :bold))
+        (unless (plist-member props :weight)
+          (setq props (plist-put props :weight 'bold))))
+      (when (plist-member props :italic)
+        (setq props (color-theme-plist-delete props :italic))
+        (unless (plist-member props :slant)
+          (setq props (plist-put props :slant 'italic))))
+      (setcdr dis-atts `(,props))
+      (add-to-list 'compat-spec dis-atts 'APPEND))
+    compat-spec))
+</code></pre>
 
-<p>java配色截图如下：
-<a href="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg" alt="color theme darkmate for eclipse java screenshot" /></a></p>
+<p>and put this into the file &#8220;color-theme+.el&#8221;.</p>
+
+<p>I give a try out to customize a color-theme of my favour as well. I name it &#8220;color-theme-darkmate&#8221;. This color theme is inspired by the theme <a href="http://live.gnome.org/GtkSourceView/StyleSchemes">darkmate</a> of <a href="http://projects.gnome.org/gedit/">gEdit</a>, which is a color theme somewhat similar with the theme of editor <a href="http://macromates.com/">TextMate</a> on Mac. I never use the editor TextMate before and don&#8217;t know how much does &#8220;color-theme-darkmate&#8221; look like the theme TextMate. The settings in &#8220;color-theme-darkmate.el&#8221; is created in the opinion of using a few elementary colors as consistantly as possible in various modes to make a colorful and eye candy Emacs.</p>
+
+<p>You could download &#8220;color-theme+.el&#8221; and &#8220;color-theme-darkmate.el&#8221; <a href="https://bitbucket.org/dylanwen/elispport/src">here</a>.</p>
+
+<p>Enjoy!</p>
 </div>
   
   
@@ -288,7 +195,7 @@ code/code/data/code/enumarate_paths.py
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/05/07/the-funnies-in-sources/">The Funnies in Sources</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/">Change Eclipse Start-up Splash to Your Favour</a></h1>
     
     
       <p class="meta">
@@ -304,34 +211,218 @@ code/code/data/code/enumarate_paths.py
   
 
 
-<time datetime="2011-05-07T21:43:00+08:00" pubdate data-updated="true">May 7<span>th</span>, 2011</time>
+<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
         
-         | <a href="/blog/2011/05/07/the-funnies-in-sources/#disqus_thread">Comments</a>
+         | <a href="/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>想必每位码农(coding farmer)都有过这样的经历，在浏览源代码时，除了有时会看到迷一般的逻辑和天马行空的代码风格之外，还不时会发现一些独特有趣的表达，注释等。下面记录一下我曾经看过的一些有趣的片断，希望在曾经写出过这样的代码或被这样的代码折腾过的读者当中引起一些共鸣，以飨一笑，仅供娱乐。</p>
+  <div class="entry-content"><p>很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。</p>
 
-<h5>1. linux kernel 2.6, git revision:5895198c56d131cc696556a45f7ff0ea99ac297b, kernel/fork.c:7</h5>
+<h3>1. 更换默认的splash</h3>
 
-<pre><code>/*
- *  'fork.c' contains the help-routines for the 'fork' system call
- * (see also entry.S and others).
- * Fork is rather simple, once you get the hang of it, but the memory
- * management can be a bitch. See 'mm/memory.c': 'copy_page_range()'
- */
+<h4>1) 在命令行参数加上</h4>
+
+<pre><code>-Dosgi.splashLocation=/opt/eclipse/splash.bmp
 </code></pre>
 
-<h5>2. thrift, svn revision:1096750, lib/cpp/src/async/TAsyncProcessor.h:75</h5>
+<p>或在eclipse根目录(对于网上下载的版本是根目录，对于linux各发行版下安装版本，请参照各发行版对应eclipse包)下的配置文件eclispe.ini中加入上面一行。意即指明启动splash的地址。定义osgi.splashLocation，会覆盖osgi.splashPath的定义，即用自定义的splash替换默认的那个。</p>
 
-<pre><code>// XXX I'm lazy for now
-namespace apache { namespace thrift {
-    using apache::thrift::async::TAsyncProcessor;
-}}
+<h4>2) 在eclipse/configuration/config.ini中加入一行</h4>
+
+<pre><code>osgi.splashLocation = ${你的splash路径}
 </code></pre>
+
+<p>如在linux下有</p>
+
+<pre><code>osgi.splashLocation = /usr/lib/eclipse/YUKI.bmp
+</code></pre>
+
+<p>(上面的/usr/lib/eclipse/即为ubuntu 8.04下的含有eclipse.ini的目录)</p>
+
+<p>在windows下有</p>
+
+<pre><code>osgi.splashLocation = D:/software/eclipse/splash.bmp
+</code></pre>
+
+<h4>3) 直接替换原来的splash图片文件</h4>
+
+<p>参考在config.ini中osgi.splashPath定义，找到默认splash图片文件在文件系统中的位置。如在ubuntu 8.04下的config.ini有</p>
+
+<pre><code>osgi.splashPath = platform:/base/plugins/org.eclipse.platform
+</code></pre>
+
+<p>于是可以在</p>
+
+<pre><code>/usr/lib/eclipse/plugins/org.eclipse.platform_3.2.2.r322_v20070117b
+</code></pre>
+
+<p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
+
+<p>效果见截图：<br/>
+<img src="/images/uploads/eclipse_splash.jpg" alt="eclipse splash screenshot" /></p>
+
+<h3>2. 制作个性的splash</h3>
+
+<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的&#8230;&#8230;Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
+
+<p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
+
+<p><img src="/images/uploads/sexy_eclipse_splash.jpg" alt="sexy eclipse splash" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-12T13:20:00+08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/01/12/add-color-theme-for-emacs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在读写代码时workspace有个好的配色，能让编程过程变得生动多彩，也能提高效率。emacs 23的默认配色主题也不错，不过个性张扬的hacker们当然不满足于只有一个选择，很多emacs玩家喜欢自已定制主题，不过一点点地配置主题多少有点繁琐，在手工hack之前，可以先试下color-theme扩展－－它包含了50多个配色主题，让你的emacs更丰富多彩。在<a href="http://lifegoo.pluskid.org/wiki/EmacsColorTheme.html">pluskid wiki上的color-theme介绍</a>中可以看到一个截图，是不是很漂亮呢。当然也可以参考<a href="http://www.emacswiki.org/emacs/ColorTheme">color-theme on Emacs Wiki</a>, 到其项目主页下载最新版本，现时为6.6.0, 参考包中README文件安装。将color-theme.el和theme文件夹放在loadpath下，然后在.emacs中加入</p>
+
+<pre><code>(require 'color-theme)
+(color-theme-initialize)
+(color-theme-midnight) ;;选择你喜欢的主题
+</code></pre>
+
+<p>其中在最后一行选择你喜欢的主题，我暂时在用的是midnight。也可以通过</p>
+
+<pre><code>M-x load-library RET color-theme
+</code></pre>
+
+<p>(其中<code>RET</code>为回车键) 加载color-theme, 然后通过</p>
+
+<pre><code>M-x color-theme-select RET
+</code></pre>
+
+<p>进行选择。在光标所在主题上按<code>i</code>或<code>l</code>键为应用此主题，按<code>d</code>键输出调用主题的命令(即为写入 .emacs 最后一行那个)。</p>
+
+<p>对于喜欢 <a href="http://macromates.com/">TextMate</a>主题的朋友，这里另外分享一个类似 TextMate风格的配色，见：</p>
+
+<p><a href="http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html">http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html</a></p>
+
+<p>我最早接触类似的风格是<a href="http://projects.gnome.org/gedit/">gEdit</a>的<a href="http://live.gnome.org/GtkSourceView/StyleSchemes">DarkMate主题</a>(长什么样？截图看 <a href="http://grigio.org/files/gedit-darkmate.png">这里</a>)，然后一发不可收拾，现在用的source insight, Ultra Edit, <a href="http://www.eclipse.org/">Eclipse</a>, &#8230;(虽然前两者为盗版)全部自定义变成类似配色，可见其魅力之大。厉害吧，呵呵(换一种碟形世界的说法－－变态吧，呵呵)。</p>
+
+<p>PS: 关于 gEdit 的配置文章可参考我很久之前在 <a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a> 的一个帖子: <a href="http://forum.ubuntu.org.cn/viewtopic.php?f=70&amp;t=186178">gEdit: 打造简洁，小巧的编程环境</a>，gEdit 用做一般文本编辑其实也不错，简洁快上手。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/11/emacs-fullscreen/">如何全屏emacs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-11T14:35:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/01/11/emacs-fullscreen/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>很多像我一样喜欢将 emacs 作为全 workspace 的人都想喜欢将 emacs 全屏显示(只将 emacs 留下，其它桌面内容全部去掉，为此我错过了n多朋友在 QQ 或 pidgin 上的呼叫，sorry~~)。这里分享一下emacs全屏的配置：</p>
+
+<h3>linux 平台</h3>
+
+<p>在 linux 下，可以通过向 X server 发送全屏消息，在 .emacs 中写入</p>
+
+<pre><code>;全屏
+(defun my-fullscreen ()
+  (interactive)
+  (x-send-client-message
+   nil 0 nil "_NET_WM_STATE" 32
+   '(2 "_NET_WM_STATE_FULLSCREEN" 0)))
+
+;;最大化
+(defun my-maximized-horz ()
+  (interactive)
+  (x-send-client-message
+   nil 0 nil "_NET_WM_STATE" 32
+   '(1 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+(defun my-maximized-vert ()
+  (interactive)
+  (x-send-client-message
+   nil 0 nil "_NET_WM_STATE" 32
+   '(1 "_NET_WM_STATE_MAXIMIZED_VERT" 0)))
+(defun my-maximized ()
+  (interactive)
+  (x-send-client-message
+   nil 0 nil "_NET_WM_STATE" 32
+   '(1 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+  (interactive)
+  (x-send-client-message
+   nil 0 nil "_NET_WM_STATE" 32
+   '(1 "_NET_WM_STATE_MAXIMIZED_VERT" 0)))
+</code></pre>
+
+<p>即可通过执行命令</p>
+
+<pre><code>M-x my-fullscreen
+</code></pre>
+
+<p>全屏。其中也包含最大化窗口命令 my-manimized() 定义。不过有个问题，全屏后切换到scim五笔输入法后会闪屏不断。</p>
+
+<p>这部分来自<a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a>的帖子<a href="http://forum.ubuntu.org.cn/viewtopic.php?f=24&amp;t=62416">Emacs 最大化和全屏的配置</a>，感谢kemean的分享。</p>
+
+<h3>windows平台</h3>
+
+<p>之所以有这部分是因为我也经常在公司的xp使用EmacsW32。可以通过安装darkroom扩展来去掉标题栏，以达到全屏的效果，参考</p>
+
+<p><a href="http://www.martyn.se/code/emacs/darkroom-mode/">http://www.martyn.se/code/emacs/darkroom-mode/</a></p>
+
+<p>内有安装与使用说明。不过我实际使用感觉并不好，w32下最大化足已。</p>
 </div>
   
   
@@ -356,6 +447,10 @@ namespace apache { namespace thrift {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/07/14/migrating-wordpress-to-octopress/">博客迁到Octopress</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/07/07/hello-world/">Hello World</a>
       </li>
     
@@ -371,10 +466,6 @@ namespace apache { namespace thrift {
         <a href="/blog/2012/06/16/tell-me-its-all-right/">Tell Me It&#8217;s All Right</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/04/25/twnotebook-2/">铁瓦克记事簿</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -387,8 +478,8 @@ namespace apache { namespace thrift {
 <li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (9)</a></li>
 <li class='category'><a href=' /blog/categories/存储/'>存储 (1)</a></li>
 <li class='category'><a href=' /blog/categories/影像/'>影像 (2)</a></li>
-<li class='category'><a href=' /blog/categories/未分类/'>未分类 (5)</a></li>
-<li class='category'><a href=' /blog/categories/生活/'>生活 (19)</a></li>
+<li class='category'><a href=' /blog/categories/未分类/'>未分类 (6)</a></li>
+<li class='category'><a href=' /blog/categories/生活/'>生活 (20)</a></li>
 
  </ul>
 </section>

@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="本文受文章《Happy Hacking keyboard pro 2的艺术》启发而写，像对广大人民群众进行科普一般地，它向我们介绍了HHKB pro2这款键盘，而the art of xxx这个标题不禁让人想到又红又专的The Art of Computer Programming和The Art &hellip;">
+  <meta name="description" content="Emacs中的 calendar mode 有很多功能，可以在 calendar 中对自己感兴趣的节日进行定制。在 gnu 官网 emacs 手册的 38.15.2 Customizing the Holidays 部分可以找到详细的说明。这里谈谈如何定制中国的农历节日。 下载 William &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,7 +72,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/04/01/the-art-of-noppoo-choc-mini/">Noppoo Choc Mini的艺术</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/11/customize-calendar-in-emacs/">在emacs Calendar中定制中国农历节日</a></h1>
     
     
       <p class="meta">
@@ -88,30 +88,97 @@
   
 
 
-<time datetime="2011-04-01T20:34:00+08:00" pubdate data-updated="true">Apr 1<span>st</span>, 2011</time>
+<time datetime="2010-01-11T13:18:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
         
-         | <a href="/blog/2011/04/01/the-art-of-noppoo-choc-mini/#disqus_thread">Comments</a>
+         | <a href="/blog/2010/01/11/customize-calendar-in-emacs/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>本文受文章<a href="http://cyher.net/peripherals/the-art-of-hhkb-pro-2">《Happy Hacking keyboard pro 2的艺术》</a>启发而写，像对广大人民群众进行科普一般地，它向我们介绍了HHKB pro2这款键盘，而the art of xxx这个标题不禁让人想到又红又专的The Art of Computer Programming和The Art of UNIX Programming。作为一个靠代码混饭吃的情绪猿，我也见过不少牛人用很一般的(从hhkb的角度来看，可以说是很差的)键盘写出了很艺术的代码做 出很出色的工作，其实使用的键盘与撰写的代码质量做事的优劣关系不大，不过键盘用得是否舒服顺手对一个文本工作者(文本工作者, 即text worker，这个定义是我在TC其间听到的，意指那些工作的主要内容是处理文本的人，即people that work on text，包括程序员，打字员，报表分析处理员等)的影响还是挺大的。</p>
+  <div class="entry-content"><p>Emacs中的 calendar mode 有很多功能，可以在 calendar 中对自己感兴趣的节日进行定制。在 gnu 官网 emacs 手册的 <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Holiday-Customizing.html">38.15.2 Customizing the Holidays</a> 部分可以找到详细的说明。这里谈谈如何定制中国的农历节日。</p>
 
-<p>刚上大学的时候，我装了一部电脑，和很多人一样，那是我的 第一台电脑也是大学期间毕业之前唯一一台电脑，那时候不懂得外设有多么重要，直到毕业后工作好长间，才了解到，原来键盘也分为好多种，除了最常见最便宜的 薄膜键盘外，还有更高级更贵的机械键盘和电容键盘，机械键盘也分为几种颜色的轴，除了常规键盘之外，还有人体工学键盘。后面在TC看到别人用微软人体工学 4000，cherry的G80，也试用过那台cherry的机械键盘，发现它的手感的确是不同，从段落感很强，声音比较大这两点看来，应该是青轴的，在 办公室里，青轴的确是相当扰民的，即使隔开几米也能清楚听到击键声。</p>
+<p>下载 <a href="http://xwl.appspot.com/index_cn.html">William Xu</a> 写的 中文版日历扩展 <a href="http://xwl.appspot.com/ref/cal-china-x.el">cal-china-x.el</a> 并安装－－参考其源文件中说明将下面几句添加到 .emacs：</p>
 
-<p>cherry的键盘样子比较土，但是做工比较好，在机械键盘里面，它的产品线长，型号比较多。机械键盘的品牌有不少，像前面说过的cherry，还有FILCO，Ducky等，产品型号和价格可选的范围比较大，在0.4k-1.6k之间。</p>
+<pre><code>(require 'cal-china-x)
+(setq mark-holidays-in-calendar t)
+(setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+(setq calendar-holidays cal-china-x-important-holidays)
+</code></pre>
 
-<p>2010 年是机械键盘型号推出比较多的一年，也有一些新的品牌推出，如网际快车。其中美国的机械键盘品牌noppoo(中文译为诺朴)在4月开卖104键的 Choc，年末出84键的Choc Mini，两款键盘都有黑/青/茶3种轴搭配，价格在0.4k-0.5k rmb之间，定位在入门级机械键盘。</p>
+<p>其中 cal-china-x-important-holidays 在 cal-china-x.el 中定义如下：</p>
 
-<p>我个人比较喜欢像HHKB那样小巧不太占地方的迷你键盘，HHKB是电容键盘，电容键盘另外一个比较有名的品牌是Realforce，电容键盘是最高端的键 盘品种了，价格也比较贵，一般要1.5k-2k rmb一把，暂时是没米买入HHKB pro 2了，HHKB品牌下面也有一款键盘布局差不多的低端薄膜键盘HHKB lite 2，需米0.5k-0.6k左右，不过薄膜键盘卖到这样一种价位也暂不考虑了，而综合来看Noppoo Choc Mini是比较有吸引力的，属于比较迷你的键盘(虽然比HHKB的键盘布局大一点，长宽各多一个键位)，价格不高，材质比较好(属于最好的POM，材质上 是POM>PBT>ABS)，却保留了不错机械键盘的手感，从Noppoo Choc Mini或多或少能看到HHKB pro的影子，而我所知道的另外一款有类似键位布局的是台湾的厂商KBC出的机械键盘KBC Poker 40%(或者称60%，目前这款Poker迷你键盘还属于小量生产，在市面上还买不到，也没有产量或者上市日期的确切消息)，从这些模仿者可以看出 HHKB的影响力之大。</p>
+<pre><code>(defconst cal-china-x-chinese-holidays
+  '((holiday-fixed 1 1 "元旦")
+    (holiday-lunar 12 30 "春节" 0)
+    (holiday-lunar 1 1 "春节" 0)
+    (holiday-lunar 1 2 "春节" 0)
+    (holiday-solar-term "清明" "清明节")
+    (holiday-fixed 5 1 "劳动节")
+    (holiday-lunar 5 5 "端午节" 0)
+    (holiday-lunar 8 15 "中秋节" 0)
+    (holiday-fixed 10 1 "国庆节")
+    (holiday-fixed 10 2 "国庆节")
+    (holiday-fixed 10 3 "国庆节"))
+  "Pre-defined chinese public holidays.
+You can add this to your `calendar-holidays'.")
+</code></pre>
 
-<p>在广州，要购买机械键盘的话，除了通过淘宝网购之外，也可以亲自到实体店去感受一下，我去过的店有百脑汇 5楼的书剑科技，天河电脑城2楼的君豪电子(之前叫碧火微蓝)，这两家都是经营高端外设的&#8221;玩家店&#8221;，它们在淘宝都有开网店。我联系过书剑，那里已经没有 茶轴的Noppoo Choc Mini，于是在君豪购入一把茶轴，米469，送了11个kbc abs特殊键机械键帽，黑轴和青轴的相对便宜，只需米399，不过还是感觉茶轴比较合适，在实体店买价格上和淘宝差不多，好处在于可以亲自看过感受过再决 定是否出手，出手哪一把哪种轴。感觉君豪服务还不错，因为是我的第一把机械键盘，买的时候，店员拿了黑/青/茶3把不同轴的键盘出来让我感受，个人感觉黑 轴段落感不强，回弹力很弱，按上去手感涩涩的，不适合长期打字，青轴机械感段落感很强，不过声音的确比较大，茶轴是一个折中，段落感相对青轴弱很多，声音 也小一些，单键按下去像薄膜键盘，不过全键盘用起来，和薄膜键盘还是有很明显的区别。其实像这几种轴和白轴，红轴，我之前都接触过，不过最好还是拿到键盘 具体接触一下实物，再决定是否入手某个品牌/型号的键盘，虽然用的基本上都是cherry的轴，不过很多细节如键帽/键盘灯/整体做工等方面不同的品牌/型号差别还是有的。</p>
+<p>若想自定义这些节日，例如添加重阳节或将春节标记为从正月一日开始，怎么办呢？可以在另外定义自己感兴趣的节日，就像在我的 .emacs 中有：</p>
 
-<p>入手的这台键盘感觉上整体做工不错，键帽的触感也很好，不过键帽上的符号颜色深浅不一，有的比较清楚，有点 却很淡，键位布局上，整体类似HHKB，不过del键放到右下方，不是太方便，0.4k左右的价格比较亲和。这款Choc Mini带ctrl/caps键转换，按下右上角的Switch Lock键可以直接将ctrl切换到caps键，这一点也模仿了HHKB pro，使用Emacs的话可以不需要做软件上的ctrl/caps键切换。总的来说，是一款不太完美但性价比不错有一些亮点的键盘。</p>
+<pre><code>(setq holiday-wwliu-holidays
+    '(;;公历节日
+      (holiday-fixed 1 1 "元旦")
+      (holiday-fixed 2 14 "情人节")
+      (holiday-fixed 3 8 "妇女节")
+      (holiday-fixed 3 14 "白色情人节")
+      (holiday-fixed 4 1 "愚人节")
+      (holiday-fixed 5 1 "劳动节")
+      (holiday-float 5 0 2 "母亲节")
+      (holiday-fixed 6 1 "儿童节")
+      (holiday-float 6 0 3 "父亲节")
+      (holiday-fixed 9 10 "教师节")
+      (holiday-fixed 10 1 "国庆节")
+      (holiday-fixed 12 25 "圣诞节")
+      ;; 农历节日
+      (holiday-lunar 1 1 "春节" 0)
+      (holiday-lunar 1 2 "春节" 0)
+      (holiday-lunar 1 3 "春节" 0)
+      (holiday-lunar 1 15 "元宵节" 0)
+      (holiday-solar-term "清明" "清明节")
+      (holiday-lunar 5 5 "端午节" 0)
+      (holiday-lunar 8 15 "中秋节" 0)
+      ;; 生日 -- 家人,朋友
+      ;; ^_^ 这部分嘛...保密啦
+      ))
+</code></pre>
 
-<p>Noppoo Choc Mini的评测见<a href="http://article.pchome.net/content-1240636.html">这里</a>。</p>
+<p>然后将 calendar-holidays 的值覆盖为自定义的 list 即可。</p>
+
+<pre><code>(require 'cal-china-x)
+;; 只显示我定制的节日
+(setq calendar-holidays holiday-wwliu-holidays)
+</code></pre>
+
+<p>为什么覆盖 calendar-holidays, 而不写入 holiday-general-holidays或holiday-other-holidays呢？因为 calendar-holidays 包括所有的 holidays, 如 holiday-christian-holidays, holiday-hebrew-holidays等，覆盖calendar-holidays 就相当于把其它的部分清空，只保留自己定义的 holiday-wwliu-holidays。也有的人喜欢将这些部分的 holiday 清空，如在 .emacs 中有设置如下：</p>
+
+<pre><code>(setq christian-holidays nil) ;; 不显示基督教的节日
+(setq hebrew-holidays nil)    ;; 不显示希伯来人的节日
+(setq islamic-holidays nil)   ;; 不显示伊斯兰教的节日
+...
+</code></pre>
+
+<p>不过我觉得直接覆盖 calendar-holidays 更简单些。</p>
+
+<p>配置完后通过</p>
+
+<pre><code>M-X eval-buffer
+</code></pre>
+
+<p>重新加载 .emacs。打开 calendar mode如下图所示：</p>
+
+<p><img src="/images/uploads/emacs_calendar.jpg" alt="emacs calendar 截图" /></p>
 </div>
   
   
@@ -124,7 +191,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/03/07/build-sock-on-linux/">Build Sock on Linux</a></h1>
+      <h1 class="entry-title"><a href="/blog/2010/01/11/add-tab-bar-in-emacs/">给 Emacs 添加标签栏</a></h1>
     
     
       <p class="meta">
@@ -140,131 +207,52 @@
   
 
 
-<time datetime="2011-03-07T20:27:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+<time datetime="2010-01-11T12:41:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
         
-         | <a href="/blog/2011/03/07/build-sock-on-linux/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>sock是已故网络专家Richard Stevens在TCP/IP Illustrated volume 1(简称TCPv1)中为试验网络协议而写的一个程序，可以用于客户端和服务器模式，也可应用多种选项，详细用法请参考TCPv1，这里只简单记录一下如何在Linux平台下编译sock程序。</p>
-
-<p>到TCPv1的网站<br/>
-http://www.kohala.com/start/tcpipiv1.html<br/>
-下载源代码，并解压到本地目录。然后进入下面的sock目录，应用patch</p>
-
-<hr />
-
-<pre><code>--- Makefile.old    1993-12-09 21:32:37.000000000 +0800
-+++ Makefile    2011-03-07 11:45:10.452949704 +0800
-@@ -1,7 +1,15 @@
-+# to customize make internal variables for compilation on Linux
-+kernel   := $(shell uname -s)
-+
- # Change the following as required:
- CC = gcc
-
--CFLAGS = -ansi -Wall -Dsun -D__STDC__=0
-+ifneq "$(kernel)" "Linux"
-+    CFLAGS   += -ansi -Wall -Dsun -D__STDC__=0
-+else
-+    CFLAGS   += -Wall
-+endif
-+
- # My flags for gcc/solaris 2.3:  -ansi -Wall -Dsun -D__STDC__=0
- # Add in -DGCC_STRUCT_PROBLEM for gcc versions 1.x under SunOS 4.x
- # Add in -D__STDC__=0 for gcc under Solaris 2 (for Sun's screwy headers)
-@@ -9,10 +17,12 @@
- # Add in -D_SOCKADDR_LEN for DEC OSF/1 (see &lt;sys/socket.h&gt;)
-
- # Following line for SVR4, Solaris 2.x
--LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
--
-+ifneq "$(kernel)" "Linux"
-+    LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
-+else
- # Following line for 4.4BSD, BSD/386, SunOS 4.x, AIX 3.2.2, OSF/1
--#LIBS  =
-+    LIBS   =
-+endif
-
- PROGS =    sock
- OBJS = buffers.o cliopen.o crlf.o error.o loop.o main.o \
-</code></pre>
-
-<hr />
-
-<pre><code>--- strerror.c.old  1993-12-09 21:32:37.000000000 +0800
-+++ strerror.c  2011-03-07 12:24:12.625068359 +0800
-@@ -1,7 +1,7 @@
- #include   &lt;stdio.h&gt;
-
--extern char    *sys_errlist[];
--extern int sys_nerr;
-+//extern char  *sys_errlist[];
-+//extern int   sys_nerr;
-
- char *
- strerror(int error)
-</code></pre>
-
-<p>然后构建</p>
-
-<pre><code>$ make
-</code></pre>
-
-<p>即可。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/06/my-errata-of-unpe3/">My Errata of UNPe3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-06T19:31:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/03/06/my-errata-of-unpe3/#disqus_thread">Comments</a>
+         | <a href="/blog/2010/01/11/add-tab-bar-in-emacs/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition</p>
+  <div class="entry-content"><p>Emacs 默认没有标签栏，使用 tabbar 这个扩展可以给emacs添加标签栏。参见<a href="http://docs.huihoo.com/homepage/shredderyin/emacs_elisp.html">王垠所写的 emacs elisp 扩展</a>中关于 tabbar.el 的部分或 <a href="http://www.emacswiki.org/emacs/TabBarMode">tabbar mode on Emacs Wiki</a> 。</p>
 
-<ol>
-<li><p>p248 line 4 of paragraph 1:<br/>
-&#8220;vefiry by running netstat on freebsd)&#8221;<br/>
-should be<br/>
-&#8220;verify by running netstat on freebsd4)&#8221;<br/>
-freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p></li>
-<li><p>p324 line 2 of paragraph 2, below the first testga command output, &#8220;-h bsdi&#8221; should be &#8220;-h freebsd4&#8221;.</p></li>
-<li><p>p681 the section title &#8220;6.4 TCP Echo Server Using Threads&#8221; should be &#8220;26.4 TCP Echo Server Using Threads&#8221;.</p></li>
-</ol>
+<p>在 debian/ubuntu 下，包 emacs-goodies-el 即包含众多好用的 emacs 扩展，也包括 tabbar。安装好tabbar后，默认的外观比较素，可通过设置 tabbar-button, tabbar-selected, tabbar-highlight, tabbar-separator (具体各部分的名字可参考 tabbar.el 源文件) 等部分定制tabbar的外观，以配合 color-theme 的外观风格。我在 .emacs 中通过：</p>
 
+<pre><code>;;;; 设置tabbar外观
+;; 设置默认主题: 字体, 背景和前景颜色，大小
+(set-face-attribute 'tabbar-default nil
+                    :family "Vera Sans YuanTi Mono"
+                    :background "gray80"
+                    :foreground "gray30"
+                    :height 1.0
+                    )
+;; 设置左边按钮外观：外框框边大小和颜色
+(set-face-attribute 'tabbar-button nil
+                    :inherit 'tabbar-default
+                    :box '(:line-width 1 :color "gray30")
+                    )
+;; 设置当前tab外观：颜色，字体，外框大小和颜色
+(set-face-attribute 'tabbar-selected nil
+                    :inherit 'tabbar-default
+                    :foreground "DarkGreen"
+                    :background "LightGoldenrod"
+                    :box '(:line-width 2 :color "DarkGoldenrod")
+                    ;; :overline "black"
+                    ;; :underline "black"
+                    :weight 'bold
+                    )
+;; 设置非当前tab外观：外框大小和颜色
+(set-face-attribute 'tabbar-unselected nil
+                    :inherit 'tabbar-default
+                    :box '(:line-width 2 :color "gray70")
+                    )
+</code></pre>
+
+<p>定制其外观。在 emacs-snapshot 中得到的效果如下：</p>
+
+<p><img src="/images/uploads/emacs_tabbar.jpg" alt="emacs snapshot下tabbar外观截图" /></p>
 </div>
   
   
@@ -273,8 +261,6 @@ freebsd and freebsd4 are two different machines, according to the hosts and netw
     </article>
   
   <div class="pagination">
-    
-      <a class="prev" href="/blog/page/12/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -287,6 +273,10 @@ freebsd and freebsd4 are two different machines, according to the hosts and netw
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/07/14/migrating-wordpress-to-octopress/">博客迁到Octopress</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/07/07/hello-world/">Hello World</a>
@@ -304,10 +294,6 @@ freebsd and freebsd4 are two different machines, according to the hosts and netw
         <a href="/blog/2012/06/16/tell-me-its-all-right/">Tell Me It&#8217;s All Right</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/04/25/twnotebook-2/">铁瓦克记事簿</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -320,8 +306,8 @@ freebsd and freebsd4 are two different machines, according to the hosts and netw
 <li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (9)</a></li>
 <li class='category'><a href=' /blog/categories/存储/'>存储 (1)</a></li>
 <li class='category'><a href=' /blog/categories/影像/'>影像 (2)</a></li>
-<li class='category'><a href=' /blog/categories/未分类/'>未分类 (5)</a></li>
-<li class='category'><a href=' /blog/categories/生活/'>生活 (19)</a></li>
+<li class='category'><a href=' /blog/categories/未分类/'>未分类 (6)</a></li>
+<li class='category'><a href=' /blog/categories/生活/'>生活 (20)</a></li>
 
  </ul>
 </section>
