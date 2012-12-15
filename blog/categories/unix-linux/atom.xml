@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-12-15T16:53:06+08:00</updated>
+  <updated>2012-12-15T17:53:14+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -189,6 +189,143 @@
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[MySQL Test Suite]]></title>
+    <link href="http://clisp.github.com/blog/2011/09/01/mysql-test-suite/"/>
+    <updated>2011-09-01T18:30:04+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/09/01/mysql-test-suite</id>
+    <content type="html"><![CDATA[<h3>1. 介绍</h3>
+
+<p>在寻找MySQL测试程序的过程中，发现它的源代码中就自带测试程序，一套叫做MySQL Test Suite的包括二进制文件，脚本和测试用例，输出结果的测试框架。<br/>
+关于这个MySQL Test Suite，《深入理解MySQL》有详细的描述，参考<br/>
+http://book.51cto.com/art/201001/180745.htm<br/>
+和<br/>
+MySQL自动测试框架介绍，http://rdc.taobao.com/blog/cs/?p=480</p>
+
+<h3>2. 使用</h3>
+
+<h4>2.1 系统apt源安装包中的Test Suite</h4>
+
+<p>通过apt安装的mysql-server，这个mysql-test-run.pl会被安装到系统目录的<br/>
+/usr/share/mysql/mysql-test/<br/>
+运行此脚本会报错</p>
+
+<pre><code>$ ./mysql-test-run.pl
+Logging: ./mysql-test-run.pl
+mysql-test-run: *** ERROR: Could not find any of /usr/share/client_release /usr/share/client_debug /usr/share/client/release/ /usr/share/client/relwithdebinfo/ /usr/share/client/debug/ /usr/share/client /usr/share/bin
+</code></pre>
+
+<p>此脚本会假设../client目录下有mysql客户端程序，而通过apt安装的mysqlclient的目录layout与它的源代码目录的layout不一致，因此不能正常工作。</p>
+
+<h5>2.2 源代码库中的Test Suite</h5>
+
+<p>2.2.1 下载源代码</p>
+
+<p>于是直接下载MySQL的源代码。在MySQL的官方网站上<br/>
+http://dev.mysql.com/downloads/<br/>
+点击社区版的"MySQL Community Server"下载链接，这时最新的版本是5.5.15，在平台选择下拉列表中选择"Source Code"，再选择Generic Linux TAR Archive包开始下载。</p>
+
+<p>2.2.2 编译源代码</p>
+
+<p>安装步骤和过程参考MySQL 5.5的官网文档<br/>
+MySQL 5.5 Reference Manual, 2.9.2. Installing MySQL from a Standard Source Distribution<br/>
+http://dev.mysql.com/doc/refman/5.5/en/installing-source-distribution.html</p>
+
+<p>在linux平台下编译要注意，与5.5之前的版本用GNU AUTOCONF和AUTOMAKE编译不同，版本5.5将各个平台下的编译工具统一为CMake(CMake，Cross-platform Make是一个强大的跨平台开源编译工具)。所以编译的步骤有一点不同。</p>
+
+<p>对比MySQL 5.1 Reference Manual，5.1的编译步骤是：<br/>
+(参考http://dev.mysql.com/doc/refman/5.1/en/installing-source-distribution.html)</p>
+
+<pre><code># Beginning of source-build specific instructions
+shell&gt; tar zxvf mysql-VERSION.tar.gz
+shell&gt; cd mysql-VERSION
+shell&gt; ./configure --prefix=/usr/local/mysql
+shell&gt; make
+shell&gt; make install
+</code></pre>
+
+<p>而版本5.5编译步骤是：</p>
+
+<pre><code># Beginning of source-build specific instructions
+shell&gt; tar zxvf mysql-VERSION.tar.gz
+shell&gt; cd mysql-VERSION
+shell&gt; cmake .
+shell&gt; make
+shell&gt; make install
+</code></pre>
+
+<p>当然要顺利编译成功，需要安装cmake，在ubuntu下通过apt源安装cmake很方便:</p>
+
+<pre><code>bash# aptitude install cmake
+</code></pre>
+
+<p>在ubuntu下编译cmake那一步遇到问题，报错如下：</p>
+
+<pre><code>-- Check size of wint_t
+-- Check size of wint_t - done
+-- Could NOT find Curses (missing: CURSES_LIBRARY CURSES_INCLUDE_PATH)
+CMake Error at cmake/readline.cmake:83 (MESSAGE):
+Curses library not found. Please install appropriate package,
+
+remove CMakeCache.txt and rerun cmake.On Debian/Ubuntu, package name is libncurses5-dev, on Redhat and derivates it is ncurses-devel.
+Call Stack (most recent call first):
+cmake/readline.cmake:127 (FIND_CURSES)
+cmake/readline.cmake:217 (MYSQL_USE_BUNDLED_LIBEDIT)
+CMakeLists.txt:257 (MYSQL_CHECK_READLINE)
+
+-- Configuring incomplete, errors occurred!
+</code></pre>
+
+<p>发现它依赖于ncurses库，于是通过apt源命令行安装:</p>
+
+<pre><code>bash# aptitude install ncurses-dev
+</code></pre>
+
+<p>ncurses-dev是一个虚包，实际安装的包是libncurses5-dev。然后清理之前出错的临时输出:</p>
+
+<pre><code>bash$ rm -f CMakeCache.txt
+</code></pre>
+
+<p>这一步相当于"make clean"。然后重新编译</p>
+
+<pre><code>bash$ cmake .
+bash$ make
+...
+</code></pre>
+
+<h4>2.3 简单使用介绍</h4>
+
+<p>编译完源代码之后，可以直接运行mysql-test-run.pl，切换到源代码根目录下的mysql-test目录:</p>
+
+<pre><code>bash$ cd mysql-VERSION/mysql-test
+</code></pre>
+
+<p>通过命令行</p>
+
+<pre><code>bash$ ./mysql-test-run.pl --force
+</code></pre>
+
+<p>自动启动mysqld并运行所有测试用例，--force选项相当于make的--keep-going选项，不加此选项的默认情况，mysql-test-run.pl脚本在首次遇到测试错误时就会中止，不运行后面的测试用命，添加此选项后即遇到单个错误也不会立即中止，继续运行后面的测试。<br/>
+如果需要有选择性地只执行部分测试用命，可通过--suite选项指明需要执行的测试类别，如输入命令</p>
+
+<pre><code>bash$ ./mysql-test-run.pl --suite=main
+</code></pre>
+
+<p>只执行目录t下的所有测试用例，还可以通过指明单个测试名来执行单个或多个用例，如输入命令</p>
+
+<pre><code>bash$ ./mysql-test-run.pl alias analyze
+</code></pre>
+
+<p>只执行alias.test和analyze.test两个测试用例。
+对已经启动的mysql服务器(mysqld)进行测试，可使用命令：</p>
+
+<pre><code>./mysql-test-run.pl --suite=main --force --extern sock=/var/run/mysqld/mysqld.sock --extern user=test_user --extern password=test_user
+</code></pre>
+
+<p>其中--extern用来将特殊选项的值传入，sock指向mysqld启动打开的sock，user和password分别指定连接数据库服务器的用户名和密码。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Build sock on Linux]]></title>
     <link href="http://clisp.github.com/blog/2011/03/07/build-sock-on-linux/"/>
     <updated>2011-03-07T20:27:00+08:00</updated>
@@ -260,26 +397,6 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
 </code></pre>
 
 <p>即可。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My Errata of UNPe3]]></title>
-    <link href="http://clisp.github.com/blog/2011/03/06/my-errata-of-unpe3/"/>
-    <updated>2011-03-06T19:31:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/03/06/my-errata-of-unpe3</id>
-    <content type="html"><![CDATA[<p>This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition</p>
-
-<ol>
-<li><p>p248 line 4 of paragraph 1:<br/>
-"vefiry by running netstat on freebsd)"<br/>
-should be<br/>
-"verify by running netstat on freebsd4)"<br/>
-freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p></li>
-<li><p>p324 line 2 of paragraph 2, below the first testga command output, "-h bsdi" should be "-h freebsd4".</p></li>
-<li><p>p681 the section title "6.4 TCP Echo Server Using Threads" should be "26.4 TCP Echo Server Using Threads".</p></li>
-</ol>
-
 ]]></content>
   </entry>
   

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 未分类 | X lambda]]></title>
-  <link href="http://clisp.github.com/blog/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Uncategorized | X lambda]]></title>
+  <link href="http://clisp.github.com/blog/categories/uncategorized/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2012-12-15T16:53:06+08:00</updated>
+  <updated>2012-12-15T17:53:14+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -106,46 +106,26 @@ sw6, off 没用到wake up功能</p>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Color Theme Darkmate for Eclipse]]></title>
-    <link href="http://clisp.github.com/blog/2011/05/08/color-theme-darkmate-for-eclipse/"/>
-    <updated>2011-05-08T22:54:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/05/08/color-theme-darkmate-for-eclipse</id>
-    <content type="html"><![CDATA[<p>Darkmate原本是一个gEdit的配色主题，大概在两年多之前我用过这个主题(那时我主要使用gEdit作为编辑器)，觉得不错，后来逐渐将它移植到eclipse和emacs(主编辑器转到emacs)。</p>
-
-<p>emacs下的darkmate主题参考我的文章</p>
-
-<p><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></p>
-
-<p><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></p>
-
-<p><a href="https://bitbucket.org/dylanwen/eclipse_config/src">这里</a>提供对应Eclipse的配色主题 下载 ,目前包含c++(cdt)，java(jdt)，python(pydev)的配色设置。</p>
-
-<p>c++配色截图如下：
-<a href="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg" alt="color theme darkmate for eclipse c++ screenshot" /></a></p>
-
-<p>java配色截图如下：
-<a href="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg" alt="color theme darkmate for eclipse java screenshot" /></a></p>
+    <title type="html"><![CDATA[彪悍的短片不需要解释]]></title>
+    <link href="http://clisp.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words/"/>
+    <updated>2011-09-23T00:29:50+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words</id>
+    <content type="html"><![CDATA[<p>老罗说彪悍的人生不需要解释，彪悍的短片也不需要。转<a href="http://v.youku.com/v_show/id_XMzA2MTg0MzA4.html" title="短片《小马》">幸福59厘米之老罗《小马》</a>。</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Hack a New Theme Style]]></title>
-    <link href="http://clisp.github.com/blog/2010/11/22/hack-a-new-theme-style/"/>
-    <updated>2010-11-22T09:53:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2010/11/22/hack-a-new-theme-style</id>
-    <content type="html"><![CDATA[<p>这两天粗粗看了一下html&amp;css的文档，经过一番调教把blog的改为目前的风格，配色是按终端的tango主题来做的，见下图：</p>
+    <title type="html"><![CDATA[那些银幕幻影，那些曾经年岁]]></title>
+    <link href="http://clisp.github.com/blog/2011/09/04/those-movies-those-days/"/>
+    <updated>2011-09-04T17:56:33+08:00</updated>
+    <id>http://clisp.github.com/blog/2011/09/04/those-movies-those-days</id>
+    <content type="html"><![CDATA[<p>今天在微博上看到朋友转播的消息中，有一条纪念"九十年代香港电影古装篇"的视频，觉得不错，特意拿出来分享一下。</p>
 
-<p><img src="/images/uploads/tango_theme.jpg" alt="screenshot of system tango color theme" /></p>
+<p><a href="http://www.tudou.com/programs/view/HyyXvWRjX-Q/?resourceId=0_06_02_99?fr=2">九十年代香港电影古装篇</a></p>
 
-<p>新风格看起来更养眼一点，调整版式/色彩/间距相当花费时间，不过此过程也学到一些html&amp;css的知识。用All 60s All The Time的DJ的话来说，"What's the point of DIY? It's to suit yourself, isn't it?"</p>
+<p><a href="http://www.tudou.com/programs/view/A6ZFCWWbfdw/?resourceId=0_06_02_99?fr=2">九十年代香港电影时装篇</a></p>
 
-<p>感谢几个html&amp;css站点，上面维护的入门文档既免费又写得简明，让我这个新手不用面对陡峭的learning curve，如果所有编程语言（python, 我相信已经有了）有这种挂有免费简明教程的在线站点，世界会美好很多。</p>
-
-<p>感谢galeki的帮忙。</p>
-
-<p>Thank All 60s All The Time, the free streaming radio, for your company all the time, with great free music and boring money saving web-site advertisements.</p>
-
-<p>On hacking.</p>
+<p>这些经典的香港电影，曾经陪伴了我们这一代80后的成长。的确让人怀念，不能不给力转播。</p>
 ]]></content>
   </entry>
   
