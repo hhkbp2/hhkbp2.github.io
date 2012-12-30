@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 http://finalbug.cn/?p=694 即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限： &hellip;">
+  <meta name="description" content="发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下： 到GNU官网下载info形式的manual,感兴趣的有 GNU Emacs Manual，包emacs.info.tar.gz (下载地址) Emacs Lisp &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,86 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/18/install-info-manual-of-emacs/">给emacs安装info Manual</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-18T08:29:00+08:00" pubdate data-updated="true">Apr 18<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/04/18/install-info-manual-of-emacs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下：</p>
+
+<ol>
+<li><p>到GNU官网下载info形式的manual,感兴趣的有</p>
+
+<p> GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br/>
+ Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br/>
+ Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)</p></li>
+<li><p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p></li>
+</ol>
+
+
+<p>[条目名]: [对应的info文件或包(可选的子条目名)].  [条目描述]</p>
+
+<p>条目名后面要带一个&#8221;:&#8221;号，文件或包名后面要带一个&#8221;.&#8221;号。如emacs faq的条目为</p>
+
+<pre><code>* Emacs FAQ: (emacs-23/efaq).   Frequently Asked Questions about Emacs.
+</code></pre>
+
+<p>将下载的三个包放入/usr/share/info/。并在info树根目录增加中相应的节点，即在文件/usr/share/info/dir的Emacs section中加入</p>
+
+<pre><code>* Emacs
+...       &lt;== 其他条目
+
+* Emacs Manual: (emacs.info.tar). GNU Emacs Manual
+* Emacs Lisp Intro: (emacs-lisp-intro.info).  An Introduction to Programming in Emacs Lisp
+* Emacs Lisp Reference Manual: (elisp.info.tar).
+                                GNU Emacs Lisp Reference Manual
+...       &lt;== 其他条目
+</code></pre>
+
+<p>即可。也可以安装到自定义的info目录，此目录下要有dir文件，同时添加此info目录到INFOPATH来让info进行查找。对于bash，添加环境设置到.bashrc：</p>
+
+<pre><code>INFOPATH=$INFOPATH:$ADDED-INFOPATH
+export INFOPATH
+</code></pre>
+
+<p>对于emacs，可通过变量Info-directory-list, Info-default-directory-list来定制，具体参照Manual。</p>
+
+<p>如担心手动添加info条目会损坏原文件，可先做备份再修改，或通过install-info命令添加info条目，如</p>
+
+<pre><code>$ install-info --dir-file=dir --info-file=filename.info --section=section-name --name=entry-name --description=entry-desc
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -324,69 +404,6 @@ To apply different face settings according to different term types."
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-12T13:20:00+08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/01/12/add-color-theme-for-emacs/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在读写代码时workspace有个好的配色，能让编程过程变得生动多彩，也能提高效率。emacs 23的默认配色主题也不错，不过个性张扬的hacker们当然不满足于只有一个选择，很多emacs玩家喜欢自已定制主题，不过一点点地配置主题多少有点繁琐，在手工hack之前，可以先试下color-theme扩展－－它包含了50多个配色主题，让你的emacs更丰富多彩。在<a href="http://lifegoo.pluskid.org/wiki/EmacsColorTheme.html">pluskid wiki上的color-theme介绍</a>中可以看到一个截图，是不是很漂亮呢。当然也可以参考<a href="http://www.emacswiki.org/emacs/ColorTheme">color-theme on Emacs Wiki</a>, 到其项目主页下载最新版本，现时为6.6.0, 参考包中README文件安装。将color-theme.el和theme文件夹放在loadpath下，然后在.emacs中加入</p>
-
-<pre><code>(require 'color-theme)
-(color-theme-initialize)
-(color-theme-midnight) ;;选择你喜欢的主题
-</code></pre>
-
-<p>其中在最后一行选择你喜欢的主题，我暂时在用的是midnight。也可以通过</p>
-
-<pre><code>M-x load-library RET color-theme
-</code></pre>
-
-<p>(其中<code>RET</code>为回车键) 加载color-theme, 然后通过</p>
-
-<pre><code>M-x color-theme-select RET
-</code></pre>
-
-<p>进行选择。在光标所在主题上按<code>i</code>或<code>l</code>键为应用此主题，按<code>d</code>键输出调用主题的命令(即为写入 .emacs 最后一行那个)。</p>
-
-<p>对于喜欢 <a href="http://macromates.com/">TextMate</a>主题的朋友，这里另外分享一个类似 TextMate风格的配色，见：</p>
-
-<p><a href="http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html">http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html</a></p>
-
-<p>我最早接触类似的风格是<a href="http://projects.gnome.org/gedit/">gEdit</a>的<a href="http://live.gnome.org/GtkSourceView/StyleSchemes">DarkMate主题</a>(长什么样？截图看 <a href="http://grigio.org/files/gedit-darkmate.png">这里</a>)，然后一发不可收拾，现在用的source insight, Ultra Edit, <a href="http://www.eclipse.org/">Eclipse</a>, &#8230;(虽然前两者为盗版)全部自定义变成类似配色，可见其魅力之大。厉害吧，呵呵(换一种碟形世界的说法－－变态吧，呵呵)。</p>
-
-<p>PS: 关于 gEdit 的配置文章可参考我很久之前在 <a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a> 的一个帖子: <a href="http://forum.ubuntu.org.cn/viewtopic.php?f=70&amp;t=186178">gEdit: 打造简洁，小巧的编程环境</a>，gEdit 用做一般文本编辑其实也不错，简洁快上手。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/11/">&larr; Older</a>
@@ -404,6 +421,10 @@ To apply different face settings according to different term types."
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/12/30/read-a-david-mitchell-novel/">再读大卫·米切尔</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/15/one-man-in-autumn/">一个悲秋客途的男人</a>
       </li>
     
@@ -419,10 +440,6 @@ To apply different face settings according to different term types."
         <a href="/blog/2012/06/24/get-one-hhkb/">入手神器hhkb</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/06/24/rainny-days-in-june/">蛙鸣六月</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -430,7 +447,7 @@ To apply different face settings according to different term types."
  <ul id="categories">
  <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
 <li class='category'><a href=' /blog/categories/emacs/'>Emacs (8)</a></li>
-<li class='category'><a href=' /blog/categories/life/'>Life (21)</a></li>
+<li class='category'><a href=' /blog/categories/life/'>Life (22)</a></li>
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (1)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
