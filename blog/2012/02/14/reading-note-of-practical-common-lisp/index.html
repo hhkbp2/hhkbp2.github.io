@@ -9,7 +9,8 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="在冰河的博客看到有这样一本书，所以找来看了。谢谢冰河辛苦将它翻译在中文(翻译虽然不算完美，但对我来说也足够好了)，帮我们减少了阅读过程的英语语言障碍。 想起来，上两周有朋友过来坐，问到说，&#8221;看这样一本书有什么用呢？&#8221;。于是又想到豆瓣上有人对这本书开的一个玩笑，说， &hellip;">
+  <meta name="description" content="在冰河的博客看到有这样一本书，所以找来看了。谢谢冰河辛苦将它翻译在中文(翻译虽然不算完美，但对我来说也足够好了)，帮我们减少了阅读过程的英语语言障碍。
+想起来，上两周有朋友过来坐，问到说，&#8221;看这样一本书有什么用呢？&#8221;。于是又想到豆瓣上有人对这本书开的一个玩笑，说， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,11 +95,9 @@
   </header>
 
 
-<div class="entry-content"><p>在冰河的博客看到有这样一本书，所以找来看了。谢谢冰河辛苦将它翻译在中文(翻译虽然不算完美，但对我来说也足够好了)，帮我们减少了阅读过程的英语语言障碍。</p>
-
-<p>想起来，上两周有朋友过来坐，问到说，&#8221;看这样一本书有什么用呢？&#8221;。于是又想到豆瓣上有人对这本书开的一个玩笑，说，不知道这样一本国内首本正规出版的common lisp中文书，能为国内多创造几个lisp程序员。对我来说，成为专业的lisp程序员应该不会了，不过我会坚持把这本书读完。</p>
-
-<p>嗯，始终觉得，玩emacs的人，终究会走到lisp这一步，或早或晚，或scheme或common lisp，或sicp或pcl。</p>
+<div class="entry-content"><p>在冰河的博客看到有这样一本书，所以找来看了。谢谢冰河辛苦将它翻译在中文(翻译虽然不算完美，但对我来说也足够好了)，帮我们减少了阅读过程的英语语言障碍。<br/>
+想起来，上两周有朋友过来坐，问到说，&#8221;看这样一本书有什么用呢？&#8221;。于是又想到豆瓣上有人对这本书开的一个玩笑，说，不知道这样一本国内首本正规出版的common lisp中文书，能为国内多创造几个lisp程序员。对我来说，成为专业的lisp程序员应该不会了，不过我会坚持把这本书读完。<br/>
+嗯，始终觉得，玩emacs的人，终究会走到lisp这一步，或早或晚，或scheme或common lisp，或sicp或pcl。</p>
 
 <h3>译者序</h3>
 
@@ -149,7 +148,8 @@ mac os: openmcl</p>
 
 <p>函数FORMAT</p>
 
-<p>Liquid error: ClassNotFound: no lexer for alias &#8216;lisp&#8217; found</p>
+<pre><code>(FORMAT destination control-string &amp;rest format-arguments)
+</code></pre>
 
 <p>定义函数特殊表DEFUN</p>
 
@@ -199,7 +199,7 @@ tab键：自动补全，自动缩进<br/>
 <h4>3.4 改进用户交互</h4>
 
 <p>FORCE-OUTPUT确保打印提示符之前不会等待换行<br/>
-变量<em>query-io</em> 关联到终端的输入流全局变量<br/>
+变量*query-io* 关联到终端的输入流全局变量<br/>
 READ-LINE函数读取单行文本<br/>
 PARSE-INTEGER函数将字符串转换为整数，:junk-allowed参数允许不报错返回nil<br/>
 OR宏，短路逻辑或<br/>
@@ -273,11 +273,12 @@ common lisp处理过程：读取(器)->求值(器)</p>
 <p>基本原子数据类型<br/>
 数字：整数，比值，浮点数，复数(不同表示方式的相同对象)<br/>
 字符串：双引号包围着的字符序列，转义<br/>
-符号(名字)：几乎任何字符(除了空格，句点，开/闭括号，双引号，单引号，逗号，冒号，分号，反斜杠，竖线)，允许转义，大小写不敏感
-命名约定：<br/>
-全局变量，名字的开始和结尾有&#8221;<em>&#8221;<br/>
+符号(名字)：几乎任何字符(除了空格，句点，开/闭括号，双引号，单引号，逗号，冒号，分号，反斜杠，竖线)，允许转义，大小写不敏感</p>
+
+<p>命名约定：<br/>
+全局变量，名字的开始和结尾有&#8221;*&#8221;<br/>
 常量名，以&#8221;+&#8221;字符开始和结尾<br/>
-语言标准定义的名字：A-Z, </em>, +, -, /, 1, 2, &lt;, =, >, &amp;</p>
+语言标准定义的名字：A-Z, *, +, -, /, 1, 2, &lt;, =, >, &amp;</p>
 
 <h4>4.4 作为lisp形式的S-表达式</h4>
 
@@ -295,12 +296,19 @@ common lisp处理过程：读取(器)->求值(器)</p>
 
 <h4>4.6 特殊操作符</h4>
 
-<pre><code>1) IF
-(if test-form then-form [ else-form])
-2) QUOTE
-(quote elems) == '(elems)
-3) LET
-(let (variable-lists) do-things)
+<p>1) IF</p>
+
+<pre><code>(if test-form then-form [ else-form])
+</code></pre>
+
+<p>2) QUOTE</p>
+
+<pre><code>(quote elems) == '(elems)
+</code></pre>
+
+<p>3) LET</p>
+
+<pre><code>(let (variable-lists) do-things)
 </code></pre>
 
 <h4>4.7 宏</h4>
@@ -432,8 +440,8 @@ DEFVAR, SETF, MAKUNBOUND</p>
 
 <p>每个由DEFVAR和DEFPARAMETER定义的变量，其名字都将自动变成全局特殊的。<br/>
 动态绑定全局变量，使得<br/>
-1) 上游代码可以通过重新绑定值来改变下游代码的行为<br/>
-2) 下游代码可以为栈上一级所建立的绑定赋新值</p>
+1. 上游代码可以通过重新绑定值来改变下游代码的行为<br/>
+2. 下游代码可以为栈上一级所建立的绑定赋新值</p>
 
 <h4>6.4 常量</h4>
 
@@ -737,6 +745,10 @@ do-primes宏的第一个实现</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/01/reading-note-of-practical-common-lisp-2/">《实用common lisp编程》读书笔记 (二)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/30/read-a-david-mitchell-novel/">再读大卫·米切尔</a>
       </li>
     
@@ -752,10 +764,6 @@ do-primes宏的第一个实现</p>
         <a href="/blog/2012/07/07/hello-world/">Hello World</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/06/24/get-one-hhkb/">入手神器hhkb</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -764,7 +772,7 @@ do-primes宏的第一个实现</p>
  <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
 <li class='category'><a href=' /blog/categories/emacs/'>Emacs (8)</a></li>
 <li class='category'><a href=' /blog/categories/life/'>Life (22)</a></li>
-<li class='category'><a href=' /blog/categories/lisp/'>Lisp (1)</a></li>
+<li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
 <li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (10)</a></li>
@@ -779,7 +787,7 @@ do-primes宏的第一个实现</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Dylan.Wen -
+  Copyright &copy; 2013 - Dylan.Wen -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
