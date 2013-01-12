@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-01-08T15:31:27+08:00</updated>
+  <updated>2013-01-13T03:29:30+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[我的Emacs配置]]></title>
+    <link href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public/"/>
+    <updated>2013-01-13T01:18:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public</id>
+    <content type="html"><![CDATA[<p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
+
+<p>作为一个Emacs控，我发现在工作环境中虽然听说过或用过Emacs的人很多，但很少人对它有兴趣，而既有兴趣又保持着热情一直用下去的人就更少了，因此玩得好的人几乎遇不到。其实Vim的情况也差不多。我在公司向其他人推销Emacs，一般别人都是直接在开发机上拷贝一份我的配置，原封不动的拿来用。后来发现有个同事D悄悄地把我的整个配置目录放到github上了，反正已经公开，于是我就被迫把bitbucket上我的Emacs配置代码库公开了。这有点像19世纪的日本黑船事件，或者中国的鸦片战争，开放的大门常常是被迫打开的。</p>
+
+<p>我的Emacs配置文件代码库在：</p>
+
+<pre><code>https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>代码库目录结构如下：</p>
+
+<pre><code>├── dot_emacs              -- 链接到$HOME/.emacs
+├── import/                -- 目录，用于导入的其它扩展包和文件
+├── Makefile               -- 文件，用于解压import目录中的包，并做必要的编译
+├── personal               -- 链接到带私人信息的目录，没有提交到hg
+└── site-lisp/             -- 目录，存放配置文件，主要是自己写的，也有从其它地方拿来的
+</code></pre>
+
+<p>了解<a href="http://emacser.com/dea.htm">DEA</a>的朋友可能会发现，这里的目录结构和文件命名习惯都很像DEA，是的，在我的配置目录不断变大的过程中多次参考了<a href="http://emacser.com">Emacs中文网</a>和DEA，甚至site-lisp下部分文件直接拿自DEA，特别感谢Emacse中文网的主人，DEA的作者ahei。</p>
+
+<p>除了import目录中带有的扩展之外，还用到了一些安装到系统目录的扩展包，它们在debian/ubuntu中的包名是：</p>
+
+<pre><code>emacs-goodiel-el
+emacs23-el
+python-mode
+python-ropemacs
+erlang-mode
+</code></pre>
+
+<p>安装好这些依赖包到系统后，使用命令：</p>
+
+<pre><code>hg clone https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>clone一份我的配置代码库，然后在新建的dot-emacs目录运行命令：</p>
+
+<pre><code>make site-init
+</code></pre>
+
+<p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
+
+<p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Matrix Screen Saver for Emacs]]></title>
@@ -240,40 +290,6 @@ To apply different face settings according to different term types."
 <p>You could download "color-theme+.el" and "color-theme-darkmate.el" <a href="https://bitbucket.org/dylanwen/elispport/src">here</a>.</p>
 
 <p>Enjoy!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[给emacs添加多种配色主题]]></title>
-    <link href="http://clisp.github.com/blog/2010/01/12/add-color-theme-for-emacs/"/>
-    <updated>2010-01-12T13:20:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2010/01/12/add-color-theme-for-emacs</id>
-    <content type="html"><![CDATA[<p>在读写代码时workspace有个好的配色，能让编程过程变得生动多彩，也能提高效率。emacs 23的默认配色主题也不错，不过个性张扬的hacker们当然不满足于只有一个选择，很多emacs玩家喜欢自已定制主题，不过一点点地配置主题多少有点繁琐，在手工hack之前，可以先试下color-theme扩展－－它包含了50多个配色主题，让你的emacs更丰富多彩。在<a href="http://lifegoo.pluskid.org/wiki/EmacsColorTheme.html">pluskid wiki上的color-theme介绍</a>中可以看到一个截图，是不是很漂亮呢。当然也可以参考<a href="http://www.emacswiki.org/emacs/ColorTheme">color-theme on Emacs Wiki</a>, 到其项目主页下载最新版本，现时为6.6.0, 参考包中README文件安装。将color-theme.el和theme文件夹放在loadpath下，然后在.emacs中加入</p>
-
-<pre><code>(require 'color-theme)
-(color-theme-initialize)
-(color-theme-midnight) ;;选择你喜欢的主题
-</code></pre>
-
-<p>其中在最后一行选择你喜欢的主题，我暂时在用的是midnight。也可以通过</p>
-
-<pre><code>M-x load-library RET color-theme
-</code></pre>
-
-<p>(其中<code>RET</code>为回车键) 加载color-theme, 然后通过</p>
-
-<pre><code>M-x color-theme-select RET
-</code></pre>
-
-<p>进行选择。在光标所在主题上按<code>i</code>或<code>l</code>键为应用此主题，按<code>d</code>键输出调用主题的命令(即为写入 .emacs 最后一行那个)。</p>
-
-<p>对于喜欢 <a href="http://macromates.com/">TextMate</a>主题的朋友，这里另外分享一个类似 TextMate风格的配色，见：</p>
-
-<p><a href="http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html">http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html</a></p>
-
-<p>我最早接触类似的风格是<a href="http://projects.gnome.org/gedit/">gEdit</a>的<a href="http://live.gnome.org/GtkSourceView/StyleSchemes">DarkMate主题</a>(长什么样？截图看 <a href="http://grigio.org/files/gedit-darkmate.png">这里</a>)，然后一发不可收拾，现在用的source insight, Ultra Edit, <a href="http://www.eclipse.org/">Eclipse</a>, ...(虽然前两者为盗版)全部自定义变成类似配色，可见其魅力之大。厉害吧，呵呵(换一种碟形世界的说法－－变态吧，呵呵)。</p>
-
-<p>PS: 关于 gEdit 的配置文章可参考我很久之前在 <a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a> 的一个帖子: <a href="http://forum.ubuntu.org.cn/viewtopic.php?f=70&amp;t=186178">gEdit: 打造简洁，小巧的编程环境</a>，gEdit 用做一般文本编辑其实也不错，简洁快上手。</p>
 ]]></content>
   </entry>
   

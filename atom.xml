@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-01-08T15:31:27+08:00</updated>
+  <updated>2013-01-13T03:29:30+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[我的Emacs配置]]></title>
+    <link href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public/"/>
+    <updated>2013-01-13T01:18:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public</id>
+    <content type="html"><![CDATA[<p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
+
+<p>作为一个Emacs控，我发现在工作环境中虽然听说过或用过Emacs的人很多，但很少人对它有兴趣，而既有兴趣又保持着热情一直用下去的人就更少了，因此玩得好的人几乎遇不到。其实Vim的情况也差不多。我在公司向其他人推销Emacs，一般别人都是直接在开发机上拷贝一份我的配置，原封不动的拿来用。后来发现有个同事D悄悄地把我的整个配置目录放到github上了，反正已经公开，于是我就被迫把bitbucket上我的Emacs配置代码库公开了。这有点像19世纪的日本黑船事件，或者中国的鸦片战争，开放的大门常常是被迫打开的。</p>
+
+<p>我的Emacs配置文件代码库在：</p>
+
+<pre><code>https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>代码库目录结构如下：</p>
+
+<pre><code>├── dot_emacs              -- 链接到$HOME/.emacs
+├── import/                -- 目录，用于导入的其它扩展包和文件
+├── Makefile               -- 文件，用于解压import目录中的包，并做必要的编译
+├── personal               -- 链接到带私人信息的目录，没有提交到hg
+└── site-lisp/             -- 目录，存放配置文件，主要是自己写的，也有从其它地方拿来的
+</code></pre>
+
+<p>了解<a href="http://emacser.com/dea.htm">DEA</a>的朋友可能会发现，这里的目录结构和文件命名习惯都很像DEA，是的，在我的配置目录不断变大的过程中多次参考了<a href="http://emacser.com">Emacs中文网</a>和DEA，甚至site-lisp下部分文件直接拿自DEA，特别感谢Emacse中文网的主人，DEA的作者ahei。</p>
+
+<p>除了import目录中带有的扩展之外，还用到了一些安装到系统目录的扩展包，它们在debian/ubuntu中的包名是：</p>
+
+<pre><code>emacs-goodiel-el
+emacs23-el
+python-mode
+python-ropemacs
+erlang-mode
+</code></pre>
+
+<p>安装好这些依赖包到系统后，使用命令：</p>
+
+<pre><code>hg clone https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>clone一份我的配置代码库，然后在新建的dot-emacs目录运行命令：</p>
+
+<pre><code>make site-init
+</code></pre>
+
+<p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
+
+<p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[谈谈家乡]]></title>
@@ -1773,30 +1823,6 @@ do-primes宏的第一个实现</p>
 <p>最后帖上一张折腾后的桌面截图：</p>
 
 <p><a href="http://clisp.github.com/images/uploads/2011/11/gnome-shell-mss2.jpg"><img src="http://clisp.github.com/images/uploads/2011/11/gnome-shell-mss2.jpg" alt="折腾后的gnome-shell截图" /></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[杯具的诞生]]></title>
-    <link href="http://clisp.github.com/blog/2011/11/09/gnome-shell-it-just-happens/"/>
-    <updated>2011-11-09T22:52:51+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/11/09/gnome-shell-it-just-happens</id>
-    <content type="html"><![CDATA[<p>今天这篇日志主要是讲一个故事：</p>
-
-<p>从前有个阿叔，他叫本华，有一天他将系统升级到了gnome3，具杯的使用体验让他痛苦不已，促使他开始思考杯具的本质，然后他着手写了处女作品《具杯的诞生》，成为一代哲学家。</p>
-
-<p>(故事完，热烈掌声响起，一浪接一浪，一浪接一浪&#8230;&#8230;)</p>
-
-<p>我的debian系统是testing/sid混合源，由于平时更新勤快，所以一般每次更新的更新包都不多，昨晚因为gnome-panel上声音控制的applet启动加载有错，添加applet的对话框也找不到那个applet，尝试卸载并清空配置重装gnome-applet的时候，一不留神使用了apt的-y选项，然后去喝杯水打个转回来，发现已经更新了几百M的包，重启之后就已经是gnome-shell接管了桌面，然后更新管理器提示更新3.0内核等等，再来一次更新个几百M。</p>
-
-<p>第一次与gnome-shell亲密接触，才发现它的用户体验是既坑爹又坑哥，与gnome2的习惯相差太远，抛开黑乎乎空荡荡的上边栏不说，抛开横竖让人找不着北的菜单栏不说，抛开迟钝的界面响应和突然死亡的X不说，也抛开各种华而不实的效果，但无论如何，关机键要给哥留一个吧，难道真的要我看着&#8221;Suspend&#8221;菜单按Alt键，或者直接命令行shutdown？ 这个设计也太反用户，反人类了吧，让思念关机键的哥情何以堪？</p>
-
-<p>在此具杯之下，我只有一句话想说:“Well done，gnome3，你已经成功让我恶心到了”。在你统治的X下我会业业兢兢，学会即时保存所有的文本，在2012到来之前学会欣赏你的突然死亡特效，学会习惯于忘记马上卸载掉你并找回你前任gnome2的想法并假装与你相处得愉快幸福，最后要学会的是带着期待生活，期待有一天，经过改进的你真的让人在使用中体验到方便愉快，然后让人不得不称赞说：</p>
-
-<p>“Well done, gnome3.”</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2011/11/gnome-shell-ss1.jpg"><img src="http://clisp.github.com/images/uploads/2011/11/gnome-shell-ss1.jpg" alt="gnome-shell截图1" /></a>
-<a href="http://clisp.github.com/images/uploads/2011/11/gnome-shell-ss2.jpg"><img src="http://clisp.github.com/images/uploads/2011/11/gnome-shell-ss2.jpg" alt="gnome-shell截图2" /></a></p>
 ]]></content>
   </entry>
   
