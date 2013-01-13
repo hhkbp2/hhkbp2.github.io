@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="今天这篇日志主要是讲一个故事： 从前有个阿叔，他叫本华，有一天他将系统升级到了gnome3，具杯的使用体验让他痛苦不已，促使他开始思考杯具的本质，然后他着手写了处女作品《具杯的诞生》，成为一代哲学家。 (故事完，热烈掌声响起，一浪接一浪，一浪接一浪&#8230;&#8230;) &hellip;">
+  <meta name="description" content="转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。 修改面板为gnome2风格 gnome-shell的&#8221;Activity&#8221;风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,95 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/13/tinker-with-gnome-shell/">折腾gnome-shell</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-13T00:13:03+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/13/tinker-with-gnome-shell/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。</p>
+
+<h3>修改面板为gnome2风格</h3>
+
+<p>gnome-shell的&#8221;Activity&#8221;风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处：</p>
+
+<ul>
+<li><p>顶部面板不能放置applet或快捷方式，长长的一条面板中间只标示时间，显示不够紧凑</p></li>
+<li><p>而没dock的情形下，要启动程序/切换workspace，鼠标需要到移到左上方的&#8221;Activity&#8221;按钮位置，点击类似dock的程序快捷方式，或者点击/application，查找程序名字，或者移到右边的workspace选择栏，相当麻烦。虽然常用的几个程序/切换workspace我都习惯于用快捷键，不过有时还是需要用鼠标来启动程序，gnome-shell比gnome2多了应用程序名字搜索功能，不过使用起来鼠标过多，效率降低</p></li>
+<li><p>取消了任务栏，但支持Alt+Tab切换程序，而且支持窗口预览</p></li>
+<li><p>没有关机键，关机需要打开Suspend下拉列表，按Alt唤出Shutdown项，不够方便</p></li>
+</ul>
+
+
+<p>这几个问题皆因本来习惯了gnome2，而gnome-shell的面板风格相对gnome3有所改变所致。由于gnome-shell目前还没在UI上开放用户定制选项，要定制它只能通过改代码方式来做。后来想到这么多的人从gnome2迁移到gnome3，想把gnome-shell定制成gnome2风格的需求应该不少吧，果然在网上找到一篇文章<a href="http://wowubuntu.com/gnome-shell-extensions-brings-gnome2.html">《新的Gnome Shell扩展带来一种类似于Gnome2的用户体验》</a>，讲的是将gnome3的面板定制为gnome2风格，它主要对gnome-shell有以下几个修改：</p>
+
+<ol>
+<li>将时间显示移到顶部面板的一边，同gnome2</li>
+<li>将快捷方式放入顶部面板，这些快捷方式都来自Overview模式(也就是点击Activity按钮后进入的界面)左边的Dash(Overview模式界面左边像dock的那个家伙)</li>
+<li>将顶部面板的&#8221;Activity&#8221;按钮换做Application按钮，下拉列表就是分类的应用程序快捷方式，同gnome2的Application菜单</li>
+<li>将gnome3动态变化的workspace个数限制为静态不动</li>
+<li>将Suspend按钮改为Shutdown按钮，弹出的Shutdown对话框风格与gnome2一致</li>
+<li>添加底部任务栏</li>
+</ol>
+
+
+<h3>添加底部任务栏</h3>
+
+<p>与稳定不换的顶部面板不同，底部任务栏的这个位置，我曾经使用过gnome2任务栏面板，dock和dockbarx，也用过多个不同的dock，最喜欢的也用得最久的是cairo dock，效果好配置性强，缺点在于主题图标不完善bug也不少，docky则比较简洁，配置性稍弱，而且很多人都不喜欢libmono这个大块头，至于awn则是好久之前用过了，感觉一般没有深究。dockbarx是一个gnome2面板的插件，主要提供程序分组和快捷方式功能，有点像是windows 7的任务栏风格，问题在于不够稳定。</p>
+
+<p>应用上面提到的扩展，就可以在底部添加gnome2默认标配的任务栏，但是这个位置我更喜欢安装tint2来作为底部任务栏，因为它即可以作为任务栏，也可以放入其它的东西，如快捷方式，系统托盘或时钟等，也可作为一个workspace切换器，而且它配置性比较强，深得openbox等其他wm使用者的喜爱。我到它的官方网站找了一个示例配置文件，使用起来觉得效果也不错，风格与之前用的docbarx比较像。</p>
+
+<h3>更换gnome-shell主题</h3>
+
+<p>之前一直用的主题是浅色系的elementrary-borderless，转到gnome-shell之后，界面黑乎乎的一片相当不清爽，于是另外换了一个主题，资源请参考：</p>
+
+<p><a href="http://wowubuntu.com/5-gnome-shell-theme.html">《5 个漂亮的 Gnome Shell 主题》</a><br/>
+<a href="http://wowubuntu.com/gnome-shell-theme.html">《Gnome Shell 主题：New Adwaita-White 及 Black Glass》</a></p>
+
+<p>目前gnome-shell官方没有提供更换主题的工具，据说是因为这个功能并不是太受到重视。要换主题的话有两种方法：</p>
+
+<ol>
+<li><p>使用GNOME Shell用户主题扩展(User-Theme Extension)，它的包名是gnome-shell-extensions-user-theme。将主题文件下载到./themes/THEME-NAME/gnome-shell中，然后就可以通过Gnome Tweak Tool来选择不同的主题了</p></li>
+<li><p>将下载的主题文件直接覆盖系统主题目录/usr/share/gnome-shell/theme(记得先备份一下)，然后按Alt+F2打开命令启动器，并键入&#8221;r&#8221;或&#8221;rt&#8221;更新主题</p></li>
+</ol>
+
+
+<p>虽然只是修改不多，但折腾完之后感觉比原来默认的gnome-shell好用得多，gnome-shell的默认配置的确扯淡，但它的可配置性强大，可以预见到将来会出现越来越多的扩展，一些好用的扩展会进入源方源，让我们广大用户使用体验更好一些选择更多一些。</p>
+
+<p>最后帖上一张折腾后的桌面截图：</p>
+
+<p><a href="/images/uploads/2011/11/gnome-shell-mss2.jpg"><img src="/images/uploads/2011/11/gnome-shell-mss2.jpg" alt="折腾后的gnome-shell截图" /></a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -272,50 +361,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/09/04/those-movies-those-days/">那些银幕幻影，那些曾经年岁</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-09-04T17:56:33+08:00" pubdate data-updated="true">Sep 4<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/09/04/those-movies-those-days/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天在微博上看到朋友转播的消息中，有一条纪念&#8221;九十年代香港电影古装篇&#8221;的视频，觉得不错，特意拿出来分享一下。</p>
-
-<p><a href="http://www.tudou.com/programs/view/HyyXvWRjX-Q/?resourceId=0_06_02_99?fr=2">九十年代香港电影古装篇</a></p>
-
-<p><a href="http://www.tudou.com/programs/view/A6ZFCWWbfdw/?resourceId=0_06_02_99?fr=2">九十年代香港电影时装篇</a></p>
-
-<p>这些经典的香港电影，曾经陪伴了我们这一代80后的成长。的确让人怀念，不能不给力转播。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -337,6 +382,10 @@
       </li>
     
       <li class="post">
+        <a href="/blog/2013/01/08/the-pragmatic-emacser/">Emacs修炼之道</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/08/about-my-hometown/">谈谈家乡</a>
       </li>
     
@@ -348,17 +397,13 @@
         <a href="/blog/2012/12/30/read-a-david-mitchell-novel/">再读大卫·米切尔</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/12/15/one-man-in-autumn/">一个悲秋客途的男人</a>
-      </li>
-    
   </ul>
 </section>
 <section>
  <h1>Categories</h1>
  <ul id="categories">
  <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
-<li class='category'><a href=' /blog/categories/emacs/'>Emacs (9)</a></li>
+<li class='category'><a href=' /blog/categories/emacs/'>Emacs (10)</a></li>
 <li class='category'><a href=' /blog/categories/life/'>Life (23)</a></li>
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
