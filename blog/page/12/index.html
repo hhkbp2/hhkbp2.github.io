@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。 1. 更换默认的splash 1) 在命令行参数加上 -Dosgi.splashLocation=/opt/eclipse/splash.bmp 或在eclipse根目录( &hellip;">
+  <meta name="description" content="Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,85 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-01T03:34:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2010</time>
+        
+         | <a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and try to fontify Emacs as the font-lock facilities do, I found there is a bug in the Color Theme latest version 6.6.0 package.</p>
+
+<p>Line 689 of the source file &#8220;color-theme.el&#8221;, in the defination of function &#8220;color-theme-spec-compat&#8221;, it uses &#8220;cadar&#8221; to fetch out the property of only the first element of face specification, rather than fetch out the whole specification. So give the face specification as</p>
+
+<pre><code>(dired-mark
+      ((((class color) (min-colors 88)) (:foreground "red"))
+       (((class color) (min-colors 16)) (:foreground "green"))
+       (((class color) (min-colors 8)) (:foreground "blue"))
+       (((type tty) (class mono)) (:foreground "white"))
+       (t (:foreground "red"))))
+</code></pre>
+
+<p>It is a correct face specification(refer to macro `defface&#8217; for more information of face specification), and &#8220;dired-mark&#8221; should be in color &#8220;green&#8221; under 16-color environment and &#8220;blue&#8221; under 8-color environment. However function &#8220;color-theme-spec-compat&#8221; just set &#8220;dired-mark&#8221; to be &#8220;red&#8221; in any case. It reduces the flexibility of face-lock facilities of Emacs when using Color Theme.</p>
+
+<p>To fix this, I revise the defination of &#8220;color-theme-spec-compat&#8221; like</p>
+
+<pre><code>(defun color-theme-spec-compat (spec)
+  "An redifination of `color-theme-spec-compat' of `color-theme'.
+To apply different face settings according to different term types."
+  (let (compat-spec props)
+    (dolist (dis-atts spec)
+      (setq props (cadr dis-atts))
+      (when (plist-member props :bold)
+        (setq props (color-theme-plist-delete props :bold))
+        (unless (plist-member props :weight)
+          (setq props (plist-put props :weight 'bold))))
+      (when (plist-member props :italic)
+        (setq props (color-theme-plist-delete props :italic))
+        (unless (plist-member props :slant)
+          (setq props (plist-put props :slant 'italic))))
+      (setcdr dis-atts `(,props))
+      (add-to-list 'compat-spec dis-atts 'APPEND))
+    compat-spec))
+</code></pre>
+
+<p>and put this into the file &#8220;color-theme+.el&#8221;.</p>
+
+<p>I give a try out to customize a color-theme of my favour as well. I name it &#8220;color-theme-darkmate&#8221;. This color theme is inspired by the theme <a href="http://live.gnome.org/GtkSourceView/StyleSchemes">darkmate</a> of <a href="http://projects.gnome.org/gedit/">gEdit</a>, which is a color theme somewhat similar with the theme of editor <a href="http://macromates.com/">TextMate</a> on Mac. I never use the editor TextMate before and don&#8217;t know how much does &#8220;color-theme-darkmate&#8221; look like the theme TextMate. The settings in &#8220;color-theme-darkmate.el&#8221; is created in the opinion of using a few elementary colors as consistantly as possible in various modes to make a colorful and eye candy Emacs.</p>
+
+<p>You could download &#8220;color-theme+.el&#8221; and &#8220;color-theme-darkmate.el&#8221; <a href="https://bitbucket.org/dylanwen/elispport/src">here</a>.</p>
+
+<p>Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -426,81 +505,9 @@ You can add this to your `calendar-holidays'.")
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/01/11/add-tab-bar-in-emacs/">给 Emacs 添加标签栏</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-11T12:41:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/01/11/add-tab-bar-in-emacs/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Emacs 默认没有标签栏，使用 tabbar 这个扩展可以给emacs添加标签栏。参见<a href="http://docs.huihoo.com/homepage/shredderyin/emacs_elisp.html">王垠所写的 emacs elisp 扩展</a>中关于 tabbar.el 的部分或 <a href="http://www.emacswiki.org/emacs/TabBarMode">tabbar mode on Emacs Wiki</a> 。</p>
-
-<p>在 debian/ubuntu 下，包 emacs-goodies-el 即包含众多好用的 emacs 扩展，也包括 tabbar。安装好tabbar后，默认的外观比较素，可通过设置 tabbar-button, tabbar-selected, tabbar-highlight, tabbar-separator (具体各部分的名字可参考 tabbar.el 源文件) 等部分定制tabbar的外观，以配合 color-theme 的外观风格。我在 .emacs 中通过：</p>
-
-<pre><code>;;;; 设置tabbar外观
-;; 设置默认主题: 字体, 背景和前景颜色，大小
-(set-face-attribute 'tabbar-default nil
-                    :family "Vera Sans YuanTi Mono"
-                    :background "gray80"
-                    :foreground "gray30"
-                    :height 1.0
-                    )
-;; 设置左边按钮外观：外框框边大小和颜色
-(set-face-attribute 'tabbar-button nil
-                    :inherit 'tabbar-default
-                    :box '(:line-width 1 :color "gray30")
-                    )
-;; 设置当前tab外观：颜色，字体，外框大小和颜色
-(set-face-attribute 'tabbar-selected nil
-                    :inherit 'tabbar-default
-                    :foreground "DarkGreen"
-                    :background "LightGoldenrod"
-                    :box '(:line-width 2 :color "DarkGoldenrod")
-                    ;; :overline "black"
-                    ;; :underline "black"
-                    :weight 'bold
-                    )
-;; 设置非当前tab外观：外框大小和颜色
-(set-face-attribute 'tabbar-unselected nil
-                    :inherit 'tabbar-default
-                    :box '(:line-width 2 :color "gray70")
-                    )
-</code></pre>
-
-<p>定制其外观。在 emacs-snapshot 中得到的效果如下：</p>
-
-<p><img src="/images/uploads/emacs_tabbar.jpg" alt="emacs snapshot下tabbar外观截图" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/13/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -513,6 +520,10 @@ You can add this to your `calendar-holidays'.")
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/">在VirtualBox虚拟系统中使用USB设备</a>
@@ -530,10 +541,6 @@ You can add this to your `calendar-holidays'.")
         <a href="/blog/2013/01/08/the-pragmatic-emacser/">Emacs修炼之道</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/01/08/about-my-hometown/">谈谈家乡</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -545,7 +552,7 @@ You can add this to your `calendar-holidays'.")
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (12)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (13)</a></li>
 
  </ul>
 </section>

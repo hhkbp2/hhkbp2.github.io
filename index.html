@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="我使用Linux作为日常操作系统，但有时需要使用Windows only软件，还是需要在虚拟机上装一个Windows。因为国内的网银只支持Windows，所以在需要虚拟的Windows系统中访问物理机器的USB接口，来读取网银的USB KEY。 虚拟机我用的是VirtualBox， &hellip;">
+  <meta name="description" content="在过去一年多的时间里，我笔记本电脑上的Debian桌面环境经历了几次变化：先是用了几个月gnome shell，然后用了几个月的xfce4，然后最近又转为mate-desktop和cinnamon。 故事从前年一次日常系统升级开始，升级后发现桌面已经变成gnome shell，使用起来十分不习惯， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-21T21:43:00+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/21/freedom-and-reason/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在过去一年多的时间里，我笔记本电脑上的Debian桌面环境经历了几次变化：先是用了几个月gnome shell，然后用了几个月的xfce4，然后最近又转为mate-desktop和cinnamon。</p>
+
+<p>故事从前年一次日常系统升级开始，升级后发现桌面已经变成gnome shell，使用起来十分不习惯，体验很差，于是我配置了一下，让它没那么面目呆涩，后来再从gnome shell扩展官网添加了一些扩展，使得它尽量与gnome 2的老样子相近。这个时候的桌面环境，虽然偶尔会出现bug，但总体还算勉强能用下去。但随着不断的升级，之前配置的插件很多都不能工作了，大部分是因为版本兼容问题失效了，或者是因为插件没人维护已经过时，缺少插件支持缺少稳定性的gnome shell渐渐变得难以忍受。</p>
+
+<p>被迫无奈之下，我通过虚拟机尝试过包括Sawfish, FVWM, KDE等多个桌面环境(WM)，最后决定改用xfce，因为它的问题最少，使用起来还和gnome 2比较接近。但xfce并不是一个让人省心的桌面环境，比如说，默认安装下面板没有电源指示器，还是要加一些配置，而且一些小功能也缺失，比如说外接显示器的管理，虽然用xandar命令能够基本实现需求，但它还是功能太弱，不能自动检测两个显示器的状态变化，所以xfce用起来体验也不算非常好。</p>
+
+<p>后来无意中了解到原来Linux Mint发行版下有mate-desktop<a href="#1">[1]</a>和cinnamon<a href="#2">[2]</a>这两个桌面环境，于是尝试了一把，惊喜地发现它们才是我的救星。mate-desktop就是gnome 2，是老朋友了，性能足够好又稳定，cinnamon是基于gnome 3的仿mate-desktop环境，虽然内在已经是gnome 3，但用起来和老的gnome 2很像，自带的一堆扩展/插件也比较稳定，而且一直受到良好的维护，两者使用体验都不错。之后我就把xfce卸载了，请神容易送神难，像kde, gnome, xfce这种包集合，一旦装上，要搞清楚如何卸载干净不是件容易的事，因为它们含有的软件包众多，依赖关系也比较复杂，最后参考<a href="http://www.cppfans.org/1356.html">网上文章</a>，又来一轮折腾，终于算是把xfce卸载了。</p>
+
+<p>在过去一年多的时间里，在Linux上的桌面环境我做很多不同的尝试，体验过了很多坑爹的事情，也不知道花费了多少时间，最后兜兜转转用起mate-desktop来，发现还是回到了原来的gnome 2，那就是一年多之前原本用着的。回过头来看看，其实我的需求其实非常简单，只不过是一个稳定方便的图形界面。不断折腾一年多之后回到原地，这让人有种非常讽刺的感觉。gnome 3的推出，带来的是所谓平板电脑交互方式<a href="#3">[3]</a>和无数人的吐槽，甚至于像Linus Torvalds这样大名鼎鼎的人前段时间也大骂“无可容忍的凌乱”。难道gnome 3开发社区的人不知道gnome shell又丑又难用吗？难道他们不知道那么多人的吐槽吗？不可能吧。目前gnome 3这样的存在，只能证明：一个自以为是的产品不是最可耻的，一个自以为是，坚持错误的产品也不是最可耻的，最可耻的是那些自以为是，坚持错误，而又不理用户反馈闭门造车的产品。</p>
+
+<p>Linux的桌面环境本来就不受人待见，gnome 3之后更是乱象丛生。不是每个Linux的桌面用户都有折腾的时间和精力，他们也不是注定要被gnome 3揉虐。总之，gnome 3社区有继续脑残的自由，而我也有不再折腾的理由。Mac桌面的用户体验很好，我这个长期Linux桌面粉是不是也要叛逃到苹果门下了？</p>
+
+<p>被逼的。</p>
+
+<p><em>注：</em><br/>
+<a id="1">[1]</a> 安装可参考<a href="http://wiki.mate-desktop.org/download">官网</a>。<br/>
+<a id="2">[2]</a> 安装可参考<a href="http://linuxg.net/how-to-install-cinnamon-on-debian-wheezy/">这里</a>。<br/>
+<a id="3">[3]</a> Ubuntu推出的Unity也是为平板而设计的，他们都强迫PC用户去适应平板风格，哎，这演的是哪一出。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -746,62 +801,6 @@ erlang-mode
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/08/about-my-hometown/">谈谈家乡</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-08T14:24:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/08/about-my-hometown/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>家乡新兴</h3>
-
-<p><img src="http://www.xxphotow.com/file/6-7/19235425033.jpg" alt="新兴县城" />
-图片来自新兴摄影网</p>
-
-<p>对于这个叫做新兴的地方，我自以为很熟悉。在地理上，新兴县位于广东省中部偏西，地处山区，东邻高明鹤山，西接阳春云安，距广州170公里，气候温和，山清水秀。新兴因新兴江在境内而得名，在秦代就已立郡，历史可谓悠久，到底是先有江名再有地名，还是先有地名，再有江名，就像那个先有蛋还是先有鸡的问题。新兴在历史上曾有名新州，新城，唐代诗人王勃的《滕王阁序》写道：&#8221;宇文新州之懿范，襜帷暂驻&#8221;，这里的新州，指的就是新兴，在我读高中的时候，《滕王阁序》是语文教材上的文章，从里面读到故乡新兴着实让我们这些学生惊艳了一把，虽然诗文不免夸大，&#8221;宇文新州&#8221;一句多是奉承客气的话，况且宇文氏也不一定是新兴人，不过这一句隐隐让新兴透着一股灵 气。事实上，就在王勃写这篇文章的时候(公元653年)，一个人已经在这股灵气中诞生，这说的就是禅宗六祖慧能。</p>
-
-<p>慧能(公元638-713)，俗姓卢，生于岭南新州(今广东新兴)，得五祖弘忍传授衣钵，为禅宗六祖，提出顿悟成佛的思想，大大推动了印传佛教在中国的传播。</p>
-
-<p>慧能出身贫寒，父亲早逝，他在二十几岁正式学佛之前，一直以砍柴为生，与母亲相依为命。虽然现在离唐朝已经有一千五百多年时光，但不难想象，在王勃写《滕王阁序》的当时，这个年龄只有13岁的少年可能正在山野间砍柴，在纯粹的自然和艰辛的劳作中积累着佛性与慧心。</p>
-
-<p>在我的印象中，关于六祖的传奇故事最广为流传的有这么两个，一是与神秀对偈，就是那句经典的&#8221;菩提本无树，明镜亦非台&#8221;，二是在广州光孝寺辩论风动幡动，后 者也许更广为人知，常常作为中小学政治课本上代表唯心主义哲学的典型而出现，王家卫的电影《东邪西毒》也有引用。六祖生前致力于布道讲经，宏扬禅宗佛法，主要在广州光孝寺，韶关南华寺，新兴国恩寺3个地方，其中国恩寺座落于新兴集成镇龙山脚下，是六祖的弘法，辑录《六祖坛经》和圆寂的地方，而今六祖真身供奉于国恩寺中。对于每一个新兴人来说，六祖慧能和龙山国恩寺是从小就耳熟能详。</p>
-
-<p>六祖慧能在新兴留下的事迹比较多，龙山上他弘法讲道的场所，圆寂的场所，亲手种的荔枝等都成为后世新兴人的一种文化财产，在当今旅游文化日盛的环境下，文化财产变成了真正的白花花的银两。由于龙山本来就有天然温泉，经过开发之后变成旅游胜地，六祖+温泉渐渐变成新兴发展旅游业的两大招牌。国恩寺地方不大，前面牌坊高塔，后面花园碑林，香火常盛，每到新年或节日，往往满是求拜的信众，或求钱财，或求保佑，不一而足，我个人觉得，在今天看来它的庙堂不大而人间烟火味太重，并不适合修性坐禅，猜想在唐朝六祖在生当年，交通不发达，也许在寺中能保有一角安静，一方禅境。</p>
-
-<h3>小镇天堂</h3>
-
-<p><img src="http://www.xxphotow.com/file/2-8/1431872885.jpg" alt="天堂田间" />
-图片来自新兴摄影网</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -815,6 +814,10 @@ erlang-mode
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/">在VirtualBox虚拟系统中使用USB设备</a>
@@ -832,10 +835,6 @@ erlang-mode
         <a href="/blog/2013/01/08/the-pragmatic-emacser/">Emacs修炼之道</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/01/08/about-my-hometown/">谈谈家乡</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -847,7 +846,7 @@ erlang-mode
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (12)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (13)</a></li>
 
  </ul>
 </section>
