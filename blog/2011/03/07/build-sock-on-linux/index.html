@@ -109,9 +109,9 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
 +kernel   := $(shell uname -s)
 +
  # Change the following as required:
- CC = gcc
+ CC     = gcc
 
--CFLAGS = -ansi -Wall -Dsun -D__STDC__=0
+-CFLAGS     = -ansi -Wall -Dsun -D__STDC__=0
 +ifneq "$(kernel)" "Linux"
 +    CFLAGS   += -ansi -Wall -Dsun -D__STDC__=0
 +else
@@ -147,7 +147,7 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
  #include   &lt;stdio.h&gt;
 
 -extern char    *sys_errlist[];
--extern int sys_nerr;
+-extern int     sys_nerr;
 +//extern char  *sys_errlist[];
 +//extern int   sys_nerr;
 
@@ -213,6 +213,12 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
   </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 </div>
 
 <aside class="sidebar">
@@ -275,7 +281,10 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
       var disqus_shortname = 'clisp';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://clisp.github.com/blog/2011/03/07/build-sock-on-linux/';
+        var disqus_url = 'http://clisp.github.com/blog/2011/03/07/build-sock-on-linux/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

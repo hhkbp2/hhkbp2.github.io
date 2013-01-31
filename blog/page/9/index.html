@@ -220,9 +220,9 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
 +kernel   := $(shell uname -s)
 +
  # Change the following as required:
- CC = gcc
+ CC     = gcc
 
--CFLAGS = -ansi -Wall -Dsun -D__STDC__=0
+-CFLAGS     = -ansi -Wall -Dsun -D__STDC__=0
 +ifneq "$(kernel)" "Linux"
 +    CFLAGS   += -ansi -Wall -Dsun -D__STDC__=0
 +else
@@ -258,7 +258,7 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
  #include   &lt;stdio.h&gt;
 
 -extern char    *sys_errlist[];
--extern int sys_nerr;
+-extern int     sys_nerr;
 +//extern char  *sys_errlist[];
 +//extern int   sys_nerr;
 
