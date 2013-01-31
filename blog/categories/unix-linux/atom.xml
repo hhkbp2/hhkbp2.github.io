@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-01-31T17:24:17+08:00</updated>
+  <updated>2013-01-31T20:51:02+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -18,18 +18,18 @@
     <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
     <updated>2013-01-31T20:01:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
-    <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里记录一下我经常使用的终端软件及配置。</p>
+    <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。</p>
 
-<p>在Linux桌面，Gnome自带的gnome-terminal，或KDE自带的konsole都是很多人的首选终端软件，它们都支持标签，并与窗口管理器(WM)有很好的集成。源自Gnome的mate-desktop中自带mate-desktop，事实上只是一个改了名的gnome-terminal。此外，还有rxvt, xterm/roxterm等个头较小的终端软件，由于它们或轻量快速，或定制性较强，也吸引了不少使用者，早前我也常常使用rxvt-unicode，主要喜欢它启动迅速一点即开，但由于电脑的配置越来越好，其它终端如konsole也能迅速打开，rxvt-unicode的这个速度优势已经越来越小，所以渐渐也少用了。</p>
+<p>在Linux桌面，Gnome自带的gnome-terminal，或KDE自带的konsole都是很多人的首选终端软件，它们都支持标签，并与窗口管理器(WM)有很好的集成。源自Gnome的mate-desktop中自带mate-desktop，事实上只是一个改了名字的gnome-terminal。此外，还有rxvt, xterm/roxterm等个头较小的终端软件，由于它们或轻量快速，或定制性较强，也吸引了不少使用者，早前我也常常使用rxvt-unicode，主要喜欢它启动迅速一点即开，但由于电脑的配置越来越好，其它终端如konsole也能迅速打开，rxvt-unicode的这个速度优势已经越来越小，所以渐渐也少用了。</p>
 
-<p>在Windows下，也常常需要使用ssh终端连接到Linux服务器来进行命令行操作。流行的ssh终端软件有putty，Secure CRT，XShell等几个。putty由于会话管理功能较差，不方便用在多机器环境。所以很多人更喜欢功能强大的Secure CRT，它也算是一个比较经典的终端软件了，支持多标签，会话管理，ssh agent，登录脚本等，具有丰富的可定制性，而各种破解的版本更加有利于它抢占市场，可以说它是最流行的终端软件，没有之一。XShell则少为人知，与Secure CRT相比功能几乎同样强大的，但有一些特色的功能，比如支持在输出中进行搜索，这个功能在Mac下的iterm2，或在Emacs中运行的终端都有，它的家庭/学校版本可以不注册免费长期使用，吸引了不少原来Secure CRT破解版的用户。后两者的会话都以文件形式保存在指定目录中，在重装系统或迁移到新系统前，可以通过拷贝对应会话文件目录恢复全部的会话配置。</p>
+<p>在Windows下，也常常需要使用ssh终端连接到Linux服务器来进行命令行操作。流行的ssh终端软件有putty，Secure CRT，XShell等几个。putty由于缺少会话管理功能，不方便用在多机器环境。所以很多人更喜欢功能强大的Secure CRT，它也算是一个比较经典的终端软件了，支持多标签，会话管理，ssh agent，登录脚本等，具有丰富的可定制性，而各种破解的版本更加有利于它抢占市场，可以说它是最流行的终端软件，没有之一。XShell则少为人知，与Secure CRT相比功能几乎同样强大的，但有一些特色的功能，比如支持在输出中进行搜索，这个功能在Mac下的iTerm2，或在Emacs中运行的终端都有，它的家庭/学校版本可以不注册免费长期使用，吸引了不少原来使用Secure CRT破解版的用户。Secure CRT和XShell的会话配置都以文件形式保存在指定目录中，在重装系统或迁移到新系统前，可以通过拷贝对应会话文件目录恢复全部的配置。</p>
 
-<p>在服务器上，与终端软件搭档的还有screen/tmux这类终端多路复用软件，它们提供了会话管理(挂起，重连，关闭)，多标签模拟，屏幕分割，对输出内容的搜索，复制，粘贴等功能，是程序员手中很好的终端利器。两者的功能相近，其中screen比较老，也不再更新，缺少对utf8的支持，同时状态指示行(caption line，hardstatus line)复杂晦涩的语法也广受批评。tmux本意就是用来取代老旧的screen，并针对screen的缺点作出对应的改善，比如改进了状态指示行的配置可读性，强化了对执行脚本支持。</p>
+<p>在服务器上，与终端软件搭档的还有screen/tmux这类终端多路复用软件，它们提供了会话管理(挂起，重连，关闭)，多标签模拟，屏幕分割，对输出内容的搜索，复制，粘贴等功能，是程序员手中必不可少的终端利器。两者的功能相近，其中screen比较老，不再更新，缺少对utf8的支持，状态指示行(caption line，hardstatus line)复杂晦涩的语法也广受批评。tmux被设计为老旧的screen的替代者，并针对screen的缺点作出对应的改善，比如改进了状态指示行的配置可读性，强化了对执行脚本支持。之前我使用了很长时间的screen，后来也转向了tmux。《tmux: Productive Mouse-Free Development》这本书是一本很好的tmux用户指南，在网上可以找到。</p>
 
-<p>我经常用到的终端配置，主要有如下几种：语言，字符集，字体，色彩支持，编辑器。</p>
+<p>我经常用到的终端配置，主要有如下方面：语言环境，字符集，字体，色彩支持，编辑器。</p>
 
 <ul>
-<li><p>语言</p>
+<li><p>语言环境</p>
 
 <p>  在Debian/Ubuntu中可以通过命令</p>
 
