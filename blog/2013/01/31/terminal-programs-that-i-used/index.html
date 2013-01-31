@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>常用终端软件 - X lambda</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里记录一下我经常使用的终端软件及配置。 在Linux桌面，Gnome自带的gnome-terminal， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">X lambda</a></h1>
+  
+    <h2>Do not try and bend the spoon.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/darkmate-theme">Darkmate Theme</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">常用终端软件</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-31T20:01:00+08:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里记录一下我经常使用的终端软件及配置。</p>
+
+<p>在Linux桌面，Gnome自带的gnome-terminal，或KDE自带的konsole都是很多人的首选终端软件，它们都支持标签，并与窗口管理器(WM)有很好的集成。源自Gnome的mate-desktop中自带mate-desktop，事实上只是一个改了名的gnome-terminal。此外，还有rxvt, xterm/roxterm等个头较小的终端软件，由于它们或轻量快速，或定制性较强，也吸引了不少使用者，早前我也常常使用rxvt-unicode，主要喜欢它启动迅速一点即开，但由于电脑的配置越来越好，其它终端如konsole也能迅速打开，rxvt-unicode的这个速度优势已经越来越小，所以渐渐也少用了。</p>
+
+<p>在Windows下，也常常需要使用ssh终端连接到Linux服务器来进行命令行操作。流行的ssh终端软件有putty，Secure CRT，XShell等几个。putty由于会话管理功能较差，不方便用在多机器环境。所以很多人更喜欢功能强大的Secure CRT，它也算是一个比较经典的终端软件了，支持多标签，会话管理，ssh agent，登录脚本等，具有丰富的可定制性，而各种破解的版本更加有利于它抢占市场，可以说它是最流行的终端软件，没有之一。XShell则少为人知，与Secure CRT相比功能几乎同样强大的，但有一些特色的功能，比如支持在输出中进行搜索，这个功能在Mac下的iterm2，或在Emacs中运行的终端都有，它的家庭/学校版本可以不注册免费长期使用，吸引了不少原来Secure CRT破解版的用户。后两者的会话都以文件形式保存在指定目录中，在重装系统或迁移到新系统前，可以通过拷贝对应会话文件目录恢复全部的会话配置。</p>
+
+<p>在服务器上，与终端软件搭档的还有screen/tmux这类终端多路复用软件，它们提供了会话管理(挂起，重连，关闭)，多标签模拟，屏幕分割，对输出内容的搜索，复制，粘贴等功能，是程序员手中很好的终端利器。两者的功能相近，其中screen比较老，也不再更新，缺少对utf8的支持，同时状态指示行(caption line，hardstatus line)复杂晦涩的语法也广受批评。tmux本意就是用来取代老旧的screen，并针对screen的缺点作出对应的改善，比如改进了状态指示行的配置可读性，强化了对执行脚本支持。</p>
+
+<p>我经常用到的终端配置，主要有如下几种：语言，字符集，字体，色彩支持，编辑器。</p>
+
+<ul>
+<li><p>语言</p>
+
+<p>  在Debian/Ubuntu中可以通过命令</p>
+
+<pre><code>  sudo dpkg-reconfigure locales
+</code></pre>
+
+<p>  来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有</p>
+
+<pre><code>  # 设置为中文环境
+  export LC_ALL=zh_CN.utf8
+  export LANG=zh_CN.utf8
+  export LANGUAGE=zh_CN:zh
+
+  # 设置为英文环境
+  export LC_ALL=en_US.utf8
+  export LANG=en_US.utf8
+  export LANGUAGE=en_US:en:zh_CN:zh
+</code></pre>
+
+<p>  将配置添加到.bashrc，source配置或重新登录终端才生效。</p></li>
+<li><p>字符集</p>
+
+<p>  能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p></li>
+<li><p>字体</p>
+
+<p>  推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
+
+<pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
+  0Oo      &lt;-- 数字0，大小写字母o
+  `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
+</code></pre>
+
+<p>  Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
+
+<pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
+  Ubuntu Mono    --- Ubuntu的开源字体
+</code></pre>
+
+<p>  当然，每个人的喜好审美不同，对字体的偏好也不同。</p></li>
+<li><p>色彩支持</p>
+
+<p>  无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
+
+<pre><code>  export TERM=xterm-256color
+</code></pre>
+
+<p>  就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
+
+<p>  打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p></li>
+<li><p>编辑器</p>
+
+<p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-31T20:01:00+08:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/unix-linux/'>Unix/Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/21/freedom-and-reason/" title="Previous Post: 自由与理由">&laquo; 自由与理由</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/31/terminal-programs-that-i-used/">常用终端软件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/">在VirtualBox虚拟系统中使用USB设备</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
+<li class='category'><a href=' /blog/categories/emacs/'>Emacs (10)</a></li>
+<li class='category'><a href=' /blog/categories/life/'>Life (23)</a></li>
+<li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (14)</a></li>
+
+ </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Dylan.Wen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'clisp';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/';
+        var disqus_url = 'http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

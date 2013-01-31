@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-01-29T00:13:21+08:00</updated>
+  <updated>2013-01-31T17:24:17+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[常用终端软件]]></title>
+    <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
+    <updated>2013-01-31T20:01:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
+    <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里记录一下我经常使用的终端软件及配置。</p>
+
+<p>在Linux桌面，Gnome自带的gnome-terminal，或KDE自带的konsole都是很多人的首选终端软件，它们都支持标签，并与窗口管理器(WM)有很好的集成。源自Gnome的mate-desktop中自带mate-desktop，事实上只是一个改了名的gnome-terminal。此外，还有rxvt, xterm/roxterm等个头较小的终端软件，由于它们或轻量快速，或定制性较强，也吸引了不少使用者，早前我也常常使用rxvt-unicode，主要喜欢它启动迅速一点即开，但由于电脑的配置越来越好，其它终端如konsole也能迅速打开，rxvt-unicode的这个速度优势已经越来越小，所以渐渐也少用了。</p>
+
+<p>在Windows下，也常常需要使用ssh终端连接到Linux服务器来进行命令行操作。流行的ssh终端软件有putty，Secure CRT，XShell等几个。putty由于会话管理功能较差，不方便用在多机器环境。所以很多人更喜欢功能强大的Secure CRT，它也算是一个比较经典的终端软件了，支持多标签，会话管理，ssh agent，登录脚本等，具有丰富的可定制性，而各种破解的版本更加有利于它抢占市场，可以说它是最流行的终端软件，没有之一。XShell则少为人知，与Secure CRT相比功能几乎同样强大的，但有一些特色的功能，比如支持在输出中进行搜索，这个功能在Mac下的iterm2，或在Emacs中运行的终端都有，它的家庭/学校版本可以不注册免费长期使用，吸引了不少原来Secure CRT破解版的用户。后两者的会话都以文件形式保存在指定目录中，在重装系统或迁移到新系统前，可以通过拷贝对应会话文件目录恢复全部的会话配置。</p>
+
+<p>在服务器上，与终端软件搭档的还有screen/tmux这类终端多路复用软件，它们提供了会话管理(挂起，重连，关闭)，多标签模拟，屏幕分割，对输出内容的搜索，复制，粘贴等功能，是程序员手中很好的终端利器。两者的功能相近，其中screen比较老，也不再更新，缺少对utf8的支持，同时状态指示行(caption line，hardstatus line)复杂晦涩的语法也广受批评。tmux本意就是用来取代老旧的screen，并针对screen的缺点作出对应的改善，比如改进了状态指示行的配置可读性，强化了对执行脚本支持。</p>
+
+<p>我经常用到的终端配置，主要有如下几种：语言，字符集，字体，色彩支持，编辑器。</p>
+
+<ul>
+<li><p>语言</p>
+
+<p>  在Debian/Ubuntu中可以通过命令</p>
+
+<pre><code>  sudo dpkg-reconfigure locales
+</code></pre>
+
+<p>  来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有</p>
+
+<pre><code>  # 设置为中文环境
+  export LC_ALL=zh_CN.utf8
+  export LANG=zh_CN.utf8
+  export LANGUAGE=zh_CN:zh
+
+  # 设置为英文环境
+  export LC_ALL=en_US.utf8
+  export LANG=en_US.utf8
+  export LANGUAGE=en_US:en:zh_CN:zh
+</code></pre>
+
+<p>  将配置添加到.bashrc，source配置或重新登录终端才生效。</p></li>
+<li><p>字符集</p>
+
+<p>  能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p></li>
+<li><p>字体</p>
+
+<p>  推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
+
+<pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
+  0Oo      &lt;-- 数字0，大小写字母o
+  `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
+</code></pre>
+
+<p>  Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
+
+<pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
+  Ubuntu Mono    --- Ubuntu的开源字体
+</code></pre>
+
+<p>  当然，每个人的喜好审美不同，对字体的偏好也不同。</p></li>
+<li><p>色彩支持</p>
+
+<p>  无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
+
+<pre><code>  export TERM=xterm-256color
+</code></pre>
+
+<p>  就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
+
+<p>  打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p></li>
+<li><p>编辑器</p>
+
+<p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[自由与理由]]></title>
@@ -63,9 +137,9 @@
   
   <entry>
     <title type="html"><![CDATA[Thrift Erlang实现源代码阅读]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/16/thrift-erlang-implemetation-source-code-reading/"/>
+    <link href="http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading/"/>
     <updated>2013-01-16T21:27:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/16/thrift-erlang-implemetation-source-code-reading</id>
+    <id>http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading</id>
     <content type="html"><![CDATA[<p>Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考<a href="http://thrift.apache.org/">Thrift官方网站</a>，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP，而主要集中讨论Thrift里面的Erlang实现，假定目标读者了解Erlang，并且具有Thrift的使用经验，熟悉Thrift在其它语言的实现源代码更佳。</p>
 
 <p>本文讨论的Thrift源代码版本为0.8.0，在官网可以下载。</p>
@@ -499,6 +573,7 @@ emacs23-el
 python-mode
 python-ropemacs
 erlang-mode
+geiser
 </code></pre>
 
 <p>安装好这些依赖包到系统后，使用命令：</p>
@@ -1640,603 +1715,6 @@ sw6, off 没用到wake up功能</p>
 <p>&#8220;  &#8216;你很幸运。&#8217;有时他这么对她说&#8230;&#8217;非常幸运。他们骗你说，世上有种东西叫爱情。他们教你去做傻乎乎的美梦，要你去相信梦，去追梦。他们告诉你，你，以及世上所有的人，都有命中注定的伴侣。但这是一派胡言。宇宙并不公平，从来就没有公平过&#8230;这是一个绝望的谎言，绝望的人们用它来互相欺骗，并且试图欺骗自己&#8230;&#8230;&#8217;  &#8221;</p>
 
 <p>再PS：迷幻汤上有了《肉院情人》的全文，见<a href="http://mihuan.yo2.cn/archives/660739">这里</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[《实用common lisp编程》读书笔记 (一)]]></title>
-    <link href="http://clisp.github.com/blog/2012/02/14/reading-note-of-practical-common-lisp/"/>
-    <updated>2012-02-14T22:34:28+08:00</updated>
-    <id>http://clisp.github.com/blog/2012/02/14/reading-note-of-practical-common-lisp</id>
-    <content type="html"><![CDATA[<p>在冰河的博客看到有这样一本书，所以找来看了。谢谢冰河辛苦将它翻译在中文(翻译虽然不算完美，但对我来说也足够好了)，帮我们减少了阅读过程的英语语言障碍。<br/>
-想起来，上两周有朋友过来坐，问到说，&#8221;看这样一本书有什么用呢？&#8221;。于是又想到豆瓣上有人对这本书开的一个玩笑，说，不知道这样一本国内首本正规出版的common lisp中文书，能为国内多创造几个lisp程序员。对我来说，成为专业的lisp程序员应该不会了，不过我会坚持把这本书读完。<br/>
-嗯，始终觉得，玩emacs的人，终究会走到lisp这一步，或早或晚，或scheme或common lisp，或sicp或pcl。</p>
-
-<h3>译者序</h3>
-
-<p>小述了lisp的历史，lisp的特点等，译者学习lisp/参与lisp开发的历史。</p>
-
-<h3>致读者</h3>
-
-<p>本书讲述的方式注重实用性</p>
-
-<h3>第一章 绪言：为什么是lisp</h3>
-
-<h4>1.1 为什么是lisp</h4>
-
-<p>lisp语言的一些特点：动态，可编程，适合用于探索</p>
-
-<h4>1.2 lisp的诞生</h4>
-
-<p>lisp/common lisp的历史，common lisp与scheme的比较</p>
-
-<h4>1.3 本书面向的读者</h4>
-
-<p>感兴趣的人，知道lisp但想编写实用程序，想学习多门语言(而lisp只是其中一门)的人</p>
-
-<h3>第二章 周而复始：REPL简介</h3>
-
-<p>选择lisp in a box(common lisp实现，emacs + slime)</p>
-
-<h4>2.1 选择一个lisp实现</h4>
-
-<p>linux/windows/mac os: allegro common lisp<br/>
-linux: cmucl->sbcl<br/>
-mac os: openmcl</p>
-
-<h4>2.2 安装和运行lisp in a box</h4>
-
-<p>emacs常用概念和操作简介</p>
-
-<h4>2.3 放开思想：交互式编程</h4>
-
-<p>REPL(read-eval-print-loop)，读取－求值－打印循环<br/>
-交互式开发环境</p>
-
-<h4>2.4 体验REPL</h4>
-
-<p>初次认识slime的交互界面</p>
-
-<h4>2.5 lisp风格的&#8221;Hello, world&#8221;</h4>
-
-<p>函数FORMAT</p>
-
-<pre><code>(FORMAT destination control-string &amp;rest format-arguments)
-</code></pre>
-
-<p>定义函数特殊表DEFUN</p>
-
-<pre><code>(DEFUN function-name (arguemnts)
-       function-body)
-</code></pre>
-
-<h4>2.6 保存工作成果</h4>
-
-<p>lisp源文件后缀.lisp, .cl<br/>
-slime的使用<br/>
-tab键：自动补全，自动缩进<br/>
-自动高亮匹配括号<br/>
-自动插入匹配括号：命令slime-close-parens-at-point，快捷键C-c c-q<br/>
-编译当前函数：命令slime-compile-defun，快捷键C-c C-c<br/>
-将s表达式发送slime执行：快捷键C-c C-z或C-x b<br/>
-退出：输入逗号，quit(sayoonara)<br/>
-启动：M-x slime<br/>
-调试器使用简介<br/>
-加载源文件：(load file-path)<br/>
-编译源文件：(compile-file file)，返回FASL文件名字<br/>
-改变当前工作目录：输入逗号，cd<br/>
-直接在emacs slime mode中加载源文件：命令slime-load-file，快捷键C-c C-l<br/>
-直接在emacs slime mode中编译源文件：快捷键C-c M-k</p>
-
-<h3>第三章 实践：简单的数据库</h3>
-
-<h4>3.1 CD和记录</h4>
-
-<p>创建列表，属性表，定义函数<br/>
-取出属性表中属性：函数GETF的使用</p>
-
-<h4>3.2 录入CD</h4>
-
-<p>定义变量：特殊表DEFVAR<br/>
-全局变量命名约定：符号*开头和结尾</p>
-
-<h4>3.3 查看数据库内容</h4>
-
-<pre><code>FORMAT函数的打印格式
-~a    将实参打印成可读形式
-~t    制表
-~{~}  列表循环
-~%    换行
-</code></pre>
-
-<h4>3.4 改进用户交互</h4>
-
-<p>FORCE-OUTPUT确保打印提示符之前不会等待换行<br/>
-变量*query-io* 关联到终端的输入流全局变量<br/>
-READ-LINE函数读取单行文本<br/>
-PARSE-INTEGER函数将字符串转换为整数，:junk-allowed参数允许不报错返回nil<br/>
-OR宏，短路逻辑或<br/>
-Y-OR-N-P函数，提示输入y/Y，n/N<br/>
-LOOP宏，一种循环的简单形式<br/>
-RETURN函数，退出函数</p>
-
-<h4>3.5 保存和加载数据库</h4>
-
-<p>WITH-OPEN-FILE宏，打开文件并将流绑定变量，最后保证正确关闭文件<br/>
-:directtion :output :if-exists :supersede选项，默认为:input<br/>
-PRINT函数，将lisp对象打印成可以被lisp读取器读回来的形式<br/>
-WITH-STANDARD-IO-SYNTAX宏，确保那些影响READ/PRINT行为的特定变量设置成默认标准值<br/>
-SETF宏，主要的赋值操作符</p>
-
-<h4>3.6 查询数据库</h4>
-
-<p>REMOVE-IF-NOT函数，取出目标列表中不匹配谓词的元素组成新列表，非原地操作，返回新列表</p>
-
-<pre><code>(remove-if-not predicate sequence)
-</code></pre>
-
-<p>例如</p>
-
-<pre><code>(remove-if-not #'evenp '(1 2 3 4 5 6 7 8 9 10))
-</code></pre>
-
-<p>取出列表中的所有偶数<br/>
-#&#8217;记号，通过函数名，获取函数<br/>
-LAMBDA，定义匿名函数(闭包)特殊表<br/>
-函数&amp;key关键字，声明关键字形参，将实参对应绑定到关键字上，形式有<br/>
-1. 简单名称<br/>
-2. 形参名，默认值和supplied-p形参的列表<br/>
-AND函数，短路逻辑与</p>
-
-<h4>3.7 更新已有的记录——WHERE再战江湖</h4>
-
-<p>SETF通用赋值操作符，可用于对各种位置进行赋值<br/>
-REMOVE-IF函数，取出目标列表中匹配谓词的元素组成新列表，非原地操作，返回新列表</p>
-
-<h4>3.8 消除重复，获益良多</h4>
-
-<p>介绍lisp宏：当一个lisp表达式包含了宏调用时，lisp编译器不再直接对参数求值，而是直接传递未经求值的参数给宏生成器，后者通过宏定义生成一个新的lisp表达式，插入到原来宏的位置进行求值<br/>
-REVERSE函数，生成一个逆序的新列表<br/>
-DEFMACRO特殊表，用来定义宏，类似于用DEFUN定义函数<br/>
-函数/宏&amp;rest关键字，声明可变参数，参数将收集到一个单一列表中<br/>
-函数MACROEXPAND-1来精确地看到宏的扩展代码</p>
-
-<h4>3.9 总结</h4>
-
-<p>宏使得代码更有效且更通用</p>
-
-<h3>第4章 语法与语义</h3>
-
-<h4>4.1 括号里都可以有什么</h4>
-
-<p>Lisp == 大量不合理的多余括号(Lots of Irritating Superfluous Parentheses)<br/>
-John McCarthy未实现的M表达式</p>
-
-<h4>4.2 打开黑箱</h4>
-
-<p>大多数编程语言的处理过程(解释器或编译器)：词法分析->语法分析->翻译器<br/>
-common lisp处理过程：读取(器)->求值(器)</p>
-
-<h4>4.3 S-表达式</h4>
-
-<p>S-表达式的元素包括：列表(list)，原子(atom)<br/>
-列表：由括号包围，包含任何数量由空格分隔的元素<br/>
-原子：基本数据类型</p>
-
-<p>基本原子数据类型<br/>
-数字：整数，比值，浮点数，复数(不同表示方式的相同对象)<br/>
-字符串：双引号包围着的字符序列，转义<br/>
-符号(名字)：几乎任何字符(除了空格，句点，开/闭括号，双引号，单引号，逗号，冒号，分号，反斜杠，竖线)，允许转义，大小写不敏感</p>
-
-<p>命名约定：<br/>
-全局变量，名字的开始和结尾有&#8221;*&#8221;<br/>
-常量名，以&#8221;+&#8221;字符开始和结尾<br/>
-语言标准定义的名字：A-Z, *, +, -, /, 1, 2, &lt;, =, >, &amp;</p>
-
-<h4>4.4 作为lisp形式的S-表达式</h4>
-
-<p>原子分为符号与自求值对象<br/>
-列表分为函数调用形式(function call form)，宏形式(macro form)和特殊形式(special form)</p>
-
-<h4>4.5 函数调用</h4>
-
-<p>形式</p>
-
-<pre><code>(function-name argument*)
-</code></pre>
-
-<p>先对除第一个元素外的每一个元素进行求值，最后调用第一个元素为符号的函数</p>
-
-<h4>4.6 特殊操作符</h4>
-
-<p>1) IF</p>
-
-<pre><code>(if test-form then-form [ else-form])
-</code></pre>
-
-<p>2) QUOTE</p>
-
-<pre><code>(quote elems) == '(elems)
-</code></pre>
-
-<p>3) LET</p>
-
-<pre><code>(let (variable-lists) do-things)
-</code></pre>
-
-<h4>4.7 宏</h4>
-
-<p>宏的两阶段求值过程：<br/>
-1) 宏形参不经求值被传递到宏定义<br/>
-2) 宏返回展开式，并在原地替换原来宏调用进行求值</p>
-
-<h4>4.8 真，假和等价</h4>
-
-<p>真：除NIL(空列表)外其它所有值，T是专门的真值，t == &#8216;t<br/>
-假：NIL == nil == () == &#8216;nil == &#8216;()<br/>
-4个通用的等价谓词(一个比一个宽松)：<br/>
-EQ，比较对象标识<br/>
-EQL，同类型对象，值相同时等价<br/>
-EQUAL，在递归上具有相同结构和内容的列表视为等价<br/>
-EQUALP，比较字符串时忽略大小写，不同数据类型的相等值为等价</p>
-
-<h4>4.9 格式化lisp代码</h4>
-
-<pre><code>按键     命令                    作用  
-Tab      indent-for-tab-command  缩进当前行  
-C-M-q    indent-sexp             缩进整个表达式  
-C-c M-q  slime-reindent-defun    重新缩进整个函数  
-</code></pre>
-
-<p>有经验的lisp程序员倾向于依赖编辑器来自动处理缩进。<br/>
-正确的缩进可以确保代码美观，可以检测结构错误。</p>
-
-<p>注释说明：<br/>
-1) 4个分号用于文件头注释<br/>
-2) 3个分号用于段落注释<br/>
-3) 2个分号用于代码块注释，与要测试的代码块具有相同缩进<br/>
-4) 1个分号用于单行后面的注释</p>
-
-<h3>第5章 函数</h3>
-
-<h4>5.1 定义新函数</h4>
-
-<p>DEFUN宏用于定义函数，基本结构</p>
-
-<pre><code>(defun name (parameter*)
-  "Optional documentation string."
-  body-form*)
-</code></pre>
-
-<p>documentation函数用于查看函数文档字符串</p>
-
-<pre><code>(documentation 'foo 'function)
-</code></pre>
-
-<h4>5.2 函数形参列表</h4>
-
-<p>必要形参</p>
-
-<h4>5.3 可选形参</h4>
-
-<p>关键字&amp;optional声明可选形参，可以有默认值，可以判断是否显式传值</p>
-
-<h4>5.4 剩余形参</h4>
-
-<p>关键字&amp;rest声明剩余形参</p>
-
-<h4>5.5 关键字形参</h4>
-
-<p>关键字&amp;key声明关键字形参,可以有默认值，可以判断是否显式传值，可以自定义调用的形参名字</p>
-
-<h4>5.6 混合不同的形参类型</h4>
-
-<p>可用组合： &amp;optional + &amp;rest<br/>
-不可用组合：　&amp;optional + &amp;key, &amp;rest + &amp;key</p>
-
-<p>常用风格：<br/>
-&amp;optional + &amp;key -> &amp;key<br/>
-&amp;rest + &amp;key -> 剩余参数，关键字参数都会被绑定</p>
-
-<h4>5.7 函数返回值</h4>
-
-<p>RETURN-FROM从BLOCK特殊操作符定义的代码块中返回，从函数中返回</p>
-
-<h4>5.8 作为数据的函数——高阶函数</h4>
-
-<p>特殊操作符FUNCTION，用来获取函数对象，类似#&#8217;<br/>
-函数FUNCALL，参数是被调用的函数对象，以及确切的实参<br/>
-函数APPLY，第一个参数是一个函数对象，第二个参数是一个列表</p>
-
-<h4>5.9 匿名函数</h4>
-
-<p>LAMBDA表达式用来创建匿名函数，形式</p>
-
-<pre><code>(lambda (parameters) body)
-</code></pre>
-
-<p>LAMBDA语法糖：</p>
-
-<pre><code>(lambda () 42) == (function (lambda () 42)) == #'(lambda () 42)
-</code></pre>
-
-<h3>第6章 变量</h3>
-
-<p>common lisp里有两种类型的变量：词法(lexical)变量和动态(dynamic)变量</p>
-
-<h4>6.1 变量的基础知识</h4>
-
-<p>引入新变量的方式：<br/>
-1) 将一个变量赋新值<br/>
-2) 定义函数形参<br/>
-3) LET特殊操作符，形式</p>
-
-<pre><code>(let (variable*)
-  body-form*)
-</code></pre>
-
-<p>4) DOTIMES循环<br/>
-5) LET*特殊操作符</p>
-
-<h4>6.2 词法变量和闭包</h4>
-
-<p>common lisp中的变量绑定形式是词法作用域。通过lambda创建匿名函数，封装闭包</p>
-
-<h4>6.3 动态变量</h4>
-
-<p>common lisp中有两种创建全局变量的方式：DEFVAR，DEFPARAMETER<br/>
-DEFVAR, SETF, MAKUNBOUND</p>
-
-<p>通过作用域，生存期两个方面来看<br/>
-词法变量：词法作用域，不确定的生存期<br/>
-动态变量：不确定的作用域，动态的生存期</p>
-
-<p>每个由DEFVAR和DEFPARAMETER定义的变量，其名字都将自动变成全局特殊的。<br/>
-动态绑定全局变量，使得<br/>
-1. 上游代码可以通过重新绑定值来改变下游代码的行为<br/>
-2. 下游代码可以为栈上一级所建立的绑定赋新值</p>
-
-<h4>6.4 常量</h4>
-
-<p>所有的常量都是全局，使用DEFCONSTANT定义，形式</p>
-
-<pre><code>(defconstant name initial-vlaue-form [ documentation-string ])
-</code></pre>
-
-<p>命名约定：名字的开始和结尾为+符号</p>
-
-<h4>6.5 赋值</h4>
-
-<p>common lisp的通用赋值操作符SETF宏，形式</p>
-
-<pre><code>(setf place value)
-</code></pre>
-
-<p>可同时赋多个值，SETF表达式返回赋予的值value，支持嵌套调用，如</p>
-
-<pre><code>(setf x (setf y (random 10)))
-</code></pre>
-
-<h4>6.6 广义赋值</h4>
-
-<p>SETF可以为任何&#8221;位置&#8221;赋值，可以为变量，数组元素，和类字段赋值</p>
-
-<h4>6.7 其他修改位置的方式</h4>
-
-<p>修改宏INCF和DECF，增1，减1<br/>
-宏ROTATEF，交换变量的值<br/>
-宏SHIFTF，左移变量值</p>
-
-<h2>第7章 宏：标准控制构造</h2>
-
-<p>common lisp宏是一种其它编程语言所没有独特特性。<br/>
-在common lisp扩展语言的方法有：<br/>
-1. 在语言核心上添加标准库<br/>
-2. 通过宏定义新的句法抽象，扩展语言的核心</p>
-
-<h4>7.1 WHEN和UNLESS</h4>
-
-<p>宏WHEN，功能类似于if，形式</p>
-
-<pre><code>(when condition
-  body-form*)
-</code></pre>
-
-<p>等价于宏</p>
-
-<pre><code>(defmacro when (condition &amp;rest body)
-  `(if ,condition (progn ,@body)))
-</code></pre>
-
-<p>宏unless，功能类似于if，形式</p>
-
-<pre><code>(defmacro unless (condition &amp;rest body)
-  `(if (not ,condition) (progn ,@body)))
-</code></pre>
-
-<h4>7.2 COND</h4>
-
-<p>宏COND，表达分支选择，形式</p>
-
-<pre><code>(cond
-  (condition-1 form-1*)
-  .
-  .
-  .
-  (condition-N form-N*))
-</code></pre>
-
-<p>常用风格</p>
-
-<pre><code>(cond (a (do-x))
-      (b (do-y))
-      (c (do-z)))
-</code></pre>
-
-<h4>7.3 AND，OR和NOT</h4>
-
-<p>布尔逻辑操作符AND，OR和NOT<br/>
-函数NOT，对真值取反，(not nil) -> t，(not t) -> nil<br/>
-宏AND，对任意数量的子表达式进行逻辑与，支持短路<br/>
-宏OR，对任意数量的子表达式进行逻辑或，支持短路</p>
-
-<h4>7.4 循环</h4>
-
-<p>提供goto机制的特殊操作符：TAGBODY，GO<br/>
-底层通用循环构造DO，强大，但应用复杂<br/>
-lisp提供了另外两个宏：<br/>
-1) DOLIST，在列表元素上循环<br/>
-2) DOTIMES，计数循环<br/>
-日常使用规则：优先使用DOLIST和DOTIMES，在这两个宏无法满足需要时，在DO之上构建自定义的循环构造<br/>
-另外，宏LOOP提供一种成熟的微型语言，以类似英语的方式来表达循环构造</p>
-
-<h4>7.5 DOLIST和DOTIMES</h4>
-
-<p>宏DOLIST，在一个列表元素上循环操作，基本形式</p>
-
-<pre><code>(dolist (var list-form)
-  body-form*)
-</code></pre>
-
-<p>宏DOTIMES，用于循环计数的高级循环构造，和DOLIST相似</p>
-
-<pre><code>(dotimes (var count-form)
-  body-form*)
-</code></pre>
-
-<p>可以使用return随时中断循环，循环可以嵌套</p>
-
-<h4>7.6 DO</h4>
-
-<p>强大灵活的循环形式，允许绑定任意数量的变量，控制变量在每次循环的改变方式，自定义测试条件来决定何时终止循环，定义DO表达式整体的返回值。形式</p>
-
-<pre><code>(do (variable-definition*)
-    (end-test-form result-form*)
-  statement*)
-</code></pre>
-
-<h4>7.7 强大的LOOP</h4>
-
-<p>LOOP宏可以提供两种类似的循环：<br/>
-1) 在多种数据结构上循环：列表，向量，哈希表，包<br/>
-2) 循环时以多种方式和计算值：收集，计数，求和，最小化，最大化</p>
-
-<p>LOOP宏有两类：简化的和扩展的<br/>
-简化版本：</p>
-
-<pre><code>(loop
-  body-form*)
-</code></pre>
-
-<p>不绑定任何变量的无限变量，使用RETURN退出循环<br/>
-扩展版本：<br/>
-across, and, below, collecting, counting, finally, for, from, summing, then, to</p>
-
-<h3>第8章 如何自定义宏</h3>
-
-<h4>8.1 Mac的故事：只是一个故事</h4>
-
-<p>Mac是一个宏编译器</p>
-
-<h4>8.2 宏展开期和运行期</h4>
-
-<p>宏展开期：使用宏的代码被完全展开成实际可以运行的代码(代码被解释/翻译期间)<br/>
-运行期：代码运行的时期(最终代码实际运行的时间段)</p>
-
-<p>WHEN宏可以定义为</p>
-
-<pre><code>(defmacro when (condition &amp;rest body)
-  `(if ,condition (progn ,@body)))
-</code></pre>
-
-<h4>8.3 DEFMACRO</h4>
-
-<p>DEFMACRO基本框架：</p>
-
-<pre><code>(defmacro name (parameter*)
-  "Optional documentation string."
-  body-form*)
-</code></pre>
-
-<p>编写宏需要两端代码：宏的调用方式和宏展开后的样子<br/>
-编写的步骤：<br/>
-1) 编写宏的示例用法，以及它应该展开成的代码<br/>
-2) 编写从示例用法的参数中生成展开后代码的代码<br/>
-3) 确保宏抽象不会“泄漏”</p>
-
-<h4>8.4 示例宏：do-primes</h4>
-
-<p>do-primes宏的调用方式</p>
-
-<h4>8.5 宏形参</h4>
-
-<p>编写do-primes宏，传递参数的两种方式：单一列表参数和分解开的列表参数<br/>
-编写宏可以使用&amp;optional, &amp;key和&amp;rest等关键字</p>
-
-<h4>8.6 生成展开式</h4>
-
-<p>反引用语法<br/>
-APPEND函数：将任意数量的列表实参拼接成单一列表<br/>
-函数MACROEXPAND-1和函数MACROEXPAND，查看宏的展开代码，可以用来作调试<br/>
-do-primes宏的第一个实现</p>
-
-<h4>8.7 堵住漏洞</h4>
-
-<p>8.6一节中do-primes宏的实现有3个漏洞：<br/>
-1) 多重求值<br/>
-修改使得每个实参只求值一次，而且保留求值顺序<br/>
-2) 宏实现内部创建的变量名泄漏<br/>
-使得函数GENSYM来产生新的唯一标识符名字(符号)</p>
-
-<p>编写do-primes宏的堵漏过程中总结出编写宏时常用规则：<br/>
-1) 展开式中参数的求值顺序与给出的实参相同<br/>
-2) 参数只求值一次，避免多次求值<br/>
-3) 使用GENSYM函数来创建实现内部变量名，避免泄漏</p>
-
-<h4>8.8 用于编写宏的宏</h4>
-
-<p>用宏1来生成宏2，用宏2来生成实际代码<br/>
-调用形式展开时，展开多次宏调用</p>
-
-<h4>8.9 超越简单的宏</h4>
-
-<p>宏的作用：<br/>
-1) 减少代码重复，减少工作量<br/>
-2) 提供表达代码的新方式</p>
-
-<h3>第9章 实践：建立单元测试框架</h3>
-
-<p>编写代码做一个简单的lisp单元测试框架</p>
-
-<h4>9.1 两个最初的尝试</h4>
-
-<p>测试函数的原型</p>
-
-<h4>9.2 重构</h4>
-
-<p>运用函数和宏来消除代码重复</p>
-
-<h4>9.3 修复返回值</h4>
-
-<p>函数添加返回值，组织test case</p>
-
-<h4>9.4 更好的结果输出</h4>
-
-<p>引入动态变量，输出结果中加入测试用例路径信息</p>
-
-<h4>9.5　抽象诞生</h4>
-
-<p>引入宏自动生成test suite，组织test case</p>
-
-<h4>9.6 测试层次体系</h4>
-
-<p>修改宏支持test suite ->　test suite -> test case的层次组织</p>
-
-<h4>9.7 总结</h4>
-
-<p>一个总共26行的小测试框架的编写过程，也是lisp编程的一般方式。<br/>
-通用的方法是不变的：<br/>
-从简单版本开始演化，消除代码重复，简化调用方式，定义针对问题集的微型语言，更高程度的抽象，改进结果输出等</p>
 ]]></content>
   </entry>
   

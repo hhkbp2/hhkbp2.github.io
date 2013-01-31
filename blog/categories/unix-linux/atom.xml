@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-01-29T00:13:21+08:00</updated>
+  <updated>2013-01-31T17:24:17+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,80 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[常用终端软件]]></title>
+    <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
+    <updated>2013-01-31T20:01:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
+    <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里记录一下我经常使用的终端软件及配置。</p>
+
+<p>在Linux桌面，Gnome自带的gnome-terminal，或KDE自带的konsole都是很多人的首选终端软件，它们都支持标签，并与窗口管理器(WM)有很好的集成。源自Gnome的mate-desktop中自带mate-desktop，事实上只是一个改了名的gnome-terminal。此外，还有rxvt, xterm/roxterm等个头较小的终端软件，由于它们或轻量快速，或定制性较强，也吸引了不少使用者，早前我也常常使用rxvt-unicode，主要喜欢它启动迅速一点即开，但由于电脑的配置越来越好，其它终端如konsole也能迅速打开，rxvt-unicode的这个速度优势已经越来越小，所以渐渐也少用了。</p>
+
+<p>在Windows下，也常常需要使用ssh终端连接到Linux服务器来进行命令行操作。流行的ssh终端软件有putty，Secure CRT，XShell等几个。putty由于会话管理功能较差，不方便用在多机器环境。所以很多人更喜欢功能强大的Secure CRT，它也算是一个比较经典的终端软件了，支持多标签，会话管理，ssh agent，登录脚本等，具有丰富的可定制性，而各种破解的版本更加有利于它抢占市场，可以说它是最流行的终端软件，没有之一。XShell则少为人知，与Secure CRT相比功能几乎同样强大的，但有一些特色的功能，比如支持在输出中进行搜索，这个功能在Mac下的iterm2，或在Emacs中运行的终端都有，它的家庭/学校版本可以不注册免费长期使用，吸引了不少原来Secure CRT破解版的用户。后两者的会话都以文件形式保存在指定目录中，在重装系统或迁移到新系统前，可以通过拷贝对应会话文件目录恢复全部的会话配置。</p>
+
+<p>在服务器上，与终端软件搭档的还有screen/tmux这类终端多路复用软件，它们提供了会话管理(挂起，重连，关闭)，多标签模拟，屏幕分割，对输出内容的搜索，复制，粘贴等功能，是程序员手中很好的终端利器。两者的功能相近，其中screen比较老，也不再更新，缺少对utf8的支持，同时状态指示行(caption line，hardstatus line)复杂晦涩的语法也广受批评。tmux本意就是用来取代老旧的screen，并针对screen的缺点作出对应的改善，比如改进了状态指示行的配置可读性，强化了对执行脚本支持。</p>
+
+<p>我经常用到的终端配置，主要有如下几种：语言，字符集，字体，色彩支持，编辑器。</p>
+
+<ul>
+<li><p>语言</p>
+
+<p>  在Debian/Ubuntu中可以通过命令</p>
+
+<pre><code>  sudo dpkg-reconfigure locales
+</code></pre>
+
+<p>  来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有</p>
+
+<pre><code>  # 设置为中文环境
+  export LC_ALL=zh_CN.utf8
+  export LANG=zh_CN.utf8
+  export LANGUAGE=zh_CN:zh
+
+  # 设置为英文环境
+  export LC_ALL=en_US.utf8
+  export LANG=en_US.utf8
+  export LANGUAGE=en_US:en:zh_CN:zh
+</code></pre>
+
+<p>  将配置添加到.bashrc，source配置或重新登录终端才生效。</p></li>
+<li><p>字符集</p>
+
+<p>  能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p></li>
+<li><p>字体</p>
+
+<p>  推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
+
+<pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
+  0Oo      &lt;-- 数字0，大小写字母o
+  `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
+</code></pre>
+
+<p>  Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
+
+<pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
+  Ubuntu Mono    --- Ubuntu的开源字体
+</code></pre>
+
+<p>  当然，每个人的喜好审美不同，对字体的偏好也不同。</p></li>
+<li><p>色彩支持</p>
+
+<p>  无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
+
+<pre><code>  export TERM=xterm-256color
+</code></pre>
+
+<p>  就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
+
+<p>  打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p></li>
+<li><p>编辑器</p>
+
+<p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[自由与理由]]></title>
@@ -63,9 +137,9 @@
   
   <entry>
     <title type="html"><![CDATA[Thrift Erlang实现源代码阅读]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/16/thrift-erlang-implemetation-source-code-reading/"/>
+    <link href="http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading/"/>
     <updated>2013-01-16T21:27:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/16/thrift-erlang-implemetation-source-code-reading</id>
+    <id>http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading</id>
     <content type="html"><![CDATA[<p>Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考<a href="http://thrift.apache.org/">Thrift官方网站</a>，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP，而主要集中讨论Thrift里面的Erlang实现，假定目标读者了解Erlang，并且具有Thrift的使用经验，熟悉Thrift在其它语言的实现源代码更佳。</p>
 
 <p>本文讨论的Thrift源代码版本为0.8.0，在官网可以下载。</p>
@@ -555,66 +629,6 @@ call(Client = #tclient{}, Function, Args)
 <p>在安装了一堆的扩展之后，搭配tint2，我机器上的这个gnome-shell的使用体验和老版的gnome就差不多相同了，只是有些小变化。在刚装上gnome-shell，没有装扩展的时候，我曾经觉得它十分的不好用，于是写了上面的第一个文章《杯具的诞生》，吐槽了一番，到今天gnome-shell的用户体验已经比当初好出很多倍。</p>
 
 <p>对比来看，老版gnome更像是A餐B餐，软件包就那么几个，全部plugin用到的没用到的都绑在里面，装上之后，每个用户爱用哪个plugin就配哪个plugin，而gnome-shell更像是自助餐，用户喜欢用哪个再自行下载安装启用，而越来越多的扩展出现，提供了不断丰富的功能和操作方式，像从网页点击按钮直接安装扩展这种便捷方式就是老版gnome所没有的，从这个角度来看，gnome-shell灵活和定制性强的优势已经开始慢慢展示出来。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[折腾gnome-shell]]></title>
-    <link href="http://clisp.github.com/blog/2011/11/13/tinker-with-gnome-shell/"/>
-    <updated>2011-11-13T00:13:03+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/11/13/tinker-with-gnome-shell</id>
-    <content type="html"><![CDATA[<p>转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。</p>
-
-<h3>修改面板为gnome2风格</h3>
-
-<p>gnome-shell的"Activity"风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处：</p>
-
-<ul>
-<li><p>顶部面板不能放置applet或快捷方式，长长的一条面板中间只标示时间，显示不够紧凑</p></li>
-<li><p>而没dock的情形下，要启动程序/切换workspace，鼠标需要到移到左上方的"Activity"按钮位置，点击类似dock的程序快捷方式，或者点击/application，查找程序名字，或者移到右边的workspace选择栏，相当麻烦。虽然常用的几个程序/切换workspace我都习惯于用快捷键，不过有时还是需要用鼠标来启动程序，gnome-shell比gnome2多了应用程序名字搜索功能，不过使用起来鼠标过多，效率降低</p></li>
-<li><p>取消了任务栏，但支持Alt+Tab切换程序，而且支持窗口预览</p></li>
-<li><p>没有关机键，关机需要打开Suspend下拉列表，按Alt唤出Shutdown项，不够方便</p></li>
-</ul>
-
-
-<p>这几个问题皆因本来习惯了gnome2，而gnome-shell的面板风格相对gnome3有所改变所致。由于gnome-shell目前还没在UI上开放用户定制选项，要定制它只能通过改代码方式来做。后来想到这么多的人从gnome2迁移到gnome3，想把gnome-shell定制成gnome2风格的需求应该不少吧，果然在网上找到一篇文章<a href="http://wowubuntu.com/gnome-shell-extensions-brings-gnome2.html">《新的Gnome Shell扩展带来一种类似于Gnome2的用户体验》</a>，讲的是将gnome3的面板定制为gnome2风格，它主要对gnome-shell有以下几个修改：</p>
-
-<ol>
-<li>将时间显示移到顶部面板的一边，同gnome2</li>
-<li>将快捷方式放入顶部面板，这些快捷方式都来自Overview模式(也就是点击Activity按钮后进入的界面)左边的Dash(Overview模式界面左边像dock的那个家伙)</li>
-<li>将顶部面板的"Activity"按钮换做Application按钮，下拉列表就是分类的应用程序快捷方式，同gnome2的Application菜单</li>
-<li>将gnome3动态变化的workspace个数限制为静态不动</li>
-<li>将Suspend按钮改为Shutdown按钮，弹出的Shutdown对话框风格与gnome2一致</li>
-<li>添加底部任务栏</li>
-</ol>
-
-
-<h3>添加底部任务栏</h3>
-
-<p>与稳定不换的顶部面板不同，底部任务栏的这个位置，我曾经使用过gnome2任务栏面板，dock和dockbarx，也用过多个不同的dock，最喜欢的也用得最久的是cairo dock，效果好配置性强，缺点在于主题图标不完善bug也不少，docky则比较简洁，配置性稍弱，而且很多人都不喜欢libmono这个大块头，至于awn则是好久之前用过了，感觉一般没有深究。dockbarx是一个gnome2面板的插件，主要提供程序分组和快捷方式功能，有点像是windows 7的任务栏风格，问题在于不够稳定。</p>
-
-<p>应用上面提到的扩展，就可以在底部添加gnome2默认标配的任务栏，但是这个位置我更喜欢安装tint2来作为底部任务栏，因为它即可以作为任务栏，也可以放入其它的东西，如快捷方式，系统托盘或时钟等，也可作为一个workspace切换器，而且它配置性比较强，深得openbox等其他wm使用者的喜爱。我到它的官方网站找了一个示例配置文件，使用起来觉得效果也不错，风格与之前用的docbarx比较像。</p>
-
-<h3>更换gnome-shell主题</h3>
-
-<p>之前一直用的主题是浅色系的elementrary-borderless，转到gnome-shell之后，界面黑乎乎的一片相当不清爽，于是另外换了一个主题，资源请参考：</p>
-
-<p><a href="http://wowubuntu.com/5-gnome-shell-theme.html">《5 个漂亮的 Gnome Shell 主题》</a><br/>
-<a href="http://wowubuntu.com/gnome-shell-theme.html">《Gnome Shell 主题：New Adwaita-White 及 Black Glass》</a></p>
-
-<p>目前gnome-shell官方没有提供更换主题的工具，据说是因为这个功能并不是太受到重视。要换主题的话有两种方法：</p>
-
-<ol>
-<li><p>使用GNOME Shell用户主题扩展(User-Theme Extension)，它的包名是gnome-shell-extensions-user-theme。将主题文件下载到./themes/THEME-NAME/gnome-shell中，然后就可以通过Gnome Tweak Tool来选择不同的主题了</p></li>
-<li><p>将下载的主题文件直接覆盖系统主题目录/usr/share/gnome-shell/theme(记得先备份一下)，然后按Alt+F2打开命令启动器，并键入"r"或"rt"更新主题</p></li>
-</ol>
-
-
-<p>虽然只是修改不多，但折腾完之后感觉比原来默认的gnome-shell好用得多，gnome-shell的默认配置的确扯淡，但它的可配置性强大，可以预见到将来会出现越来越多的扩展，一些好用的扩展会进入源方源，让我们广大用户使用体验更好一些选择更多一些。</p>
-
-<p>最后帖上一张折腾后的桌面截图：</p>
-
-<p><a href="/images/uploads/2011/11/gnome-shell-mss2.jpg"><img src="/images/uploads/2011/11/gnome-shell-mss2.jpg" alt="折腾后的gnome-shell截图" /></a></p>
 ]]></content>
   </entry>
   
