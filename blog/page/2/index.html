@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="&#8220;Don&#8217;t panic.&#8221; &#8211; The Hitchhiker&#8217;s Guide to the Galaxy 作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么， &hellip;">
+  <meta name="description" content="我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,86 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T01:18:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/13/make-my-emacs-configuration-public/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
+
+<p>作为一个Emacs控，我发现在工作环境中虽然听说过或用过Emacs的人很多，但很少人对它有兴趣，而既有兴趣又保持着热情一直用下去的人就更少了，因此玩得好的人几乎遇不到。其实Vim的情况也差不多。我在公司向其他人推销Emacs，一般别人都是直接在开发机上拷贝一份我的配置，原封不动的拿来用。后来发现有个同事D悄悄地把我的整个配置目录放到github上了，反正已经公开，于是我就被迫把bitbucket上我的Emacs配置代码库公开了。这有点像19世纪的日本黑船事件，或者中国的鸦片战争，开放的大门常常是被迫打开的。</p>
+
+<p>我的Emacs配置文件代码库在：</p>
+
+<pre><code>https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>代码库目录结构如下：</p>
+
+<pre><code>├── dot_emacs              -- 链接到$HOME/.emacs
+├── import/                -- 目录，用于导入的其它扩展包和文件
+├── Makefile               -- 文件，用于解压import目录中的包，并做必要的编译
+├── personal               -- 链接到带私人信息的目录，没有提交到hg
+└── site-lisp/             -- 目录，存放配置文件，主要是自己写的，也有从其它地方拿来的
+</code></pre>
+
+<p>了解<a href="http://emacser.com/dea.htm">DEA</a>的朋友可能会发现，这里的目录结构和文件命名习惯都很像DEA，是的，在我的配置目录不断变大的过程中多次参考了<a href="http://emacser.com">Emacs中文网</a>和DEA，甚至site-lisp下部分文件直接拿自DEA，特别感谢Emacse中文网的主人，DEA的作者ahei。</p>
+
+<p>除了import目录中带有的扩展之外，还用到了一些安装到系统目录的扩展包，它们在debian/ubuntu中的包名是：</p>
+
+<pre><code>emacs-goodiel-el
+emacs23-el
+python-mode
+python-ropemacs
+erlang-mode
+geiser
+</code></pre>
+
+<p>安装好这些依赖包到系统后，使用命令：</p>
+
+<pre><code>hg clone https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>clone一份我的配置代码库，然后在新建的dot-emacs目录运行命令：</p>
+
+<pre><code>make site-init
+</code></pre>
+
+<p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
+
+<p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -870,112 +950,6 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/15/one-man-in-autumn/">一个悲秋客途的男人</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-15T11:32:00+08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/15/one-man-in-autumn/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>“凉风有信，秋月无边。</p>
-
-<p>睇我思娇情绪好比度日如年。小生系缪姓乃是莲仙字，为忆多情嘅歌女呀叫做麦氏秋娟。”</p>
-
-<p>——《客途秋恨》</p></blockquote>
-
-<p>现在的年青人都不听粤曲了，包括我自己，不过在几十年前，粤曲和现在泛滥的流行曲一样流行。下了班的夜晚，一个人疲倦的回到住处，偶尔听到一首白驹荣的南音经典《客途秋恨》，听着开头一段长长的前奏，古筝铮淙，二胡呜咽，面对住处空墙四壁，别有一番秋凉意味。</p>
-
-<p>《客途秋恨》说的是一个男人对情人的思念，从抒情的角度来看，类似于现在的情歌。一个孤单的男人在寂寞的路途上，难不免有绵绵的思娇情绪，于是远天近水，孤舟寒月，千种相思万般柔情在心底如江水一般涌起。任你是缪莲仙李隆基或是陈后主，统统掉进秋夜愁绪之中，尝尽了爱恋离合生死两隔也罢，历尽了国破兵争颠沛流离也罢，最后都不过化成客途的一点秋恨而已。</p>
-
-<p>为什么我会觉得对这首曲有所共鸣呢？想来可能是与最近的苦乐参半的生活有关。自把博客从Wordpress迁到Octopress之后，虽然写博客变得更方便，但有时忙于工作，有时忙于读书学习，我再没有写过什么了。工作上，把之前负责的业务开发和运营移交出去了，然后花了一段时间探索Erlang，做了一个RESTful后台服务，后来又由于外部原因放弃了。生活上，开始了向早睡早起的缓慢转变，虽然还是不容易早点睡着，不过也算是有所进步。总的来说，生活表面平静得像长白山的天池湖面一样，但内里感觉却像在潮起潮落的太平洋上划小船，飘飘荡荡。</p>
-
-<p>这段时间最大的收获就是读了不少的书，无论是技术书，还是社科或小说，有薄薄的小册子，也有几百页的砖头。下面简单列一下这段时间读过的书单：</p>
-
-<ul>
-<li>《Erlang程序设计》</li>
-</ul>
-
-
-<p>Erlang之父Joe Armstrong前几年出的书，我把它叫做老头书，据说关于每门语言，它的创始人写的书都很值得一看，例如C的K&amp;R，C++的TC++PL等，要学习Erlang当然也不少了老头书。</p>
-
-<ul>
-<li>《Erlang/OTP并发编程实战》</li>
-</ul>
-
-
-<p>讲的内容是比较基础的otp原理和应用，对于初学者很实用，特别值得一提的是，中文版本的翻译十分流畅，在目前国内的计算机技术翻译书中难得的上乘之作，之所以有这种感受，可能我看过或买过太多的翻译很差，错漏百出的翻译技术书了，而它们常常不是由非专业人士，就是由一群人数多得数不清的大学教授和研究生来翻译，质量之差超乎想象。</p>
-
-<ul>
-<li>贾雷德·戴蒙德 《第三种猩猩：人类的身世与未来》，《枪炮、病菌与钢铁——人类社会的命运》，《崩溃：社会如何选择成败兴亡》</li>
-</ul>
-
-
-<p>合称为人类三部曲的这三本书也算是比较经典了，读起来饶有趣味，在最近出的《崩溃》一书中也提到迅速发展的中国，让人对目前中国现状和发展的模式有很多的思考，正如作者所说，很多时候关键点不在技术，而在于政治。但在中国，政治是不能通过每个公民一张选票决定的，所以，多谈无益。贾雷德·戴蒙德还有一本以人类的性为主题书，不过目前还没入手。</p>
-
-<ul>
-<li>《软件随想录：程序员部落酋长Joel谈软件》</li>
-</ul>
-
-
-<p>内容和翻译都很好，很多地方都让人眼前一亮。</p>
-
-<ul>
-<li>《程序员的职业素养》</li>
-</ul>
-
-
-<p>知道有这本书，我的第一印象就是：马丁老头又出书骗程序员的钱了。看过后，虽然有不少收获，但还是觉得薄薄的一本小册子定价太贵了。</p>
-
-<ul>
-<li>《HTTP权威指南》</li>
-</ul>
-
-
-<p>一本10年前出的HTTP方面的老书，讲得面广而浅，让我对HTTP和Web服务有更全面清晰的理解，读起来相当轻松，不过这本书字体或行距太大，定价也较贵。</p>
-
-<ul>
-<li>《解析极限编程：拥抱变化》，《死亡之旅》，《人件集》</li>
-</ul>
-
-
-<p>都是经典，可谓段段珠玑，用在实际工作中，每过一段时间回头看一次，都会有新收获。</p>
-
-<ul>
-<li>《达摩流浪者》，《禅与摩托车维修艺术》，《月亮与六便士》，大卫•米切尔的《云图》《雅各布•德佐特的千秋》《幽灵代笔》，卡尔维诺的《看不见的城市》《宇宙奇趣全集》等</li>
-</ul>
-
-
-<p>临近年底，各大网上书店的打折活动比较多，我买的书也越来越多，然后最近看过的书也多了起来。于是有点明白为什么有些人说，买了Kindle阅读器之后，看的书会比之前多。这正如软件领域常见的现象：好用顺手的编程语言或开发工具，会让人乐于进行更多的编程。这是一个正向加速的反馈回路。比较遗憾的是，英文原版书对于我来说依然太贵，我还是没米收一本纸质的《Ansi Common Lisp》或《Paradigms of Artificial Intelligence Programming:Case Studies in Common Lisp》，还是电子书比较适合我这种穷人，耐心等待合适的时候再出手Kindle Paperwhite吧。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -997,6 +971,10 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
       </li>
     
       <li class="post">
+        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
       </li>
     
@@ -1006,10 +984,6 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
     
       <li class="post">
         <a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a>
       </li>
     
   </ul>
@@ -1023,7 +997,7 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (14)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (15)</a></li>
 
  </ul>
 </section>

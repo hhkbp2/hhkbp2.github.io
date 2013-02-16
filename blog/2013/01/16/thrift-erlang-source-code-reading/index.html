@@ -113,7 +113,7 @@
 <pre><code>$ thrift -r --gen erl tutorial.thrift
 </code></pre>
 
-<p>调用thrift编译器生成对应的客户端和服务器端的Erlang桩代码，生成的新目录一般命名为<code>gen-LANG</code>，其中<code>LANG</code>即为上面命令中选项<code>--gen</code>后面的语言名字，刚才编译命令生成的新目录为gen-erl，此目录下生成的文件如下：</p>
+<p>调用thrift编译器生成对应的客户端和服务器端的Erlang桩代码，生成的新目录一般命名为<code>gen-LANG</code>，其中<code>LANG</code>即为上面命令中选项<code>--gen</code>后面的语言名字，刚才编译命令生成的新目录为<code>gen-erl</code>，此目录下生成的文件如下：</p>
 
 <pre><code>├── calculator_thrift.erl      -- 对应Calculator的接口代码
 ├── calculator_thrift.hrl
@@ -129,13 +129,13 @@
 
 <p>其中生成的几种文件已经用注释标志出来，一种是接口代码，一种是类型代码。通过对比.thrift接口定义文件里面的内容和生成的Erlang代码，可以总结出各种IDL数据类型在编译后转化成的Erlang代码</p>
 
-<pre><code>IDL数据类型                  编译生成的Erlang代码
-enum                         宏
-基本类型常数                  宏
-map                          dict
-struct(optional选项不起作用)  record(Erlang里的record支持多层嵌套)
-exception                    record
-service                      针对每个接口生成function_info()函数，其中每个接口
+<pre><code>IDL数据类型                   编译生成的Erlang代码
+enum                        宏
+基本类型常数                   宏
+map                         dict
+struct(optional选项不起作用)   record(Erlang里的record支持多层嵌套)
+exception                   record
+service                     针对每个接口生成function_info()函数，其中每个接口一组
 </code></pre>
 
 <p>我们重点看一下service的接口，以较复杂的service Calculator的calculate接口为例，它的IDL定义为</p>
@@ -491,7 +491,7 @@ call(Client = #tclient{}, Function, Args)
 
 <h2>3 总结</h2>
 
-<p>到这里我们就讨论完Thrift Erlang实现的所有主要代码了，总的来说，整个实现并不复杂，代码阅读起来也比较简明易懂，认真读起来很快就可以读完，对比C++或Python等其他语言的实现来看，Erlang实现的代码量相当小，这得益于Erlang对网络编程，服务器编写的优秀支持，以及函数式编程的清晰语义。</p>
+<p>Thrift Erlang实现的所有主要代码到这里就讨论完了。总体来看，整个实现并不复杂，代码阅读起来也比较简明易懂，认真读起来很快就可以读完，对比C++或Python等其他语言的实现来看，Erlang实现的代码量相当小，这得益于Erlang对网络编程，服务器编写的优秀支持，以及函数式编程的清晰语义。</p>
 </div>
 
 
@@ -563,6 +563,10 @@ call(Client = #tclient{}, Function, Args)
       </li>
     
       <li class="post">
+        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
       </li>
     
@@ -572,10 +576,6 @@ call(Client = #tclient{}, Function, Args)
     
       <li class="post">
         <a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a>
       </li>
     
   </ul>
@@ -589,7 +589,7 @@ call(Client = #tclient{}, Function, Args)
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (14)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (15)</a></li>
 
  </ul>
 </section>

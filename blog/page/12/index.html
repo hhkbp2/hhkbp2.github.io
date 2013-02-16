@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了 &hellip;">
+  <meta name="description" content="安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 http://finalbug.cn/?p=694 即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/17/debian-poweroff/">在debian下以普通用户关机</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-17T12:36:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/04/17/debian-poweroff/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 <a href="http://finalbug.cn/?p=694">http://finalbug.cn/?p=694</a></p>
+
+<p>即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限：</p>
+
+<pre><code>gpasswd -a username powerdev
+</code></pre>
+
+<p>即可。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -342,94 +387,6 @@ To apply different face settings according to different term types."
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/01/11/emacs-fullscreen/">如何全屏emacs</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-11T14:35:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/01/11/emacs-fullscreen/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>很多像我一样喜欢将 emacs 作为全 workspace 的人都想喜欢将 emacs 全屏显示(只将 emacs 留下，其它桌面内容全部去掉，为此我错过了n多朋友在 QQ 或 pidgin 上的呼叫，sorry~~)。这里分享一下emacs全屏的配置：</p>
-
-<h3>linux 平台</h3>
-
-<p>在 linux 下，可以通过向 X server 发送全屏消息，在 .emacs 中写入</p>
-
-<pre><code>;全屏
-(defun my-fullscreen ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(2 "_NET_WM_STATE_FULLSCREEN" 0)))
-
-;;最大化
-(defun my-maximized-horz ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
-(defun my-maximized-vert ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_VERT" 0)))
-(defun my-maximized ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_VERT" 0)))
-</code></pre>
-
-<p>即可通过执行命令</p>
-
-<pre><code>M-x my-fullscreen
-</code></pre>
-
-<p>全屏。其中也包含最大化窗口命令 my-manimized() 定义。不过有个问题，全屏后切换到scim五笔输入法后会闪屏不断。</p>
-
-<p>这部分来自<a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a>的帖子<a href="http://forum.ubuntu.org.cn/viewtopic.php?f=24&amp;t=62416">Emacs 最大化和全屏的配置</a>，感谢kemean的分享。</p>
-
-<h3>windows平台</h3>
-
-<p>之所以有这部分是因为我也经常在公司的xp使用EmacsW32。可以通过安装darkroom扩展来去掉标题栏，以达到全屏的效果，参考</p>
-
-<p><a href="http://www.martyn.se/code/emacs/darkroom-mode/">http://www.martyn.se/code/emacs/darkroom-mode/</a></p>
-
-<p>内有安装与使用说明。不过我实际使用感觉并不好，w32下最大化足已。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13/">&larr; Older</a>
@@ -451,6 +408,10 @@ To apply different face settings according to different term types."
       </li>
     
       <li class="post">
+        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
       </li>
     
@@ -460,10 +421,6 @@ To apply different face settings according to different term types."
     
       <li class="post">
         <a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a>
       </li>
     
   </ul>
@@ -477,7 +434,7 @@ To apply different face settings according to different term types."
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (14)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (15)</a></li>
 
  </ul>
 </section>

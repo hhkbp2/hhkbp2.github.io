@@ -175,6 +175,66 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-28T23:37:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/28/opium-in-electronic-age/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
+
+<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：TODO 补全人名 格林布赖特，费尔斯坦森，乔布斯，盖茨&#8230;..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
+
+<p>于是从卓越网订购了一个Intel SSD 330 120g，周末把它安装到我的小黑X201i中，换出原配的西数250g硬盘。因为新的ssd也是9.5mm，厚度与原来机械硬盘一样，所以原来的硬盘架就完美套用，换起来相当便捷。换好硬盘后，在Windows下使用Intel SSD Toolbox查看硬盘状态，出厂日期和读写次数，写入量都没问题，固件已经是最新版本不用升级，然后统一trim一次，算是完成初始化。</p>
+
+<p>之后格盘，重新通过U盘装上Linux，这次我用的安装镜像是Linux Mate Debian Edition(LMDE)。之所以不用Debian默认的安装镜像，是因为gnome-shell实在太不好用，这在之前的日志<a href="/blog/2013/01/21/freedom-and-reason">《自由与理由》</a>中已细说过。安装LMDE的时候，还踩中过一个坑，当时选择了locale为<code>zh_CN</code>，结果在安装将要完成时，安装程序在配置locale那一步卡住了很长时间，让我很是怀疑，最后中断了安装过程重试。上网一查，原来是LMDE安装程序的一个bug，所以安装LMDE时还是用默认的locale <code>en_US</code>为好，需要修改locale的话可以在安装完成进入系统后再改。</p>
+
+<p>在Linux系统，可以针对SSD做一些优化，主要目的是用好SSD以提升读写速度，减少写入量延长SSD寿命。具体的优化原理和步骤可以参考</p>
+
+<ol>
+<li>TODO 补充文章1及链接</li>
+<li>TODO 补充文章2及链接</li>
+</ol>
+
+
+<p>这些优化我只采用了一部分，文件系统用的还是Ext4，然后加了noatime, nodiratime等挂载选项来禁止更新atime，因为它在桌面系统上其实没什么用，加了nodiscard和定期trim，还分了一个与内存等大的swap分区来方便休眠(hibernate)，而像关闭文件系统日志这种动作觉得风险大没有采用。因为Intel SSD有长达几年的保修服务，所以也就不太担心写入量会太大，也不用担心会被用坏，随便写就是了。</p>
+
+<p>LMDE下还有一个坑：LMDE默认的系统菜单休眠按钮，是通过触发<code>pm-utils</code>包提供的<code>pm-hibernate</code>命令来休眠的，但实际使用中无法正常唤醒，每次休眠唤醒都是重新启动。需要安装<code>laptop-mode-tools</code>，<code>hibernate</code>这两个包，才能正常休眠及唤醒。</p>
+
+<p>升级了SSD之后，机器的速度还是有很大的提升。从SSD Benchmark和HD Tune等软件在换上SSD前后测试的数据对比来看，顺序读写有2到3倍的速度提升，随机读写则有几十倍。在使用感觉上，启动系统和打开程序都明显感觉到变快了，编译代码也有明显的速度区别，以往在敲完编译命令后，看着命令行输出慢悠悠的向下滚动，现在则变得像嗑了药的赛车手一样疯狂，滚动刷屏得很快，基本上看不清里面的内容。</p>
+
+<p>SSD速度奇快，用过它之后就很难再用回慢吞吞的机械硬盘。从某个角度来看，SSD就类似于鸦片，它给人带来很有快感的体验，而且一旦接触就容易上瘾。自计算机诞生以来，每个年代都有其电子鸦片，50年前，那是一个如PDP-6的计算设备，今天，则变成SSD，网络游戏和社交网站。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a></h1>
     
     
@@ -325,7 +385,7 @@
 <pre><code>$ thrift -r --gen erl tutorial.thrift
 </code></pre>
 
-<p>调用thrift编译器生成对应的客户端和服务器端的Erlang桩代码，生成的新目录一般命名为<code>gen-LANG</code>，其中<code>LANG</code>即为上面命令中选项<code>--gen</code>后面的语言名字，刚才编译命令生成的新目录为gen-erl，此目录下生成的文件如下：</p>
+<p>调用thrift编译器生成对应的客户端和服务器端的Erlang桩代码，生成的新目录一般命名为<code>gen-LANG</code>，其中<code>LANG</code>即为上面命令中选项<code>--gen</code>后面的语言名字，刚才编译命令生成的新目录为<code>gen-erl</code>，此目录下生成的文件如下：</p>
 
 <pre><code>├── calculator_thrift.erl      -- 对应Calculator的接口代码
 ├── calculator_thrift.hrl
@@ -341,13 +401,13 @@
 
 <p>其中生成的几种文件已经用注释标志出来，一种是接口代码，一种是类型代码。通过对比.thrift接口定义文件里面的内容和生成的Erlang代码，可以总结出各种IDL数据类型在编译后转化成的Erlang代码</p>
 
-<pre><code>IDL数据类型                  编译生成的Erlang代码
-enum                         宏
-基本类型常数                  宏
-map                          dict
-struct(optional选项不起作用)  record(Erlang里的record支持多层嵌套)
-exception                    record
-service                      针对每个接口生成function_info()函数，其中每个接口
+<pre><code>IDL数据类型                   编译生成的Erlang代码
+enum                        宏
+基本类型常数                   宏
+map                         dict
+struct(optional选项不起作用)   record(Erlang里的record支持多层嵌套)
+exception                   record
+service                     针对每个接口生成function_info()函数，其中每个接口一组
 </code></pre>
 
 <p>我们重点看一下service的接口，以较复杂的service Calculator的calculate接口为例，它的IDL定义为</p>
@@ -703,87 +763,7 @@ call(Client = #tclient{}, Function, Args)
 
 <h2>3 总结</h2>
 
-<p>到这里我们就讨论完Thrift Erlang实现的所有主要代码了，总的来说，整个实现并不复杂，代码阅读起来也比较简明易懂，认真读起来很快就可以读完，对比C++或Python等其他语言的实现来看，Erlang实现的代码量相当小，这得益于Erlang对网络编程，服务器编写的优秀支持，以及函数式编程的清晰语义。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-13T01:18:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/13/make-my-emacs-configuration-public/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
-
-<p>作为一个Emacs控，我发现在工作环境中虽然听说过或用过Emacs的人很多，但很少人对它有兴趣，而既有兴趣又保持着热情一直用下去的人就更少了，因此玩得好的人几乎遇不到。其实Vim的情况也差不多。我在公司向其他人推销Emacs，一般别人都是直接在开发机上拷贝一份我的配置，原封不动的拿来用。后来发现有个同事D悄悄地把我的整个配置目录放到github上了，反正已经公开，于是我就被迫把bitbucket上我的Emacs配置代码库公开了。这有点像19世纪的日本黑船事件，或者中国的鸦片战争，开放的大门常常是被迫打开的。</p>
-
-<p>我的Emacs配置文件代码库在：</p>
-
-<pre><code>https://bitbucket.org/lisp/dot-emacs
-</code></pre>
-
-<p>代码库目录结构如下：</p>
-
-<pre><code>├── dot_emacs              -- 链接到$HOME/.emacs
-├── import/                -- 目录，用于导入的其它扩展包和文件
-├── Makefile               -- 文件，用于解压import目录中的包，并做必要的编译
-├── personal               -- 链接到带私人信息的目录，没有提交到hg
-└── site-lisp/             -- 目录，存放配置文件，主要是自己写的，也有从其它地方拿来的
-</code></pre>
-
-<p>了解<a href="http://emacser.com/dea.htm">DEA</a>的朋友可能会发现，这里的目录结构和文件命名习惯都很像DEA，是的，在我的配置目录不断变大的过程中多次参考了<a href="http://emacser.com">Emacs中文网</a>和DEA，甚至site-lisp下部分文件直接拿自DEA，特别感谢Emacse中文网的主人，DEA的作者ahei。</p>
-
-<p>除了import目录中带有的扩展之外，还用到了一些安装到系统目录的扩展包，它们在debian/ubuntu中的包名是：</p>
-
-<pre><code>emacs-goodiel-el
-emacs23-el
-python-mode
-python-ropemacs
-erlang-mode
-geiser
-</code></pre>
-
-<p>安装好这些依赖包到系统后，使用命令：</p>
-
-<pre><code>hg clone https://bitbucket.org/lisp/dot-emacs
-</code></pre>
-
-<p>clone一份我的配置代码库，然后在新建的dot-emacs目录运行命令：</p>
-
-<pre><code>make site-init
-</code></pre>
-
-<p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
-
-<p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
+<p>Thrift Erlang实现的所有主要代码到这里就讨论完了。总体来看，整个实现并不复杂，代码阅读起来也比较简明易懂，认真读起来很快就可以读完，对比C++或Python等其他语言的实现来看，Erlang实现的代码量相当小，这得益于Erlang对网络编程，服务器编写的优秀支持，以及函数式编程的清晰语义。</p>
 </div>
   
   
@@ -810,6 +790,10 @@ geiser
       </li>
     
       <li class="post">
+        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
       </li>
     
@@ -819,10 +803,6 @@ geiser
     
       <li class="post">
         <a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a>
       </li>
     
   </ul>
@@ -836,7 +816,7 @@ geiser
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (14)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (15)</a></li>
 
  </ul>
 </section>
