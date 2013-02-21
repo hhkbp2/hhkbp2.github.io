@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开， &hellip;">
+  <meta name="description" content="Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考Thrift官方网站，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,441 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-16T21:27:00+08:00" pubdate data-updated="true">Jan 16<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/16/thrift-erlang-source-code-reading/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考<a href="http://thrift.apache.org/">Thrift官方网站</a>，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP，而主要集中讨论Thrift里面的Erlang实现，假定目标读者了解Erlang，并且具有Thrift的使用经验，熟悉Thrift在其它语言的实现源代码更佳。</p>
+
+<p>本文讨论的Thrift源代码版本为0.8.0，在官网可以下载。</p>
+
+<p>虽然这里重点讨论的是内部实现的源代码，但是开始源代码之旅之前，简单回忆一下如何用Erlang编写Thrift客户端和服务器端是很帮助的。</p>
+
+<h2>1 编写客户端与服务器端</h2>
+
+<p>使用各种语言来编写Thrift客户端和服务器端的步骤都相同：在安装好thrift后，先编写好RPC的服务定义文件，再用Thrift的编译器编译生成某种语言的客户端和服务器端的RPC桩代码，然后再编写客户端和服务器代码。</p>
+
+<p>Thrift 0.8.0版本的发布包中，tutorial目录下有自带的示例代码，就以它为例来说明。</p>
+
+<h3>1.1 编译发布包自带示例</h3>
+
+<p>可以先进入发布包根目录下的tutorial目录，这里有两个后缀为.thrift的RPC接口定义文件，不熟悉Thrift接口定义文件写法的读者，可以先看看官网的<a href="http://thrift.apache.org/docs/idl/">Thrift接口定义语言(IDL)文档</a>，不熟悉Thrift使用步骤的读者也可以先读一下tutorial目录下面的README文件。使用命令</p>
+
+<pre><code>$ thrift -r --gen erl tutorial.thrift
+</code></pre>
+
+<p>调用thrift编译器生成对应的客户端和服务器端的Erlang桩代码，生成的新目录一般命名为<code>gen-LANG</code>，其中<code>LANG</code>即为上面命令中选项<code>--gen</code>后面的语言名字，刚才编译命令生成的新目录为<code>gen-erl</code>，此目录下生成的文件如下：</p>
+
+<pre><code>├── calculator_thrift.erl      -- 对应Calculator的接口代码
+├── calculator_thrift.hrl
+├── shared_constants.hrl
+├── sharedService_thrift.erl   -- 对应SharedService的接口代码
+├── sharedService_thrift.hrl
+├── shared_types.erl
+├── shared_types.hrl           -- shared.thrift文件中声明的所有类型
+├── tutorial_constants.hrl     -- tutorial.thrift文件中声明的所有常数
+├── tutorial_types.erl
+└── tutorial_types.hrl         -- tutorial.thrift文件中声明的所有类型
+</code></pre>
+
+<p>其中生成的几种文件已经用注释标志出来，一种是接口代码，一种是类型代码。通过对比.thrift接口定义文件里面的内容和生成的Erlang代码，可以总结出各种IDL数据类型在编译后转化成的Erlang代码</p>
+
+<pre><code>IDL数据类型                   编译生成的Erlang代码
+enum                        宏
+基本类型常数                   宏
+map                         dict
+struct(optional选项不起作用)   record(Erlang里的record支持多层嵌套)
+exception                   record
+service                     针对每个接口生成function_info()函数，其中每个接口一组
+</code></pre>
+
+<p>我们重点看一下service的接口，以较复杂的service Calculator的calculate接口为例，它的IDL定义为</p>
+
+<pre><code>i32 calculate(1:i32 logid, 2:Work w) throws (1:InvalidOperation ouch),
+</code></pre>
+
+<p>对应的生成<code>function_info()</code>函数如下：</p>
+
+<pre><code>% calculate(This, Logid, W)
+function_info('calculate', params_type) -&gt;
+{struct, [{1, i32}, {2, {struct, {'tutorial_types', 'work'}}}]};
+function_info('calculate', reply_type) -&gt;
+i32;
+function_info('calculate', exceptions) -&gt;
+{struct, [{1, {struct, {'tutorial_types', 'invalidOperation'}}}]};
+</code></pre>
+
+<p>可以看到<code>function_info()</code>函数的第一个参数是接口的名字字符串，第二个参数依次分别为此接口的参数，返回值和可能抛出的异常，对于参数和异常，都命名为struct的Erlang tuple，内部嵌套的参数列表中保留了参数索引，返回值类型则因接口定义是简单类型或复杂类型而异，IDL简单类型则直接映射为名字，复杂类型则同样转为命名为struct的tuple。为什么把接口的几个部分拆开用<code>function_info()</code>这样的函数调用来记录接口定义呢，了解Thrift其它语言(如C++, Python)实现的人看到这种形式会更觉得奇怪，在后面我们将会看到这种做法是与底层框架的调用紧密相关的，所以这里先跳过此疑问。</p>
+
+<h3>1.2 Thrift编译器</h3>
+
+<p>从.thrift接口定义文件是如何生成Erlang桩代码的呢？感兴趣的读者可以到发布包的compiler目录下阅读IDL解析器和各语言的生成器来一探究竟，这里限于篇幅就跳过这部分了。</p>
+
+<h3>1.3 示例客户端代码</h3>
+
+<p>看过编译生成的桩代码之后，我们再看一下0.8.0版本发布包里面对应的客户端和服务器端代码，在<code>tutorial/erl</code>目录下有：</p>
+
+<pre><code>├── client.erl        -- 客户端
+├── client.sh
+├── json_client.erl   -- json协议客户端
+├── README
+├── server.erl        -- 服务器端
+└── server.sh
+</code></pre>
+
+<p>用注释标识出了客户端和服务器端的代码，其中<code>json_client.erl</code>与<code>client.erl</code>的不同只在于改用了json协议，这里就略过了。我们重点看一下客户端和服务器端的代码。</p>
+
+<p>示例客户端的代码主要分成3个部分：</p>
+
+<ol>
+<li><p>创建一个连接到指定服务器的客户端实体(这里的“实体”一词，是指向一个关联向某个内存对象的符号，本来想用“对象”一词，但Erlang是函数式编程语言)</p>
+
+<pre><code> {ok, Client0} = thrift_client_util:new("127.0.0.1",
+                                        Port,
+                                        calculator_thrift,
+                                        []),
+</code></pre>
+
+<p> <code>thrift_client_util:new()</code>这个函数封装了创建并初始化客户端实体的代码，我们跟一下看看它做了哪些事情。</p>
+
+<p> Thrift的Erlang实现全部源代码都在<code>lib/erl/src/</code>目录，这个目录也就是本文重点讨论的源代码所在，打开目录下<code>thrift_client_util.erl</code>文件，会发现文件很短，没多少代码，其中导出的<code>new()</code>函数用于创建并初始化客户端实体：</p>
+
+<pre><code> new(Host, Port, Service, Options)
+   when is_integer(Port), is_atom(Service), is_list(Options) -&gt;
+     {ProtoOpts, TransOpts} = split_options(Options),
+
+     {ok, TransportFactory} =
+         thrift_socket_transport:new_transport_factory(Host, Port, TransOpts),
+
+     {ok, ProtocolFactory} = thrift_binary_protocol:new_protocol_factory(
+                               TransportFactory, ProtoOpts),
+
+     {ok, Protocol} = ProtocolFactory(),
+
+     thrift_client:new(Protocol, Service).
+</code></pre>
+
+<p> 其中<code>split_options()</code>用于分拣传入的选项，这个函数就定义在当前模块(也就是说在同一个文件)，其实现也很简单，就是用来划分开Transport和Protocol对应的选项。然后<code>new()</code>函数依次创建transport和protocol，最后创建并返回client，熟悉Thrift其它语言客户端写法的人会发现这段代码似曾相似，这几个创建客户端的步骤也很常见了，所以我们跳到下一步看看接口调用的代码。</p></li>
+<li><p>使用上一步创建的客户端实体来调用RPC接口</p>
+
+<p> 调用RPC接口的Erlang代码也只是常见的函数调用形式，没有什么出奇的地方，接口的参数以列表形式传入，返回值包含在tuple里面。由于Erlang中变量只能一次赋值，所以每次调用的返回值都会返回新操作过的客户端实体。下面是其中一个简单例子：</p>
+
+<pre><code> {Client3, {ok, Sum1}} = thrift_client:call(Client2, add, [1, 4]),
+ io:format("1+4=~p~n", [Sum1]),
+</code></pre>
+
+<p> 示例代码中也有带复杂参数的接口和抛出异常的接口的调用例子，也比较简单，这里就不一一展开了。</p></li>
+<li><p>最后关闭与服务器的连接</p>
+
+<p> 调用<code>thrift_client:close()</code>关闭连闭。</p></li>
+</ol>
+
+
+<h3>1.4 示例服务器端代码</h3>
+
+<p>示例服务器端的代码也较短，主要包含这两个部分：</p>
+
+<ol>
+<li><p>RPC接口的Erlang实现</p>
+
+<p> 实现一个Thrift RPC接口，就是写一个名字参数返回值与IDL接口定义一致的函数，也可以直接throw声明的异常，这部分示例的函数都比较简单。</p></li>
+<li><p>服务端器进程接口</p>
+
+<p> 通过适当参数调用<code>thrift_socket_server:start()</code>启动进程，通过<code>thrift_socket_server:stop()</code>停止进程。</p>
+
+<p> 最后<code>handle_function()</code>用于在当前模块分发接口处理函数，接口分为无回包（返回ok）和有回包（返回命名为reply的tuple）两种情况，这与IDL的接口定义，以及1的接口实现函数是对应的。</p>
+
+<p> 特别值得一提的是，这种分发在Erlang这个动态语言中，从接口名（符号而非字符串）映射到接口的调用，只需要调用一下apply函数。同样的分发在C++中是这样做的：通过Thrift编译生成的桩代码，通过生成的processor类的<code>process_fn()</code>来查找接口名字与接口调用函数的映射，再回调到handler的对应接口实现函数。对比之下，静态语言中的从接口名到接口实现的分发比较纡回，代码量也较大，而动态语言的实现代码则简单清爽。</p></li>
+</ol>
+
+
+<h2>2 Erlang实现源代码</h2>
+
+<p>了解过Thrift客户端和服务器端之后，接下来看看Erlang的实现代码。按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
+
+<pre><code>+-------------------------------------------+
+| Server                                    |  -- 服务器进程调度
+| (single-threaded, event-driven etc)       |
++-------------------------------------------+
+| Processor                                 |  -- RPC接口处理函数分发，IDL定义接口的实现将挂接到这里面
+| (compiler generated)                      |
++-------------------------------------------+
+| Protocol                                  |  -- 协议
+| (JSON, compact etc)                       |
++-------------------------------------------+
+| Transport                                 |  -- 网络传输
+| (raw TCP, HTTP etc)                       |
++-------------------------------------------+
+</code></pre>
+
+<p>这个层次是根据代码的静态结构划分的，而非运行时的状态。在运行时下一层的接口由上一层调用，最后汇聚到顶层由顶层的Server启动服务，而并非每层都有对应的运行实体（线程或进程），从下层至上层的一层一层的回调。</p>
+
+<p>在各种语言的实现中，每一层的接口都是设计好的固定接口。例如在C++中，transport这一层是由虚基类Transport衍生的单根类体系，根类Transport的<code>open()</code>, <code>close()</code>, <code>read()</code>, <code>write()</code>, <code>flush()</code>等成员函数确定了Transport层的接口，各种Transport的实现如TBufferedTransport, THttpTransport只是不同地实现了这些统一接口。</p>
+
+<p>在Erlang中，跨模块（也就是跨文件）之间接口的一致性一般是通过behaviour来保证的，按同样的每层接口固定的实现思路，我们可以猜想在Erlang中每一层的接口都会写成behaviour。</p>
+
+<p>下面我们就按这个分层结构，自下而上的逐层分析。</p>
+
+<h3>2.1 Transport</h3>
+
+<p>Transport层包括<code>lib/erl/erc</code>目录下文件名带transport字样的几个文件：</p>
+
+<pre><code>├── thrift_base64_transport.erl
+├── thrift_buffered_transport.erl
+├── thrift_disk_log_transport.erl
+├── thrift_file_transport.erl
+├── thrift_framed_transport.erl
+├── thrift_http_transport.erl
+├── thrift_memory_buffer.erl
+├── thrift_socket_transport.erl
+├── thrift_transport.erl
+└── thrift_transport_state_test.erl
+</code></pre>
+
+<p>打开<code>thrift_transport.erl</code>，果然文件头就定义了Transport层的behaviour <code>thrift_transport</code>。</p>
+
+<pre><code>behaviour_info(callbacks) -&gt;
+    [{read, 2},
+     {write, 2},
+     {flush, 1},
+     {close, 1}
+    ].
+</code></pre>
+
+<p>整个Transport的代码比较简单，重点有两个，一是用来记录状态的record <code>transport</code>，定义为</p>
+
+<pre><code>-record(transport, {module, data}).
+</code></pre>
+
+<p>另一个是各个接口的实现方式，以<code>read()</code>函数为例</p>
+
+<pre><code>-spec read(#transport{}, non_neg_integer()) -&gt; {#transport{}, {ok, binary()} | {error, _Reason}}.
+read(Transport, Len) when is_integer(Len) -&gt;
+    Module = Transport#transport.module,
+    {NewTransData, Result} = Module:read(Transport#transport.data, Len),
+    {Transport#transport{data = NewTransData}, Result}.
+</code></pre>
+
+<p>这里只是简单调用具体实现模块的<code>read()</code>函数，在Erlang里面通过传递<code>Module</code>和<code>function</code>来进行跨模块的调用也是很常用的技巧了，在OTP里面经常见到。</p>
+
+<p>下面我们看一个具体的Transport实现，这里选择较底层的<code>thrift_socket_transport.erl</code>来展开讨论，其它的Transport实现类似，限于篇幅就不一一展开了。</p>
+
+<p>没有意外，<code>thrift_socket_transport</code>模块实现了上面定义的Transport behaviour <code>thrift_transport</code>，引入了另外的record来保存它独有的状态数据：</p>
+
+<pre><code>-record(data, {socket,
+               recv_timeout=infinity}).
+-type state() :: #data{}.
+</code></pre>
+
+<p>由于有Erlang有简单易用的gen_tcp模块，对应Transport层的代码也较为简洁，创建socket的函数是从transport工厂函数返回的：</p>
+
+<pre><code>new_transport_factory(Host, Port, Options) -&gt;
+    ParsedOpts = parse_factory_options(Options, #factory_opts{}),
+
+    F = fun() -&gt;
+                SockOpts = [binary,
+                            {packet, 0},
+                            {active, false},
+                            {nodelay, true} |
+                            ParsedOpts#factory_opts.sockopts],
+                case catch gen_tcp:connect(Host, Port, SockOpts,
+                                           ParsedOpts#factory_opts.connect_timeout) of
+                    {ok, Sock} -&gt;
+                        {ok, Transport} = thrift_socket_transport:new(Sock),
+                        {ok, BufTransport} =
+                            case ParsedOpts#factory_opts.framed of
+                                true  -&gt; thrift_framed_transport:new(Transport);
+                                false -&gt; thrift_buffered_transport:new(Transport)
+                            end,
+                        {ok, BufTransport};
+                    Error  -&gt;
+                        Error
+                end
+        end,
+    {ok, F}.
+</code></pre>
+
+<p>闭包返回的函数里面，先是创建到服务器的连接，然后根据传入的选项创建<code>buffered_transport</code>或<code>framed_transport</code>，这两者也是使用Thrift时常用的两种简单transport了，一种是流，一种带长度header。</p>
+
+<p>有了创建好的socket，每次读写的时候就相当容易了，例如：</p>
+
+<pre><code>read(This = #data{socket=Socket, recv_timeout=Timeout}, Len)
+  when is_integer(Len), Len &gt;= 0 -&gt;
+    case gen_tcp:recv(Socket, Len, Timeout) of
+        Err = {error, timeout} -&gt;
+            error_logger:info_msg("read timeout: peer conn ~p", [inet:peername(Socket)]),
+            gen_tcp:close(Socket),
+            {This, Err};
+        Data -&gt;
+            {This, Data}
+    end.
+
+%% We can't really flush - everything is flushed when we write
+flush(This) -&gt;
+    {This, ok}.
+</code></pre>
+
+<p>注意在外层包装的<code>buffered_transport</code>或<code>framed_transport</code>都有缓存数据，所以<code>socket_transport</code>的<code>flush()</code>函数为空。</p>
+
+<p>这个<code>socket_transport</code>只用于客户端，服务器端由于需要按OTP的gen_server风格来写，所以放在另外的单独文件<code>thrift_socket_server.erl</code>中，它的实现代码将后面讨论。</p>
+
+<h3>2.2 Protocol</h3>
+
+<p>Protocol层包括<code>lib/erl/erc</code>目录下文件名带protocol字样的几个文件：</p>
+
+<pre><code>├── thrift_binary_protocol.erl
+├── thrift_json_protocol.erl
+├── thrift_protocol.erl
+</code></pre>
+
+<p>有了前面的经验，再读Protocol就变得轻车熟路了。通过阅读它的代码，我们知道<code>thrift_protocol.erl</code>定义了Protocol层接口的behaviour。以<code>thrift_binary_protocol.erl</code>为例来看具体Protocol实现，它做了IDL的数据类型的序列化值与Erlang atom的相互映射，同时针对各种IDL数据类型实现了对简单类型，结构类型，map, set, list 3种容器类型的读写（序列化与反序列化，或称做打包和解包协议）函数，Binary Protocol虽然设计简单，但由于IDL类型众多细节也比较多，了解Thrift实现的读者应该比较清楚，不清楚的话可以详细阅读源代码，这里就快速带过了。</p>
+
+<h3>2.3 Processor</h3>
+
+<p>Processor只有一个文件<code>thrift_processor.erl</code>。按Thrift的分层结构，Processor是挂接用户定制的IDL服务接口的地方，所以只存在于server。作为一个承上接下的层次，它的内部状态数据记录了IDL接口的实现模块<code>service</code>，接口分发模块<code>handler</code>和底层的<code>protocol</code>。</p>
+
+<pre><code>-record(thrift_processor, {handler, protocol, service}).
+</code></pre>
+
+<p>通过<code>init()</code>函数初始化Processor后server对应的连接处理进程进入的无限循环<code>loop()</code>函数，负责处理来自单个客户端的请求：</p>
+
+<pre><code>loop(State0 = #thrift_processor{protocol  = Proto0}) -&gt;
+    {Proto1, MessageBegin} = thrift_protocol:read(Proto0, message_begin),
+    State1 = State0#thrift_processor{protocol = Proto1},
+    case MessageBegin of
+        #protocol_message_begin{name = Function,
+                                type = ?tMessageType_CALL,
+                                seqid = Seqid} -&gt;
+            {State2, ok} = handle_function(State1, list_to_atom(Function), Seqid),
+            loop(State2);
+        #protocol_message_begin{name = Function,
+                                type = ?tMessageType_ONEWAY, 
+                                seqid = Seqid} -&gt;
+            {State2, ok} = handle_function(State1, list_to_atom(Function), Seqid),
+            loop(State2);
+        {error, timeout} -&gt;
+            thrift_protocol:close_transport(Proto1),
+            ok;
+        {error, closed} -&gt;
+            %% error_logger:info_msg("Client disconnected~n"),
+            thrift_protocol:close_transport(Proto1),
+            exit(shutdown)
+    end.
+</code></pre>
+
+<p>它从protocol中读出请求包头，并调用<code>handle_function()</code>进行实际的处理，代码中用了<code>list_to_atom()</code>来将从协议包中解出的函数名字符串转为Erlang符号，因为Erlang的符号在实现中不进行垃圾回收，所以如果有恶意的客户端发送百万级数格式正确但函数名不合法的请求，就可以把服务器拖垮，但将Thrift定位于内部服务使用，它的常用协议也没有加密机制，所以这里的代码可以认为是没问题的。</p>
+
+<p>接下来重点看看实际请求的<code>handle_function()</code>，它调用<code>handler_function()</code>查询对应接口的所有参数及类型，这个函数是Thrift编译器生成的桩代码，在1.1节我们已经见过了，当前的疑问也得到了解答：桩代码之所以按文件<code>thrift_service.erl</code>定义的behaviour那样来生成，目的在于与这里的调用保持一致。然后根据得到的参数信息，从protocol中把请求包里所有参数解包出来，这个时候请求包的全部内容都已经被读取出来了，服务器端有了足够的信息来进行接口调用，于是调用接口的分发模块Handler的<code>handle_function()</code>函数来将请求分发到具体的接口实现函数，这个<code>handle_function()</code>函数我们之前在1.4节也已经见过了。</p>
+
+<pre><code>handle_function(State0=#thrift_processor{protocol = Proto0,
+                                         handler = Handler,
+                                         service = Service},
+                Function,
+                Seqid) -&gt;
+    InParams = Service:function_info(Function, params_type),
+
+    {Proto1, {ok, Params}} = thrift_protocol:read(Proto0, InParams),
+    State1 = State0#thrift_processor{protocol = Proto1},
+
+    try
+        Result = Handler:handle_function(Function, Params),
+        %% {Micro, Result} = better_timer(Handler, handle_function, [Function, Params]),
+        %% error_logger:info_msg("Processed ~p(~p) in ~.4fms~n",
+        %%                       [Function, Params, Micro/1000.0]),
+        handle_success(State1, Function, Result, Seqid)
+    catch
+        Type:Data when Type =:= throw orelse Type =:= error -&gt;
+            handle_function_catch(State1, Function, Type, Data, Seqid)
+    end.
+</code></pre>
+
+<p>在<code>handle_function()</code>成功处理完请求后，它调用<code>handle_success()</code>查询桩代码中的对应接口返回值声明，在需要回包时进行回包，如果<code>handle_function()</code>抛出异常时，它调用<code>handle_function_catch()</code>查询IDL接口定义的异常声明，在需要回包时将异常进行适当的序列化后发送回包。发送回包的函数<code>send_reply()</code>则使用了下层protocol的<code>write()</code>, <code>flush_transport()</code>接口。</p>
+
+<h3>2.4 Server</h3>
+
+<p>作为这门语言的设计目标其中之一，Erlang对Server有很好的支持，提供了superviour, gen_server等OTP模块为Server长期稳定运行保驾护航，对OTP不熟悉的读者可以先读读由连城翻译的《Erlang/OTP并发编程实战》。</p>
+
+<p>Thrift的Server也是一个定制的gen_server，其源代码包括<code>lib/erl/erc</code>目录下文件名带server字样的几个文件：</p>
+
+<pre><code>├── thrift_server.erl          -- 简单的单进程Server
+├── thrift_socket_server.erl   -- 产品级多进程Server
+</code></pre>
+
+<p>其中单进程Server比较简单，在启动将socket设置成异步，在收到请求时通过<code>start_processor()</code>函数始化transport, protocol，并spawn一个processor开始处理请求。我们重点看一下多进程的Server代码。</p>
+
+<p>多进程的socket_server可以通过<code>start()</code>函数来启动，这个我们在1.4节已经了解，它调用了<code>start_sever()</code>并通过gen_server的标准机制调用到<code>init()</code>函数。<code>init()</code>负责初始化Server并侦听服务端口，一旦有客户端连接进入，会调用<code>new_acceptor()</code>函数，后者会针对每个新连接创建一个新进程，并调用<code>acceptor_loop()</code>函数对应的来创建transport, protocol并调用processor的入口函数<code>init()</code>来开始处理请求，<code>acceptor_loop()</code>内执行的步骤与单进程的<code>start_processor()</code>函数类似，因为都是针对的都是单个客户端。其它的代码就比较简单了，这里略过。</p>
+
+<h3>2.5 Client</h3>
+
+<p>Client相关的源代码包括<code>lib/erl/erc</code>目录下文件名带client字样的几个文件：</p>
+
+<pre><code>├── thrift_client.erl
+├── thrift_client_util.erl
+├── thrift_reconnecting_client.erl
+</code></pre>
+
+<p>其中<code>thrift_client_util.erl</code>这个文件在1.3节我们已经讨论过。<code>thrift_client.erl</code>中是常用的简单客户端代码，我们将重点讨论它。<code>thrift_reconnecting_client.erl</code>是用gen_server实现的本地Server，伪装成Client，在简单客户端的基础上加上了自动重连服务器的功能，这里就不展开了。</p>
+
+<p><code>thrift_client.erl</code>中，常规的Thrift接口调用通过函数<code>call()</code>组织成为发出调用，接收回包两步，如代码所示：</p>
+
+<pre><code>-spec call(#tclient{}, atom(), list()) -&gt; {#tclient{}, {ok, any()} | {error, any()}}.
+call(Client = #tclient{}, Function, Args)
+  when is_atom(Function), is_list(Args) -&gt;
+    case send_function_call(Client, Function, Args) of
+        {Client1, ok} -&gt;
+            receive_function_result(Client1, Function);
+        Else -&gt;
+            Else
+    end.
+</code></pre>
+
+<p>如前文所述，Server端解包请求包时反序列化包头包体的逻辑，和打包回复包序列化包头包体的逻辑都放在processor中，Client端由于没有经过processor，于是这部分代码就放在Client模块中，Client打包发向Server的请求包和解包来自Server的回复包的代码分别在函数<code>send_function_call()</code>和<code>receive_function_result()</code>，后者根据回包的类型不同而执行不同的解包动作：如果是正常回包，则调用<code>handle_reply()</code>解之，如果回包是异常，则调用<code>handle_application_exception()</code>解之，整个代码还是比较简单的。</p>
+
+<h3>2.5 其它代码</h3>
+
+<p>目录<code>lib/erl</code>还有其它的一些测试代码，都比较简单，这里就不展开了：</p>
+
+<pre><code>├── include     -- 共用的hrl文件
+├── src
+└── test        -- 测试代码
+</code></pre>
+
+<h2>3 总结</h2>
+
+<p>Thrift Erlang实现的所有主要代码到这里就讨论完了。总体来看，整个实现并不复杂，代码阅读起来也比较简明易懂，认真读起来很快就可以读完，对比C++或Python等其他语言的实现来看，Erlang实现的代码量相当小，这得益于Erlang对网络编程，服务器编写的优秀支持，以及函数式编程的清晰语义。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -898,58 +1333,6 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/30/read-a-david-mitchell-novel/">再读大卫·米切尔</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-30T12:15:00+08:00" pubdate data-updated="true">Dec 30<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/12/30/read-a-david-mitchell-novel/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>又到周末。昨晚又一波的冷空气南下，一夜狂风加细雨，温度骤然降下来了。</p>
-
-<p>放下手上的书，我仰头对着书桌上面的空间发了一会呆，脑海还残留着故事中的人物，像一个刚播完最后一首曲目的CD机一样不能马上停转。又一本大卫·米切尔的书，《幽灵代笔》。</p>
-
-<p>从《云图》这本书开始，我发现自己渐渐迷上了看大卫·米切尔的小说。他的小说里的故事，比较复杂精巧，其吸引力好比斯蒂芬·金小说里的恐怖惊悚。这两个人的小说都容易让人读起来欲罢不能，不禁一口气读完才痛快，它们的叙述都有很好的节奏感，但大卫的小说玩的是故事结构，而斯蒂芬的小说玩的是气氛和情绪。在大卫的小说里面，多线索多故事已经成为一个常用套路了，而像《云图》一样嵌套展开的故事堆栈虽然不是他的首创，不过也算是他的标志性风格了。《幽灵代笔》我正读到第二部分《东京》。</p>
-
-<p>这是关于一个叫做悟的高中毕业生在东京这座城市的故事。花开季节，孤独多思的青春期，CD店，长途电话那头女孩的声音，周边形形式式的成年人和理不清的纠葛，读来让我多少有种怀念的感觉。故事中这个18岁少年对爵士乐的熟悉程度对城市生活的理解深度令人印象非常深刻，在东京这样一个有着千万数量级人口不断挤压不断扩张的城市，每个人的生活方式就是保有自己的“地盘”，通过运动，夜生活，钱等各种方式或观念给自己的存在留下小一块空间，当然，爵士乐也是其中一种方式。</p>
-
-<p>我想，实际上在广州这个城市其实也是如此，在这样一个远远看不到尽头的城市，除了吃饭睡觉这些基本生存活动外，每个人都需要有一个心理上的“地盘”，以构造一个存放个人存在感和归属感的空间。所以，有的人喜欢在工作之外享受慢节奏的休闲生活，有的人喜欢玩弄汽车谈论汽车，有的人把自己的时间全部投入到挣钱的行当中，觉得拥有的钱越多就越踏实，有的人则热衷于喝酒泡吧情肉绵缠&#8230;&#8230;其实，某一个人的“地盘”对于另一个人来说，可能是完全陌生的，甚至可能是毫无意义的。</p>
-
-<p>那么我的“地盘”是什么呢？</p>
-
-<p>在2012年的尾巴上，这个问题有种似曾相似之感。又到年底，也许是时候做一下总结了。在过去的一年发生了不少的事情，在工作上有人离开有人加入，我做过种种不同的事情：做过不靠谱话很多的产品角色，做过小工包工头兼一身的开发人员，做过东宫娘娘和西宫娘娘之间和事的太监，做过任劳任怨的修补匠环保工，做过前行探路然后掉入自己挖的坑里的侦察兵&#8230;..交付过稳定的代码，也出过严重的bug。有时满脸堆笑唯唯喏喏，有时拍案而怒拂袖而去，有时雄心壮志豪情激荡，有时孤单落寞内心萧索。今年在生活中也是在曲折中稳定前进，整体还算好但小问题常有不算太顺利。这一年里，我努力工作但也没挣到多少钱，改良了编程装备但没写过多少非工作代码，读了不少书但技术上不觉得有太大成长，开始每周规律跑步但没把体重降下来，尽可能认识异性但光棍节还是单着。把一年时光压缩成一份准确总结是不容易的事，苦乐得失，三言几语又怎么说得清楚。</p>
-
-<p>2012年很快就要伴随着玛雅人的世界末日变成过去了，而窗外风在呼啸，阳光灿烂。无论时间如何流逝，无论这座城市的人们是怎样的生活着，太阳的光子依然不辞路远穿越亿万公里的距离来到我的眼前，想到这里我的心底悠然升起一种平静。宇宙之大，就在当年佛祖入灭的娑罗双树之间，一枯一荣，一边是苦一边是乐，或者解作：一边是过去，一边是未来。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -967,6 +1350,10 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/31/terminal-programs-that-i-used/">常用终端软件</a>
       </li>
     
@@ -982,10 +1369,6 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
         <a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/">在VirtualBox虚拟系统中使用USB设备</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -997,7 +1380,7 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (15)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (16)</a></li>
 
  </ul>
 </section>

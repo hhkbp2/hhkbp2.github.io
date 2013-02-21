@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-02-17T00:35:17+08:00</updated>
+  <updated>2013-02-21T18:20:25+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Thrift实践]]></title>
+    <link href="http://clisp.github.com/blog/2013/02/10/practical-thrift/"/>
+    <updated>2013-02-10T20:15:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/02/10/practical-thrift</id>
+    <content type="html"><![CDATA[<p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
+
+<h3>Practice 1. View Thrift As A RPC Glue Of Application</h3>
+
+<h3>实践1. 将thrift看作应用的RPC胶水</h3>
+
+<p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
+
+<p>本文的重点在Thrift，所以集中笔墨讨论它。Thrift的RPC框架具有的如下几个特点：</p>
+
+<ol>
+<li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
+<li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
+<li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
+<li>内部实现层次分明，结构清晰，代码量不大</li>
+</ol>
+
+
+<p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
+
+<h3>Practice 2. Use Suitable Datatype</h3>
+
+<h3>实践2. 使用合适的数据类型</h3>
+
+<h4>2.1 Perfer binary to string when blob is needed</h4>
+
+<h4>2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
+
+<p>thrift支持两种字符串类型：
+1. string类型，类似编程语言中常用的字符串类型，或Mysql中的VARCHAR/TEXT字符串类型，用于表示某种语言(字符集)特定编码的字符串
+2. binary类型，类似Mysql的BLOB类型，用于表示二进制串</p>
+
+<p>虽然在部分Thrift支持的编程语言中，binary和string两个类型产生的具体数据类型是一致的，如C++。但在其它语言，这两个类型产生的具体数据类型差异较大，参考下表：</p>
+
+<pre><code>IDL Type\Lang   C++             Java                   Python
+binary          std::string     java.lang.String       str
+string          std::string     java.nio.ByteBuffer    str
+</code></pre>
+
+<p>在Java中原生支持unicode，字符类型Char设计为16位，字符的值对应Unicode的代码点(code point)<a href="#1">[1]</a>，而语言中的String也与编码方式相关，同一个String在不同的编码方式(如UTF-8或GBK)下可能表示不同的内容，这样一来就决定了String类型不适合用于存储带任意字节内容的二进制串。</p>
+
+<p>这里有一份示例代码：</p>
+
+<pre><code>https://bitbucket.org/lisp/sample/src
+</code></pre>
+
+<p>其中包括C++的服务器端代码，还有C++, Java, Python 3种语言写的客户端。服务器端在收到客户端的无参数RPC请求后，向客户端发送一个值为214的字符，早于它不是ascii字符集范围内的字符，它表示的字符就由编码方式决定。3个客户端的输出对比如下：</p>
+
+<ol>
+<li><p>C++</p>
+
+<pre><code> $ ./cpp_client
+ ./cpp_client started.
+ get char in string: -15
+ get char in binary: -15
+ done.
+</code></pre></li>
+<li><p>Java</p>
+
+<pre><code> $ make run-java-client
+ java \-classpath \
+ /usr/local/lib/libthrift.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-jdk14.jar:/usr/share/java/slf4j-simple.jar:/usr/share/java/slf4j-jcl.jar:/usr/share/java/slf4j-nop.jar:/home/wenwenliu/pro/thrift/schargen/gen-java:/home/wenwenliu/pro/thrift/schargen \
+ Client
+ started.
+ get char in string:
+ ISO-8859-1: 63
+ US-ASCII: 63
+ UTF-8: -17
+ UTF-16: -2
+ get char in binary:
+ -15
+ done.
+</code></pre></li>
+<li><p>Python</p>
+
+<pre><code> $ make run-py-client
+ python ./client.py
+ ./client.pystarted.
+ 'get char in string: \xf1'
+ 'get char in binary: \xf1'
+ done.
+</code></pre></li>
+</ol>
+
+
+<p>从输出中可以看到，同一个字符在Python的客户端值与服务器端一样，C++客户端打印出来的值是服务器值的二进制补码值，但在Java客户端，字符值受到编码方式的影响，经过编码方式演绎后的字符值与原来的字符值并不一致。而且在几种常见的编码方式下都得不到原来的字符值。</p>
+
+<p>假设有一个C++的服务器端，向Java的客户端传输从数据库读出来的BLOB串，而thrift协议里使用的是String类型，那么客户端得到的数据就可能与原来数据库中的blob有出入，数据是否一致取决于数据库blob里的字符取值，程序的行为有时正确有时不正确，这样就引入了一个隐晦的bug，浪费了调试的时间。</p>
+
+<p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
+
+<h3>Practice 3. Sync &amp; Async in Thrift</h3>
+
+<h3>实践3. Thrift里面的同步与异步</h3>
+
+<p>thrift里面常见的几种同步异步用法：</p>
+
+<ol>
+<li><p>同步服务器，同步客户端，同步调用，无异步<br/>
+最常用的默认方式。</p></li>
+<li><p>同步服务器，同步客户端，异步调用<br/>
+用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p></li>
+<li><p>同步客户端，异步服务器端</p></li>
+<li>异步客户端，异步服务器端</li>
+</ol>
+
+
+<p>由于客户端和服务器端在实现上是相互独立的，所以两者在同步或异步的选择上也是独立的。这里举例说明如何编写异步服务器和异步客户端。示例代码如下：</p>
+
+<p>TODO 添加async-echo示例代码</p>
+
+<p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
+
+<h3>Practice 4. look under the hook of thrift internal framework</h3>
+
+<h3>实践4. thrift内部框架一瞥</h3>
+
+<p>按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
+
+<pre><code>+-------------------------------------------+
+| Server                                    |  -- 服务器进程调度
+| (single-threaded, event-driven etc)       |
++-------------------------------------------+
+| Processor                                 |  -- RPC接口处理函数分发，IDL定义接口的实现将挂接到这里面
+| (compiler generated)                      |
++-------------------------------------------+
+| Protocol                                  |  -- 协议
+| (JSON, compact etc)                       |
++-------------------------------------------+
+| Transport                                 |  -- 网络传输
+| (raw TCP, HTTP etc)                       |
++-------------------------------------------+
+</code></pre>
+
+<p>TODO 详述各层源代码实现</p>
+
+<p><em>注：</em><br/>
+<a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[常用终端软件]]></title>
@@ -1610,97 +1756,6 @@ sw6, off 没用到wake up功能</p>
 <p>旧域名会保留继续使用一段时间，目前使用新旧两个域名都能正常访问。</p>
 
 <p>谢谢戈戈提供技术支持。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[gnome-shell扩展管理]]></title>
-    <link href="http://clisp.github.com/blog/2012/03/04/manage-gnome-shell-extensions/"/>
-    <updated>2012-03-04T18:13:18+08:00</updated>
-    <id>http://clisp.github.com/blog/2012/03/04/manage-gnome-shell-extensions</id>
-    <content type="html"><![CDATA[<p>之前写了两篇小文：</p>
-
-<p><a href="http://clisp.github.com/blog/2011/11/09/gnome-shell-it-just-happens/">《杯具的诞生》</a><br/>
-<a href="http://clisp.github.com/blog/2011/11/13/tinker-with-gnome-shell/">《折腾gnome-shell》</a></p>
-
-<p>介绍了安装gnome-shell之后的一些使用情况。这里继续向大家介绍一下，不久前上线的gnome-shell扩展的官方网页：<br/>
-<a href="https://extensions.gnome.org/">https://extensions.gnome.org/</a></p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_site.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_site.jpg" alt="gnome-shell扩展官方网页" /></a></p>
-
-<p>在这个页面里，按功能划分了几个tab：扩展的浏览/索引查找(打开网页的默认tab &#8220;Extensions&#8221;)，已安装的扩展的启用/禁用/卸载等管理(tab &#8220;Install extensions&#8221;)，注册帐号登录(tab &#8220;Add yours&#8221;)。页面风格一如gnome继往的简洁明了，也许是因为上线没多久，目前提供的功能不多，所以网页标题里打上了&#8221;Alpha&#8221;字样，但使用起来的感受比较好，相对于之前gnome-shell扩展没有一个统一管理的界面，这个网站的出现大大地提高了用户体验。从使用方式上来看，比较像debian/ubuntu的软件管理器(中心)，把所有可用的包统一到同一个界面，提供了安装/卸载，或启用/禁用的功能，于是查找/试用gnome-shell的扩展变得非常简易。</p>
-
-<p>这里收录了数量众多的扩展，比较赞的一点就是，从gnome 3.2之后，安装了gnome-shell之后，只要安装了&#8221;gnome shell integration&#8221;这个包，就可以直接在网页上来安装扩展了，类似于用firefox在firefox的扩展官方网页上安装扩展，看到喜欢的扩展，点击一下，扩展包就自动下载到本地，并自动安装好，至于版本兼容，安装到哪个目录这么些问题，不用用户折腾处理，实在很省心吧。比firefox的扩展管理网页更好的是，gnome-shell的扩展网页还提供了按钮来启用/禁用/卸载按钮，扩展管理起来相当方便。相对使用本地客户端&#8221;gnome-shell-integration&#8221;来启用/禁用扩展的方式，这个网页版的功能更强大，也更方便。</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_installed_manage.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_installed_manage.jpg" alt="gnome-shell已经安装的扩展管理" /></a></p>
-
-<p>接下来show一下目前我安装的使用gnome-shell扩展吧，按字母序排：</p>
-
-<ol>
-<li><p>advanced settings in user menu<br/>
- 在应用程序菜单，添加有&#8221;木偶&#8221;图标的&#8221;Advanced Settings&#8221;项，打开就是gnome-shell-integration的配置界面，见下面图中的红字1标出部分</p></li>
-<li><p>Application Menu<br/>
- 将gnome-shell默认的任务栏左上角&#8221;Application&#8221;按钮，换成老版gnome应用程序菜单按钮，点击打开应用程序列表，见图中红字2部分</p>
-
-<p> <a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_application_menu.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_application_menu.jpg" alt="gnome-shell应用程序菜单" /></a></p></li>
-<li><p>Auto Move Windows<br/>
- 应用程序创建新窗口时，移动到特定某个workspace，没有图形的配置工具，用得不多</p></li>
-<li><p>Battery Percentage Indicator<br/>
- 电池电量指示器，对笔记本特别有用</p>
-
-<p> <a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_battery_indicator.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_battery_indicator.jpg" alt="gnome-shell电量显示扩展" /></a></p></li>
-<li><p>Dock<br/>
- 给桌面添加一Dock，Dock里面的内容同Overview模式下左边的Dash一致，感觉与Dash有点重复了</p></li>
-<li><p>gTile<br/>
- 功能类似awesome，平铺式窗口布局管理器，用得比较少，暂时我还没摸熟用法，作为一个插件，比起awesome来要轻量不少</p></li>
-<li><p>Lock Keys<br/>
- 在面板上显示Numlock和Capslock的状态，在没有键盘灯的情况比较有用，对像我一样交换Capslock和其它键的也好用</p>
-
-<p> <a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_lock_keys.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_lock_keys.jpg" alt="gnome-shell键盘状态指示器" /></a></p></li>
-<li><p>Media player indicator<br/>
- 在面板上添加音乐播放器的指示图标，这个在老gnome上也有了，支持Rhythmbox和amarok，但不支持audacious，有点遗憾，因为我常用后者</p>
-
-<p> <a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_music_player_indicator.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_music_player_indicator.jpg" alt="gnome-shell音乐播放指示器" /></a></p></li>
-<li><p>Move Clock<br/>
- 将时钟从顶部面板中间位置移动到右边，风格像老的gnome，时钟format可以通过dconf配置，这个扩展是必不可少的，从截图中可以看到效果</p></li>
-<li><p>Music Integration<br/>
-在通知栏上添加音乐播放器的整合，类似于前面的8</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_music_integration.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_music_integration.jpg" alt="gnome-shell音乐整合" /></a></p></li>
-<li><p>Native Window Placement<br/>
-令Overview模式下，窗口的预览更紧凑一些，而不是每个窗口都同一大小</p></li>
-<li><p>Panel Favorites<br/>
-将Overview模式中Dash上的快捷方式放到顶部面板，提供了类似老版gnome的面板快捷方式，必不可少的一个扩展，见上面图中的红字12部分</p></li>
-<li><p>Places Status Indicator<br/>
-在面板上添加目录快捷访问图标，就像老版gnome面板上的&#8221;Places&#8221;</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_places_indicator.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_places_indicator.jpg" alt="gnome-shell目录访问快捷方式" /></a></p></li>
-<li><p>Recent Items<br/>
-在面板上添加最近访问的文件列表图标，就像老版gnome面板上&#8221;Places&#8221;菜单下拉出来的&#8221;Recent Files&#8221;</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_recent_items.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_recent_items.jpg" alt="gnome-shell最近打开文件列表" /></a></p></li>
-<li><p>Remove Accesibility<br/>
-删除面板上的&#8221;辅助&#8221;图标，这个扩展也是必需的，因为那个图标对很多人来说几乎没用</p></li>
-<li><p>Remove Panel App Menu<br/>
-去掉面板上当前打开窗口的指示图标，个人感觉如果没有底部面板，顶部面板有这个指示图标还是挺有用的，如果有了底部面板，像我就喜欢用tint2，就可以把这个顶部面板的去掉更清爽，效果见上图上红字16部分</p></li>
-<li><p>Shut Down Menu<br/>
-将顶部面板中用户名图标下拉的&#8221;Suspend&#8221;菜单项，改为&#8221;Shut Down&#8221;，在之前的文章我批评过gnome-shell默认安装下没有关机菜单的这一&#8221;反人类&#8221;设置，这个扩展是必需的</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_shutdown.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_shutdown.jpg" alt="gnome-shell面板关机按钮" /></a></p></li>
-<li><p>Static Workspaces<br/>
-与tint2等底部面板搭配起来比较好用，像我一样不习惯gnome-shell默认的动态创建workspace的行为，可以试用一下</p></li>
-<li><p>Timer<br/>
-在顶部面板添加一个简单的面板小时钟，功能比较弱</p></li>
-<li><p>Trash<br/>
-在顶部面板添加回收站图标</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_trash.jpg"><img src="http://clisp.github.com/images/uploads/2012/03/gnome-shell_extension_ss_trash.jpg" alt="gnome-shell面板回收站快捷方式" /></a></p></li>
-</ol>
-
-
-<p>在安装了一堆的扩展之后，搭配tint2，我机器上的这个gnome-shell的使用体验和老版的gnome就差不多相同了，只是有些小变化。在刚装上gnome-shell，没有装扩展的时候，我曾经觉得它十分的不好用，于是写了上面的第一个文章《杯具的诞生》，吐槽了一番，到今天gnome-shell的用户体验已经比当初好出很多倍。</p>
-
-<p>对比来看，老版gnome更像是A餐B餐，软件包就那么几个，全部plugin用到的没用到的都绑在里面，装上之后，每个用户爱用哪个plugin就配哪个plugin，而gnome-shell更像是自助餐，用户喜欢用哪个再自行下载安装启用，而越来越多的扩展出现，提供了不断丰富的功能和操作方式，像从网页点击按钮直接安装扩展这种便捷方式就是老版gnome所没有的，从这个角度来看，gnome-shell灵活和定制性强的优势已经开始慢慢展示出来。</p>
 ]]></content>
   </entry>
   

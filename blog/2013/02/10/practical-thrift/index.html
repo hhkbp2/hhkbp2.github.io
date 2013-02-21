@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Thrift实践 - X lambda</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。 Practice 1. View &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/2013/02/10/practical-thrift/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">X lambda</a></h1>
+  
+    <h2>Do not try and bend the spoon.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/darkmate-theme">Darkmate Theme</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Thrift实践</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T20:15:00+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
+
+<h3>Practice 1. View Thrift As A RPC Glue Of Application</h3>
+
+<h3>实践1. 将thrift看作应用的RPC胶水</h3>
+
+<p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
+
+<p>本文的重点在Thrift，所以集中笔墨讨论它。Thrift的RPC框架具有的如下几个特点：</p>
+
+<ol>
+<li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
+<li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
+<li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
+<li>内部实现层次分明，结构清晰，代码量不大</li>
+</ol>
+
+
+<p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
+
+<h3>Practice 2. Use Suitable Datatype</h3>
+
+<h3>实践2. 使用合适的数据类型</h3>
+
+<h4>2.1 Perfer binary to string when blob is needed</h4>
+
+<h4>2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
+
+<p>thrift支持两种字符串类型：
+1. string类型，类似编程语言中常用的字符串类型，或Mysql中的VARCHAR/TEXT字符串类型，用于表示某种语言(字符集)特定编码的字符串
+2. binary类型，类似Mysql的BLOB类型，用于表示二进制串</p>
+
+<p>虽然在部分Thrift支持的编程语言中，binary和string两个类型产生的具体数据类型是一致的，如C++。但在其它语言，这两个类型产生的具体数据类型差异较大，参考下表：</p>
+
+<pre><code>IDL Type\Lang   C++             Java                   Python
+binary          std::string     java.lang.String       str
+string          std::string     java.nio.ByteBuffer    str
+</code></pre>
+
+<p>在Java中原生支持unicode，字符类型Char设计为16位，字符的值对应Unicode的代码点(code point)<a href="#1">[1]</a>，而语言中的String也与编码方式相关，同一个String在不同的编码方式(如UTF-8或GBK)下可能表示不同的内容，这样一来就决定了String类型不适合用于存储带任意字节内容的二进制串。</p>
+
+<p>这里有一份示例代码：</p>
+
+<pre><code>https://bitbucket.org/lisp/sample/src
+</code></pre>
+
+<p>其中包括C++的服务器端代码，还有C++, Java, Python 3种语言写的客户端。服务器端在收到客户端的无参数RPC请求后，向客户端发送一个值为214的字符，早于它不是ascii字符集范围内的字符，它表示的字符就由编码方式决定。3个客户端的输出对比如下：</p>
+
+<ol>
+<li><p>C++</p>
+
+<pre><code> $ ./cpp_client
+ ./cpp_client started.
+ get char in string: -15
+ get char in binary: -15
+ done.
+</code></pre></li>
+<li><p>Java</p>
+
+<pre><code> $ make run-java-client
+ java \-classpath \
+ /usr/local/lib/libthrift.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-jdk14.jar:/usr/share/java/slf4j-simple.jar:/usr/share/java/slf4j-jcl.jar:/usr/share/java/slf4j-nop.jar:/home/wenwenliu/pro/thrift/schargen/gen-java:/home/wenwenliu/pro/thrift/schargen \
+ Client
+ started.
+ get char in string:
+ ISO-8859-1: 63
+ US-ASCII: 63
+ UTF-8: -17
+ UTF-16: -2
+ get char in binary:
+ -15
+ done.
+</code></pre></li>
+<li><p>Python</p>
+
+<pre><code> $ make run-py-client
+ python ./client.py
+ ./client.pystarted.
+ 'get char in string: \xf1'
+ 'get char in binary: \xf1'
+ done.
+</code></pre></li>
+</ol>
+
+
+<p>从输出中可以看到，同一个字符在Python的客户端值与服务器端一样，C++客户端打印出来的值是服务器值的二进制补码值，但在Java客户端，字符值受到编码方式的影响，经过编码方式演绎后的字符值与原来的字符值并不一致。而且在几种常见的编码方式下都得不到原来的字符值。</p>
+
+<p>假设有一个C++的服务器端，向Java的客户端传输从数据库读出来的BLOB串，而thrift协议里使用的是String类型，那么客户端得到的数据就可能与原来数据库中的blob有出入，数据是否一致取决于数据库blob里的字符取值，程序的行为有时正确有时不正确，这样就引入了一个隐晦的bug，浪费了调试的时间。</p>
+
+<p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
+
+<h3>Practice 3. Sync &amp; Async in Thrift</h3>
+
+<h3>实践3. Thrift里面的同步与异步</h3>
+
+<p>thrift里面常见的几种同步异步用法：</p>
+
+<ol>
+<li><p>同步服务器，同步客户端，同步调用，无异步<br/>
+最常用的默认方式。</p></li>
+<li><p>同步服务器，同步客户端，异步调用<br/>
+用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p></li>
+<li><p>同步客户端，异步服务器端</p></li>
+<li>异步客户端，异步服务器端</li>
+</ol>
+
+
+<p>由于客户端和服务器端在实现上是相互独立的，所以两者在同步或异步的选择上也是独立的。这里举例说明如何编写异步服务器和异步客户端。示例代码如下：</p>
+
+<p>TODO 添加async-echo示例代码</p>
+
+<p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
+
+<h3>Practice 4. look under the hook of thrift internal framework</h3>
+
+<h3>实践4. thrift内部框架一瞥</h3>
+
+<p>按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
+
+<pre><code>+-------------------------------------------+
+| Server                                    |  -- 服务器进程调度
+| (single-threaded, event-driven etc)       |
++-------------------------------------------+
+| Processor                                 |  -- RPC接口处理函数分发，IDL定义接口的实现将挂接到这里面
+| (compiler generated)                      |
++-------------------------------------------+
+| Protocol                                  |  -- 协议
+| (JSON, compact etc)                       |
++-------------------------------------------+
+| Transport                                 |  -- 网络传输
+| (raw TCP, HTTP etc)                       |
++-------------------------------------------+
+</code></pre>
+
+<p>TODO 详述各层源代码实现</p>
+
+<p><em>注：</em><br/>
+<a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T20:15:00+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/unix-linux/'>Unix/Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/31/terminal-programs-that-i-used/" title="Previous Post: 常用终端软件">&laquo; 常用终端软件</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/31/terminal-programs-that-i-used/">常用终端软件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/">在VirtualBox虚拟系统中使用USB设备</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
+<li class='category'><a href=' /blog/categories/emacs/'>Emacs (10)</a></li>
+<li class='category'><a href=' /blog/categories/life/'>Life (23)</a></li>
+<li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (16)</a></li>
+
+ </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Dylan.Wen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'clisp';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://clisp.github.com/blog/2013/02/10/practical-thrift/';
+        var disqus_url = 'http://clisp.github.com/blog/2013/02/10/practical-thrift/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
