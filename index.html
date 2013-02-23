@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。 Practice 1. View &hellip;">
+  <meta name="description" content="接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。 实践1. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,8 +99,6 @@
 
   <div class="entry-content"><p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
 
-<h3>Practice 1. View Thrift As A RPC Glue Of Application</h3>
-
 <h3>实践1. 将thrift看作应用的RPC胶水</h3>
 
 <p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
@@ -117,11 +115,7 @@
 
 <p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
 
-<h3>Practice 2. Use Suitable Datatype</h3>
-
 <h3>实践2. 使用合适的数据类型</h3>
-
-<h4>2.1 Perfer binary to string when blob is needed</h4>
 
 <h4>2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
 
@@ -188,8 +182,6 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
 
-<h3>Practice 3. Sync &amp; Async in Thrift</h3>
-
 <h3>实践3. Thrift里面的同步与异步</h3>
 
 <p>thrift里面常见的几种同步异步用法：</p>
@@ -209,8 +201,6 @@ string          std::string     java.nio.ByteBuffer    str
 <p>TODO 添加async-echo示例代码</p>
 
 <p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
-
-<h3>Practice 4. look under the hook of thrift internal framework</h3>
 
 <h3>实践4. thrift内部框架一瞥</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-02-21T18:20:25+08:00</updated>
+  <updated>2013-02-23T14:31:25+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -19,8 +19,6 @@
     <updated>2013-02-10T20:15:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/02/10/practical-thrift</id>
     <content type="html"><![CDATA[<p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
-
-<h3>Practice 1. View Thrift As A RPC Glue Of Application</h3>
 
 <h3>实践1. 将thrift看作应用的RPC胶水</h3>
 
@@ -38,11 +36,7 @@
 
 <p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
 
-<h3>Practice 2. Use Suitable Datatype</h3>
-
 <h3>实践2. 使用合适的数据类型</h3>
-
-<h4>2.1 Perfer binary to string when blob is needed</h4>
 
 <h4>2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
 
@@ -109,8 +103,6 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
 
-<h3>Practice 3. Sync &amp; Async in Thrift</h3>
-
 <h3>实践3. Thrift里面的同步与异步</h3>
 
 <p>thrift里面常见的几种同步异步用法：</p>
@@ -130,8 +122,6 @@ string          std::string     java.nio.ByteBuffer    str
 <p>TODO 添加async-echo示例代码</p>
 
 <p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
-
-<h3>Practice 4. look under the hook of thrift internal framework</h3>
 
 <h3>实践4. thrift内部框架一瞥</h3>
 
