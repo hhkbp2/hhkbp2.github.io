@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>无家可归的Java - X lambda</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="Java千层糕 因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。因为也很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/2013/02/23/no-home-for-java/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">X lambda</a></h1>
+  
+    <h2>Do not try and bend the spoon.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/darkmate-theme">Darkmate Theme</a></li>
+  <li><a href="/blog/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">无家可归的Java</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T14:44:00+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>Java千层糕</h3>
+
+<p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。因为也很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
+
+<p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham在曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA&#8217;S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来说明Java的糟糕，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
+
+<p>其实一直以来，在Java这个世界就习惯了打补丁的方式，从语言的设计(如容器和泛型)到修正安全漏洞各个方面。不断的发布安全更新，但漏洞也不断的出现，从底层虚拟机的实现上看，代码积越来越厚，补丁打得越来越多，也引入了越来越多的漏洞。如此像千层糕一样堆叠上去，终有一天Java会不堪重负而轰然倒塌。也许是时候重写Java了，但就和过去无数次打补丁的理由一样，Java只能选择兼容历史，不可能大改而影响市场上已有的程序，因为商业永远是第一位的，Oracle不可能像Python社区那样勇敢的抛弃历史的负担，于是Java这个故事发展下去就只能是个悲剧了。</p>
+
+<p>且看2013年即将发布的Java 8，这个版本推出的对lambda的支持，被吹捧为Java带来新变革的重点，用起来依旧笨重，甚至让人觉得可笑。Java未死，还有很多已经存在或将会展开的应用，在Java虚拟机上积累下来的无数商业强度的库和代码也将长期存在，但从语言演化的层面上来看，这条路的终点也不远了。几年之前流行学习Java，但到今天，可能更好的做法是学习那些JVM语言，如Groovy, Scala, Clojure等。</p>
+
+<h3>没有JAVA_HOME</h3>
+
+<p>很久没有在Linux上装过Java了，有点生疏。<code>sun-java6-jdk</code>这个包已经不在Debian/Ubuntu的软件源里面了，我找了一圈才找到OpenJdk的<code>openjdk-6-jdk</code>这个包，装完包之后，照常例要设置环境变量，包括</p>
+
+<pre><code>JAVA_HOME=/usr/lib/jvm/default-java
+export JAVA_HOME
+CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib
+export CLASSPATH
+PATH=$JAVA_HOME/bin:$PATH
+export PATH
+</code></pre>
+
+<p>我把这几个语句写到一个独立脚本(后缀为<code>.sh</code>)放到<code>/etc/profile.d</code>目标里面，让Shell在启动的时候自动加载了。为什么不把配置放到<code>/etc/environment</code>文件里面呢？就像网上很多写Java安装的文章所说的那样？因为后者限制较多，它并非一个脚本，所以不支持变量的引用，只支持简单的赋值，用起来并不方便。更好的做法就是放到脚本里面，如只限个人使用就是<code>.profile</code>或<code>.bashrc</code>文件，如果是系统级别的就是<code>/etc/profile.d</code>目录或<code>/etc/bash.bashrc</code>文件。关于系统变量的详细内容可参考Ubuntu的<a href="https://help.ubuntu.com/community/EnvironmentVariables">Environment Variables文档</a>。</p>
+
+<p>搞好之后，突然顿悟似的想到，为什么还需要每个用Java的人手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两个种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T14:44:00+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/unix-linux/'>Unix/Linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/10/practical-thrift/" title="Previous Post: Thrift实践">&laquo; Thrift实践</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/23/no-home-for-java/">无家可归的Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/31/terminal-programs-that-i-used/">常用终端软件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+ <h1>Categories</h1>
+ <ul id="categories">
+ <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
+<li class='category'><a href=' /blog/categories/emacs/'>Emacs (10)</a></li>
+<li class='category'><a href=' /blog/categories/life/'>Life (23)</a></li>
+<li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
+<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (17)</a></li>
+
+ </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Dylan.Wen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'clisp';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://clisp.github.com/blog/2013/02/23/no-home-for-java/';
+        var disqus_url = 'http://clisp.github.com/blog/2013/02/23/no-home-for-java/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

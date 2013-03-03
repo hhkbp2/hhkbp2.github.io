@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。 实践1. &hellip;">
+  <meta name="description" content="Java千层糕 因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。因为也很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -66,6 +66,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/23/no-home-for-java/">无家可归的Java</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T14:44:00+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/23/no-home-for-java/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Java千层糕</h3>
+
+<p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。因为也很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
+
+<p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham在曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA&#8217;S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来说明Java的糟糕，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
+
+<p>其实一直以来，在Java这个世界就习惯了打补丁的方式，从语言的设计(如容器和泛型)到修正安全漏洞各个方面。不断的发布安全更新，但漏洞也不断的出现，从底层虚拟机的实现上看，代码积越来越厚，补丁打得越来越多，也引入了越来越多的漏洞。如此像千层糕一样堆叠上去，终有一天Java会不堪重负而轰然倒塌。也许是时候重写Java了，但就和过去无数次打补丁的理由一样，Java只能选择兼容历史，不可能大改而影响市场上已有的程序，因为商业永远是第一位的，Oracle不可能像Python社区那样勇敢的抛弃历史的负担，于是Java这个故事发展下去就只能是个悲剧了。</p>
+
+<p>且看2013年即将发布的Java 8，这个版本推出的对lambda的支持，被吹捧为Java带来新变革的重点，用起来依旧笨重，甚至让人觉得可笑。Java未死，还有很多已经存在或将会展开的应用，在Java虚拟机上积累下来的无数商业强度的库和代码也将长期存在，但从语言演化的层面上来看，这条路的终点也不远了。几年之前流行学习Java，但到今天，可能更好的做法是学习那些JVM语言，如Groovy, Scala, Clojure等。</p>
+
+<h3>没有JAVA_HOME</h3>
+
+<p>很久没有在Linux上装过Java了，有点生疏。<code>sun-java6-jdk</code>这个包已经不在Debian/Ubuntu的软件源里面了，我找了一圈才找到OpenJdk的<code>openjdk-6-jdk</code>这个包，装完包之后，照常例要设置环境变量，包括</p>
+
+<pre><code>JAVA_HOME=/usr/lib/jvm/default-java
+export JAVA_HOME
+CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib
+export CLASSPATH
+PATH=$JAVA_HOME/bin:$PATH
+export PATH
+</code></pre>
+
+<p>我把这几个语句写到一个独立脚本(后缀为<code>.sh</code>)放到<code>/etc/profile.d</code>目标里面，让Shell在启动的时候自动加载了。为什么不把配置放到<code>/etc/environment</code>文件里面呢？就像网上很多写Java安装的文章所说的那样？因为后者限制较多，它并非一个脚本，所以不支持变量的引用，只支持简单的赋值，用起来并不方便。更好的做法就是放到脚本里面，如只限个人使用就是<code>.profile</code>或<code>.bashrc</code>文件，如果是系统级别的就是<code>/etc/profile.d</code>目录或<code>/etc/bash.bashrc</code>文件。关于系统变量的详细内容可参考Ubuntu的<a href="https://help.ubuntu.com/community/EnvironmentVariables">Environment Variables文档</a>。</p>
+
+<p>搞好之后，突然顿悟似的想到，为什么还需要每个用Java的人手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两个种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -450,57 +512,6 @@ string          std::string     java.nio.ByteBuffer    str
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/">在VirtualBox虚拟系统中使用USB设备</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-18T21:26:00+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>我使用Linux作为日常操作系统，但有时需要使用Windows only软件，还是需要在虚拟机上装一个Windows。因为国内的网银只支持Windows，所以在需要虚拟的Windows系统中访问物理机器的USB接口，来读取网银的USB KEY。</p>
-
-<p>虚拟机我用的是VirtualBox，今天研究了一下如何配置它来实现这个功能，简述如下：</p>
-
-<ol>
-<li><p>要在虚拟系统中挂载物理机器的USB接口，需要安装<code>VirtualBox Extension Pack</code>，这个包在<a href="https://www.virtualbox.org/">VirtualBox官网</a>就有下载，选择对应版本的下载并安装到VirtualBox。可以参考<a href="http://www.javait.org/?p=657">这篇文章</a></p></li>
-<li><p>添加当前用户到用户组<code>vboxusers</code>，需要注销或重启系统。然后在对应的虚拟机设置界面打开<code>启用USB控制器</code>相关选项，并添加对应的过滤器。可以参考<a href="http://gongstring.iteye.com/blog/1356316">这篇文章</a></p>
-
-<p> 添加用户到用户组可以通过命名行，也可以通过系统UI，在gnome3中打开<code>[用户和组]</code>，在<code>[高级设置]</code>界面<code>[用户权限]</code>标签页下，勾上<code>使用VirtualBox虚拟化解决方案</code>选项，效果与命名行操作相同。如果不添加这个用户组，在VirtualBox的虚拟机设置界面就不会看到物理机器上的USB设备，在虚拟机中当然也无法访问了。</p></li>
-<li><p>之后启动虚拟系统，在需要访问USB时，就可以通过菜单栏 <code>[设备] -&gt; [分配USB设备]</code> 来将物理机器的USB设备挂载到虚拟系统中</p></li>
-</ol>
-
-
-<p>如今个人电脑的内存越来越大，性能越来越好，在Linux系统中虚拟一个Windows速度也不慢，功能上也能满足我的使用需求，所以算是一个比较完美的解决方案。对比来看，前些年因为机器性能不好而被迫在裸机硬盘上安装Linux/Windows双系统，这个做法到今天已经没有必要了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -514,6 +525,10 @@ string          std::string     java.nio.ByteBuffer    str
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/23/no-home-for-java/">无家可归的Java</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a>
@@ -531,10 +546,6 @@ string          std::string     java.nio.ByteBuffer    str
         <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/">在VirtualBox虚拟系统中使用USB设备</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -546,7 +557,7 @@ string          std::string     java.nio.ByteBuffer    str
 <li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
 <li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (16)</a></li>
+<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (17)</a></li>
 
  </ul>
 </section>
