@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-03-03T18:38:00+08:00</updated>
+  <updated>2013-03-03T18:47:49+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -20,7 +20,7 @@
     <id>http://clisp.github.com/blog/2013/02/23/no-home-for-java</id>
     <content type="html"><![CDATA[<h3>Java千层糕</h3>
 
-<p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。因为也很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
+<p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。由于也很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
 
 <p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham在曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA&#8217;S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来说明Java的糟糕，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化Sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
 
