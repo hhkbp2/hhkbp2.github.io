@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-03-03T14:04:41+08:00</updated>
+  <updated>2013-03-03T14:15:35+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -42,7 +42,7 @@ export PATH
 
 <p>我把这几个语句写到一个独立脚本(后缀为<code>.sh</code>)放到<code>/etc/profile.d</code>目标里面，让Shell在启动的时候自动加载了。为什么不把配置放到<code>/etc/environment</code>文件里面呢？就像网上很多写Java安装的文章所说的那样？因为后者限制较多，它并非一个脚本，所以不支持变量的引用，只支持简单的赋值，用起来并不方便。更好的做法就是放到脚本里面，如只限个人使用就是<code>.profile</code>或<code>.bashrc</code>文件，如果是系统级别的就是<code>/etc/profile.d</code>目录或<code>/etc/bash.bashrc</code>文件。关于系统变量的详细内容可参考Ubuntu的<a href="https://help.ubuntu.com/community/EnvironmentVariables">Environment Variables文档</a>。</p>
 
-<p>搞好之后，突然顿悟似的想到，为什么还需要每个Java用户手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两个种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
+<p>搞好之后，突然顿悟似的想到，为什么还需要每个Java用户手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
 ]]></content>
   </entry>
   
