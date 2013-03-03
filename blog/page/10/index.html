@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="sock是已故网络专家Richard Stevens在TCP/IP Illustrated volume 1(简称TCPv1)中为试验网络协议而写的一个程序，可以用于客户端和服务器模式，也可应用多种选项，详细用法请参考TCPv1，这里只简单记录一下如何在Linux平台下编译sock程序。 &hellip;">
+  <meta name="description" content="转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。 修改面板为gnome2风格 gnome-shell的&#8221;Activity&#8221;风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,15 +25,31 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <!-- Facebook Open Graph
+     Facebook Debugger: https://developers.facebook.com/tools/debug -->
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://clisp.github.com/blog/page/10/" />
+<meta property="og:description" content="转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。 修改面板为gnome2风格 gnome-shell的&#8221;Activity&#8221;风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处： &hellip;" />
+
+<meta property="og:site_name" content="http://clisp.github.com" />
+<meta property="article:author" content="https://plus.google.com/114787528537231301324">
+
+
+
+<meta itemprop="description" content="转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。 修改面板为gnome2风格 gnome-shell的&#8221;Activity&#8221;风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处： &hellip;" />
+
+<!-- Combine multiple fonts into one request -->
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic|PT+Sans:regular,italic,bold,bolditalic|Patua+One" rel="stylesheet" type="text/css">
+<!-- jQuery -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
   
 
 </head>
 
-<body   >
+<body    class="collapse-sidebar sidebar-footer" >
   <header role="banner"><hgroup>
   <h1><a href="/">X lambda</a></h1>
   
@@ -56,9 +72,9 @@
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/blog/darkmate-theme">Darkmate Theme</a></li>
-  <li><a href="/blog/about">About</a></li>
+  <li><a href="/blog/archives">Archives</a><span class="divider"></span></li>
+  <li><a href="/blog/darkmate-theme">Darkmate Theme</a><span class="divider"></span></li>
+  <li><a href="/blog/about"></i>About</a><span class="divider"></span></li>
 </ul>
 
 </nav>
@@ -72,7 +88,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/03/07/build-sock-on-linux/">Build Sock on Linux</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/11/13/tinker-with-gnome-shell/">折腾gnome-shell</a></h1>
     
     
       <p class="meta">
@@ -88,1038 +104,186 @@
   
 
 
-<time datetime="2011-03-07T20:27:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+<time datetime="2011-11-13T00:13:03+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2011</time>
         
-         | <a href="/blog/2011/03/07/build-sock-on-linux/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>sock是已故网络专家Richard Stevens在TCP/IP Illustrated volume 1(简称TCPv1)中为试验网络协议而写的一个程序，可以用于客户端和服务器模式，也可应用多种选项，详细用法请参考TCPv1，这里只简单记录一下如何在Linux平台下编译sock程序。</p>
-
-<p>到TCPv1的网站<br/>
-http://www.kohala.com/start/tcpipiv1.html<br/>
-下载源代码，并解压到本地目录。然后进入下面的sock目录，应用patch</p>
-
-<hr />
-
-<pre><code>--- Makefile.old    1993-12-09 21:32:37.000000000 +0800
-+++ Makefile    2011-03-07 11:45:10.452949704 +0800
-@@ -1,7 +1,15 @@
-+# to customize make internal variables for compilation on Linux
-+kernel   := $(shell uname -s)
-+
- # Change the following as required:
- CC     = gcc
-
--CFLAGS     = -ansi -Wall -Dsun -D__STDC__=0
-+ifneq "$(kernel)" "Linux"
-+    CFLAGS   += -ansi -Wall -Dsun -D__STDC__=0
-+else
-+    CFLAGS   += -Wall
-+endif
-+
- # My flags for gcc/solaris 2.3:  -ansi -Wall -Dsun -D__STDC__=0
- # Add in -DGCC_STRUCT_PROBLEM for gcc versions 1.x under SunOS 4.x
- # Add in -D__STDC__=0 for gcc under Solaris 2 (for Sun's screwy headers)
-@@ -9,10 +17,12 @@
- # Add in -D_SOCKADDR_LEN for DEC OSF/1 (see &lt;sys/socket.h&gt;)
-
- # Following line for SVR4, Solaris 2.x
--LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
--
-+ifneq "$(kernel)" "Linux"
-+    LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
-+else
- # Following line for 4.4BSD, BSD/386, SunOS 4.x, AIX 3.2.2, OSF/1
--#LIBS  =
-+    LIBS   =
-+endif
-
- PROGS =    sock
- OBJS = buffers.o cliopen.o crlf.o error.o loop.o main.o \
-</code></pre>
-
-<hr />
-
-<pre><code>--- strerror.c.old  1993-12-09 21:32:37.000000000 +0800
-+++ strerror.c  2011-03-07 12:24:12.625068359 +0800
-@@ -1,7 +1,7 @@
- #include   &lt;stdio.h&gt;
-
--extern char    *sys_errlist[];
--extern int     sys_nerr;
-+//extern char  *sys_errlist[];
-+//extern int   sys_nerr;
-
- char *
- strerror(int error)
-</code></pre>
-
-<p>然后构建</p>
-
-<pre><code>$ make
-</code></pre>
-
-<p>即可。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/06/my-errata-of-unpe3/">My Errata of UNPe3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-06T19:31:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/03/06/my-errata-of-unpe3/#disqus_thread">Comments</a>
+         | <a href="/blog/2011/11/13/tinker-with-gnome-shell/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition</p>
+  <div class="entry-content"><p>转到gnome-shell有几天了，有一些地方用得还不习惯，今晚有空折腾修改了几个地方，下面小记一下。</p>
+
+<h3>修改面板为gnome2风格</h3>
+
+<p>gnome-shell的&#8221;Activity&#8221;风格任务栏与gnome2的风格迥异，个人觉得有几个不便之处：</p>
+
+<ul>
+<li><p>顶部面板不能放置applet或快捷方式，长长的一条面板中间只标示时间，显示不够紧凑</p></li>
+<li><p>而没dock的情形下，要启动程序/切换workspace，鼠标需要到移到左上方的&#8221;Activity&#8221;按钮位置，点击类似dock的程序快捷方式，或者点击/application，查找程序名字，或者移到右边的workspace选择栏，相当麻烦。虽然常用的几个程序/切换workspace我都习惯于用快捷键，不过有时还是需要用鼠标来启动程序，gnome-shell比gnome2多了应用程序名字搜索功能，不过使用起来鼠标过多，效率降低</p></li>
+<li><p>取消了任务栏，但支持Alt+Tab切换程序，而且支持窗口预览</p></li>
+<li><p>没有关机键，关机需要打开Suspend下拉列表，按Alt唤出Shutdown项，不够方便</p></li>
+</ul>
+
+
+<p>这几个问题皆因本来习惯了gnome2，而gnome-shell的面板风格相对gnome3有所改变所致。由于gnome-shell目前还没在UI上开放用户定制选项，要定制它只能通过改代码方式来做。后来想到这么多的人从gnome2迁移到gnome3，想把gnome-shell定制成gnome2风格的需求应该不少吧，果然在网上找到一篇文章<a href="http://wowubuntu.com/gnome-shell-extensions-brings-gnome2.html">《新的Gnome Shell扩展带来一种类似于Gnome2的用户体验》</a>，讲的是将gnome3的面板定制为gnome2风格，它主要对gnome-shell有以下几个修改：</p>
 
 <ol>
-<li><p>p248 line 4 of paragraph 1:<br/>
-&#8220;vefiry by running netstat on freebsd)&#8221;<br/>
-should be<br/>
-&#8220;verify by running netstat on freebsd4)&#8221;<br/>
-freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p></li>
-<li><p>p324 line 2 of paragraph 2, below the first testga command output, &#8220;-h bsdi&#8221; should be &#8220;-h freebsd4&#8221;.</p></li>
-<li><p>p681 the section title &#8220;6.4 TCP Echo Server Using Threads&#8221; should be &#8220;26.4 TCP Echo Server Using Threads&#8221;.</p></li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/06/debian-wheezy-on-thinkpad-x201i/">Debian Wheezy on ThinkPad X201i</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-06T18:35:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/03/06/debian-wheezy-on-thinkpad-x201i/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近在岗顶太平洋电脑城2期入手一台ThinkPad(简称tp) X201i, 型号是3249CBC，它是去年的老产品了，标配CPU i370, 2G内存250G硬盘，属于市面上tp X201i系列的最低配置了，最新的升级型号3249CQC把CPU升级成了i380，变化不大。其实tp的硬件配置性价比不算高，可以说是比较低的，只是我觉得它的键盘和散热都做得比较好，重量也轻，其实硬件方面稍逊一些关系也不大，预算有限，所以选了3249CBC，加了2G三星金条，带发票，随机送一个提包和一个鼠标。附图</p>
-
-<p><a href="/images/uploads/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg"><img src="/images/uploads/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg" alt="thinkpad x201i on desktop" /></a></p>
-
-<p>新机器默认安装的是Windows 7 Home Base，硬盘也只有一个200多G的C:分区，其实还有一个1G大小的引导分区，看起来是ThinkVantage的安装分区，一个大小约10G的做系统镜像备份的分区，后两者都隐藏了。</p>
-
-<p>我一直使用Debian testing作为日常桌面系统，所以新机器拿回来之后的第一件事，便是安装Debian了。今年2月初，Debian发布了最新的stable版本6 Squeeze，于是Wheezy进入了testing。下面流水帐地小记一下Wheezy的安装。</p>
-
-<h3>1. 下载testing的安装image</h3>
-
-<p>下载的镜像有好多，我个人习惯到cdimage或163的镜像源上下载，如cdimage源的weekly build<br/>
-http://cdimage.debian.org/cdimage/weekly-builds/<br/>
-或在163的源<br/>
-http://mirrors.163.com/debian-cd/</p>
-
-<p>选择amd64目标下的cd image下载，由于历史原因，这里的“amd64”指的是64位系统，而不是只适用于amd的CPU。X201的CPU架构是intel，如选用i386下的下载，则为32位，amd64下的则为64位。安装64位系统能充分利用我的新机器的4G内存。</p>
-
-<p>由于X201i系列都没有光驱，我用外接移动硬盘直接在硬盘上安装，这就需要硬盘安装的installer。到163的源<br/>
-http://mirrors.163.com/debian/dists/testing/main/installer-amd64/current/images/hd-media/
-下载</p>
-
-<pre><code>boot.img.gz
-initrd.gz
-vmlinuz
-</code></pre>
-
-<p>这几个文件，进行文本界面的引导安装。同目录下还有一个目录gtk，下面有图形界面安装的相应的包initrd.gz和vmlinuz，不过我尝试过用gtk目录下的文件替换上面文本界面的文件来引导安装，没能成功引导。</p>
-
-<p>将这些installer和安装image如</p>
-
-<pre><code>debian-testing-amd64-CD-1.iso
-</code></pre>
-
-<p>或</p>
-
-<pre><code>debian-6.0.0-amd64-CD-1.iso
-</code></pre>
-
-<p>放入到移动硬盘FAT32分区下(注意，Debian installer不能读出NTFS分区里的iso文件，所以不能用dvd image来进行硬盘安装——dvd image的大小超过4G，不能放在FAT32下。较方便的方式是下载cd image放入FAT32分区，我的移动硬盘专门设了一个FAT32格式的小分区，即是为了方便有时在不同的电脑硬盘安装linux)。</p>
-
-<p>用grub{,2}引导系统，进入命令行模式，输入命令</p>
-
-<pre><code># root (hd1,5)                     &lt;=== (hd0,5)是安装文件所在的FAT32分区
-# linux /vmlinuz                   &lt;=== 指明内核文件，grub的kernel命令在grub2里被linux替代了
-# initrd /initrd.gz
-# boot
-</code></pre>
-
-<p>进入文本安装界面。整个安装过程和一般linux安装过程十分相似。注意两点：安装时不要启用网络，installer就不会在线搜索更新，安装过程会快很多；手动分区，按自己的需求定制分区。我只用一个linux，于将grub安装在MBR。整个安装过程在我的新机器上不到30分钟就运行完毕。</p>
-
-<h3>2. 更新软件源，安装需要的软件包</h3>
-
-<p>由于安装时我没有起用网络，第一次进入系统首先配置好网络，我这里用的是pppoe，安装pppoe包</p>
-
-<pre><code># aptitude install pppoeconf
-</code></pre>
-
-<p>然后配置好用户名密码</p>
-
-<pre><code># pppoeconf
-</code></pre>
-
-<p>如果可以用DHCP就更方便了，直接启动DHCP客户端。<br/>
-然后找个更新源update一下，安装包</p>
-
-<pre><code>network-manager
-</code></pre>
-
-<p>来管理网络。也可安装包</p>
-
-<pre><code>apt-spy
-</code></pre>
-
-<p>来寻找速度较快的更新源：</p>
-
-<pre><code># apt-get install apt-spy
-# apt-spy update                     &lt;== 下载最新的更新源列表
-# apt-spy -d testing -a asia -t 5    &lt;== 对选定的源列表进行连接速度的测试
-</code></pre>
-
-<p>apt-spy会测试连接得到速度最快的更新源，记录在/etc/apt/sources.list.d/apt-spy.list中。之后apt-get update时会自动连接apt-spy.list中的更新源更新软件列表。apt-spy的使用参考5。</p>
-
-<h3>3. 安装常用软件</h3>
-
-<p>刚才的硬盘安装只默认安装了一个粗糙的系统，要用得舒服的话还要安装很多软件包，做一番配置。下面列出一些我需要的包，由于不知道这些包系统默认是否默认已经安装，所以一并导入到命令行安装。</p>
-
-<pre><code>gnome-core               --- gnome核心组件
-gnome-audio              --- 声音支持
-gnome-media              --- 多媒体支持
-gnome-utils              --- 小工具如dictionary，printscreen等
-gnome-system-monitor     --- 系统监视程序
-gnome-main-menu          --- panel主菜单插件
-alacarte                 --- gnome菜单编辑器
-gksu                     --- 支持su/sudo的Gtk+前端
-file-roller              --- 文件管理器
-rar                      --- 常用的压缩/解压工具
-unrar
-p7zip
-p7zip-rar
-p7zip-full
-synaptic                 --- Debian传统图形界面软件包管理器
-software-center          --- Ubuntu引入的图形界面软件包管理器
-thinkfan                 --- thinkpad风扇升降频自动控制程序
-network-config           --- 网络配置和管理前端
-network-manager
-network-manager-gnome
-dhcp3-client
-gnome-netstatus-applet   --- panel网络监视插件
-gnome-nettool            --- gnome网络工具
-gnome-network-admin
-iceweasel                --- 网页浏览器，与firefox只是名字不同
-flashplugin-nonfree      --- 浏览器插件Adobe Flash播放器
-icedove                  --- 邮件客户端，与thunderbird只是名字不同
-multiget                 --- 下载客户端
-build-essential          --- 构建Debian软件包的开发软件包
-gedit-plugins            --- 各种gedit扩展
-gedit-latex-plugin       --- gedit的latex扩展
-emacs23                  --- emacs编辑器版本23
-emacs23-el
-emacs-goodies-el
-emacs23-common-non-dfsg
-emms                     --- emacs多媒体扩展
-erc                      --- emacs irc扩展
-spell                    --- 拼写检查
-aspell
-global                   --- 源代码搜索和浏览
-eclipse                  --- eclipse开发环境
-meld                     --- 文件/文件夹对比
-mercurial                --- 版本管理
-tortoisehg               --- merucrial的图形化前端
-audacious                --- 音乐播放器
-rhythmbox                --- 另一个音乐播放器
-mplayer                  --- 音视频播放
-mplayer-doc
-smplayer
-vlc
-mozilla-plugin-vlc
-gimp                     --- 图像编辑器
-gimp-help-en
-gthumb                   --- 图像查看器
-ibus                     --- 输入法
-ibus-table-wubi          --- 五笔码表
-ibus-pinyin              --- 拼音码表
-qipmsg                   --- 基于Qt的飞鸽传书
-libqt-dev
-libasound-dev
-chmsee                   --- chm阅读器
-gnochm
-debian-reference-zh-cn   --- debian中文参考文档
-latex                    --- latex系统
-texlive-latex-base
-latex-cjk-chinese*
-ttf-arphic-bkai00mp
-ttf-arphic-bsmi00lp
-ttf-arphic-bkai00mp
-ttf-arphic-bsmi00lp
-ttf-arphic-gbsn00lp
-ttf-arphic-gkai00mp
-ttf-dejima-mincho
-ttf-kiloji
-ttf-thai-tlwg
-ttf-arphic-ukai
-ttf-arphic-uming
-ttf-baekmuk
-ttf-sazanami-gothic
-ttf-sazanami-mincho
-ttf-unfonts-core
-ttf-unfonts-extra
-ttf-vlgothic
-psutils
-t1utils
-texlive-latex-extra      --- xelatex等包
-tex-gyre                 --- gyre字体
-auctex                   --- emacs latex扩展
-ntfs-3g                  --- ntfs支持
-ntfs-config
-rxvt-unicode             --- rxvt终端
-rxvt-unicode-ml
-poppler-data             --- pdf编码
-fbreader                 --- 电子书阅读器
-stardict                 --- 本地字典
-openoffice.org-writer    --- 文档编辑器
-openoffice.org-impress
-openoffice.org-calc
-openoffice.org-help-en-us
-openoffice.org-help-zh-cn
-openoffice.org-l10n-en-us
-openoffice.org-l10n-zh-cn
-</code></pre>
-
-<p>添加virtualbox的官方源(见sources.list的virtualbox部分)，安装</p>
-
-<pre><code>virtualbox-4.0           --- 虚拟机
-</code></pre>
-
-<p>添加Debian的multimedia源，安装Adobe PDF Reader 64位</p>
-
-<pre><code>acroread                 --- pdf阅读器
-acroread-data
-acroread-debian-files
-acroread-l10n-en
-acroread-plugins
-acroread-dictionary-en
-mozilla-acroread
-</code></pre>
-
-<p>安装skype，因为skype官方没有64位版本，只有安装它的32位版本了。需要安装64位平台的32位支持库</p>
-
-<pre><code>ia32-libs
-ia32-libs-gtk
-</code></pre>
-
-<p>然后下载skype的debian包并安装</p>
-
-<pre><code>$ dpkg -i --force-architecture ./skype-debian_2.1.0.81-1_i386.deb
-</code></pre>
-
-<p>最后卸掉新安装系统默认带的evolution，totem，我很少用它们。</p>
-
-<h3>4. 常用配置</h3>
-
-<h4>4.1 testing和unstable混合系统</h4>
-
-<p>这里就不详细介绍什么是testing/unstable等Debian的版本管理内容了。在testing配置的系统上混合unstable，在稳定的基础上可以有选择性的更新更快的软件，或者尝鲜试用某些unstable的软件包。</p>
-
-<p>首先在sources.list里加入unstable的源，见6 sources.list的unstable部分。然后配置apt控制软件版本的优先级。<br/>
-在/etc/apt/apt.conf中写入(如果此文件不存在则新建一个)</p>
-
-<pre><code>### apt.conf begin
-
-APT::Default-Release “testing”;
-
-### apt.conf end
-</code></pre>
-
-<p>指明以testing为主要软件包版本。</p>
-
-<p>然后为testing/unstable配置优先级关系，在/etc/apt/preferences中写入(如果此文件不存在则新建一个)</p>
-
-<pre><code>### preferences begin
-
-Package: *
-Pin: release o=Debian,a=testing
-Pin-Priority: 900
-
-Package: *
-Pin: release o=Debian,a=unstable
-Pin-Priority: 700
-
-### preferences end
-</code></pre>
-
-<p>要进一步了解这部分配置的意思，可以参考</p>
-
-<pre><code>$ man apt_preferences
-</code></pre>
-
-<p>应用这个配置，在安装软件包时apt一般会先寻找testing仓库，如果找到该软件包就安装。否则再寻找unstable仓库，如找到则安装。如需要强制忽略此优先级安装unstable的版本，可在apt-get/aptitude的命令行指明-t选项，具体参考相关手册文档。</p>
-
-<h4>4.2 字体</h4>
-
-<p>从软件源安装字体</p>
-
-<pre><code># aptitude install ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy
-</code></pre>
-
-<p>然后继续添加几个常用的字体</p>
-
-<pre><code>Monaco_Yahei
-VeraSansYuanTi
-</code></pre>
-
-<p>和几个windows下的字体，这部分字体就不一一列举了(没买windows系统，使用windows字体是侵权行为，你懂的)。</p>
-
-<p>将所有字体按文件夹整理到文件夹dw_customized，将它放到/usr/share/fonts(新字体对所有用户都可用)或~/fonts(新字体只有自己可用)。
-最后，使用命令更新系统字体缓存</p>
-
-<pre><code># fc-cache -fv
-</code></pre>
-
-<h4>4.3 配置迁移</h4>
-
-<p>从之前的旧系统直接复制一些程序的配置即可在新的系统上用，它们有</p>
-
-<pre><code>.aspell.en.prepl
-.aspell.en.pws
-.bash_profile
-.bashrc
-.chmsee/
-.config/
-.conky/
-.eclipse/
-.emacs
-.emacs.d/
-.emms/
-.eshell/
-.FBReader/
-.fonts/
-.gconf/
-.gnome2/
-.icedove/
-.icons/
-.ibus/
-.mozilla/
-.mplayer/
-.MultiGet/
-.profile
-.qipmsg/
-.screenrc/
-.themes/
-.tortoisehg/
-.VirtualBox/
-.Xdefaults
-.xmodmap
-.Xresources
-</code></pre>
-
-<h4>4.4 语言</h4>
-
-<p>个人喜欢将系统默认语言设置为英语，使用命令</p>
-
-<pre><code># dpkg-reconfigure locales
-</code></pre>
-
-<p>重新配置locale，激活</p>
-
-<pre><code>en_US.UTF8 UTF8   --- default
-zh_CN.UTF8 UTF8
-</code></pre>
-
-<p>两种语言，并设置第一种为系统默认语言即可。设置好后注销再登录即生效。</p>
-
-<h4>4.5 快捷键和系统外观</h4>
-
-<p>到这里，大部分配置都已经完成，但是还需要手动配置几处让系统更便于使用。<br/>
-打开gnome配置编辑器</p>
-
-<pre><code>$ gconf-editor
-</code></pre>
-
-<p>修改相应的键值。</p>
-
-<h5>4.5.1 应用程序</h5>
-
-<p>在</p>
-
-<pre><code>/apps/metacity/keybinding_commands
-/apps/metacity/global_keybindings
-</code></pre>
-
-<p>下添加常用的应用程序快捷键，如gnome-termianl，emacs等。</p>
-
-<h5>4.5.2 工作空间</h5>
-
-<p>将下面两项修改为顺手的快捷键</p>
-
-<pre><code>/apps/metacity/global_keybindings/switch_to_workspace_left
-/apps/metacity/global_keybindings/display_desktop
-</code></pre>
-
-<h5>4.5.3 桌面显示</h5>
-
-<p>在/apps/nautilus/desktop下，去掉</p>
-
-<pre><code>computer_icon_visible
-home_icon_visible
-trash_icon_visible
-</code></pre>
-
-<p>几个选项的勾。</p>
-
-<h5>4.5.4 panel时钟显示</h5>
-
-<p>到/apps/panel/applets下，找到时钟的applet，再在它的prefs目录下，修改
-format为custom
-custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
-
-<h4>4.6 系统菜单</h4>
-
-<p>rxvt-unicode安装好后在系统菜单没有启动项，手动添加一个，命令输入urxvtcd，添加向导会自动找到rxvt的图标。</p>
-
-<h4>4.7 启动加载项</h4>
-
-<p>在[System] -> [Preferences] -> [Startup Application]中添加conky的启动项，将启动命令指向.conky/conky_start.sh</p>
-
-<h4>4.8 显示器/屏保</h4>
-
-<p>检查显示器的刷新频率是否为60Hz，将屏保设为Floating Debian。</p>
-
-<h4>4.9 外观</h4>
-
-<p>设置主题，壁纸，鼠标风格。</p>
-
-<h4>4.10 个人文件</h4>
-
-<p>最后，将旧系统使用的所有文件复制到新系统home下。</p>
-
-<p>到这里新系统的安装配置工作已经全部完成。X201i上的所有硬件，包括CPU，硬盘，键盘(音量调整，Fn快捷键)，触摸板，小红点，屏幕，屏幕灯，电源管理，CPU风扇，全部运行良好。</p>
-
-<p>日常使用中发现：即使开机后同时打开40多个程序，从Debian的系统监视器看到CPU的占用率也不高，内存的使用情况也很少超过2G，看来Wheezy对内存的大小要求不高，我买机器时另外加的2G内存算是白加了；机器的散热做得很好，我常常是每天都开机十几个小时，键盘和手托部位附近的温度只比体温略高，接触到的话只是略感温暖，也用过几个其它品牌的本本，个人感觉这个X201i的散热做得算是最好的，没有之一；也很安静，即使在夜深人静的时候也只听能到有轻微的声音；X201i的重量较轻，没有带那些我不需要的硬件如光驱，显卡，摄像头等；注意要安装CPU风扇自动控制程序，否则风扇会一直全速转，耗电/声音都比较大，目前用的是thinkfan，也尝试安装过其它的软件包如fancontrol等，不过感觉还是thinkfan好用，配置也最简单——就是不用配置，只需安装好它一个包就OK了；缺点就是屏幕较小，屏幕分辨率只有1280*800，相对台式机的屏幕较小，相对一般14寸的本也会明显觉得屏幕小，为了看得清楚，我把系统的字体调整得较大(在linux里面，字体大小是很方便调整的)，不过写程序的时候，全屏能浏览到的代码行数还是比较少，一些与屏幕分辨率大小相关的程序如conky的尺寸和布局也需要调整一下。</p>
-
-<p>最后附上系统截图</p>
-
-<p><a href="/images/uploads/debian_wheezy_on_tpX201i.jpg"><img src="/images/uploads/debian_wheezy_on_tpX201i.jpg" alt="debian wheezy on thinkpad x201i" /></a></p>
-
-<h3>5. apt-spy的使用</h3>
-
-<p>常用选项</p>
-
-<pre><code>-d distribution 指定debian的发行版本，例如stable, testing, unstable。除升级外，必须使用此参数。
--a area 选择进行测试的区域，例如 aisa, europe, north-america等。这种区域信息保存在/etc/apt-spy.conf文件中，可参考此文件来给出命令行参数，关键字ALL表示全部的区域。
--c config 指定配置文件。
--e number 指定测试的服务器数量。
--f file 测试时抓取制定的文件（文件相对 debian base 的路径）。
--i file 指定输入的文件，配合 -w 参数使用。
--m mirror-list 指定要升级的镜像列表文件。
--o output-file 重定向输出到指定文件。
--p proxy 指定使用的代理服务器，需要遵从 [server]:[port] 的格式。
--s country_list 指定要进行测试的国家。不能和 -a 参数同时使用。
--t time 指定进行测试时每台服务器的超时时间，以秒为单位，只能是正整数。使用较小的超时时间来测试可以过滤掉连接较慢服务器，得到连接较快的服务器。
--u update-URL 从指定的 URL 获得镜像列表更新。
--w file 输出 -i 参数提供的服务器列表中速度最快的前几台镜像服务器（缺省是前 5 台）。
--n number 制定 -w 参数输出的服务器数量。
--v 输出版本信息。
--h 输出帮助信息
-</code></pre>
-
-<h3>6. 分享sources.list</h3>
-
-<p>由于使用了apt-spy，除了某些特定软件如virtualbox的源之外，对于一般软件包sources.list的设置变得相对将要了，这里还是分享一下我的sources.list。</p>
-
-<pre><code>### sources.list begin
-#
-# A mixed testing/unstable system
-
-# deb cdrom:[Debian GNU/Linux 6.0.0 _Squeeze_ - Official amd64 CD Binary-1 20110205-18:15]/ squeeze main
-# deb cdrom:[Debian GNU/Linux 6.0.0 _Squeeze_ - Official amd64 CD Binary-1 20110205-18:15]/ squeeze main
-
-deb http://security.debian.org/ testing/updates main contrib non-free
-deb-src http://security.debian.org/ testing/updates main contrib non-free
-
-## testing sources
-# preferred testing
-
-# 163 source
-deb http://mirrors.163.com/debian/ testing main non-free contrib
-deb-src http://mirrors.163.com/debian/ testing main non-free contrib
-
-deb http://ftp.debian.org/debian/ testing main contrib non-free
-deb-src http://ftp.debian.org/debian/ testing main contrib non-free
-
-deb http://http.us.debian.org/debian testing main contrib non-free
-deb-src http://http.us.debian.org/debian testing main contrib non-free
-
-# ustc
-deb http://debian.ustc.edu.cn/debian testing main non-free contrib
-deb-src http://debian.ustc.edu.cn/debian testing main non-free contrib
-deb http://debian.ustc.edu.cn/debian-security testing/updates main
-
-# multimedia -- acroread
-deb ftp://ftp.debian-multimedia.org testing main non-free
-
-# virtualbox source
-deb http://download.virtualbox.org/virtualbox/debian squeeze non-free contrib
-
-# update and proposed update
-#Added by software-properties
-deb http://security.debian.org/ squeeze/updates contrib non-free main
-deb http://ftp.debian.org/debian/ squeeze-proposed-updates contrib non-free main
-
-## unstable sources
-# unstable is the complement
-
-deb http://mirrors.163.com/debian/ unstable main non-free contrib
-deb-src http://mirrors.163.com/debian/ unstable main non-free contrib
-
-deb http://ftp.debian.org/debian/ unstable main contrib non-free
-deb-src http://ftp.debian.org/debian/ unstable main contrib non-free
-
-deb http://http.us.debian.org/debian unstable main contrib non-free
-deb-src http://http.us.debian.org/debian unstable main contrib non-free
-
-### sources.list end
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/03/great-tools-rxvt-unicode-and-gnu-screen/">解牛利刃rxvt-unicode, GNU Screen</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-03T21:15:00+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
-        
-         | <a href="/blog/2011/03/03/great-tools-rxvt-unicode-and-gnu-screen/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处&#8212;-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt-unicode被收录在 debian/ubuntu 的源中，安装只需在管理员权限下输入命令：</p>
-
-<pre><code># aptitude install rxvt-unicode
-</code></pre>
-
-<p>在 debian 6 wheezy中安装好后，gnome菜单中没有它，需要手动创建快捷方式。
-默认安装好后的 rxvt-unicode 相当原始，需要配置一番才方便使用。它的配置文件为 ~/.Xresource 或 ~/.Xdefaults，关于它的配置网上已有很多讲解文章。这里简单备份下我自己的配置:</p>
-
-<pre><code>!! -*- Conf -*-
-!! configuration for rxvt-unicode
-
-!! Copyright (C) 2009, 2010, 2011 Dylan.Wen
-!! Author: Dylan.Wen &lt;hhkbp2@gmail.com&gt;
-
-!! Time-stamp: &lt;2011-03-03 00:03&gt;
-
-!! This file is free software: you can redistribute it and/or modify
-!! it under the terms of the GNU General Public License as published by
-!! the Free Software Foundation, either version 3 of the License, or
-!! (at your option) any later version.
-
-!! This file is distributed in the hope that it will be useful,
-!! but WITHOUT ANY WARRANTY; without even the implied warranty of
-!! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-!! GNU General Public License for more details.
-
-!! You should have received a copy of the GNU General Public License
-!! along with this file.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
-
-!!! Commentary:
-!! To enable it after changed, use this command:
-!! xrdb -load ~/.Xresources
-
-!!! Code:
-
-
-Xft.dpi:    96
-
-!! general setting
-Rxvt.geometry:      80x24
-Rxvt.visualBell:    False
-Rxvt.termName:      rxvt
-
-!! color theme
-!! dark theme
-Rxvt.background:    black
-Rxvt.foreground:    white
-Rxvt.colorBD:       yellow
-Rxvt.colorIT:       magenta
-Rxvt.colorUL:       green
-Rxvt.underlineColor:cyan
-Rxvt.tintColor:         gray
-Rxvt.cursorColor:   white
-Rxvt.shading:       100
-
-!! title
-Rxvt.title:             rxvt-unicode
-!! scrollBar
-Rxvt.scrollBar:             False
-Rxvt.scrollstyle:       next
-Rxvt.scrollBar_right:       True
-Rxvt.scrollBar_floating:    True
-Rxvt.scrollTtyOutput:       True
-Rxvt.scrollTtyKeypress:         True
-
-!! cursor
-Rxvt.cursorBlink:       True
-Rxvt.pointerBlank:      True
-Rxvt.externalBorder:        True
-
-!! coding
-Rxvt.multichar_encoding:    utf-8
-Rxvt.imLocale:          zh_CN.UTF-8
-
-Rxvt.menu:          /etc/X11/rxvt.menu
-!! set the artificial transparency
-!! Rxvt.inheritPixmap:         True
-Rxvt.transparency:         255
-
-Rxvt.saveLines:                1000
-Rxvt.preeditType:              Root
-Rxvt.borderLess:               False
-
-!! turn on URL browsing support
-!! please refer to: http://www.leninlee.cn/?p=384
-URxvt.urlLauncher:      firefox
-URxvt.matcher.button:           1
-URxvt.perl-ext-common:          matcher
-
-!! multi-tab
-!! URxvt.perl-ext-common: default,tabbed
-
-!! font
-Rxvt.font:           xft:Vera Sans YuanTi Mono:size=12:antialias=true
-Rxvt.boldFont:       xft:Vera Sans YuanTi Mono:size=12:Bold:antialias=true
-Rxvt.italicFont:     xft:Vera Sans YuanTi Mono:size=12:Italic:antialias=true
-Rxvt.boldItalicFont: xft:Vera Sans YuanTi Mono:size=12:Bold Italic:antialias=true
-
-
-!! redefine color to use tango theme in vim
-!! Black
-URxvt.color0:           #000000
-URxvt.color8:           #555753
-!! Red
-URxvt.color1:           #CC0000
-URxvt.color9:           #EF2929
-!! Green
-URxvt.color2:           #4E9A06
-URxvt.color10:          #8AE234
-!! Yellow
-URxvt.color3:           #C4A000
-URxvt.color11:          #FCE94F
-!! Blue
-URxvt.color4:           #3465A4
-URxvt.color12:          #729FCF
-!! Magenta
-URxvt.color5:           #75507B
-URxvt.color13:          #AD7FA8
-!! Cyan
-URxvt.color6:           #06989A
-URxvt.color14:          #34E2E2
-!! White
-URxvt.color7:           #D3D7CF
-URxvt.color15:          #EEEEEC
-</code></pre>
-
-<p>简单解释下，rxvt-unicode 接受以 Rxvt 或 URxvt 开头的属性定义，其属性一般以驼峰风格命名。</p>
-
-<p>geometry 定义了窗口的大小，即 colum x row ,也可以指明窗口左上角在屏幕的初始位置，如</p>
-
-<pre><code>Rxvt.geometry:          80x24+100+100
-</code></pre>
-
-<p>visualBell 与 bash, cygwin 的闪屏效果一致(还有下面介绍的 screen 也支持此功能)。<br/>
-termName 表示终端名字，取 rxvt 使之与非 unicode 版本的一致(有时某些环境变量如 PS1 的设置即与此名字相关，如下面介绍的 screen)。进入 rxvt-unicode,环境变量 $TERM 即为所设置的 rxvt。</p>
-
-<p>配色方面，除了一般的背景色，前景色，光标颜色之外，rxvt-unicode 还可以特别地设置粗体，斜体，超链接，下划线等颜色，所以在 rxvt-unicode 里，你可以有一个彩色的 man 手册页(很受欢迎的一个特性)。</p>
-
-<p>滚动条方面，设置了放在右侧，当有输出或按下键盘时，即自动滚动到最下端(与标准的终端如 gnome-terminal 行动一致)。不过不显示滚动条。即使不显示，按键后自动滚动到最下端的行为还是有效的。设置了鼠标闪烁。</p>
-
-<p>编码与 locale 设置为 UTF-8。将 inheritPixmap 打开，与 transparency 结合可以让背景透明，并设置其透明度。也有其它选项，可以将某张图片应用为背景。输出缓冲为 1000 行。打开 perl 扩展，使得在单击显示的超链接可以直接打开浏览器浏览。rxvt-unicode 也直接支持多标签，只要打开相应的 perl 扩展即可。不过我试了一下，鼠标反应不好，所以没有打开。我还是习惯搭配 screen 来模拟多标签。</p>
-
-<p>字体方面，是 rxvt-unicode 多为人诟病的一个方面。首先，加入 X 字体后使得加载速度变慢(一般用户感觉不到，即使将 preeditType 设为 Root)，有人说小字体用点阵，大字体用 X 字体比较美观，不过外观这东西见人见智。我统一用 X 字体，这里使用的就是传说中的 Vera Sans 圆体。</p>
-
-<p>更改配置之后，运行命令行</p>
-
-<pre><code>$ xrdb ./.Xresources
-</code></pre>
-
-<p>使之生效。</p>
-
-<p>GNU screen 是命令行下的窗口管理器，它主要功能包括命令行会话管理，多标签环境模拟，它在 debian/ubuntu 下的安装也很方便：</p>
-
-<pre><code># aptitude install screen
-</code></pre>
-
-<p>关于其使用，网上文章也不少，这里就不啰嗦了。这里贴一下自己的配置文件:</p>
-
-<pre><code>############################################################
-# Settings for screen
-#
-# Copyright (C) 2009, 2010, 2011 Louis.Wen
-#
-# Author: Dylan.Wen &lt;hhkbp2@gmail.com&gt;
-#
-# Time-stamp: &lt;2011-03-03 01:14&gt;
-#
-# This file is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This file is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this file.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
-#
-############################################################
-
-
-# 关闭启动画面
-startup_message off         # default: on
-
-# Automatically detach on hangup, or the screen will keep eating
-# your memory after the terminal emulator has been terminated.
-autodetach on      # default: on
-
-# 关闭vbell
-vbell off
-
-# 指定 shell
-shell bash
-
-# 默认开始路径为~
-# chdir
-
-# 定义回滚行数
-defscrollback 1000
-
-# 指定编码
-defencoding utf-8
-encoding utf-8 utf-8
-
-# 定制 caption
-# backtick 47 0 0 my_name.sh
-# caption always "%?%F%{-b 4w}%:%{-b bb}%? %H | %l | %m-%d %c |%?%F%{-b 4w}%?%L=%-Lw%45&gt;%{-b w4}%n%f* %t%{-}%+Lw%-0&lt;"
-# caption always "%{=b}%{b}%{uB C}%47`%{-}%{B C}:%{-}  %-Lw%{u .my}%50&gt;%n%f* %t%{-}%+Lw%&lt; %=%{b km}%m-%d %c %D"
-
-caption always "%{=b}%{b}%{C}%H%{-}  %+010=%-w%8L&gt;%{uB .my}*%n %t%{-}%+w%-014&lt;  %-012=%{b m}%m-%d %c "
-
-# hardstatus alwayslastline "%?%{yk}%-Lw%?%{wb}%n*%f %t%?(%u)%?%?%{yk}%+Lw%?"
-
-# 定制 title bar
-term rxvt
-
-# termcapinfo xterm|rxvt ti@:te@
-# termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
-termcapinfo rxvt 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
-
-########## 键绑定 ##########
-
-# 将快捷键默认 C-a 设为 C-l
-escape ^L^L
-
-# 定制 region 函数键与Emacs一致
-bind 2 split
-bind o focus
-bind 1 only
-bind 0 remove
-
-# bind F9 to create a new screen
-bindkey -k k9 screen
-# bind F10 to kill current screen window
-bindkey -k k10 kill
-
-# bind F5 to detach screen session
-bindkey -k k5 detach
-# bind F11 to "move to previous window"
-bindkey -k F1 prev
-# bind F12 to "move to next window"
-bindkey -k F2 next
-
-
-# .screenrc ends here
-</code></pre>
-
-<p>caption是按照 80 个字符宽来设定的。region 函数键设定与 Emacs 一致（主要是为了方便记忆，我没有在 screen 中使用 Emacs 的习惯），可惜只能横向分割窗口，不能纵向分割。快捷键对照如下：</p>
-
-<pre><code>F9 -- 新建 screen 会话
-F10 -- 关闭当前会话
-F5 -- 挂起当前会话
-F11 -- 移动到上一个会话
-F12 -- 移动到下一个会话
-</code></pre>
-
-<p>结合 caption 栏，就有了一种类 tab 的窗口浏览功能，截图如下：</p>
-
-<p><img src="/images/uploads/rxvt-u2.jpg" alt="screenshot of urxvt" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/02/matrix-screen-saver-for-emacs/">Matrix Screen Saver for Emacs</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-02T18:19:00+08:00" pubdate data-updated="true">Mar 2<span>nd</span>, 2011</time>
-        
-         | <a href="/blog/2011/03/02/matrix-screen-saver-for-emacs/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/images/uploads/code_rain_matrix.jpg"><img src="/images/uploads/code_rain_matrix.jpg" alt="the source view screenshot of The Matrix" /></a></p>
-
-<pre><code>"What is the Matrix?
-Control."
-    -- Morpheus
-</code></pre>
-
-<p>对于广大的程序员来说，骇客帝国应该是一部很有吸引力的电影，因为它既有很丰富的商业大片的元素，也有很多我们熟悉的事物：英雄，导师，爱情，格斗和子弹时间，代码，骇客，人类和机器，现实与虚拟，过去和未来预言等。而它的确是一部成功的电影，无论是从它取得的票房上来看，还是从它在世界范围产生的影响来看。</p>
-
-<p>片中为人津津乐道的地方很多，关于宗教哲学，关于现实，关于信念等等，而引起我思考最多的是the Matrix这个AI，机器，人类社会的未来的某一个发展阶段。</p>
-
-<p>什么是the Matrix呢？Morpheus说，control。控制，与被控制。即使片中那个未来社会目前还无法预见，但是其实无需等待那个AI产生的未来，看看现时当下，就很容易发现the Matrix无处不在: gfw; 高房价，control了多少人的生活; 艰难的决定，control了你用哪个客户端软件&#8230;</p>
-
-<p>而当年我们的伟大领导RMS正是因为私有软件的版权对人的控制而开始了自由软件运动。</p>
-
-<p>废话少说，长话短说，回到正题，今天说的是又一个碟形世界般的故事：</p>
-
-<p>历史的潮流不断向前推动，在这个不知从何时开始，又不知到何时结束的宏大时代的某一天的某一个不太清醒的时候，镜头转向阿图因大陆，在亚洲东部某个国家南方某个魔法并不盛行的小镇，有一个年轻人在家喝了点酒，晕晕乎乎之余仿照骇客帝国的场景，为GNU Emacs写一个Matrix屏保&#8230;</p>
-
-<p>于是就有了zone-matrix.el。</p>
-
-<p>以Linux作桌面系统也有很多时间了，长时间运行Linux，有个屏保对显示器保护比较好,在X window下有很多的屏保可用，但有时只有一个只支持几种颜色的终端。在Emacs的标准发行包中有一个zone.el，提供了几个比较不错的屏保，zone-matrix.el重用了zone.el的框架。希望给那些长时间在终端Emacs下工作的朋友多一种选择。</p>
-
-<p>下载安装：<br/>
-到<a href="https://bitbucket.org/dylanwen/elispport/src">这里</a>下载zone-matrix.el，zone-matrix-settings.el，zone-settings.el几个文件，并放到load-path目录中。<br/>
-然后在dot emacs文件中加入</p>
-
-<pre><code>(require 'zone-settings)
-</code></pre>
-
-<p>即可。效果图如下：</p>
-
-<p>终端:</p>
-
-<p><img src="/images/uploads/zone-matrix-under-console.jpg" alt="`zone-matrix' under console" /></p>
-
-<p>主要在终端下使用，终端下能用的颜色不多，表现力还是很有限的，有时间的话再添加多一些变化。也添加了支持X的部分代码，所以在X下也能用。</p>
-
-<p>X window:</p>
-
-<p><img src="/images/uploads/zone-matrix-under-X.jpg" alt="`zone-matrix' under X" /></p>
-
-<p>已知的问题有：</p>
-
-<ol>
-<li>占用的资源较多，在几年前的老机器(赛扬D 2.4G)上跑全屏，CPU占用率会达到90％。可以调整参数，适当降低屏幕刷新速度。</li>
+<li>将时间显示移到顶部面板的一边，同gnome2</li>
+<li>将快捷方式放入顶部面板，这些快捷方式都来自Overview模式(也就是点击Activity按钮后进入的界面)左边的Dash(Overview模式界面左边像dock的那个家伙)</li>
+<li>将顶部面板的&#8221;Activity&#8221;按钮换做Application按钮，下拉列表就是分类的应用程序快捷方式，同gnome2的Application菜单</li>
+<li>将gnome3动态变化的workspace个数限制为静态不动</li>
+<li>将Suspend按钮改为Shutdown按钮，弹出的Shutdown对话框风格与gnome2一致</li>
+<li>添加底部任务栏</li>
 </ol>
 
 
-<p>PS：cracker，中文译作骇客，指安全破坏者。<br/>
-而hacker，译作黑客，指热爱编程，通过编程让自己变得更加聪明，并乐在其中的人。</p>
+<h3>添加底部任务栏</h3>
+
+<p>与稳定不换的顶部面板不同，底部任务栏的这个位置，我曾经使用过gnome2任务栏面板，dock和dockbarx，也用过多个不同的dock，最喜欢的也用得最久的是cairo dock，效果好配置性强，缺点在于主题图标不完善bug也不少，docky则比较简洁，配置性稍弱，而且很多人都不喜欢libmono这个大块头，至于awn则是好久之前用过了，感觉一般没有深究。dockbarx是一个gnome2面板的插件，主要提供程序分组和快捷方式功能，有点像是windows 7的任务栏风格，问题在于不够稳定。</p>
+
+<p>应用上面提到的扩展，就可以在底部添加gnome2默认标配的任务栏，但是这个位置我更喜欢安装tint2来作为底部任务栏，因为它即可以作为任务栏，也可以放入其它的东西，如快捷方式，系统托盘或时钟等，也可作为一个workspace切换器，而且它配置性比较强，深得openbox等其他wm使用者的喜爱。我到它的官方网站找了一个示例配置文件，使用起来觉得效果也不错，风格与之前用的docbarx比较像。</p>
+
+<h3>更换gnome-shell主题</h3>
+
+<p>之前一直用的主题是浅色系的elementrary-borderless，转到gnome-shell之后，界面黑乎乎的一片相当不清爽，于是另外换了一个主题，资源请参考：</p>
+
+<p><a href="http://wowubuntu.com/5-gnome-shell-theme.html">《5 个漂亮的 Gnome Shell 主题》</a><br/>
+<a href="http://wowubuntu.com/gnome-shell-theme.html">《Gnome Shell 主题：New Adwaita-White 及 Black Glass》</a></p>
+
+<p>目前gnome-shell官方没有提供更换主题的工具，据说是因为这个功能并不是太受到重视。要换主题的话有两种方法：</p>
+
+<ol>
+<li><p>使用GNOME Shell用户主题扩展(User-Theme Extension)，它的包名是gnome-shell-extensions-user-theme。将主题文件下载到./themes/THEME-NAME/gnome-shell中，然后就可以通过Gnome Tweak Tool来选择不同的主题了</p></li>
+<li><p>将下载的主题文件直接覆盖系统主题目录/usr/share/gnome-shell/theme(记得先备份一下)，然后按Alt+F2打开命令启动器，并键入&#8221;r&#8221;或&#8221;rt&#8221;更新主题</p></li>
+</ol>
+
+
+<p>虽然只是修改不多，但折腾完之后感觉比原来默认的gnome-shell好用得多，gnome-shell的默认配置的确扯淡，但它的可配置性强大，可以预见到将来会出现越来越多的扩展，一些好用的扩展会进入源方源，让我们广大用户使用体验更好一些选择更多一些。</p>
+
+<p>最后帖上一张折腾后的桌面截图：</p>
+
+<p><a href="/images/uploads/2011/11/gnome-shell-mss2.jpg"><img src="/images/uploads/2011/11/gnome-shell-mss2.jpg" alt="折腾后的gnome-shell截图" /></a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/09/gnome-shell-it-just-happens/">杯具的诞生</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-09T22:52:51+08:00" pubdate data-updated="true">Nov 9<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/09/gnome-shell-it-just-happens/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今天这篇日志主要是讲一个故事：</p>
+
+<p>从前有个阿叔，他叫本华，有一天他将系统升级到了gnome3，具杯的使用体验让他痛苦不已，促使他开始思考杯具的本质，然后他着手写了处女作品《具杯的诞生》，成为一代哲学家。</p>
+
+<p>(故事完，热烈掌声响起，一浪接一浪，一浪接一浪&#8230;&#8230;)</p>
+
+<p>我的debian系统是testing/sid混合源，由于平时更新勤快，所以一般每次更新的更新包都不多，昨晚因为gnome-panel上声音控制的applet启动加载有错，添加applet的对话框也找不到那个applet，尝试卸载并清空配置重装gnome-applet的时候，一不留神使用了apt的-y选项，然后去喝杯水打个转回来，发现已经更新了几百M的包，重启之后就已经是gnome-shell接管了桌面，然后更新管理器提示更新3.0内核等等，再来一次更新个几百M。</p>
+
+<p>第一次与gnome-shell亲密接触，才发现它的用户体验是既坑爹又坑哥，与gnome2的习惯相差太远，抛开黑乎乎空荡荡的上边栏不说，抛开横竖让人找不着北的菜单栏不说，抛开迟钝的界面响应和突然死亡的X不说，也抛开各种华而不实的效果，但无论如何，关机键要给哥留一个吧，难道真的要我看着&#8221;Suspend&#8221;菜单按Alt键，或者直接命令行shutdown？ 这个设计也太反用户，反人类了吧，让思念关机键的哥情何以堪？</p>
+
+<p>在此具杯之下，我只有一句话想说:“Well done，gnome3，你已经成功让我恶心到了”。在你统治的X下我会业业兢兢，学会即时保存所有的文本，在2012到来之前学会欣赏你的突然死亡特效，学会习惯于忘记马上卸载掉你并找回你前任gnome2的想法并假装与你相处得愉快幸福，最后要学会的是带着期待生活，期待有一天，经过改进的你真的让人在使用中体验到方便愉快，然后让人不得不称赞说：</p>
+
+<p>“Well done, gnome3.”</p>
+
+<p><a href="/images/uploads/2011/11/gnome-shell-ss1.jpg"><img src="/images/uploads/2011/11/gnome-shell-ss1.jpg" alt="gnome-shell截图1" /></a>
+<a href="/images/uploads/2011/11/gnome-shell-ss2.jpg"><img src="/images/uploads/2011/11/gnome-shell-ss2.jpg" alt="gnome-shell截图2" /></a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/03/a-tour-in-yangshuo/">阳朔之行</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-03T23:05:47+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/03/a-tour-in-yangshuo/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>9月中旬的一个周末，去了一趟阳朔游玩，行程是由公司组织的，前后三天，时间比较短，很多风物只能算是匆匆一瞥，只留下了一个印象，旅游回来之后，想写写路上见到的一些风景和感受，但一直没有把握好时间。现在回头看看也过去一个多月了，算是补交一下功课，这里小写一下阳朔一行。</p>
+
+<h3>认识中的桂林</h3>
+
+<p>像我们80后的这一辈人，认识桂林是从小学的课本开始的，记得小学那个时候有一篇课文叫做《桂林山水甲天下》，讲的是桂林山水的美丽，那篇课文具体的内容是完全不记得了，不过把桂林山水的美描述到超凡脱俗的那种感觉，经过这么多年记忆依然清晰。就像那个时候的一首歌唱的那样，想去桂林可是有时间的时候没有钱，有钱的时候没时间，对我来说总之一直是既没钱也没时间，桂林我始终没有去过，空留一份由书本描述得来的想象。认识中的桂林是美丽的，而且没有去过的地方，总是特别的美丽。</p>
+
+<h3>漫走阳朔</h3>
+
+<p>从广州到桂林坐汽车路程有600多公里，我们是下午出发，坐了7,8个小时的汽车后才到达阳朔，那时已经是晚上的10点多11点，当晚即入住西街的旅馆休息，第一天自由活动，旅行社的导游少不了向我们推荐套餐a套餐b，但由于觉得这些套餐往往不是太贵就是时间安排太紧密，所以最后还是决定自己走，一群人租了自行车在阳朔县城附近漫游。</p>
+
+<p>骑着自行车从阳朔县城出来，一路慢骑，边看风景，看到阳朔县城不大，感觉上更像一个大一点的小镇，房子普遍都建得比较有当地的特色，平顶飞檐，一般也就4到5层的样子，镇上到处可见拔地而起的陡峭山峰，也比较有特色，而房子靠山而建，两者之间的距离也特别的近，仿佛住在楼上的人伸手即可以触摸到陡峭的山岩。也许是旅游业发达的缘故，酒店饭馆特产店之类的就特别多，游客来自世界各地，走在街上经常看到黄发碧眼的外国人。在县城的街上走，也能感受到此地山水秀丽，因为抬头远望就能看到绵延的青山，县城边上就是清澈的小河。</p>
+
+<p>在阳朔县城附近有很多的景点，这些景点都围绕着当地特色的喀斯特地貌来开发，我们也逛了几个，像聚龙潭，大榕树等等，看看溶洞奇石，看看古树远山，匆匆览过如走马观花，当地的风景的确养眼。在阳朔县城走着，会觉得当地的旅游业相当发达，人流一旦多起来，就会有一种繁华的印象，但到了真正骑着车走到县城外面，才看到原来很多地方其实也是绿树田野，小村小镇，感觉和老家小镇差不多，并不算太发达。景点附近游人众多，是比较热闹的，骑车走远一点，沿着农村的小路慢慢走着，小路绵延，村野安静，山水清朗犹如画卷一样在面前展开，又会另有一种纯朴自然远离繁嚣的感受。</p>
+
+<p>晚上回来，洗过澡吃过饭，和两个朋友逛了一下西街，这是当地的一条比较出名的步行购物小街，西街之于阳朔可比上下九之于广州，小街不大也不算长，开了很多小店酒吧，一到晚上人就特别多，人流密集热闹非凡，也算是当地一景吧。</p>
+
+<h3>漓江印象</h3>
+
+<p>第二天是公司组织的活动“徒步漓江”，虽然说的好像是走完漓江全程，不过其实只是选择了阳朔附近供游客通航的一段来走，公司组织的活动中间过程相当坑爹情节复杂此处跳过1300字略去不提，但也算近距离游览接触了一下漓江。</p>
+
+<p>感觉中的漓江不会是那种很深的江，而从游览过的这一段来说，江面不大而比较开阔，江水舒缓，是比较秀气的，与之前认识中的印象相当贴近，配上江边潇洒延绵的山岩，很多地方都是很具有特色的那种漓江风景。下午天色由睛转阴，在九马画山那里坐了竹筏顺流而下，一边观赏沿江风景，快到兴坪码头，已经下起雨来了，雨中的漓江，远山隐现在雨雾中，近处雨打江面清风骤来，迷迷朦朦，与晴天气下的明媚旖旎相比又是一番不同的风景，于是和朋友多拍了一些雨中的漓江风景照片。</p>
+
+<p>总之，去阳朔，漓江是不能不游的。</p>
+
+<h3>旅行的意义</h3>
+
+<p>3天的阳朔游行程很快就结束了，第3天下午坐车回来，回到熟悉的广州平淡地工作生活。</p>
+
+<p>有人说，所谓旅行，就是从一个自己活腻的地方到一个别人活腻的地方，说的也有一定的道理，与《在路上》那种任风逐浪随波而流的长期旅行不同，当下我们的旅行方式更多的是那种匆匆而过点到即止，犹如在办公室的午间小睡，很忙的早班过去，一尝小憩，只是为了更清醒地继续迎接下午的忙碌。在平时繁忙的工作抽出一点时间，体验一下在某个陌生的地方出游，感受一下那种自由无羁的感觉，也算是一种惬意的事，出行之后再回来原来的地方，回到熟悉的生活，看待一些事情会有一种重新认识的感觉，熟悉的生活仍在继续，仿佛又“腻”回原地，但无论旅行与否，一个人的生命的经历只有一次，我们又何曾“腻”过？</p>
 </div>
   
   
@@ -1139,54 +303,14 @@ Control."
 </div>
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2013/02/23/no-home-for-java/">无家可归的Java</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/31/terminal-programs-that-i-used/">常用终端软件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
-      </li>
-    
-  </ul>
-</section>
-<section>
- <h1>Categories</h1>
- <ul id="categories">
- <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
-<li class='category'><a href=' /blog/categories/emacs/'>Emacs (10)</a></li>
-<li class='category'><a href=' /blog/categories/life/'>Life (23)</a></li>
-<li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
-<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
-<li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (17)</a></li>
-
- </ul>
-</section>
-
   
 </aside>
 
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Dylan.Wen -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  Copyright &copy; 2012-2013 Dylan.Wen<span class="theme-version">Dropbot Simple</span>
 </p>
 
 </footer>

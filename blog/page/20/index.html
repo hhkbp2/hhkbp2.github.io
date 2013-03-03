@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>X lambda</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 http://finalbug.cn/?p=694 即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限： &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://clisp.github.com/blog/page/20/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
+  <!-- Facebook Open Graph
+     Facebook Debugger: https://developers.facebook.com/tools/debug -->
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://clisp.github.com/blog/page/20/" />
+<meta property="og:description" content="安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 http://finalbug.cn/?p=694 即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限： &hellip;" />
+
+<meta property="og:site_name" content="http://clisp.github.com" />
+<meta property="article:author" content="https://plus.google.com/114787528537231301324">
+
+
+
+<meta itemprop="description" content="安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 http://finalbug.cn/?p=694 即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限： &hellip;" />
+
+<!-- Combine multiple fonts into one request -->
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic|PT+Sans:regular,italic,bold,bolditalic|Patua+One" rel="stylesheet" type="text/css">
+<!-- jQuery -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+  
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">X lambda</a></h1>
+  
+    <h2>Do not try and bend the spoon.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:clisp.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a><span class="divider"></span></li>
+  <li><a href="/blog/darkmate-theme">Darkmate Theme</a><span class="divider"></span></li>
+  <li><a href="/blog/about"></i>About</a><span class="divider"></span></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/17/debian-poweroff/">在debian下以普通用户关机</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-17T12:36:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/04/17/debian-poweroff/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 <a href="http://finalbug.cn/?p=694">http://finalbug.cn/?p=694</a></p>
+
+<p>即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限：</p>
+
+<pre><code>gpasswd -a username powerdev
+</code></pre>
+
+<p>即可。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/03/21/debian-returns/">便，我回来了</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-21T15:00:00+08:00" pubdate data-updated="true">Mar 21<span>st</span>, 2010</time>
+        
+         | <a href="/blog/2010/03/21/debian-returns/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了，想给我的PC升升级了。</p>
+
+<p>ubuntu的版本支持时间很有限，即使是LTS，桌面版本也只支持3年，3年之后退役之时怎么办呢，唯有升下一个版本了。而版本升级却不是那么平滑，难免或多或少有问题。虽然我没做过版本升级，不过论坛上有做小白鼠牺牲的也不是一个两个了。不过能用3年的人估计也少，都是有新版本来了就立马升级（重装）上去，之前在论坛就有帖子问有没有人一个版本连续用2年，跟帖的人不少，却没有一个真的用到2年。</p>
+
+<p>今天再回过头来看看，平滑升级真的是一个很好的特征。与其几年一次重装，不如每天一坨，稳定地升级上去。稳定，对于“漂”在外面的我很有杀伤力。</p>
+
+<p>于是重回Debian，重装系统。PC上的硬盘太老，经过多年摧残，坏道多多。而上面的叉p常常是几个月都不用一次，干脆全部格掉。用gnome testing的镜像安装好后，简单升级配置一下，就已经很好用了。界面虽然简洁了一点，不过胜在速度快，跑起来快很多，即使iceweasel也比旧的firefox快，简单比较了一下，安装的包少了500多个，没有深究是哪些包。看来还是大便对于渐渐变成命令控的我更有吸引力些。才发现还有debian-reference-zh-cn这么好的文档。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-01T03:34:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2010</time>
+        
+         | <a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and try to fontify Emacs as the font-lock facilities do, I found there is a bug in the Color Theme latest version 6.6.0 package.</p>
+
+<p>Line 689 of the source file &#8220;color-theme.el&#8221;, in the defination of function &#8220;color-theme-spec-compat&#8221;, it uses &#8220;cadar&#8221; to fetch out the property of only the first element of face specification, rather than fetch out the whole specification. So give the face specification as</p>
+
+<pre><code>(dired-mark
+      ((((class color) (min-colors 88)) (:foreground "red"))
+       (((class color) (min-colors 16)) (:foreground "green"))
+       (((class color) (min-colors 8)) (:foreground "blue"))
+       (((type tty) (class mono)) (:foreground "white"))
+       (t (:foreground "red"))))
+</code></pre>
+
+<p>It is a correct face specification(refer to macro `defface&#8217; for more information of face specification), and &#8220;dired-mark&#8221; should be in color &#8220;green&#8221; under 16-color environment and &#8220;blue&#8221; under 8-color environment. However function &#8220;color-theme-spec-compat&#8221; just set &#8220;dired-mark&#8221; to be &#8220;red&#8221; in any case. It reduces the flexibility of face-lock facilities of Emacs when using Color Theme.</p>
+
+<p>To fix this, I revise the defination of &#8220;color-theme-spec-compat&#8221; like</p>
+
+<pre><code>(defun color-theme-spec-compat (spec)
+  "An redifination of `color-theme-spec-compat' of `color-theme'.
+To apply different face settings according to different term types."
+  (let (compat-spec props)
+    (dolist (dis-atts spec)
+      (setq props (cadr dis-atts))
+      (when (plist-member props :bold)
+        (setq props (color-theme-plist-delete props :bold))
+        (unless (plist-member props :weight)
+          (setq props (plist-put props :weight 'bold))))
+      (when (plist-member props :italic)
+        (setq props (color-theme-plist-delete props :italic))
+        (unless (plist-member props :slant)
+          (setq props (plist-put props :slant 'italic))))
+      (setcdr dis-atts `(,props))
+      (add-to-list 'compat-spec dis-atts 'APPEND))
+    compat-spec))
+</code></pre>
+
+<p>and put this into the file &#8220;color-theme+.el&#8221;.</p>
+
+<p>I give a try out to customize a color-theme of my favour as well. I name it &#8220;color-theme-darkmate&#8221;. This color theme is inspired by the theme <a href="http://live.gnome.org/GtkSourceView/StyleSchemes">darkmate</a> of <a href="http://projects.gnome.org/gedit/">gEdit</a>, which is a color theme somewhat similar with the theme of editor <a href="http://macromates.com/">TextMate</a> on Mac. I never use the editor TextMate before and don&#8217;t know how much does &#8220;color-theme-darkmate&#8221; look like the theme TextMate. The settings in &#8220;color-theme-darkmate.el&#8221; is created in the opinion of using a few elementary colors as consistantly as possible in various modes to make a colorful and eye candy Emacs.</p>
+
+<p>You could download &#8220;color-theme+.el&#8221; and &#8220;color-theme-darkmate.el&#8221; <a href="https://bitbucket.org/dylanwen/elispport/src">here</a>.</p>
+
+<p>Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/21/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/19/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012-2013 Dylan.Wen<span class="theme-version">Dropbot Simple</span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'clisp';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

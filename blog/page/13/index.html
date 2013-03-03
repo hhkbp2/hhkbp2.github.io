@@ -9,7 +9,10 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。 1. 更换默认的splash 1) 在命令行参数加上 -Dosgi.splashLocation=/opt/eclipse/splash.bmp 或在eclipse根目录( &hellip;">
+  <meta name="description" content="引子：天涯夕阳红，剑客论道时 大漠。
+烈风如刀。 已到黄昏时分，火一般的红日缓缓落向西边，染红了西天的云彩，仿佛半个天空的云彩都被点燃了一般，流霞如幻，飞云炫目，好灿烂的一副光景。
+风突然缓下来了。
+飞舞中的黄沙也随之慢慢安静下来了，扬在空中的沙尘开始飘落，散于地上，那流动的黄色映照着红艳的夕阳， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,15 +28,37 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <!-- Facebook Open Graph
+     Facebook Debugger: https://developers.facebook.com/tools/debug -->
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://clisp.github.com/blog/page/13/" />
+<meta property="og:description" content="引子：天涯夕阳红，剑客论道时 大漠。
+烈风如刀。 已到黄昏时分，火一般的红日缓缓落向西边，染红了西天的云彩，仿佛半个天空的云彩都被点燃了一般，流霞如幻，飞云炫目，好灿烂的一副光景。
+风突然缓下来了。
+飞舞中的黄沙也随之慢慢安静下来了，扬在空中的沙尘开始飘落，散于地上，那流动的黄色映照着红艳的夕阳， &hellip;" />
+
+<meta property="og:site_name" content="http://clisp.github.com" />
+<meta property="article:author" content="https://plus.google.com/114787528537231301324">
+
+
+
+<meta itemprop="description" content="引子：天涯夕阳红，剑客论道时 大漠。
+烈风如刀。 已到黄昏时分，火一般的红日缓缓落向西边，染红了西天的云彩，仿佛半个天空的云彩都被点燃了一般，流霞如幻，飞云炫目，好灿烂的一副光景。
+风突然缓下来了。
+飞舞中的黄沙也随之慢慢安静下来了，扬在空中的沙尘开始飘落，散于地上，那流动的黄色映照着红艳的夕阳， &hellip;" />
+
+<!-- Combine multiple fonts into one request -->
+<!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic|PT+Sans:regular,italic,bold,bolditalic|Patua+One" rel="stylesheet" type="text/css">
+<!-- jQuery -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
   
 
 </head>
 
-<body   >
+<body    class="collapse-sidebar sidebar-footer" >
   <header role="banner"><hgroup>
   <h1><a href="/">X lambda</a></h1>
   
@@ -56,9 +81,9 @@
   
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/blog/darkmate-theme">Darkmate Theme</a></li>
-  <li><a href="/blog/about">About</a></li>
+  <li><a href="/blog/archives">Archives</a><span class="divider"></span></li>
+  <li><a href="/blog/darkmate-theme">Darkmate Theme</a><span class="divider"></span></li>
+  <li><a href="/blog/about"></i>About</a><span class="divider"></span></li>
 </ul>
 
 </nav>
@@ -72,7 +97,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/">Change Eclipse Start-up Splash to Your Favour</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/08/25/a-story-about-mechanical-keyboard/">当我谈机械键盘时，我谈些什么</a></h1>
     
     
       <p class="meta">
@@ -88,67 +113,81 @@
   
 
 
-<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
+<time datetime="2011-08-25T23:57:34+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2011</time>
         
-         | <a href="/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/#disqus_thread">Comments</a>
+         | <a href="/blog/2011/08/25/a-story-about-mechanical-keyboard/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。</p>
+  <div class="entry-content"><h3>引子：天涯夕阳红，剑客论道时</h3>
 
-<h3>1. 更换默认的splash</h3>
+<p>大漠。<br/>
+烈风如刀。</p>
 
-<h4>1) 在命令行参数加上</h4>
+<p>已到黄昏时分，火一般的红日缓缓落向西边，染红了西天的云彩，仿佛半个天空的云彩都被点燃了一般，流霞如幻，飞云炫目，好灿烂的一副光景。
+风突然缓下来了。<br/>
+飞舞中的黄沙也随之慢慢安静下来了，扬在空中的沙尘开始飘落，散于地上，那流动的黄色映照着红艳的夕阳，如丹沙，亦如鲜血！</p>
 
-<pre><code>-Dosgi.splashLocation=/opt/eclipse/splash.bmp
-</code></pre>
+<p>黄沙落尽，沙地现出两个人影。<br/>
+两人在距离不远的地方相对而立，其中一人白衣如雪，脸色如玉，两手垂立，一把长剑另在腰间，另一人青衣方帽，剑眉星目，两手束于身前，宽大的衣衫飘飘荡荡，却看不出有否带兵器。但这两个人都有一个共同点，那就是眼睛都紧紧盯着对方！</p>
 
-<p>或在eclipse根目录(对于网上下载的版本是根目录，对于linux各发行版下安装版本，请参照各发行版对应eclipse包)下的配置文件eclispe.ini中加入上面一行。意即指明启动splash的地址。定义osgi.splashLocation，会覆盖osgi.splashPath的定义，即用自定义的splash替换默认的那个。</p>
+<p>青衣人先开口了，“听说最近江湖上出现了一个人，每次出现都从东方而来，不知道你可认识？”<br/>
+白衣人不露声色地说：“听说江湖上有一个人，发掘了道之源头，江湖上各门各派都由此而生，不知道你可认识？”<br/>
+青衣人眼神闪动，似乎在仔细打量眼前的人，说：“想必你就是那个从东方来的人。”<br/>
+白衣人说，“想必你就是那个发掘了道之源头的人。”<br/>
+一阵微风吹过，带起两人的衣襟，青衣人双手藏在随风滚动宽大衣袖里，白衣人的白衣显得更加飘逸了。</p>
 
-<h4>2) 在eclipse/configuration/config.ini中加入一行</h4>
+<p>青衣人问：“你为何而来？”<br/>
+白衣人答：&#8221;为道而来。&#8221;<br/>
+青衣人再问：&#8221;道在何处？&#8221;<br/>
+白衣人答：“道在剑上。”<br/>
+“剑可以用于防卫，也可以用于杀人。”<br/>
+“据我所知，用于防卫的剑少，还是用于杀人的剑比较多。”<br/>
+青衣人微笑，说：“听说你有一把好剑？”<br/>
+白衣人抽出腰间的长剑，平托着向前半伸手臂，似乎是向青衣人展示自己的武器，然后说：&#8221;一流工艺，新颖设计，历经3代近10年的演进，才有了我手上这一把‘忍者’&#8221;。<br/>
+在落日光线的照射下，剑上filco的标志闪烁着似灰似黑的金属光芒。<br/>
+青衣人看到这样一把好剑，满面欣赏之色，不禁称赞道：“果然是一把好剑”。<br/>
+白衣人将剑收回左手，问青衣人：“听说你也有一把非常厉害的剑？”<br/>
+青衣人说：“的确，曾经我有一把很好的剑。”<br/>
+“好在何处？在下愿闻其详。”<br/>
+“诞生最早，专注品质，坚持30多年的用心，才能打造出那样的一把&#8217;g80&#8217;。”<br/>
+白衣人眼睛一亮，说：“如此一把好武器，可否拿出来，让在下见识见识。”<br/>
+“但那把剑现在已不在我手上了，我已不再用那样的武器。”<br/>
+“对于一个剑客来说，能得到一把那样的剑是梦寐以求的事，我想像不到有什么原因会使你放弃它。”<br/>
+青衣人展颜一笑，“因为我发现了比那把剑更厉害的，比所有的剑都更厉害的，世间最厉害的武器。”<br/>
+白衣人愕然，喃喃道：“比所有的剑都更厉害的&#8230;&#8230;世间最厉害的武器&#8230;&#8230;”，思量沉吟半晌，然后眼神锁住青衣人，问：“那是什么？”<br/>
+这时青衣人笑而不语，依然神秘地把双手收藏在宽大的衣袖中。突然，又一阵微风吹过，吹起了地上的细尘，吹动了两人的头发和衣衫，吹起了青衣人宽大的袖袍一角，而就在这电光火石的一刹那，青衣人迅速张开了那随风飘动的袖袍，向白衣人的方向扬去！<br/>
+白衣人呆住了，没有动作没有反应，就在这一刹那，他已经看到了青衣人所说的，比所有的剑都更厉害的武器，世间最厉害的武器，就在青衣人那衣袖的一扬之中，他已经看到了，也已经领悟到了。</p>
 
-<pre><code>osgi.splashLocation = ${你的splash路径}
-</code></pre>
+<h3>再谈机械键盘</h3>
 
-<p>如在linux下有</p>
+<p>上面仿古龙武侠体写了段两个机械键盘大品牌filco和cherry比较的小故事，应用中小学时候学到的40分钟作文大法中的一招：3段式作文，先写一个开头，在悬念中东扯西扯进入正文，谈谈机械键盘。</p>
 
-<pre><code>osgi.splashLocation = /usr/lib/eclipse/YUKI.bmp
-</code></pre>
+<p>入手cherry g80黑青后，我发现用它来写代码手感真是越来越欢畅，虽然说几个卫星轴大键还是处于新键盘磨合期没用开，但青轴爽朗的打击感和强烈的段落感还是让手指迷恋不已。而在用了一段时间之后，发现原来的choc mini这款键盘的问题还是比较多的，举例其中比较蛋疼的几点：R4区键位排列比较密而且边框高，左上角的esc如同深陷边框中，这一排键盲打经常按错键，好在我是emacs党而不是vi党，不然不改esc键映射没法活，而且键帽印字很淡，看起来也很模糊。做工比较差。键帽既不完全是cherry的原厂高度，也不是OEM的高度，这样就不能换键帽，基本上失支了机械键盘的键帽可玩性，坏了键帽也只能找售后。后来把手上的choc mini黑茶出给了本地的一个二手键盘玩家，然后把cherry g80拿到了公司办公室替换原来的choc mini，周围的同事看到，纷纷来问，当听到价格之后，又纷纷表示没看出这么土的键盘有哪里贵的竟然值几百块。结果就是，从此以后这个并不安静的办公区里，每天多了一些敲打青轴键盘的“咔嗒”声。</p>
 
-<p>(上面的/usr/lib/eclipse/即为ubuntu 8.04下的含有eclipse.ini的目录)</p>
+<p>上周在天下外设论坛上闲逛时看到帖子说，filco二代87白色青轴的国内行货在18号正式到货开卖，于是第一时间在国内的总代花尽旗下的键步如飞淘宝店下了单，在上周六20号下午，从顺丰快递拿到了这首批二代87青国内行货中的一把。开箱后整体看了一下，奶白带黄的材质比较细腻，有点像是瓷而不那么像塑料，键帽依旧小巧而涂层不那么明显，听说二代的涂层较一代有改进，手感更好而且不那么容易打油，不知道实际用起来情况如何。至于铭牌的话，87的铭牌放在方向键的下方，二代的铭牌是灰色的。其它的像键盘线，防尘罩那些与一代没有太多变化。</p>
 
-<p>在windows下有</p>
+<p>键皇到手，第一时间把键帽换了，换上从二嘟那里搞回来的全副淡彩pbt键帽。换键帽是个体力活，整个键盘的键帽全换更是一个体力活。花尽随键盘送了一个filco二代钢丝拔键器，用它来拔键虽然速度比较慢，但是它的力量传导比较好，拔起键来并不费劲，也不会伤到键帽。同时由于原来的键帽是abs，拔起来也很轻松顺利，对比拔cherry g80新键帽的时候大力一拔把卫星轴钢丝连带飞出的恐怖情景，换这个filco的键帽可谓是手到擒来，波澜不惊。最后换键帽完成，眼前得到一把filco二代87白青+87键淡彩pbt键帽的顶级奢华搭配，可以直追realforce。如此华丽的新搭档应该上图留念的，不过手上没有太好的拍照工具，暂时按下不表，日后再上图了。</p>
 
-<pre><code>osgi.splashLocation = D:/software/eclipse/splash.bmp
-</code></pre>
+<p>filco这个品牌，其实它的配置性价比并不高，最为人诟病的一点就是abs键帽，无论是原厂的pom或者国产kbc/ducky的pbt或plu的pom都比它要好，不过综合来说，它的做工比国产品牌好，这两个的比较有点像apple notebook与神舟笔记本电脑做对比。而另一方面，它继承了日本产品精巧细致的特点，窄边框小面积的造型设计与原厂的传统大气走的是完全不同的路线。在国内用filco键盘的人关注它的人，还是挺多的，不过价格较贵是事实，当然市场价格受各种因素影响，这里面的水太深，简单的说，反正日本的电子产品来到中国卖就是贵，但中国人均收入远没有日本人高。</p>
 
-<h4>3) 直接替换原来的splash图片文件</h4>
+<p>对比两个青轴键盘，原厂的键盘没有钢板，虽然说是青轴段落感很强，但触底的时候会感觉偏软，回弹也没有带钢板的有力，但是这种硬中带软的不会像薄膜键会觉得回弹无力手感枯涩，相反由于键帽底下有mx轴，回弹还是能感觉到弹簧的力道的，而filco的键按下回弹比原厂有力迅速，声音也相对响亮清脆一些，它的触底比较硬，所以使用起来感觉filco的键程比原厂的短，但实际上两种键盘用的都是同一种轴。</p>
 
-<p>参考在config.ini中osgi.splashPath定义，找到默认splash图片文件在文件系统中的位置。如在ubuntu 8.04下的config.ini有</p>
+<p>应用40分钟作文大法，后面一节续上开头古龙武侠体小故事的结尾，最后篇末点题，说说我对机械键盘，或者对所有工具的一种看法：工具是人四肢五官的延伸，工具的灵魂来自于人。所以工具是什么样的并不重要，重要的是人的本身，用这种工具去做什么样的事情，体现了什么样的价值和意义。</p>
 
-<pre><code>osgi.splashPath = platform:/base/plugins/org.eclipse.platform
-</code></pre>
+<h3>终章：道现人散去，天地两茫茫</h3>
 
-<p>于是可以在</p>
-
-<pre><code>/usr/lib/eclipse/plugins/org.eclipse.platform_3.2.2.r322_v20070117b
-</code></pre>
-
-<p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
-
-<p>效果见截图：<br/>
-<img src="/images/uploads/eclipse_splash.jpg" alt="eclipse splash screenshot" /></p>
-
-<h3>2. 制作个性的splash</h3>
-
-<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的&#8230;&#8230;Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
-
-<p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
-
-<p><img src="/images/uploads/sexy_eclipse_splash.jpg" alt="sexy eclipse splash" /></p>
+<p>夕阳西下，天色渐暗，沙漠的夜晚很快就会降临。<br/>
+风势渐变疾劲，风夹黄沙，吹浓暮色，吹得天地一片茫茫。<br/>
+青衣人渐渐走远了，他施展轻功，边吟边歌，很快就远去变成一个模糊的身影，一个小点，最后完全消失在夜色中了。<br/>
+在这边四方无人烟的沙漠之上，只留下白衣人，还一直木然立在原地。<br/>
+他有所领悟，心有所得，面对着白衣人离开的方向，又似乎略怀惆怅，茫然若失。<br/>
+因为青衣人拿出了比所有的剑更厉害的，世间最厉害的武器，因为他领悟到了，也知道了青衣人的意思，因为青衣人向他展示的，也就是他来此地目的——最高层次的道。<br/>
+因为青衣人向他展示的，竟然是青衣人的双手！<br/>
+因为一个人的双手就是比所有的剑更厉害的武器，一个人的双手就是世间最厉害的武器！</p>
 </div>
   
   
@@ -161,7 +200,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/08/22/life-is-short/">人生的无奈与美好</a></h1>
     
     
       <p class="meta">
@@ -177,41 +216,28 @@
   
 
 
-<time datetime="2010-01-12T13:20:00+08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2010</time>
+<time datetime="2011-08-22T02:35:38+08:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2011</time>
         
-         | <a href="/blog/2010/01/12/add-color-theme-for-emacs/#disqus_thread">Comments</a>
+         | <a href="/blog/2011/08/22/life-is-short/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>在读写代码时workspace有个好的配色，能让编程过程变得生动多彩，也能提高效率。emacs 23的默认配色主题也不错，不过个性张扬的hacker们当然不满足于只有一个选择，很多emacs玩家喜欢自已定制主题，不过一点点地配置主题多少有点繁琐，在手工hack之前，可以先试下color-theme扩展－－它包含了50多个配色主题，让你的emacs更丰富多彩。在<a href="http://lifegoo.pluskid.org/wiki/EmacsColorTheme.html">pluskid wiki上的color-theme介绍</a>中可以看到一个截图，是不是很漂亮呢。当然也可以参考<a href="http://www.emacswiki.org/emacs/ColorTheme">color-theme on Emacs Wiki</a>, 到其项目主页下载最新版本，现时为6.6.0, 参考包中README文件安装。将color-theme.el和theme文件夹放在loadpath下，然后在.emacs中加入</p>
+  <div class="entry-content"><p>今天约了海潮他们踢球，遇上一队身体素质和配合都不错的对手，被虐全场。踢完球离开华工，在校门前面的食街找地方一起吃饭，老地方韩国菜，记得这回是海潮毕业工作之后第一次请大家吃饭，也算是庆祝上月第一次出粮。席间说天论地，风生谈笑，吃完饭出来，一行人走在路上，当其时正在校门大石头附近，一旁的食街商铺灯光闪烁，不远处的校园沉默在夜色中，周杰说他很快就会离开广州去珠海，以后和我们各分两城，要抓住不多的机会一起再踢踢球。突然间似乎觉得有点感触，脑海中想起很多片断：大三足球比赛夺冠一起吃夜宵半夜走回宿舍，一群人喧哗而过的大学城大马路；毕业时各奔东西的匆忙；夏天午后深大的安静，热天夜晚深圳科技园整齐的道路和大冲拥挤的人流；最近一段时间相约在校园西区球场踢球的雨天和晴天。才发现，原来时光已经带我们不知不觉地走过这么多年，走了这么远。</p>
 
-<pre><code>(require 'color-theme)
-(color-theme-initialize)
-(color-theme-midnight) ;;选择你喜欢的主题
-</code></pre>
+<p>周杰的想法，我们都知道已久了，与很多在毕业后依然在一起但分居两地的情侣一样，他与女朋友也一直面对着地理阻隔这个难题，到今天他终于做好准备动身去珠海与女友一起生活，也算圆了一个心愿。</p>
 
-<p>其中在最后一行选择你喜欢的主题，我暂时在用的是midnight。也可以通过</p>
+<p>虽然说最近一段时间也不时的约他们踢球，也一起吃饭，也经过这些地方，但平时大大咧咧后知后觉地活着，也没有意识到，原来这熟悉而平凡的一切，也有一天会失去会变残缺，只是在有人将离开的时候，才特别的觉得要珍惜。</p>
 
-<pre><code>M-x load-library RET color-theme
-</code></pre>
+<p>回家的路上，夜色慢慢变深，缓缓前进的公交车外，广州城中的路灯相互交替，映射出灯光从远处渐渐拉近，接近而又渐渐远去，望着窗外的夜，思绪如野马乱奔。</p>
 
-<p>(其中<code>RET</code>为回车键) 加载color-theme, 然后通过</p>
+<p>在我这个局外人看来，从分居两地走到一起生活，对于男女双方来说无疑是一种幸福，但是否也是人生的一种无奈？在这个时代这个节骨眼上说，我们80后这个群体最深刻地感受到时代改变的影响，从小到大很多不好的事情都上我们赶上了，到如今高房价，生活压力大，大学毕业生出路少等等，这些常常在电视报纸，新闻报道中出现的字眼和问题，终于有一天会间接或直接地影响到我们每一个人的生活。广州房价高，也许不是每一个人都有钱买得起，也许即使有了钱，也并不是每个人都希望继续留在这个制度依然陈旧分配愈变不均压力愈变大的城市。作为一个个单个的社会个体，细小的个人面对庞大的社会机器，终究无力改变太多，只能无奈的接受。面对这个时代的无奈，今天周杰做出了他自己的一个中长期选择，而更多的80后朋友，他们如何做出他们各自的选择？</p>
 
-<pre><code>M-x color-theme-select RET
-</code></pre>
+<p>从个人的角度来看，一个男人为了另一个女人，放弃他已有的事业，到另外一个地方去重头开始一切，对于这个男人来说，获得的幸福算不算也带着一份牺牲？如果这个故事里的男主角换成了我，我会因为一个女人而付出这么多吗？伟大的爱情是不是本来没有包含太多的计较，只有一味的付出和给予？周杰的确是找到他的幸福了，而到今天我仍然没有遇见属于我的那个女主角，没有可以做如此付出的对象，其实是不是可以说是一种失败或者悲衰？人生因无奈而不完美，但又同时因为爱情而变美好，在这个世界活了四分之一个世纪，我没有去跑步，却发现人生是这样混着无奈和美好的一种滋味&#8230;&#8230;</p>
 
-<p>进行选择。在光标所在主题上按<code>i</code>或<code>l</code>键为应用此主题，按<code>d</code>键输出调用主题的命令(即为写入 .emacs 最后一行那个)。</p>
-
-<p>对于喜欢 <a href="http://macromates.com/">TextMate</a>主题的朋友，这里另外分享一个类似 TextMate风格的配色，见：</p>
-
-<p><a href="http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html">http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html</a></p>
-
-<p>我最早接触类似的风格是<a href="http://projects.gnome.org/gedit/">gEdit</a>的<a href="http://live.gnome.org/GtkSourceView/StyleSchemes">DarkMate主题</a>(长什么样？截图看 <a href="http://grigio.org/files/gedit-darkmate.png">这里</a>)，然后一发不可收拾，现在用的source insight, Ultra Edit, <a href="http://www.eclipse.org/">Eclipse</a>, &#8230;(虽然前两者为盗版)全部自定义变成类似配色，可见其魅力之大。厉害吧，呵呵(换一种碟形世界的说法－－变态吧，呵呵)。</p>
-
-<p>PS: 关于 gEdit 的配置文章可参考我很久之前在 <a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a> 的一个帖子: <a href="http://forum.ubuntu.org.cn/viewtopic.php?f=70&amp;t=186178">gEdit: 打造简洁，小巧的编程环境</a>，gEdit 用做一般文本编辑其实也不错，简洁快上手。</p>
+<p>很多问题也许没有所谓的答案，正如人生，如果它算是一个问题的话。人一辈子来世上走这么一遭，也许答案与否什么的并不重要，埋入黄土的是不是答案也不重要，也许并不是每个人都能找到所谓答案，但至少每个人都经历过寻找的过程。</p>
 </div>
   
   
@@ -224,7 +250,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2010/01/11/emacs-fullscreen/">如何全屏emacs</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/08/21/start-blogging-on-wordpress/">新博客安家</a></h1>
     
     
       <p class="meta">
@@ -240,259 +266,35 @@
   
 
 
-<time datetime="2010-01-11T14:35:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
+<time datetime="2011-08-21T15:57:55+08:00" pubdate data-updated="true">Aug 21<span>st</span>, 2011</time>
         
-         | <a href="/blog/2010/01/11/emacs-fullscreen/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>很多像我一样喜欢将 emacs 作为全 workspace 的人都想喜欢将 emacs 全屏显示(只将 emacs 留下，其它桌面内容全部去掉，为此我错过了n多朋友在 QQ 或 pidgin 上的呼叫，sorry~~)。这里分享一下emacs全屏的配置：</p>
-
-<h3>linux 平台</h3>
-
-<p>在 linux 下，可以通过向 X server 发送全屏消息，在 .emacs 中写入</p>
-
-<pre><code>;全屏
-(defun my-fullscreen ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(2 "_NET_WM_STATE_FULLSCREEN" 0)))
-
-;;最大化
-(defun my-maximized-horz ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
-(defun my-maximized-vert ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_VERT" 0)))
-(defun my-maximized ()
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
-  (interactive)
-  (x-send-client-message
-   nil 0 nil "_NET_WM_STATE" 32
-   '(1 "_NET_WM_STATE_MAXIMIZED_VERT" 0)))
-</code></pre>
-
-<p>即可通过执行命令</p>
-
-<pre><code>M-x my-fullscreen
-</code></pre>
-
-<p>全屏。其中也包含最大化窗口命令 my-manimized() 定义。不过有个问题，全屏后切换到scim五笔输入法后会闪屏不断。</p>
-
-<p>这部分来自<a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a>的帖子<a href="http://forum.ubuntu.org.cn/viewtopic.php?f=24&amp;t=62416">Emacs 最大化和全屏的配置</a>，感谢kemean的分享。</p>
-
-<h3>windows平台</h3>
-
-<p>之所以有这部分是因为我也经常在公司的xp使用EmacsW32。可以通过安装darkroom扩展来去掉标题栏，以达到全屏的效果，参考</p>
-
-<p><a href="http://www.martyn.se/code/emacs/darkroom-mode/">http://www.martyn.se/code/emacs/darkroom-mode/</a></p>
-
-<p>内有安装与使用说明。不过我实际使用感觉并不好，w32下最大化足已。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/01/11/customize-calendar-in-emacs/">在emacs Calendar中定制中国农历节日</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-11T13:18:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/01/11/customize-calendar-in-emacs/#disqus_thread">Comments</a>
+         | <a href="/blog/2011/08/21/start-blogging-on-wordpress/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Emacs中的 calendar mode 有很多功能，可以在 calendar 中对自己感兴趣的节日进行定制。在 gnu 官网 emacs 手册的 <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Holiday-Customizing.html">38.15.2 Customizing the Holidays</a> 部分可以找到详细的说明。这里谈谈如何定制中国的农历节日。</p>
+  <div class="entry-content"><p>虽然我的博客平时更新比较慢，访问量也小，但是有一个比较好用的博客还是一件赏心悦事，之前在is-programmer.com上写博客也有一段时间了(记不清是1年多还是2年)，相对其它较大的程序员bsp来说，它比较小众，有不少功能亮点，虽然它的作者galeki也一直在维护更新，添加功能，在我使用一段时间后，总的来说感觉还是限制比较多不够强大，为了更方便的功能和更高的可玩性，终于还是自己搭了一套新博客。用的是流行的wordpress系统。</p>
 
-<p>下载 <a href="http://xwl.appspot.com/index_cn.html">William Xu</a> 写的 中文版日历扩展 <a href="http://xwl.appspot.com/ref/cal-china-x.el">cal-china-x.el</a> 并安装－－参考其源文件中说明将下面几句添加到 .emacs：</p>
+<p>用wordpress搭建独立博客，要准备独立的域名和可用的主机空间。我在GoDaddy上申请了一个域名onhacking.com，主机空间用的则是戈戈主机的，性价比相对外国的一级主机供应商来说不算好(空间小，而且有内容审查和流量限制)，但是只运行我这么一个小博客足够用了，成本比较低。在这上面搭一个空的wordpress框架，简单配置一下，装几个常用插件，博客就可以跑动了。</p>
 
-<pre><code>(require 'cal-china-x)
-(setq mark-holidays-in-calendar t)
-(setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
-(setq calendar-holidays cal-china-x-important-holidays)
-</code></pre>
+<p>然后想到把旧的博客上面的文章迁移到新博客上，遇到问题了：is-programmer.com上的博客没有导出功能，wordpress上默认的导入功能只有Blogger，RSS几个选项。怎么把旧博客上的文章导入到新博客上呢？旧博客上的文章虽然不算太多，但粗粗看了一下，也有几十篇，如此多的数据如果是手动一篇一篇的copy-paste是行不通的。后来在网上找了一下，发现这个博客迁移问题也是很多人会遇到的常见问题，目前国内有这么多的bsp，因为某种原因换bsp也是很常见的事，但是一旦换bsp，就面临着博客迁移的问题，有一些博客搬家工具如blogbus专门针对这个问题提出了解决方案，但是这工具也有不少的问题，比如说只针对部分bsp有效，迁移时做不到全部内容的迁移，收费等。收费也许对那些有钱人来说，也许算不上一个问题，但是对一些人还是会形成阻碍，因为大部分的bsp服务都是免费的，迁移免费的博客要收费，这并不是很好的解决方案，所以有的bsp也推出免费的博客迁移功能。对于我的问题，这些工具的主要问题是不支持，is-programmer.com是一个程序员的小众博客，用户市场不大，还没有哪个博客搬家工具对它有支持。</p>
 
-<p>其中 cal-china-x-important-holidays 在 cal-china-x.el 中定义如下：</p>
+<p>套用搬家工具的实现思路，我后来想到的解决办法就是把旧博客导出为RSS，然后导入到wordpress中，现有的软件(工具)不支持，那就根据自己的需求写一个新的，典型的实用型程序员思维。由于网上找到的这些搬家工具都是闭源的，没有太多可以直接拿来参考的代码，于是一切从头开始——亲，真怀念开源世界的好。于是我这个脚本党开始动手了，主要步骤有3个:</p>
 
-<pre><code>(defconst cal-china-x-chinese-holidays
-  '((holiday-fixed 1 1 "元旦")
-    (holiday-lunar 12 30 "春节" 0)
-    (holiday-lunar 1 1 "春节" 0)
-    (holiday-lunar 1 2 "春节" 0)
-    (holiday-solar-term "清明" "清明节")
-    (holiday-fixed 5 1 "劳动节")
-    (holiday-lunar 5 5 "端午节" 0)
-    (holiday-lunar 8 15 "中秋节" 0)
-    (holiday-fixed 10 1 "国庆节")
-    (holiday-fixed 10 2 "国庆节")
-    (holiday-fixed 10 3 "国庆节"))
-  "Pre-defined chinese public holidays.
-You can add this to your `calendar-holidays'.")
-</code></pre>
-
-<p>若想自定义这些节日，例如添加重阳节或将春节标记为从正月一日开始，怎么办呢？可以在另外定义自己感兴趣的节日，就像在我的 .emacs 中有：</p>
-
-<pre><code>(setq holiday-wwliu-holidays
-    '(;;公历节日
-      (holiday-fixed 1 1 "元旦")
-      (holiday-fixed 2 14 "情人节")
-      (holiday-fixed 3 8 "妇女节")
-      (holiday-fixed 3 14 "白色情人节")
-      (holiday-fixed 4 1 "愚人节")
-      (holiday-fixed 5 1 "劳动节")
-      (holiday-float 5 0 2 "母亲节")
-      (holiday-fixed 6 1 "儿童节")
-      (holiday-float 6 0 3 "父亲节")
-      (holiday-fixed 9 10 "教师节")
-      (holiday-fixed 10 1 "国庆节")
-      (holiday-fixed 12 25 "圣诞节")
-      ;; 农历节日
-      (holiday-lunar 1 1 "春节" 0)
-      (holiday-lunar 1 2 "春节" 0)
-      (holiday-lunar 1 3 "春节" 0)
-      (holiday-lunar 1 15 "元宵节" 0)
-      (holiday-solar-term "清明" "清明节")
-      (holiday-lunar 5 5 "端午节" 0)
-      (holiday-lunar 8 15 "中秋节" 0)
-      ;; 生日 -- 家人,朋友
-      ;; ^_^ 这部分嘛...保密啦
-      ))
-</code></pre>
-
-<p>然后将 calendar-holidays 的值覆盖为自定义的 list 即可。</p>
-
-<pre><code>(require 'cal-china-x)
-;; 只显示我定制的节日
-(setq calendar-holidays holiday-wwliu-holidays)
-</code></pre>
-
-<p>为什么覆盖 calendar-holidays, 而不写入 holiday-general-holidays或holiday-other-holidays呢？因为 calendar-holidays 包括所有的 holidays, 如 holiday-christian-holidays, holiday-hebrew-holidays等，覆盖calendar-holidays 就相当于把其它的部分清空，只保留自己定义的 holiday-wwliu-holidays。也有的人喜欢将这些部分的 holiday 清空，如在 .emacs 中有设置如下：</p>
-
-<pre><code>(setq christian-holidays nil) ;; 不显示基督教的节日
-(setq hebrew-holidays nil)    ;; 不显示希伯来人的节日
-(setq islamic-holidays nil)   ;; 不显示伊斯兰教的节日
-...
-</code></pre>
-
-<p>不过我觉得直接覆盖 calendar-holidays 更简单些。</p>
-
-<p>配置完后通过</p>
-
-<pre><code>M-X eval-buffer
-</code></pre>
-
-<p>重新加载 .emacs。打开 calendar mode如下图所示：</p>
-
-<p><img src="/images/uploads/emacs_calendar.jpg" alt="emacs calendar 截图" /></p>
-</div>
-  
-  
+<ol>
+<li>从旧博客导出。is-programmer.com没有导出功能，只能另外做一个。一个博客迁移，需要导出的数据有哪些呢，文章，评论，链接，留言，版面相关的一些设置等。对我来说，主要是文章，其它方面的数据量很少，可以直接无视。写了一个脚本把旧博客上的所有html页面全部抓了下来，python里有强大的类库urllib，urllib2，实现这点功能相当容易。</li>
+<li>数据格式的转换。把抓下来的html内容转为RSS 2.0格式，除了文章之外，其它内容如评论和留言数量很小，就不另外折腾迁移了。再一次python脚本，读入解析源html，最初用的是HTTPParser，可惜它的功能太弱，转为re，虽然逻辑写起来麻烦了一点，但是胜在表达力强。生成RSS 2.0格式文件，最初用ElementTree，功能也太弱，后来用lxml.etree，接口也同样简单好用，功能较为丰富。</li>
+<li>导入将生成的RSS文件导入到wordpress中，这个直接用wordpress的功能就可以了，不过导入过程遇到文章的时间格式不对，wordpress的正文标签(content:encoded)和RSS标准的(description)不一致等一些小问题，小解决一下，文章导入完成。</li>
+<li>从旧博客拉取文章引用的图片，文件等内容，上传到新博客空间。再一次脚本，有wget，curl这些基础工具，做起来相当easy。</li>
+</ol>
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/01/11/add-tab-bar-in-emacs/">给 Emacs 添加标签栏</a></h1>
-    
-    
-      <p class="meta">
-        
+<p>于是一轮折腾之后，就导入了旧博客的所有文章，再调整一下版面主题，虽然好多地方还是比较粗糙的，但大体上OK了，新博客的搭建告一段落。
+接下来的就是，有空写写博文，有空玩玩wordpress，有空的时候再想想有空的时候可以干嘛，上线，运行，再运行。</p>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-11T12:41:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/01/11/add-tab-bar-in-emacs/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Emacs 默认没有标签栏，使用 tabbar 这个扩展可以给emacs添加标签栏。参见<a href="http://docs.huihoo.com/homepage/shredderyin/emacs_elisp.html">王垠所写的 emacs elisp 扩展</a>中关于 tabbar.el 的部分或 <a href="http://www.emacswiki.org/emacs/TabBarMode">tabbar mode on Emacs Wiki</a> 。</p>
-
-<p>在 debian/ubuntu 下，包 emacs-goodies-el 即包含众多好用的 emacs 扩展，也包括 tabbar。安装好tabbar后，默认的外观比较素，可通过设置 tabbar-button, tabbar-selected, tabbar-highlight, tabbar-separator (具体各部分的名字可参考 tabbar.el 源文件) 等部分定制tabbar的外观，以配合 color-theme 的外观风格。我在 .emacs 中通过：</p>
-
-<pre><code>;;;; 设置tabbar外观
-;; 设置默认主题: 字体, 背景和前景颜色，大小
-(set-face-attribute 'tabbar-default nil
-                    :family "Vera Sans YuanTi Mono"
-                    :background "gray80"
-                    :foreground "gray30"
-                    :height 1.0
-                    )
-;; 设置左边按钮外观：外框框边大小和颜色
-(set-face-attribute 'tabbar-button nil
-                    :inherit 'tabbar-default
-                    :box '(:line-width 1 :color "gray30")
-                    )
-;; 设置当前tab外观：颜色，字体，外框大小和颜色
-(set-face-attribute 'tabbar-selected nil
-                    :inherit 'tabbar-default
-                    :foreground "DarkGreen"
-                    :background "LightGoldenrod"
-                    :box '(:line-width 2 :color "DarkGoldenrod")
-                    ;; :overline "black"
-                    ;; :underline "black"
-                    :weight 'bold
-                    )
-;; 设置非当前tab外观：外框大小和颜色
-(set-face-attribute 'tabbar-unselected nil
-                    :inherit 'tabbar-default
-                    :box '(:line-width 2 :color "gray70")
-                    )
-</code></pre>
-
-<p>定制其外观。在 emacs-snapshot 中得到的效果如下：</p>
-
-<p><img src="/images/uploads/emacs_tabbar.jpg" alt="emacs snapshot下tabbar外观截图" /></p>
+<p>这里感谢每一位读者过去对我的博客的支持，虽然你们和我多未谋面，有联系过或者没有联系过，希望这个本着记录观点，分享知识的想法而写的新博客也能得到你们的喜欢，感谢支持！</p>
 </div>
   
   
@@ -502,6 +304,8 @@ You can add this to your `calendar-holidays'.")
   
   <div class="pagination">
     
+      <a class="prev" href="/blog/page/14/">&larr; Older</a>
+    
     <a href="/blog/archives">Blog Archives</a>
     
     <a class="next" href="/blog/page/12/">Newer &rarr;</a>
@@ -510,54 +314,14 @@ You can add this to your `calendar-holidays'.")
 </div>
 <aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2013/02/23/no-home-for-java/">无家可归的Java</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/31/terminal-programs-that-i-used/">常用终端软件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a>
-      </li>
-    
-  </ul>
-</section>
-<section>
- <h1>Categories</h1>
- <ul id="categories">
- <li class='category'><a href=' /blog/categories/c-c-/'>C/C++ (4)</a></li>
-<li class='category'><a href=' /blog/categories/emacs/'>Emacs (10)</a></li>
-<li class='category'><a href=' /blog/categories/life/'>Life (23)</a></li>
-<li class='category'><a href=' /blog/categories/lisp/'>Lisp (2)</a></li>
-<li class='category'><a href=' /blog/categories/python/'>Python (1)</a></li>
-<li class='category'><a href=' /blog/categories/uncategorized/'>Uncategorized (8)</a></li>
-<li class='category'><a href=' /blog/categories/unix-linux/'>Unix/Linux (17)</a></li>
-
- </ul>
-</section>
-
   
 </aside>
 
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Dylan.Wen -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  Copyright &copy; 2012-2013 Dylan.Wen<span class="theme-version">Dropbot Simple</span>
 </p>
 
 </footer>
