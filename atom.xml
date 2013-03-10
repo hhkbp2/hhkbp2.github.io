@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-03-10T00:14:15+08:00</updated>
+  <updated>2013-03-11T01:40:58+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[嵌套反引用有害]]></title>
+    <link href="http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/"/>
+    <updated>2013-03-10T21:37:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful</id>
+    <content type="html"><![CDATA[<p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
+
+<hr />
+
+<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
+
+<blockquote><p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：</p>
+
+<blockquote><p>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</p></blockquote></blockquote>
+
+<p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
+
+<pre><code>1. 在内层使用LIST, APPEND等函数代替反引用
+2. 使用包含反引用的辅助函数
+</code></pre>
+
+<p>Bruno为每个方法提供了例子。</p>
+
+<p>首先，下面给出的这段代码用了嵌套反引用：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list .,variables))
+       (progn .,body)
+       `(let
+          (,,@(mapcar #'(lambda (tmp var)
+                          ``(,',tmp ,,var))
+                      temps variables))
+          ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                         variables temps)
+             .,body)))))
+</code></pre>
+
+<p>原来的代码使用方法1转换后如下：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list .,variables))
+       (progn .,body)
+       (list 'let
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(list ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           .,body)))))
+</code></pre>
+
+<p>原来的代码使用方法2转换后如下：</p>
+
+<pre><code>(defun construct-binding (variable form)
+  `(,variable ,form))
+
+(defun construct-let-wrapper (bindings body-form)
+  `(let ,bindings ,body-form))
+
+(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list .,variables))
+       (progn .,body)
+       (construct-let-wrapper
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(construct-binding ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           .,body)))))
+</code></pre>
+
+<p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
+
+<p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
+
+<blockquote><p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+
+<ol>
+<li><p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
+
+<p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
+
+<p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p></li>
+<li><p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
+
+<p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
+
+<pre><code>'(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+
+<p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
+
+<pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+
+<p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p></li>
+</ol>
+
+
+<p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。</p></blockquote>
+
+<p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
+
+<pre><code>1. 使用嵌套反引用
+2. 在内层使用LIST, APPEND等函数代替反引用
+3. 使用包含反引用的辅助函数
+4. 使用一个反引用的替代实现
+</code></pre>
+
+<p>现在，出山吧，去写一些这样的代码：像生物进化的过程一样一代一代演进，每一代不断的生成下一代代码。;-)</p>
+
+<p><em>注：</em><br/>
+<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br/>
+<a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[刀丛小诗]]></title>
@@ -1756,17 +1882,6 @@ sw6, off 没用到wake up功能</p>
 <p>最后无聊晒晒键盘，几周前在X宝入了两套原厂pbt白无刻键帽，连同从办公室拿回来了黑青拆下来的键帽，用消毒水清洗过。才发现原来这把原厂青也用了一年多了，按hhkb中流行的熊猫色装上键帽，留个照片纪念一下吧。</p>
 
 <p><a href="http://clisp.github.com/images/uploads/2012/06/IMG_20120602_190548.fc_.jpg"><img src="http://clisp.github.com/images/uploads/2012/06/IMG_20120602_190548.fc_.jpg" alt="cherry 3k熊猫黑青" /></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[铁瓦克记事簿]]></title>
-    <link href="http://clisp.github.com/blog/2012/04/25/twnotebook-2/"/>
-    <updated>2012-04-25T22:00:46+08:00</updated>
-    <id>http://clisp.github.com/blog/2012/04/25/twnotebook-2</id>
-    <content type="html"><![CDATA[<p>广州大雨。</p>
-
-<p>在好又多买了4个苹果，约16 RMB，平均4 RMB一个。苹果啊，你怎么能这么贵呢？</p>
 ]]></content>
   </entry>
   

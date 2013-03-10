@@ -275,8 +275,12 @@
         <lastmod>2013-03-10T00:13:28+08:00</lastmod>
     </url>
     <url>
+        <loc>http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/</loc>
+        <lastmod>2013-03-11T01:39:26+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://clisp.github.com/</loc>
-        <lastmod>2013-03-10T00:13:28+08:00</lastmod>
+        <lastmod>2013-03-11T01:39:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://clisp.github.com/404.html</loc>
@@ -288,7 +292,7 @@
     </url>
     <url>
         <loc>http://clisp.github.com/blog/archives/</loc>
-        <lastmod>2013-03-10T00:13:28+08:00</lastmod>
+        <lastmod>2013-03-11T01:39:26+08:00</lastmod>
     </url>
     <url>
         <loc>http://clisp.github.com/blog/darkmate/</loc>
