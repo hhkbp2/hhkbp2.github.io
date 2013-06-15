@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。 实践1. &hellip;">
+  <meta name="description" content="Java千层糕 因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。由于很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/23/no-home-for-java/">无家可归的Java</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T14:44:00+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/23/no-home-for-java/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Java千层糕</h3>
+
+<p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。由于很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
+
+<p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA&#8217;S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来预言Java，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化Sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
+
+<p>其实一直以来，Java这个世界就习惯了打补丁的方式，从语言的设计(如容器和泛型)到修正安全漏洞各个方面。不断的发布安全更新，但漏洞也不断的出现，从底层虚拟机的实现上看，代码积越来越厚，补丁打得越来越多，也引入了越来越多的漏洞。如此像千层糕一样堆叠上去，终有一天Java会不堪重负而轰然倒塌。也许是时候重写Java了，但就和过去无数次打补丁的理由一样，Java只能选择兼容历史，不可能大改而影响市场上已有的程序，因为商业永远是第一位的，Oracle不可能像Python社区那样勇敢的抛弃历史的负担，于是Java这个故事发展下去就只能是个悲剧了。</p>
+
+<p>且看2013年即将发布的Java 8，这个版本推出的对lambda的支持，被吹捧为Java带来新变革的重点，用起来依旧笨重，在Lisper的眼中看来甚至可能会觉得迂腐可笑。Java未死，还有很多已经存在或将会展开的应用，在Java虚拟机上积累下来的无数商业强度的库和代码也将长期存在，但从语言演化的层面上来看，这条路的终点也不远了。几年之前流行学习Java，但到今天，可能更好的做法是学习那些JVM语言，如Groovy, Scala, Clojure等。</p>
+
+<h3>没有JAVA_HOME</h3>
+
+<p>很久没有在Linux上装过Java了，有点生疏。<code>sun-java6-jdk</code>这个包已经不在Debian/Ubuntu的软件源里面了，我找了一圈才找到OpenJdk的<code>openjdk-6-jdk</code>这个包，装完包之后，照常例要设置环境变量，包括</p>
+
+<pre><code>JAVA_HOME=/usr/lib/jvm/default-java
+export JAVA_HOME
+CLASSPATH=.:$JAVA_HOME/lib:$JAVA_HOME/jre/lib
+export CLASSPATH
+PATH=$JAVA_HOME/bin:$PATH
+export PATH
+</code></pre>
+
+<p>我把这几个语句写到一个独立脚本(后缀为<code>.sh</code>)放到<code>/etc/profile.d</code>目标里面，让Shell在启动的时候自动加载了。为什么不把配置放到<code>/etc/environment</code>文件里面呢？就像网上很多写Java安装的文章所说的那样？因为后者限制较多，它并非一个脚本，所以不支持变量的引用，只支持简单的赋值，用起来并不方便。更好的做法就是放到脚本里面，如只限个人使用就是<code>.profile</code>或<code>.bashrc</code>文件，如果是系统级别的就是<code>/etc/profile.d</code>目录或<code>/etc/bash.bashrc</code>文件。关于系统变量的详细内容可参考Ubuntu的<a href="https://help.ubuntu.com/community/EnvironmentVariables">Environment Variables文档</a>。</p>
+
+<p>搞好之后，突然顿悟似的想到，为什么还需要每个Java用户手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -324,66 +386,6 @@ string          std::string     java.nio.ByteBuffer    str
 <p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-28T23:37:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/28/opium-in-electronic-age/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
-
-<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams&#8230;..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
-
-<p>于是从卓越网订购了一个Intel SSD 330 120g，周末把它安装到我的小黑X201i中，换出原配的西数250g硬盘。因为新的ssd也是9.5mm，厚度与原来机械硬盘一样，所以原来的硬盘架就完美套用，换起来相当便捷。换好硬盘后，在Windows下使用Intel SSD Toolbox查看硬盘状态，出厂日期和读写次数，写入量都没问题，固件已经是最新版本不用升级，然后统一trim一次，算是完成初始化。</p>
-
-<p>之后格盘，重新通过U盘装上Linux，这次我用的安装镜像是Linux Mate Debian Edition(LMDE)。之所以不用Debian默认的安装镜像，是因为gnome-shell实在太不好用，这在之前的日志<a href="/blog/2013/01/21/freedom-and-reason">《自由与理由》</a>中已细说过。安装LMDE的时候，还踩中过一个坑，当时选择了locale为<code>zh_CN</code>，结果在安装将要完成时，安装程序在配置locale那一步卡住了很长时间，让我很是怀疑，最后中断了安装过程重试。上网一查，原来是LMDE安装程序的一个bug，所以安装LMDE时还是用默认的locale <code>en_US</code>为好，需要修改locale的话可以在安装完成进入系统后再改。</p>
-
-<p>在Linux系统，可以针对SSD做一些优化，主要目的是用好SSD以提升读写速度，减少写入量延长SSD寿命。具体的优化原理和步骤可以参考</p>
-
-<ol>
-<li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives &#8211; Arch Wiki</a></li>
-<li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
-</ol>
-
-
-<p>这些优化我只采用了一部分，文件系统用的还是Ext4，然后加了noatime, nodiratime等挂载选项来禁止更新atime，因为它在桌面系统上其实没什么用，加了nodiscard和定期trim，还分了一个与内存等大的swap分区来方便休眠(hibernate)，而像关闭文件系统日志这种动作觉得风险大没有采用。因为Intel SSD有长达几年的保修服务，所以也就不太担心写入量会太大，也不用担心会被用坏，随便写就是了。</p>
-
-<p>LMDE下还有一个坑：LMDE默认的系统菜单休眠按钮，是通过触发<code>pm-utils</code>包提供的<code>pm-hibernate</code>命令来休眠的，但实际使用中无法正常唤醒，每次休眠唤醒都是重新启动。需要安装<code>laptop-mode-tools</code>，<code>hibernate</code>这两个包，才能正常休眠及唤醒。</p>
-
-<p>升级了SSD之后，机器的速度还是有很大的提升。从SSD Benchmark和HD Tune等软件在换上SSD前后测试的数据对比来看，顺序读写有2到3倍的速度提升，随机读写则有几十倍。在使用感觉上，启动系统和打开程序都明显感觉到变快了，编译代码也有明显的速度区别，以往在敲完编译命令后，看着命令行输出慢悠悠的向下滚动，现在则变得像嗑了药的赛车手一样疯狂，滚动刷屏得很快，基本上看不清里面的内容。</p>
-
-<p>SSD速度奇快，用过它之后就很难再用回慢吞吞的机械硬盘。从某个角度来看，SSD就类似于鸦片，它给人带来很有快感的体验，而且一旦接触就容易上瘾。自计算机诞生以来，每个年代都有其电子鸦片，几十年前，那是一个如PDP-10的计算设备，今天，则变成技术革新(如SSD的普及)，网络游戏和社交网站。</p>
 </div>
   
   

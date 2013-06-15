@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="读《六祖坛经》 最近找了一本《坛经译注》，像蚕食桑叶慢慢的一句一句一页一页很认真的读，很早之前就知道六祖的名句&#8221;本来无一物，何处惹尘埃&#8221;，但是直到最近才比 较系统的详细的了解六祖的思想。手上的这本《坛经译注》是中华书局在2010年出的。《坛经》是六祖惠能的言行录， &hellip;">
+  <meta name="description" content="昨晚在网上看到一条新闻说“伞哥”离开网易，跟着链接到了“伞哥”的博客上看，惊叹不已，既佩服“伞哥”写博客之多，也敬仰他对lisp的热爱和工作生活中的真性情。牛人都是乐于分享，长于撰文的。很久没有在我的blog上发文了，贴一份之前的读书笔记吧。看来有空还是多码码字，人生才能向着剽悍的方向发展。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,359 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/24/reading-notes-of-effective-cpp/">《Effective C++》读书笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-24T23:37:00+08:00" pubdate data-updated="true">Jul 24<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/07/24/reading-notes-of-effective-cpp/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>昨晚在网上看到一条新闻说“伞哥”离开网易，跟着链接到了<a href="http://tianchunbinghe.blog.163.com/">“伞哥”的博客</a>上看，惊叹不已，既佩服“伞哥”写博客之多，也敬仰他对lisp的热爱和工作生活中的真性情。牛人都是乐于分享，长于撰文的。很久没有在我的blog上发文了，贴一份之前的读书笔记吧。看来有空还是多码码字，人生才能向着剽悍的方向发展。</p>
+
+<h4>Item 1: View C++ as a federation of languages.</h4>
+
+<p>C++是一种多范型编程语言，它主要有４种子语言：<br/>
+1) C  经典的C语言部分<br/>
+2) 面向对象  类，继承，多态等<br/>
+3) 模板  C++的泛型编程部分<br/>
+4) STL  标准模板库<br/>
+每个子语言都有自己的编程规则，当多种子语言混合的时候要注意这些规则的不同。</p>
+
+<h4>Item 2: Prefer consts, enums and inlines to #defines.</h4>
+
+<p>用编译器特性比用预处理器特性编程更好。<br/>
+1) 用const，enum hack来定义常量，替代#defines<br/>
+2) 用函数(无论inline与否)来定义操作，而不用#define宏<br/>
+3) 预处理的#include/#ifdef/#ifndef指命依然很有用</p>
+
+<h4>Item 3: Use const whenever possible.</h4>
+
+<p>C++里关键字const用法有多种。其中两种用法：<br/>
+1) 用const修饰(成员/非成员)函数返回值，防止返回值被意外修改，例如operator*()<br/>
+2) const成员函数，可以被const对象调用。<br/>
+const共有两种，bitwise const和logic const。const成员函数保证对象的bitwise const，logic const需要程序逻辑来保证。<br/>
+关键字mutable让non-staic成员变量在const成员函数中去掉bitwise const的限制，使得它可以被修改。<br/>
+3) 如果对应的成员函数const版本和non-const版本实现一致，可以通过在non-const版本的实现中调用const版本来避免代码重复。</p>
+
+<h4>Item 4: Make sure that objects are initialized before they&#8217;re used.</h4>
+
+<p>C++中全局的非静态对象(包括简单类型，用户自定义类型)不会被自动初始化。<br/>
+总是初始化对象。学会使用构造函数初始化列表。针对不同编译单元中相互依赖的静态全局变量初始化顺序问题，可以通过将全局静态变量嵌入到全局静态函数来解决。</p>
+
+<h4>Item 5: Know what functions C++ silently writes and calls.</h4>
+
+<p>如果用户没有定义，编译器会隐式自动生成类的默认构造函数，析构函数，复制构造函数，赋值运算符。</p>
+
+<h4>Item 6: Explicitly disallow the use of compiler generated functions you do not want.</h4>
+
+<p>默认构造函数，析构函数，复制构造函数，赋值运算符这几个成员函数，如果用户定义了自己的版本，则编译器不会再生成对应的版本，即使是private或没有实现。<br/>
+可以通过将复制构造函数和赋值运算符声明为private来禁止复制和赋值，使用boost库的noncopyable类是其中一种方法。</p>
+
+<pre><code>#include &lt;boost/utility.hpp&gt;
+class UserClass : private boost::noncopyable {
+// the definition of UserClass
+// blabla...
+}
+</code></pre>
+
+<h4>Item 7: Declare destructors virtual in polymorphic base classes.</h4>
+
+<p>多态的基类(有任何虚成员函数的类)应该有virtual的析构函数。<br/>
+不是多态的基类不应该的析构函数不应该为virtual。<br/>
+std::string和所有STL容器类析构函数都不为virtual，不适合作为多态基类。</p>
+
+<h4>Item 8: Prevent exceptions from leaving destructors.</h4>
+
+<p>析构函数不能抛出异常，如果析构函数执行的语句有可能抛出异常，要在析构函数内部处理完毕。<br/>
+如果类的用户需要析构过程中某些动作的异常作出反应，则将这些动作放到一个普通成员函数。<br/>
+在析构函数处理异常的几种选择：<br/>
+1) 终止程序<br/>
+2) 吃掉异常，不向上抛出</p>
+
+<h4>Item 9: Never call virtual functions during construction of destruction.</h4>
+
+<p>在基类的构造函数中调用虚函数只会在对象的基类部分调用基类版本对应的虚函数，因为继承类的部分还没初始化。<br/>
+不要在构造函数或析构函数中调用虚函数。</p>
+
+<h4>Item 10: Have assignment operators return a reference to *this</h4>
+
+<p>作为一个惯例，让赋值操作符返回*this的引用，以支持连续赋值语句。</p>
+
+<h4>Item 11: Handler assignment to self in operator=.</h4>
+
+<p>在赋值操作符成员实现里处理自赋值的情况。通过安排好语句的顺序，copy-and-swap两种方法来保证实现的正确性和健壮性。</p>
+
+<h4>Item 12: Copy all parts of an object.</h4>
+
+<p>写复制构造函数要注意复制整个类的所有部分，包括每一个成员变量和它的基类部分。<br/>
+复制构造函数和赋值运算符的实现往往有类似或相同的部分，多写一个私有的共用函数来避免代码重复。</p>
+
+<h4>Item 13: Use objects to manage resources.</h4>
+
+<p>用对象来管理资源的关键两点：<br/>
+1) RAII，资源一申请到立即创建资源管理对象<br/>
+2) 资源管理对象用它的析构函数来保证资源得到释放<br/>
+已有的库中几种资源管理对象：<br/>
+1) std::auto_ptr，独有的智能指针<br/>
+2) tr1::shared_ptr/boost::shared_ptr，引用计数实现的多享智能指针<br/>
+3) boost::scoped_arry和boot::shared_array，1)和2)的数组版本，释放资源调用delete []</p>
+
+<h4>Item 14: Think carefully about copying behavior in resource-managing classes.</h4>
+
+<p>RAII对象的复制行为可以实现为以下几种:<br/>
+1) 不允许复制，如用#### Item 6的noncopyable类<br/>
+2) 对底层资源用引用计数方式，tr1::shared_ptr支持定制deleter<br/>
+3) 复制底层资源<br/>
+4) 转移对底层资源的所有权</p>
+
+<h4>Item 15: Provide access to raw resources in resource managing classes.</h4>
+
+<p>RAII类应该提供成员函数来返回底层资源。对库层资源的访问有两种方式，显式的调用此成员函数，或通过RAII类提供的类型转换成员函数。</p>
+
+<h4>Item 16: Use the same form in corresponding uses of new and delete.</h4>
+
+<p>正确使用对应形式的new和delete操作符：<br/>
+1) new <-> delete<br/>
+2) new [] <-> delete []<br/>
+否则会造成undefined行为。</p>
+
+<h4>Item 17: Store newed objects in smart pointers in standalone statements.</h4>
+
+<p>申请资源来生成RAII类应该是单独一个语句，不要将它嵌入到其它语句中，小心因为语句执行顺序的不确定而造成的资源泄漏。</p>
+
+<h4>Item 18: Make interfaces easy to use correctly and hard to use incorrectly.</h4>
+
+<p>好的接口应该是易于正确使用，难于错误使用的。设计接口时应该在心里保持这样一种认识。<br/>
+促进正确使用的方法包括接口的一致性，保持与内置数据类型行为一致。<br/>
+避免错误使用的方法包括创建新类型，限制在类型上的操作，限制对象的取值范围，以及消除客户使用时的资源管理责任。</p>
+
+<h4>Item 19: Treat class design as type design.</h4>
+
+<p>类设计就是类型设计。设计类里可以从以下几个方面来考虑：<br/>
+1) 新类型的对象如何被创建和销毁<br/>
+2) 对象的初始化和赋值有什么区别<br/>
+3) 新类型对象如何passed by value<br/>
+4) 新类型对象的合法取值<br/>
+5) 新类型需要配合哪个继承体系<br/>
+6) 新类型需要哪种类型转换<br/>
+7) 新类型应该包含哪些操作<br/>
+8 ) #### Item 6中的4个编译自动生成函数，哪个需要声明为private<br/>
+9) 新类型的隐藏需求，如效率，异常安全性的保证<br/>
+10) 新类型需要多大程度的通用，类，还是类模板<br/>
+11) 真的需要一个新的类型吗，还是在已有的类上添点功能</p>
+
+<h4>Item 20: Prefer pass-by-reference-to-const to pass-by-value.</h4>
+
+<p>对于类对象来说，pass-by-value会调用复制构造函数生成一个函数内的临时对象，也会产生切片问题。<br/>
+合适的情况下应该多用pass-by-reference-to-const，避免调用复制构造函数。<br/>
+对于内置数据类型和STL迭代器，函数对象，还是保持pass-by-value。</p>
+
+<h4>Item 21: Don&#8217;t try to return a reference when you must return an object.</h4>
+
+<p>当选择返回对象还是返回对象的引用时，考虑哪一种能提供正确的行为。不要过分考虑调用复制构造函数的效率问题。</p>
+
+<h4>Item 22: Declare data members private.</h4>
+
+<p>将类接口声明为public，将成员变量声明为private。<br/>
+从封装性来看，protected并不比public封装性好多少。大部分情况用public和private足矣。</p>
+
+<h4>Item 23: Prefer non-member non-friend functions to member functions.</h4>
+
+<p>在可以实现相同的功能时，优先用non-member non-friend function，而不用member function，来提高封装性，名空间文件的管理灵活性，和相关功能的扩展性。</p>
+
+<h4>Item 24: Declare non-member functions when type conversions should apply to all parameters.</h4>
+
+<p>如果要在某个函数的所有参数上做类型转换，将它实现为non-member function，最好是non-friend。</p>
+
+<h4>Item 25: Consider support for a non-throwing swap.</h4>
+
+<p>为你写的新类型提供一个不抛异常的swap成员函数，还有非成员的swap函数，特例化std::swap模板函数。</p>
+
+<h4>Item 26: Postpone variable definitions as long as possible.</h4>
+
+<p>尽可能延后变量定义出现的时机。这样可以增加程序的清晰性，改善效率。</p>
+
+<h4>Item 27: Minimize casting.</h4>
+
+<p>C形式的转型：<br/>
+(T) expression<br/>
+T(expression)<br/>
+C++支持4种特有形式的转型：<br/>
+1) const_cast，拿掉对象的const特性<br/>
+2) dynamic_cast，安全向下转型，执行性能较差<br/>
+3) reinterpret_cast，低层次的不可移植转型<br/>
+4) static_cast，强制隐式转型，如non-const转为const，int转为double<br/>
+优先采用新形式的转型，它们更专用，更易用识别。<br/>
+尽量避免转型。</p>
+
+<h4>Item 28: Avoid returning &#8220;handles&#8221; to object internals.</h4>
+
+<p>避免返回对象内部的handle(包括引用，指针，迭代器)，const成员函数应该保证logic const，能增加类的封装性，避免产生悬挂的handle。</p>
+
+<h4>Item 29: Strive for exception-safe code.</h4>
+
+<p>异常安全的函数有3种层次的保证：<br/>
+1) 基本保证，如异常抛出，对象内部状态前后一致，但程序的状态不可知。函数一般可以提供这种层次的保证<br/>
+2) 强烈保证，如异常抛出，程序回到之前状态不变。往往可通过copy-and-swap来实现<br/>
+3) 不抛出异常，决不抛出异常</p>
+
+<h4>Item 30: Understand the ins and outs of inlining.</h4>
+
+<p>只将inline用在频繁调用的小函数上，头文件的函数模板不必一定是inline的。用inline来优化性能之前，先测量函数的调用频繁程度，确定函数值得用inline手动优化。</p>
+
+<h4>Item 31: Minimize compilation dependencies between files.</h4>
+
+<p>只依赖于声明，不依赖于定义，可以使文件之间的编译依赖最小化，有两种方法达到这种效果，一是Handle class(pimpl idiom)，一是Interface class。</p>
+
+<h4>Item 32: Make sure public inheritance models &#8220;is-a&#8221;.</h4>
+
+<p>public继承塑造出&#8221;is-a&#8221;关系，每个子类对象都是一个父类对象。</p>
+
+<h4>Item 33: Avoid hiding inherited names.</h4>
+
+<p>子类的名字会隐藏基类内的名字，如果你的确需要这种特性，用using声明可以将基类的名字变为可见。</p>
+
+<h4>Item 34: Differenctiate between inheritance of interface and inheritance of implementation</h4>
+
+<p>public继承总是接口继承。<br/>
+基类的纯虚函数意味着让子类只继承接口。<br/>
+基类的非纯的虚函数意味着让子类继承接口和实现。<br/>
+基类的非虚函数意味着让子类继承函数接口及一份唯一的实现。</p>
+
+<h4>Item 35: Consider alternatives to virtual functions.</h4>
+
+<p>基于虚函数的继承有几种替代方法：<br/>
+1) NVI手法的Template Method模式<br/>
+2) 通过函数指针实现的策略模式(Strategy Pattern)<br/>
+3) 通过tr1::function模板实现的策略模式(Strategy Pattern)<br/>
+4) 经典的策略模式(Strategy Pattern)</p>
+
+<h4>Item 36: Never redefine an inherited non-virtual function.</h4>
+
+<p>绝不重新定义继承得来的非虚函数。</p>
+
+<h4>Item 37: Never redefine a function&#8217;s inherited default parameter value.</h4>
+
+<p>虚函数是动态绑定的，参数默认值是静态绑定的，因此绝不要重新重义一个继承而来的默认参数值。</p>
+
+<h4>Item 38: Model &#8220;has-a&#8221; or &#8220;is-implemented-in-term-of&#8221; through composition.</h4>
+
+<p>组合与继承在类关系上表达两种完全不同的意思。<br/>
+组合，有两种意思，在应用领域，意味着&#8221;has-a&#8221;(拥有)的关系，在实现领域，意味着&#8221;is-implemented-in-terms-of&#8221;(根据某物实现出)的关系。具体是哪一种意思，取决于使用场景。</p>
+
+<h4>Item 39: Use private inheritance judiciously.</h4>
+
+<p>Private继承意味着两个类有&#8221;is-implemented-in-terms-of&#8221;关系，通常来说组合更好一些。</p>
+
+<h4>Item 40: Use multiple inheritance judiciously.</h4>
+
+<p>严重慎用多重继承，大多数需要用多重继承的场景都可以找到一个不用重继承的解决方案。</p>
+
+<h4>Item 41: Understand implicit interfaces and compile time polymorphism.</h4>
+
+<p>类和模板都支持接口和多态。<br/>
+对类来说，接口是显式的，基于函数签名，多态则通过虚函数发生于运行期。<br/>
+对模板来说，接口是隐式的，基于有效表达式，多态是通过模板实例化和函数重载的定位发生于编译期。</p>
+
+<h4>Item 42: Understand the two meanings of typename.</h4>
+
+<p>在声明模板参数时，类型关键字class和typename是可互换的。<br/>
+关键字typename还有另一个独特的作用：标识嵌套从属类型名字。例外情况是在继承蕨类声明列表和成员初始化列表中，这时不需要typename——C++是一门折腾的语言，读到这里你已经了解这么多了，珍惜生命，远离C++。</p>
+
+<h4>Item 43: Know how to access names in templatized base classes.</h4>
+
+<p>在模板子类中通过使用&#8221;this->&#8221;可以指明使用基模板类中的成员。</p>
+
+<h4>Item 44: Factor parameter-independent code out of templates.</h4>
+
+<p>让模板实例化尽可能的共用代码来重复代码，避免模板造成的代码膨胀。<br/>
+因非类型模板参数造成的代码膨胀，往往可通过以函数参数或成员变量替换模板参数的办法来消除。</p>
+
+<h4>Item 45: Use member function templates to accept &#8220;all compatible types.&#8221;</h4>
+
+<p>用成员函数模板为所有兼容类型生成函数。<br/>
+对于复制构造函数和赋值操作符，即使声明了成员函数模板，也要声明常规的这两个函数。</p>
+
+<h4>Item 46: Define non-member functions inside templates when type conversions are desired.</h4>
+
+<p>当我们编写一个类模板，而它提供的相关函数支持所有函数参数都需要隐式类型转换时，将那些函数定义为类模板内部的friend函数。</p>
+
+<h4>Item 47: Use traits classes for information about types.</h4>
+
+<p>traits类保存了类型的相关信息，在编译期间可用traits类来进行类型匹配。</p>
+
+<h4>Item 48: Be aware of template meta-programming.</h4>
+
+<p>模板元编程(TMP)是以C++模板写成的，执行于C++编译器内的程序，有其独特的编程方法。<br/>
+TMP被证明是个turing-complete的，但目前还处于发展的初期阶段。非主流，可亵玩。</p>
+
+<h4>Item 49: Understand the behavior of the new-handler.</h4>
+
+<p>set_new_handler()允许用户指定一个函数new-handler，在内存分配失败时被回调。<br/>
+new-handler应该做的事情可以是：<br/>
+1) 让更多内存变成可用<br/>
+2) 安装另一个new_handler<br/>
+3) 卸掉new-handler<br/>
+4) 抛出异常bad_alloc(或子类)<br/>
+5) 直接终止程序，abort或exit</p>
+
+<h4>Item 50: Understand when it makes sense to replace nwe and delete.</h4>
+
+<p>有许多理由需要自定义new和delete运算符，包括改善性能，检测使用错误，收集使用统计数据等。</p>
+
+<h4>Item 51: 自定义new和delete运算符时要遵守惯例</h4>
+
+<p>new操作符是应该是这样的：有能力处理0字节申请，在无法申请到足够内存时，调用new-handler。
+delete操作符也应该能处理null指针。</p>
+
+<h4>Item 52: Write placement delete if you write placement new.</h4>
+
+<p>placement new和placement delete是成双出现的，不能只写一个。定制placement new和placement delete小心遮掩它们的全局默认版本。C++陷阱很多的。</p>
+
+<h4>Item 53: Pay attention to compiler warnings.</h4>
+
+<p>写C++代码，一定要留意编译器警告，并熟悉这些警告的意思。不然就自求多福吧。</p>
+
+<h4>Item 54: Familiarize yourself with the standard library, including TR1.</h4>
+
+<p>C++98标准包括：标准模板库STL，io流系统，国际化支持，数学运算支持，异常体系，C89标准。<br/>
+TR1标准覆盖范围比较广泛，不一一列举止，目前没有成熟的实现，boost可以作为一个临时候选。</p>
+
+<h4>Item 55: Familiarize yourself with Boost.</h4>
+
+<p>boost是一个社区，一个网站，一个开源C++库。<br/>
+Boost为TR1的多个组件提供了不错的实现。<br/>
+Boost是一个从飞机大炮到浴缸马桶无所不包的库，也是一个脑死亡的最佳去处，居家旅行必备。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -282,60 +635,6 @@ code/code/data/code/enumarate_paths.py
 <p>这两个文件其实代码是一样的；排版英文字符间距大小不一；代码示例中命令行有时有命令行提示符&#8221;$&#8221;，有时没有提示符，显得相当随意；纸质太差。</p>
 
 <p>上面举例列出的问题并不是我在阅读《py4sa_cn》过程中发现的全部，在更多的读者的雪亮眼睛面前，相信也将会有更多的错误被发现。这种种问题都显得这本书的出版质量与O&#8217;Reilly的大名相去甚远，有的是印刷排版的小错误，但是有的地方体现出来的，更多的是缺乏好好做一本书的诚意。总的来说，这本书的将Python与系统管理结合角度新颖，覆盖范围也比较广泛，虽然内容过浅，也算是一本值得一读的入门级轻松读物，一碟开胃小菜，就像一份什果沙拉，里面的鲜果种类不少，但吃起来味道比较淡，加上来一个毁一个来两个毁一双的中式做法，最多也只能算是一份缺少诚意的中式什果沙拉。建议直接读英文版，中英文两个版本的电子书在网上都很容易找得到，至于中文版的纸版书是否值得一买，这就不好乱下评价鼓惑读者了，各人有各自的判断，作为一个支付真金白银买了这本纸版书的读者，我在这里分享一下自己的感受，并衷心表达两点希望：1. 世界和平；2. 码出来的字对本文读者有所帮助。吐槽完毕。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/05/08/color-theme-darkmate-for-eclipse/">Color Theme Darkmate for Eclipse</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-08T22:54:00+08:00" pubdate data-updated="true">May 8<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/05/08/color-theme-darkmate-for-eclipse/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Darkmate原本是一个gEdit的配色主题，大概在两年多之前我用过这个主题(那时我主要使用gEdit作为编辑器)，觉得不错，后来逐渐将它移植到eclipse和emacs(主编辑器转到emacs)。</p>
-
-<p>emacs下的darkmate主题参考我的文章</p>
-
-<p><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></p>
-
-<p><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></p>
-
-<p><a href="https://bitbucket.org/dylanwen/eclipse_config/src">这里</a>提供对应Eclipse的配色主题 下载 ,目前包含c++(cdt)，java(jdt)，python(pydev)的配色设置。</p>
-
-<p>c++配色截图如下：</p>
-
-<p><a href="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg" alt="color theme darkmate for eclipse c++ screenshot" /></a></p>
-
-<p>java配色截图如下：</p>
-
-<p><a href="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg" alt="color theme darkmate for eclipse java screenshot" /></a></p>
 </div>
   
   
