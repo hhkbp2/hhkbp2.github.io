@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-06-16T00:48:33+08:00</updated>
+  <updated>2013-07-28T18:18:57+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -178,7 +178,7 @@ Control."
 <p>以Linux作桌面系统也有很多时间了，长时间运行Linux，有个屏保对显示器保护比较好,在X window下有很多的屏保可用，但有时只有一个只支持几种颜色的终端。在Emacs的标准发行包中有一个zone.el，提供了几个比较不错的屏保，zone-matrix.el重用了zone.el的框架。希望给那些长时间在终端Emacs下工作的朋友多一种选择。</p>
 
 <p>下载安装：<br/>
-到<a href="https://bitbucket.org/dylanwen/elispport/src">这里</a>下载zone-matrix.el，zone-matrix-settings.el，zone-settings.el几个文件，并放到load-path目录中。<br/>
+到<a href="https://bitbucket.org/lisp/elispport/src">这里</a>下载zone-matrix.el，zone-matrix-settings.el，zone-settings.el几个文件，并放到load-path目录中。<br/>
 然后在dot emacs文件中加入</p>
 
 <pre><code>(require 'zone-settings)
