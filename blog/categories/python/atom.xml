@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-07-28T18:18:57+08:00</updated>
+  <updated>2013-08-10T22:16:44+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[另一种可能性]]></title>
+    <link href="http://clisp.github.com/blog/2013/08/10/another-possibility/"/>
+    <updated>2013-08-10T20:36:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/08/10/another-possibility</id>
+    <content type="html"><![CDATA[<p>前后大概经过一周，gevent的tutorial的中文版终于全部译完，已经在github上发出pull request。这个repository本来是一个网页，由于我用了定制域名，还不清楚在这种情况下如何将repo页挂到personal页上来，所以暂时不能在github<a href="https://github.com/clisp/gevent-tutorial/tree/chinese-translation">对应repo页面</a>上直接观看了，只能将它下载下来再看。</p>
+
+<p>gevent的外部接口是按Python的标准模块来定的，所以很多时候不知道对应的标准模块接口，要用好gevent也会有困难，遗憾的是，这个tutorial英文原版写得比较粗略，只是简单过了一下gevent里面的主要模块和功能。关于gevent的文档并不多，我所知道的就是官网的零碎文档和这个tutorial，于是看完之余抽了一些空余时间把它翻译成了中文。几周前在公司的部门技术分享会上做过一次gevent的技术分享，那时比较忙没有写什么文档，这次翻译也算有所弥补。</p>
+
+<p>摩尔定律很好地总结了过去几十年IT业的历史，硬件飞速发展，机器越来越快，单位计算成本越来越低，相比之下软件的发展就慢得多，或者是因为软件与人联系紧密，而人的思维和习惯的变化总是缓慢的。在大数据大计算的时代，传统的操作系统进程/多线程模型已经越来越显示出它的局限性，为了应对大并发，Erlang带来的actor模型算是提出了其中的一种可能性，而gevent则提出另外一种可能性。计算任务根据人的思维切分成一个个代码模块，由操作系统来调度，进程内的计算单元(线程数)有限，难以提高并发。Erlang的方法是模仿真实世界常见的通信/合作方式，另外写一个虚拟机来实现任务调度，而actor模型本质上带有很好的扩展性。gevent则专攻网络和IO，通过协程来解决并发。由操作系统调度进程/线程太消耗资源，抢占式效率太低吗？于是就只在用户空间再另外做协作调度吧，于是就有了greenlet和gevent。</p>
+
+<p>总而言之，是编程模型主宰着程序，就像物理定律主宰着宇宙。然而就像伊塔洛·卡尔维诺的《宇宙奇趣集》所写的那样，可能这个世界不只有一个宇宙，或者有许多个千奇百怪的宇宙，那里有海船上伸手可及的月亮，生生灭灭的粒子赌赛，有变成人的恐龙，有奔腾在血管中的海洋，有高速路上的雨夜快车。不多看看，都没意识到世界的丰饶和多样，不多了解一下，都不知道反时代潮流的Python(GIL)有精巧如gevent的协程实现。</p>
+
+<p>读卡尔维诺，有时候会想到，这个世界的不过是一个无法读完的关于可能性的故事，空间不过是纸张，而时间只是不断展开的文字，而主体永远是无限变化的可能性。</p>
+
+<p>而我本身这个可能性的载体自有其故事，上周朋友过来，再次跟我说“是时候剪头发了”，于是后来我就去了剪头发，回来的路上想起，原来我已经记不清有多久没有闻过剪发屋那种淡香中，有种收割成熟农作物的味道。看世界的角度不同，看到的风景也会有有所差异。头发是长还是短，也不过只是一种可能性。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一份缺少诚意的中式什果沙拉]]></title>
