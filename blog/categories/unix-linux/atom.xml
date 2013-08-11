@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-11T15:20:16+08:00</updated>
+  <updated>2013-08-11T15:26:48+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -26,6 +26,8 @@
 　　坎雅看着他，眼中充满痛苦，“你不能一个人去。”<br/>
 　　“对，我会带上颂猜。”</p></blockquote>
 
+<p>——引用自《发条女孩》</p>
+
 <p>大概从2007年中开始，我就使用Linux作为桌面OS，准确的说，使用的发行版是Ubuntu。那时候Ubuntu比较流行，Canonical免费送光盘的服务还未取消，大学同宿舍的舍友还真的写信过去申请到了一套。自那时起，从Ubuntu 7.10, 8.04，到Debian testing，无论是换工作换城市还是换电脑换硬盘，Linux一直作为主力桌面OS，稳定地跑在我的电脑上。</p>
 
 <p>然而，升级到Gnome 3之后，好景不再。除了默认缺少很多桌面功能之外，它的稳定性也乏善可陈。将PC桌面按平板电脑的风格来开发？没错，平板的确会越来越流行，PC市场份额会减少。但这不等于PC的桌面环境要向平板看齐。明显的是，这两者无论是用户群，常用功能都有很大的差别。所以，为什么要将PC和平板的桌面统一成一个风格呢？在一个最新出产的触屏笔记本上装一个Windows 8，这是可以接受的，但在一台几年前主流配置的大屏台式机上装一个Windows 8，就只会显得有些白痴。而Ubuntu和Gnome shell类似的“跟上平板潮流”的做法，相当于强逼了。</p>
@@ -40,7 +42,7 @@
 
 <p>于是。</p>
 
-<p>现在我的笔记本上装的是一个Windows 7(盗版，你懂的)，正在攒入会费准备拜入苹果教。在硬盘上躺着的是两个虚拟机，一个是带KDE的Debian testing，一个是Mac Mountion Lion，基本上很少再用到Linux桌面。当然，作为一个后台码农，一个Linux的服务器环境还是少不了的。离开了Linux桌面之后，我有更多的时间集中精力做自己感兴趣的事情，更好的去学习和创造。换一个角度来看，离开Linux桌面实际上让我更加靠近Linux的开源文化，那就是众多个体吸收养分，成长和回馈。而这一切的前提就是，尊重个体的自由，你可以选择Linux桌面，可以选择其它，也可以做一个自己的Linux桌面发行版。自由形成多样化。</p>
+<p>现在我的笔记本上装的是一个Windows 7(盗版，你懂的)，正在攒入会费准备拜入苹果教。在硬盘上躺着的是两个虚拟机，一个是带KDE的Debian testing，一个是Mac Mountion Lion，基本上很少再用到Linux桌面。当然，作为一个后台码农，一个Linux服务器环境还是少不了的。离开了Linux桌面之后，我有更多的时间集中精力做自己感兴趣的事情，更好的去学习和创造。换一个角度来看，离开Linux桌面实际上让我更加靠近Linux的开源文化，那就是众多个体吸收养分，成长和回馈。而这一切的前提就是，尊重个体的自由，你可以选择Linux桌面，可以选择其它，也可以做一个自己的Linux桌面发行版。自由形成多样化。</p>
 
 <p>别了，Linux桌面。</p>
 ]]></content>
