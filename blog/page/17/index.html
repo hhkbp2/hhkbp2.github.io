@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="本文受文章《Happy Hacking keyboard pro 2的艺术》启发而写，像对广大人民群众进行科普一般地，它向我们介绍了HHKB pro2这款键盘，而the art of xxx这个标题不禁让人想到又红又专的The Art of Computer Programming和The Art &hellip;">
+  <meta name="description" content="想必每位码农(coding farmer)都有过这样的经历，在浏览源代码时，除了有时会看到迷一般的逻辑和天马行空的代码风格之外，还不时会发现一些独特有趣的表达，注释等。下面记录一下我曾经看过的一些有趣的片断，希望在曾经写出过这样的代码或被这样的代码折腾过的读者当中引起一些共鸣，以飨一笑，仅供娱乐 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/05/07/the-funnies-in-sources/">The Funnies in Sources</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-07T21:43:00+08:00" pubdate data-updated="true">May 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>想必每位码农(coding farmer)都有过这样的经历，在浏览源代码时，除了有时会看到迷一般的逻辑和天马行空的代码风格之外，还不时会发现一些独特有趣的表达，注释等。下面记录一下我曾经看过的一些有趣的片断，希望在曾经写出过这样的代码或被这样的代码折腾过的读者当中引起一些共鸣，以飨一笑，仅供娱乐。</p>
+
+<h5>1. linux kernel 2.6, git revision:5895198c56d131cc696556a45f7ff0ea99ac297b, kernel/fork.c:7</h5>
+
+<pre><code>/*
+ *  'fork.c' contains the help-routines for the 'fork' system call
+ * (see also entry.S and others).
+ * Fork is rather simple, once you get the hang of it, but the memory
+ * management can be a bitch. See 'mm/memory.c': 'copy_page_range()'
+ */
+</code></pre>
+
+<h5>2. thrift, svn revision:1096750, lib/cpp/src/async/TAsyncProcessor.h:75</h5>
+
+<pre><code>// XXX I'm lazy for now
+namespace apache { namespace thrift {
+    using apache::thrift::async::TAsyncProcessor;
+}}
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -208,53 +262,6 @@ http://www.kohala.com/start/tcpipiv1.html<br/>
 </code></pre>
 
 <p>即可。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/06/my-errata-of-unpe3/">My Errata of UNPe3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-06T19:31:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition</p>
-
-<ol>
-<li><p>p248 line 4 of paragraph 1:<br/>
-&#8220;vefiry by running netstat on freebsd)&#8221;<br/>
-should be<br/>
-&#8220;verify by running netstat on freebsd4)&#8221;<br/>
-freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p></li>
-<li><p>p324 line 2 of paragraph 2, below the first testga command output, &#8220;-h bsdi&#8221; should be &#8220;-h freebsd4&#8221;.</p></li>
-<li><p>p681 the section title &#8220;6.4 TCP Echo Server Using Threads&#8221; should be &#8220;26.4 TCP Echo Server Using Threads&#8221;.</p></li>
-</ol>
-
 </div>
   
   

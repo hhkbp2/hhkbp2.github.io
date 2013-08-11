@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-10T22:25:16+08:00</updated>
+  <updated>2013-08-11T15:20:16+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[别了，Linux桌面]]></title>
+    <link href="http://clisp.github.com/blog/2013/08/11/bye-linux-desktop/"/>
+    <updated>2013-08-11T12:06:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/08/11/bye-linux-desktop</id>
+    <content type="html"><![CDATA[<blockquote><p>　　“我和你一起去。”<br/>
+　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br/>
+　　“请你别这么做。我会去求普拉查，我会去……”<br/>
+　　斋迪打断了她。如果在从前，他会允许她在他面前丢脸，会允许她的歉意像雨季的瀑布那样喷涌而出。但现在，他不会这样做。<br/>
+　　“我没有别的期望了，”他说，“我很满足。我会到贸易部去，让他们付出代价。这一切都是因缘注定的。我本来就不可能永远拥有查雅，她也不可能永远拥有我。但我想，只要把握好自己的人生，我们仍旧可以做到一些事。我们都有自己的责任，坎雅，无论是对上，还是对下。”他耸耸肩，“我在一生中扮演了很多角色。我曾是一个男孩、一个泰拳冠军、一个父亲、一个白衬衫。”他瞥了一眼身上的白色僧袍，“甚至还是一个僧侣。”他咧嘴一笑，“不用担心我。在我丢弃这一世的生命去见查雅之前，我还有一些事情要做。”他努力让自己的声音显得坚强，“我还有未尽的事业。在我完成它之前，我不会停下脚步。”<br/>
+　　坎雅看着他，眼中充满痛苦，“你不能一个人去。”<br/>
+　　“对，我会带上颂猜。”</p></blockquote>
+
+<p>大概从2007年中开始，我就使用Linux作为桌面OS，准确的说，使用的发行版是Ubuntu。那时候Ubuntu比较流行，Canonical免费送光盘的服务还未取消，大学同宿舍的舍友还真的写信过去申请到了一套。自那时起，从Ubuntu 7.10, 8.04，到Debian testing，无论是换工作换城市还是换电脑换硬盘，Linux一直作为主力桌面OS，稳定地跑在我的电脑上。</p>
+
+<p>然而，升级到Gnome 3之后，好景不再。除了默认缺少很多桌面功能之外，它的稳定性也乏善可陈。将PC桌面按平板电脑的风格来开发？没错，平板的确会越来越流行，PC市场份额会减少。但这不等于PC的桌面环境要向平板看齐。明显的是，这两者无论是用户群，常用功能都有很大的差别。所以，为什么要将PC和平板的桌面统一成一个风格呢？在一个最新出产的触屏笔记本上装一个Windows 8，这是可以接受的，但在一台几年前主流配置的大屏台式机上装一个Windows 8，就只会显得有些白痴。而Ubuntu和Gnome shell类似的“跟上平板潮流”的做法，相当于强逼了。</p>
+
+<p>但是，你可能会说，不喜欢平板风格的桌面，一直用老的Gnome 2版本一直不更新不就行了？一个Windows系统可以不更新，但是一个Linux不更新则是相当少有的，因为除了桌面的包之外，其它包一直在更新，新功能/bug fix一直在添加，只有整个系统不断更新才能充分发挥到Linux的良好包管理功能。当你需要在老旧的系统使用某一个库的某一个功能，而这个版本的库依赖于在某几个较新的版本(带新特性)的包时，而这几个较新版本的包又依赖另外几个较新版本的包时，要装上那个库简直就是一场噩梦。所以说，用Linux时更新是必不可少的，至少对于我而言是这样，但更新得到的破碎桌面环境却令人头痛不已。</p>
+
+<p>去年我用了不少时间来折腾桌面环境，也尝试过除Gnome外的多个WM，直到最后用上了LMDE(见<a href="http://clisp.github.com/blog/2013/01/21/freedom-and-reason/">另一篇博文</a>)。但到上个月，当我发现要另外安装一个新系统时，LMDE的问题也来了。用LMDE的最新iso安装好系统用起来没什么问题，但一混入testing的源(另外我还加了unstable的源)，就出现一些问题：更新失败，X会话就启动失败——于是又开始折腾。在删掉plymouth，解决了plymouth的bug升起initramfs-tools更新配置失败的问题后，我觉得实在不想折腾下去了。</p>
+
+<p>作为一个靠写代码吃饭的码农，虽然遇到问题我可以跟bug list，看源代码，但是更多时候，我更愿意集中精力用于自己去学习好找代码(包括Linux kernel)或编写自己的作品，在使用系统的时候做一个小白用户，而不是为了某个开源社区或某个桌面软件包的蹩脚问题去折腾。回看这么多年使用Linux桌面的经验，为了学习有意折腾时候不少，但被逼要解决问题的时候更多，这一切都是何苦呢？我欣赏Linux的优秀，但是作为主力桌面系统，它的用户体验实在算不上良好。经过几天的冷静思考，我觉得是时候挥手告别Linux桌面了。</p>
+
+<p>然后我就在网上看到了不少人和我类似，多年的Linux桌面粉最后弃Linux桌面而去，转投Mac，比如<a href="http://lyric.im/why-i-use-kde-instead-of-gnome-1/">shellex</a>。然后我读到了几个月前Gnome发起人Miguel de Icaza发的文章(<a href="http://www.soimort.org/posts/144/">中文翻译</a>)，说他不堪Linux的碎片化已经转到Mac。然后读到Solidot的<a href="http://www.solidot.org/story?sid=30691">报道</a>，提到Gnome项目的停滞和衰退。最后在真正不用Linux桌面后，读到外刊IT的<a href="http://www.aqee.net/on-why-removing-features-makes-people-unhappy/">译文</a>，一个gnome开发者在理直气壮地洋洋得意地炫耀自己不理会用户批评的做法。最后我长呼了一口气，虽然抛弃了Linux桌面这个几年来的伴侣，但自以为这个决定还是相当正确的，是时候向前看了。</p>
+
+<p>于是。</p>
+
+<p>现在我的笔记本上装的是一个Windows 7(盗版，你懂的)，正在攒入会费准备拜入苹果教。在硬盘上躺着的是两个虚拟机，一个是带KDE的Debian testing，一个是Mac Mountion Lion，基本上很少再用到Linux桌面。当然，作为一个后台码农，一个Linux的服务器环境还是少不了的。离开了Linux桌面之后，我有更多的时间集中精力做自己感兴趣的事情，更好的去学习和创造。换一个角度来看，离开Linux桌面实际上让我更加靠近Linux的开源文化，那就是众多个体吸收养分，成长和回馈。而这一切的前提就是，尊重个体的自由，你可以选择Linux桌面，可以选择其它，也可以做一个自己的Linux桌面发行版。自由形成多样化。</p>
+
+<p>别了，Linux桌面。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[另一种可能性]]></title>
@@ -1880,44 +1913,6 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
     <updated>2012-07-07T15:37:00+08:00</updated>
     <id>http://clisp.github.com/blog/2012/07/07/hello-world</id>
     <content type="html"><![CDATA[<p>Hello World!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[入手神器hhkb]]></title>
-    <link href="http://clisp.github.com/blog/2012/06/24/get-one-hhkb/"/>
-    <updated>2012-06-24T21:39:45+08:00</updated>
-    <id>http://clisp.github.com/blog/2012/06/24/get-one-hhkb</id>
-    <content type="html"><![CDATA[<p>蛋痛过度，一时头脑发热，订了一把hhkb pro2。</p>
-
-<p>静电容的价格一如既往的坑爹，加上日元汇率像丰胸广告里的产品一样坚挺，萌购价格不计运费已经高到1.8K，于是直接上花尽国行。花尽在淘宝有两个店，一个叫“键步如飞”，一个叫“花尽数码专营店”，同属于花尽，但负责管理的部门不同，因为后者是天猫店，所以同样的货品直接贵一百，两才都有保修单，只是后者多一张发票，所以对比来看我的理解是，钞票和发票都是一张纸，两纸等价。</p>
-
-<p>hhkb一共有黑白两种颜色和有刻无刻两种键帽，所以总共有4种组合，我输入英文使用programmer dvorak布局，所以订的是无刻字版本，hhkb的键帽用的是热升华技术，如果用的是标准qwerty键位的话，还是建议入有刻版本。颜色方面，白色的hhkb有部分键是浅灰色的，白色底色上的灰白过滤比较复古，而黑色则键盘本身和键帽同色，比较低调，个人更喜欢亮骚的白色。</p>
-
-<p>快递到手，拆封拍照，拆开时让人眼前一亮，hhkb的做工细节真的是好，键盘本体颜色比较白，比想象中要白一些，不像filco有点奶黄，不过估计过几年，两个都一样。键帽材质是pbt，和cherry的白pbt不一样，hhkb的键帽顶面即手指接触面，做了轻微的磨砂处理，手指摸上去有点纹理感，不像cherry白pbt那么滑。按键手感方面，静电容果然比较特别，比较像薄膜，但无论是下按还是回弹，都能明显感受到下面的弹簧，也就是人们常说的“手感比较Q”，和mx轴相比则差别较大，因为静电容的段落感不明显，特别是在快速输入的时候。习惯了用段落感强烈压力系数大的青轴，再用hhkb，就像习惯了用斧头大戟，转去用短刀匕首，别有一番趣味。敲键的声音不大，相对于青轴小很多，区别相当明显，特别是空格大键。平时用钢板青，一敲键盘就好像要天开地裂女娲出现，用hhkb基本上没有多大的声音，当然夜深人静时还是会明显察觉到敲键有声。可以想象type-s声音会更小，但普通版本声音也已经够小了。</p>
-
-<p>因为我一直用linux和emacs，所以hhkb的键位也很容易适应。control键换到caps位置已经用了好几年，早就习惯了，F区也用得不多，方向键的话，除了emacs，firefox, foxit pdf reader外，有时还是需要用一下，把后面的dip开关的sw4打开就好。经过一轮调教后，最后6个dip成了这样：</p>
-
-<p>sw1, on<br/>
-sw2, off sw1和sw2形成lite ext模式<br/>
-sw3, on backspace常用一些<br/>
-sw4, on 左手也有fn了，这样左右手合作按方向键或page up, page down键就比较方便了<br/>
-sw5, on alt键大一些好，因为在emacs里面它就是meta<br/>
-sw6, off 没用到wake up功能</p>
-
-<p>hhkb的backspace键下移到了原来反斜杠的位置，其实这样布局更科学，因为用backspace的次数远远多于反斜杠，但开始的时候还是会打错，特别是在盲打的情况下，很多时候都条件反射的把小指移到最右上角的位置。至于hhkb要用fn来触发方向键或功能键，个人觉得相当的自然，就像C-n和Fn-/没太多的区别，emacs党你们都懂的。</p>
-
-<p>前段时间转到dvorak，发现用dvorak输入英文，手指的左右平移多了，上下移动少了，打起字来果然比qwerty舒服，至于说输入速度什么的，个人没什么感觉，其实我需要的只是一般速度的输入，目前用dvorak还是比较慢，大概只有多年使用的qwerty一半速度，不过不会造成什么困扰——可能我本来盲打就慢，写代码的话，要想得多一些快一些，输入慢一些不是问题。中文输入则用五笔多年，而五笔的字根是按qwerty来分布的，所以一直无法全部转到dvorak布局下。于是面前一把hhkb白无刻，英文pro dvorak，中文qwerty，两个布局换着用，手指在一片白茫茫的键帽上信步来回，正所谓“眼前无字，心中有字”，与东瀛电影“眼前有码，心中无码”有着异曲同工之妙。</p>
-
-<p>最后上几张真相。</p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_145612.jpg"><img src="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_145612.jpg" alt="hhkb外包装盒" /></a></p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_151548.jpg"><img src="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_151548.jpg" alt="hhkb盒子开封" /></a></p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_152623.jpg"><img src="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_152623.jpg" alt="hhkb键帽特写近照" /></a></p>
-
-<p><a href="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_154129.jpg"><img src="http://clisp.github.com/images/uploads/2012/06/IMG_20120622_154129.jpg" alt="hhkb白无刻与filco二代白对比" /></a></p>
 ]]></content>
   </entry>
   

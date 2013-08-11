@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="&#8220;Don&#8217;t panic.&#8221; &#8211; The Hitchhiker&#8217;s Guide to the Galaxy 作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么， &hellip;">
+  <meta name="description" content="我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,84 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T01:18:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
+
+<p>作为一个Emacs控，我发现在工作环境中虽然听说过或用过Emacs的人很多，但很少人对它有兴趣，而既有兴趣又保持着热情一直用下去的人就更少了，因此玩得好的人几乎遇不到。其实Vim的情况也差不多。我在公司向其他人推销Emacs，一般别人都是直接在开发机上拷贝一份我的配置，原封不动的拿来用。后来发现有个同事D悄悄地把我的整个配置目录放到github上了，反正已经公开，于是我就被迫把bitbucket上我的Emacs配置代码库公开了。这有点像19世纪的日本黑船事件，或者中国的鸦片战争，开放的大门常常是被迫打开的。</p>
+
+<p>我的Emacs配置文件代码库在：</p>
+
+<pre><code>https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>代码库目录结构如下：</p>
+
+<pre><code>├── dot_emacs              -- 链接到$HOME/.emacs
+├── import/                -- 目录，用于导入的其它扩展包和文件
+├── Makefile               -- 文件，用于解压import目录中的包，并做必要的编译
+├── personal               -- 链接到带私人信息的目录，没有提交到hg
+└── site-lisp/             -- 目录，存放配置文件，主要是自己写的，也有从其它地方拿来的
+</code></pre>
+
+<p>了解<a href="http://emacser.com/dea.htm">DEA</a>的朋友可能会发现，这里的目录结构和文件命名习惯都很像DEA，是的，在我的配置目录不断变大的过程中多次参考了<a href="http://emacser.com">Emacs中文网</a>和DEA，甚至site-lisp下部分文件直接拿自DEA，特别感谢Emacse中文网的主人，DEA的作者ahei。</p>
+
+<p>除了import目录中带有的扩展之外，还用到了一些安装到系统目录的扩展包，它们在debian/ubuntu中的包名是：</p>
+
+<pre><code>emacs-goodiel-el
+emacs23-el
+python-mode
+python-ropemacs
+erlang-mode
+geiser
+</code></pre>
+
+<p>安装好这些依赖包到系统后，使用命令：</p>
+
+<pre><code>hg clone https://bitbucket.org/lisp/dot-emacs
+</code></pre>
+
+<p>clone一份我的配置代码库，然后在新建的dot-emacs目录运行命令：</p>
+
+<pre><code>make site-init
+</code></pre>
+
+<p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
+
+<p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -222,585 +300,6 @@
 
 <p><img src="http://www.xxphotow.com/file/2-8/1431872885.jpg" alt="天堂田间" />
 图片来自新兴摄影网</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/01/reading-note-of-practical-common-lisp-2/">《实用common Lisp编程》读书笔记 (二)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-01T16:41:00+08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>第10章 数字，字符和字符串</h3>
-
-<p>本章介绍内置的“标量”数据类型：数字，字符和字符串。</p>
-
-<h4>10.1 数字</h4>
-
-<p>lisp对数学支持良好，支持任意精度有理数，支持高性能数值计算</p>
-
-<h4>10.2 字面数值</h4>
-
-<p>1) 整数：+/-后跟数字。支持比值写法。支持多种进制<br/>
-二进制以#B或#b开头，后跟0,1<br/>
-八进制以#O或#o开头，后跟0-7<br/>
-十六进制以#X或#x开头，后跟0-9A-F, 0-9a-f<br/>
-其它进制以#nR开头，后跟0-9A-Z(或a-z)</p>
-
-<p>2) 浮点数，共有4种：短型，单精度，双精度，长型<br/>
-表示法：<br/>
-可选符号＋十进制数字序列+科学记数法指数标记字母+可选符号+数字序列<br/>
-例如+1.23d+25<br/>
-其中指数标记字母s, f, d, l及其大写分别代表短型，单精度，双精度，长型</p>
-
-<p>3) 复数<br/>
-#C或#c后跟两个实数组成的列表</p>
-
-<h4>10.3 初等数学</h4>
-
-<p>基本运算符：加，减，乘除<br/>
-用于截断和舍入：<br/>
-FLOOR，向负无穷方向截断<br/>
-CEILING，向正无穷方向截断<br/>
-TRUNCATE，向零截断<br/>
-ROUND，舍入到最接近的整数上<br/>
-求模：MOD和REM求模的余数<br/>
-加1减1:　1+，1-<br/>
-自增/自减宏：INCF，DECF</p>
-
-<h4>10.4 数值比较</h4>
-
-<p>数值等价函数 =<br/>
-等价谓词EQL，EQUALP<br/>
-其它等价相关函数 /=, &lt;, >, &lt;=, >=<br/>
-求最小或最大值 MIN, MAX<br/>
-其它常用函数 ZEROP, MINUSP, PLUSP, EVENP, ODDP</p>
-
-<h4>10.5 高等数学</h4>
-
-<p>LOG, EXP, EXPT, SIN, COS, TAN, ASIN, ACOS, ATAN等</p>
-
-<h4>10.6 字符</h4>
-
-<p>字符语法 #\后跟字符</p>
-
-<h4>10.7 字符比较</h4>
-
-<p>大小写相关 CHAR=<br/>
-大小写无关 CHAR-EQUAL<br/>
-大小写相关命名：对应数值比较符前面，加CHAR<br/>
-大小写无关命名：对应数值比较符前面，加CHAR和一个连字符<br/>
-特例：<br/>
-&lt;=　NOT-GREATERP<br/>
->= NOT-LESSP</p>
-
-<h4>10.8 字符串</h4>
-
-<p>字符串是一给字符数组，可以用序列处理函数来处理</p>
-
-<h4>10.9 字符串比较</h4>
-
-<p>将字符比较函数的命名中的CHAR换为STRING，如STRING-EQUAL</p>
-
-<h3>第11章 集合</h3>
-
-<p>Common Lisp支持向量(数组，列表或元组)和哈希表(关联数组，映射，字典)</p>
-
-<h4>11.1 向量</h4>
-
-<p>Common Lisp的微量有两种：定长向量与变长向量<br/>
-定长向量：用VECTOR函数生成，#(&#8230;)语法是字面向量<br/>
-MAKE-ARRAY可用于生成定长和变长向量，关键字参数有initial-element, fill-pointer, adjustable<br/>
-操作函数有VECTOR-PUSH和VECTOR-PUSH-EXTEND</p>
-
-<h4>11.2 向量的子类型</h4>
-
-<p>MAKE-ARRAY函数的关键字element-type，传递了向量元素的类型信息，如字符为CHARACTER，位为BIT</p>
-
-<h4>11.3 作为序列的向量</h4>
-
-<p>序列分为两种子类型：向量和列表，所有序列函数都可应用于它们<br/>
-序列函数有：<br/>
-LENGTH，返回长度<br/>
-ELT，通过索引访问，超出边界时报错，返回左值</p>
-
-<h4>11.4 序列迭代函数</h4>
-
-<p>COUNT，计算序列中某项出现的次数<br/>
-FIND，查找某项<br/>
-POSITION，查找某项在序列中的索引<br/>
-REMOVE，在序列中移除某项，非破坏性<br/>
-SUBSTITUTE，替换序列中的匹配项，非破坏性<br/>
-这五个参数都支持关键字参数key, test, test-not, start, end, from-end, count，从而得到非常多的功能组合</p>
-
-<h4>11.5 高阶函数变体</h4>
-
-<p>11.4中的函数命名后加上-IF，或-IF-NOT<br/>
-REMOVE-DUPLICATES</p>
-
-<h4>11.6 整个序列上的操作</h4>
-
-<p>COPY-SEQ，复制序列<br/>
-REVERSE，生成逆序的新序列<br/>
-CONCATENATE，生成任意数量序列连接的新序列</p>
-
-<h4>11.7 排序与合并</h4>
-
-<p>SORT，排序<br/>
-STABLE-SORT，稳定排序<br/>
-两个都具有破坏性<br/>
-MERGE，合并序列</p>
-
-<h4>11.8 子序列操作</h4>
-
-<p>SUBSEQ，取子序列，左值<br/>
-FILL，设置序列中的值<br/>
-SEARCH，查找匹配序列<br/>
-MISMATCH，比较两个序列，找出首个不同的位置</p>
-
-<h4>11.9 序列谓词</h4>
-
-<p>EVERY，谓词对序列每个元素为成立时真，否则为假<br/>
-SOME, 谓词对序列中某个元素成立时真，否则为假<br/>
-NOTANY，谓词对序列中每个元素都不成立时真，否则为假<br/>
-NOTEVERY，谓词不是对序列中每个元素都成立为真，否则为假</p>
-
-<h4>11.10 序列映射函数</h4>
-
-<p>MAP，将函数应用到序列中每个元素对上形成新序列<br/>
-MAP-INTO，类似于MAP，但将结果写回到第一个参数中，不会扩展变长向量<br/>
-REDUCE，将两参数函数累积应用到单个序列中的两两元素上</p>
-
-<h4>11.11 哈希表</h4>
-
-<p>MAKE-HASH-TABLE，创建哈希表，支持test关键字，默认用EQL<br/>
-GETHASH，访问哈希表<br/>
-MULTIPLE-VALUE-BIND，取出多重返回值<br/>
-REMHASH，删除哈希表中的项<br/>
-CLRHASH，清除哈希表中所有项</p>
-
-<h4>11.12 哈希表迭代</h4>
-
-<p>MAPHASH，类似于MAP函数，只能用SETF/GETHASH修改当前项，REMHASH删除当前项<br/>
-LOOP宏，也可以迭代哈希表，如</p>
-
-<pre><code>(loop for k being the has-keys in *h* using (hash-value v)
-  do (format t "~a =&gt; ~a~%" k v))
-</code></pre>
-
-<h3>第12章 LISP名字的由来：列表处理</h3>
-
-<p>列表在lisp中扮演重要角色</p>
-
-<h4>12.1 &#8220;没有列表&#8221;</h4>
-
-<p>列表由点对单元(cons cell)构成。函数CONS可以创建cons cell。函数CAR和CDR可以取出cons cell中的值。<br/>
-点对单元，列表可以用方框箭头图表示。lisp对列表处理有相当大的函数库支持。</p>
-
-<h4>12.2 函数式编程和列表</h4>
-
-<p>函数式编程本质：程序员由没有副作用的函数组成。<br/>
-APPEND函数的实现利用了共享结构。</p>
-
-<h4>12.3 “破坏性”操作</h4>
-
-<p>common lisp并非纯函数式语言，它支持破坏性的(destructive)操作。<br/>
-破坏性操作有：所有SETF的使用，如VECTOR-PUSH或VECTOR-POP这类在底层使用了SETF的函数<br/>
-回收性操作，目的在于优化，有：</p>
-
-<pre><code>REVERSE                   NREVERSE
-REMOVE(-IF, -IF-NOT)?     DELETE(-IF, -IF-NOT)?
-REMOVE-DUPLICATES         DELETE-DUPLICATES
-APPEND                    NCONC
-SUBSITUTE(-IF, -IF-NOT)?  NSUBSTITUTE(-IF, -IF-NOT)?
-...                       ...
-</code></pre>
-
-<p>具有可靠副作用的回收函数：NCONC, NSUBSTITUTE变体</p>
-
-<h4>12.4 组合回收性函数和共享结构</h4>
-
-<p>回收性函数的习惯用法：<br/>
-1) 函数内部局部环境中PUSH多个元素并统一NREVERSE, 例子：</p>
-
-<pre><code>(defun upto (max)
-  (let ((result nil))
-    (dotimes (i max)
-      (push i result))
-    (nreverse result)))
-;;
-;; 生成从0开始的n个自然数组成的列表
-(upto 10) -&gt; (0 1 2 3 4 5 6 7 8 9 10)
-</code></pre>
-
-<p>2) 将回收性函数的返回值立即重新赋值到原来变量，例子：</p>
-
-<pre><code>(setf foo (delete nil foo))
-</code></pre>
-
-<p>PUSH/NREVERSE和SETF/DELETE的习惯用法占据了80%的回收性函数使用。<br/>
-常见的开发过程：先全部用函数式风格，后期性能评估需要优化再将部分操作替换成相应的回收性版本<br/>
-排序函数SORT，STABLE-SORT, MERGE没有对应的非破性性版本，需要和COPY-LIST合用</p>
-
-<h4>12.5 列表处理函数</h4>
-
-<p>common lisp的列表处理函数库:
-FIRST, REST, SECOND &#8230; TENTH, NTH, NTHCDR, 28个复合CAR/CDR函数, LAST, BUTLAST, NBUTLAST, LDIFF, TAILP, LIST*, MAKE-LIST, REVAPPEND, NRECONC, CONSP, ATOM, LISTP, NULL</p>
-
-<h4>12.6 映射</h4>
-
-<pre><code>高阶函数     破坏性版本   控制构造  备注
-MAP         MAP-INTO    --        结果类型可变
-MAPCAR      MAPCAN      MAPC      操作元素
-MAPLIST     MAPCON      MAPL      操作cons cell
-</code></pre>
-
-<h4>12.7 其他结构</h4>
-
-<p>列表可以用来表示树，集合以及alist, plist</p>
-
-<h3>第13章 超越列表：点对单元的其他用法</h3>
-
-<h4>13.1 树</h4>
-
-<p>构成：每个cons cell作为一个树结点，cons cell的CAR指向它的左子结点，CDR指向它的右子结点<br/>
-COPY-LIST和COPY-TREE操作的区别：是否生递归成新CAR结点<br/>
-其它树操作函数：TREE-EQUAL, SUBST(-IF, -IF-NOT), NSUBST(-IF, -IF-NOT)</p>
-
-<h4>13.2 集合</h4>
-
-<p>集合操作(相应的回收性函数版本带前缀N)：<br/>
-ADJOIN, 创建集合<br/>
-MEMBER(-IF, -IF-NOT), 成员判定<br/>
-INTERSECTION, 并集<br/>
-UNION, 交集
-SET-DIFFERENCE, 差集
-SET-EXCLUSIVE-OR, 对称差集
-SUBSETP, 子集判定</p>
-
-<h4>13.3 查询表：alist和plist</h4>
-
-<p>关联表(association list)：键值映射，正向反向查找<br/>
-构成：每个列表元素为一个cons cell，car为key, cdr为value<br/>
-操作：查询函数ASSOC(-IF, -IF-NOT)，插入新值ACONS，反向查找RASSOC(-IF, -IF-NOT)，复制COPY-ALIST，创建(PAIRLIS)</p>
-
-<p>属性表(property list)，构成：交替出现的键和值<br/>
-操作：查询GETF, 移除REMF，抽取多个值GET-PROPERTIES<br/>
-每个符号对象都有一个plist，通过函数SYMBOL-PLIST可获取，移除操作REMPROP</p>
-
-<h4>13.4 DESTRUCTURING-BIND</h4>
-
-<p>基本结构：</p>
-
-<pre><code>(destructuring-bind (parameter*) list
-  body-form*)
-</code></pre>
-
-<p>支持&amp;optional, &amp;rest, &amp;key参数类型以及解构参数列表, 还支持&amp;whole参数</p>
-
-<h3>第14章 文件和文件I/O</h3>
-
-<h4>14.1 读取文件数据</h4>
-
-<p>OPEN函数打开文件流，支持关键字:if-does-not-exist, :error, :create
-READ-CHAR读取单个字符
-READ-LINE读取一行文本(去掉行束结束字符)
-READ读取单一S-表达式
-CLOSE关闭流
-PRINT以可读形式打印Lisp对象</p>
-
-<h4>14.2 读取二进制数据</h4>
-
-<p>向OPEN函数传递值为&#8217;(unsigned-byte 8)的:element-type参数
-READ-BYTE读取字节</p>
-
-<h4>14.3 批量读取</h4>
-
-<p>READ-SEQUENCE函数，兼容字符或二进制流, 读取序列较高效</p>
-
-<h4>14.4 文件输出</h4>
-
-<p>OPEN函数:direction关键字赋值:output，:if-exists关键字可取值:supersede, :append, :overwrite, nil<br/>
-WRITE-CHAR写入单一字符<br/>
-WRITE-LINE写入一行(自动添加平台相关的行结束符)<br/>
-WRITE-STRING写入一个字符串(不添加行结束符)<br/>
-TERPRI输出行结束符(换行)
-FRESH-LINE如果不在行首就打印一个换行
-PRINT打印换行，空格，S-表达式，PRIN1打印S-表达式，PPRINT美化打印S-表达式, 变量*PRINT-READABLY*控制打印内容是否可由READ读回<br/>
-PRINC可打印Lisp对象，FORMAT灵活强大<br/>
-写入二进制数据同样需要关键字:element-type赋值为&#8217;(unsigned-byte 8)<br/>
-WRITE-SEQUENCE函数同样兼容字符或二进制流的写入，对序列较高效</p>
-
-<h4>14.5 关闭文件</h4>
-
-<p>WITH-OPEN-FILE宏保证文件关闭</p>
-
-<h4>14.6 文件名</h4>
-
-<p>common lisp有抽象而复杂的路径名表示，文件名一般使用字符串就足够</p>
-
-<h4>14.7 路径名如何表示文件名</h4>
-
-<p>路径名6组件：主机(host)，设备(device)，目录(directory)，名称(name)，类型(type)以及版本(version)，目录名有关键字:absolute或:relative<br/>
-PATHNAME函数将文件名字符串转化为路径名<br/>
-PATHNAME-DIRECTORY, PATHNAME-NAME, PATHNAME-TYPE, PATHNAME-HOST, PATHNAME-DEVICE, PATHNAME-VERSION访问路径名各个组件
-路径名独特的读取语法: #p后接一个双引号字符串
-NAMESTRING，将路径名转成字符串，DIRECTORY-NAMESTRING, FILE-NAMESTRING返回路径名组件对应的字符串</p>
-
-<h4>14.8 构造新路径名</h4>
-
-<p>MAKE-PATHNAME函数用于构造新路径名<br/>
-MERGE-PATHNAMES函数用于合并两个路径名<br/>
-ENOUGH-NAMESTRING函数获取相对目录
-*DEFAULT-PATHNAME-DEFAULTS*保存默认的路径组件值</p>
-
-<h4>14.9 目录名的两种表示方法</h4>
-
-<p>文件形式或全目录形式</p>
-
-<h4>14.10 与文件系统交互</h4>
-
-<p>PROBE-FILE函数测试文件是否存在，返回真实名称<br/>
-DIRECTORY函数列出文件<br/>
-DELETE-FILE函数删除文件，RENAME-FILE函数修改名字<br/>
-ENSURE-DIRECTORIES-EXIST函数在必要时创建目录<br/>
-FILE-WRITE-DATA函数返回文件上次写入时间<br/>
-FILE-AUTHOR返回文件所有者<br/>
-FILE-LENGTH函数返回文件长度<br/>
-FILE-POSITION函数返回流在文件中的位置</p>
-
-<h4>14.11 其他I/O类型</h4>
-
-<p>STRING-STREAM函数从一个字符串中读写数据<br/>
-MAKE-STRING-INPUT-STREAM和MAKE-STRING-OUTPUT-STREAM函数用来创建STING-STREAM<br/>
-GET-OUTPUT-STREAM-STRING函数用来获取被写入STRING-STREAM的字符串<br/>
-WITH-INPUT-FROM-STRING和WITH-OUTPUT-TO-STRING是前面两个操作的便利接口</p>
-
-<p>语言标准定义多种形式的流拼接：<br/>
-BROADCAST-STREAM, 有MAKE-BROADCAST-STREAM等操作<br/>
-CONCATENATED-STREAM，有MAKE-CONCATENATED-STREAM等操作<br/>
-TWO-WAY-STREAM和ECHO-STREAM，有MAKE-TWO-WAY-STREAM和MAKE-ECHO-STREAM等操作</p>
-
-<h3>第15章 实践：可移植路径名库</h3>
-
-<h4>15.1 API</h4>
-
-<p>目标：写一函数库，支持获取目录文件列表，检测给定名字的文件或目录是否存在</p>
-
-<h4>15.2 *FEATURES*和读取期条件化</h4>
-
-<p>*FEATURES*是一个平台支持特性的符号列表<br/>
-读取器通过两个语法标记#+和#-支持特性表达式<br/>
-#+之后的特性表达式为真，下一个表达式正常读取，否则被跳过<br/>
-#-之后的特性表达式为假，下一个表达式正常读取，否则被跳过<br/>
-条件化过程发生在读取器中，被跳过的表达式不会进入编译器，所以没有编译阶段或运行时代价</p>
-
-<h4>15.3 列目录</h4>
-
-<p>较多平台相关的代码细节，省略</p>
-
-<h4>15.4 测试文件的存在</h4>
-
-<p>较多平台相关的代码细节，省略</p>
-
-<h4>15.5 遍历目录树</h4>
-
-<p>递归在目录树中调用参数函数</p>
-
-<h3>第16章 重新审视面向对象：广义函数</h3>
-
-<p>介绍common lisp的面向对象系统CLOS(common lisp object system)历史</p>
-
-<h4>16.1 广义函数和类</h4>
-
-<p>CLOS和多数面向对象语言一样基于类，但方法调用不是通过消息传递，而是通过广义函数</p>
-
-<h4>16.2 广义函数和方法</h4>
-
-<p>广义函数描述抽象操作不提供实现，只有名字和参数列表<br/>
-当广义函数被调用时，由系统来进行方法组合和绑定</p>
-
-<h4>16.3 DEFGENERIC</h4>
-
-<p>举一个简单的银行应用为例说明DEFGENERIC的语法</p>
-
-<h4>16.4 DEFMETHOD</h4>
-
-<p>特化上一节定义的广义函数，说明DEFMETHOD的语法<br/>
-CALL-NEXT-METHOD可用于组合可应用的方法<br/>
-DEFMETHOD支持EQL特化</p>
-
-<h4>16.5 方法组合</h4>
-
-<p>可应用方法列表排序，相关性，多重方法</p>
-
-<h4>16.6 标准方法组合</h4>
-
-<p>标准方法组合机制支持:before, :after, :around三种辅助方法<br/>
-:before方法：将在所有主方法之前以最相关者优先的顺序来运行<br/>
-:after方法：将在所有主方法之后以最相关者最不优先的顺序来运行
-:around方法：运行在所有:before方法, 主方法，:after方法的利欲复合体的外围，以类似主方法的顺序被组合，一般都需要调用CALL-NEXT-METHOD函数，来调用下一个:around方法或:before方法</p>
-
-<h4>16.7 其他方法组合</h4>
-
-<p>除标准方法外，还有9种其他的内置方法组合，也称为简单内置方法组合，它们是：<br/>
-+, AND, OR, LIST, APPEND, NCONC, MIN, MAX, PROGN</p>
-
-<h4>16.8 多重方法</h4>
-
-<p>多重方法是指显式地特化了超过一个广义函数的必要形参的方法，与消息传递有真正区别</p>
-
-<h3>第17章 重新审视面向对象：类</h3>
-
-<p>common lisp中所有数据类型都组织成类T为单根的类层次体系，包括内置类和用户定义类</p>
-
-<h4>17.1 DEFCLASS</h4>
-
-<p>DEFCLASS宏用来创建用户定义类，它只定义数据类型，关联行为通过广义函数和子类的特化方法定义<br/>
-DEFCLASS的语法：</p>
-
-<pre><code>(defclass name (direct-superclass-name*)
-  (slot-specifier*))
-</code></pre>
-
-<p>没有指定基类就直接成为STANDARD-OBJECT的子类。<br/>
-MAKE-INSTANCE函数用来创建类的实例。</p>
-
-<h4>17.2 槽描述符</h4>
-
-<p>槽可以通过SLOT-VALUE访问<br/>
-广义函数PRINT-OBJECT定义了类对象的打印形式</p>
-
-<h4>17.3 对象初始化</h4>
-
-<p>DEFCLASS宏定义中对槽添加参数控制初始化<br/>
-:initarg参数作为槽默认值<br/>
-:initform参数作为槽默认构造表达式<br/>
-在广义函数INITIALIZE-INSTANCE上特化一个:after方法可以用来精确控制自定义类的槽初始化</p>
-
-<h4>17.4 访问函数</h4>
-
-<p>DEFCLASS宏定义中对槽添加:reader，:writer和:accessor参数来创建读写函数</p>
-
-<h4>17.5 WITH-SLOTS和WITH-ACCESSORS</h4>
-
-<p>简化对SLOT-VALUE和槽的读写函数的调用方式</p>
-
-<h4>17.6 分配在类上的槽</h4>
-
-<p>DEFCLASS宏定义中槽的:allocation参数，可取值:instance或:class<br/>
-注意:class槽与C++/Python里面的类静态字段不同</p>
-
-<h4>17.7 槽和继承</h4>
-
-<p>一个对象只能有一个给定名字的槽，子类的槽会同所有父类的槽合并，避免名字冲突，初始化和访问函数都会随之合并。</p>
-
-<h4>17.8 多重继承</h4>
-
-<p>多重继承下，槽的合并优先级和广义函数的方法相关性问题</p>
-
-<h3>第18章 一些FORMAT秘诀</h3>
-
-<p>FORMAT强大简洁，但其控制字符串容易变得晦涩难懂</p>
-
-<h4>18.1 FORMAT函数</h4>
-
-<p>FORMAT有两个必要参数，附加的参数提供插入输出的值
-第一个必要参数，可取值为T, NIL，一个流或一个带填充指针的字符串
-第二个必要参数是控制字符串</p>
-
-<h4>18.2 FORMAT指令</h4>
-
-<p>控制字符串中可包含指令，所有FORMAT指令都以一个波浪线(~)开始，后面跟单个大小写不限的字符，指令可带有参数</p>
-
-<h4>18.3 基本格式化</h4>
-
-<pre><code>指令    作用
-~A      打印任何类型，输出可读形式
-~S      打印任何类型，输出可被READ回读形式
-~%      输出换行
-~&amp;      产生新行
-~~      输出~字符
-</code></pre>
-
-<h4>18.4 字符和整数指令</h4>
-
-<pre><code>指令    作用
-~C      打印字符
-~D      打印十进制整数
-~X      打印十六进制
-~O      打印八进制
-~B      打印二进制
-~R      通用的自定义进制打印
-</code></pre>
-
-<h4>18.5 浮点指令</h4>
-
-<pre><code>指令     作用
-~F       十进制浮点数，太大或太小时变成科学计数法
-~E       总是科学计数法
-~G       组合了~F, ~E
-~$       简单的~F，用于输出货币
-</code></pre>
-
-<h4>18.6 英语指令</h4>
-
-<pre><code>指令     作用
-~R       打印英语单词或罗马数字
-~P       复数化单词
-~(, ~)   定制范围输出字母小写，首字母大写，全大写
-</code></pre>
-
-<h4>18.7 条件格式化</h4>
-
-<pre><code>指令      作用
-~[, ~]    输出的子句取决于对应参数的值
-</code></pre>
-
-<h4>18.8 迭代</h4>
-
-<pre><code>指令        作用
-~{, ~}, ~^  在列表元素上进行迭代
-</code></pre>
-
-<h4>18.9 跳，跳，跳</h4>
-
-<pre><code>指令       作用
-~*         跳过下一个参数，或前移重用一个参数
-</code></pre>
-
-<h4>18.10 还有更多&#8230;&#8230;</h4>
-
-<pre><code>指令      作用
-~?        从参数中获取控制字符串
-~/        调用函数来处理下一个参数
-</code></pre>
 </div>
   
   
