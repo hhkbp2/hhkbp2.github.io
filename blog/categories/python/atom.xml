@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-17T21:09:59+08:00</updated>
+  <updated>2013-08-17T21:45:30+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -18,7 +18,9 @@
     <link href="http://clisp.github.com/blog/2013/08/10/another-possibility/"/>
     <updated>2013-08-10T20:36:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/08/10/another-possibility</id>
-    <content type="html"><![CDATA[<p>前后大概经过一周，gevent的tutorial的中文版终于全部译完，已经在github上发出pull request。这个repository本来是一个网页，由于我用了定制域名，还不清楚在这种情况下如何将repo页挂到personal页上来，所以暂时不能在github<a href="https://github.com/clisp/gevent-tutorial/tree/chinese-translation">对应repo页面</a>上直接观看了，只能将它下载下来再看。</p>
+    <content type="html"><![CDATA[<p>更新注记：已经在gevent-tutorial中文的github项目添加了gh-pages分支，可以<a href="/gevent-tutorial">点击这里</a>直接浏览器打开了。</p>
+
+<p>前后大概经过一周，gevent的tutorial的中文版终于全部译完，已经在github上发出pull request。这个repository本来是一个网页，由于我用了定制域名，还不清楚在这种情况下如何将repo页挂到personal页上来，所以暂时不能在github<a href="https://github.com/clisp/gevent-tutorial/tree/chinese-translation">对应repo页面</a>上直接观看了，只能将它下载下来再看。</p>
 
 <p>gevent的外部接口是按Python的标准模块来定的，所以很多时候不知道对应的标准模块接口，要用好gevent也会有困难，遗憾的是，这个tutorial英文原版写得比较粗略，只是简单过了一下gevent里面的主要模块和功能。关于gevent的文档并不多，我所知道的就是官网的零碎文档和这个tutorial，于是看完之余抽了一些空余时间把它翻译成了中文。几周前在公司的部门技术分享会上做过一次gevent的技术分享，那时比较忙没有写什么文档，这次翻译也算有所弥补。</p>
 
