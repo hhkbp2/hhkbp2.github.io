@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 http://finalbug.cn/?p=694 即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限： &hellip;">
+  <meta name="description" content="很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,49 +62,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/04/17/debian-poweroff/">在debian下以普通用户关机</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-04-17T12:36:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 <a href="http://finalbug.cn/?p=694">http://finalbug.cn/?p=694</a></p>
-
-<p>即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限：</p>
-
-<pre><code>gpasswd -a username powerdev
-</code></pre>
-
-<p>即可。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -218,6 +175,93 @@ To apply different face settings according to different term types."
 <p>You could download &#8220;color-theme+.el&#8221; and &#8220;color-theme-darkmate.el&#8221; <a href="https://bitbucket.org/lisp/elispport/src">here</a>.</p>
 
 <p>Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/">Change Eclipse Start-up Splash to Your Favour</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。</p>
+
+<h3>1. 更换默认的splash</h3>
+
+<h4>1) 在命令行参数加上</h4>
+
+<pre><code>-Dosgi.splashLocation=/opt/eclipse/splash.bmp
+</code></pre>
+
+<p>或在eclipse根目录(对于网上下载的版本是根目录，对于linux各发行版下安装版本，请参照各发行版对应eclipse包)下的配置文件eclispe.ini中加入上面一行。意即指明启动splash的地址。定义osgi.splashLocation，会覆盖osgi.splashPath的定义，即用自定义的splash替换默认的那个。</p>
+
+<h4>2) 在eclipse/configuration/config.ini中加入一行</h4>
+
+<pre><code>osgi.splashLocation = ${你的splash路径}
+</code></pre>
+
+<p>如在linux下有</p>
+
+<pre><code>osgi.splashLocation = /usr/lib/eclipse/YUKI.bmp
+</code></pre>
+
+<p>(上面的/usr/lib/eclipse/即为ubuntu 8.04下的含有eclipse.ini的目录)</p>
+
+<p>在windows下有</p>
+
+<pre><code>osgi.splashLocation = D:/software/eclipse/splash.bmp
+</code></pre>
+
+<h4>3) 直接替换原来的splash图片文件</h4>
+
+<p>参考在config.ini中osgi.splashPath定义，找到默认splash图片文件在文件系统中的位置。如在ubuntu 8.04下的config.ini有</p>
+
+<pre><code>osgi.splashPath = platform:/base/plugins/org.eclipse.platform
+</code></pre>
+
+<p>于是可以在</p>
+
+<pre><code>/usr/lib/eclipse/plugins/org.eclipse.platform_3.2.2.r322_v20070117b
+</code></pre>
+
+<p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
+
+<p>效果见截图：<br/>
+<img src="/images/uploads/eclipse_splash.jpg" alt="eclipse splash screenshot" /></p>
+
+<h3>2. 制作个性的splash</h3>
+
+<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的&#8230;&#8230;Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
+
+<p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
+
+<p><img src="/images/uploads/sexy_eclipse_splash.jpg" alt="sexy eclipse splash" /></p>
 </div>
   
   

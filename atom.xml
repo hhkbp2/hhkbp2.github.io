@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-17T19:56:11+08:00</updated>
+  <updated>2013-08-17T21:09:59+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,17 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[青春期的非典型事件]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/12/atypical-events-of-puberty/"/>
-    <updated>2013-08-12T22:35:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/12/atypical-events-of-puberty</id>
-    <content type="html"><![CDATA[<blockquote><p>《转山》的剧情简介，引用自<a href="http://movie.douban.com/subject/5318669/">豆瓣</a>：<br/>
-　　本片改编自同名畅销书。<br/>
-　　台湾青年张书豪（张书豪 饰）在大四毕业时，遭遇了哥哥的亡故，正处在迷茫期的书豪意外发现了哥哥留下的骑行日志，这个不骑车的青年萌生了骑行滇藏线替哥哥完成未竟心愿的想法，在经历了女友的离去后，他义务反顾奔赴丽江。在路上，张书豪结识了来自云南的骑行者李晓川（李晓川 饰），并结伴前往拉萨。第五天，他们来到德钦，李晓川因无缘得见云雾中的梅里十三峰而沮丧不堪；第六天，他们住在盐井的藏民家中，书豪与淳朴的藏民依依惜别；第七天，他们在曲孜卡的山路艰难前行，李晓川意外坠崖重伤。冬季的滇藏线格外艰险，而剩下的路，张书豪必须独自前行……</p></blockquote>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[别了，Linux桌面]]></title>
@@ -1917,6 +1906,15 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 <p>所以每次提起hacker，人们的第一印象总是“那些个像章鱼，喜欢章鱼的人”，人们会奇怪为什么有这样一个人类群体对这种章鱼这种全身滑溜溜的多触手海洋动物有一种如此特别的偏爱，仿佛hacker是由章鱼进化而来的，或者将要进化成为章鱼。</p>
 
 <p>如果你是一个hacker，用Octopress吧，别管那些关于章鱼的事。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://clisp.github.com/blog/2012/07/07/hello-world/"/>
+    <updated>2012-07-07T15:37:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2012/07/07/hello-world</id>
+    <content type="html"><![CDATA[<p>Hello World!</p>
 ]]></content>
   </entry>
   
