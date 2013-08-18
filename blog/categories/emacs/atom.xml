@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-18T16:48:04+08:00</updated>
+  <updated>2013-08-18T20:47:47+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -24,7 +24,7 @@
 
 <p>重写完<code>zone-matrix</code>之余，想到Emacs 24已经发布1年多了，顺便也升级了吧。于是开工：安装新版本，浏览从23到24的修改，更新库包，更新配置……折腾得不亦乐乎。</p>
 
-<p>Emacs 24的新特性，<a href="http://xahlee.org/">Xah Lee</a>在他的<a href="http://ergoemacs.org/emacs/emacs24_features.html">《New Features in Emacs 24》</a>里已经列得很清楚。除了弱弱的<code>electric-pair-mode</code>和<code>load-theme</code>之外，我个人觉得最重大的一个新特性就是包管理器，包数据量多(我加了melpa和marmalade源)，使用起来也比较方便简洁(有时甚至觉得太过简洁，没有apt那么强大)。</p>
+<p>Emacs 24的新特性，<a href="http://xahlee.org/">Xah Lee</a>在他的<a href="http://ergoemacs.org/emacs/emacs24_features.html">《New Features in Emacs 24》</a>里已经列得很清楚。除了弱弱的<code>electric-pair-mode</code>和<code>load-theme</code>之外，我个人觉得最重大的一个新特性就是包管理器，包数量多(我加了melpa和marmalade源)，使用起来也比较方便简洁(有时甚至觉得太过简洁，没有apt那么强大)。</p>
 
 <p>有了包管理器，<a href="/blog/2013/01/13/make-my-emacs-configuration-public">我的配置</a>中<code>import</code>目录的很多包都可以从包管理器中checkout最新的版本了。于是我梳理了dired相关几个包的关系，更新了<code>dired+</code>, <code>dired-details</code>, <code>dired-details+</code>，清掉了没用的<code>dired-single</code>和<code>dired-tar</code>，添加了<code>dired-sort-menu</code>及<code>dired-sort-menu+</code>。</p>
 
