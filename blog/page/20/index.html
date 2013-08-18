@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。 看天下大势如此，营利的博客业务开始衰落了。 2009/8/7 13:34:10 &lt;&lt;C++ Primer>> mentions when talking about primitive &hellip;">
+  <meta name="description" content="There is an official errata for C++ Primer, 4th on informIT website with the URL: http://www.informit.com/content/images/9780201721485/Errata/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,243 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/11/28/my-personal-errata-for-c-primer/">My Personal Errata for C++ Primer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-28T09:00:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There is an official errata for C++ Primer, 4th on informIT website with the URL:</p>
+
+<p>http://www.informit.com/content/images/9780201721485/Errata/Lippman_0201721481_Errata.html</p>
+
+<p>Here i list the other errata I found so far. The Warning must be given first that all the items raised as follows is just the statements of myself so that they might be not errata in true and not all the errata are included here( Maybe there is absolutely no such a list of errata which could give that warranty). And I don&#8217;t think I would keep updating all the time.</p>
+
+<ul>
+<li><p>Page 101: In paragraph 4 behind</p>
+
+<p>  vector<int>::iterator mid = vi.begin() + vi.size() / 2;</p></li>
+</ul>
+
+
+<p>the word &#8220;ivec&#8221; of the sentence &#8220;This code initializes mid to refer to the element nearest to the middle of ivec.&#8221;, should be &#8220;vi&#8221; apparently.</p>
+
+<ul>
+<li><p>Page 129: In paragraph 2 below title &#8220;Pointers and Typedefs&#8221;, given the code</p>
+
+<p>  &#8220;typedef string *pstring;
+  const pstring cstr;&#8221;</p></li>
+</ul>
+
+
+<p>the two occurances of &#8220;a pointer to const pstring&#8221; in the text</p>
+
+<p>&#8220;what is the type of cstr? The simple answer is that it is a pointer to const pstring. The deeper question is: what underlying type does a pointer to const pstring represent?&#8221;</p>
+
+<p>should be revised to &#8220;a const pstring&#8221;.</p>
+
+<ul>
+<li><p>Page 136: In &#8220;Initializing a Dynamically Allocated Array&#8221; section, paragraph 2, the code fragment comment is wrong. when using an empty pair of parentheses, the array is value-initialized. So we get the correct interpretation as follows:</p>
+
+<p>  int *pia2 = new int[10](); // array of 10 int, in which every element is value-initialized to 0</p></li>
+<li><p>Page 138: the second line of the first code fragment in grey box &#8220;CONTRASTING C-STYLE STRINGS AND C++ LIBRARY STRINGS&#8221;, should be:</p>
+
+<p>  const size_t len = strlen(pc) + 1;  // space to allocate</p></li>
+</ul>
+
+
+<p>rather than</p>
+
+<pre><code>const size_t len = strlen(pc + 1);  // space to allocate
+</code></pre>
+
+<ul>
+<li><p>Page 159: Of Paragraph 2, &#8220;the second cout&#8221; should be &#8220;the third cout&#8221; to indicate this statement</p>
+
+<p>  cout &lt;&lt; 10 &lt;&lt; 42;</p></li>
+</ul>
+
+
+<p>is equal to</p>
+
+<pre><code>(cout &lt;&lt; 10) &lt;&lt; 42;
+</code></pre>
+
+<p>which doesn&#8217;t do the right.</p>
+
+<ul>
+<li>Page 289: In &#8220;Interrogating and Controlling the State of Stream&#8221; section, the code fragment</li>
+</ul>
+
+
+<hr />
+
+<pre><code>    int ival;
+    // read cin and test only for EOF; loop is executed even if there are other IO failures
+    while(cin&gt;&gt;ival, !cin.eof()){
+       if(cin.bad()) // input stream is corrupted; bail out
+          throw runtime_error("IO stream corrupted");
+       if(cin.fail()){                      // bad input
+           cerr&lt;&lt; "bad data, try again";    // warn the user
+           cin.clear(istream::failbit);     // reset the stream
+           continue;                        // get next input
+       }
+       //ok to process ival
+    }
+</code></pre>
+
+<p>is in error interpreting misleadingly. As the following paragraph explained, when the standard input cin fail to read into ival, it would enter into the second if statement block(line 6 - line 10) , and the cin.failbit is set, cin.fail() returns true. If we wants to reset the stream, the argument passed to clear() must be istream::goodbit other than istream::failbit. To grasp more usage of IO library function clear, refer to the C++ reference(http://www.cppreference.com/wiki/):</p>
+
+<pre><code>Syntax:
+
+#include &lt;fstream&gt;
+void clear( iostate flags = ios::goodbit );
+
+The function clear() does two things:
+
+* it clears all io_stream_state_flags associated with the current stream,
+* and sets the flags denoted by flags
+
+The flags argument defaults to ios::goodbit, which means that by default, all flags will be cleared and ios::goodbit will be set.
+</code></pre>
+
+<p>As described above, although clear function that take a strm::iostate parameter seems confusing, making us misunderstand that it would clean the state of  iostate bit argument given, actually it turns off the the other iostate bits but the argument iostate bit given and turn on the latter. So, in the code fragment line 8, the argument which should be passed to clear() is istream::goodbit in terms of semanteme. Or we could call clear() directly with no argument. With the default argument ios::goodbit provided, that is equal to call clear(istream::goodbit). And after the call to clear(), the neglect of dealing with the input buffer will cause series problem. Because cin doesn&#8217;t skip the input it fail to read, in the next trip of while it will still try to read the input that causes cin fail one trip before.</p>
+
+<p>Let&#8217;s see what would happen if we take the original pratice, as it was shown in line 8 above, calling clear() with argument istream::failbit. If cin encounter a character rather than a num and fail to read into ival before end of file, cin.failbit will be set and cin.fail() will return true. Inside the while loop, the condition test in line 6 will result true and the block from line 6 to line 10 will be executed. In line 6, function clear would invalid all the other io state but valid the failbit. Because only failbit of cin is set, this statement doesn&#8217;t change anything. And  then we execute a continue to return to the start of the while to try to read the same character into ival. Obvously cin will fail again as before. Then the block from line 6 to line 10 will be executed again. In this way, It will leads to infinite loop.</p>
+
+<p>So we know there are two points we should revise: one is to reset the stream state correctly, the other is to reposition the input buffer for cin. Correct code is:</p>
+
+<hr />
+
+<pre><code>    int ival;
+    //   read cin and test only for EOF; loop is executed even if there are other IO failures
+    while(cin&gt;&gt;ival, !cin.eof()){
+       if(cin.bad())         //  input stream is corrupted; bail out
+          throw runtime_error("IO stream corrupted");
+       if(cin.fail()){                        // bad input
+          cerr&lt;&lt; "bad data, try again";       // warn the user
+          cin.clear();                        // reset the stream, equivalent to clear(istream::goodbit)
+          cin.igore();                        // skip the invalid character in input buffer that cause cin fail
+          continue;                           // get next input
+       }
+       //ok to process ival
+    }
+</code></pre>
+
+<ul>
+<li><p>Page 301: In the last sentence of paragraph 1, the contents of format_message should be</p>
+
+<p>  val1: 512\nval2: 1024\n</p></li>
+</ul>
+
+
+<p>rather than</p>
+
+<pre><code>val1: 512\nval2: 1024  
+</code></pre>
+
+<p>Given the ostringstream format_message is construct to be empty, it is apparent what format_message would be after the statement</p>
+
+<pre><code>format_message &lt;&lt; "val1" &lt;&lt; val1 &lt;&lt; "\n"
+               &lt;&lt; "val2" &lt;&lt; val2 &lt;&lt; "\n" ;
+</code></pre>
+
+<p>insert the indicated text into it.</p>
+
+<ul>
+<li><p>Page 304: line 4 of paragraph 1, &#8220;They they can ba applied to&#8221;, &#8220;They they&#8221; should be &#8220;They&#8221;.</p></li>
+<li><p>Page 321: In paragraph 2, it says the code does that &#8220;reads each element, processes it and adds a new element
+following the original&#8221;. But the example code fail to do that. In the while loop</p>
+
+<p>  while (first != last) {
+  // do some processing
+  // insert new value and reassign first, which otherwise would be invalid
+  first = v.insert(first, 42);
+  ++first; // advance first just past the element we added
+  }</p></li>
+</ul>
+
+
+<p>a iterator increment statement should be added, as the following</p>
+
+<pre><code>while (first != last) {
+// do some processing
+// advance first to the next element or the one past the end
+++first;
+// insert new value and reassign first, which otherwise would be invalid
+first = v.insert(first, 42);
+++first; // advance first just past the element we added
+}
+</code></pre>
+
+<p>And the following example code in the same page should be changed like this as well.</p>
+
+<ul>
+<li><p>Page 329: At nest to last sentence in paragraph 2 which discusses the assign member function taking a pair of iterator parameters, the last word &#8220;slist2&#8221; should be &#8220;slist1&#8221;. It&#8217;s obvious that the statement</p>
+
+<p>  slist1.assign( slist2.begin(), slist2.end() );</p></li>
+</ul>
+
+
+<p>deletes all the elements in slist1, and then copies the elements from slist2 into slist1.</p>
+
+<ul>
+<li><p>Page 347: Exercise 9.39, in the definition of line2, a semicolon is missing.</p></li>
+<li><p>Page 372: In section 10.4,  the page number is wrong in item 1 of the operations set supports.<br/>
+&#8220;All the common container operations listed in Section 10.2(p.358).&#8221;<br/>
+should be<br/>
+&#8220;All the common container operations listed in Section 10.2(p.359).&#8221;</p></li>
+<li><p>Page 374: Section 10.4.2, line 1, &#8220;On page 369&#8221; should be &#8220;On page 368&#8221;.</p></li>
+<li><p>Page 423: Exercise 11.29, line 2, &#8220;in Section 11.2.3(p.400)&#8221; should be &#8220;in Section 11.2.3(p.401)&#8221;.</p></li>
+<li><p>Page 713: the paragraph after the first code example, &#8220;If another namespace (say, AddisonWesley) also provides a TextQuery class&#8221;, &#8220;TextQuery&#8221; should be &#8220;Query&#8221;.</p></li>
+<li><p>Page 813: In section &#8220;Algorithms to Find a Subsequence&#8221;, the description of &#8220;search_n&#8221;, line 3, in<br/>
+&#8220;occurrences of the given value&#8221;<br/>
+&#8220;value&#8221; should be &#8220;val&#8221;.</p></li>
+<li><p>Source code:
+15/makefile, line 19, the command &#8220;mk-basket2&#8221; should be &#8220;./mk_basket2&#8221; for sh/bash.
+16/overcomp.cc, line 36, one include directive missing for function strcmp(): &#8220;#include <cstring>&#8221;
+16/overcomp2.cc, the same with the previous.
+18/Queue.h, line 50, in the code:</p>
+
+<p>  template <class It> Queue(It, It): head(0), tail(0)
+  { copy(beg, end); }</p></li>
+</ul>
+
+
+<p>two parameters miss their name. It should be</p>
+
+<pre><code>template &lt;class It&gt; Queue(It beg, It end): head(0), tail(0)
+{ copy(beg, end); }
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -241,54 +478,6 @@ the representation of type char and unsigned char:
 <p>其实《on the road》第一章结尾那段还有一句，&#8221;somewhere along the line the pearl would be handed to me&#8221;。</p>
 
 <p>是的，我还年轻，我渴望在路上。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/11/22/hack-a-new-theme-style/">Hack a New Theme Style</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-22T09:53:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这两天粗粗看了一下html&amp;css的文档，经过一番调教把blog的改为目前的风格，配色是按终端的tango主题来做的，见下图：</p>
-
-<p><img src="/images/uploads/tango_theme.jpg" alt="screenshot of system tango color theme" /></p>
-
-<p>新风格看起来更养眼一点，调整版式/色彩/间距相当花费时间，不过此过程也学到一些html&amp;css的知识。用All 60s All The Time的DJ的话来说，&#8221;What&#8217;s the point of DIY? It&#8217;s to suit yourself, isn&#8217;t it?&#8221;</p>
-
-<p>感谢几个html&amp;css站点，上面维护的入门文档既免费又写得简明，让我这个新手不用面对陡峭的learning curve，如果所有编程语言（python, 我相信已经有了）有这种挂有免费简明教程的在线站点，世界会美好很多。</p>
-
-<p>感谢galeki的帮忙。</p>
-
-<p>Thank All 60s All The Time, the free streaming radio, for your company all the time, with great free music and boring money saving web-site advertisements.</p>
-
-<p>On hacking.</p>
 </div>
   
   

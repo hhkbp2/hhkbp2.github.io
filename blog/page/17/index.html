@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="Darkmate原本是一个gEdit的配色主题，大概在两年多之前我用过这个主题(那时我主要使用gEdit作为编辑器)，觉得不错，后来逐渐将它移植到eclipse和emacs(主编辑器转到emacs)。 emacs下的darkmate主题参考我的文章 Color Theme Darkmate for &hellip;">
+  <meta name="description" content="——评《Python UNIX和Linux系统管理指南》 手上这本《Python UNIX和Linux系统管理指南》(以下简称py4sa_cn，py4sa是对应的英文版《Python for UNIX and Linux System Administration》的缩写，cn表示中文译版) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,168 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/05/16/reading-notes-of-py4sa-cn/">一份缺少诚意的中式什果沙拉</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-16T02:05:00+08:00" pubdate data-updated="true">May 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="/images/uploads/py4sa_cn_cover.jpg"><img src="/images/uploads/py4sa_cn_cover.jpg" alt="py4sa cn cover" /></a></p>
+
+<p>——评《Python UNIX和Linux系统管理指南》</p>
+
+<p>手上这本《Python UNIX和Linux系统管理指南》(以下简称py4sa_cn，py4sa是对应的英文版《Python for UNIX and Linux System Administration》的缩写，cn表示中文译版)从卓越亚马逊网购拿到已经有2周，不过一直只是搁在书桌上没有看，这几天有空的时候随手翻看了一下，到今天14日这一本薄薄的400多页的书已经全部看过一遍，看完掩卷，感觉就像在饥肠辘辘的情况下刚刚吃过一份缺少诚意的中式什果沙拉。</p>
+
+<p>《py4sa_cn》这本书主要介绍Python作为一门简单易用，具有强大库功能支持的语言如何应用到管理UNIX和Linux服务器上，正如书的封底《Red Hat Magazine》的评价所说，是针对Python的入门者，读者不需要有Shell编程经验，其实这个定位其实比较尴尬，因为这样一本书的读者其实主要有两种，一种是有UNIX/Linux系统管理的工作需要或经验，一种是Python的爱好(学习)者，当然两种读者可能会有交集，而前者不会没有Shell编程背景，也不会满意于系统管理或编程方面入门级的唠叨，而后者(我也是其中一个)更多的在于扩充知识面，了解Python与系统管理这两者的结合点，这本书也不会是学习python的第一本书，所以没必要从零开始讲(如详细讲述str的方法)，而《py4sa_cn》给人的感觉就像是它要做第一种读者的第一本Python书，或者第二种读者的第一本系统管理书，而这两个目标都完成得不好，在这点上个人觉得不够给力。</p>
+
+<p>书中内容的确讲得很浅白，涉及的范围面很广，不过每个方面都是蜻蜓点水，简单介绍一下背景和使用，加插几个例子，缺少深入的内容，只可以作为起点扩大视野，从书中给出的线索开始找其它资料代码进一步扩展和深入，从英文版原书两位作者的背景介绍来看，两位应该都是牛人，书中的内容涉猎范围的确很广，体现了两位作者的功力，对于我这样一个菜鸟来说，就像是刘姥姥走了大观园，各种的模块框架术语让我目不暇接眼花瞭乱，但是定位之低内容之浅以及为数众多的行文前后索引和排版错误，又让人觉得它像是匆忙赶工的书稿而非成品。O&#8217;Reilly官网这本书的页面上有一个勘误表，不过很明显并非大部分的错误都收录了进去。到了中文译版，这些错误并没有被发现和修正，反而有更多的新问题被引入。我读书没有写读书笔记的习惯，不过对于写得好自己喜欢的书，如果看到有错误一般都会记录下来，做一个勘误表，像之前的Cpp Primer勘误或UNPe3勘误，不过这本书的话，看来觉得意趣廖廖，搞得没有列勘误表的兴致了。</p>
+
+<p>举几个例子说明在阅读《py4sa_cn》过程中发现的问题：</p>
+
+<h4>1. 行文印刷或排版错误类</h4>
+
+<h5>1.1 第43页最后一句</h5>
+
+<p>&#8220;%wquickref中的%ho帮助行同使用标准的%who?返回&#8221;<br/>
+这里可能是张无忌大教主来做过一次乾坤小挪移，正确的应该是<br/>
+&#8220;%quickref中的%who帮助行同使用标准的%who?返回&#8221;</p>
+
+<h5>1.2 第102页第2段第1句</h5>
+
+<p>&#8220;Finditer()是对findall()的略微修改&#8221;<br/>
+这里有microsoft office word的影子，Python的标识符可是大小写敏感的。</p>
+
+<h5>1.3 第116页，&#8221;StringIO&#8221;一节下面第2段</h5>
+
+<p>&#8221;&#8217;并将字符串&#8221;This is&#8230;\nnreadline()should see&#8221;&#8221;&#8217;<br/>
+有错，应该是&#8221;\nreadline() should&#8221;。</p>
+
+<h5>1.4 第124面，&#8221;Element Tree&#8221;一节下，示例代码Out[3]中，后面的</xml>应该是没有的</h5>
+
+<h5>1.5 第249页名人简介框框，第1句</h5>
+
+<p>&#8220;Kevin Gibbs是Google App Engine中的先进技术。Kevin在2004年加入Google&#8221;<br/>
+这个&#8230;估计Kevin Gibbs本人看到会震精吧。</p>
+
+<h5>1.6 第392页，&#8221;Unix Mashups: 整合Shell命令到Python命令行工具中&#8221;一节第2段第1行</h5>
+
+<p>&#8220;另外，混合一个命令行工具和纯Pyton&#8221;<br/>
+明显拼写错误了。即使完全不会技术的审校也轻易能看出来，除非他不知道在审的书是什么书名。</p>
+
+<h4>2. 代码错误类</h4>
+
+<h5>2.1 第155页，第3个代码示例中，命令行</h5>
+
+<pre><code>'''
+$ python port_checker_tcp.py -a 192.168.1.15 -p 81 &amp;&amp; echo "FAILURE"
+'''
+</code></pre>
+
+<p>其中的&#8221;&amp;&amp;&#8221;应该是&#8221;||&#8221;才对，英文版原书也是&#8221;||&#8221;，估计从原书copy然后paste的时候搞混了，向广大中小学生证明了一点：其实抄或者说复制粘贴也是需要专业的精神的，否则一不小心抄错了或者把别的同学的名字也抄下来了，敢情闹笑话不是。</p>
+
+<h5>2.2 第383页，以例13-1 sysargv.py的代码实现，来敲命令行</h5>
+
+<pre><code>"./sysargv.py foo"
+</code></pre>
+
+<p>命令行是不可能出现</p>
+
+<pre><code>"['./sysargv.py', 'test']"
+</code></pre>
+
+<p>的，看来张教主又出现了。这个问题英文版原书也有。</p>
+
+<h4>3. 硬译乱译类</h4>
+
+<h5>3.1 第53页，&#8221;可变扩展&#8221;一节中第1段第2行</h5>
+
+<p>&#8220;其中，第一个是可变扩展（Variable Expansion）&#8221;<br/>
+第1次看到这个句子的时候我愕然了一下，然后看看标题是大黑体的&#8221;可变扩展&#8221;，不禁哑然失笑。我不想猜测译者是怎么翻译这本书的用的是哪种工具，不过如果真的要猜测的话，那么出现在我脑海中的第一件事物就是自动翻译软件，如google翻译或金山快译。Variable Expansion这里面的Variable不译成变量(名词)而译为可变的(形容词)，我觉得真是相当突兀的，用时下流行的话来说，就是被雷到了，而且是里嫩外焦那种。</p>
+
+<h5>3.2 第109页第3段第2行</h5>
+
+<pre><code>'''使用"try/finally"代码块将文件进行封闭是一个非常有用的方法，尤其是在使用write()调用时。'''
+</code></pre>
+
+<p>这里我前后来回看了几次都不明白什么叫做&#8221;将文件进行封闭&#8221;，直接找来原文，原来是</p>
+
+<pre><code>'''It is good practice to wrap your file opens with a try/finally block, especially when you are using write() calls.'''
+</code></pre>
+
+<p>姑且不论这个&#8221;将文件进行封闭&#8221;是什么意思，那个&#8221;非常有用的方法&#8221;是怎么来的呢?难道&#8221;好的实践&#8221;这么直白的意思还要意译？</p>
+
+<h5>3.3 第186页，&#8221;使用路径，目录和文件&#8221;一节第2段第1行</h5>
+
+<p>&#8220;通常，Python的标准库有一些杀死工具，可以停止作业的执行。&#8221;<br/>
+&#8220;杀死工具&#8221;一词看得我半荦半素，直接找到原文<br/>
+&#8220;As always, the Standard Library in Python has some killer tools to get the job done.&#8221;<br/>
+What？原来如此！难怪前后文都没有说到kill进程，但突然冒出这样的一句。又见自动翻译软件！其实它的意思是Python的标准库中有一些杀手级工具，可以帮你完成工作，这里的工作结合上下文来看是指进行与路径，目录和文件相关的操作。</p>
+
+<h5>3.4 第191页倒数第2段第3行</h5>
+
+<p>&#8220;注意，line[7]之所以返回了file11.txt，是因为dirB是dirA的超集。而在line[6]中之所以结果为空，是因为dirA包含了dirB的全部内容。&#8221;
+这样一来相当于睁大眼睛说瞎话了，英文版原文是<br/>
+&#8220;Notice that line [7] returns file11.txt because dirB is a superset of dirA, but in line [6] the results are empty because dirA contains all of the same items as dirB.&#8221;<br/>
+其实很简单，dirA和dirB是两个集合，dirA是dirB的子集，dirB是dirA的超集，两者分别为</p>
+
+<pre><code>In [3]: dirA
+Out[3]: set(['file1.txt', 'file00.txt', 'file0.txt'])
+In [5]: dirB
+Out[5]: set(['file1.txt', 'file00.txt', 'file11.txt', 'file0.txt'])
+</code></pre>
+
+<h5>3.5 第302页第一行</h5>
+
+<p>&#8220;在例10-16中，我们告诉tracd在screen中运行。一旦进程开始运行，可以简单地使用Ctrl-A进行分离。如果希望重新连接，使用Ctrl-D。&#8221;
+这句话太强大了，一下就把我这个GNU screen小资深用户搞迷糊了。来看英文版原文<br/>
+&#8220;In Example 10-16, we tell tracd to run within screen. Once the process starts, we can then simply detach using Ctrl-A, then Ctrl-D, if we ever want to reattach.&#8221;<br/>
+意思是说，用screen跑进程可以先detach，什么时候想回到这个环境再reattch，detach的话用的是Ctrl-A后接Ctrl-D这两个快捷键组合，其中Ctrl-A是screen默认配置下的控制键组合的前缀。翻译出来的中文真是断句如神强大无匹七零八落。</p>
+
+<h4>4. 前言不搭后语类</h4>
+
+<h5>4.1 第397页，&#8221;整合配置文件&#8221;一节下面第3段最后一句</h5>
+
+<p>&#8220;请参阅前一章以获得更多的使用ConfigParser模块的细节信息。&#8221;<br/>
+而前一章根本就没有讲到ConfigParser，这个错误来自英文版原书。</p>
+
+<p>其实还有很多问题，比如代码示例没有标注源文件文件名，不方便找到对应的源码文件；示例代码缩进乱排乱摆犹如街上的走鬼小摊，要知道Python是一种以缩进来表示代码结构的语言；提供下载的代码也显得相当敷衍，比如</p>
+
+<pre><code>code/code/data/code/enumarate_file_dir_path.py
+code/code/data/code/enumarate_paths.py
+</code></pre>
+
+<p>这两个文件其实代码是一样的；排版英文字符间距大小不一；代码示例中命令行有时有命令行提示符&#8221;$&#8221;，有时没有提示符，显得相当随意；纸质太差。</p>
+
+<p>上面举例列出的问题并不是我在阅读《py4sa_cn》过程中发现的全部，在更多的读者的雪亮眼睛面前，相信也将会有更多的错误被发现。这种种问题都显得这本书的出版质量与O&#8217;Reilly的大名相去甚远，有的是印刷排版的小错误，但是有的地方体现出来的，更多的是缺乏好好做一本书的诚意。总的来说，这本书的将Python与系统管理结合角度新颖，覆盖范围也比较广泛，虽然内容过浅，也算是一本值得一读的入门级轻松读物，一碟开胃小菜，就像一份什果沙拉，里面的鲜果种类不少，但吃起来味道比较淡，加上来一个毁一个来两个毁一双的中式做法，最多也只能算是一份缺少诚意的中式什果沙拉。建议直接读英文版，中英文两个版本的电子书在网上都很容易找得到，至于中文版的纸版书是否值得一买，这就不好乱下评价鼓惑读者了，各人有各自的判断，作为一个支付真金白银买了这本纸版书的读者，我在这里分享一下自己的感受，并衷心表达两点希望：1. 世界和平；2. 码出来的字对本文读者有所帮助。吐槽完毕。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -165,56 +327,6 @@ namespace apache { namespace thrift {
     using apache::thrift::async::TAsyncProcessor;
 }}
 </code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/04/01/the-art-of-noppoo-choc-mini/">Noppoo Choc Mini的艺术</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-04-01T20:34:00+08:00" pubdate data-updated="true">Apr 1<span>st</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文受文章<a href="http://cyher.net/peripherals/the-art-of-hhkb-pro-2">《Happy Hacking keyboard pro 2的艺术》</a>启发而写，像对广大人民群众进行科普一般地，它向我们介绍了HHKB pro2这款键盘，而the art of xxx这个标题不禁让人想到又红又专的The Art of Computer Programming和The Art of UNIX Programming。作为一个靠代码混饭吃的情绪猿，我也见过不少牛人用很一般的(从hhkb的角度来看，可以说是很差的)键盘写出了很艺术的代码做 出很出色的工作，其实使用的键盘与撰写的代码质量做事的优劣关系不大，不过键盘用得是否舒服顺手对一个文本工作者(文本工作者, 即text worker，这个定义是我在TC其间听到的，意指那些工作的主要内容是处理文本的人，即people that work on text，包括程序员，打字员，报表分析处理员等)的影响还是挺大的。</p>
-
-<p>刚上大学的时候，我装了一部电脑，和很多人一样，那是我的 第一台电脑也是大学期间毕业之前唯一一台电脑，那时候不懂得外设有多么重要，直到毕业后工作好长间，才了解到，原来键盘也分为好多种，除了最常见最便宜的 薄膜键盘外，还有更高级更贵的机械键盘和电容键盘，机械键盘也分为几种颜色的轴，除了常规键盘之外，还有人体工学键盘。后面在TC看到别人用微软人体工学 4000，cherry的G80，也试用过那台cherry的机械键盘，发现它的手感的确是不同，从段落感很强，声音比较大这两点看来，应该是青轴的，在 办公室里，青轴的确是相当扰民的，即使隔开几米也能清楚听到击键声。</p>
-
-<p>cherry的键盘样子比较土，但是做工比较好，在机械键盘里面，它的产品线长，型号比较多。机械键盘的品牌有不少，像前面说过的cherry，还有FILCO，Ducky等，产品型号和价格可选的范围比较大，在0.4k-1.6k之间。</p>
-
-<p>2010 年是机械键盘型号推出比较多的一年，也有一些新的品牌推出，如网际快车。其中美国的机械键盘品牌noppoo(中文译为诺朴)在4月开卖104键的 Choc，年末出84键的Choc Mini，两款键盘都有黑/青/茶3种轴搭配，价格在0.4k-0.5k rmb之间，定位在入门级机械键盘。</p>
-
-<p>我个人比较喜欢像HHKB那样小巧不太占地方的迷你键盘，HHKB是电容键盘，电容键盘另外一个比较有名的品牌是Realforce，电容键盘是最高端的键 盘品种了，价格也比较贵，一般要1.5k-2k rmb一把，暂时是没米买入HHKB pro 2了，HHKB品牌下面也有一款键盘布局差不多的低端薄膜键盘HHKB lite 2，需米0.5k-0.6k左右，不过薄膜键盘卖到这样一种价位也暂不考虑了，而综合来看Noppoo Choc Mini是比较有吸引力的，属于比较迷你的键盘(虽然比HHKB的键盘布局大一点，长宽各多一个键位)，价格不高，材质比较好(属于最好的POM，材质上 是POM>PBT>ABS)，却保留了不错机械键盘的手感，从Noppoo Choc Mini或多或少能看到HHKB pro的影子，而我所知道的另外一款有类似键位布局的是台湾的厂商KBC出的机械键盘KBC Poker 40%(或者称60%，目前这款Poker迷你键盘还属于小量生产，在市面上还买不到，也没有产量或者上市日期的确切消息)，从这些模仿者可以看出 HHKB的影响力之大。</p>
-
-<p>在广州，要购买机械键盘的话，除了通过淘宝网购之外，也可以亲自到实体店去感受一下，我去过的店有百脑汇 5楼的书剑科技，天河电脑城2楼的君豪电子(之前叫碧火微蓝)，这两家都是经营高端外设的&#8221;玩家店&#8221;，它们在淘宝都有开网店。我联系过书剑，那里已经没有 茶轴的Noppoo Choc Mini，于是在君豪购入一把茶轴，米469，送了11个kbc abs特殊键机械键帽，黑轴和青轴的相对便宜，只需米399，不过还是感觉茶轴比较合适，在实体店买价格上和淘宝差不多，好处在于可以亲自看过感受过再决 定是否出手，出手哪一把哪种轴。感觉君豪服务还不错，因为是我的第一把机械键盘，买的时候，店员拿了黑/青/茶3把不同轴的键盘出来让我感受，个人感觉黑 轴段落感不强，回弹力很弱，按上去手感涩涩的，不适合长期打字，青轴机械感段落感很强，不过声音的确比较大，茶轴是一个折中，段落感相对青轴弱很多，声音 也小一些，单键按下去像薄膜键盘，不过全键盘用起来，和薄膜键盘还是有很明显的区别。其实像这几种轴和白轴，红轴，我之前都接触过，不过最好还是拿到键盘 具体接触一下实物，再决定是否入手某个品牌/型号的键盘，虽然用的基本上都是cherry的轴，不过很多细节如键帽/键盘灯/整体做工等方面不同的品牌/型号差别还是有的。</p>
-
-<p>入手的这台键盘感觉上整体做工不错，键帽的触感也很好，不过键帽上的符号颜色深浅不一，有的比较清楚，有点 却很淡，键位布局上，整体类似HHKB，不过del键放到右下方，不是太方便，0.4k左右的价格比较亲和。这款Choc Mini带ctrl/caps键转换，按下右上角的Switch Lock键可以直接将ctrl切换到caps键，这一点也模仿了HHKB pro，使用Emacs的话可以不需要做软件上的ctrl/caps键切换。总的来说，是一款不太完美但性价比不错有一些亮点的键盘。</p>
-
-<p>Noppoo Choc Mini的评测见<a href="http://article.pchome.net/content-1240636.html">这里</a>。</p>
 </div>
   
   

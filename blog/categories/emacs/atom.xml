@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-18T14:50:13+08:00</updated>
+  <updated>2013-08-18T16:37:42+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The Emacs 24 Raises]]></title>
+    <link href="http://clisp.github.com/blog/2013/08/18/the-emacs-24-raises/"/>
+    <updated>2013-08-18T15:06:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/08/18/the-emacs-24-raises</id>
+    <content type="html"><![CDATA[<p>最近发现旧邮件地址的收件箱里有网友的邮件，说想要在<a href="/blog/2011-03-02-matrix-screen-saver-for-emacs">Emacs的Matrix屏保</a><code>zone-matrix</code>加入日文支持，但修改过代码并不成功云云。这份代码从2年多之前写好后我就再没怎么看过，由于它运行的时候需要刷新屏幕，比较消耗资源，我也很少启用。现在回头看看那时写的代码，写得真是幼稚，可能从现在算起过几年后再回头看看现在写的代码，也会产生类似的感觉，很有可能。后来我趁周末空闲时间把<code>zone-matrix</code>重构了一遍，并添加了对日文字符集的支持。</p>
+
+<p><code>zone-matrix</code>原来的代码包含两份实现，一个是创建一个大text buffer，不断刷新到屏幕显示，另一个是通过Emacs特有的rectangle相关的API，原本我估计两种实现之中，应该是后者比较少耗资源，所以运行得更快或更流畅。但是实际跑起来的时候前者更流畅，对比起来后者明显较迟钝。这次重构，我把retangle换成直接操作buffer(因为猜想retangle操作会相对的没效率)，对比之下依然是text buffer实现跑起来更流畅，算是又多做了一次试验。</p>
+
+<p>重写完<code>zone-matrix</code>之余，想到Emacs 24已经发布1年多了，顺便也升级了吧。于是开工：安装新版本，浏览从23到24的修改，更新库包，更新配置……折腾得不亦乐乎。</p>
+
+<p>Emacs 24的新特性，<a href="http://xahlee.org/">Xah Lee</a>在他的<a href="http://ergoemacs.org/emacs/emacs24_features.html">《New Features in Emacs 24》</a>里已经列得很清楚了。除了弱弱的<code>electric-pair-mode</code>和<code>load-theme</code>之外，个人觉得最重大的一个新特性就是包管理器，包数据量多(我加了melpa和marmalade源)，使用起来也比较方便简洁(有时甚至觉得太过简洁，没有apt那么强大)。</p>
+
+<p>有了包管理器，<a href="/blog/2013-01-13-make-my-emacs-configuration-public">我的配置</a>中<code>import</code>目录的很多包都可以从包管理器中checkout最新的版本了。于是我梳理了dired相关几个包的关系，更新了<code>dired+</code>, <code>dired-details</code>, <code>dired-details+</code>，清掉了没用的<code>dired-single</code>和<code>dired-tar</code>，添加了<code>dired-sort-menu</code>及<code>dired-sort-menu+</code>。</p>
+
+<p>Python的开发方面，则添加了<code>jedi</code>，<code>pylint</code>和<code>pep8</code>(尽管比较少用)，<code>jedi</code>大大的提升了Python开发时自动补全的用户体验，而<code>ropemacs</code>现在我只用来做重构。另外引入了<code>undo-tree</code>，<code>ido-complete-space-or-hyphen</code>, <code>helm</code>, <code>smex</code>, <code>fiplr</code>等一些包，<code>ido</code>, <code>helm</code>和<code>smex</code>构成了一个方便强大的组合。更新了Emacs 24之后，总体感觉效率有不少提高，同时也清理了一些过时的配置。之前在我的笔记本和各个公司机器之间通过bitbucket repo同步的配置，也都直接升级到24，放弃兼容23了。因为老的23版本没有包管理器，我懒得一个一个机器安装Emacs 24，也懒得把更新/添加的包同步过去，就让它们保持原样不再改动。就像我之前所说，如果版本兼容变成比较麻烦，我会选择简单干脆的做法——那就是不做兼容。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[我的Emacs配置]]></title>
@@ -275,57 +294,6 @@ Control."
 <p>简而言之，lisp的语法表达能力相对其他过程式编程语言(如c，或c++，java的对应这部分)并不差--当然c有结构，c++，java都有面向对象，还有佩刀战斗机泛型--其简单一致的语法降低了表示上的复杂度。可使得程序员可以专注于问题域本身，将更多的时间用于分析与设计，而不是语言本身。对比地看，c++其一为人所诟病之处就在于其语言自身复杂度已经很高。</p>
 
 <p>但是统一的或者说是到处使用的括号也使得lisp的代码布满括号，难以阅读。没有括号配对高亮功能的帮助，阅读长长的lisp程序可以说是个恶梦！</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[给emacs安装info manual]]></title>
-    <link href="http://clisp.github.com/blog/2010/04/18/install-info-manual-of-emacs/"/>
-    <updated>2010-04-18T08:29:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2010/04/18/install-info-manual-of-emacs</id>
-    <content type="html"><![CDATA[<p>发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下：</p>
-
-<ol>
-<li><p>到GNU官网下载info形式的manual,感兴趣的有</p>
-
-<p> GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br/>
- Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br/>
- Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)</p></li>
-<li><p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p></li>
-</ol>
-
-
-<p>[条目名]: [对应的info文件或包(可选的子条目名)].  [条目描述]</p>
-
-<p>条目名后面要带一个":"号，文件或包名后面要带一个"."号。如emacs faq的条目为</p>
-
-<pre><code>* Emacs FAQ: (emacs-23/efaq).   Frequently Asked Questions about Emacs.
-</code></pre>
-
-<p>将下载的三个包放入/usr/share/info/。并在info树根目录增加中相应的节点，即在文件/usr/share/info/dir的Emacs section中加入</p>
-
-<pre><code>* Emacs
-...       &lt;== 其他条目
-
-* Emacs Manual: (emacs.info.tar). GNU Emacs Manual
-* Emacs Lisp Intro: (emacs-lisp-intro.info).  An Introduction to Programming in Emacs Lisp
-* Emacs Lisp Reference Manual: (elisp.info.tar).
-                                GNU Emacs Lisp Reference Manual
-...       &lt;== 其他条目
-</code></pre>
-
-<p>即可。也可以安装到自定义的info目录，此目录下要有dir文件，同时添加此info目录到INFOPATH来让info进行查找。对于bash，添加环境设置到.bashrc：</p>
-
-<pre><code>INFOPATH=$INFOPATH:$ADDED-INFOPATH
-export INFOPATH
-</code></pre>
-
-<p>对于emacs，可通过变量Info-directory-list, Info-default-directory-list来定制，具体参照Manual。</p>
-
-<p>如担心手动添加info条目会损坏原文件，可先做备份再修改，或通过install-info命令添加info条目，如</p>
-
-<pre><code>$ install-info --dir-file=dir --info-file=filename.info --section=section-name --name=entry-name --description=entry-desc
-</code></pre>
 ]]></content>
   </entry>
   
