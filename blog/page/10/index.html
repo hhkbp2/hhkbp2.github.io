@@ -9,7 +9,9 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="——读乔治.R.R.马丁的《肉院情人》 克劳修斯告诉我们，说我们生活所在的这个宇宙，是会热寂的，物体从高温会变低温，从有序变无序，总之一切都在衰老变坏，一去不返无可挽留。但这个宇宙中有很多事情看起来恰恰向着相反的方向发展，比如进化，又比如爱情。 小时候看粤剧《帝女花》， &hellip;">
+  <meta name="description" content="之前写了两篇小文： 《杯具的诞生》
+《折腾gnome-shell》 介绍了安装gnome-shell之后的一些使用情况。这里继续向大家介绍一下，不久前上线的gnome-shell扩展的官方网页：
+https://extensions.gnome.org/ 在这个页面里，按功能划分了几个tab： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -57,7 +59,6 @@
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a><span class="divider"></span></li>
-  <li><a href="/blog/darkmate">Darkmate</a><span class="divider"></span></li>
   <li><a href="/blog/about"></i>About</a><span class="divider"></span></li>
 </ul>
 
@@ -66,6 +67,124 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/04/manage-gnome-shell-extensions/">Gnome-shell扩展管理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-04T18:13:18+08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前写了两篇小文：</p>
+
+<p><a href="/blog/2011/11/09/gnome-shell-it-just-happens/">《杯具的诞生》</a><br/>
+<a href="/blog/2011/11/13/tinker-with-gnome-shell/">《折腾gnome-shell》</a></p>
+
+<p>介绍了安装gnome-shell之后的一些使用情况。这里继续向大家介绍一下，不久前上线的gnome-shell扩展的官方网页：<br/>
+<a href="https://extensions.gnome.org/">https://extensions.gnome.org/</a></p>
+
+<p><a href="/images/uploads/2012/03/gnome-shell_extension_site.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_site.jpg" alt="gnome-shell扩展官方网页" /></a></p>
+
+<p>在这个页面里，按功能划分了几个tab：扩展的浏览/索引查找(打开网页的默认tab &#8220;Extensions&#8221;)，已安装的扩展的启用/禁用/卸载等管理(tab &#8220;Install extensions&#8221;)，注册帐号登录(tab &#8220;Add yours&#8221;)。页面风格一如gnome继往的简洁明了，也许是因为上线没多久，目前提供的功能不多，所以网页标题里打上了&#8221;Alpha&#8221;字样，但使用起来的感受比较好，相对于之前gnome-shell扩展没有一个统一管理的界面，这个网站的出现大大地提高了用户体验。从使用方式上来看，比较像debian/ubuntu的软件管理器(中心)，把所有可用的包统一到同一个界面，提供了安装/卸载，或启用/禁用的功能，于是查找/试用gnome-shell的扩展变得非常简易。</p>
+
+<p>这里收录了数量众多的扩展，比较赞的一点就是，从gnome 3.2之后，安装了gnome-shell之后，只要安装了&#8221;gnome shell integration&#8221;这个包，就可以直接在网页上来安装扩展了，类似于用firefox在firefox的扩展官方网页上安装扩展，看到喜欢的扩展，点击一下，扩展包就自动下载到本地，并自动安装好，至于版本兼容，安装到哪个目录这么些问题，不用用户折腾处理，实在很省心吧。比firefox的扩展管理网页更好的是，gnome-shell的扩展网页还提供了按钮来启用/禁用/卸载按钮，扩展管理起来相当方便。相对使用本地客户端&#8221;gnome-shell-integration&#8221;来启用/禁用扩展的方式，这个网页版的功能更强大，也更方便。</p>
+
+<p><a href="/images/uploads/2012/03/gnome-shell_extension_installed_manage.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_installed_manage.jpg" alt="gnome-shell已经安装的扩展管理" /></a></p>
+
+<p>接下来show一下目前我安装的使用gnome-shell扩展吧，按字母序排：</p>
+
+<ol>
+<li><p>advanced settings in user menu<br/>
+ 在应用程序菜单，添加有&#8221;木偶&#8221;图标的&#8221;Advanced Settings&#8221;项，打开就是gnome-shell-integration的配置界面，见下面图中的红字1标出部分</p></li>
+<li><p>Application Menu<br/>
+ 将gnome-shell默认的任务栏左上角&#8221;Application&#8221;按钮，换成老版gnome应用程序菜单按钮，点击打开应用程序列表，见图中红字2部分</p>
+
+<p> <a href="/images/uploads/2012/03/gnome-shell_extension_ss_application_menu.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_application_menu.jpg" alt="gnome-shell应用程序菜单" /></a></p></li>
+<li><p>Auto Move Windows<br/>
+ 应用程序创建新窗口时，移动到特定某个workspace，没有图形的配置工具，用得不多</p></li>
+<li><p>Battery Percentage Indicator<br/>
+ 电池电量指示器，对笔记本特别有用</p>
+
+<p> <a href="/images/uploads/2012/03/gnome-shell_extension_ss_battery_indicator.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_battery_indicator.jpg" alt="gnome-shell电量显示扩展" /></a></p></li>
+<li><p>Dock<br/>
+ 给桌面添加一Dock，Dock里面的内容同Overview模式下左边的Dash一致，感觉与Dash有点重复了</p></li>
+<li><p>gTile<br/>
+ 功能类似awesome，平铺式窗口布局管理器，用得比较少，暂时我还没摸熟用法，作为一个插件，比起awesome来要轻量不少</p></li>
+<li><p>Lock Keys<br/>
+ 在面板上显示Numlock和Capslock的状态，在没有键盘灯的情况比较有用，对像我一样交换Capslock和其它键的也好用</p>
+
+<p> <a href="/images/uploads/2012/03/gnome-shell_extension_ss_lock_keys.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_lock_keys.jpg" alt="gnome-shell键盘状态指示器" /></a></p></li>
+<li><p>Media player indicator<br/>
+ 在面板上添加音乐播放器的指示图标，这个在老gnome上也有了，支持Rhythmbox和amarok，但不支持audacious，有点遗憾，因为我常用后者</p>
+
+<p> <a href="/images/uploads/2012/03/gnome-shell_extension_ss_music_player_indicator.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_music_player_indicator.jpg" alt="gnome-shell音乐播放指示器" /></a></p></li>
+<li><p>Move Clock<br/>
+ 将时钟从顶部面板中间位置移动到右边，风格像老的gnome，时钟format可以通过dconf配置，这个扩展是必不可少的，从截图中可以看到效果</p></li>
+<li><p>Music Integration<br/>
+在通知栏上添加音乐播放器的整合，类似于前面的8</p>
+
+<p><a href="/images/uploads/2012/03/gnome-shell_extension_ss_music_integration.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_music_integration.jpg" alt="gnome-shell音乐整合" /></a></p></li>
+<li><p>Native Window Placement<br/>
+令Overview模式下，窗口的预览更紧凑一些，而不是每个窗口都同一大小</p></li>
+<li><p>Panel Favorites<br/>
+将Overview模式中Dash上的快捷方式放到顶部面板，提供了类似老版gnome的面板快捷方式，必不可少的一个扩展，见上面图中的红字12部分</p></li>
+<li><p>Places Status Indicator<br/>
+在面板上添加目录快捷访问图标，就像老版gnome面板上的&#8221;Places&#8221;</p>
+
+<p><a href="/images/uploads/2012/03/gnome-shell_extension_ss_places_indicator.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_places_indicator.jpg" alt="gnome-shell目录访问快捷方式" /></a></p></li>
+<li><p>Recent Items<br/>
+在面板上添加最近访问的文件列表图标，就像老版gnome面板上&#8221;Places&#8221;菜单下拉出来的&#8221;Recent Files&#8221;</p>
+
+<p><a href="/images/uploads/2012/03/gnome-shell_extension_ss_recent_items.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_recent_items.jpg" alt="gnome-shell最近打开文件列表" /></a></p></li>
+<li><p>Remove Accesibility<br/>
+删除面板上的&#8221;辅助&#8221;图标，这个扩展也是必需的，因为那个图标对很多人来说几乎没用</p></li>
+<li><p>Remove Panel App Menu<br/>
+去掉面板上当前打开窗口的指示图标，个人感觉如果没有底部面板，顶部面板有这个指示图标还是挺有用的，如果有了底部面板，像我就喜欢用tint2，就可以把这个顶部面板的去掉更清爽，效果见上图上红字16部分</p></li>
+<li><p>Shut Down Menu<br/>
+将顶部面板中用户名图标下拉的&#8221;Suspend&#8221;菜单项，改为&#8221;Shut Down&#8221;，在之前的文章我批评过gnome-shell默认安装下没有关机菜单的这一&#8221;反人类&#8221;设置，这个扩展是必需的</p>
+
+<p><a href="/images/uploads/2012/03/gnome-shell_extension_ss_shutdown.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_shutdown.jpg" alt="gnome-shell面板关机按钮" /></a></p></li>
+<li><p>Static Workspaces<br/>
+与tint2等底部面板搭配起来比较好用，像我一样不习惯gnome-shell默认的动态创建workspace的行为，可以试用一下</p></li>
+<li><p>Timer<br/>
+在顶部面板添加一个简单的面板小时钟，功能比较弱</p></li>
+<li><p>Trash<br/>
+在顶部面板添加回收站图标</p>
+
+<p><a href="/images/uploads/2012/03/gnome-shell_extension_ss_trash.jpg"><img src="/images/uploads/2012/03/gnome-shell_extension_ss_trash.jpg" alt="gnome-shell面板回收站快捷方式" /></a></p></li>
+</ol>
+
+
+<p>在安装了一堆的扩展之后，搭配tint2，我机器上的这个gnome-shell的使用体验和老版的gnome就差不多相同了，只是有些小变化。在刚装上gnome-shell，没有装扩展的时候，我曾经觉得它十分的不好用，于是写了上面的第一个文章《杯具的诞生》，吐槽了一番，到今天gnome-shell的用户体验已经比当初好出很多倍。</p>
+
+<p>对比来看，老版gnome更像是A餐B餐，软件包就那么几个，全部plugin用到的没用到的都绑在里面，装上之后，每个用户爱用哪个plugin就配哪个plugin，而gnome-shell更像是自助餐，用户喜欢用哪个再自行下载安装启用，而越来越多的扩展出现，提供了不断丰富的功能和操作方式，像从网页点击按钮直接安装扩展这种便捷方式就是老版gnome所没有的，从这个角度来看，gnome-shell灵活和定制性强的优势已经开始慢慢展示出来。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -756,44 +875,6 @@ do-primes宏的第一个实现</p>
 <p>一个总共26行的小测试框架的编写过程，也是lisp编程的一般方式。<br/>
 通用的方法是不变的：<br/>
 从简单版本开始演化，消除代码重复，简化调用方式，定义针对问题集的微型语言，更高程度的抽象，改进结果输出等</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/02/13/wordpress-upgrade/">升级了wordpress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-13T21:58:54+08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>升到了3.3.1中文版，体验果然是比以前好了，至于人格嘛&#8230;&#8230;</p>
-
-<p><a href="/images/uploads/2012/02/wordpress_3.3.11.jpg"><img src="/images/uploads/2012/02/wordpress_3.3.11.jpg" alt="wordpress 3.3.1更新信息" /></a></p>
 </div>
   
   
