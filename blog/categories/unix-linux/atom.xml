@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-25T22:28:47+08:00</updated>
+  <updated>2013-11-16T09:22:59+00:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[别了，Linux桌面]]></title>
     <link href="http://clisp.github.com/blog/2013/08/11/bye-linux-desktop/"/>
-    <updated>2013-08-11T12:06:00+08:00</updated>
+    <updated>2013-08-11T12:06:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/08/11/bye-linux-desktop</id>
     <content type="html"><![CDATA[<blockquote><p>　　“我和你一起去。”<br/>
 　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br/>
@@ -50,7 +50,7 @@
   <entry>
     <title type="html"><![CDATA[无家可归的Java]]></title>
     <link href="http://clisp.github.com/blog/2013/02/23/no-home-for-java/"/>
-    <updated>2013-02-23T14:44:00+08:00</updated>
+    <updated>2013-02-23T14:44:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/02/23/no-home-for-java</id>
     <content type="html"><![CDATA[<h3>Java千层糕</h3>
 
@@ -83,7 +83,7 @@ export PATH
   <entry>
     <title type="html"><![CDATA[Thrift实践]]></title>
     <link href="http://clisp.github.com/blog/2013/02/10/practical-thrift/"/>
-    <updated>2013-02-10T20:15:00+08:00</updated>
+    <updated>2013-02-10T20:15:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/02/10/practical-thrift</id>
     <content type="html"><![CDATA[<p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
 
@@ -219,7 +219,7 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[常用终端软件]]></title>
     <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
-    <updated>2013-01-31T20:01:00+08:00</updated>
+    <updated>2013-01-31T20:01:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
     <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。</p>
 
@@ -293,7 +293,7 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[电子时代的鸦片]]></title>
     <link href="http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age/"/>
-    <updated>2013-01-28T23:37:00+08:00</updated>
+    <updated>2013-01-28T23:37:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age</id>
     <content type="html"><![CDATA[<p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
 

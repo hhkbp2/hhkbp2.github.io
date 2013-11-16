@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-25T22:28:47+08:00</updated>
+  <updated>2013-11-16T09:22:59+00:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[The Emacs 24 Rises]]></title>
     <link href="http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises/"/>
-    <updated>2013-08-18T15:06:00+08:00</updated>
+    <updated>2013-08-18T15:06:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises</id>
     <content type="html"><![CDATA[<p>最近发现旧邮件地址的收件箱里有网友的邮件，说想要在<a href="/blog/2011/03/02/matrix-screen-saver-for-emacs/">Emacs的Matrix屏保</a><code>zone-matrix</code>加入日文支持，但修改过代码并不成功云云。这份代码从2年多之前写好后我就再没怎么看过，由于它运行的时候需要刷新屏幕，比较消耗资源，我也很少启用。现在回头看看那时写的代码，写得真是幼稚，可能从现在算起过几年后再回头看看现在写的代码，也会产生类似的感觉，很有可能。后来我趁周末空闲时间把<code>zone-matrix</code>重构了一遍，并添加了对日文字符集的支持。</p>
 
@@ -35,7 +35,7 @@
   <entry>
     <title type="html"><![CDATA[我的Emacs配置]]></title>
     <link href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public/"/>
-    <updated>2013-01-13T01:18:00+08:00</updated>
+    <updated>2013-01-13T01:18:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public</id>
     <content type="html"><![CDATA[<p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
 
@@ -86,7 +86,7 @@ geiser
   <entry>
     <title type="html"><![CDATA[Emacs修炼之道]]></title>
     <link href="http://clisp.github.com/blog/2013/01/08/the-pragmatic-emacser/"/>
-    <updated>2013-01-08T16:04:00+08:00</updated>
+    <updated>2013-01-08T16:04:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/08/the-pragmatic-emacser</id>
     <content type="html"><![CDATA[<blockquote><p>"Don't panic."</p>
 
@@ -171,7 +171,7 @@ geiser
   <entry>
     <title type="html"><![CDATA[Matrix Screen Saver for Emacs]]></title>
     <link href="http://clisp.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs/"/>
-    <updated>2011-03-02T18:19:00+08:00</updated>
+    <updated>2011-03-02T18:19:00+00:00</updated>
     <id>http://clisp.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs</id>
     <content type="html"><![CDATA[<p><a href="/images/uploads/code_rain_matrix.jpg"><img src="/images/uploads/code_rain_matrix.jpg" alt="the source view screenshot of The Matrix" /></a></p>
 
@@ -228,7 +228,7 @@ geiser
   <entry>
     <title type="html"><![CDATA[Prefix Notation of Lisp]]></title>
     <link href="http://clisp.github.com/blog/2010/05/03/prefix-notation-of-lisp/"/>
-    <updated>2010-05-03T13:12:00+08:00</updated>
+    <updated>2010-05-03T13:12:00+00:00</updated>
     <id>http://clisp.github.com/blog/2010/05/03/prefix-notation-of-lisp</id>
     <content type="html"><![CDATA[<p>就像《Writing Emacs Extensions》(Bob Glickstein, O'REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。</p>
 

@@ -915,7 +915,7 @@ p pre code, li pre code {
     border: none;
 }
 .pre-code, html .gist .gist-file .gist-syntax .highlight pre, .highlight code {
-    font-family: Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace !important;
+    font-family: Menlo,Monaco,monospace,"Andale Mono","lucida console","Courier New" !important;
     overflow: scroll;
     overflow-y: hidden;
     display: block;
@@ -1362,7 +1362,7 @@ body>footer a:hover { color: #484848 }
 body>footer p:last-child { margin-bottom: 0 }
 html { background: #FFFFFF }
 body {
-    font-family: "Open Sans", "Microsoft Yahei", sans, serif;
+    font-family: 'Hiragino Sans GB', 'wenquanyi micro hei', "Microsoft Yahei", sans, serif; 
     font-size: 17px;
     color: #000;
     max-width: 750px;

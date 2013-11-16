@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-08-25T22:28:47+08:00</updated>
+  <updated>2013-11-16T09:22:59+00:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[The Emacs 24 Rises]]></title>
     <link href="http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises/"/>
-    <updated>2013-08-18T15:06:00+08:00</updated>
+    <updated>2013-08-18T15:06:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises</id>
     <content type="html"><![CDATA[<p>最近发现旧邮件地址的收件箱里有网友的邮件，说想要在<a href="http://clisp.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs/">Emacs的Matrix屏保</a><code>zone-matrix</code>加入日文支持，但修改过代码并不成功云云。这份代码从2年多之前写好后我就再没怎么看过，由于它运行的时候需要刷新屏幕，比较消耗资源，我也很少启用。现在回头看看那时写的代码，写得真是幼稚，可能从现在算起过几年后再回头看看现在写的代码，也会产生类似的感觉，很有可能。后来我趁周末空闲时间把<code>zone-matrix</code>重构了一遍，并添加了对日文字符集的支持。</p>
 
@@ -35,7 +35,7 @@
   <entry>
     <title type="html"><![CDATA[青春期的非典型事件]]></title>
     <link href="http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty/"/>
-    <updated>2013-08-17T21:08:00+08:00</updated>
+    <updated>2013-08-17T21:08:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty</id>
     <content type="html"><![CDATA[<blockquote><p>《转山》的剧情简介，引用自<a href="http://movie.douban.com/subject/5318669/">豆瓣</a>：<br/>
 　　本片改编自同名畅销书。<br/>
@@ -60,7 +60,7 @@
   <entry>
     <title type="html"><![CDATA[别了，Linux桌面]]></title>
     <link href="http://clisp.github.com/blog/2013/08/11/bye-linux-desktop/"/>
-    <updated>2013-08-11T12:06:00+08:00</updated>
+    <updated>2013-08-11T12:06:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/08/11/bye-linux-desktop</id>
     <content type="html"><![CDATA[<blockquote><p>　　“我和你一起去。”<br/>
 　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br/>
@@ -94,7 +94,7 @@
   <entry>
     <title type="html"><![CDATA[另一种可能性]]></title>
     <link href="http://clisp.github.com/blog/2013/08/10/another-possibility/"/>
-    <updated>2013-08-10T20:36:00+08:00</updated>
+    <updated>2013-08-10T20:36:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/08/10/another-possibility</id>
     <content type="html"><![CDATA[<p><strong>更新：已经添加了它的gh-pages分支，可以<a href="http://clisp.github.com/gevent-tutorial">点击这里</a>直接浏览器打开了。</strong></p>
 
@@ -115,7 +115,7 @@
   <entry>
     <title type="html"><![CDATA[杂记]]></title>
     <link href="http://clisp.github.com/blog/2013/06/15/minds-lounge/"/>
-    <updated>2013-06-15T22:35:00+08:00</updated>
+    <updated>2013-06-15T22:35:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/06/15/minds-lounge</id>
     <content type="html"><![CDATA[<h3>1</h3>
 
@@ -170,7 +170,7 @@
   <entry>
     <title type="html"><![CDATA[嵌套反引用有害]]></title>
     <link href="http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/"/>
-    <updated>2013-03-10T21:37:00+08:00</updated>
+    <updated>2013-03-10T21:37:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful</id>
     <content type="html"><![CDATA[<p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
 
@@ -296,7 +296,7 @@
   <entry>
     <title type="html"><![CDATA[刀丛小诗]]></title>
     <link href="http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush/"/>
-    <updated>2013-03-09T22:05:00+08:00</updated>
+    <updated>2013-03-09T22:05:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush</id>
     <content type="html"><![CDATA[<p>近日两会召开，从各种新闻报道看来，这个国家将进行又一次的领导层换届，在我工作的地方，类似的事情也在进行。在“云统治”的游戏背景设定下，这种事对于我等星斗市民并不会带来本质的变化，任它东边日出西边雨，只管一蓑任前行。从我个人的角度看，年初向领导提出加薪一事无果，长期问题还是没有得到解决，我对这份工作已没有什么期望。程序员要求提薪这件事情，马丁大叔在《程序员的职业素养》里提出了一个解读，比较有趣，很多时候事情的本质不仅是表面看起来那么回事。</p>
 
@@ -322,7 +322,7 @@
   <entry>
     <title type="html"><![CDATA[无家可归的Java]]></title>
     <link href="http://clisp.github.com/blog/2013/02/23/no-home-for-java/"/>
-    <updated>2013-02-23T14:44:00+08:00</updated>
+    <updated>2013-02-23T14:44:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/02/23/no-home-for-java</id>
     <content type="html"><![CDATA[<h3>Java千层糕</h3>
 
@@ -355,7 +355,7 @@ export PATH
   <entry>
     <title type="html"><![CDATA[Thrift实践]]></title>
     <link href="http://clisp.github.com/blog/2013/02/10/practical-thrift/"/>
-    <updated>2013-02-10T20:15:00+08:00</updated>
+    <updated>2013-02-10T20:15:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/02/10/practical-thrift</id>
     <content type="html"><![CDATA[<p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
 
@@ -491,7 +491,7 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[常用终端软件]]></title>
     <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
-    <updated>2013-01-31T20:01:00+08:00</updated>
+    <updated>2013-01-31T20:01:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
     <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。</p>
 
@@ -565,7 +565,7 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[电子时代的鸦片]]></title>
     <link href="http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age/"/>
-    <updated>2013-01-28T23:37:00+08:00</updated>
+    <updated>2013-01-28T23:37:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age</id>
     <content type="html"><![CDATA[<p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
 
@@ -596,7 +596,7 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[自由与理由]]></title>
     <link href="http://clisp.github.com/blog/2013/01/21/freedom-and-reason/"/>
-    <updated>2013-01-21T21:43:00+08:00</updated>
+    <updated>2013-01-21T21:43:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/21/freedom-and-reason</id>
     <content type="html"><![CDATA[<p>在过去一年多的时间里，我笔记本电脑上的Debian桌面环境经历了几次变化：先是用了几个月gnome shell，然后用了几个月的xfce4，然后最近又转为mate-desktop和cinnamon。</p>
 
@@ -622,7 +622,7 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[在VirtualBox虚拟系统中使用USB设备]]></title>
     <link href="http://clisp.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/"/>
-    <updated>2013-01-18T21:26:00+08:00</updated>
+    <updated>2013-01-18T21:26:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system</id>
     <content type="html"><![CDATA[<p>我使用Linux作为日常操作系统，但有时需要使用Windows only软件，还是需要在虚拟机上装一个Windows。因为国内的网银只支持Windows，所以在需要虚拟的Windows系统中访问物理机器的USB接口，来读取网银的USB KEY。</p>
 
@@ -644,7 +644,7 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[Thrift Erlang实现源代码阅读]]></title>
     <link href="http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading/"/>
-    <updated>2013-01-16T21:27:00+08:00</updated>
+    <updated>2013-01-16T21:27:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading</id>
     <content type="html"><![CDATA[<p>Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考<a href="http://thrift.apache.org/">Thrift官方网站</a>，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP，而主要集中讨论Thrift里面的Erlang实现，假定目标读者了解Erlang，并且具有Thrift的使用经验，熟悉Thrift在其它语言的实现源代码更佳。</p>
 
@@ -1050,7 +1050,7 @@ call(Client = #tclient{}, Function, Args)
   <entry>
     <title type="html"><![CDATA[我的Emacs配置]]></title>
     <link href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public/"/>
-    <updated>2013-01-13T01:18:00+08:00</updated>
+    <updated>2013-01-13T01:18:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public</id>
     <content type="html"><![CDATA[<p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
 
@@ -1101,7 +1101,7 @@ geiser
   <entry>
     <title type="html"><![CDATA[Emacs修炼之道]]></title>
     <link href="http://clisp.github.com/blog/2013/01/08/the-pragmatic-emacser/"/>
-    <updated>2013-01-08T16:04:00+08:00</updated>
+    <updated>2013-01-08T16:04:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/08/the-pragmatic-emacser</id>
     <content type="html"><![CDATA[<blockquote><p>&#8220;Don&#8217;t panic.&#8221;</p>
 
@@ -1186,7 +1186,7 @@ geiser
   <entry>
     <title type="html"><![CDATA[谈谈家乡]]></title>
     <link href="http://clisp.github.com/blog/2013/01/08/about-my-hometown/"/>
-    <updated>2013-01-08T14:24:00+08:00</updated>
+    <updated>2013-01-08T14:24:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/08/about-my-hometown</id>
     <content type="html"><![CDATA[<h3>家乡新兴</h3>
 
@@ -1213,7 +1213,7 @@ geiser
   <entry>
     <title type="html"><![CDATA[《实用common lisp编程》读书笔记 (二)]]></title>
     <link href="http://clisp.github.com/blog/2013/01/01/reading-note-of-practical-common-lisp-2/"/>
-    <updated>2013-01-01T16:41:00+08:00</updated>
+    <updated>2013-01-01T16:41:00+00:00</updated>
     <id>http://clisp.github.com/blog/2013/01/01/reading-note-of-practical-common-lisp-2</id>
     <content type="html"><![CDATA[<h3>第10章 数字，字符和字符串</h3>
 
@@ -1765,7 +1765,7 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
   <entry>
     <title type="html"><![CDATA[再读大卫·米切尔]]></title>
     <link href="http://clisp.github.com/blog/2012/12/30/read-a-david-mitchell-novel/"/>
-    <updated>2012-12-30T12:15:00+08:00</updated>
+    <updated>2012-12-30T12:15:00+00:00</updated>
     <id>http://clisp.github.com/blog/2012/12/30/read-a-david-mitchell-novel</id>
     <content type="html"><![CDATA[<p>又到周末。昨晚又一波的冷空气南下，一夜狂风加细雨，温度骤然降下来了。</p>
 
@@ -1788,7 +1788,7 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
   <entry>
     <title type="html"><![CDATA[一个悲秋客途的男人]]></title>
     <link href="http://clisp.github.com/blog/2012/12/15/one-man-in-autumn/"/>
-    <updated>2012-12-15T11:32:00+08:00</updated>
+    <updated>2012-12-15T11:32:00+00:00</updated>
     <id>http://clisp.github.com/blog/2012/12/15/one-man-in-autumn</id>
     <content type="html"><![CDATA[<blockquote><p>“凉风有信，秋月无边。</p>
 
