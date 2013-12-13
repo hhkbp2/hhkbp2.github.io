@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2011-03-06T18:35:00+00:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+<time datetime="2011-03-06T18:35:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
         
       </p>
     
@@ -93,22 +93,22 @@
 
 <div class="entry-content"><p>最近在岗顶太平洋电脑城2期入手一台ThinkPad(简称tp) X201i, 型号是3249CBC，它是去年的老产品了，标配CPU i370, 2G内存250G硬盘，属于市面上tp X201i系列的最低配置了，最新的升级型号3249CQC把CPU升级成了i380，变化不大。其实tp的硬件配置性价比不算高，可以说是比较低的，只是我觉得它的键盘和散热都做得比较好，重量也轻，其实硬件方面稍逊一些关系也不大，预算有限，所以选了3249CBC，加了2G三星金条，带发票，随机送一个提包和一个鼠标。附图</p>
 
-<p><a href="/images/uploads/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg"><img src="/images/uploads/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg" alt="thinkpad x201i on desktop" /></a></p>
+<p><a href="/images/uploads/2011-04-22_08-04-48_438_广州市.jpg"><img src="/images/uploads/2011-04-22_08-04-48_438_广州市.jpg" alt="thinkpad x201i on desktop" /></a></p>
 
 <p>新机器默认安装的是Windows 7 Home Base，硬盘也只有一个200多G的C:分区，其实还有一个1G大小的引导分区，看起来是ThinkVantage的安装分区，一个大小约10G的做系统镜像备份的分区，后两者都隐藏了。</p>
 
 <p>我一直使用Debian testing作为日常桌面系统，所以新机器拿回来之后的第一件事，便是安装Debian了。今年2月初，Debian发布了最新的stable版本6 Squeeze，于是Wheezy进入了testing。下面流水帐地小记一下Wheezy的安装。</p>
 
-<h3>1. 下载testing的安装image</h3>
+<h3 id="testingimage">1. 下载testing的安装image</h3>
 
-<p>下载的镜像有好多，我个人习惯到cdimage或163的镜像源上下载，如cdimage源的weekly build<br/>
-http://cdimage.debian.org/cdimage/weekly-builds/<br/>
-或在163的源<br/>
-http://mirrors.163.com/debian-cd/</p>
+<p>下载的镜像有好多，我个人习惯到cdimage或163的镜像源上下载，如cdimage源的weekly build<br />
+http://cdimage.debian.org/cdimage/weekly-builds/<br />
+或在163的源<br />
+http://mirrors.163.com/debian-cd/  </p>
 
 <p>选择amd64目标下的cd image下载，由于历史原因，这里的“amd64”指的是64位系统，而不是只适用于amd的CPU。X201的CPU架构是intel，如选用i386下的下载，则为32位，amd64下的则为64位。安装64位系统能充分利用我的新机器的4G内存。</p>
 
-<p>由于X201i系列都没有光驱，我用外接移动硬盘直接在硬盘上安装，这就需要硬盘安装的installer。到163的源<br/>
+<p>由于X201i系列都没有光驱，我用外接移动硬盘直接在硬盘上安装，这就需要硬盘安装的installer。到163的源<br />
 http://mirrors.163.com/debian/dists/testing/main/installer-amd64/current/images/hd-media/
 下载</p>
 
@@ -119,15 +119,10 @@ vmlinuz
 
 <p>这几个文件，进行文本界面的引导安装。同目录下还有一个目录gtk，下面有图形界面安装的相应的包initrd.gz和vmlinuz，不过我尝试过用gtk目录下的文件替换上面文本界面的文件来引导安装，没能成功引导。</p>
 
-<p>将这些installer和安装image如</p>
-
-<pre><code>debian-testing-amd64-CD-1.iso
-</code></pre>
-
-<p>或</p>
-
-<pre><code>debian-6.0.0-amd64-CD-1.iso
-</code></pre>
+<p>将这些installer和安装image如
+    debian-testing-amd64-CD-1.iso
+或
+    debian-6.0.0-amd64-CD-1.iso</p>
 
 <p>放入到移动硬盘FAT32分区下(注意，Debian installer不能读出NTFS分区里的iso文件，所以不能用dvd image来进行硬盘安装——dvd image的大小超过4G，不能放在FAT32下。较方便的方式是下载cd image放入FAT32分区，我的移动硬盘专门设了一个FAT32格式的小分区，即是为了方便有时在不同的电脑硬盘安装linux)。</p>
 
@@ -141,7 +136,7 @@ vmlinuz
 
 <p>进入文本安装界面。整个安装过程和一般linux安装过程十分相似。注意两点：安装时不要启用网络，installer就不会在线搜索更新，安装过程会快很多；手动分区，按自己的需求定制分区。我只用一个linux，于将grub安装在MBR。整个安装过程在我的新机器上不到30分钟就运行完毕。</p>
 
-<h3>2. 更新软件源，安装需要的软件包</h3>
+<h3 id="section">2. 更新软件源，安装需要的软件包</h3>
 
 <p>由于安装时我没有起用网络，第一次进入系统首先配置好网络，我这里用的是pppoe，安装pppoe包</p>
 
@@ -153,18 +148,12 @@ vmlinuz
 <pre><code># pppoeconf
 </code></pre>
 
-<p>如果可以用DHCP就更方便了，直接启动DHCP客户端。<br/>
-然后找个更新源update一下，安装包</p>
-
-<pre><code>network-manager
-</code></pre>
-
-<p>来管理网络。也可安装包</p>
-
-<pre><code>apt-spy
-</code></pre>
-
-<p>来寻找速度较快的更新源：</p>
+<p>如果可以用DHCP就更方便了，直接启动DHCP客户端。<br />
+然后找个更新源update一下，安装包<br />
+    network-manager
+来管理网络。也可安装包<br />
+    apt-spy
+来寻找速度较快的更新源：  </p>
 
 <pre><code># apt-get install apt-spy
 # apt-spy update                     &lt;== 下载最新的更新源列表
@@ -173,7 +162,7 @@ vmlinuz
 
 <p>apt-spy会测试连接得到速度最快的更新源，记录在/etc/apt/sources.list.d/apt-spy.list中。之后apt-get update时会自动连接apt-spy.list中的更新源更新软件列表。apt-spy的使用参考5。</p>
 
-<h3>3. 安装常用软件</h3>
+<h3 id="section-1">3. 安装常用软件</h3>
 
 <p>刚才的硬盘安装只默认安装了一个粗糙的系统，要用得舒服的话还要安装很多软件包，做一番配置。下面列出一些我需要的包，由于不知道这些包系统默认是否默认已经安装，所以一并导入到命令行安装。</p>
 
@@ -310,14 +299,14 @@ ia32-libs-gtk
 
 <p>最后卸掉新安装系统默认带的evolution，totem，我很少用它们。</p>
 
-<h3>4. 常用配置</h3>
+<h3 id="section-2">4. 常用配置</h3>
 
-<h4>4.1 testing和unstable混合系统</h4>
+<h4 id="testingunstable">4.1 testing和unstable混合系统</h4>
 
-<p>这里就不详细介绍什么是testing/unstable等Debian的版本管理内容了。在testing配置的系统上混合unstable，在稳定的基础上可以有选择性的更新更快的软件，或者尝鲜试用某些unstable的软件包。</p>
+<p>这里就不详细介绍什么是testing/unstable等Debian的版本管理内容了。在testing配置的系统上混合unstable，在稳定的基础上可以有选择性的更新更快的软件，或者尝鲜试用某些unstable的软件包。  </p>
 
-<p>首先在sources.list里加入unstable的源，见6 sources.list的unstable部分。然后配置apt控制软件版本的优先级。<br/>
-在/etc/apt/apt.conf中写入(如果此文件不存在则新建一个)</p>
+<p>首先在sources.list里加入unstable的源，见6 sources.list的unstable部分。然后配置apt控制软件版本的优先级。<br />
+在/etc/apt/apt.conf中写入(如果此文件不存在则新建一个)  </p>
 
 <pre><code>### apt.conf begin
 
@@ -326,7 +315,7 @@ APT::Default-Release “testing”;
 ### apt.conf end
 </code></pre>
 
-<p>指明以testing为主要软件包版本。</p>
+<p>指明以testing为主要软件包版本。  </p>
 
 <p>然后为testing/unstable配置优先级关系，在/etc/apt/preferences中写入(如果此文件不存在则新建一个)</p>
 
@@ -350,7 +339,7 @@ Pin-Priority: 700
 
 <p>应用这个配置，在安装软件包时apt一般会先寻找testing仓库，如果找到该软件包就安装。否则再寻找unstable仓库，如找到则安装。如需要强制忽略此优先级安装unstable的版本，可在apt-get/aptitude的命令行指明-t选项，具体参考相关手册文档。</p>
 
-<h4>4.2 字体</h4>
+<h4 id="section-3">4.2 字体</h4>
 
 <p>从软件源安装字体</p>
 
@@ -363,15 +352,15 @@ Pin-Priority: 700
 VeraSansYuanTi
 </code></pre>
 
-<p>和几个windows下的字体，这部分字体就不一一列举了(没买windows系统，使用windows字体是侵权行为，你懂的)。</p>
+<p>和几个windows下的字体，这部分字体就不一一列举了(没买windows系统，使用windows字体是侵权行为，你懂的)。  </p>
 
 <p>将所有字体按文件夹整理到文件夹dw_customized，将它放到/usr/share/fonts(新字体对所有用户都可用)或~/fonts(新字体只有自己可用)。
-最后，使用命令更新系统字体缓存</p>
+最后，使用命令更新系统字体缓存  </p>
 
 <pre><code># fc-cache -fv
 </code></pre>
 
-<h4>4.3 配置迁移</h4>
+<h4 id="section-4">4.3 配置迁移</h4>
 
 <p>从之前的旧系统直接复制一些程序的配置即可在新的系统上用，它们有</p>
 
@@ -408,7 +397,7 @@ VeraSansYuanTi
 .Xresources
 </code></pre>
 
-<h4>4.4 语言</h4>
+<h4 id="section-5">4.4 语言</h4>
 
 <p>个人喜欢将系统默认语言设置为英语，使用命令</p>
 
@@ -423,17 +412,17 @@ zh_CN.UTF8 UTF8
 
 <p>两种语言，并设置第一种为系统默认语言即可。设置好后注销再登录即生效。</p>
 
-<h4>4.5 快捷键和系统外观</h4>
+<h4 id="section-6">4.5 快捷键和系统外观</h4>
 
-<p>到这里，大部分配置都已经完成，但是还需要手动配置几处让系统更便于使用。<br/>
-打开gnome配置编辑器</p>
+<p>到这里，大部分配置都已经完成，但是还需要手动配置几处让系统更便于使用。<br />
+打开gnome配置编辑器  </p>
 
 <pre><code>$ gconf-editor
 </code></pre>
 
-<p>修改相应的键值。</p>
+<p>修改相应的键值。  </p>
 
-<h5>4.5.1 应用程序</h5>
+<h5 id="section-7">4.5.1 应用程序</h5>
 
 <p>在</p>
 
@@ -443,7 +432,7 @@ zh_CN.UTF8 UTF8
 
 <p>下添加常用的应用程序快捷键，如gnome-termianl，emacs等。</p>
 
-<h5>4.5.2 工作空间</h5>
+<h5 id="section-8">4.5.2 工作空间</h5>
 
 <p>将下面两项修改为顺手的快捷键</p>
 
@@ -451,7 +440,7 @@ zh_CN.UTF8 UTF8
 /apps/metacity/global_keybindings/display_desktop
 </code></pre>
 
-<h5>4.5.3 桌面显示</h5>
+<h5 id="section-9">4.5.3 桌面显示</h5>
 
 <p>在/apps/nautilus/desktop下，去掉</p>
 
@@ -462,29 +451,28 @@ trash_icon_visible
 
 <p>几个选项的勾。</p>
 
-<h5>4.5.4 panel时钟显示</h5>
-
+<h5 id="panel">4.5.4 panel时钟显示</h5>
 <p>到/apps/panel/applets下，找到时钟的applet，再在它的prefs目录下，修改
 format为custom
 custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
 
-<h4>4.6 系统菜单</h4>
+<h4 id="section-10">4.6 系统菜单</h4>
 
 <p>rxvt-unicode安装好后在系统菜单没有启动项，手动添加一个，命令输入urxvtcd，添加向导会自动找到rxvt的图标。</p>
 
-<h4>4.7 启动加载项</h4>
+<h4 id="section-11">4.7 启动加载项</h4>
 
-<p>在[System] -> [Preferences] -> [Startup Application]中添加conky的启动项，将启动命令指向.conky/conky_start.sh</p>
+<p>在[System] -&gt; [Preferences] -&gt; [Startup Application]中添加conky的启动项，将启动命令指向.conky/conky_start.sh</p>
 
-<h4>4.8 显示器/屏保</h4>
+<h4 id="section-12">4.8 显示器/屏保</h4>
 
 <p>检查显示器的刷新频率是否为60Hz，将屏保设为Floating Debian。</p>
 
-<h4>4.9 外观</h4>
+<h4 id="section-13">4.9 外观</h4>
 
 <p>设置主题，壁纸，鼠标风格。</p>
 
-<h4>4.10 个人文件</h4>
+<h4 id="section-14">4.10 个人文件</h4>
 
 <p>最后，将旧系统使用的所有文件复制到新系统home下。</p>
 
@@ -496,7 +484,7 @@ custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
 
 <p><a href="/images/uploads/debian_wheezy_on_tpX201i.jpg"><img src="/images/uploads/debian_wheezy_on_tpX201i.jpg" alt="debian wheezy on thinkpad x201i" /></a></p>
 
-<h3>5. apt-spy的使用</h3>
+<h3 id="apt-spy">5. apt-spy的使用</h3>
 
 <p>常用选项</p>
 
@@ -518,7 +506,7 @@ custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
 -h 输出帮助信息
 </code></pre>
 
-<h3>6. 分享sources.list</h3>
+<h3 id="sourceslist">6. 分享sources.list</h3>
 
 <p>由于使用了apt-spy，除了某些特定软件如virtualbox的源之外，对于一般软件包sources.list的设置变得相对将要了，这里还是分享一下我的sources.list。</p>
 
@@ -575,6 +563,7 @@ deb-src http://http.us.debian.org/debian unstable main contrib non-free
 
 ### sources.list end
 </code></pre>
+
 </div>
 
 
@@ -597,7 +586,7 @@ deb-src http://http.us.debian.org/debian unstable main contrib non-free
   
 
 
-<time datetime="2011-03-06T18:35:00+00:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+<time datetime="2011-03-06T18:35:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
       
 
 <span class="categories">

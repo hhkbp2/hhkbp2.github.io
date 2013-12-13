@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2010-01-27T11:36:00+00:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
+<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
         
       </p>
     
@@ -93,16 +93,16 @@
 
 <div class="entry-content"><p>很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。</p>
 
-<h3>1. 更换默认的splash</h3>
+<h3 id="splash">1. 更换默认的splash</h3>
 
-<h4>1) 在命令行参数加上</h4>
+<h4 id="section">1) 在命令行参数加上</h4>
 
 <pre><code>-Dosgi.splashLocation=/opt/eclipse/splash.bmp
 </code></pre>
 
 <p>或在eclipse根目录(对于网上下载的版本是根目录，对于linux各发行版下安装版本，请参照各发行版对应eclipse包)下的配置文件eclispe.ini中加入上面一行。意即指明启动splash的地址。定义osgi.splashLocation，会覆盖osgi.splashPath的定义，即用自定义的splash替换默认的那个。</p>
 
-<h4>2) 在eclipse/configuration/config.ini中加入一行</h4>
+<h4 id="eclipseconfigurationconfigini">2) 在eclipse/configuration/config.ini中加入一行</h4>
 
 <pre><code>osgi.splashLocation = ${你的splash路径}
 </code></pre>
@@ -119,7 +119,7 @@
 <pre><code>osgi.splashLocation = D:/software/eclipse/splash.bmp
 </code></pre>
 
-<h4>3) 直接替换原来的splash图片文件</h4>
+<h4 id="splash-1">3) 直接替换原来的splash图片文件</h4>
 
 <p>参考在config.ini中osgi.splashPath定义，找到默认splash图片文件在文件系统中的位置。如在ubuntu 8.04下的config.ini有</p>
 
@@ -133,12 +133,12 @@
 
 <p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
 
-<p>效果见截图：<br/>
+<p>效果见截图：<br />
 <img src="/images/uploads/eclipse_splash.jpg" alt="eclipse splash screenshot" /></p>
 
-<h3>2. 制作个性的splash</h3>
+<h3 id="splash-2">2. 制作个性的splash</h3>
 
-<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的&#8230;&#8230;Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
+<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的……Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
 
 <p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
 
@@ -165,7 +165,7 @@
   
 
 
-<time datetime="2010-01-27T11:36:00+00:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
+<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
       
 
 <span class="categories">

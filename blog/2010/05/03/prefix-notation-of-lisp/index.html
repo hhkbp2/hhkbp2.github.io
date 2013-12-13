@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="就像《Writing Emacs Extensions》(Bob Glickstein, O&#8217;REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。 1. 简化表达式的写法 如对5个数求和，c的写法为 a + b + c + d &hellip;">
+  <meta name="description" content="就像《Writing Emacs Extensions》(Bob Glickstein, O’REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。 1. 简化表达式的写法 如对5个数求和，c的写法为 a + b + c + d + e &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,16 +84,16 @@
   
 
 
-<time datetime="2010-05-03T13:12:00+00:00" pubdate data-updated="true">May 3<span>rd</span>, 2010</time>
+<time datetime="2010-05-03T13:12:00+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2010</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>就像《Writing Emacs Extensions》(Bob Glickstein, O&#8217;REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。</p>
+<div class="entry-content"><p>就像《Writing Emacs Extensions》(Bob Glickstein, O’REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。</p>
 
-<h4>1. 简化表达式的写法</h4>
+<h4 id="section">1. 简化表达式的写法</h4>
 
 <p>如对5个数求和，c的写法为</p>
 
@@ -105,7 +105,7 @@
 <pre><code>(+ a b c d e)
 </code></pre>
 
-<h4>2. 括号的配对定义了计算的次序，不需要另外定义运算的优先级</h4>
+<h4 id="section-1">2. 括号的配对定义了计算的次序，不需要另外定义运算的优先级</h4>
 
 <p>相信很多c或c++程序员都记不住全部运算符的优先级。例如，在语句</p>
 
@@ -124,7 +124,7 @@
 
 <p>是不一样的。</p>
 
-<h4>3. 运算符与函数有统一的语法表示</h4>
+<h4 id="section-2">3. 运算符与函数有统一的语法表示</h4>
 
 <p>在c语言中，函数调用的语法与运算符(除了sizeof)不同。例如</p>
 
@@ -150,7 +150,7 @@
 
 <p>参数列表中的逗号语法就不需要。类似于逗号运算符的语法表达可使用progn。</p>
 
-<p>简而言之，lisp的语法表达能力相对其他过程式编程语言(如c，或c++，java的对应这部分)并不差&#8211;当然c有结构，c++，java都有面向对象，还有佩刀战斗机泛型&#8211;其简单一致的语法降低了表示上的复杂度。可使得程序员可以专注于问题域本身，将更多的时间用于分析与设计，而不是语言本身。对比地看，c++其一为人所诟病之处就在于其语言自身复杂度已经很高。</p>
+<p>简而言之，lisp的语法表达能力相对其他过程式编程语言(如c，或c++，java的对应这部分)并不差–当然c有结构，c++，java都有面向对象，还有佩刀战斗机泛型–其简单一致的语法降低了表示上的复杂度。可使得程序员可以专注于问题域本身，将更多的时间用于分析与设计，而不是语言本身。对比地看，c++其一为人所诟病之处就在于其语言自身复杂度已经很高。</p>
 
 <p>但是统一的或者说是到处使用的括号也使得lisp的代码布满括号，难以阅读。没有括号配对高亮功能的帮助，阅读长长的lisp程序可以说是个恶梦！</p>
 </div>
@@ -175,7 +175,7 @@
   
 
 
-<time datetime="2010-05-03T13:12:00+00:00" pubdate data-updated="true">May 3<span>rd</span>, 2010</time>
+<time datetime="2010-05-03T13:12:00+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2010</time>
       
 
 <span class="categories">

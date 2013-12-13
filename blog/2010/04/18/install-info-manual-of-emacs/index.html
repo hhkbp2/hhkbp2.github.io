@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2010-04-18T08:29:00+00:00" pubdate data-updated="true">Apr 18<span>th</span>, 2010</time>
+<time datetime="2010-04-18T08:29:00+08:00" pubdate data-updated="true">Apr 18<span>th</span>, 2010</time>
         
       </p>
     
@@ -94,18 +94,21 @@
 <div class="entry-content"><p>发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下：</p>
 
 <ol>
-<li><p>到GNU官网下载info形式的manual,感兴趣的有</p>
+  <li>
+    <p>到GNU官网下载info形式的manual,感兴趣的有</p>
 
-<p> GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br/>
- Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br/>
- Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)</p></li>
-<li><p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p></li>
+    <p>GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br />
+ Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br />
+ Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)  </p>
+  </li>
+  <li>
+    <p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p>
+  </li>
 </ol>
-
 
 <p>[条目名]: [对应的info文件或包(可选的子条目名)].  [条目描述]</p>
 
-<p>条目名后面要带一个&#8221;:&#8221;号，文件或包名后面要带一个&#8221;.&#8221;号。如emacs faq的条目为</p>
+<p>条目名后面要带一个”:”号，文件或包名后面要带一个”.”号。如emacs faq的条目为</p>
 
 <pre><code>* Emacs FAQ: (emacs-23/efaq).   Frequently Asked Questions about Emacs.
 </code></pre>
@@ -134,6 +137,7 @@ export INFOPATH
 
 <pre><code>$ install-info --dir-file=dir --info-file=filename.info --section=section-name --name=entry-name --description=entry-desc
 </code></pre>
+
 </div>
 
 
@@ -156,7 +160,7 @@ export INFOPATH
   
 
 
-<time datetime="2010-04-18T08:29:00+00:00" pubdate data-updated="true">Apr 18<span>th</span>, 2010</time>
+<time datetime="2010-04-18T08:29:00+08:00" pubdate data-updated="true">Apr 18<span>th</span>, 2010</time>
       
 
 <span class="categories">

@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2013-02-10T20:15:00+00:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+<time datetime="2013-02-10T20:15:00+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
         
       </p>
     
@@ -93,25 +93,24 @@
 
 <div class="entry-content"><p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
 
-<h3>实践1. 将thrift看作应用的RPC胶水</h3>
+<h3 id="thriftrpc">实践1. 将thrift看作应用的RPC胶水</h3>
 
 <p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
 
 <p>本文的重点在Thrift，所以集中笔墨讨论它。Thrift的RPC框架具有的如下几个特点：</p>
 
 <ol>
-<li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
-<li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
-<li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
-<li>内部实现层次分明，结构清晰，代码量不大</li>
+  <li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
+  <li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
+  <li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
+  <li>内部实现层次分明，结构清晰，代码量不大</li>
 </ol>
-
 
 <p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
 
-<h3>实践2. 使用合适的数据类型</h3>
+<h3 id="section">实践2. 使用合适的数据类型</h3>
 
-<h4>2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
+<h4 id="blobbinarystring">2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
 
 <p>thrift支持两种字符串类型：
 1. string类型，类似编程语言中常用的字符串类型，或Mysql中的VARCHAR/TEXT字符串类型，用于表示某种语言(字符集)特定编码的字符串
@@ -134,17 +133,20 @@ string          std::string     java.nio.ByteBuffer    str
 <p>其中包括C++的服务器端代码，还有C++, Java, Python 3种语言写的客户端。服务器端在收到客户端的无参数RPC请求后，向客户端发送一个值为214的字符，早于它不是ascii字符集范围内的字符，它表示的字符就由编码方式决定。3个客户端的输出对比如下：</p>
 
 <ol>
-<li><p>C++</p>
+  <li>
+    <p>C++</p>
 
-<pre><code> $ ./cpp_client
+    <pre><code> $ ./cpp_client
  ./cpp_client started.
  get char in string: -15
  get char in binary: -15
  done.
-</code></pre></li>
-<li><p>Java</p>
+</code></pre>
+  </li>
+  <li>
+    <p>Java</p>
 
-<pre><code> $ make run-java-client
+    <pre><code> $ make run-java-client
  java \-classpath \
  /usr/local/lib/libthrift.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-jdk14.jar:/usr/share/java/slf4j-simple.jar:/usr/share/java/slf4j-jcl.jar:/usr/share/java/slf4j-nop.jar:/home/wenwenliu/pro/thrift/schargen/gen-java:/home/wenwenliu/pro/thrift/schargen \
  Client
@@ -157,18 +159,20 @@ string          std::string     java.nio.ByteBuffer    str
  get char in binary:
  -15
  done.
-</code></pre></li>
-<li><p>Python</p>
+</code></pre>
+  </li>
+  <li>
+    <p>Python</p>
 
-<pre><code> $ make run-py-client
+    <pre><code> $ make run-py-client
  python ./client.py
  ./client.pystarted.
  'get char in string: \xf1'
  'get char in binary: \xf1'
  done.
-</code></pre></li>
+</code></pre>
+  </li>
 </ol>
-
 
 <p>从输出中可以看到，同一个字符在Python的客户端值与服务器端一样，C++客户端打印出来的值是服务器值的二进制补码值，但在Java客户端，字符值受到编码方式的影响，经过编码方式演绎后的字符值与原来的字符值并不一致。而且在几种常见的编码方式下都得不到原来的字符值。</p>
 
@@ -176,19 +180,22 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
 
-<h3>实践3. Thrift里面的同步与异步</h3>
+<h3 id="thrift">实践3. Thrift里面的同步与异步</h3>
 
 <p>thrift里面常见的几种同步异步用法：</p>
 
 <ol>
-<li><p>同步服务器，同步客户端，同步调用，无异步<br/>
-最常用的默认方式。</p></li>
-<li><p>同步服务器，同步客户端，异步调用<br/>
-用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p></li>
-<li><p>同步客户端，异步服务器端</p></li>
-<li>异步客户端，异步服务器端</li>
+  <li>
+    <p>同步服务器，同步客户端，同步调用，无异步<br />
+最常用的默认方式。</p>
+  </li>
+  <li>
+    <p>同步服务器，同步客户端，异步调用<br />
+用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p>
+  </li>
+  <li>同步客户端，异步服务器端</li>
+  <li>异步客户端，异步服务器端</li>
 </ol>
-
 
 <p>由于客户端和服务器端在实现上是相互独立的，所以两者在同步或异步的选择上也是独立的。这里举例说明如何编写异步服务器和异步客户端。示例代码如下：</p>
 
@@ -196,7 +203,7 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
 
-<h3>实践4. thrift内部框架一瞥</h3>
+<h3 id="thrift-1">实践4. thrift内部框架一瞥</h3>
 
 <p>按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
 
@@ -217,8 +224,9 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>TODO 详述各层源代码实现</p>
 
-<p><em>注：</em><br/>
+<p><em>注：</em><br />
 <a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
+
 </div>
 
 
@@ -241,7 +249,7 @@ string          std::string     java.nio.ByteBuffer    str
   
 
 
-<time datetime="2013-02-10T20:15:00+00:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+<time datetime="2013-02-10T20:15:00+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
       
 
 <span class="categories">

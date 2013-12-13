@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处&#8212;-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt- &hellip;">
+  <meta name="description" content="kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处—-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,14 +84,14 @@
   
 
 
-<time datetime="2011-03-03T21:15:00+00:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
+<time datetime="2011-03-03T21:15:00+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处&#8212;-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt-unicode被收录在 debian/ubuntu 的源中，安装只需在管理员权限下输入命令：</p>
+<div class="entry-content"><p>kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处—-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt-unicode被收录在 debian/ubuntu 的源中，安装只需在管理员权限下输入命令：</p>
 
 <pre><code># aptitude install rxvt-unicode
 </code></pre>
@@ -224,25 +224,25 @@ URxvt.color15:          #EEEEEC
 <pre><code>Rxvt.geometry:          80x24+100+100
 </code></pre>
 
-<p>visualBell 与 bash, cygwin 的闪屏效果一致(还有下面介绍的 screen 也支持此功能)。<br/>
-termName 表示终端名字，取 rxvt 使之与非 unicode 版本的一致(有时某些环境变量如 PS1 的设置即与此名字相关，如下面介绍的 screen)。进入 rxvt-unicode,环境变量 $TERM 即为所设置的 rxvt。</p>
+<p>visualBell 与 bash, cygwin 的闪屏效果一致(还有下面介绍的 screen 也支持此功能)。<br />
+termName 表示终端名字，取 rxvt 使之与非 unicode 版本的一致(有时某些环境变量如 PS1 的设置即与此名字相关，如下面介绍的 screen)。进入 rxvt-unicode,环境变量 $TERM 即为所设置的 rxvt。  </p>
 
-<p>配色方面，除了一般的背景色，前景色，光标颜色之外，rxvt-unicode 还可以特别地设置粗体，斜体，超链接，下划线等颜色，所以在 rxvt-unicode 里，你可以有一个彩色的 man 手册页(很受欢迎的一个特性)。</p>
+<p>配色方面，除了一般的背景色，前景色，光标颜色之外，rxvt-unicode 还可以特别地设置粗体，斜体，超链接，下划线等颜色，所以在 rxvt-unicode 里，你可以有一个彩色的 man 手册页(很受欢迎的一个特性)。  </p>
 
-<p>滚动条方面，设置了放在右侧，当有输出或按下键盘时，即自动滚动到最下端(与标准的终端如 gnome-terminal 行动一致)。不过不显示滚动条。即使不显示，按键后自动滚动到最下端的行为还是有效的。设置了鼠标闪烁。</p>
+<p>滚动条方面，设置了放在右侧，当有输出或按下键盘时，即自动滚动到最下端(与标准的终端如 gnome-terminal 行动一致)。不过不显示滚动条。即使不显示，按键后自动滚动到最下端的行为还是有效的。设置了鼠标闪烁。  </p>
 
-<p>编码与 locale 设置为 UTF-8。将 inheritPixmap 打开，与 transparency 结合可以让背景透明，并设置其透明度。也有其它选项，可以将某张图片应用为背景。输出缓冲为 1000 行。打开 perl 扩展，使得在单击显示的超链接可以直接打开浏览器浏览。rxvt-unicode 也直接支持多标签，只要打开相应的 perl 扩展即可。不过我试了一下，鼠标反应不好，所以没有打开。我还是习惯搭配 screen 来模拟多标签。</p>
+<p>编码与 locale 设置为 UTF-8。将 inheritPixmap 打开，与 transparency 结合可以让背景透明，并设置其透明度。也有其它选项，可以将某张图片应用为背景。输出缓冲为 1000 行。打开 perl 扩展，使得在单击显示的超链接可以直接打开浏览器浏览。rxvt-unicode 也直接支持多标签，只要打开相应的 perl 扩展即可。不过我试了一下，鼠标反应不好，所以没有打开。我还是习惯搭配 screen 来模拟多标签。  </p>
 
-<p>字体方面，是 rxvt-unicode 多为人诟病的一个方面。首先，加入 X 字体后使得加载速度变慢(一般用户感觉不到，即使将 preeditType 设为 Root)，有人说小字体用点阵，大字体用 X 字体比较美观，不过外观这东西见人见智。我统一用 X 字体，这里使用的就是传说中的 Vera Sans 圆体。</p>
+<p>字体方面，是 rxvt-unicode 多为人诟病的一个方面。首先，加入 X 字体后使得加载速度变慢(一般用户感觉不到，即使将 preeditType 设为 Root)，有人说小字体用点阵，大字体用 X 字体比较美观，不过外观这东西见人见智。我统一用 X 字体，这里使用的就是传说中的 Vera Sans 圆体。  </p>
 
 <p>更改配置之后，运行命令行</p>
 
 <pre><code>$ xrdb ./.Xresources
 </code></pre>
 
-<p>使之生效。</p>
+<p>使之生效。  </p>
 
-<p>GNU screen 是命令行下的窗口管理器，它主要功能包括命令行会话管理，多标签环境模拟，它在 debian/ubuntu 下的安装也很方便：</p>
+<p>GNU screen 是命令行下的窗口管理器，它主要功能包括命令行会话管理，多标签环境模拟，它在 debian/ubuntu 下的安装也很方便：  </p>
 
 <pre><code># aptitude install screen
 </code></pre>
@@ -340,7 +340,7 @@ bindkey -k F2 next
 # .screenrc ends here
 </code></pre>
 
-<p>caption是按照 80 个字符宽来设定的。region 函数键设定与 Emacs 一致（主要是为了方便记忆，我没有在 screen 中使用 Emacs 的习惯），可惜只能横向分割窗口，不能纵向分割。快捷键对照如下：</p>
+<p>caption是按照 80 个字符宽来设定的。region 函数键设定与 Emacs 一致（主要是为了方便记忆，我没有在 screen 中使用 Emacs 的习惯），可惜只能横向分割窗口，不能纵向分割。快捷键对照如下：  </p>
 
 <pre><code>F9 -- 新建 screen 会话
 F10 -- 关闭当前会话
@@ -374,7 +374,7 @@ F12 -- 移动到下一个会话
   
 
 
-<time datetime="2011-03-03T21:15:00+00:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
+<time datetime="2011-03-03T21:15:00+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
       
 
 <span class="categories">

@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2013-01-31T20:01:00+00:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+<time datetime="2013-01-31T20:01:00+08:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
         
       </p>
     
@@ -102,16 +102,17 @@
 <p>我经常用到的终端配置，主要有如下方面：语言环境，字符集，字体，色彩支持，编辑器。</p>
 
 <ul>
-<li><p>语言环境</p>
+  <li>
+    <p>语言环境</p>
 
-<p>  在Debian/Ubuntu中可以通过命令</p>
+    <p>在Debian/Ubuntu中可以通过命令  </p>
 
-<pre><code>  sudo dpkg-reconfigure locales
+    <pre><code>  sudo dpkg-reconfigure locales
 </code></pre>
 
-<p>  来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有</p>
+    <p>来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有  </p>
 
-<pre><code>  # 设置为中文环境
+    <pre><code>  # 设置为中文环境
   export LC_ALL=zh_CN.utf8
   export LANG=zh_CN.utf8
   export LANGUAGE=zh_CN:zh
@@ -122,39 +123,48 @@
   export LANGUAGE=en_US:en:zh_CN:zh
 </code></pre>
 
-<p>  将配置添加到.bashrc，source配置或重新登录终端才生效。</p></li>
-<li><p>字符集</p>
+    <p>将配置添加到.bashrc，source配置或重新登录终端才生效。</p>
+  </li>
+  <li>
+    <p>字符集</p>
 
-<p>  能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p></li>
-<li><p>字体</p>
+    <p>能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p>
+  </li>
+  <li>
+    <p>字体</p>
 
-<p>  推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
+    <p>推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
 
-<pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
+    <pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
   0Oo      &lt;-- 数字0，大小写字母o
   `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
 </code></pre>
 
-<p>  Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
+    <p>Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
 
-<pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
+    <pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
   Ubuntu Mono    --- Ubuntu的开源字体
 </code></pre>
 
-<p>  当然，每个人的喜好审美不同，对字体的偏好也不同。</p></li>
-<li><p>色彩支持</p>
+    <p>当然，每个人的喜好审美不同，对字体的偏好也不同。</p>
+  </li>
+  <li>
+    <p>色彩支持</p>
 
-<p>  无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
+    <p>无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
 
-<pre><code>  export TERM=xterm-256color
+    <pre><code>  export TERM=xterm-256color
 </code></pre>
 
-<p>  就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
+    <p>就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
 
-<p>  打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p></li>
-<li><p>编辑器</p>
+    <p>打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p>
+  </li>
+  <li>
+    <p>编辑器</p>
 
-<p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
+    <p>在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p>
+  </li>
 </ul>
 
 </div>
@@ -179,7 +189,7 @@
   
 
 
-<time datetime="2013-01-31T20:01:00+00:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+<time datetime="2013-01-31T20:01:00+08:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
       
 
 <span class="categories">

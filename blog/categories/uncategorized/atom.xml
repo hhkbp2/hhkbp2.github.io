@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Uncategorized | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/uncategorized/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-11-16T09:22:59+00:00</updated>
+  <updated>2013-12-14T04:56:40+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
     <link href="http://clisp.github.com/blog/2012/07/07/hello-world/"/>
-    <updated>2012-07-07T15:37:00+00:00</updated>
+    <updated>2012-07-07T15:37:00+08:00</updated>
     <id>http://clisp.github.com/blog/2012/07/07/hello-world</id>
     <content type="html"><![CDATA[<p>Hello World!</p>
 ]]></content>
@@ -25,7 +25,7 @@
   <entry>
     <title type="html"><![CDATA[入手神器hhkb]]></title>
     <link href="http://clisp.github.com/blog/2012/06/24/get-one-hhkb/"/>
-    <updated>2012-06-24T21:39:45+00:00</updated>
+    <updated>2012-06-24T21:39:45+08:00</updated>
     <id>http://clisp.github.com/blog/2012/06/24/get-one-hhkb</id>
     <content type="html"><![CDATA[<p>蛋痛过度，一时头脑发热，订了一把hhkb pro2。</p>
 
@@ -37,12 +37,12 @@
 
 <p>因为我一直用linux和emacs，所以hhkb的键位也很容易适应。control键换到caps位置已经用了好几年，早就习惯了，F区也用得不多，方向键的话，除了emacs，firefox, foxit pdf reader外，有时还是需要用一下，把后面的dip开关的sw4打开就好。经过一轮调教后，最后6个dip成了这样：</p>
 
-<p>sw1, on<br/>
-sw2, off sw1和sw2形成lite ext模式<br/>
-sw3, on backspace常用一些<br/>
-sw4, on 左手也有fn了，这样左右手合作按方向键或page up, page down键就比较方便了<br/>
-sw5, on alt键大一些好，因为在emacs里面它就是meta<br/>
-sw6, off 没用到wake up功能</p>
+<p>sw1, on<br />
+sw2, off sw1和sw2形成lite ext模式<br />
+sw3, on backspace常用一些<br />
+sw4, on 左手也有fn了，这样左右手合作按方向键或page up, page down键就比较方便了<br />
+sw5, on alt键大一些好，因为在emacs里面它就是meta<br />
+sw6, off 没用到wake up功能  </p>
 
 <p>hhkb的backspace键下移到了原来反斜杠的位置，其实这样布局更科学，因为用backspace的次数远远多于反斜杠，但开始的时候还是会打错，特别是在盲打的情况下，很多时候都条件反射的把小指移到最右上角的位置。至于hhkb要用fn来触发方向键或功能键，个人觉得相当的自然，就像C-n和Fn-/没太多的区别，emacs党你们都懂的。</p>
 
@@ -63,15 +63,15 @@ sw6, off 没用到wake up功能</p>
   <entry>
     <title type="html"><![CDATA[金杯月明夜，与君醉梦乡]]></title>
     <link href="http://clisp.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight/"/>
-    <updated>2012-02-19T01:41:44+00:00</updated>
+    <updated>2012-02-19T01:41:44+08:00</updated>
     <id>http://clisp.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight</id>
-    <content type="html"><![CDATA[<p>  ——读乔治.R.R.马丁的《肉院情人》</p>
+    <content type="html"><![CDATA[<p>——读乔治.R.R.马丁的《肉院情人》</p>
 
 <p>克劳修斯告诉我们，说我们生活所在的这个宇宙，是会热寂的，物体从高温会变低温，从有序变无序，总之一切都在衰老变坏，一去不返无可挽留。但这个宇宙中有很多事情看起来恰恰向着相反的方向发展，比如进化，又比如爱情。</p>
 
-<p>小时候看粤剧《帝女花》，不明白为什么一对夫妻好端端的要一起喝毒酒寻死，问周围的大人也没问出个详细究竟——很多人听粤剧都并不那么深究内里的剧情。后来年岁渐长，慢慢积累多了书本知识人情世故，才懂得在那国愁家恨世事变迁之下，一份爱情最后也竟会变成两杯毒酒，一段唱词。剧中最惊艳的是，那红装妖娆的长平公主一手抛袖，一手甩袖，长衣飘舞，台上幽幽唱道，"落花满天蔽月光，借一杯附荐凤台上..."，教人不禁黯然动容，原来殉情也可以如此优雅动人。</p>
+<p>小时候看粤剧《帝女花》，不明白为什么一对夫妻好端端的要一起喝毒酒寻死，问周围的大人也没问出个详细究竟——很多人听粤剧都并不那么深究内里的剧情。后来年岁渐长，慢慢积累多了书本知识人情世故，才懂得在那国愁家恨世事变迁之下，一份爱情最后也竟会变成两杯毒酒，一段唱词。剧中最惊艳的是，那红装妖娆的长平公主一手抛袖，一手甩袖，长衣飘舞，台上幽幽唱道，”落花满天蔽月光，借一杯附荐凤台上…“，教人不禁黯然动容，原来殉情也可以如此优雅动人。</p>
 
-<p>爱情总是美好的，但美好的爱情亦难长久，特别是在乱世动荡之中。像我们一般的普通人，既不是生逢乱世，也没能经历跌荡起伏的人生，只是一个平凡得不能再平凡，在21世纪朝九晚五或者更糟糕的朝九晚九的小白领，又如何能遇上能如此美好，轰轰烈烈的爱情？倘若遇上太现实的女生，跟你说"有房有车吗？只要你是高帅富，我就喜欢"，也只能哑然失笑。纯粹的美好爱情，也许只能在大戏里面遥远地感受一下而已了。</p>
+<p>爱情总是美好的，但美好的爱情亦难长久，特别是在乱世动荡之中。像我们一般的普通人，既不是生逢乱世，也没能经历跌荡起伏的人生，只是一个平凡得不能再平凡，在21世纪朝九晚五或者更糟糕的朝九晚九的小白领，又如何能遇上能如此美好，轰轰烈烈的爱情？倘若遇上太现实的女生，跟你说”有房有车吗？只要你是高帅富，我就喜欢”，也只能哑然失笑。纯粹的美好爱情，也许只能在大戏里面遥远地感受一下而已了。</p>
 
 <p>所以说，无论什么时代，爱情都是很难寻得的。</p>
 
@@ -99,7 +99,7 @@ sw6, off 没用到wake up功能</p>
 
 <p>PS: 最后录一段文中的文字</p>
 
-<p>"  '你很幸运。'有时他这么对她说...'非常幸运。他们骗你说，世上有种东西叫爱情。他们教你去做傻乎乎的美梦，要你去相信梦，去追梦。他们告诉你，你，以及世上所有的人，都有命中注定的伴侣。但这是一派胡言。宇宙并不公平，从来就没有公平过...这是一个绝望的谎言，绝望的人们用它来互相欺骗，并且试图欺骗自己......'  "</p>
+<p>“  ‘你很幸运。’有时他这么对她说…‘非常幸运。他们骗你说，世上有种东西叫爱情。他们教你去做傻乎乎的美梦，要你去相信梦，去追梦。他们告诉你，你，以及世上所有的人，都有命中注定的伴侣。但这是一派胡言。宇宙并不公平，从来就没有公平过…这是一个绝望的谎言，绝望的人们用它来互相欺骗，并且试图欺骗自己……‘  “</p>
 
 <p>再PS：迷幻汤上有了《肉院情人》的全文，见<a href="http://mihuan.yo2.cn/archives/660739">这里</a></p>
 ]]></content>
@@ -108,24 +108,26 @@ sw6, off 没用到wake up功能</p>
   <entry>
     <title type="html"><![CDATA[彪悍的短片不需要解释]]></title>
     <link href="http://clisp.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words/"/>
-    <updated>2011-09-23T00:29:50+00:00</updated>
+    <updated>2011-09-23T00:29:50+08:00</updated>
     <id>http://clisp.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words</id>
     <content type="html"><![CDATA[<p>老罗说彪悍的人生不需要解释，彪悍的短片也不需要。转<a href="http://v.youku.com/v_show/id_XMzA2MTg0MzA4.html" title="短片《小马》">幸福59厘米之老罗《小马》</a>。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[那些银幕幻影，那些曾经年岁]]></title>
     <link href="http://clisp.github.com/blog/2011/09/04/those-movies-those-days/"/>
-    <updated>2011-09-04T17:56:33+00:00</updated>
+    <updated>2011-09-04T17:56:33+08:00</updated>
     <id>http://clisp.github.com/blog/2011/09/04/those-movies-those-days</id>
-    <content type="html"><![CDATA[<p>今天在微博上看到朋友转播的消息中，有一条纪念"九十年代香港电影古装篇"的视频，觉得不错，特意拿出来分享一下。</p>
+    <content type="html"><![CDATA[<p>今天在微博上看到朋友转播的消息中，有一条纪念”九十年代香港电影古装篇”的视频，觉得不错，特意拿出来分享一下。</p>
 
 <p><a href="http://www.tudou.com/programs/view/HyyXvWRjX-Q/?resourceId=0_06_02_99?fr=2">九十年代香港电影古装篇</a></p>
 
 <p><a href="http://www.tudou.com/programs/view/A6ZFCWWbfdw/?resourceId=0_06_02_99?fr=2">九十年代香港电影时装篇</a></p>
 
 <p>这些经典的香港电影，曾经陪伴了我们这一代80后的成长。的确让人怀念，不能不给力转播。</p>
+
 ]]></content>
   </entry>
   

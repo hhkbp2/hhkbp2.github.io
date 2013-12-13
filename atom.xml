@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-11-16T09:22:59+00:00</updated>
+  <updated>2013-12-14T04:56:40+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -14,9 +14,27 @@
 
   
   <entry>
+    <title type="html"><![CDATA[冬夜]]></title>
+    <link href="http://clisp.github.com/blog/2013/12/14/river-and-green-light/"/>
+    <updated>2013-12-14T02:23:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2013/12/14/river-and-green-light</id>
+    <content type="html"><![CDATA[<p>王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩，与拥挤的城市不同，家乡总是有足够的空地来容纳荒草，以及草地中所有的蝗，蟋，蛙，各种小虫以及它们生存的声息。阡陌交通，鸡犬相闻，那是卡尔维诺的马可波罗从来没有到过的地方，无论在版图中还是在脚底下。</p>
+
+<p>暮春时候的小雨总是很轻，仿佛飘浮在地球引力之外，没有重量，也压不弯长草绿叶，写雨的文字也变得轻了，仿佛入秋后露珠满天。村野之中，时光的节奏也并不总是是时分秒为单位，时节来去自有其脚步。山川沉默，田园如旧，这片土地上有人发过唐朝的梦，梦里有云海长风，有烟花三月，梦只是蝴蝶，飘忽且闪烁，宛如夜航船的灯火。盛唐之后，写诗的还大有人在，却已经没有人再读诗，不变的是青梅与宫灯，乙醇与山水，江河中流淌着岁月的唱词：红颜易老，风尘迷眼。</p>
+
+<p>禅师有言，思者即念，无增无减。光线是会随角度的变化而变化的，就像黑漆漆的雨夜可以浓也可以淡，并不仅属于玻璃窗上的雨滴。</p>
+
+<p>那个成语说，枕一枕黄梁，醒来就已经是重生。魂来枫林青，魂返关塞黑，每个故事都有着前提后续，在华丽的世界跳脱轮回，却只是奏鸣曲的一个小音符。很多写完了的故事都好像还有下文。</p>
+
+<p>睡眠如同一条大河蜿蜒而来，由远而近，种种的片断记忆如水气弥漫。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[The Emacs 24 Rises]]></title>
     <link href="http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises/"/>
-    <updated>2013-08-18T15:06:00+00:00</updated>
+    <updated>2013-08-18T15:06:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises</id>
     <content type="html"><![CDATA[<p>最近发现旧邮件地址的收件箱里有网友的邮件，说想要在<a href="http://clisp.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs/">Emacs的Matrix屏保</a><code>zone-matrix</code>加入日文支持，但修改过代码并不成功云云。这份代码从2年多之前写好后我就再没怎么看过，由于它运行的时候需要刷新屏幕，比较消耗资源，我也很少启用。现在回头看看那时写的代码，写得真是幼稚，可能从现在算起过几年后再回头看看现在写的代码，也会产生类似的感觉，很有可能。后来我趁周末空闲时间把<code>zone-matrix</code>重构了一遍，并添加了对日文字符集的支持。</p>
 
@@ -29,17 +47,20 @@
 <p>有了包管理器，<a href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public">我的配置</a>中<code>import</code>目录的很多包都可以从包管理器中checkout最新的版本了。于是我梳理了dired相关几个包的关系，更新了<code>dired+</code>, <code>dired-details</code>, <code>dired-details+</code>，清掉了没用的<code>dired-single</code>和<code>dired-tar</code>，添加了<code>dired-sort-menu</code>及<code>dired-sort-menu+</code>。</p>
 
 <p>Python的开发方面，则添加了<code>jedi</code>，<code>pylint</code>和<code>pep8</code>(尽管比较少用)，<code>jedi</code>大大的提升了Python开发时自动补全的用户体验，而<code>ropemacs</code>现在我只用来做重构。另外引入了<code>undo-tree</code>，<code>ido-complete-space-or-hyphen</code>, <code>helm</code>, <code>smex</code>, <code>fiplr</code>等一些包，<code>ido</code>, <code>helm</code>和<code>smex</code>构成了一个方便强大的组合。更新了Emacs 24之后，总体感觉效率有不少提高，同时也清理了一些过时的配置。之前在我的笔记本和各个公司机器之间通过bitbucket repo同步的配置，也都直接升级到24，放弃兼容23了。因为老的23版本没有包管理器，我懒得一个一个机器安装Emacs 24，也懒得把更新/添加的包同步过去，就让它们保持原样不再改动。就像我之前所说的，如果版本兼容变得比较麻烦，我会选择简单干脆的做法——那就是不做兼容。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[青春期的非典型事件]]></title>
     <link href="http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty/"/>
-    <updated>2013-08-17T21:08:00+00:00</updated>
+    <updated>2013-08-17T21:08:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty</id>
-    <content type="html"><![CDATA[<blockquote><p>《转山》的剧情简介，引用自<a href="http://movie.douban.com/subject/5318669/">豆瓣</a>：<br/>
-　　本片改编自同名畅销书。<br/>
-　　台湾青年张书豪（张书豪 饰）在大四毕业时，遭遇了哥哥的亡故，正处在迷茫期的书豪意外发现了哥哥留下的骑行日志，这个不骑车的青年萌生了骑行滇藏线替哥哥完成未竟心愿的想法，在经历了女友的离去后，他义务反顾奔赴丽江。在路上，张书豪结识了来自云南的骑行者李晓川（李晓川 饰），并结伴前往拉萨。第五天，他们来到德钦，李晓川因无缘得见云雾中的梅里十三峰而沮丧不堪；第六天，他们住在盐井的藏民家中，书豪与淳朴的藏民依依惜别；第七天，他们在曲孜卡的山路艰难前行，李晓川意外坠崖重伤。冬季的滇藏线格外艰险，而剩下的路，张书豪必须独自前行……</p></blockquote>
+    <content type="html"><![CDATA[<blockquote>
+  <p>《转山》的剧情简介，引用自<a href="http://movie.douban.com/subject/5318669/">豆瓣</a>：<br />
+　　本片改编自同名畅销书。<br />
+　　台湾青年张书豪（张书豪 饰）在大四毕业时，遭遇了哥哥的亡故，正处在迷茫期的书豪意外发现了哥哥留下的骑行日志，这个不骑车的青年萌生了骑行滇藏线替哥哥完成未竟心愿的想法，在经历了女友的离去后，他义务反顾奔赴丽江。在路上，张书豪结识了来自云南的骑行者李晓川（李晓川 饰），并结伴前往拉萨。第五天，他们来到德钦，李晓川因无缘得见云雾中的梅里十三峰而沮丧不堪；第六天，他们住在盐井的藏民家中，书豪与淳朴的藏民依依惜别；第七天，他们在曲孜卡的山路艰难前行，李晓川意外坠崖重伤。冬季的滇藏线格外艰险，而剩下的路，张书豪必须独自前行……</p>
+</blockquote>
 
 <p>写下这个标题之后，我踌躇了一阵，因为这个标题其实起得并不准确，“青春期”，在我的理解中，或者只适合描写那些未到20岁还在穿校服的90后小男孩或者小女孩，而我要写的，不是他们，而是我们，80后的这一部分人。</p>
 
@@ -54,22 +75,25 @@
 <p>直到看了《转山》这部电影，我才有一点明白。年轻的时候，不做一些特别的事情，不做一些以后再也不可能做的事情，不做一些不去做以后就会后悔的事情，感觉是有所缺失的。青春，就是一个人燃烧的时候。</p>
 
 <p>我想，在骑行去往拉萨的路上，无论多么的艰苦，他一定会快乐而且享受地完成全程，这路途中的美景，只有他自己才能完全领略了。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[别了，Linux桌面]]></title>
     <link href="http://clisp.github.com/blog/2013/08/11/bye-linux-desktop/"/>
-    <updated>2013-08-11T12:06:00+00:00</updated>
+    <updated>2013-08-11T12:06:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/08/11/bye-linux-desktop</id>
-    <content type="html"><![CDATA[<blockquote><p>　　“我和你一起去。”<br/>
-　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br/>
-　　“请你别这么做。我会去求普拉查，我会去……”<br/>
-　　斋迪打断了她。如果在从前，他会允许她在他面前丢脸，会允许她的歉意像雨季的瀑布那样喷涌而出。但现在，他不会这样做。<br/>
-　　“我没有别的期望了，”他说，“我很满足。我会到贸易部去，让他们付出代价。这一切都是因缘注定的。我本来就不可能永远拥有查雅，她也不可能永远拥有我。但我想，只要把握好自己的人生，我们仍旧可以做到一些事。我们都有自己的责任，坎雅，无论是对上，还是对下。”他耸耸肩，“我在一生中扮演了很多角色。我曾是一个男孩、一个泰拳冠军、一个父亲、一个白衬衫。”他瞥了一眼身上的白色僧袍，“甚至还是一个僧侣。”他咧嘴一笑，“不用担心我。在我丢弃这一世的生命去见查雅之前，我还有一些事情要做。”他努力让自己的声音显得坚强，“我还有未尽的事业。在我完成它之前，我不会停下脚步。”<br/>
-　　坎雅看着他，眼中充满痛苦，“你不能一个人去。”<br/>
-　　“对，我会带上颂猜。”<br/>
-　　　　　　　　　　　　　　　　　　　　——引用自《发条女孩》</p></blockquote>
+    <content type="html"><![CDATA[<blockquote>
+  <p>　　“我和你一起去。”<br />
+　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br />
+　　“请你别这么做。我会去求普拉查，我会去……”<br />
+　　斋迪打断了她。如果在从前，他会允许她在他面前丢脸，会允许她的歉意像雨季的瀑布那样喷涌而出。但现在，他不会这样做。<br />
+　　“我没有别的期望了，”他说，“我很满足。我会到贸易部去，让他们付出代价。这一切都是因缘注定的。我本来就不可能永远拥有查雅，她也不可能永远拥有我。但我想，只要把握好自己的人生，我们仍旧可以做到一些事。我们都有自己的责任，坎雅，无论是对上，还是对下。”他耸耸肩，“我在一生中扮演了很多角色。我曾是一个男孩、一个泰拳冠军、一个父亲、一个白衬衫。”他瞥了一眼身上的白色僧袍，“甚至还是一个僧侣。”他咧嘴一笑，“不用担心我。在我丢弃这一世的生命去见查雅之前，我还有一些事情要做。”他努力让自己的声音显得坚强，“我还有未尽的事业。在我完成它之前，我不会停下脚步。”<br />
+　　坎雅看着他，眼中充满痛苦，“你不能一个人去。”<br />
+　　“对，我会带上颂猜。”<br />
+　　　　　　　　　　　　　　　　　　　　——引用自《发条女孩》</p>
+</blockquote>
 
 <p>大概从2007年中开始，我就使用Linux作为桌面OS，准确的说，使用的发行版是Ubuntu。那时候Ubuntu比较流行，Canonical免费送光盘的服务还未取消，大学同宿舍的舍友还真的写信过去申请到了一套。自那时起，从Ubuntu 7.10, 8.04，到Debian testing，无论是换工作换城市还是换电脑换硬盘，Linux一直作为主力桌面OS，稳定地跑在我的电脑上。</p>
 
@@ -88,13 +112,14 @@
 <p>现在我的笔记本上装的是一个Windows 7(盗版，你懂的)，正在攒入会费准备拜入苹果教。在硬盘上躺着的是两个虚拟机，一个是带KDE的Debian testing，一个是Mac Mountion Lion，基本上很少再用到Linux桌面。当然，作为一个后台码农，一个Linux服务器环境还是少不了的。离开了Linux桌面之后，我有更多的时间集中精力做自己感兴趣的事情，更好的去学习和创造。换一个角度来看，离开Linux桌面实际上让我更加靠近Linux的开源文化，那就是众多个体吸收养分，成长和回馈。而这一切的前提就是，尊重个体的自由，你可以选择Linux桌面，可以选择其它，也可以做一个自己的Linux桌面发行版。自由形成多样化。</p>
 
 <p>别了，Linux桌面。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[另一种可能性]]></title>
     <link href="http://clisp.github.com/blog/2013/08/10/another-possibility/"/>
-    <updated>2013-08-10T20:36:00+00:00</updated>
+    <updated>2013-08-10T20:36:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/08/10/another-possibility</id>
     <content type="html"><![CDATA[<p><strong>更新：已经添加了它的gh-pages分支，可以<a href="http://clisp.github.com/gevent-tutorial">点击这里</a>直接浏览器打开了。</strong></p>
 
@@ -109,23 +134,24 @@
 <p>读卡尔维诺，有时候会想到，这个世界的不过是一个无法读完的关于可能性的故事，空间不过是纸张，时间只是不断展开的文字，但主体永远是无限变化的可能性。</p>
 
 <p>而我本身这个可能性的载体自有其故事，上周朋友过来，再次跟我说“是时候剪头发了”，于是后来我就去了剪头发，回来的路上想起，原来我已经记不清有多久没有闻过剪发屋那种淡香中，有种收割成熟农作物的味道。看世界的角度不同，看到的风景也会有有所差异。头发是长还是短，也不过只是一种可能性。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[杂记]]></title>
     <link href="http://clisp.github.com/blog/2013/06/15/minds-lounge/"/>
-    <updated>2013-06-15T22:35:00+00:00</updated>
+    <updated>2013-06-15T22:35:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/06/15/minds-lounge</id>
-    <content type="html"><![CDATA[<h3>1</h3>
+    <content type="html"><![CDATA[<h3 id="section">1</h3>
 
 <p>杰克·凯鲁亚克喜欢用他自创的“自发式风格”写作，虽然这种风格往往和长期没洗的汗衫味混在一起。最近我也在实践类似的“自发式编程”。写代码与写文章有相似的地方，有时候构思和布局跟不上迎面飞驰而来的直觉。</p>
 
-<h3>2</h3>
+<h3 id="section-1">2</h3>
 
 <p>不知什么时候开始，失眠成了我的常客，累的时候睡不着，不累的时候也睡不着。往往与周公经过这一场漫长的谈判，第二天起来后的我仿佛越战之后的阿美利坚，精神一片萎靡。</p>
 
-<h3>3</h3>
+<h3 id="section-2">3</h3>
 
 <p>记得高二的时候，有段时间来了一个教语文的实习女老师，个子矮矮的，人很和善。那时候也许我是余秋雨读得太多，在语文课上写出来的内容都像兵马俑那么老气，女老师后来在信上对我说，有些东西过犹不及。即便如此，每次当我要写点东西交差，而在脑海好像撒哈拉沙漠一样干枯的时候，读过的东西总会不自觉的冒出笔尖。</p>
 
@@ -133,15 +159,15 @@
 
 <p>后来，她的地址弄丢了，我也从高中毕了业，从此再也没有联系。</p>
 
-<h3>4</h3>
+<h3 id="section-3">4</h3>
 
 <p>年初入了一台Kindle PaperWhite电子书阅读器，用来看书体验很好，因为屏幕尺寸较小，不适合直接看pdf，而技术类的书多数只有pdf版，所以到目前为止kpw主要用来看小说。另外买了一堆书，在阅读资源方面有着充足的储备。这半年读的书大概20来本，数量不算少，但是生活上分神的事情多，整体节奏掌握得不好。理想的读书方式，类似于长跑，保持规律的呼吸步伐前进。</p>
 
-<h3>5</h3>
+<h3 id="section-4">5</h3>
 
 <p>去年曾经开玩笑似的跟一个朋友说，回头看看这几年，几乎是每年学一门新的编程语言。有时不经意的玩笑容易变成现实，机缘巧合之下今年的新语言就是Scala。Scala这个坑的深度早有所闻，但在我认真的读完《快学Scala》一书，然后看了Twitter开源库finagle的一些代码之后，觉得这门语言还是过于糅杂艰深，要珍惜生命，远离为妙。</p>
 
-<h3>6</h3>
+<h3 id="section-5">6</h3>
 
 <p>工作上近几个月主要研究了一下zookeeper的客户端。读了几份源代码，zookeeper自带的C客户端，另外Java实现的Curator，还有Python实现的Kazoo，参照Curator着写了一个大幅简化的C++版本。对应的代码分析文章却一直欠奉。</p>
 
@@ -149,28 +175,29 @@
 
 <p>用树上小说里的做法，在记事簿的正中划一条直线，左侧记载所得，右侧则写所失。右侧也许可以列一长串，左侧却难以下笔。</p>
 
-<h3>7</h3>
+<h3 id="section-6">7</h3>
 
 <p>前段时间看到有人问“谁曾经付钱买过正版软件？”这个问题对我来说十分难于回答，因为本身靠写软件吃饭，竟然也没有为正版软件付过钱，几块钱一张盗版windows的安装光盘倒买过不少，真是羞愧。后来我把这个问题抛给其它人，得到的答案也基本上相同。盗版windows加上一堆破解版应用软件，也就是国内的常态。难怪在国内做软件的人们活得这么辛苦。</p>
 
-<h3>8</h3>
+<h3 id="section-7">8</h3>
 
 <p>现代社会中人的一大特征，焦虑。</p>
 
-<p>雨后在树丛下的小道跑步，树上知了朝我大叫，我慢跑过去树丛，身后那些知了还是在叫：“焦虑，焦虑，焦虑&#8230;&#8230;”。</p>
+<p>雨后在树丛下的小道跑步，树上知了朝我大叫，我慢跑过去树丛，身后那些知了还是在叫：“焦虑，焦虑，焦虑……”。</p>
 
-<h3>9</h3>
+<h3 id="section-8">9</h3>
 
 <p>和朋友聊起房市，谈到一个问题：房价泡沫会不会破，是不是越早买房越好。这样的问题，个人感觉不会有一个简单到非黑即白的答案。</p>
 
 <p>读完黄仁宇的《万历十五年》和《黄河青山》，启发甚多。很多事情在发生的当时我们并不能准确理解它，拉开了时间的尺度之后，才能看得清楚。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[嵌套反引用有害]]></title>
     <link href="http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/"/>
-    <updated>2013-03-10T21:37:00+00:00</updated>
+    <updated>2013-03-10T21:37:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful</id>
     <content type="html"><![CDATA[<p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
 
@@ -178,9 +205,10 @@
 
 <p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
 
-<blockquote><p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：</p>
-
-<blockquote><p>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</p></blockquote></blockquote>
+<blockquote>
+  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：
+&gt; 为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</p>
+</blockquote>
 
 <p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
 
@@ -251,31 +279,60 @@
 
 <p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）。Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
 
-<blockquote><p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+<blockquote>
+  <p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+</blockquote>
 
-<ol>
-<li><p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
+<blockquote>
+  <ol>
+    <li>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</li>
+  </ol>
+</blockquote>
 
-<p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
-
-<p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p></li>
-<li><p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
-
-<p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
-
-<pre><code>'(foo (bazaroo '(fcn a ,x)))
+<blockquote>
+  <pre><code> 不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式`(quote x)`，因此有一个定义良好的来自外部形式`'x`的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于`` `(foo ,x)``可以读作`(list 'foo x)`。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。
 </code></pre>
+</blockquote>
 
-<p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
-
-<pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+<blockquote>
+  <pre><code> 为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它`!@`吧），这个宏建造一些并非列表结构的东西，你可以将`(apply #'make-a-foo (list 'baz a) l)`简写作`!@(make-a-foo (baz ,a) ,@l)`。当这个表达式`!@(...)`被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。
 </code></pre>
+</blockquote>
 
-<p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p></li>
-</ol>
+<blockquote>
+  <ol>
+    <li>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</li>
+  </ol>
+</blockquote>
 
+<blockquote>
+  <pre><code> 我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：  
+</code></pre>
+</blockquote>
 
-<p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。</p></blockquote>
+<blockquote>
+  <pre><code>     '(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+</blockquote>
+
+<blockquote>
+  <pre><code> 内层的引用不会“遮蔽”住`x`使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：
+</code></pre>
+</blockquote>
+
+<blockquote>
+  <pre><code>     '(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+</blockquote>
+
+<blockquote>
+  <pre><code> 这个`,',`构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用`,,x`，因为这是说“当外层的反引用被展开时对`x`求值，得到`e`，然后当最内层反引用展开时求值`e`”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。
+</code></pre>
+</blockquote>
+
+<blockquote>
+  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。</p>
+</blockquote>
 
 <p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
 
@@ -287,25 +344,28 @@
 
 <p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
 
-<p><em>注：</em><br/>
-<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br/>
+<p><em>注：</em><br />
+<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br />
 <a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[刀丛小诗]]></title>
     <link href="http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush/"/>
-    <updated>2013-03-09T22:05:00+00:00</updated>
+    <updated>2013-03-09T22:05:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush</id>
     <content type="html"><![CDATA[<p>近日两会召开，从各种新闻报道看来，这个国家将进行又一次的领导层换届，在我工作的地方，类似的事情也在进行。在“云统治”的游戏背景设定下，这种事对于我等星斗市民并不会带来本质的变化，任它东边日出西边雨，只管一蓑任前行。从我个人的角度看，年初向领导提出加薪一事无果，长期问题还是没有得到解决，我对这份工作已没有什么期望。程序员要求提薪这件事情，马丁大叔在《程序员的职业素养》里提出了一个解读，比较有趣，很多时候事情的本质不仅是表面看起来那么回事。</p>
 
 <p>早春三月，草长莺飞。每年的这个时间前后，都会发生有人离开有人加入的情景，就像在前领导人当政的时期。在人情淡如水的这个国家与时代，人们习惯了用“天下熙熙皆为利来，天下攘攘皆为利往”这样的说法来解释所有发生的事情，难道真的有那么一种普适的理论，能够解释这个世界所有的万事万物吗？在疑邻盗斧的人眼中，全世界只有偷了斧头的人。在纷繁多变的局势下，有的人主动退出乘风而飞，有的人成为炮灰黯然远去，也许我只是有点不太习惯离别来得太突然，想起来一首旧时的诗：</p>
 
-<blockquote><p>   惯于长夜过春时，挈妇将雏鬓有丝。<br/>
-   梦里依稀慈母泪，城头变幻大王旗。<br/>
-   忍看朋辈成新鬼，怒向刀丛觅小诗。<br/>
-   吟罢低眉无写处，月光如水照缁衣。</p></blockquote>
+<blockquote>
+  <p>惯于长夜过春时，挈妇将雏鬓有丝。<br />
+   梦里依稀慈母泪，城头变幻大王旗。<br />
+   忍看朋辈成新鬼，怒向刀丛觅小诗。<br />
+   吟罢低眉无写处，月光如水照缁衣。  </p>
+</blockquote>
 
 <p>这个鲁迅，在城头大王旗变来变去之际，还写这样的诗句，我想他除了胆子够大之外，心里一定有一种物伤其类的伤感，有一种难言的孤独。到来与离开，开始与结束，这里面的关联与区别，尤如镜子的两面出现在他的脑海中。</p>
 
@@ -316,25 +376,26 @@
 <p>他想到去过的不同地方，见过的不同的人，有过的不同的谈话，做过的不同的事情，其实他从头到尾只做了一件事情，又或者说其实他根本没做任何事情。如今，他所有的，不过是这如水的月光，和一首小诗。于是人生中那些像台风一样不可逃避又难以捉摸的遭遇经历渐渐沉淀下来，玩骰子的上帝身影暂遁，过去发生的事情消逝，像是有了一个隔断电场的法拉第笼一样，这些问题不再困扰着他，不再有明枪暗箭，不再有反复动荡，不再有鸟尽弓藏。他渐渐洗去了外部的喧闹，剥除每一点多余的附着：虚荣，困窘，得意与恐惧，他体会着自然与时间在昼夜流转，渐渐安于淡泊和空灵。</p>
 
 <p>最后他坐在书桌前，写下这首小诗。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[无家可归的Java]]></title>
     <link href="http://clisp.github.com/blog/2013/02/23/no-home-for-java/"/>
-    <updated>2013-02-23T14:44:00+00:00</updated>
+    <updated>2013-02-23T14:44:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/02/23/no-home-for-java</id>
-    <content type="html"><![CDATA[<h3>Java千层糕</h3>
+    <content type="html"><![CDATA[<h3 id="java">Java千层糕</h3>
 
 <p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。由于很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
 
-<p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA&#8217;S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来预言Java，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化Sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
+<p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA’S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来预言Java，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化Sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
 
 <p>其实一直以来，Java这个世界就习惯了打补丁的方式，从语言的设计(如容器和泛型)到修正安全漏洞各个方面。不断的发布安全更新，但漏洞也不断的出现，从底层虚拟机的实现上看，代码积越来越厚，补丁打得越来越多，也引入了越来越多的漏洞。如此像千层糕一样堆叠上去，终有一天Java会不堪重负而轰然倒塌。也许是时候重写Java了，但就和过去无数次打补丁的理由一样，Java只能选择兼容历史，不可能大改而影响市场上已有的程序，因为商业永远是第一位的，Oracle不可能像Python社区那样勇敢的抛弃历史的负担，于是Java这个故事发展下去就只能是个悲剧了。</p>
 
 <p>且看2013年即将发布的Java 8，这个版本推出的对lambda的支持，被吹捧为Java带来新变革的重点，用起来依旧笨重，在Lisper的眼中看来甚至可能会觉得迂腐可笑。Java未死，还有很多已经存在或将会展开的应用，在Java虚拟机上积累下来的无数商业强度的库和代码也将长期存在，但从语言演化的层面上来看，这条路的终点也不远了。几年之前流行学习Java，但到今天，可能更好的做法是学习那些JVM语言，如Groovy, Scala, Clojure等。</p>
 
-<h3>没有JAVA_HOME</h3>
+<h3 id="javahome">没有JAVA_HOME</h3>
 
 <p>很久没有在Linux上装过Java了，有点生疏。<code>sun-java6-jdk</code>这个包已经不在Debian/Ubuntu的软件源里面了，我找了一圈才找到OpenJdk的<code>openjdk-6-jdk</code>这个包，装完包之后，照常例要设置环境变量，包括</p>
 
@@ -349,35 +410,35 @@ export PATH
 <p>我把这几个语句写到一个独立脚本(后缀为<code>.sh</code>)放到<code>/etc/profile.d</code>目标里面，让Shell在启动的时候自动加载了。为什么不把配置放到<code>/etc/environment</code>文件里面呢？就像网上很多写Java安装的文章所说的那样？因为后者限制较多，它并非一个脚本，所以不支持变量的引用，只支持简单的赋值，用起来并不方便。更好的做法就是放到脚本里面，如只限个人使用就是<code>.profile</code>或<code>.bashrc</code>文件，如果是系统级别的就是<code>/etc/profile.d</code>目录或<code>/etc/bash.bashrc</code>文件。关于系统变量的详细内容可参考Ubuntu的<a href="https://help.ubuntu.com/community/EnvironmentVariables">Environment Variables文档</a>。</p>
 
 <p>搞好之后，突然顿悟似的想到，为什么还需要每个Java用户手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Thrift实践]]></title>
     <link href="http://clisp.github.com/blog/2013/02/10/practical-thrift/"/>
-    <updated>2013-02-10T20:15:00+00:00</updated>
+    <updated>2013-02-10T20:15:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/02/10/practical-thrift</id>
     <content type="html"><![CDATA[<p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
 
-<h3>实践1. 将thrift看作应用的RPC胶水</h3>
+<h3 id="thriftrpc">实践1. 将thrift看作应用的RPC胶水</h3>
 
 <p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
 
 <p>本文的重点在Thrift，所以集中笔墨讨论它。Thrift的RPC框架具有的如下几个特点：</p>
 
 <ol>
-<li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
-<li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
-<li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
-<li>内部实现层次分明，结构清晰，代码量不大</li>
+  <li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
+  <li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
+  <li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
+  <li>内部实现层次分明，结构清晰，代码量不大</li>
 </ol>
-
 
 <p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
 
-<h3>实践2. 使用合适的数据类型</h3>
+<h3 id="section">实践2. 使用合适的数据类型</h3>
 
-<h4>2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
+<h4 id="blobbinarystring">2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
 
 <p>thrift支持两种字符串类型：
 1. string类型，类似编程语言中常用的字符串类型，或Mysql中的VARCHAR/TEXT字符串类型，用于表示某种语言(字符集)特定编码的字符串
@@ -400,17 +461,20 @@ string          std::string     java.nio.ByteBuffer    str
 <p>其中包括C++的服务器端代码，还有C++, Java, Python 3种语言写的客户端。服务器端在收到客户端的无参数RPC请求后，向客户端发送一个值为214的字符，早于它不是ascii字符集范围内的字符，它表示的字符就由编码方式决定。3个客户端的输出对比如下：</p>
 
 <ol>
-<li><p>C++</p>
+  <li>
+    <p>C++</p>
 
-<pre><code> $ ./cpp_client
+    <pre><code> $ ./cpp_client
  ./cpp_client started.
  get char in string: -15
  get char in binary: -15
  done.
-</code></pre></li>
-<li><p>Java</p>
+</code></pre>
+  </li>
+  <li>
+    <p>Java</p>
 
-<pre><code> $ make run-java-client
+    <pre><code> $ make run-java-client
  java \-classpath \
  /usr/local/lib/libthrift.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-jdk14.jar:/usr/share/java/slf4j-simple.jar:/usr/share/java/slf4j-jcl.jar:/usr/share/java/slf4j-nop.jar:/home/wenwenliu/pro/thrift/schargen/gen-java:/home/wenwenliu/pro/thrift/schargen \
  Client
@@ -423,18 +487,20 @@ string          std::string     java.nio.ByteBuffer    str
  get char in binary:
  -15
  done.
-</code></pre></li>
-<li><p>Python</p>
+</code></pre>
+  </li>
+  <li>
+    <p>Python</p>
 
-<pre><code> $ make run-py-client
+    <pre><code> $ make run-py-client
  python ./client.py
  ./client.pystarted.
  'get char in string: \xf1'
  'get char in binary: \xf1'
  done.
-</code></pre></li>
+</code></pre>
+  </li>
 </ol>
-
 
 <p>从输出中可以看到，同一个字符在Python的客户端值与服务器端一样，C++客户端打印出来的值是服务器值的二进制补码值，但在Java客户端，字符值受到编码方式的影响，经过编码方式演绎后的字符值与原来的字符值并不一致。而且在几种常见的编码方式下都得不到原来的字符值。</p>
 
@@ -442,19 +508,22 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
 
-<h3>实践3. Thrift里面的同步与异步</h3>
+<h3 id="thrift">实践3. Thrift里面的同步与异步</h3>
 
 <p>thrift里面常见的几种同步异步用法：</p>
 
 <ol>
-<li><p>同步服务器，同步客户端，同步调用，无异步<br/>
-最常用的默认方式。</p></li>
-<li><p>同步服务器，同步客户端，异步调用<br/>
-用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p></li>
-<li><p>同步客户端，异步服务器端</p></li>
-<li>异步客户端，异步服务器端</li>
+  <li>
+    <p>同步服务器，同步客户端，同步调用，无异步<br />
+最常用的默认方式。</p>
+  </li>
+  <li>
+    <p>同步服务器，同步客户端，异步调用<br />
+用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p>
+  </li>
+  <li>同步客户端，异步服务器端</li>
+  <li>异步客户端，异步服务器端</li>
 </ol>
-
 
 <p>由于客户端和服务器端在实现上是相互独立的，所以两者在同步或异步的选择上也是独立的。这里举例说明如何编写异步服务器和异步客户端。示例代码如下：</p>
 
@@ -462,7 +531,7 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
 
-<h3>实践4. thrift内部框架一瞥</h3>
+<h3 id="thrift-1">实践4. thrift内部框架一瞥</h3>
 
 <p>按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
 
@@ -483,15 +552,16 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>TODO 详述各层源代码实现</p>
 
-<p><em>注：</em><br/>
+<p><em>注：</em><br />
 <a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[常用终端软件]]></title>
     <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
-    <updated>2013-01-31T20:01:00+00:00</updated>
+    <updated>2013-01-31T20:01:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
     <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。</p>
 
@@ -504,16 +574,17 @@ string          std::string     java.nio.ByteBuffer    str
 <p>我经常用到的终端配置，主要有如下方面：语言环境，字符集，字体，色彩支持，编辑器。</p>
 
 <ul>
-<li><p>语言环境</p>
+  <li>
+    <p>语言环境</p>
 
-<p>  在Debian/Ubuntu中可以通过命令</p>
+    <p>在Debian/Ubuntu中可以通过命令  </p>
 
-<pre><code>  sudo dpkg-reconfigure locales
+    <pre><code>  sudo dpkg-reconfigure locales
 </code></pre>
 
-<p>  来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有</p>
+    <p>来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有  </p>
 
-<pre><code>  # 设置为中文环境
+    <pre><code>  # 设置为中文环境
   export LC_ALL=zh_CN.utf8
   export LANG=zh_CN.utf8
   export LANGUAGE=zh_CN:zh
@@ -524,39 +595,48 @@ string          std::string     java.nio.ByteBuffer    str
   export LANGUAGE=en_US:en:zh_CN:zh
 </code></pre>
 
-<p>  将配置添加到.bashrc，source配置或重新登录终端才生效。</p></li>
-<li><p>字符集</p>
+    <p>将配置添加到.bashrc，source配置或重新登录终端才生效。</p>
+  </li>
+  <li>
+    <p>字符集</p>
 
-<p>  能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p></li>
-<li><p>字体</p>
+    <p>能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p>
+  </li>
+  <li>
+    <p>字体</p>
 
-<p>  推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
+    <p>推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
 
-<pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
+    <pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
   0Oo      &lt;-- 数字0，大小写字母o
   `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
 </code></pre>
 
-<p>  Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
+    <p>Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
 
-<pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
+    <pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
   Ubuntu Mono    --- Ubuntu的开源字体
 </code></pre>
 
-<p>  当然，每个人的喜好审美不同，对字体的偏好也不同。</p></li>
-<li><p>色彩支持</p>
+    <p>当然，每个人的喜好审美不同，对字体的偏好也不同。</p>
+  </li>
+  <li>
+    <p>色彩支持</p>
 
-<p>  无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
+    <p>无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
 
-<pre><code>  export TERM=xterm-256color
+    <pre><code>  export TERM=xterm-256color
 </code></pre>
 
-<p>  就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
+    <p>就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
 
-<p>  打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p></li>
-<li><p>编辑器</p>
+    <p>打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p>
+  </li>
+  <li>
+    <p>编辑器</p>
 
-<p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
+    <p>在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p>
+  </li>
 </ul>
 
 ]]></content>
@@ -565,11 +645,11 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[电子时代的鸦片]]></title>
     <link href="http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age/"/>
-    <updated>2013-01-28T23:37:00+00:00</updated>
+    <updated>2013-01-28T23:37:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age</id>
     <content type="html"><![CDATA[<p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
 
-<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams&#8230;..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
+<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams…..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
 
 <p>于是从卓越网订购了一个Intel SSD 330 120g，周末把它安装到我的小黑X201i中，换出原配的西数250g硬盘。因为新的ssd也是9.5mm，厚度与原来机械硬盘一样，所以原来的硬盘架就完美套用，换起来相当便捷。换好硬盘后，在Windows下使用Intel SSD Toolbox查看硬盘状态，出厂日期和读写次数，写入量都没问题，固件已经是最新版本不用升级，然后统一trim一次，算是完成初始化。</p>
 
@@ -578,10 +658,9 @@ string          std::string     java.nio.ByteBuffer    str
 <p>在Linux系统，可以针对SSD做一些优化，主要目的是用好SSD以提升读写速度，减少写入量延长SSD寿命。具体的优化原理和步骤可以参考</p>
 
 <ol>
-<li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives &#8211; Arch Wiki</a></li>
-<li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives – Arch Wiki</a></li>
+  <li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
 </ol>
-
 
 <p>这些优化我只采用了一部分，文件系统用的还是Ext4，然后加了noatime, nodiratime等挂载选项来禁止更新atime，因为它在桌面系统上其实没什么用，加了nodiscard和定期trim，还分了一个与内存等大的swap分区来方便休眠(hibernate)，而像关闭文件系统日志这种动作觉得风险大没有采用。因为Intel SSD有长达几年的保修服务，所以也就不太担心写入量会太大，也不用担心会被用坏，随便写就是了。</p>
 
@@ -590,13 +669,14 @@ string          std::string     java.nio.ByteBuffer    str
 <p>升级了SSD之后，机器的速度还是有很大的提升。从SSD Benchmark和HD Tune等软件在换上SSD前后测试的数据对比来看，顺序读写有2到3倍的速度提升，随机读写则有几十倍。在使用感觉上，启动系统和打开程序都明显感觉到变快了，编译代码也有明显的速度区别，以往在敲完编译命令后，看着命令行输出慢悠悠的向下滚动，现在则变得像嗑了药的赛车手一样疯狂，滚动刷屏得很快，基本上看不清里面的内容。</p>
 
 <p>SSD速度奇快，用过它之后就很难再用回慢吞吞的机械硬盘。从某个角度来看，SSD就类似于鸦片，它给人带来很有快感的体验，而且一旦接触就容易上瘾。自计算机诞生以来，每个年代都有其电子鸦片，几十年前，那是一个如PDP-10的计算设备，今天，则变成技术革新(如SSD的普及)，网络游戏和社交网站。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[自由与理由]]></title>
     <link href="http://clisp.github.com/blog/2013/01/21/freedom-and-reason/"/>
-    <updated>2013-01-21T21:43:00+00:00</updated>
+    <updated>2013-01-21T21:43:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/21/freedom-and-reason</id>
     <content type="html"><![CDATA[<p>在过去一年多的时间里，我笔记本电脑上的Debian桌面环境经历了几次变化：先是用了几个月gnome shell，然后用了几个月的xfce4，然后最近又转为mate-desktop和cinnamon。</p>
 
@@ -612,39 +692,46 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>被逼的。</p>
 
-<p><em>注：</em><br/>
-<a id="1">[1]</a> 安装可参考<a href="http://wiki.mate-desktop.org/download">官网</a>。<br/>
-<a id="2">[2]</a> 安装可参考<a href="http://linuxg.net/how-to-install-cinnamon-on-debian-wheezy/">这里</a>。<br/>
-<a id="3">[3]</a> Ubuntu推出的Unity也是为平板而设计的，他们都强迫PC用户去适应平板风格，哎，这演的是哪一出。</p>
+<p><em>注：</em><br />
+<a id="1">[1]</a> 安装可参考<a href="http://wiki.mate-desktop.org/download">官网</a>。<br />
+<a id="2">[2]</a> 安装可参考<a href="http://linuxg.net/how-to-install-cinnamon-on-debian-wheezy/">这里</a>。<br />
+<a id="3">[3]</a> Ubuntu推出的Unity也是为平板而设计的，他们都强迫PC用户去适应平板风格，哎，这演的是哪一出。  </p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[在VirtualBox虚拟系统中使用USB设备]]></title>
     <link href="http://clisp.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/"/>
-    <updated>2013-01-18T21:26:00+00:00</updated>
+    <updated>2013-01-18T21:26:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system</id>
     <content type="html"><![CDATA[<p>我使用Linux作为日常操作系统，但有时需要使用Windows only软件，还是需要在虚拟机上装一个Windows。因为国内的网银只支持Windows，所以在需要虚拟的Windows系统中访问物理机器的USB接口，来读取网银的USB KEY。</p>
 
 <p>虚拟机我用的是VirtualBox，今天研究了一下如何配置它来实现这个功能，简述如下：</p>
 
 <ol>
-<li><p>要在虚拟系统中挂载物理机器的USB接口，需要安装<code>VirtualBox Extension Pack</code>，这个包在<a href="https://www.virtualbox.org/">VirtualBox官网</a>就有下载，选择对应版本的下载并安装到VirtualBox。可以参考<a href="http://www.javait.org/?p=657">这篇文章</a></p></li>
-<li><p>添加当前用户到用户组<code>vboxusers</code>，需要注销或重启系统。然后在对应的虚拟机设置界面打开<code>启用USB控制器</code>相关选项，并添加对应的过滤器。可以参考<a href="http://gongstring.iteye.com/blog/1356316">这篇文章</a></p>
+  <li>
+    <p>要在虚拟系统中挂载物理机器的USB接口，需要安装<code>VirtualBox Extension Pack</code>，这个包在<a href="https://www.virtualbox.org/">VirtualBox官网</a>就有下载，选择对应版本的下载并安装到VirtualBox。可以参考<a href="http://www.javait.org/?p=657">这篇文章</a>  </p>
+  </li>
+  <li>
+    <p>添加当前用户到用户组<code>vboxusers</code>，需要注销或重启系统。然后在对应的虚拟机设置界面打开<code>启用USB控制器</code>相关选项，并添加对应的过滤器。可以参考<a href="http://gongstring.iteye.com/blog/1356316">这篇文章</a>  </p>
 
-<p> 添加用户到用户组可以通过命名行，也可以通过系统UI，在gnome3中打开<code>[用户和组]</code>，在<code>[高级设置]</code>界面<code>[用户权限]</code>标签页下，勾上<code>使用VirtualBox虚拟化解决方案</code>选项，效果与命名行操作相同。如果不添加这个用户组，在VirtualBox的虚拟机设置界面就不会看到物理机器上的USB设备，在虚拟机中当然也无法访问了。</p></li>
-<li><p>之后启动虚拟系统，在需要访问USB时，就可以通过菜单栏 <code>[设备] -&gt; [分配USB设备]</code> 来将物理机器的USB设备挂载到虚拟系统中</p></li>
+    <p>添加用户到用户组可以通过命名行，也可以通过系统UI，在gnome3中打开<code>[用户和组]</code>，在<code>[高级设置]</code>界面<code>[用户权限]</code>标签页下，勾上<code>使用VirtualBox虚拟化解决方案</code>选项，效果与命名行操作相同。如果不添加这个用户组，在VirtualBox的虚拟机设置界面就不会看到物理机器上的USB设备，在虚拟机中当然也无法访问了。  </p>
+  </li>
+  <li>
+    <p>之后启动虚拟系统，在需要访问USB时，就可以通过菜单栏 <code>[设备] -&gt; [分配USB设备]</code> 来将物理机器的USB设备挂载到虚拟系统中  </p>
+  </li>
 </ol>
 
-
 <p>如今个人电脑的内存越来越大，性能越来越好，在Linux系统中虚拟一个Windows速度也不慢，功能上也能满足我的使用需求，所以算是一个比较完美的解决方案。对比来看，前些年因为机器性能不好而被迫在裸机硬盘上安装Linux/Windows双系统，这个做法到今天已经没有必要了。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Thrift Erlang实现源代码阅读]]></title>
     <link href="http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading/"/>
-    <updated>2013-01-16T21:27:00+00:00</updated>
+    <updated>2013-01-16T21:27:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading</id>
     <content type="html"><![CDATA[<p>Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考<a href="http://thrift.apache.org/">Thrift官方网站</a>，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP，而主要集中讨论Thrift里面的Erlang实现，假定目标读者了解Erlang，并且具有Thrift的使用经验，熟悉Thrift在其它语言的实现源代码更佳。</p>
 
@@ -652,13 +739,13 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>虽然这里重点讨论的是内部实现的源代码，但是开始源代码之旅之前，简单回忆一下如何用Erlang编写Thrift客户端和服务器端是很帮助的。</p>
 
-<h2>1 编写客户端与服务器端</h2>
+<h2 id="section">1 编写客户端与服务器端</h2>
 
 <p>使用各种语言来编写Thrift客户端和服务器端的步骤都相同：在安装好thrift后，先编写好RPC的服务定义文件，再用Thrift的编译器编译生成某种语言的客户端和服务器端的RPC桩代码，然后再编写客户端和服务器代码。</p>
 
 <p>Thrift 0.8.0版本的发布包中，tutorial目录下有自带的示例代码，就以它为例来说明。</p>
 
-<h3>1.1 编译发布包自带示例</h3>
+<h3 id="section-1">1.1 编译发布包自带示例</h3>
 
 <p>可以先进入发布包根目录下的tutorial目录，这里有两个后缀为.thrift的RPC接口定义文件，不熟悉Thrift接口定义文件写法的读者，可以先看看官网的<a href="http://thrift.apache.org/docs/idl/">Thrift接口定义语言(IDL)文档</a>，不熟悉Thrift使用步骤的读者也可以先读一下tutorial目录下面的README文件。使用命令</p>
 
@@ -708,11 +795,11 @@ function_info('calculate', exceptions) -&gt;
 
 <p>可以看到<code>function_info()</code>函数的第一个参数是接口的名字字符串，第二个参数依次分别为此接口的参数，返回值和可能抛出的异常，对于参数和异常，都命名为struct的Erlang tuple，内部嵌套的参数列表中保留了参数索引，返回值类型则因接口定义是简单类型或复杂类型而异，IDL简单类型则直接映射为名字，复杂类型则同样转为命名为struct的tuple。为什么把接口的几个部分拆开用<code>function_info()</code>这样的函数调用来记录接口定义呢，了解Thrift其它语言(如C++, Python)实现的人看到这种形式会更觉得奇怪，在后面我们将会看到这种做法是与底层框架的调用紧密相关的，所以这里先跳过此疑问。</p>
 
-<h3>1.2 Thrift编译器</h3>
+<h3 id="thrift">1.2 Thrift编译器</h3>
 
 <p>从.thrift接口定义文件是如何生成Erlang桩代码的呢？感兴趣的读者可以到发布包的compiler目录下阅读IDL解析器和各语言的生成器来一探究竟，这里限于篇幅就跳过这部分了。</p>
 
-<h3>1.3 示例客户端代码</h3>
+<h3 id="section-2">1.3 示例客户端代码</h3>
 
 <p>看过编译生成的桩代码之后，我们再看一下0.8.0版本发布包里面对应的客户端和服务器端代码，在<code>tutorial/erl</code>目录下有：</p>
 
@@ -729,19 +816,20 @@ function_info('calculate', exceptions) -&gt;
 <p>示例客户端的代码主要分成3个部分：</p>
 
 <ol>
-<li><p>创建一个连接到指定服务器的客户端实体(这里的“实体”一词，是指向一个关联向某个内存对象的符号，本来想用“对象”一词，但Erlang是函数式编程语言)</p>
+  <li>
+    <p>创建一个连接到指定服务器的客户端实体(这里的“实体”一词，是指向一个关联向某个内存对象的符号，本来想用“对象”一词，但Erlang是函数式编程语言)</p>
 
-<pre><code> {ok, Client0} = thrift_client_util:new("127.0.0.1",
+    <pre><code> {ok, Client0} = thrift_client_util:new("127.0.0.1",
                                         Port,
                                         calculator_thrift,
                                         []),
 </code></pre>
 
-<p> <code>thrift_client_util:new()</code>这个函数封装了创建并初始化客户端实体的代码，我们跟一下看看它做了哪些事情。</p>
+    <p><code>thrift_client_util:new()</code>这个函数封装了创建并初始化客户端实体的代码，我们跟一下看看它做了哪些事情。</p>
 
-<p> Thrift的Erlang实现全部源代码都在<code>lib/erl/src/</code>目录，这个目录也就是本文重点讨论的源代码所在，打开目录下<code>thrift_client_util.erl</code>文件，会发现文件很短，没多少代码，其中导出的<code>new()</code>函数用于创建并初始化客户端实体：</p>
+    <p>Thrift的Erlang实现全部源代码都在<code>lib/erl/src/</code>目录，这个目录也就是本文重点讨论的源代码所在，打开目录下<code>thrift_client_util.erl</code>文件，会发现文件很短，没多少代码，其中导出的<code>new()</code>函数用于创建并初始化客户端实体：</p>
 
-<pre><code> new(Host, Port, Service, Options)
+    <pre><code> new(Host, Port, Service, Options)
    when is_integer(Port), is_atom(Service), is_list(Options) -&gt;
      {ProtoOpts, TransOpts} = split_options(Options),
 
@@ -756,41 +844,48 @@ function_info('calculate', exceptions) -&gt;
      thrift_client:new(Protocol, Service).
 </code></pre>
 
-<p> 其中<code>split_options()</code>用于分拣传入的选项，这个函数就定义在当前模块(也就是说在同一个文件)，其实现也很简单，就是用来划分开Transport和Protocol对应的选项。然后<code>new()</code>函数依次创建transport和protocol，最后创建并返回client，熟悉Thrift其它语言客户端写法的人会发现这段代码似曾相似，这几个创建客户端的步骤也很常见了，所以我们跳到下一步看看接口调用的代码。</p></li>
-<li><p>使用上一步创建的客户端实体来调用RPC接口</p>
+    <p>其中<code>split_options()</code>用于分拣传入的选项，这个函数就定义在当前模块(也就是说在同一个文件)，其实现也很简单，就是用来划分开Transport和Protocol对应的选项。然后<code>new()</code>函数依次创建transport和protocol，最后创建并返回client，熟悉Thrift其它语言客户端写法的人会发现这段代码似曾相似，这几个创建客户端的步骤也很常见了，所以我们跳到下一步看看接口调用的代码。</p>
+  </li>
+  <li>
+    <p>使用上一步创建的客户端实体来调用RPC接口</p>
 
-<p> 调用RPC接口的Erlang代码也只是常见的函数调用形式，没有什么出奇的地方，接口的参数以列表形式传入，返回值包含在tuple里面。由于Erlang中变量只能一次赋值，所以每次调用的返回值都会返回新操作过的客户端实体。下面是其中一个简单例子：</p>
+    <p>调用RPC接口的Erlang代码也只是常见的函数调用形式，没有什么出奇的地方，接口的参数以列表形式传入，返回值包含在tuple里面。由于Erlang中变量只能一次赋值，所以每次调用的返回值都会返回新操作过的客户端实体。下面是其中一个简单例子：</p>
 
-<pre><code> {Client3, {ok, Sum1}} = thrift_client:call(Client2, add, [1, 4]),
+    <pre><code> {Client3, {ok, Sum1}} = thrift_client:call(Client2, add, [1, 4]),
  io:format("1+4=~p~n", [Sum1]),
 </code></pre>
 
-<p> 示例代码中也有带复杂参数的接口和抛出异常的接口的调用例子，也比较简单，这里就不一一展开了。</p></li>
-<li><p>最后关闭与服务器的连接</p>
+    <p>示例代码中也有带复杂参数的接口和抛出异常的接口的调用例子，也比较简单，这里就不一一展开了。</p>
+  </li>
+  <li>
+    <p>最后关闭与服务器的连接</p>
 
-<p> 调用<code>thrift_client:close()</code>关闭连闭。</p></li>
+    <p>调用<code>thrift_client:close()</code>关闭连闭。</p>
+  </li>
 </ol>
 
-
-<h3>1.4 示例服务器端代码</h3>
+<h3 id="section-3">1.4 示例服务器端代码</h3>
 
 <p>示例服务器端的代码也较短，主要包含这两个部分：</p>
 
 <ol>
-<li><p>RPC接口的Erlang实现</p>
+  <li>
+    <p>RPC接口的Erlang实现</p>
 
-<p> 实现一个Thrift RPC接口，就是写一个名字参数返回值与IDL接口定义一致的函数，也可以直接throw声明的异常，这部分示例的函数都比较简单。</p></li>
-<li><p>服务端器进程接口</p>
+    <p>实现一个Thrift RPC接口，就是写一个名字参数返回值与IDL接口定义一致的函数，也可以直接throw声明的异常，这部分示例的函数都比较简单。</p>
+  </li>
+  <li>
+    <p>服务端器进程接口</p>
 
-<p> 通过适当参数调用<code>thrift_socket_server:start()</code>启动进程，通过<code>thrift_socket_server:stop()</code>停止进程。</p>
+    <p>通过适当参数调用<code>thrift_socket_server:start()</code>启动进程，通过<code>thrift_socket_server:stop()</code>停止进程。</p>
 
-<p> 最后<code>handle_function()</code>用于在当前模块分发接口处理函数，接口分为无回包（返回ok）和有回包（返回命名为reply的tuple）两种情况，这与IDL的接口定义，以及1的接口实现函数是对应的。</p>
+    <p>最后<code>handle_function()</code>用于在当前模块分发接口处理函数，接口分为无回包（返回ok）和有回包（返回命名为reply的tuple）两种情况，这与IDL的接口定义，以及1的接口实现函数是对应的。</p>
 
-<p> 特别值得一提的是，这种分发在Erlang这个动态语言中，从接口名（符号而非字符串）映射到接口的调用，只需要调用一下apply函数。同样的分发在C++中是这样做的：通过Thrift编译生成的桩代码，通过生成的processor类的<code>process_fn()</code>来查找接口名字与接口调用函数的映射，再回调到handler的对应接口实现函数。对比之下，静态语言中的从接口名到接口实现的分发比较纡回，代码量也较大，而动态语言的实现代码则简单清爽。</p></li>
+    <p>特别值得一提的是，这种分发在Erlang这个动态语言中，从接口名（符号而非字符串）映射到接口的调用，只需要调用一下apply函数。同样的分发在C++中是这样做的：通过Thrift编译生成的桩代码，通过生成的processor类的<code>process_fn()</code>来查找接口名字与接口调用函数的映射，再回调到handler的对应接口实现函数。对比之下，静态语言中的从接口名到接口实现的分发比较纡回，代码量也较大，而动态语言的实现代码则简单清爽。</p>
+  </li>
 </ol>
 
-
-<h2>2 Erlang实现源代码</h2>
+<h2 id="erlang">2 Erlang实现源代码</h2>
 
 <p>了解过Thrift客户端和服务器端之后，接下来看看Erlang的实现代码。按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
 
@@ -817,7 +912,7 @@ function_info('calculate', exceptions) -&gt;
 
 <p>下面我们就按这个分层结构，自下而上的逐层分析。</p>
 
-<h3>2.1 Transport</h3>
+<h3 id="transport">2.1 Transport</h3>
 
 <p>Transport层包括<code>lib/erl/erc</code>目录下文件名带transport字样的几个文件：</p>
 
@@ -920,7 +1015,7 @@ flush(This) -&gt;
 
 <p>这个<code>socket_transport</code>只用于客户端，服务器端由于需要按OTP的gen_server风格来写，所以放在另外的单独文件<code>thrift_socket_server.erl</code>中，它的实现代码将后面讨论。</p>
 
-<h3>2.2 Protocol</h3>
+<h3 id="protocol">2.2 Protocol</h3>
 
 <p>Protocol层包括<code>lib/erl/erc</code>目录下文件名带protocol字样的几个文件：</p>
 
@@ -931,7 +1026,7 @@ flush(This) -&gt;
 
 <p>有了前面的经验，再读Protocol就变得轻车熟路了。通过阅读它的代码，我们知道<code>thrift_protocol.erl</code>定义了Protocol层接口的behaviour。以<code>thrift_binary_protocol.erl</code>为例来看具体Protocol实现，它做了IDL的数据类型的序列化值与Erlang atom的相互映射，同时针对各种IDL数据类型实现了对简单类型，结构类型，map, set, list 3种容器类型的读写（序列化与反序列化，或称做打包和解包协议）函数，Binary Protocol虽然设计简单，但由于IDL类型众多细节也比较多，了解Thrift实现的读者应该比较清楚，不清楚的话可以详细阅读源代码，这里就快速带过了。</p>
 
-<h3>2.3 Processor</h3>
+<h3 id="processor">2.3 Processor</h3>
 
 <p>Processor只有一个文件<code>thrift_processor.erl</code>。按Thrift的分层结构，Processor是挂接用户定制的IDL服务接口的地方，所以只存在于server。作为一个承上接下的层次，它的内部状态数据记录了IDL接口的实现模块<code>service</code>，接口分发模块<code>handler</code>和底层的<code>protocol</code>。</p>
 
@@ -992,7 +1087,7 @@ flush(This) -&gt;
 
 <p>在<code>handle_function()</code>成功处理完请求后，它调用<code>handle_success()</code>查询桩代码中的对应接口返回值声明，在需要回包时进行回包，如果<code>handle_function()</code>抛出异常时，它调用<code>handle_function_catch()</code>查询IDL接口定义的异常声明，在需要回包时将异常进行适当的序列化后发送回包。发送回包的函数<code>send_reply()</code>则使用了下层protocol的<code>write()</code>, <code>flush_transport()</code>接口。</p>
 
-<h3>2.4 Server</h3>
+<h3 id="server">2.4 Server</h3>
 
 <p>作为这门语言的设计目标其中之一，Erlang对Server有很好的支持，提供了superviour, gen_server等OTP模块为Server长期稳定运行保驾护航，对OTP不熟悉的读者可以先读读由连城翻译的《Erlang/OTP并发编程实战》。</p>
 
@@ -1006,7 +1101,7 @@ flush(This) -&gt;
 
 <p>多进程的socket_server可以通过<code>start()</code>函数来启动，这个我们在1.4节已经了解，它调用了<code>start_sever()</code>并通过gen_server的标准机制调用到<code>init()</code>函数。<code>init()</code>负责初始化Server并侦听服务端口，一旦有客户端连接进入，会调用<code>new_acceptor()</code>函数，后者会针对每个新连接创建一个新进程，并调用<code>acceptor_loop()</code>函数对应的来创建transport, protocol并调用processor的入口函数<code>init()</code>来开始处理请求，<code>acceptor_loop()</code>内执行的步骤与单进程的<code>start_processor()</code>函数类似，因为都是针对的都是单个客户端。其它的代码就比较简单了，这里略过。</p>
 
-<h3>2.5 Client</h3>
+<h3 id="client">2.5 Client</h3>
 
 <p>Client相关的源代码包括<code>lib/erl/erc</code>目录下文件名带client字样的几个文件：</p>
 
@@ -1032,7 +1127,7 @@ call(Client = #tclient{}, Function, Args)
 
 <p>如前文所述，Server端解包请求包时反序列化包头包体的逻辑，和打包回复包序列化包头包体的逻辑都放在processor中，Client端由于没有经过processor，于是这部分代码就放在Client模块中，Client打包发向Server的请求包和解包来自Server的回复包的代码分别在函数<code>send_function_call()</code>和<code>receive_function_result()</code>，后者根据回包的类型不同而执行不同的解包动作：如果是正常回包，则调用<code>handle_reply()</code>解之，如果回包是异常，则调用<code>handle_application_exception()</code>解之，整个代码还是比较简单的。</p>
 
-<h3>2.5 其它代码</h3>
+<h3 id="section-4">2.5 其它代码</h3>
 
 <p>目录<code>lib/erl</code>还有其它的一些测试代码，都比较简单，这里就不展开了：</p>
 
@@ -1041,16 +1136,17 @@ call(Client = #tclient{}, Function, Args)
 └── test        -- 测试代码
 </code></pre>
 
-<h2>3 总结</h2>
+<h2 id="section-5">3 总结</h2>
 
 <p>Thrift Erlang实现的所有主要代码到这里就讨论完了。总体来看，整个实现并不复杂，代码阅读起来也比较简明易懂，认真读起来很快就可以读完，对比C++或Python等其他语言的实现来看，Erlang实现的代码量相当小，这得益于Erlang对网络编程，服务器编写的优秀支持，以及函数式编程的清晰语义。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[我的Emacs配置]]></title>
     <link href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public/"/>
-    <updated>2013-01-13T01:18:00+00:00</updated>
+    <updated>2013-01-13T01:18:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public</id>
     <content type="html"><![CDATA[<p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
 
@@ -1095,45 +1191,52 @@ geiser
 <p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
 
 <p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Emacs修炼之道]]></title>
     <link href="http://clisp.github.com/blog/2013/01/08/the-pragmatic-emacser/"/>
-    <updated>2013-01-08T16:04:00+00:00</updated>
+    <updated>2013-01-08T16:04:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/08/the-pragmatic-emacser</id>
-    <content type="html"><![CDATA[<blockquote><p>&#8220;Don&#8217;t panic.&#8221;</p>
+    <content type="html"><![CDATA[<blockquote>
+  <p>“Don’t panic.”</p>
+</blockquote>
 
-<p>&#8211; The Hitchhiker&#8217;s Guide to the Galaxy</p></blockquote>
+<blockquote>
+  <p>&#8211; The Hitchhiker’s Guide to the Galaxy</p>
+</blockquote>
 
 <p>作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么，与其它编辑器有什么不同，如何使用它等。Emacs是一个很大的话题，而且网上关于Emacs/Vim/其他编辑器的各种圣战中飞扬的口水已经太多了，所以这里我把这篇内容缩小到Emacs的修炼这一点上，因为对于那些真正对Emacs感兴趣并准备起锚出发的Emacs初学者，如果有一个详细的指南，它记录了从入门到进阶等各个阶段，以及前进的道路上有哪些可以借力的资料或资源等，这是很有帮助的。于是我有了写此文的打算，作为一个过来人我就斗胆写一下Emacs的修炼之道。</p>
 
 <p>一般来说，那些决定不用系统自带的文本编辑器，而专门花时间学习Vim/Emacs的人都需要在文本上做比较多的工作，他们希望在工具这一块上做长期的投资——即使Vim/Emacs的入门需要一些精力和时间，但熟悉之后能提高工作效率并长期发挥作用，当然这些人之中有很多是程序员。如果你像我认识的一些朋友一样，对系统自带的文本编辑器，比如windows下的notepad，保持100%的满意，那么就不用接着往下看了，尽可跳过下文并继续留在那个与世隔绝的默认编辑器的桃花源里，这种说法好像比较鄙视notepad，但其实它主要是说：如果编辑需求复杂多变，那么编辑器相应的也需要变得复杂强大。</p>
 
-<p>接下来这一个Emacs之道会有点长，因为Emacs被设计成能提供各种复杂多变的编辑功能，甚至是文本编辑之外的，例如玩游戏或收邮件等其它功能，所以Emacs才会有“伪装成操作系统的编辑器”这一别称，而且学习曲线会变得非常的，呃，奇怪<a href="#1">[1]</a>。尽管下文有点长，但是记得带上你的毛巾<a href="#2">[2]</a>，无论遇到什么情况，最重要的是，Don&#8217;t panic。</p>
+<p>接下来这一个Emacs之道会有点长，因为Emacs被设计成能提供各种复杂多变的编辑功能，甚至是文本编辑之外的，例如玩游戏或收邮件等其它功能，所以Emacs才会有“伪装成操作系统的编辑器”这一别称，而且学习曲线会变得非常的，呃，奇怪<a href="#1">[1]</a>。尽管下文有点长，但是记得带上你的毛巾<a href="#2">[2]</a>，无论遇到什么情况，最重要的是，Don’t panic。</p>
 
 <p>我把Emacs修炼的道路分为几个主要的阶段：</p>
 
-<h3>1. 入门小徒</h3>
+<h3 id="section">1. 入门小徒</h3>
 
 <p>初学Emacs，首先要了解Emacs的基本操作，Emacs自带的tutorial文档就是为零起点的新手而写的，它介绍了窗口(window)，文件，缓冲区等概念，并一步一步的指导初学者学习光标移动，插入修改，搜索，保存退出等基础功能，是最好的入门指南。默认的键绑定下在Emacs中使用C-h t可以打开这个tutorial文档，也有对应的中文译版叫《Emacs快速指南》，文档不长，整个看完并按文档指引练习一下，之后就可以用Emacs完成简单的文本编辑。</p>
 
 <p>接下来可以阅读《Learning GNU Emacs》，这本由老牌黑客Eric Raymond参与编写的书是学习Emacs的经典书目，内容很多也很全面，它介绍了从用Emacs做基本的文本编辑，到用Emacs收发邮件阅读网页，到定制编辑宏以及做程序开发等各种功能。初学者可以只读前5章，对Emacs的环境及常用操作做一个比较细致的了解。这本书的原英文第1版讨论的是Emacs的18版本，之后第2版出版，讨论的是Emacs的19.30版，而2004年出版的第3版，则随着Emacs的版本升级把内容更新到21.3版，到2013的今天，Emacs的主版本号已经升到24，虽然这本书在过去一段时间也算是与时俱进，但从版本上来远远落后于Emacs更新的速度，不过，很多内容在Emacs中保持稳定，还是很有价值的，只是阅读的时候要注意一下版本变化。这本书也有中文译本，已经绝版，但对应的只是较旧的英文第2版，译文流畅印刷错误也少，译本质量尚佳，因为是针对初学者而写的入门书，讲解详细，辅以图示截屏帮助理解，读来比较轻松。</p>
 
-<p>进一步学习的话，则根据各人的需求而选择了，需求不同则学习的内容也不同。希望使用Emacs来做大量重复编辑的人可以学习定制编辑宏，用来写笔记的可以学习outline-mode或org-mode，用来收邮件的可以学习mew等邮件客户端的用法。考虑到使用Emacs的人当中有很多的程序员，那么也根据编程语言的不同，学习的编辑模式也不同，Emacs对于多种编程语言都有着很好的支持，如C, C++, Java, Shell, Python, Perl, Erlang, Lisp&#8230;&#8230;还有常见标记语言如Html, XML和排版用的Tex, LaTeX和Troff等。此外你可能会需要一些特别的功能，这些功能在其它的编辑器/IDE也有，比如显示行号，在编写代码时的自动补全，全文格式化，代码折叠与展开，实时显示代码错误等，Emacs还有一些比较独特好玩的功能，如hungry delete。学习这些内容，除了《Learning GNU Emacs》这本书第5章后面的多个章节之外，网上也有很多的资料，不过就比较分散了，要找到Emacs是否有满足你特定需要的扩展，或者这些扩展怎么使用，google是一个很好帮手。</p>
+<p>进一步学习的话，则根据各人的需求而选择了，需求不同则学习的内容也不同。希望使用Emacs来做大量重复编辑的人可以学习定制编辑宏，用来写笔记的可以学习outline-mode或org-mode，用来收邮件的可以学习mew等邮件客户端的用法。考虑到使用Emacs的人当中有很多的程序员，那么也根据编程语言的不同，学习的编辑模式也不同，Emacs对于多种编程语言都有着很好的支持，如C, C++, Java, Shell, Python, Perl, Erlang, Lisp……还有常见标记语言如Html, XML和排版用的Tex, LaTeX和Troff等。此外你可能会需要一些特别的功能，这些功能在其它的编辑器/IDE也有，比如显示行号，在编写代码时的自动补全，全文格式化，代码折叠与展开，实时显示代码错误等，Emacs还有一些比较独特好玩的功能，如hungry delete。学习这些内容，除了《Learning GNU Emacs》这本书第5章后面的多个章节之外，网上也有很多的资料，不过就比较分散了，要找到Emacs是否有满足你特定需要的扩展，或者这些扩展怎么使用，google是一个很好帮手。</p>
 
 <p>这个时候你已经很熟悉Emacs日常使用，以及为自己的编辑需要加了一些扩展和定制，在配置文件不断变大的同时，你可能也知道一点简单的Emacs Lisp写法，但对Emacs Lisp还没有深入的了解。</p>
 
 <p>由于各人的编辑需求不一样，这个寻找某种特定功能并定制使用的过程可长可短，了解Emacs在各种编辑模式下的功能有助于进一步学习Emacs Lisp及Emacs的内部实现，但这不是必需的。即使你很快的进入下一阶段开始系统学习Emacs Lisp，但如果时不时会遇到新的编辑需要，还是会重复上述的扩展定制过程。以像我自己为例，因为需要编辑的代码种类越来越多，如后来的Markdown, Erlang，所以也对应的添加了markdown-mode, erlang-mode的定制代码。</p>
 
-<h3>2. 登堂入室</h3>
+<h3 id="section-1">2. 登堂入室</h3>
 
 <p>在接触Emacs的过程中，很多新手都会注意到一个事实：Emacs是用一种叫做Emacs Lisp的Lisp方言写的，如果不懂Emacs Lisp是无法进一步走入Emacs的殿堂的。所以在这里我把“开始系统的学习Emacs Lisp”做为进入到第2阶段的标志。</p>
 
-<p>在Emacs自带的Info文档中，对Emacs的描述是：</p>
+<p>在Emacs自带的Info文档中，对Emacs的描述是：  </p>
 
-<blockquote><p>Emacs is the extensible, customizable, self-documenting real-time display editor.</p></blockquote>
+<blockquote>
+  <p>Emacs is the extensible, customizable, self-documenting real-time display editor.</p>
+</blockquote>
 
 <p>可以看到，可扩展性，可定制性和自文档化是Emacs三个特别强调的特点，前两个特点或者其它编辑器也有，比如Vim，但自我文档化这一点，可算是Emacs的一个独门绝技，是的，在visual studio中也有帮助系统，不过与Emacs的自文档化比起来，还是差得太远了，这方面可以比肩Lisp的编程语言不多，Python是其中一个，自文档化与交互式编程结合起来，整个编程环境会让写代码的人相当舒服。</p>
 
@@ -1147,15 +1250,15 @@ geiser
 
 <p>通过前面的学习，在前一阶段的基础上你已经掌握大量的Emacs Lisp，在阅读源代码上有了不少的积累，但由于没有全面系统的学习Emacs Lisp，有时候读起源代码来不懂的地方太多，会有种力不从心之感，这时候就可以开始进入第3阶段。</p>
 
-<h3>3. 武林高手</h3>
+<h3 id="section-2">3. 武林高手</h3>
 
 <p>对于学习Emacs Lisp，最权威的两个文档当然是Emacs自带的Info文档《The Emacs Editor》和《The Emacs Lisp Reference Manual》，前者主要介绍作为编辑器的Emacs概念和机制，比如kill-ring，display, key-binding, 各种mode等，重点在使用，后者则全面系统的介绍了Emacs Lisp这门编程语言，比如各种数据结构及操作，宏，文加载等，重点在于编程，Emacs Lisp作为Emacs的实现语言，当然两个文档会有标题或内容看起来很类似的章节，但由于两个文档重点不一样，两者互为呼应补充而非重复。这两个都是大部头，要读完的话甚费时日，但其内容并不艰深，读起来还算轻松，耐心读完的话，会功力剧增，对Emacs的理解有很大的提高。虽然我在这里把两个文档一起列出，但其实阅读顺序和阅读习惯可以按各人的习惯自由安排：可以先读前一本，读完再读后一本；也可以先读后一本，在遇到新概念的时候再回头看看前一本的对应章节。这两种都是比较有效的读法。就像电影《黑客帝国》第一部所讲的，在Neo知道Matrix不是看起来那样的真实之后，进入Matrix中能看到一些不真实的事物，读完这两本书之后，你再进入Emacs的时候，看着界面的buffer，高亮的代码块，mode-line等，不再只是看到它们显示出来的样子，而且透过表面看到了里面运行的模块和流动的代码。</p>
 
 <p>作为读书的补充，可以适当的找一些源代码来看，一些常用的扩展如auto-complete, yasnippet等代码目录结构不算复杂的都合适。我个人建议以兴趣和熟悉程度为出发点，以你熟悉的mode，或最感兴趣的扩展来作为开始，因为对外部功能了解越多，越有助于理解其内部代码，就像熟悉Linux的库和系统接口，有助于阅读内核源代码一样。</p>
 
-<p>到此，你已经全面系统的学习过Emacs和Emacs Lisp，在阅读源代码上也有了大量的积累。在正式变为高手之前，还有需要做一件事情：写至少一个扩展，并奉献出来。在开源文化或黑客伦理中，一个人成为高手或黑客，不仅因为他技术高超，而且因为他有很好的奉献精神。写一个扩展需要很多的劳动，写一个规模大而且质量好的扩展更是辛苦。虽然在前面的学习过程中，你已经读过一些扩展的源代码了，但在开始正式自己写扩展之前，或者你有兴趣阅读一下《Writing GNU Emacs Extensions》这本书，了解一下如何从头到尾写一个扩展。这本由Bob Glickstein写的书于1997年由O&#8217;Reilly出版，虽然内容很好，但是真的远远落后于时代了，对应的Emacs版本是18，目前能找到的电子版印刷错误也较多。</p>
+<p>到此，你已经全面系统的学习过Emacs和Emacs Lisp，在阅读源代码上也有了大量的积累。在正式变为高手之前，还有需要做一件事情：写至少一个扩展，并奉献出来。在开源文化或黑客伦理中，一个人成为高手或黑客，不仅因为他技术高超，而且因为他有很好的奉献精神。写一个扩展需要很多的劳动，写一个规模大而且质量好的扩展更是辛苦。虽然在前面的学习过程中，你已经读过一些扩展的源代码了，但在开始正式自己写扩展之前，或者你有兴趣阅读一下《Writing GNU Emacs Extensions》这本书，了解一下如何从头到尾写一个扩展。这本由Bob Glickstein写的书于1997年由O’Reilly出版，虽然内容很好，但是真的远远落后于时代了，对应的Emacs版本是18，目前能找到的电子版印刷错误也较多。</p>
 
-<h3>4. 飞升成仙</h3>
+<h3 id="section-3">4. 飞升成仙</h3>
 
 <p>到了这个阶段，进一步提升自己的方向有两个，一曰深度，一曰广度。</p>
 
@@ -1163,12 +1266,12 @@ geiser
 
 <p>广度方面，可以广泛涉猎其它Lisp方言，学习Lisp的实现，历史及著名项目等，甚至可以弄一个Lisp Machine来玩玩，或者学习其它的函数式编程语言。这个话题太大，但我还是尽力尝试提供一点帮助信息。最大的两个Lisp方言当然是Common Lisp和Scheme，如果详细叙述如何学习Common Lisp或Scheme，那么可以需要写的篇幅比本文长得多，或者将来在我的博客上会出现《Common Lisp修炼之道》或《Scheme修炼之道》，但至少暂时是既无能力也无计划。这里只是简单列一下可供参考的书目：</p>
 
-<p>《Structure and Interpretation of Computer Programs》，中译本《计算机程序的构造和解释》<br/>
-《Ansi Common Lisp》，目前网上有在线中文翻译版本，前几章翻译得还不错<br/>
-《Practical Common Lisp》， 伞哥(田春)翻译了中文版，2011年出版，有的地方读起来比较生涩<br/>
-《On Lisp》，伞哥和其他人合作翻译，网上有电子版，翻译质量很高，就像前文所说，“很高”这两个字不是随便用的<br/>
-《Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp》，由AI大牛Peter Norvig所写的，书名看起来只是AI方面的书，但其实也是一本很好的Common Lisp教程<br/>
-《Common LISP The Language, 2nd》，描述Common Lisp的语言标准</p>
+<p>《Structure and Interpretation of Computer Programs》，中译本《计算机程序的构造和解释》<br />
+《Ansi Common Lisp》，目前网上有在线中文翻译版本，前几章翻译得还不错<br />
+《Practical Common Lisp》， 伞哥(田春)翻译了中文版，2011年出版，有的地方读起来比较生涩<br />
+《On Lisp》，伞哥和其他人合作翻译，网上有电子版，翻译质量很高，就像前文所说，“很高”这两个字不是随便用的<br />
+《Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp》，由AI大牛Peter Norvig所写的，书名看起来只是AI方面的书，但其实也是一本很好的Common Lisp教程<br />
+《Common LISP The Language, 2nd》，描述Common Lisp的语言标准  </p>
 
 <p>还有很多Lisp好书都没有一一列出，此外函数式编程语言也不少，虽然有时学习曲线陡得像是悬崖峭壁，但如果你真的到了这一步，相信会有足够的兴趣和技能支撑你继续走下去，总之可以选择的方向太多，这篇小文只谈Emacs修炼，适可而止。</p>
 
@@ -1176,220 +1279,195 @@ geiser
 
 <p>如果以上提到的这些内容你都已经深入钻研，深到地球核心，又广到天际之远，那么恭喜恭喜，你可以正式宣称“神丹炼成，择日飞升”，到这个时候，你所需要的只剩下《颈椎病和鼠标手康复指南》。两千年前庄子就说了，“吾生也有涯，而知也无涯。以有涯随无涯，殆已；已而为知者，殆而已矣。”喜欢折腾Emacs的朋友们，人生短暂，还是悠着点吧。</p>
 
-<p><em>注：</em><br/>
-<a id="1">[1]</a> <a href="http://coolshell.cn/articles/3125.html">《主流文本编辑器学习曲线》</a>这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。<br/>
-<a id="2">[2]</a> 《银河系漫游指南》中毛巾这个词条有一些特别的解释。<br/>
-<a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。</p>
+<p><em>注：</em><br />
+<a id="1">[1]</a> <a href="http://coolshell.cn/articles/3125.html">《主流文本编辑器学习曲线》</a>这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。<br />
+<a id="2">[2]</a> 《银河系漫游指南》中毛巾这个词条有一些特别的解释。<br />
+<a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。  </p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[谈谈家乡]]></title>
     <link href="http://clisp.github.com/blog/2013/01/08/about-my-hometown/"/>
-    <updated>2013-01-08T14:24:00+00:00</updated>
+    <updated>2013-01-08T14:24:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/08/about-my-hometown</id>
-    <content type="html"><![CDATA[<h3>家乡新兴</h3>
+    <content type="html"><![CDATA[<h3 id="section">家乡新兴</h3>
 
 <p><img src="http://www.xxphotow.com/file/6-7/19235425033.jpg" alt="新兴县城" />
 图片来自新兴摄影网</p>
 
-<p>对于这个叫做新兴的地方，我自以为很熟悉。在地理上，新兴县位于广东省中部偏西，地处山区，东邻高明鹤山，西接阳春云安，距广州170公里，气候温和，山清水秀。新兴因新兴江在境内而得名，在秦代就已立郡，历史可谓悠久，到底是先有江名再有地名，还是先有地名，再有江名，就像那个先有蛋还是先有鸡的问题。新兴在历史上曾有名新州，新城，唐代诗人王勃的《滕王阁序》写道：&#8221;宇文新州之懿范，襜帷暂驻&#8221;，这里的新州，指的就是新兴，在我读高中的时候，《滕王阁序》是语文教材上的文章，从里面读到故乡新兴着实让我们这些学生惊艳了一把，虽然诗文不免夸大，&#8221;宇文新州&#8221;一句多是奉承客气的话，况且宇文氏也不一定是新兴人，不过这一句隐隐让新兴透着一股灵 气。事实上，就在王勃写这篇文章的时候(公元653年)，一个人已经在这股灵气中诞生，这说的就是禅宗六祖慧能。</p>
+<p>对于这个叫做新兴的地方，我自以为很熟悉。在地理上，新兴县位于广东省中部偏西，地处山区，东邻高明鹤山，西接阳春云安，距广州170公里，气候温和，山清水秀。新兴因新兴江在境内而得名，在秦代就已立郡，历史可谓悠久，到底是先有江名再有地名，还是先有地名，再有江名，就像那个先有蛋还是先有鸡的问题。新兴在历史上曾有名新州，新城，唐代诗人王勃的《滕王阁序》写道：”宇文新州之懿范，襜帷暂驻”，这里的新州，指的就是新兴，在我读高中的时候，《滕王阁序》是语文教材上的文章，从里面读到故乡新兴着实让我们这些学生惊艳了一把，虽然诗文不免夸大，”宇文新州”一句多是奉承客气的话，况且宇文氏也不一定是新兴人，不过这一句隐隐让新兴透着一股灵 气。事实上，就在王勃写这篇文章的时候(公元653年)，一个人已经在这股灵气中诞生，这说的就是禅宗六祖慧能。</p>
 
 <p>慧能(公元638-713)，俗姓卢，生于岭南新州(今广东新兴)，得五祖弘忍传授衣钵，为禅宗六祖，提出顿悟成佛的思想，大大推动了印传佛教在中国的传播。</p>
 
 <p>慧能出身贫寒，父亲早逝，他在二十几岁正式学佛之前，一直以砍柴为生，与母亲相依为命。虽然现在离唐朝已经有一千五百多年时光，但不难想象，在王勃写《滕王阁序》的当时，这个年龄只有13岁的少年可能正在山野间砍柴，在纯粹的自然和艰辛的劳作中积累着佛性与慧心。</p>
 
-<p>在我的印象中，关于六祖的传奇故事最广为流传的有这么两个，一是与神秀对偈，就是那句经典的&#8221;菩提本无树，明镜亦非台&#8221;，二是在广州光孝寺辩论风动幡动，后 者也许更广为人知，常常作为中小学政治课本上代表唯心主义哲学的典型而出现，王家卫的电影《东邪西毒》也有引用。六祖生前致力于布道讲经，宏扬禅宗佛法，主要在广州光孝寺，韶关南华寺，新兴国恩寺3个地方，其中国恩寺座落于新兴集成镇龙山脚下，是六祖的弘法，辑录《六祖坛经》和圆寂的地方，而今六祖真身供奉于国恩寺中。对于每一个新兴人来说，六祖慧能和龙山国恩寺是从小就耳熟能详。</p>
+<p>在我的印象中，关于六祖的传奇故事最广为流传的有这么两个，一是与神秀对偈，就是那句经典的”菩提本无树，明镜亦非台”，二是在广州光孝寺辩论风动幡动，后 者也许更广为人知，常常作为中小学政治课本上代表唯心主义哲学的典型而出现，王家卫的电影《东邪西毒》也有引用。六祖生前致力于布道讲经，宏扬禅宗佛法，主要在广州光孝寺，韶关南华寺，新兴国恩寺3个地方，其中国恩寺座落于新兴集成镇龙山脚下，是六祖的弘法，辑录《六祖坛经》和圆寂的地方，而今六祖真身供奉于国恩寺中。对于每一个新兴人来说，六祖慧能和龙山国恩寺是从小就耳熟能详。</p>
 
 <p>六祖慧能在新兴留下的事迹比较多，龙山上他弘法讲道的场所，圆寂的场所，亲手种的荔枝等都成为后世新兴人的一种文化财产，在当今旅游文化日盛的环境下，文化财产变成了真正的白花花的银两。由于龙山本来就有天然温泉，经过开发之后变成旅游胜地，六祖+温泉渐渐变成新兴发展旅游业的两大招牌。国恩寺地方不大，前面牌坊高塔，后面花园碑林，香火常盛，每到新年或节日，往往满是求拜的信众，或求钱财，或求保佑，不一而足，我个人觉得，在今天看来它的庙堂不大而人间烟火味太重，并不适合修性坐禅，猜想在唐朝六祖在生当年，交通不发达，也许在寺中能保有一角安静，一方禅境。</p>
 
-<h3>小镇天堂</h3>
+<h3 id="section-1">小镇天堂</h3>
 
 <p><img src="http://www.xxphotow.com/file/2-8/1431872885.jpg" alt="天堂田间" />
 图片来自新兴摄影网</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[《实用common lisp编程》读书笔记 (二)]]></title>
     <link href="http://clisp.github.com/blog/2013/01/01/reading-note-of-practical-common-lisp-2/"/>
-    <updated>2013-01-01T16:41:00+00:00</updated>
+    <updated>2013-01-01T16:41:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/01/reading-note-of-practical-common-lisp-2</id>
-    <content type="html"><![CDATA[<h3>第10章 数字，字符和字符串</h3>
+    <content type="html"><![CDATA[<h3 id="section">第10章 数字，字符和字符串</h3>
+<p>本章介绍内置的“标量”数据类型：数字，字符和字符串。  </p>
 
-<p>本章介绍内置的“标量”数据类型：数字，字符和字符串。</p>
+<h4 id="section-1">10.1 数字</h4>
+<p>lisp对数学支持良好，支持任意精度有理数，支持高性能数值计算  </p>
 
-<h4>10.1 数字</h4>
+<h4 id="section-2">10.2 字面数值</h4>
+<p>1) 整数：+/-后跟数字。支持比值写法。支持多种进制<br />
+二进制以#B或#b开头，后跟0,1<br />
+八进制以#O或#o开头，后跟0-7<br />
+十六进制以#X或#x开头，后跟0-9A-F, 0-9a-f<br />
+其它进制以#nR开头，后跟0-9A-Z(或a-z)  </p>
 
-<p>lisp对数学支持良好，支持任意精度有理数，支持高性能数值计算</p>
+<p>2) 浮点数，共有4种：短型，单精度，双精度，长型<br />
+表示法：<br />
+可选符号＋十进制数字序列+科学记数法指数标记字母+可选符号+数字序列<br />
+例如+1.23d+25<br />
+其中指数标记字母s, f, d, l及其大写分别代表短型，单精度，双精度，长型  </p>
 
-<h4>10.2 字面数值</h4>
+<p>3) 复数<br />
+#C或#c后跟两个实数组成的列表  </p>
 
-<p>1) 整数：+/-后跟数字。支持比值写法。支持多种进制<br/>
-二进制以#B或#b开头，后跟0,1<br/>
-八进制以#O或#o开头，后跟0-7<br/>
-十六进制以#X或#x开头，后跟0-9A-F, 0-9a-f<br/>
-其它进制以#nR开头，后跟0-9A-Z(或a-z)</p>
+<h4 id="section-3">10.3 初等数学</h4>
+<p>基本运算符：加，减，乘除<br />
+用于截断和舍入：<br />
+FLOOR，向负无穷方向截断<br />
+CEILING，向正无穷方向截断<br />
+TRUNCATE，向零截断<br />
+ROUND，舍入到最接近的整数上<br />
+求模：MOD和REM求模的余数<br />
+加1减1:　1+，1-<br />
+自增/自减宏：INCF，DECF  </p>
 
-<p>2) 浮点数，共有4种：短型，单精度，双精度，长型<br/>
-表示法：<br/>
-可选符号＋十进制数字序列+科学记数法指数标记字母+可选符号+数字序列<br/>
-例如+1.23d+25<br/>
-其中指数标记字母s, f, d, l及其大写分别代表短型，单精度，双精度，长型</p>
+<h4 id="section-4">10.4 数值比较</h4>
+<p>数值等价函数 =<br />
+等价谓词EQL，EQUALP<br />
+其它等价相关函数 /=, &lt;, &gt;, &lt;=, &gt;=<br />
+求最小或最大值 MIN, MAX<br />
+其它常用函数 ZEROP, MINUSP, PLUSP, EVENP, ODDP  </p>
 
-<p>3) 复数<br/>
-#C或#c后跟两个实数组成的列表</p>
+<h4 id="section-5">10.5 高等数学</h4>
+<p>LOG, EXP, EXPT, SIN, COS, TAN, ASIN, ACOS, ATAN等  </p>
 
-<h4>10.3 初等数学</h4>
+<h4 id="section-6">10.6 字符</h4>
+<p>字符语法 #\后跟字符  </p>
 
-<p>基本运算符：加，减，乘除<br/>
-用于截断和舍入：<br/>
-FLOOR，向负无穷方向截断<br/>
-CEILING，向正无穷方向截断<br/>
-TRUNCATE，向零截断<br/>
-ROUND，舍入到最接近的整数上<br/>
-求模：MOD和REM求模的余数<br/>
-加1减1:　1+，1-<br/>
-自增/自减宏：INCF，DECF</p>
+<h4 id="section-7">10.7 字符比较</h4>
+<p>大小写相关 CHAR=<br />
+大小写无关 CHAR-EQUAL<br />
+大小写相关命名：对应数值比较符前面，加CHAR<br />
+大小写无关命名：对应数值比较符前面，加CHAR和一个连字符<br />
+特例：<br />
+&lt;=　NOT-GREATERP<br />
+&gt;= NOT-LESSP  </p>
 
-<h4>10.4 数值比较</h4>
+<h4 id="section-8">10.8 字符串</h4>
+<p>字符串是一给字符数组，可以用序列处理函数来处理  </p>
 
-<p>数值等价函数 =<br/>
-等价谓词EQL，EQUALP<br/>
-其它等价相关函数 /=, &lt;, >, &lt;=, >=<br/>
-求最小或最大值 MIN, MAX<br/>
-其它常用函数 ZEROP, MINUSP, PLUSP, EVENP, ODDP</p>
+<h4 id="section-9">10.9 字符串比较</h4>
+<p>将字符比较函数的命名中的CHAR换为STRING，如STRING-EQUAL  </p>
 
-<h4>10.5 高等数学</h4>
+<h3 id="section-10">第11章 集合</h3>
+<p>Common Lisp支持向量(数组，列表或元组)和哈希表(关联数组，映射，字典)  </p>
 
-<p>LOG, EXP, EXPT, SIN, COS, TAN, ASIN, ACOS, ATAN等</p>
+<h4 id="section-11">11.1 向量</h4>
+<p>Common Lisp的微量有两种：定长向量与变长向量<br />
+定长向量：用VECTOR函数生成，#(…)语法是字面向量<br />
+MAKE-ARRAY可用于生成定长和变长向量，关键字参数有initial-element, fill-pointer, adjustable<br />
+操作函数有VECTOR-PUSH和VECTOR-PUSH-EXTEND  </p>
 
-<h4>10.6 字符</h4>
+<h4 id="section-12">11.2 向量的子类型</h4>
+<p>MAKE-ARRAY函数的关键字element-type，传递了向量元素的类型信息，如字符为CHARACTER，位为BIT  </p>
 
-<p>字符语法 #\后跟字符</p>
+<h4 id="section-13">11.3 作为序列的向量</h4>
+<p>序列分为两种子类型：向量和列表，所有序列函数都可应用于它们<br />
+序列函数有：<br />
+LENGTH，返回长度<br />
+ELT，通过索引访问，超出边界时报错，返回左值  </p>
 
-<h4>10.7 字符比较</h4>
+<h4 id="section-14">11.4 序列迭代函数</h4>
+<p>COUNT，计算序列中某项出现的次数<br />
+FIND，查找某项<br />
+POSITION，查找某项在序列中的索引<br />
+REMOVE，在序列中移除某项，非破坏性<br />
+SUBSTITUTE，替换序列中的匹配项，非破坏性<br />
+这五个参数都支持关键字参数key, test, test-not, start, end, from-end, count，从而得到非常多的功能组合  </p>
 
-<p>大小写相关 CHAR=<br/>
-大小写无关 CHAR-EQUAL<br/>
-大小写相关命名：对应数值比较符前面，加CHAR<br/>
-大小写无关命名：对应数值比较符前面，加CHAR和一个连字符<br/>
-特例：<br/>
-&lt;=　NOT-GREATERP<br/>
->= NOT-LESSP</p>
+<h4 id="section-15">11.5 高阶函数变体</h4>
+<p>11.4中的函数命名后加上-IF，或-IF-NOT<br />
+REMOVE-DUPLICATES  </p>
 
-<h4>10.8 字符串</h4>
+<h4 id="section-16">11.6 整个序列上的操作</h4>
+<p>COPY-SEQ，复制序列<br />
+REVERSE，生成逆序的新序列<br />
+CONCATENATE，生成任意数量序列连接的新序列  </p>
 
-<p>字符串是一给字符数组，可以用序列处理函数来处理</p>
+<h4 id="section-17">11.7 排序与合并</h4>
+<p>SORT，排序<br />
+STABLE-SORT，稳定排序<br />
+两个都具有破坏性<br />
+MERGE，合并序列  </p>
 
-<h4>10.9 字符串比较</h4>
+<h4 id="section-18">11.8 子序列操作</h4>
+<p>SUBSEQ，取子序列，左值<br />
+FILL，设置序列中的值<br />
+SEARCH，查找匹配序列<br />
+MISMATCH，比较两个序列，找出首个不同的位置  </p>
 
-<p>将字符比较函数的命名中的CHAR换为STRING，如STRING-EQUAL</p>
+<h4 id="section-19">11.9 序列谓词</h4>
+<p>EVERY，谓词对序列每个元素为成立时真，否则为假<br />
+SOME, 谓词对序列中某个元素成立时真，否则为假<br />
+NOTANY，谓词对序列中每个元素都不成立时真，否则为假<br />
+NOTEVERY，谓词不是对序列中每个元素都成立为真，否则为假  </p>
 
-<h3>第11章 集合</h3>
+<h4 id="section-20">11.10 序列映射函数</h4>
+<p>MAP，将函数应用到序列中每个元素对上形成新序列<br />
+MAP-INTO，类似于MAP，但将结果写回到第一个参数中，不会扩展变长向量<br />
+REDUCE，将两参数函数累积应用到单个序列中的两两元素上  </p>
 
-<p>Common Lisp支持向量(数组，列表或元组)和哈希表(关联数组，映射，字典)</p>
+<h4 id="section-21">11.11 哈希表</h4>
+<p>MAKE-HASH-TABLE，创建哈希表，支持test关键字，默认用EQL<br />
+GETHASH，访问哈希表<br />
+MULTIPLE-VALUE-BIND，取出多重返回值<br />
+REMHASH，删除哈希表中的项<br />
+CLRHASH，清除哈希表中所有项  </p>
 
-<h4>11.1 向量</h4>
-
-<p>Common Lisp的微量有两种：定长向量与变长向量<br/>
-定长向量：用VECTOR函数生成，#(&#8230;)语法是字面向量<br/>
-MAKE-ARRAY可用于生成定长和变长向量，关键字参数有initial-element, fill-pointer, adjustable<br/>
-操作函数有VECTOR-PUSH和VECTOR-PUSH-EXTEND</p>
-
-<h4>11.2 向量的子类型</h4>
-
-<p>MAKE-ARRAY函数的关键字element-type，传递了向量元素的类型信息，如字符为CHARACTER，位为BIT</p>
-
-<h4>11.3 作为序列的向量</h4>
-
-<p>序列分为两种子类型：向量和列表，所有序列函数都可应用于它们<br/>
-序列函数有：<br/>
-LENGTH，返回长度<br/>
-ELT，通过索引访问，超出边界时报错，返回左值</p>
-
-<h4>11.4 序列迭代函数</h4>
-
-<p>COUNT，计算序列中某项出现的次数<br/>
-FIND，查找某项<br/>
-POSITION，查找某项在序列中的索引<br/>
-REMOVE，在序列中移除某项，非破坏性<br/>
-SUBSTITUTE，替换序列中的匹配项，非破坏性<br/>
-这五个参数都支持关键字参数key, test, test-not, start, end, from-end, count，从而得到非常多的功能组合</p>
-
-<h4>11.5 高阶函数变体</h4>
-
-<p>11.4中的函数命名后加上-IF，或-IF-NOT<br/>
-REMOVE-DUPLICATES</p>
-
-<h4>11.6 整个序列上的操作</h4>
-
-<p>COPY-SEQ，复制序列<br/>
-REVERSE，生成逆序的新序列<br/>
-CONCATENATE，生成任意数量序列连接的新序列</p>
-
-<h4>11.7 排序与合并</h4>
-
-<p>SORT，排序<br/>
-STABLE-SORT，稳定排序<br/>
-两个都具有破坏性<br/>
-MERGE，合并序列</p>
-
-<h4>11.8 子序列操作</h4>
-
-<p>SUBSEQ，取子序列，左值<br/>
-FILL，设置序列中的值<br/>
-SEARCH，查找匹配序列<br/>
-MISMATCH，比较两个序列，找出首个不同的位置</p>
-
-<h4>11.9 序列谓词</h4>
-
-<p>EVERY，谓词对序列每个元素为成立时真，否则为假<br/>
-SOME, 谓词对序列中某个元素成立时真，否则为假<br/>
-NOTANY，谓词对序列中每个元素都不成立时真，否则为假<br/>
-NOTEVERY，谓词不是对序列中每个元素都成立为真，否则为假</p>
-
-<h4>11.10 序列映射函数</h4>
-
-<p>MAP，将函数应用到序列中每个元素对上形成新序列<br/>
-MAP-INTO，类似于MAP，但将结果写回到第一个参数中，不会扩展变长向量<br/>
-REDUCE，将两参数函数累积应用到单个序列中的两两元素上</p>
-
-<h4>11.11 哈希表</h4>
-
-<p>MAKE-HASH-TABLE，创建哈希表，支持test关键字，默认用EQL<br/>
-GETHASH，访问哈希表<br/>
-MULTIPLE-VALUE-BIND，取出多重返回值<br/>
-REMHASH，删除哈希表中的项<br/>
-CLRHASH，清除哈希表中所有项</p>
-
-<h4>11.12 哈希表迭代</h4>
-
-<p>MAPHASH，类似于MAP函数，只能用SETF/GETHASH修改当前项，REMHASH删除当前项<br/>
+<h4 id="section-22">11.12 哈希表迭代</h4>
+<p>MAPHASH，类似于MAP函数，只能用SETF/GETHASH修改当前项，REMHASH删除当前项<br />
 LOOP宏，也可以迭代哈希表，如</p>
 
 <pre><code>(loop for k being the has-keys in *h* using (hash-value v)
   do (format t "~a =&gt; ~a~%" k v))
 </code></pre>
 
-<h3>第12章 LISP名字的由来：列表处理</h3>
-
+<h3 id="lisp">第12章 LISP名字的由来：列表处理</h3>
 <p>列表在lisp中扮演重要角色</p>
 
-<h4>12.1 &#8220;没有列表&#8221;</h4>
+<h4 id="section-23">12.1 “没有列表”</h4>
+<p>列表由点对单元(cons cell)构成。函数CONS可以创建cons cell。函数CAR和CDR可以取出cons cell中的值。<br />
+点对单元，列表可以用方框箭头图表示。lisp对列表处理有相当大的函数库支持。  </p>
 
-<p>列表由点对单元(cons cell)构成。函数CONS可以创建cons cell。函数CAR和CDR可以取出cons cell中的值。<br/>
-点对单元，列表可以用方框箭头图表示。lisp对列表处理有相当大的函数库支持。</p>
+<h4 id="section-24">12.2 函数式编程和列表</h4>
+<p>函数式编程本质：程序员由没有副作用的函数组成。<br />
+APPEND函数的实现利用了共享结构。  </p>
 
-<h4>12.2 函数式编程和列表</h4>
-
-<p>函数式编程本质：程序员由没有副作用的函数组成。<br/>
-APPEND函数的实现利用了共享结构。</p>
-
-<h4>12.3 “破坏性”操作</h4>
-
-<p>common lisp并非纯函数式语言，它支持破坏性的(destructive)操作。<br/>
-破坏性操作有：所有SETF的使用，如VECTOR-PUSH或VECTOR-POP这类在底层使用了SETF的函数<br/>
+<h4 id="section-25">12.3 “破坏性”操作</h4>
+<p>common lisp并非纯函数式语言，它支持破坏性的(destructive)操作。<br />
+破坏性操作有：所有SETF的使用，如VECTOR-PUSH或VECTOR-POP这类在底层使用了SETF的函数<br />
 回收性操作，目的在于优化，有：</p>
 
 <pre><code>REVERSE                   NREVERSE
@@ -1402,10 +1480,9 @@ SUBSITUTE(-IF, -IF-NOT)?  NSUBSTITUTE(-IF, -IF-NOT)?
 
 <p>具有可靠副作用的回收函数：NCONC, NSUBSTITUTE变体</p>
 
-<h4>12.4 组合回收性函数和共享结构</h4>
-
-<p>回收性函数的习惯用法：<br/>
-1) 函数内部局部环境中PUSH多个元素并统一NREVERSE, 例子：</p>
+<h4 id="section-26">12.4 组合回收性函数和共享结构</h4>
+<p>回收性函数的习惯用法：<br />
+1) 函数内部局部环境中PUSH多个元素并统一NREVERSE, 例子：  </p>
 
 <pre><code>(defun upto (max)
   (let ((result nil))
@@ -1417,21 +1494,20 @@ SUBSITUTE(-IF, -IF-NOT)?  NSUBSTITUTE(-IF, -IF-NOT)?
 (upto 10) -&gt; (0 1 2 3 4 5 6 7 8 9 10)
 </code></pre>
 
-<p>2) 将回收性函数的返回值立即重新赋值到原来变量，例子：</p>
+<p>2) 将回收性函数的返回值立即重新赋值到原来变量，例子：  </p>
 
 <pre><code>(setf foo (delete nil foo))
 </code></pre>
 
-<p>PUSH/NREVERSE和SETF/DELETE的习惯用法占据了80%的回收性函数使用。<br/>
-常见的开发过程：先全部用函数式风格，后期性能评估需要优化再将部分操作替换成相应的回收性版本<br/>
-排序函数SORT，STABLE-SORT, MERGE没有对应的非破性性版本，需要和COPY-LIST合用</p>
+<p>PUSH/NREVERSE和SETF/DELETE的习惯用法占据了80%的回收性函数使用。<br />
+常见的开发过程：先全部用函数式风格，后期性能评估需要优化再将部分操作替换成相应的回收性版本<br />
+排序函数SORT，STABLE-SORT, MERGE没有对应的非破性性版本，需要和COPY-LIST合用  </p>
 
-<h4>12.5 列表处理函数</h4>
-
+<h4 id="section-27">12.5 列表处理函数</h4>
 <p>common lisp的列表处理函数库:
-FIRST, REST, SECOND &#8230; TENTH, NTH, NTHCDR, 28个复合CAR/CDR函数, LAST, BUTLAST, NBUTLAST, LDIFF, TAILP, LIST*, MAKE-LIST, REVAPPEND, NRECONC, CONSP, ATOM, LISTP, NULL</p>
+FIRST, REST, SECOND … TENTH, NTH, NTHCDR, 28个复合CAR/CDR函数, LAST, BUTLAST, NBUTLAST, LDIFF, TAILP, LIST*, MAKE-LIST, REVAPPEND, NRECONC, CONSP, ATOM, LISTP, NULL</p>
 
-<h4>12.6 映射</h4>
+<h4 id="section-28">12.6 映射</h4>
 
 <pre><code>高阶函数     破坏性版本   控制构造  备注
 MAP         MAP-INTO    --        结果类型可变
@@ -1439,53 +1515,47 @@ MAPCAR      MAPCAN      MAPC      操作元素
 MAPLIST     MAPCON      MAPL      操作cons cell
 </code></pre>
 
-<h4>12.7 其他结构</h4>
-
+<h4 id="section-29">12.7 其他结构</h4>
 <p>列表可以用来表示树，集合以及alist, plist</p>
 
-<h3>第13章 超越列表：点对单元的其他用法</h3>
+<h3 id="section-30">第13章 超越列表：点对单元的其他用法</h3>
 
-<h4>13.1 树</h4>
+<h4 id="section-31">13.1 树</h4>
+<p>构成：每个cons cell作为一个树结点，cons cell的CAR指向它的左子结点，CDR指向它的右子结点<br />
+COPY-LIST和COPY-TREE操作的区别：是否生递归成新CAR结点<br />
+其它树操作函数：TREE-EQUAL, SUBST(-IF, -IF-NOT), NSUBST(-IF, -IF-NOT)  </p>
 
-<p>构成：每个cons cell作为一个树结点，cons cell的CAR指向它的左子结点，CDR指向它的右子结点<br/>
-COPY-LIST和COPY-TREE操作的区别：是否生递归成新CAR结点<br/>
-其它树操作函数：TREE-EQUAL, SUBST(-IF, -IF-NOT), NSUBST(-IF, -IF-NOT)</p>
-
-<h4>13.2 集合</h4>
-
-<p>集合操作(相应的回收性函数版本带前缀N)：<br/>
-ADJOIN, 创建集合<br/>
-MEMBER(-IF, -IF-NOT), 成员判定<br/>
-INTERSECTION, 并集<br/>
+<h4 id="section-32">13.2 集合</h4>
+<p>集合操作(相应的回收性函数版本带前缀N)：<br />
+ADJOIN, 创建集合<br />
+MEMBER(-IF, -IF-NOT), 成员判定<br />
+INTERSECTION, 并集<br />
 UNION, 交集
 SET-DIFFERENCE, 差集
 SET-EXCLUSIVE-OR, 对称差集
 SUBSETP, 子集判定</p>
 
-<h4>13.3 查询表：alist和plist</h4>
-
-<p>关联表(association list)：键值映射，正向反向查找<br/>
-构成：每个列表元素为一个cons cell，car为key, cdr为value<br/>
+<h4 id="alistplist">13.3 查询表：alist和plist</h4>
+<p>关联表(association list)：键值映射，正向反向查找<br />
+构成：每个列表元素为一个cons cell，car为key, cdr为value<br />
 操作：查询函数ASSOC(-IF, -IF-NOT)，插入新值ACONS，反向查找RASSOC(-IF, -IF-NOT)，复制COPY-ALIST，创建(PAIRLIS)</p>
 
-<p>属性表(property list)，构成：交替出现的键和值<br/>
-操作：查询GETF, 移除REMF，抽取多个值GET-PROPERTIES<br/>
+<p>属性表(property list)，构成：交替出现的键和值<br />
+操作：查询GETF, 移除REMF，抽取多个值GET-PROPERTIES<br />
 每个符号对象都有一个plist，通过函数SYMBOL-PLIST可获取，移除操作REMPROP</p>
 
-<h4>13.4 DESTRUCTURING-BIND</h4>
-
-<p>基本结构：</p>
+<h4 id="destructuring-bind">13.4 DESTRUCTURING-BIND</h4>
+<p>基本结构：  </p>
 
 <pre><code>(destructuring-bind (parameter*) list
   body-form*)
 </code></pre>
 
-<p>支持&amp;optional, &amp;rest, &amp;key参数类型以及解构参数列表, 还支持&amp;whole参数</p>
+<p>支持&amp;optional, &amp;rest, &amp;key参数类型以及解构参数列表, 还支持&amp;whole参数  </p>
 
-<h3>第14章 文件和文件I/O</h3>
+<h3 id="io">第14章 文件和文件I/O</h3>
 
-<h4>14.1 读取文件数据</h4>
-
+<h4 id="section-33">14.1 读取文件数据</h4>
 <p>OPEN函数打开文件流，支持关键字:if-does-not-exist, :error, :create
 READ-CHAR读取单个字符
 READ-LINE读取一行文本(去掉行束结束字符)
@@ -1493,211 +1563,175 @@ READ读取单一S-表达式
 CLOSE关闭流
 PRINT以可读形式打印Lisp对象</p>
 
-<h4>14.2 读取二进制数据</h4>
-
-<p>向OPEN函数传递值为&#8217;(unsigned-byte 8)的:element-type参数
+<h4 id="section-34">14.2 读取二进制数据</h4>
+<p>向OPEN函数传递值为’(unsigned-byte 8)的:element-type参数
 READ-BYTE读取字节</p>
 
-<h4>14.3 批量读取</h4>
-
+<h4 id="section-35">14.3 批量读取</h4>
 <p>READ-SEQUENCE函数，兼容字符或二进制流, 读取序列较高效</p>
 
-<h4>14.4 文件输出</h4>
-
-<p>OPEN函数:direction关键字赋值:output，:if-exists关键字可取值:supersede, :append, :overwrite, nil<br/>
-WRITE-CHAR写入单一字符<br/>
-WRITE-LINE写入一行(自动添加平台相关的行结束符)<br/>
-WRITE-STRING写入一个字符串(不添加行结束符)<br/>
+<h4 id="section-36">14.4 文件输出</h4>
+<p>OPEN函数:direction关键字赋值:output，:if-exists关键字可取值:supersede, :append, :overwrite, nil<br />
+WRITE-CHAR写入单一字符<br />
+WRITE-LINE写入一行(自动添加平台相关的行结束符)<br />
+WRITE-STRING写入一个字符串(不添加行结束符)<br />
 TERPRI输出行结束符(换行)
 FRESH-LINE如果不在行首就打印一个换行
-PRINT打印换行，空格，S-表达式，PRIN1打印S-表达式，PPRINT美化打印S-表达式, 变量*PRINT-READABLY*控制打印内容是否可由READ读回<br/>
-PRINC可打印Lisp对象，FORMAT灵活强大<br/>
-写入二进制数据同样需要关键字:element-type赋值为&#8217;(unsigned-byte 8)<br/>
-WRITE-SEQUENCE函数同样兼容字符或二进制流的写入，对序列较高效</p>
+PRINT打印换行，空格，S-表达式，PRIN1打印S-表达式，PPRINT美化打印S-表达式, 变量*PRINT-READABLY*控制打印内容是否可由READ读回<br />
+PRINC可打印Lisp对象，FORMAT灵活强大<br />
+写入二进制数据同样需要关键字:element-type赋值为’(unsigned-byte 8)<br />
+WRITE-SEQUENCE函数同样兼容字符或二进制流的写入，对序列较高效  </p>
 
-<h4>14.5 关闭文件</h4>
-
+<h4 id="section-37">14.5 关闭文件</h4>
 <p>WITH-OPEN-FILE宏保证文件关闭</p>
 
-<h4>14.6 文件名</h4>
-
+<h4 id="section-38">14.6 文件名</h4>
 <p>common lisp有抽象而复杂的路径名表示，文件名一般使用字符串就足够</p>
 
-<h4>14.7 路径名如何表示文件名</h4>
-
-<p>路径名6组件：主机(host)，设备(device)，目录(directory)，名称(name)，类型(type)以及版本(version)，目录名有关键字:absolute或:relative<br/>
-PATHNAME函数将文件名字符串转化为路径名<br/>
+<h4 id="section-39">14.7 路径名如何表示文件名</h4>
+<p>路径名6组件：主机(host)，设备(device)，目录(directory)，名称(name)，类型(type)以及版本(version)，目录名有关键字:absolute或:relative<br />
+PATHNAME函数将文件名字符串转化为路径名<br />
 PATHNAME-DIRECTORY, PATHNAME-NAME, PATHNAME-TYPE, PATHNAME-HOST, PATHNAME-DEVICE, PATHNAME-VERSION访问路径名各个组件
 路径名独特的读取语法: #p后接一个双引号字符串
 NAMESTRING，将路径名转成字符串，DIRECTORY-NAMESTRING, FILE-NAMESTRING返回路径名组件对应的字符串</p>
 
-<h4>14.8 构造新路径名</h4>
-
-<p>MAKE-PATHNAME函数用于构造新路径名<br/>
-MERGE-PATHNAMES函数用于合并两个路径名<br/>
+<h4 id="section-40">14.8 构造新路径名</h4>
+<p>MAKE-PATHNAME函数用于构造新路径名<br />
+MERGE-PATHNAMES函数用于合并两个路径名<br />
 ENOUGH-NAMESTRING函数获取相对目录
-*DEFAULT-PATHNAME-DEFAULTS*保存默认的路径组件值</p>
+*DEFAULT-PATHNAME-DEFAULTS*保存默认的路径组件值 </p>
 
-<h4>14.9 目录名的两种表示方法</h4>
+<h4 id="section-41">14.9 目录名的两种表示方法</h4>
+<p>文件形式或全目录形式  </p>
 
-<p>文件形式或全目录形式</p>
+<h4 id="section-42">14.10 与文件系统交互</h4>
+<p>PROBE-FILE函数测试文件是否存在，返回真实名称<br />
+DIRECTORY函数列出文件<br />
+DELETE-FILE函数删除文件，RENAME-FILE函数修改名字<br />
+ENSURE-DIRECTORIES-EXIST函数在必要时创建目录<br />
+FILE-WRITE-DATA函数返回文件上次写入时间<br />
+FILE-AUTHOR返回文件所有者<br />
+FILE-LENGTH函数返回文件长度<br />
+FILE-POSITION函数返回流在文件中的位置  </p>
 
-<h4>14.10 与文件系统交互</h4>
+<h4 id="io-1">14.11 其他I/O类型</h4>
+<p>STRING-STREAM函数从一个字符串中读写数据<br />
+MAKE-STRING-INPUT-STREAM和MAKE-STRING-OUTPUT-STREAM函数用来创建STING-STREAM<br />
+GET-OUTPUT-STREAM-STRING函数用来获取被写入STRING-STREAM的字符串<br />
+WITH-INPUT-FROM-STRING和WITH-OUTPUT-TO-STRING是前面两个操作的便利接口  </p>
 
-<p>PROBE-FILE函数测试文件是否存在，返回真实名称<br/>
-DIRECTORY函数列出文件<br/>
-DELETE-FILE函数删除文件，RENAME-FILE函数修改名字<br/>
-ENSURE-DIRECTORIES-EXIST函数在必要时创建目录<br/>
-FILE-WRITE-DATA函数返回文件上次写入时间<br/>
-FILE-AUTHOR返回文件所有者<br/>
-FILE-LENGTH函数返回文件长度<br/>
-FILE-POSITION函数返回流在文件中的位置</p>
-
-<h4>14.11 其他I/O类型</h4>
-
-<p>STRING-STREAM函数从一个字符串中读写数据<br/>
-MAKE-STRING-INPUT-STREAM和MAKE-STRING-OUTPUT-STREAM函数用来创建STING-STREAM<br/>
-GET-OUTPUT-STREAM-STRING函数用来获取被写入STRING-STREAM的字符串<br/>
-WITH-INPUT-FROM-STRING和WITH-OUTPUT-TO-STRING是前面两个操作的便利接口</p>
-
-<p>语言标准定义多种形式的流拼接：<br/>
-BROADCAST-STREAM, 有MAKE-BROADCAST-STREAM等操作<br/>
-CONCATENATED-STREAM，有MAKE-CONCATENATED-STREAM等操作<br/>
+<p>语言标准定义多种形式的流拼接：<br />
+BROADCAST-STREAM, 有MAKE-BROADCAST-STREAM等操作<br />
+CONCATENATED-STREAM，有MAKE-CONCATENATED-STREAM等操作<br />
 TWO-WAY-STREAM和ECHO-STREAM，有MAKE-TWO-WAY-STREAM和MAKE-ECHO-STREAM等操作</p>
 
-<h3>第15章 实践：可移植路径名库</h3>
+<h3 id="section-43">第15章 实践：可移植路径名库</h3>
 
-<h4>15.1 API</h4>
-
+<h4 id="api">15.1 API</h4>
 <p>目标：写一函数库，支持获取目录文件列表，检测给定名字的文件或目录是否存在</p>
 
-<h4>15.2 *FEATURES*和读取期条件化</h4>
-
-<p>*FEATURES*是一个平台支持特性的符号列表<br/>
-读取器通过两个语法标记#+和#-支持特性表达式<br/>
-#+之后的特性表达式为真，下一个表达式正常读取，否则被跳过<br/>
-#-之后的特性表达式为假，下一个表达式正常读取，否则被跳过<br/>
+<h4 id="features">15.2 *FEATURES*和读取期条件化</h4>
+<p>*FEATURES*是一个平台支持特性的符号列表<br />
+读取器通过两个语法标记#+和#-支持特性表达式<br />
+#+之后的特性表达式为真，下一个表达式正常读取，否则被跳过<br />
+#-之后的特性表达式为假，下一个表达式正常读取，否则被跳过<br />
 条件化过程发生在读取器中，被跳过的表达式不会进入编译器，所以没有编译阶段或运行时代价</p>
 
-<h4>15.3 列目录</h4>
-
+<h4 id="section-44">15.3 列目录</h4>
 <p>较多平台相关的代码细节，省略</p>
 
-<h4>15.4 测试文件的存在</h4>
-
+<h4 id="section-45">15.4 测试文件的存在</h4>
 <p>较多平台相关的代码细节，省略</p>
 
-<h4>15.5 遍历目录树</h4>
-
+<h4 id="section-46">15.5 遍历目录树</h4>
 <p>递归在目录树中调用参数函数</p>
 
-<h3>第16章 重新审视面向对象：广义函数</h3>
-
+<h3 id="section-47">第16章 重新审视面向对象：广义函数</h3>
 <p>介绍common lisp的面向对象系统CLOS(common lisp object system)历史</p>
 
-<h4>16.1 广义函数和类</h4>
-
+<h4 id="section-48">16.1 广义函数和类</h4>
 <p>CLOS和多数面向对象语言一样基于类，但方法调用不是通过消息传递，而是通过广义函数</p>
 
-<h4>16.2 广义函数和方法</h4>
+<h4 id="section-49">16.2 广义函数和方法</h4>
+<p>广义函数描述抽象操作不提供实现，只有名字和参数列表<br />
+当广义函数被调用时，由系统来进行方法组合和绑定  </p>
 
-<p>广义函数描述抽象操作不提供实现，只有名字和参数列表<br/>
-当广义函数被调用时，由系统来进行方法组合和绑定</p>
-
-<h4>16.3 DEFGENERIC</h4>
-
+<h4 id="defgeneric">16.3 DEFGENERIC</h4>
 <p>举一个简单的银行应用为例说明DEFGENERIC的语法</p>
 
-<h4>16.4 DEFMETHOD</h4>
+<h4 id="defmethod">16.4 DEFMETHOD</h4>
+<p>特化上一节定义的广义函数，说明DEFMETHOD的语法<br />
+CALL-NEXT-METHOD可用于组合可应用的方法<br />
+DEFMETHOD支持EQL特化  </p>
 
-<p>特化上一节定义的广义函数，说明DEFMETHOD的语法<br/>
-CALL-NEXT-METHOD可用于组合可应用的方法<br/>
-DEFMETHOD支持EQL特化</p>
-
-<h4>16.5 方法组合</h4>
-
+<h4 id="section-50">16.5 方法组合</h4>
 <p>可应用方法列表排序，相关性，多重方法</p>
 
-<h4>16.6 标准方法组合</h4>
-
-<p>标准方法组合机制支持:before, :after, :around三种辅助方法<br/>
-:before方法：将在所有主方法之前以最相关者优先的顺序来运行<br/>
+<h4 id="section-51">16.6 标准方法组合</h4>
+<p>标准方法组合机制支持:before, :after, :around三种辅助方法<br />
+:before方法：将在所有主方法之前以最相关者优先的顺序来运行<br />
 :after方法：将在所有主方法之后以最相关者最不优先的顺序来运行
 :around方法：运行在所有:before方法, 主方法，:after方法的利欲复合体的外围，以类似主方法的顺序被组合，一般都需要调用CALL-NEXT-METHOD函数，来调用下一个:around方法或:before方法</p>
 
-<h4>16.7 其他方法组合</h4>
+<h4 id="section-52">16.7 其他方法组合</h4>
+<p>除标准方法外，还有9种其他的内置方法组合，也称为简单内置方法组合，它们是：<br />
++, AND, OR, LIST, APPEND, NCONC, MIN, MAX, PROGN  </p>
 
-<p>除标准方法外，还有9种其他的内置方法组合，也称为简单内置方法组合，它们是：<br/>
-+, AND, OR, LIST, APPEND, NCONC, MIN, MAX, PROGN</p>
-
-<h4>16.8 多重方法</h4>
-
+<h4 id="section-53">16.8 多重方法</h4>
 <p>多重方法是指显式地特化了超过一个广义函数的必要形参的方法，与消息传递有真正区别</p>
 
-<h3>第17章 重新审视面向对象：类</h3>
+<h3 id="section-54">第17章 重新审视面向对象：类</h3>
+<p>common lisp中所有数据类型都组织成类T为单根的类层次体系，包括内置类和用户定义类  </p>
 
-<p>common lisp中所有数据类型都组织成类T为单根的类层次体系，包括内置类和用户定义类</p>
-
-<h4>17.1 DEFCLASS</h4>
-
-<p>DEFCLASS宏用来创建用户定义类，它只定义数据类型，关联行为通过广义函数和子类的特化方法定义<br/>
-DEFCLASS的语法：</p>
+<h4 id="defclass">17.1 DEFCLASS</h4>
+<p>DEFCLASS宏用来创建用户定义类，它只定义数据类型，关联行为通过广义函数和子类的特化方法定义<br />
+DEFCLASS的语法：  </p>
 
 <pre><code>(defclass name (direct-superclass-name*)
   (slot-specifier*))
 </code></pre>
 
-<p>没有指定基类就直接成为STANDARD-OBJECT的子类。<br/>
-MAKE-INSTANCE函数用来创建类的实例。</p>
+<p>没有指定基类就直接成为STANDARD-OBJECT的子类。<br />
+MAKE-INSTANCE函数用来创建类的实例。  </p>
 
-<h4>17.2 槽描述符</h4>
+<h4 id="section-55">17.2 槽描述符</h4>
+<p>槽可以通过SLOT-VALUE访问<br />
+广义函数PRINT-OBJECT定义了类对象的打印形式  </p>
 
-<p>槽可以通过SLOT-VALUE访问<br/>
-广义函数PRINT-OBJECT定义了类对象的打印形式</p>
+<h4 id="section-56">17.3 对象初始化</h4>
+<p>DEFCLASS宏定义中对槽添加参数控制初始化<br />
+:initarg参数作为槽默认值<br />
+:initform参数作为槽默认构造表达式<br />
+在广义函数INITIALIZE-INSTANCE上特化一个:after方法可以用来精确控制自定义类的槽初始化  </p>
 
-<h4>17.3 对象初始化</h4>
+<h4 id="section-57">17.4 访问函数</h4>
+<p>DEFCLASS宏定义中对槽添加:reader，:writer和:accessor参数来创建读写函数  </p>
 
-<p>DEFCLASS宏定义中对槽添加参数控制初始化<br/>
-:initarg参数作为槽默认值<br/>
-:initform参数作为槽默认构造表达式<br/>
-在广义函数INITIALIZE-INSTANCE上特化一个:after方法可以用来精确控制自定义类的槽初始化</p>
+<h4 id="with-slotswith-accessors">17.5 WITH-SLOTS和WITH-ACCESSORS</h4>
+<p>简化对SLOT-VALUE和槽的读写函数的调用方式  </p>
 
-<h4>17.4 访问函数</h4>
-
-<p>DEFCLASS宏定义中对槽添加:reader，:writer和:accessor参数来创建读写函数</p>
-
-<h4>17.5 WITH-SLOTS和WITH-ACCESSORS</h4>
-
-<p>简化对SLOT-VALUE和槽的读写函数的调用方式</p>
-
-<h4>17.6 分配在类上的槽</h4>
-
-<p>DEFCLASS宏定义中槽的:allocation参数，可取值:instance或:class<br/>
+<h4 id="section-58">17.6 分配在类上的槽</h4>
+<p>DEFCLASS宏定义中槽的:allocation参数，可取值:instance或:class<br />
 注意:class槽与C++/Python里面的类静态字段不同</p>
 
-<h4>17.7 槽和继承</h4>
+<h4 id="section-59">17.7 槽和继承</h4>
+<p>一个对象只能有一个给定名字的槽，子类的槽会同所有父类的槽合并，避免名字冲突，初始化和访问函数都会随之合并。  </p>
 
-<p>一个对象只能有一个给定名字的槽，子类的槽会同所有父类的槽合并，避免名字冲突，初始化和访问函数都会随之合并。</p>
-
-<h4>17.8 多重继承</h4>
-
+<h4 id="section-60">17.8 多重继承</h4>
 <p>多重继承下，槽的合并优先级和广义函数的方法相关性问题</p>
 
-<h3>第18章 一些FORMAT秘诀</h3>
+<h3 id="format">第18章 一些FORMAT秘诀</h3>
+<p>FORMAT强大简洁，但其控制字符串容易变得晦涩难懂  </p>
 
-<p>FORMAT强大简洁，但其控制字符串容易变得晦涩难懂</p>
-
-<h4>18.1 FORMAT函数</h4>
-
+<h4 id="format-1">18.1 FORMAT函数</h4>
 <p>FORMAT有两个必要参数，附加的参数提供插入输出的值
 第一个必要参数，可取值为T, NIL，一个流或一个带填充指针的字符串
 第二个必要参数是控制字符串</p>
 
-<h4>18.2 FORMAT指令</h4>
-
+<h4 id="format-2">18.2 FORMAT指令</h4>
 <p>控制字符串中可包含指令，所有FORMAT指令都以一个波浪线(~)开始，后面跟单个大小写不限的字符，指令可带有参数</p>
 
-<h4>18.3 基本格式化</h4>
+<h4 id="section-61">18.3 基本格式化</h4>
 
 <pre><code>指令    作用
 ~A      打印任何类型，输出可读形式
@@ -1707,7 +1741,7 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 ~~      输出~字符
 </code></pre>
 
-<h4>18.4 字符和整数指令</h4>
+<h4 id="section-62">18.4 字符和整数指令</h4>
 
 <pre><code>指令    作用
 ~C      打印字符
@@ -1718,7 +1752,7 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 ~R      通用的自定义进制打印
 </code></pre>
 
-<h4>18.5 浮点指令</h4>
+<h4 id="section-63">18.5 浮点指令</h4>
 
 <pre><code>指令     作用
 ~F       十进制浮点数，太大或太小时变成科学计数法
@@ -1727,7 +1761,7 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 ~$       简单的~F，用于输出货币
 </code></pre>
 
-<h4>18.6 英语指令</h4>
+<h4 id="section-64">18.6 英语指令</h4>
 
 <pre><code>指令     作用
 ~R       打印英语单词或罗马数字
@@ -1735,37 +1769,38 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 ~(, ~)   定制范围输出字母小写，首字母大写，全大写
 </code></pre>
 
-<h4>18.7 条件格式化</h4>
+<h4 id="section-65">18.7 条件格式化</h4>
 
 <pre><code>指令      作用
 ~[, ~]    输出的子句取决于对应参数的值
 </code></pre>
 
-<h4>18.8 迭代</h4>
+<h4 id="section-66">18.8 迭代</h4>
 
 <pre><code>指令        作用
 ~{, ~}, ~^  在列表元素上进行迭代
 </code></pre>
 
-<h4>18.9 跳，跳，跳</h4>
+<h4 id="section-67">18.9 跳，跳，跳</h4>
 
 <pre><code>指令       作用
 ~*         跳过下一个参数，或前移重用一个参数
 </code></pre>
 
-<h4>18.10 还有更多&#8230;&#8230;</h4>
+<h4 id="section-68">18.10 还有更多……</h4>
 
 <pre><code>指令      作用
 ~?        从参数中获取控制字符串
 ~/        调用函数来处理下一个参数
 </code></pre>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[再读大卫·米切尔]]></title>
     <link href="http://clisp.github.com/blog/2012/12/30/read-a-david-mitchell-novel/"/>
-    <updated>2012-12-30T12:15:00+00:00</updated>
+    <updated>2012-12-30T12:15:00+08:00</updated>
     <id>http://clisp.github.com/blog/2012/12/30/read-a-david-mitchell-novel</id>
     <content type="html"><![CDATA[<p>又到周末。昨晚又一波的冷空气南下，一夜狂风加细雨，温度骤然降下来了。</p>
 
@@ -1775,90 +1810,14 @@ MAKE-INSTANCE函数用来创建类的实例。</p>
 
 <p>这是关于一个叫做悟的高中毕业生在东京这座城市的故事。花开季节，孤独多思的青春期，CD店，长途电话那头女孩的声音，周边形形式式的成年人和理不清的纠葛，读来让我多少有种怀念的感觉。故事中这个18岁少年对爵士乐的熟悉程度对城市生活的理解深度令人印象非常深刻，在东京这样一个有着千万数量级人口不断挤压不断扩张的城市，每个人的生活方式就是保有自己的“地盘”，通过运动，夜生活，钱等各种方式或观念给自己的存在留下小一块空间，当然，爵士乐也是其中一种方式。</p>
 
-<p>我想，实际上在广州这个城市其实也是如此，在这样一个远远看不到尽头的城市，除了吃饭睡觉这些基本生存活动外，每个人都需要有一个心理上的“地盘”，以构造一个存放个人存在感和归属感的空间。所以，有的人喜欢在工作之外享受慢节奏的休闲生活，有的人喜欢玩弄汽车谈论汽车，有的人把自己的时间全部投入到挣钱的行当中，觉得拥有的钱越多就越踏实，有的人则热衷于喝酒泡吧情肉绵缠&#8230;&#8230;其实，某一个人的“地盘”对于另一个人来说，可能是完全陌生的，甚至可能是毫无意义的。</p>
+<p>我想，实际上在广州这个城市其实也是如此，在这样一个远远看不到尽头的城市，除了吃饭睡觉这些基本生存活动外，每个人都需要有一个心理上的“地盘”，以构造一个存放个人存在感和归属感的空间。所以，有的人喜欢在工作之外享受慢节奏的休闲生活，有的人喜欢玩弄汽车谈论汽车，有的人把自己的时间全部投入到挣钱的行当中，觉得拥有的钱越多就越踏实，有的人则热衷于喝酒泡吧情肉绵缠……其实，某一个人的“地盘”对于另一个人来说，可能是完全陌生的，甚至可能是毫无意义的。</p>
 
 <p>那么我的“地盘”是什么呢？</p>
 
-<p>在2012年的尾巴上，这个问题有种似曾相似之感。又到年底，也许是时候做一下总结了。在过去的一年发生了不少的事情，在工作上有人离开有人加入，我做过种种不同的事情：做过不靠谱话很多的产品角色，做过小工包工头兼一身的开发人员，做过东宫娘娘和西宫娘娘之间和事的太监，做过任劳任怨的修补匠环保工，做过前行探路然后掉入自己挖的坑里的侦察兵&#8230;..交付过稳定的代码，也出过严重的bug。有时满脸堆笑唯唯喏喏，有时拍案而怒拂袖而去，有时雄心壮志豪情激荡，有时孤单落寞内心萧索。今年在生活中也是在曲折中稳定前进，整体还算好但小问题常有不算太顺利。这一年里，我努力工作但也没挣到多少钱，改良了编程装备但没写过多少非工作代码，读了不少书但技术上不觉得有太大成长，开始每周规律跑步但没把体重降下来，尽可能认识异性但光棍节还是单着。把一年时光压缩成一份准确总结是不容易的事，苦乐得失，三言几语又怎么说得清楚。</p>
+<p>在2012年的尾巴上，这个问题有种似曾相似之感。又到年底，也许是时候做一下总结了。在过去的一年发生了不少的事情，在工作上有人离开有人加入，我做过种种不同的事情：做过不靠谱话很多的产品角色，做过小工包工头兼一身的开发人员，做过东宫娘娘和西宫娘娘之间和事的太监，做过任劳任怨的修补匠环保工，做过前行探路然后掉入自己挖的坑里的侦察兵…..交付过稳定的代码，也出过严重的bug。有时满脸堆笑唯唯喏喏，有时拍案而怒拂袖而去，有时雄心壮志豪情激荡，有时孤单落寞内心萧索。今年在生活中也是在曲折中稳定前进，整体还算好但小问题常有不算太顺利。这一年里，我努力工作但也没挣到多少钱，改良了编程装备但没写过多少非工作代码，读了不少书但技术上不觉得有太大成长，开始每周规律跑步但没把体重降下来，尽可能认识异性但光棍节还是单着。把一年时光压缩成一份准确总结是不容易的事，苦乐得失，三言几语又怎么说得清楚。</p>
 
 <p>2012年很快就要伴随着玛雅人的世界末日变成过去了，而窗外风在呼啸，阳光灿烂。无论时间如何流逝，无论这座城市的人们是怎样的生活着，太阳的光子依然不辞路远穿越亿万公里的距离来到我的眼前，想到这里我的心底悠然升起一种平静。宇宙之大，就在当年佛祖入灭的娑罗双树之间，一枯一荣，一边是苦一边是乐，或者解作：一边是过去，一边是未来。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一个悲秋客途的男人]]></title>
-    <link href="http://clisp.github.com/blog/2012/12/15/one-man-in-autumn/"/>
-    <updated>2012-12-15T11:32:00+00:00</updated>
-    <id>http://clisp.github.com/blog/2012/12/15/one-man-in-autumn</id>
-    <content type="html"><![CDATA[<blockquote><p>“凉风有信，秋月无边。</p>
 
-<p>睇我思娇情绪好比度日如年。小生系缪姓乃是莲仙字，为忆多情嘅歌女呀叫做麦氏秋娟。”</p>
-
-<p>——《客途秋恨》</p></blockquote>
-
-<p>现在的年青人都不听粤曲了，包括我自己，不过在几十年前，粤曲和现在泛滥的流行曲一样流行。下了班的夜晚，一个人疲倦的回到住处，偶尔听到一首白驹荣的南音经典《客途秋恨》，听着开头一段长长的前奏，古筝铮淙，二胡呜咽，面对住处空墙四壁，别有一番秋凉意味。</p>
-
-<p>《客途秋恨》说的是一个男人对情人的思念，从抒情的角度来看，类似于现在的情歌。一个孤单的男人在寂寞的路途上，难不免有绵绵的思娇情绪，于是远天近水，孤舟寒月，千种相思万般柔情在心底如江水一般涌起。任你是缪莲仙李隆基或是陈后主，统统掉进秋夜愁绪之中，尝尽了爱恋离合生死两隔也罢，历尽了国破兵争颠沛流离也罢，最后都不过化成客途的一点秋恨而已。</p>
-
-<p>为什么我会觉得对这首曲有所共鸣呢？想来可能是与最近的苦乐参半的生活有关。自把博客从Wordpress迁到Octopress之后，虽然写博客变得更方便，但有时忙于工作，有时忙于读书学习，我再没有写过什么了。工作上，把之前负责的业务开发和运营移交出去了，然后花了一段时间探索Erlang，做了一个RESTful后台服务，后来又由于外部原因放弃了。生活上，开始了向早睡早起的缓慢转变，虽然还是不容易早点睡着，不过也算是有所进步。总的来说，生活表面平静得像长白山的天池湖面一样，但内里感觉却像在潮起潮落的太平洋上划小船，飘飘荡荡。</p>
-
-<p>这段时间最大的收获就是读了不少的书，无论是技术书，还是社科或小说，有薄薄的小册子，也有几百页的砖头。下面简单列一下这段时间读过的书单：</p>
-
-<ul>
-<li>《Erlang程序设计》</li>
-</ul>
-
-
-<p>Erlang之父Joe Armstrong前几年出的书，我把它叫做老头书，据说关于每门语言，它的创始人写的书都很值得一看，例如C的K&amp;R，C++的TC++PL等，要学习Erlang当然也不少了老头书。</p>
-
-<ul>
-<li>《Erlang/OTP并发编程实战》</li>
-</ul>
-
-
-<p>讲的内容是比较基础的otp原理和应用，对于初学者很实用，特别值得一提的是，中文版本的翻译十分流畅，在目前国内的计算机技术翻译书中难得的上乘之作，之所以有这种感受，可能我看过或买过太多的翻译很差，错漏百出的翻译技术书了，而它们常常不是由非专业人士，就是由一群人数多得数不清的大学教授和研究生来翻译，质量之差超乎想象。</p>
-
-<ul>
-<li>贾雷德·戴蒙德 《第三种猩猩：人类的身世与未来》，《枪炮、病菌与钢铁——人类社会的命运》，《崩溃：社会如何选择成败兴亡》</li>
-</ul>
-
-
-<p>合称为人类三部曲的这三本书也算是比较经典了，读起来饶有趣味，在最近出的《崩溃》一书中也提到迅速发展的中国，让人对目前中国现状和发展的模式有很多的思考，正如作者所说，很多时候关键点不在技术，而在于政治。但在中国，政治是不能通过每个公民一张选票决定的，所以，多谈无益。贾雷德·戴蒙德还有一本以人类的性为主题书，不过目前还没入手。</p>
-
-<ul>
-<li>《软件随想录：程序员部落酋长Joel谈软件》</li>
-</ul>
-
-
-<p>内容和翻译都很好，很多地方都让人眼前一亮。</p>
-
-<ul>
-<li>《程序员的职业素养》</li>
-</ul>
-
-
-<p>知道有这本书，我的第一印象就是：马丁老头又出书骗程序员的钱了。看过后，虽然有不少收获，但还是觉得薄薄的一本小册子定价太贵了。</p>
-
-<ul>
-<li>《HTTP权威指南》</li>
-</ul>
-
-
-<p>一本10年前出的HTTP方面的老书，讲得面广而浅，让我对HTTP和Web服务有更全面清晰的理解，读起来相当轻松，不过这本书字体或行距太大，定价也较贵。</p>
-
-<ul>
-<li>《解析极限编程：拥抱变化》，《死亡之旅》，《人件集》</li>
-</ul>
-
-
-<p>都是经典，可谓段段珠玑，用在实际工作中，每过一段时间回头看一次，都会有新收获。</p>
-
-<ul>
-<li>《达摩流浪者》，《禅与摩托车维修艺术》，《月亮与六便士》，大卫•米切尔的《云图》《雅各布•德佐特的千秋》《幽灵代笔》，卡尔维诺的《看不见的城市》《宇宙奇趣全集》等</li>
-</ul>
-
-
-<p>临近年底，各大网上书店的打折活动比较多，我买的书也越来越多，然后最近看过的书也多了起来。于是有点明白为什么有些人说，买了Kindle阅读器之后，看的书会比之前多。这正如软件领域常见的现象：好用顺手的编程语言或开发工具，会让人乐于进行更多的编程。这是一个正向加速的反馈回路。比较遗憾的是，英文原版书对于我来说依然太贵，我还是没米收一本纸质的《Ansi Common Lisp》或《Paradigms of Artificial Intelligence Programming:Case Studies in Common Lisp》，还是电子书比较适合我这种穷人，耐心等待合适的时候再出手Kindle Paperwhite吧。</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。 在Linux桌面，Gnome自带的gnome-terminal， &hellip;">
+  <meta name="description" content="接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。 实践1. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,177 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-10T20:15:00+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
+
+<h3 id="thriftrpc">实践1. 将thrift看作应用的RPC胶水</h3>
+
+<p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
+
+<p>本文的重点在Thrift，所以集中笔墨讨论它。Thrift的RPC框架具有的如下几个特点：</p>
+
+<ol>
+  <li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
+  <li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
+  <li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
+  <li>内部实现层次分明，结构清晰，代码量不大</li>
+</ol>
+
+<p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
+
+<h3 id="section">实践2. 使用合适的数据类型</h3>
+
+<h4 id="blobbinarystring">2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
+
+<p>thrift支持两种字符串类型：
+1. string类型，类似编程语言中常用的字符串类型，或Mysql中的VARCHAR/TEXT字符串类型，用于表示某种语言(字符集)特定编码的字符串
+2. binary类型，类似Mysql的BLOB类型，用于表示二进制串</p>
+
+<p>虽然在部分Thrift支持的编程语言中，binary和string两个类型产生的具体数据类型是一致的，如C++。但在其它语言，这两个类型产生的具体数据类型差异较大，参考下表：</p>
+
+<pre><code>IDL Type\Lang   C++             Java                   Python
+binary          std::string     java.lang.String       str
+string          std::string     java.nio.ByteBuffer    str
+</code></pre>
+
+<p>在Java中原生支持unicode，字符类型Char设计为16位，字符的值对应Unicode的代码点(code point)<a href="#1">[1]</a>，而语言中的String也与编码方式相关，同一个String在不同的编码方式(如UTF-8或GBK)下可能表示不同的内容，这样一来就决定了String类型不适合用于存储带任意字节内容的二进制串。</p>
+
+<p>这里有一份示例代码：</p>
+
+<pre><code>https://bitbucket.org/lisp/sample/src
+</code></pre>
+
+<p>其中包括C++的服务器端代码，还有C++, Java, Python 3种语言写的客户端。服务器端在收到客户端的无参数RPC请求后，向客户端发送一个值为214的字符，早于它不是ascii字符集范围内的字符，它表示的字符就由编码方式决定。3个客户端的输出对比如下：</p>
+
+<ol>
+  <li>
+    <p>C++</p>
+
+    <pre><code> $ ./cpp_client
+ ./cpp_client started.
+ get char in string: -15
+ get char in binary: -15
+ done.
+</code></pre>
+  </li>
+  <li>
+    <p>Java</p>
+
+    <pre><code> $ make run-java-client
+ java \-classpath \
+ /usr/local/lib/libthrift.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-jdk14.jar:/usr/share/java/slf4j-simple.jar:/usr/share/java/slf4j-jcl.jar:/usr/share/java/slf4j-nop.jar:/home/wenwenliu/pro/thrift/schargen/gen-java:/home/wenwenliu/pro/thrift/schargen \
+ Client
+ started.
+ get char in string:
+ ISO-8859-1: 63
+ US-ASCII: 63
+ UTF-8: -17
+ UTF-16: -2
+ get char in binary:
+ -15
+ done.
+</code></pre>
+  </li>
+  <li>
+    <p>Python</p>
+
+    <pre><code> $ make run-py-client
+ python ./client.py
+ ./client.pystarted.
+ 'get char in string: \xf1'
+ 'get char in binary: \xf1'
+ done.
+</code></pre>
+  </li>
+</ol>
+
+<p>从输出中可以看到，同一个字符在Python的客户端值与服务器端一样，C++客户端打印出来的值是服务器值的二进制补码值，但在Java客户端，字符值受到编码方式的影响，经过编码方式演绎后的字符值与原来的字符值并不一致。而且在几种常见的编码方式下都得不到原来的字符值。</p>
+
+<p>假设有一个C++的服务器端，向Java的客户端传输从数据库读出来的BLOB串，而thrift协议里使用的是String类型，那么客户端得到的数据就可能与原来数据库中的blob有出入，数据是否一致取决于数据库blob里的字符取值，程序的行为有时正确有时不正确，这样就引入了一个隐晦的bug，浪费了调试的时间。</p>
+
+<p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
+
+<h3 id="thrift">实践3. Thrift里面的同步与异步</h3>
+
+<p>thrift里面常见的几种同步异步用法：</p>
+
+<ol>
+  <li>
+    <p>同步服务器，同步客户端，同步调用，无异步<br />
+最常用的默认方式。</p>
+  </li>
+  <li>
+    <p>同步服务器，同步客户端，异步调用<br />
+用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p>
+  </li>
+  <li>同步客户端，异步服务器端</li>
+  <li>异步客户端，异步服务器端</li>
+</ol>
+
+<p>由于客户端和服务器端在实现上是相互独立的，所以两者在同步或异步的选择上也是独立的。这里举例说明如何编写异步服务器和异步客户端。示例代码如下：</p>
+
+<p>TODO 添加async-echo示例代码</p>
+
+<p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
+
+<h3 id="thrift-1">实践4. thrift内部框架一瞥</h3>
+
+<p>按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
+
+<pre><code>+-------------------------------------------+
+| Server                                    |  -- 服务器进程调度
+| (single-threaded, event-driven etc)       |
++-------------------------------------------+
+| Processor                                 |  -- RPC接口处理函数分发，IDL定义接口的实现将挂接到这里面
+| (compiler generated)                      |
++-------------------------------------------+
+| Protocol                                  |  -- 协议
+| (JSON, compact etc)                       |
++-------------------------------------------+
+| Transport                                 |  -- 网络传输
+| (raw TCP, HTTP etc)                       |
++-------------------------------------------+
+</code></pre>
+
+<p>TODO 详述各层源代码实现</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/01/31/terminal-programs-that-i-used/">常用终端软件</a></h1>
     
     
@@ -87,7 +258,7 @@
   
 
 
-<time datetime="2013-01-31T20:01:00+00:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
+<time datetime="2013-01-31T20:01:00+08:00" pubdate data-updated="true">Jan 31<span>st</span>, 2013</time>
         
       </p>
     
@@ -105,16 +276,17 @@
 <p>我经常用到的终端配置，主要有如下方面：语言环境，字符集，字体，色彩支持，编辑器。</p>
 
 <ul>
-<li><p>语言环境</p>
+  <li>
+    <p>语言环境</p>
 
-<p>  在Debian/Ubuntu中可以通过命令</p>
+    <p>在Debian/Ubuntu中可以通过命令  </p>
 
-<pre><code>  sudo dpkg-reconfigure locales
+    <pre><code>  sudo dpkg-reconfigure locales
 </code></pre>
 
-<p>  来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有</p>
+    <p>来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有  </p>
 
-<pre><code>  # 设置为中文环境
+    <pre><code>  # 设置为中文环境
   export LC_ALL=zh_CN.utf8
   export LANG=zh_CN.utf8
   export LANGUAGE=zh_CN:zh
@@ -125,39 +297,48 @@
   export LANGUAGE=en_US:en:zh_CN:zh
 </code></pre>
 
-<p>  将配置添加到.bashrc，source配置或重新登录终端才生效。</p></li>
-<li><p>字符集</p>
+    <p>将配置添加到.bashrc，source配置或重新登录终端才生效。</p>
+  </li>
+  <li>
+    <p>字符集</p>
 
-<p>  能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p></li>
-<li><p>字体</p>
+    <p>能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p>
+  </li>
+  <li>
+    <p>字体</p>
 
-<p>  推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
+    <p>推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
 
-<pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
+    <pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
   0Oo      &lt;-- 数字0，大小写字母o
   `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
 </code></pre>
 
-<p>  Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
+    <p>Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
 
-<pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
+    <pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
   Ubuntu Mono    --- Ubuntu的开源字体
 </code></pre>
 
-<p>  当然，每个人的喜好审美不同，对字体的偏好也不同。</p></li>
-<li><p>色彩支持</p>
+    <p>当然，每个人的喜好审美不同，对字体的偏好也不同。</p>
+  </li>
+  <li>
+    <p>色彩支持</p>
 
-<p>  无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
+    <p>无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
 
-<pre><code>  export TERM=xterm-256color
+    <pre><code>  export TERM=xterm-256color
 </code></pre>
 
-<p>  就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
+    <p>就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
 
-<p>  打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p></li>
-<li><p>编辑器</p>
+    <p>打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p>
+  </li>
+  <li>
+    <p>编辑器</p>
 
-<p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
+    <p>在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p>
+  </li>
 </ul>
 
 </div>
@@ -188,7 +369,7 @@
   
 
 
-<time datetime="2013-01-28T23:37:00+00:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+<time datetime="2013-01-28T23:37:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
         
       </p>
     
@@ -197,7 +378,7 @@
 
   <div class="entry-content"><p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
 
-<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams&#8230;..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
+<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams…..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
 
 <p>于是从卓越网订购了一个Intel SSD 330 120g，周末把它安装到我的小黑X201i中，换出原配的西数250g硬盘。因为新的ssd也是9.5mm，厚度与原来机械硬盘一样，所以原来的硬盘架就完美套用，换起来相当便捷。换好硬盘后，在Windows下使用Intel SSD Toolbox查看硬盘状态，出厂日期和读写次数，写入量都没问题，固件已经是最新版本不用升级，然后统一trim一次，算是完成初始化。</p>
 
@@ -206,10 +387,9 @@
 <p>在Linux系统，可以针对SSD做一些优化，主要目的是用好SSD以提升读写速度，减少写入量延长SSD寿命。具体的优化原理和步骤可以参考</p>
 
 <ol>
-<li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives &#8211; Arch Wiki</a></li>
-<li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives – Arch Wiki</a></li>
+  <li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
 </ol>
-
 
 <p>这些优化我只采用了一部分，文件系统用的还是Ext4，然后加了noatime, nodiratime等挂载选项来禁止更新atime，因为它在桌面系统上其实没什么用，加了nodiscard和定期trim，还分了一个与内存等大的swap分区来方便休眠(hibernate)，而像关闭文件系统日志这种动作觉得风险大没有采用。因为Intel SSD有长达几年的保修服务，所以也就不太担心写入量会太大，也不用担心会被用坏，随便写就是了。</p>
 
@@ -218,59 +398,7 @@
 <p>升级了SSD之后，机器的速度还是有很大的提升。从SSD Benchmark和HD Tune等软件在换上SSD前后测试的数据对比来看，顺序读写有2到3倍的速度提升，随机读写则有几十倍。在使用感觉上，启动系统和打开程序都明显感觉到变快了，编译代码也有明显的速度区别，以往在敲完编译命令后，看着命令行输出慢悠悠的向下滚动，现在则变得像嗑了药的赛车手一样疯狂，滚动刷屏得很快，基本上看不清里面的内容。</p>
 
 <p>SSD速度奇快，用过它之后就很难再用回慢吞吞的机械硬盘。从某个角度来看，SSD就类似于鸦片，它给人带来很有快感的体验，而且一旦接触就容易上瘾。自计算机诞生以来，每个年代都有其电子鸦片，几十年前，那是一个如PDP-10的计算设备，今天，则变成技术革新(如SSD的普及)，网络游戏和社交网站。</p>
-</div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-21T21:43:00+00:00" pubdate data-updated="true">Jan 21<span>st</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在过去一年多的时间里，我笔记本电脑上的Debian桌面环境经历了几次变化：先是用了几个月gnome shell，然后用了几个月的xfce4，然后最近又转为mate-desktop和cinnamon。</p>
-
-<p>故事从前年一次日常系统升级开始，升级后发现桌面已经变成gnome shell，使用起来十分不习惯，体验很差，于是我配置了一下，让它没那么面目呆涩，后来再从gnome shell扩展官网添加了一些扩展，使得它尽量与gnome 2的老样子相近。这个时候的桌面环境，虽然偶尔会出现bug，但总体还算勉强能用下去。但随着不断的升级，之前配置的插件很多都不能工作了，大部分是因为版本兼容问题失效了，或者是因为插件没人维护已经过时，缺少插件支持缺少稳定性的gnome shell渐渐变得难以忍受。</p>
-
-<p>被迫无奈之下，我通过虚拟机尝试过包括Sawfish, FVWM, KDE等多个桌面环境(WM)，最后决定改用xfce，因为它的问题最少，使用起来还和gnome 2比较接近。但xfce并不是一个让人省心的桌面环境，比如说，默认安装下面板没有电源指示器，还是要加一些配置，而且一些小功能也缺失，比如说外接显示器的管理，虽然用xandar命令能够基本实现需求，但它还是功能太弱，不能自动检测两个显示器的状态变化，所以xfce用起来体验也不算非常好。</p>
-
-<p>后来无意中了解到原来Linux Mint发行版下有mate-desktop<a href="#1">[1]</a>和cinnamon<a href="#2">[2]</a>这两个桌面环境，于是尝试了一把，惊喜地发现它们才是我的救星。mate-desktop就是gnome 2，是老朋友了，性能足够好又稳定，cinnamon是基于gnome 3的仿mate-desktop环境，虽然内在已经是gnome 3，但用起来和老的gnome 2很像，自带的一堆扩展/插件也比较稳定，而且一直受到良好的维护，两者使用体验都不错。之后我就把xfce卸载了，请神容易送神难，像kde, gnome, xfce这种包集合，一旦装上，要搞清楚如何卸载干净不是件容易的事，因为它们含有的软件包众多，依赖关系也比较复杂，最后参考<a href="http://www.cppfans.org/1356.html">网上文章</a>，又来一轮折腾，终于算是把xfce卸载了。</p>
-
-<p>在过去一年多的时间里，在Linux上的桌面环境我做很多不同的尝试，体验过了很多坑爹的事情，也不知道花费了多少时间，最后兜兜转转用起mate-desktop来，发现还是回到了原来的gnome 2，那就是一年多之前原本用着的。回过头来看看，其实我的需求其实非常简单，只不过是一个稳定方便的图形界面。不断折腾一年多之后回到原地，这让人有种非常讽刺的感觉。gnome 3的推出，带来的是所谓平板电脑交互方式<a href="#3">[3]</a>和无数人的吐槽，甚至于像Linus Torvalds这样大名鼎鼎的人前段时间也大骂“无可容忍的凌乱”。难道gnome 3开发社区的人不知道gnome shell又丑又难用吗？难道他们不知道那么多人的吐槽吗？不可能吧。目前gnome 3这样的存在，只能证明：一个自以为是的产品不是最可耻的，一个自以为是，坚持错误的产品也不是最可耻的，最可耻的是那些自以为是，坚持错误，而又不理用户反馈闭门造车的产品。</p>
-
-<p>Linux的桌面环境本来就不受人待见，gnome 3之后更是乱象丛生。不是每个Linux的桌面用户都有折腾的时间和精力，他们也不是注定要被gnome 3揉虐。总之，gnome 3社区有继续脑残的自由，而我也有不再折腾的理由。Mac桌面的用户体验很好，我这个长期Linux桌面粉是不是也要叛逃到苹果门下了？</p>
-
-<p>被逼的。</p>
-
-<p><em>注：</em><br/>
-<a id="1">[1]</a> 安装可参考<a href="http://wiki.mate-desktop.org/download">官网</a>。<br/>
-<a id="2">[2]</a> 安装可参考<a href="http://linuxg.net/how-to-install-cinnamon-on-debian-wheezy/">这里</a>。<br/>
-<a id="3">[3]</a> Ubuntu推出的Unity也是为平板而设计的，他们都强迫PC用户去适应平板风格，哎，这演的是哪一出。</p>
 </div>
   
   

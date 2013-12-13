@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2013-11-16T09:22:59+00:00</updated>
+  <updated>2013-12-14T04:56:40+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -16,16 +16,18 @@
   <entry>
     <title type="html"><![CDATA[别了，Linux桌面]]></title>
     <link href="http://clisp.github.com/blog/2013/08/11/bye-linux-desktop/"/>
-    <updated>2013-08-11T12:06:00+00:00</updated>
+    <updated>2013-08-11T12:06:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/08/11/bye-linux-desktop</id>
-    <content type="html"><![CDATA[<blockquote><p>　　“我和你一起去。”<br/>
-　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br/>
-　　“请你别这么做。我会去求普拉查，我会去……”<br/>
-　　斋迪打断了她。如果在从前，他会允许她在他面前丢脸，会允许她的歉意像雨季的瀑布那样喷涌而出。但现在，他不会这样做。<br/>
-　　“我没有别的期望了，”他说，“我很满足。我会到贸易部去，让他们付出代价。这一切都是因缘注定的。我本来就不可能永远拥有查雅，她也不可能永远拥有我。但我想，只要把握好自己的人生，我们仍旧可以做到一些事。我们都有自己的责任，坎雅，无论是对上，还是对下。”他耸耸肩，“我在一生中扮演了很多角色。我曾是一个男孩、一个泰拳冠军、一个父亲、一个白衬衫。”他瞥了一眼身上的白色僧袍，“甚至还是一个僧侣。”他咧嘴一笑，“不用担心我。在我丢弃这一世的生命去见查雅之前，我还有一些事情要做。”他努力让自己的声音显得坚强，“我还有未尽的事业。在我完成它之前，我不会停下脚步。”<br/>
-　　坎雅看着他，眼中充满痛苦，“你不能一个人去。”<br/>
-　　“对，我会带上颂猜。”<br/>
-　　　　　　　　　　　　　　　　　　　　——引用自《发条女孩》</p></blockquote>
+    <content type="html"><![CDATA[<blockquote>
+  <p>　　“我和你一起去。”<br />
+　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br />
+　　“请你别这么做。我会去求普拉查，我会去……”<br />
+　　斋迪打断了她。如果在从前，他会允许她在他面前丢脸，会允许她的歉意像雨季的瀑布那样喷涌而出。但现在，他不会这样做。<br />
+　　“我没有别的期望了，”他说，“我很满足。我会到贸易部去，让他们付出代价。这一切都是因缘注定的。我本来就不可能永远拥有查雅，她也不可能永远拥有我。但我想，只要把握好自己的人生，我们仍旧可以做到一些事。我们都有自己的责任，坎雅，无论是对上，还是对下。”他耸耸肩，“我在一生中扮演了很多角色。我曾是一个男孩、一个泰拳冠军、一个父亲、一个白衬衫。”他瞥了一眼身上的白色僧袍，“甚至还是一个僧侣。”他咧嘴一笑，“不用担心我。在我丢弃这一世的生命去见查雅之前，我还有一些事情要做。”他努力让自己的声音显得坚强，“我还有未尽的事业。在我完成它之前，我不会停下脚步。”<br />
+　　坎雅看着他，眼中充满痛苦，“你不能一个人去。”<br />
+　　“对，我会带上颂猜。”<br />
+　　　　　　　　　　　　　　　　　　　　——引用自《发条女孩》</p>
+</blockquote>
 
 <p>大概从2007年中开始，我就使用Linux作为桌面OS，准确的说，使用的发行版是Ubuntu。那时候Ubuntu比较流行，Canonical免费送光盘的服务还未取消，大学同宿舍的舍友还真的写信过去申请到了一套。自那时起，从Ubuntu 7.10, 8.04，到Debian testing，无论是换工作换城市还是换电脑换硬盘，Linux一直作为主力桌面OS，稳定地跑在我的电脑上。</p>
 
@@ -44,25 +46,26 @@
 <p>现在我的笔记本上装的是一个Windows 7(盗版，你懂的)，正在攒入会费准备拜入苹果教。在硬盘上躺着的是两个虚拟机，一个是带KDE的Debian testing，一个是Mac Mountion Lion，基本上很少再用到Linux桌面。当然，作为一个后台码农，一个Linux服务器环境还是少不了的。离开了Linux桌面之后，我有更多的时间集中精力做自己感兴趣的事情，更好的去学习和创造。换一个角度来看，离开Linux桌面实际上让我更加靠近Linux的开源文化，那就是众多个体吸收养分，成长和回馈。而这一切的前提就是，尊重个体的自由，你可以选择Linux桌面，可以选择其它，也可以做一个自己的Linux桌面发行版。自由形成多样化。</p>
 
 <p>别了，Linux桌面。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[无家可归的Java]]></title>
     <link href="http://clisp.github.com/blog/2013/02/23/no-home-for-java/"/>
-    <updated>2013-02-23T14:44:00+00:00</updated>
+    <updated>2013-02-23T14:44:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/02/23/no-home-for-java</id>
-    <content type="html"><![CDATA[<h3>Java千层糕</h3>
+    <content type="html"><![CDATA[<h3 id="java">Java千层糕</h3>
 
 <p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。由于很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
 
-<p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA'S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来预言Java，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化Sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
+<p>对于靠某门编程语言吃饭的程序员来说，将那门语言比喻作情人也毫不过分，因为说不好每天接触那门语言的时间比与现实生活中的情人相处的时间还要多。对于Java这个情人，也不必从哆嗦的语法，笨重低效的风格等各个方面具体列出她的缺点了，单是网上时不时出现的像标题《Java已死》这类文章，就像说明一些问题了。我个人则更喜欢用一种感性的方法来认识她，硅父教父Paul Graham曾经写过一个文章<a href="http://www.paulgraham.com/javacover.html">《JAVA’S Cover》</a>(中文译文见<a href="http://www.aqee.net/java-cover/">这里</a>)，用了类似“闻香识女人”的方法来预言Java，10多年后的今天读起来，感觉此文还是很有洞察力。文中说Java的老东家Sun商业前景不乐观，那时还是2001年，近年Sun已经被Oracle收购，Java之父去了Google，由于许可证的变化Sun的Java实现被踢出各开源Linux发行版之外，最近更是爆出多个严重的安全漏洞，就连美国政府也建议用户停用浏览器里的Java，这是相当罕见的。</p>
 
 <p>其实一直以来，Java这个世界就习惯了打补丁的方式，从语言的设计(如容器和泛型)到修正安全漏洞各个方面。不断的发布安全更新，但漏洞也不断的出现，从底层虚拟机的实现上看，代码积越来越厚，补丁打得越来越多，也引入了越来越多的漏洞。如此像千层糕一样堆叠上去，终有一天Java会不堪重负而轰然倒塌。也许是时候重写Java了，但就和过去无数次打补丁的理由一样，Java只能选择兼容历史，不可能大改而影响市场上已有的程序，因为商业永远是第一位的，Oracle不可能像Python社区那样勇敢的抛弃历史的负担，于是Java这个故事发展下去就只能是个悲剧了。</p>
 
 <p>且看2013年即将发布的Java 8，这个版本推出的对lambda的支持，被吹捧为Java带来新变革的重点，用起来依旧笨重，在Lisper的眼中看来甚至可能会觉得迂腐可笑。Java未死，还有很多已经存在或将会展开的应用，在Java虚拟机上积累下来的无数商业强度的库和代码也将长期存在，但从语言演化的层面上来看，这条路的终点也不远了。几年之前流行学习Java，但到今天，可能更好的做法是学习那些JVM语言，如Groovy, Scala, Clojure等。</p>
 
-<h3>没有JAVA_HOME</h3>
+<h3 id="javahome">没有JAVA_HOME</h3>
 
 <p>很久没有在Linux上装过Java了，有点生疏。<code>sun-java6-jdk</code>这个包已经不在Debian/Ubuntu的软件源里面了，我找了一圈才找到OpenJdk的<code>openjdk-6-jdk</code>这个包，装完包之后，照常例要设置环境变量，包括</p>
 
@@ -77,35 +80,35 @@ export PATH
 <p>我把这几个语句写到一个独立脚本(后缀为<code>.sh</code>)放到<code>/etc/profile.d</code>目标里面，让Shell在启动的时候自动加载了。为什么不把配置放到<code>/etc/environment</code>文件里面呢？就像网上很多写Java安装的文章所说的那样？因为后者限制较多，它并非一个脚本，所以不支持变量的引用，只支持简单的赋值，用起来并不方便。更好的做法就是放到脚本里面，如只限个人使用就是<code>.profile</code>或<code>.bashrc</code>文件，如果是系统级别的就是<code>/etc/profile.d</code>目录或<code>/etc/bash.bashrc</code>文件。关于系统变量的详细内容可参考Ubuntu的<a href="https://help.ubuntu.com/community/EnvironmentVariables">Environment Variables文档</a>。</p>
 
 <p>搞好之后，突然顿悟似的想到，为什么还需要每个Java用户手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Thrift实践]]></title>
     <link href="http://clisp.github.com/blog/2013/02/10/practical-thrift/"/>
-    <updated>2013-02-10T20:15:00+00:00</updated>
+    <updated>2013-02-10T20:15:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/02/10/practical-thrift</id>
     <content type="html"><![CDATA[<p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
 
-<h3>实践1. 将thrift看作应用的RPC胶水</h3>
+<h3 id="thriftrpc">实践1. 将thrift看作应用的RPC胶水</h3>
 
 <p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
 
 <p>本文的重点在Thrift，所以集中笔墨讨论它。Thrift的RPC框架具有的如下几个特点：</p>
 
 <ol>
-<li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
-<li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
-<li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
-<li>内部实现层次分明，结构清晰，代码量不大</li>
+  <li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
+  <li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
+  <li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
+  <li>内部实现层次分明，结构清晰，代码量不大</li>
 </ol>
-
 
 <p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
 
-<h3>实践2. 使用合适的数据类型</h3>
+<h3 id="section">实践2. 使用合适的数据类型</h3>
 
-<h4>2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
+<h4 id="blobbinarystring">2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
 
 <p>thrift支持两种字符串类型：
 1. string类型，类似编程语言中常用的字符串类型，或Mysql中的VARCHAR/TEXT字符串类型，用于表示某种语言(字符集)特定编码的字符串
@@ -128,17 +131,20 @@ string          std::string     java.nio.ByteBuffer    str
 <p>其中包括C++的服务器端代码，还有C++, Java, Python 3种语言写的客户端。服务器端在收到客户端的无参数RPC请求后，向客户端发送一个值为214的字符，早于它不是ascii字符集范围内的字符，它表示的字符就由编码方式决定。3个客户端的输出对比如下：</p>
 
 <ol>
-<li><p>C++</p>
+  <li>
+    <p>C++</p>
 
-<pre><code> $ ./cpp_client
+    <pre><code> $ ./cpp_client
  ./cpp_client started.
  get char in string: -15
  get char in binary: -15
  done.
-</code></pre></li>
-<li><p>Java</p>
+</code></pre>
+  </li>
+  <li>
+    <p>Java</p>
 
-<pre><code> $ make run-java-client
+    <pre><code> $ make run-java-client
  java \-classpath \
  /usr/local/lib/libthrift.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-jdk14.jar:/usr/share/java/slf4j-simple.jar:/usr/share/java/slf4j-jcl.jar:/usr/share/java/slf4j-nop.jar:/home/wenwenliu/pro/thrift/schargen/gen-java:/home/wenwenliu/pro/thrift/schargen \
  Client
@@ -151,18 +157,20 @@ string          std::string     java.nio.ByteBuffer    str
  get char in binary:
  -15
  done.
-</code></pre></li>
-<li><p>Python</p>
+</code></pre>
+  </li>
+  <li>
+    <p>Python</p>
 
-<pre><code> $ make run-py-client
+    <pre><code> $ make run-py-client
  python ./client.py
  ./client.pystarted.
  'get char in string: \xf1'
  'get char in binary: \xf1'
  done.
-</code></pre></li>
+</code></pre>
+  </li>
 </ol>
-
 
 <p>从输出中可以看到，同一个字符在Python的客户端值与服务器端一样，C++客户端打印出来的值是服务器值的二进制补码值，但在Java客户端，字符值受到编码方式的影响，经过编码方式演绎后的字符值与原来的字符值并不一致。而且在几种常见的编码方式下都得不到原来的字符值。</p>
 
@@ -170,19 +178,22 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
 
-<h3>实践3. Thrift里面的同步与异步</h3>
+<h3 id="thrift">实践3. Thrift里面的同步与异步</h3>
 
 <p>thrift里面常见的几种同步异步用法：</p>
 
 <ol>
-<li><p>同步服务器，同步客户端，同步调用，无异步<br/>
-最常用的默认方式。</p></li>
-<li><p>同步服务器，同步客户端，异步调用<br/>
-用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p></li>
-<li><p>同步客户端，异步服务器端</p></li>
-<li>异步客户端，异步服务器端</li>
+  <li>
+    <p>同步服务器，同步客户端，同步调用，无异步<br />
+最常用的默认方式。</p>
+  </li>
+  <li>
+    <p>同步服务器，同步客户端，异步调用<br />
+用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p>
+  </li>
+  <li>同步客户端，异步服务器端</li>
+  <li>异步客户端，异步服务器端</li>
 </ol>
-
 
 <p>由于客户端和服务器端在实现上是相互独立的，所以两者在同步或异步的选择上也是独立的。这里举例说明如何编写异步服务器和异步客户端。示例代码如下：</p>
 
@@ -190,7 +201,7 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
 
-<h3>实践4. thrift内部框架一瞥</h3>
+<h3 id="thrift-1">实践4. thrift内部框架一瞥</h3>
 
 <p>按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
 
@@ -211,15 +222,16 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p>TODO 详述各层源代码实现</p>
 
-<p><em>注：</em><br/>
+<p><em>注：</em><br />
 <a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[常用终端软件]]></title>
     <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
-    <updated>2013-01-31T20:01:00+00:00</updated>
+    <updated>2013-01-31T20:01:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
     <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。</p>
 
@@ -232,16 +244,17 @@ string          std::string     java.nio.ByteBuffer    str
 <p>我经常用到的终端配置，主要有如下方面：语言环境，字符集，字体，色彩支持，编辑器。</p>
 
 <ul>
-<li><p>语言环境</p>
+  <li>
+    <p>语言环境</p>
 
-<p>  在Debian/Ubuntu中可以通过命令</p>
+    <p>在Debian/Ubuntu中可以通过命令  </p>
 
-<pre><code>  sudo dpkg-reconfigure locales
+    <pre><code>  sudo dpkg-reconfigure locales
 </code></pre>
 
-<p>  来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有</p>
+    <p>来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有  </p>
 
-<pre><code>  # 设置为中文环境
+    <pre><code>  # 设置为中文环境
   export LC_ALL=zh_CN.utf8
   export LANG=zh_CN.utf8
   export LANGUAGE=zh_CN:zh
@@ -252,39 +265,48 @@ string          std::string     java.nio.ByteBuffer    str
   export LANGUAGE=en_US:en:zh_CN:zh
 </code></pre>
 
-<p>  将配置添加到.bashrc，source配置或重新登录终端才生效。</p></li>
-<li><p>字符集</p>
+    <p>将配置添加到.bashrc，source配置或重新登录终端才生效。</p>
+  </li>
+  <li>
+    <p>字符集</p>
 
-<p>  能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p></li>
-<li><p>字体</p>
+    <p>能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p>
+  </li>
+  <li>
+    <p>字体</p>
 
-<p>  推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
+    <p>推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
 
-<pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
+    <pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
   0Oo      &lt;-- 数字0，大小写字母o
   `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
 </code></pre>
 
-<p>  Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
+    <p>Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
 
-<pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
+    <pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
   Ubuntu Mono    --- Ubuntu的开源字体
 </code></pre>
 
-<p>  当然，每个人的喜好审美不同，对字体的偏好也不同。</p></li>
-<li><p>色彩支持</p>
+    <p>当然，每个人的喜好审美不同，对字体的偏好也不同。</p>
+  </li>
+  <li>
+    <p>色彩支持</p>
 
-<p>  无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
+    <p>无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
 
-<pre><code>  export TERM=xterm-256color
+    <pre><code>  export TERM=xterm-256color
 </code></pre>
 
-<p>  就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
+    <p>就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
 
-<p>  打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p></li>
-<li><p>编辑器</p>
+    <p>打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p>
+  </li>
+  <li>
+    <p>编辑器</p>
 
-<p>  在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p></li>
+    <p>在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p>
+  </li>
 </ul>
 
 ]]></content>
@@ -293,11 +315,11 @@ string          std::string     java.nio.ByteBuffer    str
   <entry>
     <title type="html"><![CDATA[电子时代的鸦片]]></title>
     <link href="http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age/"/>
-    <updated>2013-01-28T23:37:00+00:00</updated>
+    <updated>2013-01-28T23:37:00+08:00</updated>
     <id>http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age</id>
     <content type="html"><![CDATA[<p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
 
-<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams.....令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
+<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams…..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
 
 <p>于是从卓越网订购了一个Intel SSD 330 120g，周末把它安装到我的小黑X201i中，换出原配的西数250g硬盘。因为新的ssd也是9.5mm，厚度与原来机械硬盘一样，所以原来的硬盘架就完美套用，换起来相当便捷。换好硬盘后，在Windows下使用Intel SSD Toolbox查看硬盘状态，出厂日期和读写次数，写入量都没问题，固件已经是最新版本不用升级，然后统一trim一次，算是完成初始化。</p>
 
@@ -306,10 +328,9 @@ string          std::string     java.nio.ByteBuffer    str
 <p>在Linux系统，可以针对SSD做一些优化，主要目的是用好SSD以提升读写速度，减少写入量延长SSD寿命。具体的优化原理和步骤可以参考</p>
 
 <ol>
-<li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives -- Arch Wiki</a></li>
-<li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
+  <li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives – Arch Wiki</a></li>
+  <li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
 </ol>
-
 
 <p>这些优化我只采用了一部分，文件系统用的还是Ext4，然后加了noatime, nodiratime等挂载选项来禁止更新atime，因为它在桌面系统上其实没什么用，加了nodiscard和定期trim，还分了一个与内存等大的swap分区来方便休眠(hibernate)，而像关闭文件系统日志这种动作觉得风险大没有采用。因为Intel SSD有长达几年的保修服务，所以也就不太担心写入量会太大，也不用担心会被用坏，随便写就是了。</p>
 
@@ -318,6 +339,7 @@ string          std::string     java.nio.ByteBuffer    str
 <p>升级了SSD之后，机器的速度还是有很大的提升。从SSD Benchmark和HD Tune等软件在换上SSD前后测试的数据对比来看，顺序读写有2到3倍的速度提升，随机读写则有几十倍。在使用感觉上，启动系统和打开程序都明显感觉到变快了，编译代码也有明显的速度区别，以往在敲完编译命令后，看着命令行输出慢悠悠的向下滚动，现在则变得像嗑了药的赛车手一样疯狂，滚动刷屏得很快，基本上看不清里面的内容。</p>
 
 <p>SSD速度奇快，用过它之后就很难再用回慢吞吞的机械硬盘。从某个角度来看，SSD就类似于鸦片，它给人带来很有快感的体验，而且一旦接触就容易上瘾。自计算机诞生以来，每个年代都有其电子鸦片，几十年前，那是一个如PDP-10的计算设备，今天，则变成技术革新(如SSD的普及)，网络游戏和社交网站。</p>
+
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。 看天下大势如此，营利的博客业务开始衰落了。 2009/8/7 13:34:10 &lt;&lt;C++ Primer>> mentions when talking about primitive &hellip;">
+  <meta name="description" content="老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。 看天下大势如此，营利的博客业务开始衰落了。 2009/8/7 13:34:10 «C++ Primer» mentions when talking about primitive integer &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2010-11-28T08:36:00+00:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+<time datetime="2010-11-28T08:36:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
         
       </p>
     
@@ -97,13 +97,13 @@
 
 <p>2009/8/7 13:34:10</p>
 
-<p>&lt;&lt;C++ Primer>> mentions when talking about primitive integer type as follows:</p>
+<p>«C++ Primer» mentions when talking about primitive integer type as follows:</p>
 
 <p>For the unsigned types, a negative value is always out of range. An object of unsigned type may never hold a negative value. Some languages make it illegal to assign a negative value to an unsigned type, but C++ does not.</p>
 
 <p>In C++ it is perfectly legal to assign a negative number to an object with unsigned type. The result is the negative value modulo the size of the type. So, if we assign 1 to an 8-bit unsigned char, the resulting value will be 255, which is 1 modulo 256.</p>
 
-<p>at page 37 (&lt;&lt;C++ Primer, 4th>> English, Posts &amp; Telecom Press, 2006)</p>
+<p>at page 37 («C++ Primer, 4th» English, Posts &amp; Telecom Press, 2006)</p>
 
 <p>Why a negative number which is assigned to a unsigned type would become a modulo of it? Is it because of the bit represatation? To validate the situation, I write this short code fragement(take char for example to figure out the bit representation):</p>
 
@@ -169,7 +169,7 @@ the representation of type char and unsigned char:
 *///:~ bit_inter.cc
 </code></pre>
 
-<p>now the bit representation of type char set is clear\:</p>
+<p>now the bit representation of type char set is clear:</p>
 
 <pre><code>bit representation    unsigned char    signed char:
 11111111              255                  -1
@@ -205,7 +205,7 @@ the representation of type char and unsigned char:
   
 
 
-<time datetime="2010-11-28T08:36:00+00:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+<time datetime="2010-11-28T08:36:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
       
 
 <span class="categories">

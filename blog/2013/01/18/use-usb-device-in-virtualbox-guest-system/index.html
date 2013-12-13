@@ -84,7 +84,7 @@
   
 
 
-<time datetime="2013-01-18T21:26:00+00:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
+<time datetime="2013-01-18T21:26:00+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
         
       </p>
     
@@ -96,15 +96,21 @@
 <p>虚拟机我用的是VirtualBox，今天研究了一下如何配置它来实现这个功能，简述如下：</p>
 
 <ol>
-<li><p>要在虚拟系统中挂载物理机器的USB接口，需要安装<code>VirtualBox Extension Pack</code>，这个包在<a href="https://www.virtualbox.org/">VirtualBox官网</a>就有下载，选择对应版本的下载并安装到VirtualBox。可以参考<a href="http://www.javait.org/?p=657">这篇文章</a></p></li>
-<li><p>添加当前用户到用户组<code>vboxusers</code>，需要注销或重启系统。然后在对应的虚拟机设置界面打开<code>启用USB控制器</code>相关选项，并添加对应的过滤器。可以参考<a href="http://gongstring.iteye.com/blog/1356316">这篇文章</a></p>
+  <li>
+    <p>要在虚拟系统中挂载物理机器的USB接口，需要安装<code>VirtualBox Extension Pack</code>，这个包在<a href="https://www.virtualbox.org/">VirtualBox官网</a>就有下载，选择对应版本的下载并安装到VirtualBox。可以参考<a href="http://www.javait.org/?p=657">这篇文章</a>  </p>
+  </li>
+  <li>
+    <p>添加当前用户到用户组<code>vboxusers</code>，需要注销或重启系统。然后在对应的虚拟机设置界面打开<code>启用USB控制器</code>相关选项，并添加对应的过滤器。可以参考<a href="http://gongstring.iteye.com/blog/1356316">这篇文章</a>  </p>
 
-<p> 添加用户到用户组可以通过命名行，也可以通过系统UI，在gnome3中打开<code>[用户和组]</code>，在<code>[高级设置]</code>界面<code>[用户权限]</code>标签页下，勾上<code>使用VirtualBox虚拟化解决方案</code>选项，效果与命名行操作相同。如果不添加这个用户组，在VirtualBox的虚拟机设置界面就不会看到物理机器上的USB设备，在虚拟机中当然也无法访问了。</p></li>
-<li><p>之后启动虚拟系统，在需要访问USB时，就可以通过菜单栏 <code>[设备] -&gt; [分配USB设备]</code> 来将物理机器的USB设备挂载到虚拟系统中</p></li>
+    <p>添加用户到用户组可以通过命名行，也可以通过系统UI，在gnome3中打开<code>[用户和组]</code>，在<code>[高级设置]</code>界面<code>[用户权限]</code>标签页下，勾上<code>使用VirtualBox虚拟化解决方案</code>选项，效果与命名行操作相同。如果不添加这个用户组，在VirtualBox的虚拟机设置界面就不会看到物理机器上的USB设备，在虚拟机中当然也无法访问了。  </p>
+  </li>
+  <li>
+    <p>之后启动虚拟系统，在需要访问USB时，就可以通过菜单栏 <code>[设备] -&gt; [分配USB设备]</code> 来将物理机器的USB设备挂载到虚拟系统中  </p>
+  </li>
 </ol>
 
-
 <p>如今个人电脑的内存越来越大，性能越来越好，在Linux系统中虚拟一个Windows速度也不慢，功能上也能满足我的使用需求，所以算是一个比较完美的解决方案。对比来看，前些年因为机器性能不好而被迫在裸机硬盘上安装Linux/Windows双系统，这个做法到今天已经没有必要了。</p>
+
 </div>
 
 
@@ -127,7 +133,7 @@
   
 
 
-<time datetime="2013-01-18T21:26:00+00:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
+<time datetime="2013-01-18T21:26:00+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2013</time>
       
 
 <span class="categories">

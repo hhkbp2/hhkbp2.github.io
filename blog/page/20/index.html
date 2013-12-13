@@ -9,8 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="&#8220;What is the Matrix? Control.&#8221;
-&#8211; Morpheus 对于广大的程序员来说，骇客帝国应该是一部很有吸引力的电影，因为它既有很丰富的商业大片的元素，也有很多我们熟悉的事物：英雄，导师，爱情，格斗和子弹时间，代码，骇客，人类和机器， &hellip;">
+  <meta name="description" content="kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处—-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +71,302 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2011/03/03/great-tools-rxvt-unicode-and-gnu-screen/">解牛利刃rxvt-unicode, GNU Screen</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-03T21:15:00+08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处—-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt-unicode被收录在 debian/ubuntu 的源中，安装只需在管理员权限下输入命令：</p>
+
+<pre><code># aptitude install rxvt-unicode
+</code></pre>
+
+<p>在 debian 6 wheezy中安装好后，gnome菜单中没有它，需要手动创建快捷方式。
+默认安装好后的 rxvt-unicode 相当原始，需要配置一番才方便使用。它的配置文件为 ~/.Xresource 或 ~/.Xdefaults，关于它的配置网上已有很多讲解文章。这里简单备份下我自己的配置:</p>
+
+<pre><code>!! -*- Conf -*-
+!! configuration for rxvt-unicode
+
+!! Copyright (C) 2009, 2010, 2011 Dylan.Wen
+!! Author: Dylan.Wen &lt;hhkbp2@gmail.com&gt;
+
+!! Time-stamp: &lt;2011-03-03 00:03&gt;
+
+!! This file is free software: you can redistribute it and/or modify
+!! it under the terms of the GNU General Public License as published by
+!! the Free Software Foundation, either version 3 of the License, or
+!! (at your option) any later version.
+
+!! This file is distributed in the hope that it will be useful,
+!! but WITHOUT ANY WARRANTY; without even the implied warranty of
+!! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!! GNU General Public License for more details.
+
+!! You should have received a copy of the GNU General Public License
+!! along with this file.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+!!! Commentary:
+!! To enable it after changed, use this command:
+!! xrdb -load ~/.Xresources
+
+!!! Code:
+
+
+Xft.dpi:    96
+
+!! general setting
+Rxvt.geometry:      80x24
+Rxvt.visualBell:    False
+Rxvt.termName:      rxvt
+
+!! color theme
+!! dark theme
+Rxvt.background:    black
+Rxvt.foreground:    white
+Rxvt.colorBD:       yellow
+Rxvt.colorIT:       magenta
+Rxvt.colorUL:       green
+Rxvt.underlineColor:cyan
+Rxvt.tintColor:         gray
+Rxvt.cursorColor:   white
+Rxvt.shading:       100
+
+!! title
+Rxvt.title:             rxvt-unicode
+!! scrollBar
+Rxvt.scrollBar:             False
+Rxvt.scrollstyle:       next
+Rxvt.scrollBar_right:       True
+Rxvt.scrollBar_floating:    True
+Rxvt.scrollTtyOutput:       True
+Rxvt.scrollTtyKeypress:         True
+
+!! cursor
+Rxvt.cursorBlink:       True
+Rxvt.pointerBlank:      True
+Rxvt.externalBorder:        True
+
+!! coding
+Rxvt.multichar_encoding:    utf-8
+Rxvt.imLocale:          zh_CN.UTF-8
+
+Rxvt.menu:          /etc/X11/rxvt.menu
+!! set the artificial transparency
+!! Rxvt.inheritPixmap:         True
+Rxvt.transparency:         255
+
+Rxvt.saveLines:                1000
+Rxvt.preeditType:              Root
+Rxvt.borderLess:               False
+
+!! turn on URL browsing support
+!! please refer to: http://www.leninlee.cn/?p=384
+URxvt.urlLauncher:      firefox
+URxvt.matcher.button:           1
+URxvt.perl-ext-common:          matcher
+
+!! multi-tab
+!! URxvt.perl-ext-common: default,tabbed
+
+!! font
+Rxvt.font:           xft:Vera Sans YuanTi Mono:size=12:antialias=true
+Rxvt.boldFont:       xft:Vera Sans YuanTi Mono:size=12:Bold:antialias=true
+Rxvt.italicFont:     xft:Vera Sans YuanTi Mono:size=12:Italic:antialias=true
+Rxvt.boldItalicFont: xft:Vera Sans YuanTi Mono:size=12:Bold Italic:antialias=true
+
+
+!! redefine color to use tango theme in vim
+!! Black
+URxvt.color0:           #000000
+URxvt.color8:           #555753
+!! Red
+URxvt.color1:           #CC0000
+URxvt.color9:           #EF2929
+!! Green
+URxvt.color2:           #4E9A06
+URxvt.color10:          #8AE234
+!! Yellow
+URxvt.color3:           #C4A000
+URxvt.color11:          #FCE94F
+!! Blue
+URxvt.color4:           #3465A4
+URxvt.color12:          #729FCF
+!! Magenta
+URxvt.color5:           #75507B
+URxvt.color13:          #AD7FA8
+!! Cyan
+URxvt.color6:           #06989A
+URxvt.color14:          #34E2E2
+!! White
+URxvt.color7:           #D3D7CF
+URxvt.color15:          #EEEEEC
+</code></pre>
+
+<p>简单解释下，rxvt-unicode 接受以 Rxvt 或 URxvt 开头的属性定义，其属性一般以驼峰风格命名。</p>
+
+<p>geometry 定义了窗口的大小，即 colum x row ,也可以指明窗口左上角在屏幕的初始位置，如</p>
+
+<pre><code>Rxvt.geometry:          80x24+100+100
+</code></pre>
+
+<p>visualBell 与 bash, cygwin 的闪屏效果一致(还有下面介绍的 screen 也支持此功能)。<br />
+termName 表示终端名字，取 rxvt 使之与非 unicode 版本的一致(有时某些环境变量如 PS1 的设置即与此名字相关，如下面介绍的 screen)。进入 rxvt-unicode,环境变量 $TERM 即为所设置的 rxvt。  </p>
+
+<p>配色方面，除了一般的背景色，前景色，光标颜色之外，rxvt-unicode 还可以特别地设置粗体，斜体，超链接，下划线等颜色，所以在 rxvt-unicode 里，你可以有一个彩色的 man 手册页(很受欢迎的一个特性)。  </p>
+
+<p>滚动条方面，设置了放在右侧，当有输出或按下键盘时，即自动滚动到最下端(与标准的终端如 gnome-terminal 行动一致)。不过不显示滚动条。即使不显示，按键后自动滚动到最下端的行为还是有效的。设置了鼠标闪烁。  </p>
+
+<p>编码与 locale 设置为 UTF-8。将 inheritPixmap 打开，与 transparency 结合可以让背景透明，并设置其透明度。也有其它选项，可以将某张图片应用为背景。输出缓冲为 1000 行。打开 perl 扩展，使得在单击显示的超链接可以直接打开浏览器浏览。rxvt-unicode 也直接支持多标签，只要打开相应的 perl 扩展即可。不过我试了一下，鼠标反应不好，所以没有打开。我还是习惯搭配 screen 来模拟多标签。  </p>
+
+<p>字体方面，是 rxvt-unicode 多为人诟病的一个方面。首先，加入 X 字体后使得加载速度变慢(一般用户感觉不到，即使将 preeditType 设为 Root)，有人说小字体用点阵，大字体用 X 字体比较美观，不过外观这东西见人见智。我统一用 X 字体，这里使用的就是传说中的 Vera Sans 圆体。  </p>
+
+<p>更改配置之后，运行命令行</p>
+
+<pre><code>$ xrdb ./.Xresources
+</code></pre>
+
+<p>使之生效。  </p>
+
+<p>GNU screen 是命令行下的窗口管理器，它主要功能包括命令行会话管理，多标签环境模拟，它在 debian/ubuntu 下的安装也很方便：  </p>
+
+<pre><code># aptitude install screen
+</code></pre>
+
+<p>关于其使用，网上文章也不少，这里就不啰嗦了。这里贴一下自己的配置文件:</p>
+
+<pre><code>############################################################
+# Settings for screen
+#
+# Copyright (C) 2009, 2010, 2011 Dylan.Wen
+#
+# Author: Dylan.Wen &lt;hhkbp2@gmail.com&gt;
+#
+# Time-stamp: &lt;2011-03-03 01:14&gt;
+#
+# This file is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+#
+############################################################
+
+
+# 关闭启动画面
+startup_message off         # default: on
+
+# Automatically detach on hangup, or the screen will keep eating
+# your memory after the terminal emulator has been terminated.
+autodetach on      # default: on
+
+# 关闭vbell
+vbell off
+
+# 指定 shell
+shell bash
+
+# 默认开始路径为~
+# chdir
+
+# 定义回滚行数
+defscrollback 1000
+
+# 指定编码
+defencoding utf-8
+encoding utf-8 utf-8
+
+# 定制 caption
+# backtick 47 0 0 my_name.sh
+# caption always "%?%F%{-b 4w}%:%{-b bb}%? %H | %l | %m-%d %c |%?%F%{-b 4w}%?%L=%-Lw%45&gt;%{-b w4}%n%f* %t%{-}%+Lw%-0&lt;"
+# caption always "%{=b}%{b}%{uB C}%47`%{-}%{B C}:%{-}  %-Lw%{u .my}%50&gt;%n%f* %t%{-}%+Lw%&lt; %=%{b km}%m-%d %c %D"
+
+caption always "%{=b}%{b}%{C}%H%{-}  %+010=%-w%8L&gt;%{uB .my}*%n %t%{-}%+w%-014&lt;  %-012=%{b m}%m-%d %c "
+
+# hardstatus alwayslastline "%?%{yk}%-Lw%?%{wb}%n*%f %t%?(%u)%?%?%{yk}%+Lw%?"
+
+# 定制 title bar
+term rxvt
+
+# termcapinfo xterm|rxvt ti@:te@
+# termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+termcapinfo rxvt 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+
+########## 键绑定 ##########
+
+# 将快捷键默认 C-a 设为 C-l
+escape ^L^L
+
+# 定制 region 函数键与Emacs一致
+bind 2 split
+bind o focus
+bind 1 only
+bind 0 remove
+
+# bind F9 to create a new screen
+bindkey -k k9 screen
+# bind F10 to kill current screen window
+bindkey -k k10 kill
+
+# bind F5 to detach screen session
+bindkey -k k5 detach
+# bind F11 to "move to previous window"
+bindkey -k F1 prev
+# bind F12 to "move to next window"
+bindkey -k F2 next
+
+
+# .screenrc ends here
+</code></pre>
+
+<p>caption是按照 80 个字符宽来设定的。region 函数键设定与 Emacs 一致（主要是为了方便记忆，我没有在 screen 中使用 Emacs 的习惯），可惜只能横向分割窗口，不能纵向分割。快捷键对照如下：  </p>
+
+<pre><code>F9 -- 新建 screen 会话
+F10 -- 关闭当前会话
+F5 -- 挂起当前会话
+F11 -- 移动到上一个会话
+F12 -- 移动到下一个会话
+</code></pre>
+
+<p>结合 caption 栏，就有了一种类 tab 的窗口浏览功能，截图如下：</p>
+
+<p><img src="/images/uploads/rxvt-u2.jpg" alt="screenshot of urxvt" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2011/03/02/matrix-screen-saver-for-emacs/">Matrix Screen Saver for Emacs</a></h1>
     
     
@@ -88,7 +383,7 @@
   
 
 
-<time datetime="2011-03-02T18:19:00+00:00" pubdate data-updated="true">Mar 2<span>nd</span>, 2011</time>
+<time datetime="2011-03-02T18:19:00+08:00" pubdate data-updated="true">Mar 2<span>nd</span>, 2011</time>
         
       </p>
     
@@ -97,52 +392,53 @@
 
   <div class="entry-content"><p><a href="/images/uploads/code_rain_matrix.jpg"><img src="/images/uploads/code_rain_matrix.jpg" alt="the source view screenshot of The Matrix" /></a></p>
 
-<blockquote><p>&#8220;What is the Matrix? Control.&#8221;<br/>
-&#8211; Morpheus</p></blockquote>
+<blockquote>
+  <p>“What is the Matrix? Control.”<br />
+– Morpheus</p>
+</blockquote>
 
 <p>对于广大的程序员来说，骇客帝国应该是一部很有吸引力的电影，因为它既有很丰富的商业大片的元素，也有很多我们熟悉的事物：英雄，导师，爱情，格斗和子弹时间，代码，骇客，人类和机器，现实与虚拟，过去和未来预言等。而它的确是一部成功的电影，无论是从它取得的票房上来看，还是从它在世界范围产生的影响来看。</p>
 
 <p>片中为人津津乐道的地方很多，关于宗教哲学，关于现实，关于信念等等，而引起我思考最多的是the Matrix这个AI，机器，人类社会的未来的某一个发展阶段。</p>
 
-<p>什么是the Matrix呢？Morpheus说，control。控制，与被控制。即使片中那个未来社会目前还无法预见，但是其实无需等待那个AI产生的未来，看看现时当下，就很容易发现the Matrix无处不在: gfw; 高房价，control了多少人的生活; 艰难的决定，control了你用哪个客户端软件&#8230;</p>
+<p>什么是the Matrix呢？Morpheus说，control。控制，与被控制。即使片中那个未来社会目前还无法预见，但是其实无需等待那个AI产生的未来，看看现时当下，就很容易发现the Matrix无处不在: gfw; 高房价，control了多少人的生活; 艰难的决定，control了你用哪个客户端软件…</p>
 
 <p>而当年我们的伟大领导RMS正是因为私有软件的版权对人的控制而开始了自由软件运动。</p>
 
 <p>废话少说，长话短说，回到正题，今天说的是又一个碟形世界般的故事：</p>
 
-<p>历史的潮流不断向前推动，在这个不知从何时开始，又不知到何时结束的宏大时代的某一天的某一个不太清醒的时候，镜头转向阿图因大陆，在亚洲东部某个国家南方某个魔法并不盛行的小镇，有一个年轻人在家喝了点酒，晕晕乎乎之余仿照骇客帝国的场景，为GNU Emacs写一个Matrix屏保&#8230;</p>
+<p>历史的潮流不断向前推动，在这个不知从何时开始，又不知到何时结束的宏大时代的某一天的某一个不太清醒的时候，镜头转向阿图因大陆，在亚洲东部某个国家南方某个魔法并不盛行的小镇，有一个年轻人在家喝了点酒，晕晕乎乎之余仿照骇客帝国的场景，为GNU Emacs写一个Matrix屏保…</p>
 
 <p>于是就有了zone-matrix.el。</p>
 
 <p>以Linux作桌面系统也有很多时间了，长时间运行Linux，有个屏保对显示器保护比较好,在X window下有很多的屏保可用，但有时只有一个只支持几种颜色的终端。在Emacs的标准发行包中有一个zone.el，提供了几个比较不错的屏保，zone-matrix.el重用了zone.el的框架。希望给那些长时间在终端Emacs下工作的朋友多一种选择。</p>
 
-<p>下载安装：<br/>
-到<a href="https://bitbucket.org/lisp/elispport/src">这里</a>下载zone-matrix.el，zone-matrix-settings.el，zone-settings.el几个文件，并放到load-path目录中。<br/>
+<p>下载安装：<br />
+到<a href="https://bitbucket.org/lisp/elispport/src">这里</a>下载zone-matrix.el，zone-matrix-settings.el，zone-settings.el几个文件，并放到load-path目录中。<br />
 然后在dot emacs文件中加入</p>
 
 <pre><code>(require 'zone-settings)
 </code></pre>
 
-<p>即可。效果图如下：</p>
+<p>即可。效果图如下：  </p>
 
-<p>终端:</p>
+<p>终端:  </p>
 
 <p><img src="/images/uploads/zone-matrix-under-console.jpg" alt="`zone-matrix' under console" /></p>
 
 <p>主要在终端下使用，终端下能用的颜色不多，表现力还是很有限的，有时间的话再添加多一些变化。也添加了支持X的部分代码，所以在X下也能用。</p>
 
-<p>X window:</p>
+<p>X window:  </p>
 
 <p><img src="/images/uploads/zone-matrix-under-X.jpg" alt="`zone-matrix' under X" /></p>
 
 <p>已知的问题有：</p>
 
 <ol>
-<li>占用的资源较多，在几年前的老机器(赛扬D 2.4G)上跑全屏，CPU占用率会达到90％。可以调整参数，适当降低屏幕刷新速度。</li>
+  <li>占用的资源较多，在几年前的老机器(赛扬D 2.4G)上跑全屏，CPU占用率会达到90％。可以调整参数，适当降低屏幕刷新速度。</li>
 </ol>
 
-
-<p>PS：cracker，中文译作骇客，指安全破坏者。<br/>
+<p>PS：cracker，中文译作骇客，指安全破坏者。<br />
 而hacker，译作黑客，指热爱编程，通过编程让自己变得更加聪明，并乐在其中的人。</p>
 </div>
   
@@ -172,7 +468,7 @@
   
 
 
-<time datetime="2010-11-28T09:00:00+00:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+<time datetime="2010-11-28T09:00:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
         
       </p>
     
@@ -183,40 +479,45 @@
 
 <p>http://www.informit.com/content/images/9780201721485/Errata/Lippman_0201721481_Errata.html</p>
 
-<p>Here i list the other errata I found so far. The Warning must be given first that all the items raised as follows is just the statements of myself so that they might be not errata in true and not all the errata are included here( Maybe there is absolutely no such a list of errata which could give that warranty). And I don&#8217;t think I would keep updating all the time.</p>
+<p>Here i list the other errata I found so far. The Warning must be given first that all the items raised as follows is just the statements of myself so that they might be not errata in true and not all the errata are included here( Maybe there is absolutely no such a list of errata which could give that warranty). And I don’t think I would keep updating all the time.</p>
 
 <ul>
-<li><p>Page 101: In paragraph 4 behind</p>
+  <li>
+    <p>Page 101: In paragraph 4 behind</p>
 
-<p>  vector<int>::iterator mid = vi.begin() + vi.size() / 2;</p></li>
+    <p>vector<int>::iterator mid = vi.begin() + vi.size() / 2;</int></p>
+  </li>
 </ul>
 
-
-<p>the word &#8220;ivec&#8221; of the sentence &#8220;This code initializes mid to refer to the element nearest to the middle of ivec.&#8221;, should be &#8220;vi&#8221; apparently.</p>
+<p>the word “ivec” of the sentence “This code initializes mid to refer to the element nearest to the middle of ivec.”, should be “vi” apparently.</p>
 
 <ul>
-<li><p>Page 129: In paragraph 2 below title &#8220;Pointers and Typedefs&#8221;, given the code</p>
+  <li>
+    <p>Page 129: In paragraph 2 below title “Pointers and Typedefs”, given the code</p>
 
-<p>  &#8220;typedef string *pstring;
-  const pstring cstr;&#8221;</p></li>
+    <p>“typedef string *pstring;
+  const pstring cstr;”</p>
+  </li>
 </ul>
 
+<p>the two occurances of “a pointer to const pstring” in the text</p>
 
-<p>the two occurances of &#8220;a pointer to const pstring&#8221; in the text</p>
+<p>“what is the type of cstr? The simple answer is that it is a pointer to const pstring. The deeper question is: what underlying type does a pointer to const pstring represent?”</p>
 
-<p>&#8220;what is the type of cstr? The simple answer is that it is a pointer to const pstring. The deeper question is: what underlying type does a pointer to const pstring represent?&#8221;</p>
-
-<p>should be revised to &#8220;a const pstring&#8221;.</p>
+<p>should be revised to “a const pstring”.</p>
 
 <ul>
-<li><p>Page 136: In &#8220;Initializing a Dynamically Allocated Array&#8221; section, paragraph 2, the code fragment comment is wrong. when using an empty pair of parentheses, the array is value-initialized. So we get the correct interpretation as follows:</p>
+  <li>
+    <p>Page 136: In “Initializing a Dynamically Allocated Array” section, paragraph 2, the code fragment comment is wrong. when using an empty pair of parentheses, the array is value-initialized. So we get the correct interpretation as follows:</p>
 
-<p>  int *pia2 = new int[10](); // array of 10 int, in which every element is value-initialized to 0</p></li>
-<li><p>Page 138: the second line of the first code fragment in grey box &#8220;CONTRASTING C-STYLE STRINGS AND C++ LIBRARY STRINGS&#8221;, should be:</p>
+    <p>int *pia2 = new int[10](); // array of 10 int, in which every element is value-initialized to 0</p>
+  </li>
+  <li>
+    <p>Page 138: the second line of the first code fragment in grey box “CONTRASTING C-STYLE STRINGS AND C++ LIBRARY STRINGS”, should be:</p>
 
-<p>  const size_t len = strlen(pc) + 1;  // space to allocate</p></li>
+    <p>const size_t len = strlen(pc) + 1;  // space to allocate</p>
+  </li>
 </ul>
-
 
 <p>rather than</p>
 
@@ -224,26 +525,25 @@
 </code></pre>
 
 <ul>
-<li><p>Page 159: Of Paragraph 2, &#8220;the second cout&#8221; should be &#8220;the third cout&#8221; to indicate this statement</p>
+  <li>
+    <p>Page 159: Of Paragraph 2, “the second cout” should be “the third cout” to indicate this statement</p>
 
-<p>  cout &lt;&lt; 10 &lt;&lt; 42;</p></li>
+    <p>cout « 10 « 42;</p>
+  </li>
 </ul>
-
 
 <p>is equal to</p>
 
 <pre><code>(cout &lt;&lt; 10) &lt;&lt; 42;
 </code></pre>
 
-<p>which doesn&#8217;t do the right.</p>
+<p>which doesn’t do the right.</p>
 
 <ul>
-<li>Page 289: In &#8220;Interrogating and Controlling the State of Stream&#8221; section, the code fragment</li>
+  <li>Page 289: In “Interrogating and Controlling the State of Stream” section, the code fragment</li>
 </ul>
 
-
 <hr />
-
 <pre><code>    int ival;
     // read cin and test only for EOF; loop is executed even if there are other IO failures
     while(cin&gt;&gt;ival, !cin.eof()){
@@ -273,14 +573,13 @@ The function clear() does two things:
 The flags argument defaults to ios::goodbit, which means that by default, all flags will be cleared and ios::goodbit will be set.
 </code></pre>
 
-<p>As described above, although clear function that take a strm::iostate parameter seems confusing, making us misunderstand that it would clean the state of  iostate bit argument given, actually it turns off the the other iostate bits but the argument iostate bit given and turn on the latter. So, in the code fragment line 8, the argument which should be passed to clear() is istream::goodbit in terms of semanteme. Or we could call clear() directly with no argument. With the default argument ios::goodbit provided, that is equal to call clear(istream::goodbit). And after the call to clear(), the neglect of dealing with the input buffer will cause series problem. Because cin doesn&#8217;t skip the input it fail to read, in the next trip of while it will still try to read the input that causes cin fail one trip before.</p>
+<p>As described above, although clear function that take a strm::iostate parameter seems confusing, making us misunderstand that it would clean the state of  iostate bit argument given, actually it turns off the the other iostate bits but the argument iostate bit given and turn on the latter. So, in the code fragment line 8, the argument which should be passed to clear() is istream::goodbit in terms of semanteme. Or we could call clear() directly with no argument. With the default argument ios::goodbit provided, that is equal to call clear(istream::goodbit). And after the call to clear(), the neglect of dealing with the input buffer will cause series problem. Because cin doesn’t skip the input it fail to read, in the next trip of while it will still try to read the input that causes cin fail one trip before.</p>
 
-<p>Let&#8217;s see what would happen if we take the original pratice, as it was shown in line 8 above, calling clear() with argument istream::failbit. If cin encounter a character rather than a num and fail to read into ival before end of file, cin.failbit will be set and cin.fail() will return true. Inside the while loop, the condition test in line 6 will result true and the block from line 6 to line 10 will be executed. In line 6, function clear would invalid all the other io state but valid the failbit. Because only failbit of cin is set, this statement doesn&#8217;t change anything. And  then we execute a continue to return to the start of the while to try to read the same character into ival. Obvously cin will fail again as before. Then the block from line 6 to line 10 will be executed again. In this way, It will leads to infinite loop.</p>
+<p>Let’s see what would happen if we take the original pratice, as it was shown in line 8 above, calling clear() with argument istream::failbit. If cin encounter a character rather than a num and fail to read into ival before end of file, cin.failbit will be set and cin.fail() will return true. Inside the while loop, the condition test in line 6 will result true and the block from line 6 to line 10 will be executed. In line 6, function clear would invalid all the other io state but valid the failbit. Because only failbit of cin is set, this statement doesn’t change anything. And  then we execute a continue to return to the start of the while to try to read the same character into ival. Obvously cin will fail again as before. Then the block from line 6 to line 10 will be executed again. In this way, It will leads to infinite loop.</p>
 
 <p>So we know there are two points we should revise: one is to reset the stream state correctly, the other is to reposition the input buffer for cin. Correct code is:</p>
 
 <hr />
-
 <pre><code>    int ival;
     //   read cin and test only for EOF; loop is executed even if there are other IO failures
     while(cin&gt;&gt;ival, !cin.eof()){
@@ -297,13 +596,14 @@ The flags argument defaults to ios::goodbit, which means that by default, all fl
 </code></pre>
 
 <ul>
-<li><p>Page 301: In the last sentence of paragraph 1, the contents of format_message should be</p>
+  <li>
+    <p>Page 301: In the last sentence of paragraph 1, the contents of format_message should be</p>
 
-<p>  val1: 512\nval2: 1024\n</p></li>
+    <p>val1: 512\nval2: 1024\n</p>
+  </li>
 </ul>
 
-
-<p>rather than</p>
+<p>rather than  </p>
 
 <pre><code>val1: 512\nval2: 1024  
 </code></pre>
@@ -317,18 +617,21 @@ The flags argument defaults to ios::goodbit, which means that by default, all fl
 <p>insert the indicated text into it.</p>
 
 <ul>
-<li><p>Page 304: line 4 of paragraph 1, &#8220;They they can ba applied to&#8221;, &#8220;They they&#8221; should be &#8220;They&#8221;.</p></li>
-<li><p>Page 321: In paragraph 2, it says the code does that &#8220;reads each element, processes it and adds a new element
-following the original&#8221;. But the example code fail to do that. In the while loop</p>
+  <li>
+    <p>Page 304: line 4 of paragraph 1, “They they can ba applied to”, “They they” should be “They”.</p>
+  </li>
+  <li>
+    <p>Page 321: In paragraph 2, it says the code does that “reads each element, processes it and adds a new element
+following the original”. But the example code fail to do that. In the while loop</p>
 
-<p>  while (first != last) {
+    <p>while (first != last) {
   // do some processing
   // insert new value and reassign first, which otherwise would be invalid
   first = v.insert(first, 42);
   ++first; // advance first just past the element we added
-  }</p></li>
+  }</p>
+  </li>
 </ul>
-
 
 <p>a iterator increment statement should be added, as the following</p>
 
@@ -345,169 +648,57 @@ first = v.insert(first, 42);
 <p>And the following example code in the same page should be changed like this as well.</p>
 
 <ul>
-<li><p>Page 329: At nest to last sentence in paragraph 2 which discusses the assign member function taking a pair of iterator parameters, the last word &#8220;slist2&#8221; should be &#8220;slist1&#8221;. It&#8217;s obvious that the statement</p>
+  <li>
+    <p>Page 329: At nest to last sentence in paragraph 2 which discusses the assign member function taking a pair of iterator parameters, the last word “slist2” should be “slist1”. It’s obvious that the statement</p>
 
-<p>  slist1.assign( slist2.begin(), slist2.end() );</p></li>
+    <p>slist1.assign( slist2.begin(), slist2.end() );</p>
+  </li>
 </ul>
-
 
 <p>deletes all the elements in slist1, and then copies the elements from slist2 into slist1.</p>
 
 <ul>
-<li><p>Page 347: Exercise 9.39, in the definition of line2, a semicolon is missing.</p></li>
-<li><p>Page 372: In section 10.4,  the page number is wrong in item 1 of the operations set supports.<br/>
-&#8220;All the common container operations listed in Section 10.2(p.358).&#8221;<br/>
-should be<br/>
-&#8220;All the common container operations listed in Section 10.2(p.359).&#8221;</p></li>
-<li><p>Page 374: Section 10.4.2, line 1, &#8220;On page 369&#8221; should be &#8220;On page 368&#8221;.</p></li>
-<li><p>Page 423: Exercise 11.29, line 2, &#8220;in Section 11.2.3(p.400)&#8221; should be &#8220;in Section 11.2.3(p.401)&#8221;.</p></li>
-<li><p>Page 713: the paragraph after the first code example, &#8220;If another namespace (say, AddisonWesley) also provides a TextQuery class&#8221;, &#8220;TextQuery&#8221; should be &#8220;Query&#8221;.</p></li>
-<li><p>Page 813: In section &#8220;Algorithms to Find a Subsequence&#8221;, the description of &#8220;search_n&#8221;, line 3, in<br/>
-&#8220;occurrences of the given value&#8221;<br/>
-&#8220;value&#8221; should be &#8220;val&#8221;.</p></li>
-<li><p>Source code:
-15/makefile, line 19, the command &#8220;mk-basket2&#8221; should be &#8220;./mk_basket2&#8221; for sh/bash.
-16/overcomp.cc, line 36, one include directive missing for function strcmp(): &#8220;#include <cstring>&#8221;
+  <li>
+    <p>Page 347: Exercise 9.39, in the definition of line2, a semicolon is missing.</p>
+  </li>
+  <li>
+    <p>Page 372: In section 10.4,  the page number is wrong in item 1 of the operations set supports.<br />
+“All the common container operations listed in Section 10.2(p.358).”<br />
+should be<br />
+“All the common container operations listed in Section 10.2(p.359).”  </p>
+  </li>
+  <li>
+    <p>Page 374: Section 10.4.2, line 1, “On page 369” should be “On page 368”.</p>
+  </li>
+  <li>
+    <p>Page 423: Exercise 11.29, line 2, “in Section 11.2.3(p.400)” should be “in Section 11.2.3(p.401)”.</p>
+  </li>
+  <li>
+    <p>Page 713: the paragraph after the first code example, “If another namespace (say, AddisonWesley) also provides a TextQuery class”, “TextQuery” should be “Query”.</p>
+  </li>
+  <li>
+    <p>Page 813: In section “Algorithms to Find a Subsequence”, the description of “search_n”, line 3, in<br />
+“occurrences of the given value”<br />
+“value” should be “val”.  </p>
+  </li>
+  <li>
+    <p>Source code:
+15/makefile, line 19, the command “mk-basket2” should be “./mk_basket2” for sh/bash.
+16/overcomp.cc, line 36, one include directive missing for function strcmp(): “#include <cstring>&#8221;
 16/overcomp2.cc, the same with the previous.
-18/Queue.h, line 50, in the code:</p>
+18/Queue.h, line 50, in the code:</cstring></p>
 
-<p>  template <class It> Queue(It, It): head(0), tail(0)
-  { copy(beg, end); }</p></li>
+    <p>template <class it=""> Queue(It, It): head(0), tail(0)
+  { copy(beg, end); }</class></p>
+  </li>
 </ul>
-
 
 <p>two parameters miss their name. It should be</p>
 
 <pre><code>template &lt;class It&gt; Queue(It beg, It end): head(0), tail(0)
 { copy(beg, end); }
 </code></pre>
-</div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc/">A Thought on Bit Representation of Primitive Integer Type in C/C++</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-28T08:36:00+00:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。</p>
-
-<p>看天下大势如此，营利的博客业务开始衰落了。</p>
-
-<p>2009/8/7 13:34:10</p>
-
-<p>&lt;&lt;C++ Primer>> mentions when talking about primitive integer type as follows:</p>
-
-<p>For the unsigned types, a negative value is always out of range. An object of unsigned type may never hold a negative value. Some languages make it illegal to assign a negative value to an unsigned type, but C++ does not.</p>
-
-<p>In C++ it is perfectly legal to assign a negative number to an object with unsigned type. The result is the negative value modulo the size of the type. So, if we assign 1 to an 8-bit unsigned char, the resulting value will be 255, which is 1 modulo 256.</p>
-
-<p>at page 37 (&lt;&lt;C++ Primer, 4th>> English, Posts &amp; Telecom Press, 2006)</p>
-
-<p>Why a negative number which is assigned to a unsigned type would become a modulo of it? Is it because of the bit represatation? To validate the situation, I write this short code fragement(take char for example to figure out the bit representation):</p>
-
-<pre><code>//: bit_inter.cc
-#include &lt;iostream&gt;
-using std::cout;
-using std::endl;
-#include &lt;climits&gt;
-template &lt;typename T&gt;
-void print_binary(const T tchar)
-{
-for(int ix = sizeof(tchar)*8 - 1; ix &gt;= 0 ; --ix)
-{
-if( tchar &amp; (1&lt;&lt;ix) )
-cout &lt;&lt; "1";
-else
-cout &lt;&lt; "0";
-}
-}
-#define PRINT_BIT_INTER(x) \
-cout &lt;&lt; (int)x &lt;&lt; "\t" &lt;&lt; " binary representation: " &lt;&lt; "\t"; print_binary(x); cout &lt;&lt; endl;
-int main()
-{
-unsigned char uchar;
-signed char schar;
-cout &lt;&lt; "the limit of type char and unsigned char:" &lt;&lt; endl;
-cout &lt;&lt; "size of signed char: " &lt;&lt; sizeof (signed char) &lt;&lt; "\t" &lt;&lt; "size of unsigned char: " &lt;&lt; sizeof (unsigned char) &lt;&lt; endl;
-cout &lt;&lt; "SCHAR_MIN: " &lt;&lt; SCHAR_MIN &lt;&lt; "\t" &lt;&lt; "SCHAR_MAX: " &lt;&lt; SCHAR_MAX &lt;&lt; "\t" &lt;&lt; "UCHAR_MAX: " &lt;&lt; UCHAR_MAX &lt;&lt; endl;
-cout &lt;&lt; "the representation of type char and unsigned char:" &lt;&lt; endl;
-schar = 127;
-PRINT_BIT_INTER(schar);
-schar = 0;
-PRINT_BIT_INTER(schar);
-schar = -1;
-PRINT_BIT_INTER(schar);
-schar = -127;
-PRINT_BIT_INTER(schar);
-schar = -128;
-PRINT_BIT_INTER(schar);
-uchar = 0;
-PRINT_BIT_INTER(uchar);
-uchar = 128;
-PRINT_BIT_INTER(uchar);
-uchar = 255;
-PRINT_BIT_INTER(uchar);
-return 0;
-}
-
-//* output:(match 100%)
-the limit of type char and unsigned char:
-size of signed char: 1  size of unsigned char: 1
-SCHAR_MIN: -128 SCHAR_MAX: 127  UCHAR_MAX: 255
-the representation of type char and unsigned char:
-127      binary representation:         01111111
-0        binary representation:         00000000
--1       binary representation:         11111111
--127     binary representation:         10000001
--128     binary representation:         10000000
-0        binary representation:         00000000
-128      binary representation:         10000000
-255      binary representation:         11111111
-
-*///:~ bit_inter.cc
-</code></pre>
-
-<p>now the bit representation of type char set is clear\:</p>
-
-<pre><code>bit representation    unsigned char    signed char:
-11111111              255                  -1
-10000001              129                  -127
-10000000              128                  -128
-01111111              127                  127
-00000001              1                     1
-00000000              0                     0
-</code></pre>
-
-<p>so we could conclude that the same bit representation gives different value when representating in different type, signed char or unsigned char.</p>
-
-<p>when assigning a negative number, e.g. -1, to a unsigned char, e.g. named uchar, what C/C++ actually does is keep the bit represetation of -1 intact and copy it into the location where the unsigned char uchar lies. So by the way of unsigned char value representing, the unsigned char now have the value 255. It seems C++ have calculated the modulo, -1 % 256 = 255 for us.</p>
 </div>
   
   

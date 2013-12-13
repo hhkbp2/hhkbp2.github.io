@@ -9,8 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition p248 line 4 of paragraph 1:
-&#8220;vefiry by running &hellip;">
+  <meta name="description" content="sock是已故网络专家Richard Stevens在TCP/IP Illustrated volume 1(简称TCPv1)中为试验网络协议而写的一个程序，可以用于客户端和服务器模式，也可应用多种选项，详细用法请参考TCPv1，这里只简单记录一下如何在Linux平台下编译sock程序。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +71,108 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2011/03/07/build-sock-on-linux/">Build Sock on Linux</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-07T20:27:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>sock是已故网络专家Richard Stevens在TCP/IP Illustrated volume 1(简称TCPv1)中为试验网络协议而写的一个程序，可以用于客户端和服务器模式，也可应用多种选项，详细用法请参考TCPv1，这里只简单记录一下如何在Linux平台下编译sock程序。</p>
+
+<p>到TCPv1的网站<br />
+http://www.kohala.com/start/tcpipiv1.html<br />
+下载源代码，并解压到本地目录。然后进入下面的sock目录，应用patch  </p>
+
+<hr />
+
+<pre><code>--- Makefile.old    1993-12-09 21:32:37.000000000 +0800
++++ Makefile    2011-03-07 11:45:10.452949704 +0800
+@@ -1,7 +1,15 @@
++# to customize make internal variables for compilation on Linux
++kernel   := $(shell uname -s)
++
+ # Change the following as required:
+ CC     = gcc
+ 
+-CFLAGS     = -ansi -Wall -Dsun -D__STDC__=0
++ifneq "$(kernel)" "Linux"
++    CFLAGS   += -ansi -Wall -Dsun -D__STDC__=0
++else
++    CFLAGS   += -Wall
++endif
++
+ # My flags for gcc/solaris 2.3:  -ansi -Wall -Dsun -D__STDC__=0
+ # Add in -DGCC_STRUCT_PROBLEM for gcc versions 1.x under SunOS 4.x
+ # Add in -D__STDC__=0 for gcc under Solaris 2 (for Sun's screwy headers)
+@@ -9,10 +17,12 @@
+ # Add in -D_SOCKADDR_LEN for DEC OSF/1 (see &lt;sys/socket.h&gt;)
+ 
+ # Following line for SVR4, Solaris 2.x
+-LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
+-
++ifneq "$(kernel)" "Linux"
++    LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
++else
+ # Following line for 4.4BSD, BSD/386, SunOS 4.x, AIX 3.2.2, OSF/1
+-#LIBS  =
++    LIBS   =
++endif
+ 
+ PROGS =    sock
+ OBJS = buffers.o cliopen.o crlf.o error.o loop.o main.o \
+</code></pre>
+
+<hr />
+
+<pre><code>--- strerror.c.old  1993-12-09 21:32:37.000000000 +0800
++++ strerror.c  2011-03-07 12:24:12.625068359 +0800
+@@ -1,7 +1,7 @@
+ #include   &lt;stdio.h&gt;
+ 
+-extern char    *sys_errlist[];
+-extern int     sys_nerr;
++//extern char  *sys_errlist[];
++//extern int   sys_nerr;
+ 
+ char *
+ strerror(int error)
+</code></pre>
+
+<p>然后构建</p>
+
+<pre><code>$ make
+</code></pre>
+
+<p>即可。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2011/03/06/my-errata-of-unpe3/">My Errata of UNPe3</a></h1>
     
     
@@ -88,7 +189,7 @@
   
 
 
-<time datetime="2011-03-06T19:31:00+00:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+<time datetime="2011-03-06T19:31:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
         
       </p>
     
@@ -98,15 +199,20 @@
   <div class="entry-content"><p>This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition</p>
 
 <ol>
-<li><p>p248 line 4 of paragraph 1:<br/>
-&#8220;vefiry by running netstat on freebsd)&#8221;<br/>
-should be<br/>
-&#8220;verify by running netstat on freebsd4)&#8221;<br/>
-freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p></li>
-<li><p>p324 line 2 of paragraph 2, below the first testga command output, &#8220;-h bsdi&#8221; should be &#8220;-h freebsd4&#8221;.</p></li>
-<li><p>p681 the section title &#8220;6.4 TCP Echo Server Using Threads&#8221; should be &#8220;26.4 TCP Echo Server Using Threads&#8221;.</p></li>
+  <li>
+    <p>p248 line 4 of paragraph 1:<br />
+“vefiry by running netstat on freebsd)”<br />
+should be<br />
+“verify by running netstat on freebsd4)”<br />
+freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p>
+  </li>
+  <li>
+    <p>p324 line 2 of paragraph 2, below the first testga command output, “-h bsdi” should be “-h freebsd4”.</p>
+  </li>
+  <li>
+    <p>p681 the section title “6.4 TCP Echo Server Using Threads” should be “26.4 TCP Echo Server Using Threads”.</p>
+  </li>
 </ol>
-
 </div>
   
   
@@ -135,7 +241,7 @@ freebsd and freebsd4 are two different machines, according to the hosts and netw
   
 
 
-<time datetime="2011-03-06T18:35:00+00:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+<time datetime="2011-03-06T18:35:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
         
       </p>
     
@@ -144,22 +250,22 @@ freebsd and freebsd4 are two different machines, according to the hosts and netw
 
   <div class="entry-content"><p>最近在岗顶太平洋电脑城2期入手一台ThinkPad(简称tp) X201i, 型号是3249CBC，它是去年的老产品了，标配CPU i370, 2G内存250G硬盘，属于市面上tp X201i系列的最低配置了，最新的升级型号3249CQC把CPU升级成了i380，变化不大。其实tp的硬件配置性价比不算高，可以说是比较低的，只是我觉得它的键盘和散热都做得比较好，重量也轻，其实硬件方面稍逊一些关系也不大，预算有限，所以选了3249CBC，加了2G三星金条，带发票，随机送一个提包和一个鼠标。附图</p>
 
-<p><a href="/images/uploads/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg"><img src="/images/uploads/2011-04-22_08-04-48_438_%E5%B9%BF%E5%B7%9E%E5%B8%82.jpg" alt="thinkpad x201i on desktop" /></a></p>
+<p><a href="/images/uploads/2011-04-22_08-04-48_438_广州市.jpg"><img src="/images/uploads/2011-04-22_08-04-48_438_广州市.jpg" alt="thinkpad x201i on desktop" /></a></p>
 
 <p>新机器默认安装的是Windows 7 Home Base，硬盘也只有一个200多G的C:分区，其实还有一个1G大小的引导分区，看起来是ThinkVantage的安装分区，一个大小约10G的做系统镜像备份的分区，后两者都隐藏了。</p>
 
 <p>我一直使用Debian testing作为日常桌面系统，所以新机器拿回来之后的第一件事，便是安装Debian了。今年2月初，Debian发布了最新的stable版本6 Squeeze，于是Wheezy进入了testing。下面流水帐地小记一下Wheezy的安装。</p>
 
-<h3>1. 下载testing的安装image</h3>
+<h3 id="testingimage">1. 下载testing的安装image</h3>
 
-<p>下载的镜像有好多，我个人习惯到cdimage或163的镜像源上下载，如cdimage源的weekly build<br/>
-http://cdimage.debian.org/cdimage/weekly-builds/<br/>
-或在163的源<br/>
-http://mirrors.163.com/debian-cd/</p>
+<p>下载的镜像有好多，我个人习惯到cdimage或163的镜像源上下载，如cdimage源的weekly build<br />
+http://cdimage.debian.org/cdimage/weekly-builds/<br />
+或在163的源<br />
+http://mirrors.163.com/debian-cd/  </p>
 
 <p>选择amd64目标下的cd image下载，由于历史原因，这里的“amd64”指的是64位系统，而不是只适用于amd的CPU。X201的CPU架构是intel，如选用i386下的下载，则为32位，amd64下的则为64位。安装64位系统能充分利用我的新机器的4G内存。</p>
 
-<p>由于X201i系列都没有光驱，我用外接移动硬盘直接在硬盘上安装，这就需要硬盘安装的installer。到163的源<br/>
+<p>由于X201i系列都没有光驱，我用外接移动硬盘直接在硬盘上安装，这就需要硬盘安装的installer。到163的源<br />
 http://mirrors.163.com/debian/dists/testing/main/installer-amd64/current/images/hd-media/
 下载</p>
 
@@ -170,15 +276,10 @@ vmlinuz
 
 <p>这几个文件，进行文本界面的引导安装。同目录下还有一个目录gtk，下面有图形界面安装的相应的包initrd.gz和vmlinuz，不过我尝试过用gtk目录下的文件替换上面文本界面的文件来引导安装，没能成功引导。</p>
 
-<p>将这些installer和安装image如</p>
-
-<pre><code>debian-testing-amd64-CD-1.iso
-</code></pre>
-
-<p>或</p>
-
-<pre><code>debian-6.0.0-amd64-CD-1.iso
-</code></pre>
+<p>将这些installer和安装image如
+    debian-testing-amd64-CD-1.iso
+或
+    debian-6.0.0-amd64-CD-1.iso</p>
 
 <p>放入到移动硬盘FAT32分区下(注意，Debian installer不能读出NTFS分区里的iso文件，所以不能用dvd image来进行硬盘安装——dvd image的大小超过4G，不能放在FAT32下。较方便的方式是下载cd image放入FAT32分区，我的移动硬盘专门设了一个FAT32格式的小分区，即是为了方便有时在不同的电脑硬盘安装linux)。</p>
 
@@ -192,7 +293,7 @@ vmlinuz
 
 <p>进入文本安装界面。整个安装过程和一般linux安装过程十分相似。注意两点：安装时不要启用网络，installer就不会在线搜索更新，安装过程会快很多；手动分区，按自己的需求定制分区。我只用一个linux，于将grub安装在MBR。整个安装过程在我的新机器上不到30分钟就运行完毕。</p>
 
-<h3>2. 更新软件源，安装需要的软件包</h3>
+<h3 id="section">2. 更新软件源，安装需要的软件包</h3>
 
 <p>由于安装时我没有起用网络，第一次进入系统首先配置好网络，我这里用的是pppoe，安装pppoe包</p>
 
@@ -204,18 +305,12 @@ vmlinuz
 <pre><code># pppoeconf
 </code></pre>
 
-<p>如果可以用DHCP就更方便了，直接启动DHCP客户端。<br/>
-然后找个更新源update一下，安装包</p>
-
-<pre><code>network-manager
-</code></pre>
-
-<p>来管理网络。也可安装包</p>
-
-<pre><code>apt-spy
-</code></pre>
-
-<p>来寻找速度较快的更新源：</p>
+<p>如果可以用DHCP就更方便了，直接启动DHCP客户端。<br />
+然后找个更新源update一下，安装包<br />
+    network-manager
+来管理网络。也可安装包<br />
+    apt-spy
+来寻找速度较快的更新源：  </p>
 
 <pre><code># apt-get install apt-spy
 # apt-spy update                     &lt;== 下载最新的更新源列表
@@ -224,7 +319,7 @@ vmlinuz
 
 <p>apt-spy会测试连接得到速度最快的更新源，记录在/etc/apt/sources.list.d/apt-spy.list中。之后apt-get update时会自动连接apt-spy.list中的更新源更新软件列表。apt-spy的使用参考5。</p>
 
-<h3>3. 安装常用软件</h3>
+<h3 id="section-1">3. 安装常用软件</h3>
 
 <p>刚才的硬盘安装只默认安装了一个粗糙的系统，要用得舒服的话还要安装很多软件包，做一番配置。下面列出一些我需要的包，由于不知道这些包系统默认是否默认已经安装，所以一并导入到命令行安装。</p>
 
@@ -361,14 +456,14 @@ ia32-libs-gtk
 
 <p>最后卸掉新安装系统默认带的evolution，totem，我很少用它们。</p>
 
-<h3>4. 常用配置</h3>
+<h3 id="section-2">4. 常用配置</h3>
 
-<h4>4.1 testing和unstable混合系统</h4>
+<h4 id="testingunstable">4.1 testing和unstable混合系统</h4>
 
-<p>这里就不详细介绍什么是testing/unstable等Debian的版本管理内容了。在testing配置的系统上混合unstable，在稳定的基础上可以有选择性的更新更快的软件，或者尝鲜试用某些unstable的软件包。</p>
+<p>这里就不详细介绍什么是testing/unstable等Debian的版本管理内容了。在testing配置的系统上混合unstable，在稳定的基础上可以有选择性的更新更快的软件，或者尝鲜试用某些unstable的软件包。  </p>
 
-<p>首先在sources.list里加入unstable的源，见6 sources.list的unstable部分。然后配置apt控制软件版本的优先级。<br/>
-在/etc/apt/apt.conf中写入(如果此文件不存在则新建一个)</p>
+<p>首先在sources.list里加入unstable的源，见6 sources.list的unstable部分。然后配置apt控制软件版本的优先级。<br />
+在/etc/apt/apt.conf中写入(如果此文件不存在则新建一个)  </p>
 
 <pre><code>### apt.conf begin
 
@@ -377,7 +472,7 @@ APT::Default-Release “testing”;
 ### apt.conf end
 </code></pre>
 
-<p>指明以testing为主要软件包版本。</p>
+<p>指明以testing为主要软件包版本。  </p>
 
 <p>然后为testing/unstable配置优先级关系，在/etc/apt/preferences中写入(如果此文件不存在则新建一个)</p>
 
@@ -401,7 +496,7 @@ Pin-Priority: 700
 
 <p>应用这个配置，在安装软件包时apt一般会先寻找testing仓库，如果找到该软件包就安装。否则再寻找unstable仓库，如找到则安装。如需要强制忽略此优先级安装unstable的版本，可在apt-get/aptitude的命令行指明-t选项，具体参考相关手册文档。</p>
 
-<h4>4.2 字体</h4>
+<h4 id="section-3">4.2 字体</h4>
 
 <p>从软件源安装字体</p>
 
@@ -414,15 +509,15 @@ Pin-Priority: 700
 VeraSansYuanTi
 </code></pre>
 
-<p>和几个windows下的字体，这部分字体就不一一列举了(没买windows系统，使用windows字体是侵权行为，你懂的)。</p>
+<p>和几个windows下的字体，这部分字体就不一一列举了(没买windows系统，使用windows字体是侵权行为，你懂的)。  </p>
 
 <p>将所有字体按文件夹整理到文件夹dw_customized，将它放到/usr/share/fonts(新字体对所有用户都可用)或~/fonts(新字体只有自己可用)。
-最后，使用命令更新系统字体缓存</p>
+最后，使用命令更新系统字体缓存  </p>
 
 <pre><code># fc-cache -fv
 </code></pre>
 
-<h4>4.3 配置迁移</h4>
+<h4 id="section-4">4.3 配置迁移</h4>
 
 <p>从之前的旧系统直接复制一些程序的配置即可在新的系统上用，它们有</p>
 
@@ -459,7 +554,7 @@ VeraSansYuanTi
 .Xresources
 </code></pre>
 
-<h4>4.4 语言</h4>
+<h4 id="section-5">4.4 语言</h4>
 
 <p>个人喜欢将系统默认语言设置为英语，使用命令</p>
 
@@ -474,17 +569,17 @@ zh_CN.UTF8 UTF8
 
 <p>两种语言，并设置第一种为系统默认语言即可。设置好后注销再登录即生效。</p>
 
-<h4>4.5 快捷键和系统外观</h4>
+<h4 id="section-6">4.5 快捷键和系统外观</h4>
 
-<p>到这里，大部分配置都已经完成，但是还需要手动配置几处让系统更便于使用。<br/>
-打开gnome配置编辑器</p>
+<p>到这里，大部分配置都已经完成，但是还需要手动配置几处让系统更便于使用。<br />
+打开gnome配置编辑器  </p>
 
 <pre><code>$ gconf-editor
 </code></pre>
 
-<p>修改相应的键值。</p>
+<p>修改相应的键值。  </p>
 
-<h5>4.5.1 应用程序</h5>
+<h5 id="section-7">4.5.1 应用程序</h5>
 
 <p>在</p>
 
@@ -494,7 +589,7 @@ zh_CN.UTF8 UTF8
 
 <p>下添加常用的应用程序快捷键，如gnome-termianl，emacs等。</p>
 
-<h5>4.5.2 工作空间</h5>
+<h5 id="section-8">4.5.2 工作空间</h5>
 
 <p>将下面两项修改为顺手的快捷键</p>
 
@@ -502,7 +597,7 @@ zh_CN.UTF8 UTF8
 /apps/metacity/global_keybindings/display_desktop
 </code></pre>
 
-<h5>4.5.3 桌面显示</h5>
+<h5 id="section-9">4.5.3 桌面显示</h5>
 
 <p>在/apps/nautilus/desktop下，去掉</p>
 
@@ -513,29 +608,28 @@ trash_icon_visible
 
 <p>几个选项的勾。</p>
 
-<h5>4.5.4 panel时钟显示</h5>
-
+<h5 id="panel">4.5.4 panel时钟显示</h5>
 <p>到/apps/panel/applets下，找到时钟的applet，再在它的prefs目录下，修改
 format为custom
 custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
 
-<h4>4.6 系统菜单</h4>
+<h4 id="section-10">4.6 系统菜单</h4>
 
 <p>rxvt-unicode安装好后在系统菜单没有启动项，手动添加一个，命令输入urxvtcd，添加向导会自动找到rxvt的图标。</p>
 
-<h4>4.7 启动加载项</h4>
+<h4 id="section-11">4.7 启动加载项</h4>
 
-<p>在[System] -> [Preferences] -> [Startup Application]中添加conky的启动项，将启动命令指向.conky/conky_start.sh</p>
+<p>在[System] -&gt; [Preferences] -&gt; [Startup Application]中添加conky的启动项，将启动命令指向.conky/conky_start.sh</p>
 
-<h4>4.8 显示器/屏保</h4>
+<h4 id="section-12">4.8 显示器/屏保</h4>
 
 <p>检查显示器的刷新频率是否为60Hz，将屏保设为Floating Debian。</p>
 
-<h4>4.9 外观</h4>
+<h4 id="section-13">4.9 外观</h4>
 
 <p>设置主题，壁纸，鼠标风格。</p>
 
-<h4>4.10 个人文件</h4>
+<h4 id="section-14">4.10 个人文件</h4>
 
 <p>最后，将旧系统使用的所有文件复制到新系统home下。</p>
 
@@ -547,7 +641,7 @@ custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
 
 <p><a href="/images/uploads/debian_wheezy_on_tpX201i.jpg"><img src="/images/uploads/debian_wheezy_on_tpX201i.jpg" alt="debian wheezy on thinkpad x201i" /></a></p>
 
-<h3>5. apt-spy的使用</h3>
+<h3 id="apt-spy">5. apt-spy的使用</h3>
 
 <p>常用选项</p>
 
@@ -569,7 +663,7 @@ custom_format为%a %b %d, %H:%M，它的格式可参考C函数strftime</p>
 -h 输出帮助信息
 </code></pre>
 
-<h3>6. 分享sources.list</h3>
+<h3 id="sourceslist">6. 分享sources.list</h3>
 
 <p>由于使用了apt-spy，除了某些特定软件如virtualbox的源之外，对于一般软件包sources.list的设置变得相对将要了，这里还是分享一下我的sources.list。</p>
 
@@ -626,302 +720,7 @@ deb-src http://http.us.debian.org/debian unstable main contrib non-free
 
 ### sources.list end
 </code></pre>
-</div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/03/great-tools-rxvt-unicode-and-gnu-screen/">解牛利刃rxvt-unicode, GNU Screen</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-03T21:15:00+00:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>kde 环境下的 kconsole 十分之美观，gnome-terminal 也相当的好用，但是个头大的东西都有个不足之处&#8212;-过于笨重。而 rxvt 是个轻量快速，节省内存的终端，然而不支持中文。rxvt-unicode 则是它的 unicode 版，对中文支持良好，rxvt-unicode被收录在 debian/ubuntu 的源中，安装只需在管理员权限下输入命令：</p>
-
-<pre><code># aptitude install rxvt-unicode
-</code></pre>
-
-<p>在 debian 6 wheezy中安装好后，gnome菜单中没有它，需要手动创建快捷方式。
-默认安装好后的 rxvt-unicode 相当原始，需要配置一番才方便使用。它的配置文件为 ~/.Xresource 或 ~/.Xdefaults，关于它的配置网上已有很多讲解文章。这里简单备份下我自己的配置:</p>
-
-<pre><code>!! -*- Conf -*-
-!! configuration for rxvt-unicode
-
-!! Copyright (C) 2009, 2010, 2011 Dylan.Wen
-!! Author: Dylan.Wen &lt;hhkbp2@gmail.com&gt;
-
-!! Time-stamp: &lt;2011-03-03 00:03&gt;
-
-!! This file is free software: you can redistribute it and/or modify
-!! it under the terms of the GNU General Public License as published by
-!! the Free Software Foundation, either version 3 of the License, or
-!! (at your option) any later version.
-
-!! This file is distributed in the hope that it will be useful,
-!! but WITHOUT ANY WARRANTY; without even the implied warranty of
-!! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-!! GNU General Public License for more details.
-
-!! You should have received a copy of the GNU General Public License
-!! along with this file.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
-
-!!! Commentary:
-!! To enable it after changed, use this command:
-!! xrdb -load ~/.Xresources
-
-!!! Code:
-
-
-Xft.dpi:    96
-
-!! general setting
-Rxvt.geometry:      80x24
-Rxvt.visualBell:    False
-Rxvt.termName:      rxvt
-
-!! color theme
-!! dark theme
-Rxvt.background:    black
-Rxvt.foreground:    white
-Rxvt.colorBD:       yellow
-Rxvt.colorIT:       magenta
-Rxvt.colorUL:       green
-Rxvt.underlineColor:cyan
-Rxvt.tintColor:         gray
-Rxvt.cursorColor:   white
-Rxvt.shading:       100
-
-!! title
-Rxvt.title:             rxvt-unicode
-!! scrollBar
-Rxvt.scrollBar:             False
-Rxvt.scrollstyle:       next
-Rxvt.scrollBar_right:       True
-Rxvt.scrollBar_floating:    True
-Rxvt.scrollTtyOutput:       True
-Rxvt.scrollTtyKeypress:         True
-
-!! cursor
-Rxvt.cursorBlink:       True
-Rxvt.pointerBlank:      True
-Rxvt.externalBorder:        True
-
-!! coding
-Rxvt.multichar_encoding:    utf-8
-Rxvt.imLocale:          zh_CN.UTF-8
-
-Rxvt.menu:          /etc/X11/rxvt.menu
-!! set the artificial transparency
-!! Rxvt.inheritPixmap:         True
-Rxvt.transparency:         255
-
-Rxvt.saveLines:                1000
-Rxvt.preeditType:              Root
-Rxvt.borderLess:               False
-
-!! turn on URL browsing support
-!! please refer to: http://www.leninlee.cn/?p=384
-URxvt.urlLauncher:      firefox
-URxvt.matcher.button:           1
-URxvt.perl-ext-common:          matcher
-
-!! multi-tab
-!! URxvt.perl-ext-common: default,tabbed
-
-!! font
-Rxvt.font:           xft:Vera Sans YuanTi Mono:size=12:antialias=true
-Rxvt.boldFont:       xft:Vera Sans YuanTi Mono:size=12:Bold:antialias=true
-Rxvt.italicFont:     xft:Vera Sans YuanTi Mono:size=12:Italic:antialias=true
-Rxvt.boldItalicFont: xft:Vera Sans YuanTi Mono:size=12:Bold Italic:antialias=true
-
-
-!! redefine color to use tango theme in vim
-!! Black
-URxvt.color0:           #000000
-URxvt.color8:           #555753
-!! Red
-URxvt.color1:           #CC0000
-URxvt.color9:           #EF2929
-!! Green
-URxvt.color2:           #4E9A06
-URxvt.color10:          #8AE234
-!! Yellow
-URxvt.color3:           #C4A000
-URxvt.color11:          #FCE94F
-!! Blue
-URxvt.color4:           #3465A4
-URxvt.color12:          #729FCF
-!! Magenta
-URxvt.color5:           #75507B
-URxvt.color13:          #AD7FA8
-!! Cyan
-URxvt.color6:           #06989A
-URxvt.color14:          #34E2E2
-!! White
-URxvt.color7:           #D3D7CF
-URxvt.color15:          #EEEEEC
-</code></pre>
-
-<p>简单解释下，rxvt-unicode 接受以 Rxvt 或 URxvt 开头的属性定义，其属性一般以驼峰风格命名。</p>
-
-<p>geometry 定义了窗口的大小，即 colum x row ,也可以指明窗口左上角在屏幕的初始位置，如</p>
-
-<pre><code>Rxvt.geometry:          80x24+100+100
-</code></pre>
-
-<p>visualBell 与 bash, cygwin 的闪屏效果一致(还有下面介绍的 screen 也支持此功能)。<br/>
-termName 表示终端名字，取 rxvt 使之与非 unicode 版本的一致(有时某些环境变量如 PS1 的设置即与此名字相关，如下面介绍的 screen)。进入 rxvt-unicode,环境变量 $TERM 即为所设置的 rxvt。</p>
-
-<p>配色方面，除了一般的背景色，前景色，光标颜色之外，rxvt-unicode 还可以特别地设置粗体，斜体，超链接，下划线等颜色，所以在 rxvt-unicode 里，你可以有一个彩色的 man 手册页(很受欢迎的一个特性)。</p>
-
-<p>滚动条方面，设置了放在右侧，当有输出或按下键盘时，即自动滚动到最下端(与标准的终端如 gnome-terminal 行动一致)。不过不显示滚动条。即使不显示，按键后自动滚动到最下端的行为还是有效的。设置了鼠标闪烁。</p>
-
-<p>编码与 locale 设置为 UTF-8。将 inheritPixmap 打开，与 transparency 结合可以让背景透明，并设置其透明度。也有其它选项，可以将某张图片应用为背景。输出缓冲为 1000 行。打开 perl 扩展，使得在单击显示的超链接可以直接打开浏览器浏览。rxvt-unicode 也直接支持多标签，只要打开相应的 perl 扩展即可。不过我试了一下，鼠标反应不好，所以没有打开。我还是习惯搭配 screen 来模拟多标签。</p>
-
-<p>字体方面，是 rxvt-unicode 多为人诟病的一个方面。首先，加入 X 字体后使得加载速度变慢(一般用户感觉不到，即使将 preeditType 设为 Root)，有人说小字体用点阵，大字体用 X 字体比较美观，不过外观这东西见人见智。我统一用 X 字体，这里使用的就是传说中的 Vera Sans 圆体。</p>
-
-<p>更改配置之后，运行命令行</p>
-
-<pre><code>$ xrdb ./.Xresources
-</code></pre>
-
-<p>使之生效。</p>
-
-<p>GNU screen 是命令行下的窗口管理器，它主要功能包括命令行会话管理，多标签环境模拟，它在 debian/ubuntu 下的安装也很方便：</p>
-
-<pre><code># aptitude install screen
-</code></pre>
-
-<p>关于其使用，网上文章也不少，这里就不啰嗦了。这里贴一下自己的配置文件:</p>
-
-<pre><code>############################################################
-# Settings for screen
-#
-# Copyright (C) 2009, 2010, 2011 Dylan.Wen
-#
-# Author: Dylan.Wen &lt;hhkbp2@gmail.com&gt;
-#
-# Time-stamp: &lt;2011-03-03 01:14&gt;
-#
-# This file is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This file is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this file.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
-#
-############################################################
-
-
-# 关闭启动画面
-startup_message off         # default: on
-
-# Automatically detach on hangup, or the screen will keep eating
-# your memory after the terminal emulator has been terminated.
-autodetach on      # default: on
-
-# 关闭vbell
-vbell off
-
-# 指定 shell
-shell bash
-
-# 默认开始路径为~
-# chdir
-
-# 定义回滚行数
-defscrollback 1000
-
-# 指定编码
-defencoding utf-8
-encoding utf-8 utf-8
-
-# 定制 caption
-# backtick 47 0 0 my_name.sh
-# caption always "%?%F%{-b 4w}%:%{-b bb}%? %H | %l | %m-%d %c |%?%F%{-b 4w}%?%L=%-Lw%45&gt;%{-b w4}%n%f* %t%{-}%+Lw%-0&lt;"
-# caption always "%{=b}%{b}%{uB C}%47`%{-}%{B C}:%{-}  %-Lw%{u .my}%50&gt;%n%f* %t%{-}%+Lw%&lt; %=%{b km}%m-%d %c %D"
-
-caption always "%{=b}%{b}%{C}%H%{-}  %+010=%-w%8L&gt;%{uB .my}*%n %t%{-}%+w%-014&lt;  %-012=%{b m}%m-%d %c "
-
-# hardstatus alwayslastline "%?%{yk}%-Lw%?%{wb}%n*%f %t%?(%u)%?%?%{yk}%+Lw%?"
-
-# 定制 title bar
-term rxvt
-
-# termcapinfo xterm|rxvt ti@:te@
-# termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
-termcapinfo rxvt 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
-
-########## 键绑定 ##########
-
-# 将快捷键默认 C-a 设为 C-l
-escape ^L^L
-
-# 定制 region 函数键与Emacs一致
-bind 2 split
-bind o focus
-bind 1 only
-bind 0 remove
-
-# bind F9 to create a new screen
-bindkey -k k9 screen
-# bind F10 to kill current screen window
-bindkey -k k10 kill
-
-# bind F5 to detach screen session
-bindkey -k k5 detach
-# bind F11 to "move to previous window"
-bindkey -k F1 prev
-# bind F12 to "move to next window"
-bindkey -k F2 next
-
-
-# .screenrc ends here
-</code></pre>
-
-<p>caption是按照 80 个字符宽来设定的。region 函数键设定与 Emacs 一致（主要是为了方便记忆，我没有在 screen 中使用 Emacs 的习惯），可惜只能横向分割窗口，不能纵向分割。快捷键对照如下：</p>
-
-<pre><code>F9 -- 新建 screen 会话
-F10 -- 关闭当前会话
-F5 -- 挂起当前会话
-F11 -- 移动到上一个会话
-F12 -- 移动到下一个会话
-</code></pre>
-
-<p>结合 caption 栏，就有了一种类 tab 的窗口浏览功能，截图如下：</p>
-
-<p><img src="/images/uploads/rxvt-u2.jpg" alt="screenshot of urxvt" /></p>
 </div>
   
   
