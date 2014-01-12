@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and &hellip;">
+  <meta name="description" content="很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/03/21/debian-returns/">便，我回来了</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-21T15:00:00+08:00" pubdate data-updated="true">Mar 21<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了，想给我的PC升升级了。</p>
+
+<p>ubuntu的版本支持时间很有限，即使是LTS，桌面版本也只支持3年，3年之后退役之时怎么办呢，唯有升下一个版本了。而版本升级却不是那么平滑，难免或多或少有问题。虽然我没做过版本升级，不过论坛上有做小白鼠牺牲的也不是一个两个了。不过能用3年的人估计也少，都是有新版本来了就立马升级（重装）上去，之前在论坛就有帖子问有没有人一个版本连续用2年，跟帖的人不少，却没有一个真的用到2年。</p>
+
+<p>今天再回过头来看看，平滑升级真的是一个很好的特征。与其几年一次重装，不如每天一坨，稳定地升级上去。稳定，对于“漂”在外面的我很有杀伤力。</p>
+
+<p>于是重回Debian，重装系统。PC上的硬盘太老，经过多年摧残，坏道多多。而上面的叉p常常是几个月都不用一次，干脆全部格掉。用gnome testing的镜像安装好后，简单升级配置一下，就已经很好用了。界面虽然简洁了一点，不过胜在速度快，跑起来快很多，即使iceweasel也比旧的firefox快，简单比较了一下，安装的包少了500多个，没有深究是哪些包。看来还是大便对于渐渐变成命令控的我更有吸引力些。才发现还有debian-reference-zh-cn这么好的文档。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -230,68 +272,6 @@ To apply different face settings according to different term types."
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-12T13:20:00+08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在读写代码时workspace有个好的配色，能让编程过程变得生动多彩，也能提高效率。emacs 23的默认配色主题也不错，不过个性张扬的hacker们当然不满足于只有一个选择，很多emacs玩家喜欢自已定制主题，不过一点点地配置主题多少有点繁琐，在手工hack之前，可以先试下color-theme扩展－－它包含了50多个配色主题，让你的emacs更丰富多彩。在<a href="http://lifegoo.pluskid.org/wiki/EmacsColorTheme.html">pluskid wiki上的color-theme介绍</a>中可以看到一个截图，是不是很漂亮呢。当然也可以参考<a href="http://www.emacswiki.org/emacs/ColorTheme">color-theme on Emacs Wiki</a>, 到其项目主页下载最新版本，现时为6.6.0, 参考包中README文件安装。将color-theme.el和theme文件夹放在loadpath下，然后在.emacs中加入</p>
-
-<pre><code>(require 'color-theme)
-(color-theme-initialize)
-(color-theme-midnight) ;;选择你喜欢的主题
-</code></pre>
-
-<p>其中在最后一行选择你喜欢的主题，我暂时在用的是midnight。也可以通过</p>
-
-<pre><code>M-x load-library RET color-theme
-</code></pre>
-
-<p>(其中<code>RET</code>为回车键) 加载color-theme, 然后通过</p>
-
-<pre><code>M-x color-theme-select RET
-</code></pre>
-
-<p>进行选择。在光标所在主题上按<code>i</code>或<code>l</code>键为应用此主题，按<code>d</code>键输出调用主题的命令(即为写入 .emacs 最后一行那个)。</p>
-
-<p>对于喜欢 <a href="http://macromates.com/">TextMate</a>主题的朋友，这里另外分享一个类似 TextMate风格的配色，见：</p>
-
-<p><a href="http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html">http://blog.jdhuntington.com/2008/11/emacs-color-theme-blackboard.html</a></p>
-
-<p>我最早接触类似的风格是<a href="http://projects.gnome.org/gedit/">gEdit</a>的<a href="http://live.gnome.org/GtkSourceView/StyleSchemes">DarkMate主题</a>(长什么样？截图看 <a href="http://grigio.org/files/gedit-darkmate.png">这里</a>)，然后一发不可收拾，现在用的source insight, Ultra Edit, <a href="http://www.eclipse.org/">Eclipse</a>, …(虽然前两者为盗版)全部自定义变成类似配色，可见其魅力之大。厉害吧，呵呵(换一种碟形世界的说法－－变态吧，呵呵)。</p>
-
-<p>PS: 关于 gEdit 的配置文章可参考我很久之前在 <a href="http://forum.ubuntu.org.cn/">ubuntu中文论坛</a> 的一个帖子: <a href="http://forum.ubuntu.org.cn/viewtopic.php?f=70&amp;t=186178">gEdit: 打造简洁，小巧的编程环境</a>，gEdit 用做一般文本编辑其实也不错，简洁快上手。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/25/">&larr; Older</a>
@@ -311,7 +291,7 @@ To apply different face settings according to different term types."
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Dylan.Wen <br/>
+  Copyright &copy; 2014 - Dylan.Wen <br/>
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
 </p>
 
