@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2014-01-19T17:04:33+08:00</updated>
+  <updated>2014-01-19T20:18:28+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -33,7 +33,7 @@ SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Sal
 
 <p>从功能上看，SaltStack提供了配置文件管理和命令执行两大块的功能，配置文件管理包括配置文件的下发，版本更新，依赖关系指定和管理，配置文件与操作系统软件包和进程管理的良好结合等方面，命令执行则是指下发命令到minion机器执行，SaltStack包含了种类众多的命令模块，如cmd(命令行执行)，mysql，package(系统包管理，在具体机器上会落地到apt或yum等包管理器的操作)等，方便用户对目标机器进行命令管理。</p>
 
-<p>从部署结构上看，与Asible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
+<p>从部署结构上看，与Ansible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
 
 <p><a href="http://clisp.github.com/images/uploads/saltstack简单部署结构.png"><img src="http://clisp.github.com/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
 
