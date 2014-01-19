@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="安装好debian之后发现在gnome按关机键只会注销我的用户，而不会关机，解决方法很简单，参照 http://finalbug.cn/?p=694 即按照默认方式安装系统，普通用户没有关机的权限，只能注销。在root终端将用户添加到powerdev组，为其添加关机(电源控制)权限： &hellip;">
+  <meta name="description" content="发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下： 到GNU官网下载info形式的manual,感兴趣的有 GNU Emacs Manual，包emacs.info.tar.gz (下载地址) Emacs Lisp &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,88 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/18/install-info-manual-of-emacs/">给emacs安装info Manual</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-18T08:29:00+08:00" pubdate data-updated="true">Apr 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下：</p>
+
+<ol>
+  <li>
+    <p>到GNU官网下载info形式的manual,感兴趣的有</p>
+
+    <p>GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br />
+ Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br />
+ Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)  </p>
+  </li>
+  <li>
+    <p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p>
+  </li>
+</ol>
+
+<p>[条目名]: [对应的info文件或包(可选的子条目名)].  [条目描述]</p>
+
+<p>条目名后面要带一个”:”号，文件或包名后面要带一个”.”号。如emacs faq的条目为</p>
+
+<pre><code>* Emacs FAQ: (emacs-23/efaq).   Frequently Asked Questions about Emacs.
+</code></pre>
+
+<p>将下载的三个包放入/usr/share/info/。并在info树根目录增加中相应的节点，即在文件/usr/share/info/dir的Emacs section中加入</p>
+
+<pre><code>* Emacs
+...       &lt;== 其他条目
+
+* Emacs Manual: (emacs.info.tar). GNU Emacs Manual
+* Emacs Lisp Intro: (emacs-lisp-intro.info).  An Introduction to Programming in Emacs Lisp
+* Emacs Lisp Reference Manual: (elisp.info.tar).
+                                GNU Emacs Lisp Reference Manual
+...       &lt;== 其他条目
+</code></pre>
+
+<p>即可。也可以安装到自定义的info目录，此目录下要有dir文件，同时添加此info目录到INFOPATH来让info进行查找。对于bash，添加环境设置到.bashrc：</p>
+
+<pre><code>INFOPATH=$INFOPATH:$ADDED-INFOPATH
+export INFOPATH
+</code></pre>
+
+<p>对于emacs，可通过变量Info-directory-list, Info-default-directory-list来定制，具体参照Manual。</p>
+
+<p>如担心手动添加info条目会损坏原文件，可先做备份再修改，或通过install-info命令添加info条目，如</p>
+
+<pre><code>$ install-info --dir-file=dir --info-file=filename.info --section=section-name --name=entry-name --description=entry-desc
+</code></pre>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -145,83 +227,6 @@
 <p>今天再回过头来看看，平滑升级真的是一个很好的特征。与其几年一次重装，不如每天一坨，稳定地升级上去。稳定，对于“漂”在外面的我很有杀伤力。</p>
 
 <p>于是重回Debian，重装系统。PC上的硬盘太老，经过多年摧残，坏道多多。而上面的叉p常常是几个月都不用一次，干脆全部格掉。用gnome testing的镜像安装好后，简单升级配置一下，就已经很好用了。界面虽然简洁了一点，不过胜在速度快，跑起来快很多，即使iceweasel也比旧的firefox快，简单比较了一下，安装的包少了500多个，没有深究是哪些包。看来还是大便对于渐渐变成命令控的我更有吸引力些。才发现还有debian-reference-zh-cn这么好的文档。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-03-01T03:34:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and try to fontify Emacs as the font-lock facilities do, I found there is a bug in the Color Theme latest version 6.6.0 package.</p>
-
-<p>Line 689 of the source file “color-theme.el”, in the defination of function “color-theme-spec-compat”, it uses “cadar” to fetch out the property of only the first element of face specification, rather than fetch out the whole specification. So give the face specification as</p>
-
-<pre><code>(dired-mark
-      ((((class color) (min-colors 88)) (:foreground "red"))
-       (((class color) (min-colors 16)) (:foreground "green"))
-       (((class color) (min-colors 8)) (:foreground "blue"))
-       (((type tty) (class mono)) (:foreground "white"))
-       (t (:foreground "red"))))
-</code></pre>
-
-<p>It is a correct face specification(refer to macro `defface’ for more information of face specification), and “dired-mark” should be in color “green” under 16-color environment and “blue” under 8-color environment. However function “color-theme-spec-compat” just set “dired-mark” to be “red” in any case. It reduces the flexibility of face-lock facilities of Emacs when using Color Theme.</p>
-
-<p>To fix this, I revise the defination of “color-theme-spec-compat” like</p>
-
-<pre><code>(defun color-theme-spec-compat (spec)
-  "An redifination of `color-theme-spec-compat' of `color-theme'.
-To apply different face settings according to different term types."
-  (let (compat-spec props)
-    (dolist (dis-atts spec)
-      (setq props (cadr dis-atts))
-      (when (plist-member props :bold)
-        (setq props (color-theme-plist-delete props :bold))
-        (unless (plist-member props :weight)
-          (setq props (plist-put props :weight 'bold))))
-      (when (plist-member props :italic)
-        (setq props (color-theme-plist-delete props :italic))
-        (unless (plist-member props :slant)
-          (setq props (plist-put props :slant 'italic))))
-      (setcdr dis-atts `(,props))
-      (add-to-list 'compat-spec dis-atts 'APPEND))
-    compat-spec))
-</code></pre>
-
-<p>and put this into the file “color-theme+.el”.</p>
-
-<p>I give a try out to customize a color-theme of my favour as well. I name it “color-theme-darkmate”. This color theme is inspired by the theme <a href="http://live.gnome.org/GtkSourceView/StyleSchemes">darkmate</a> of <a href="http://projects.gnome.org/gedit/">gEdit</a>, which is a color theme somewhat similar with the theme of editor <a href="http://macromates.com/">TextMate</a> on Mac. I never use the editor TextMate before and don’t know how much does “color-theme-darkmate” look like the theme TextMate. The settings in “color-theme-darkmate.el” is created in the opinion of using a few elementary colors as consistantly as possible in various modes to make a colorful and eye candy Emacs.</p>
-
-<p>You could download “color-theme+.el” and “color-theme-darkmate.el” <a href="https://bitbucket.org/lisp/elispport/src">here</a>.</p>
-
-<p>Enjoy!</p>
 </div>
   
   
