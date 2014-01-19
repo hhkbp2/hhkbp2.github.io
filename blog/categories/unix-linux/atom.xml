@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2014-01-19T20:18:28+08:00</updated>
+  <updated>2014-01-19T20:21:02+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -43,7 +43,7 @@ SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Sal
 
 <p>上图只显示了第一个minion的执行流程，其它minion的执行流程也类似，就不全部画出了。</p>
 
-<p>从代码架构上来看，Stack使用zeromq进行网络通信，使得网络通信有了较高的性能和并发度，简化了SaltStack本身网络层的实现。master与minion之间使用先ssh认证后AES加密消息的方式来保障通信安全性。master, minion内部根据功能划分为多进程，每个进程只负责特定工作，进程间通过zeromq通信，模块组织比较清晰健壮。</p>
+<p>从代码架构上来看，SaltStack使用zeromq进行网络通信，使得网络通信有了较高的性能和并发度，简化了SaltStack本身网络层的实现。master与minion之间使用先ssh认证后AES加密消息的方式来保障通信安全性。master, minion内部根据功能划分为多进程，每个进程只负责特定工作，进程间通过zeromq通信，模块组织比较清晰健壮。</p>
 
 <h3 id="saltstack-1">3. SaltStack安装</h3>
 
