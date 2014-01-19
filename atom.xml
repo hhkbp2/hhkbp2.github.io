@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://clisp.github.com/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2014-01-12T17:04:39+08:00</updated>
+  <updated>2014-01-19T16:40:40+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,153 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SaltStack简明指南(一) 认识SaltStack]]></title>
+    <link href="http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1/"/>
+    <updated>2014-01-18T01:12:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1</id>
+    <content type="html"><![CDATA[<p><a href="http://clisp.github.com/images/uploads/saltstack_logo.jpg"><img src="http://clisp.github.com/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
+
+<h3 id="saltstack">1. SaltStack简介</h3>
+
+<p>在一个互联网公司，随着业务量的增长，服务器的数量也会不断增加，当服务器的数量大到一定程度的时候，就不能靠人手单个单个机器的进行操作了，需要引入一些工具去帮助我们做管理和运维。这样的工具在业界有一个统称：配置管理工具。配置管理这个概念的兴起，也就是大概近10年的事，其核心就是配置管理的工具根据业界需求的不断进化，发展得越来越成熟和多样化。除了广为人知的传统的配置管理工具如Puppet和Chef，近年出现的Ansible和SaltStack也正在快速壮大中。今天这里要介绍的就是其中的SaltStack。</p>
+
+<p>SaltStack是由座落于美国盐湖城的SaltStack公司创建的开源项目，它的名字与公司所在地盐湖城有很大的渊源。它用Python实现，目前托管在github上，并提供配套的安装脚本和丰富的文档。</p>
+
+<p>SaltStack github地址：<a href="https://github.com/saltstack/salt">Salt on github</a><br />
+SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Salt official doc</a></p>
+
+<h3 id="section">2. 架构和特点</h3>
+
+<p>从功能上看，SaltStack提供了配置文件管理和命令执行两大块的功能，配置文件管理包括配置文件的下发，版本更新，依赖关系指定和管理，配置文件与操作系统软件包和进程管理的良好结合等方面，命令执行则是指下发命令到minion机器执行，SaltStack包含了种类众多的命令模块，如cmd(命令行执行)，mysql，package(系统包管理，在具体机器上会落地到apt或yum等包管理器的操作)等，方便用户对目标机器进行命令管理。</p>
+
+<p>从部署结构上看，与Asible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
+
+<p><a href="http://clisp.github.com/images/uploads/saltstack简单部署结构.png"><img src="http://clisp.github.com/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
+
+<p>其中master和minion都是部署在对应机器上的常驻进程。当运维管理人需要操作minion机器时，他向master进程发出对应的指令，master进程就会将对应的指令下发到所有minion进程，由minion进程在它的本机执行，例如，通过master下发test.ping命令(test.ping用来检查minion的存活，相当于master与minion之间的ping包)如图所示：</p>
+
+<p><a href="http://clisp.github.com/images/uploads/saltstack_test_ping流程.png"><img src="http://clisp.github.com/images/uploads/saltstack_test_ping流程.png" alt="test.ping流程图" /></a></p>
+
+<p>上图只显示了第一个minion的执行流程，其它minion的执行流程也类似，就不全部画出了。</p>
+
+<p>从代码架构上来看，Stack使用zeromq进行网络通信，使得网络通信有了较高的性能和并发度，简化了SaltStack本身网络层的实现。master与minion之间使用先ssh认证后AES加密消息的方式来保障通信安全性。master, minion内部根据功能划分为多进程，每个进程只负责特定工作，进程间通过zeromq通信，模块组织比较清晰健壮。</p>
+
+<h3 id="saltstack-1">3. SaltStack安装</h3>
+
+<p>SaltStack有安装方式，一种是根据操作系统(主要是Linux的各种发行版)的版本通过包管理器来安装，另一种是从源代码安装。下面我们简单浏览一下两种安装方式。</p>
+
+<h4 id="section-1">3.1 包管理器安装</h4>
+
+<p>目前SaltStack已经针对多个Linux发行版提供了包管理器安装脚本，对几种主流的发行版如CentOS, Ubuntu, Debian, FreeBSD都有支持。使用这种方式安装，只需要下载SaltStack官方提供的bootstrap脚本并执行即可。在命令行执行：</p>
+
+<pre><code>wget -O - http://bootstrap.saltstack.org | sudo sh
+</code></pre>
+
+<p>即为安装minion。要安装master，可在命令行执行：</p>
+
+<pre><code>curl -L http://bootstrap.saltstack.org | sudo sh -s -- -M -N
+</code></pre>
+
+<p>这个bootstrap安装脚本会判断执行机器的发行版及版本号，调用合适的包管理器添加SaltStack的二进制发行包源，安装所有的依赖包并安装命令行参数指定的SaltStack组件。可以看到通过bootstrap脚本安装SaltStack是很简单的。更多详细信息请参考官网文档的<a href="http://docs.saltstack.com/topics/installation/index.html">Installation</a>一节。</p>
+
+<h4 id="section-2">3.2 源代码安装</h4>
+
+<p>如果你使用的Linux发行版不在SaltStack bootstrap安装脚本支持的发行版列表内，或者你需要对安装做一些定制，比如通过Python的virtualenv管理不同的Python环境，那么就需要进行源代码安装了。下面以在某个virtualenv环境内安装为例，简述一下源代码安装步骤：</p>
+
+<pre><code># 首先，进入对应的virtualenv环境
+$ source /path/to/your/virtualenv/bin/active
+# 然后安装依赖包
+# 注意Debian/Ubuntu包管理器使用的是patch过的openssl库，这个M2Crypto包需要通过apt安装，详细见官网文档
+$ pip install M2Crypto 
+$ pip install pyzmq PyYAML pycrypto msgpack-python jinja2 psutil
+# 安装SaltStack
+$ pip install -e ./salt
+</code></pre>
+
+<p>虽然上述命令将Salt安装到了virtualenv中，但由于SaltStack有和系统结合的功能，因此除了Salt本身运行依赖的包之外，它还用到系统当中的一些Python软件包。比如SaltStack可以调用系统的包管理器安装软件包，在Ubuntu发行版里面，需要调用系统当中安装的python-apt包，这个包通过一个动态库.so文件提供Python接口，如果你的virtualenv环境中的Python版本和系统的Python版本不一致，就可能会导致virtualenv环境中的SaltStack调用包管理器操作失败并造成salt进程core dump。所以使用SaltStack做virtualenv源安装时，要留心这个由Python不一致造成的包依赖问题。</p>
+
+<p>virtualenv源代码安装的另一个问题是配置文件路径指定，SaltStack的配置文件，运行目录，cache目录等各种目录默认值都是指向系统目录的，这个默认值是在源代码中写死的。如果要在一台机器安装多个virtualenv SaltStack进程并希望分隔开不同进程的配置，那么就需要修改<code>root_dir</code>参数，为各个进程指派一个不同的路径。</p>
+
+<p>关于源代码安装的更多信息，可以参考官网文档的<a href="http://docs.saltstack.com/topics/hacking.html">Developing Salt</a>一节。</p>
+
+<h3 id="saltstack-2">4. SaltStack使用</h3>
+
+<p>SaltStack包安装之后，minion会向master发出认证请求，我们在master上通过<code>salt-key</code>命令把发出请求的minion私钥添加一下，就完成master与minion之间的认证，这之后就可以通过master管理所有认证过的minion了。详细的上手tutorial可以参考官网文档的<a href="http://docs.saltstack.com/topics/tutorials/walkthrough.html">SaltStack Walkthrough</a>。下面主要简单介绍一下SaltStack的两大功能。</p>
+
+<h4 id="section-3">4.1 配置管理</h4>
+
+<p>所有的配置管理工具都可以为系统状态指定一个描述，Puppet里面是用DSL编写的manifest文件，SaltStack则将其定义为State，State的状态用YAML格式编写。YAML简单清晰，表达力强，比起XML和JSON更适合用于配置文件的编写。下面用一个例子来简单说明一下如何使用SaltStack的配置管理功能。</p>
+
+<p>我们需要先编写好State配置文件，根master配置的默认值，一般将它们放在<code>/srv/salt</code>目录：</p>
+
+<pre><code># 先创建好配置根目录，'%'是root用户的shell提示符
+% mkdir -p /src/salt
+</code></pre>
+
+<p>然后在根目录创建特定名字<code>top.sls</code>的配置文件，它是SaltStack加载所有State配置的入口点，在其中添加下面的内容。</p>
+
+<pre><code>base:
+  '*':
+    - database
+</code></pre>
+
+<p>然后在根目录创建<code>database.sls</code>文件，添加以下内容：</p>
+
+<pre><code>mongodb:
+  pkg:
+    - installed
+</code></pre>
+
+<p>这样配置的意思就是对所有minion机器，都按<code>database.sls</code>文件描述的状态来配置，后者只指定一个State，就是为系统安装mongodb包。一个很简单的State配置就这样完成了。对于一个全新安装的master，在配置文件中，添加下面的配置</p>
+
+<pre><code>file_roots:
+  base:
+    - /srv/salt/
+</code></pre>
+
+<p>告诉master去<code>/srv/salt</code>这个路径去找State配置文件。然后重启master(如果master未启动就启动)，让master加载新添加的配置(如果之前已经在master配置文件中指定了file_roots，则不需要重启了)。最后，将master已经加载的配置下发到minion去执行状态更新：</p>
+
+<pre><code># salt '*' state.highstate -v
+</code></pre>
+
+<p>minion从master获取到最新的State配置后，就会在本地安装好mongodb。就这样，SaltStack集群就按我们所指定的配置执行了一次配置管理操作。</p>
+
+<p>SaltStack的State配置文件主体是YAML描述，其中可以包含jinja模板，可以定义变量，而且提供了一个静态变量系统Grains和一个动态的变量系统Pillar来帮助我们编写State配置，几种特点结合起来提供了很强的表达力，而且上手比较容易。</p>
+
+<h4 id="section-4">4.2 命令执行</h4>
+
+<p>SaltStack内置了命令执行的功能，master可以通过zeromq将命令内容下发到minion，由各个minion在本机执行。由于使用了zeromq，这个下发过程可以并行执行，速度比Ansible的无agent ssh通信快得多。因为命令执行是内置功能，而且不依赖于State状态描述，所以一旦SaltStack安装好，就可以直接使用了。SaltStack描述了100多个不同的命令模块，提供了各种各样功能的命令接口。比如通过<code>apt</code>模块可以调用Debian/Ubuntu的apt包管理器，<code>file</code>模块提供常见的文件访问/重命名/查找等操作，<code>ps</code>模块提供进程查看/管理操作等。全部的命令模块列表可以参考官网文档的<a href="http://docs.saltstack.com/ref/modules/all/">Full list of builtin execution modules</a>一节。</p>
+
+<p>其中一个比较通用的命令行接口是<code>cmd</code>模块，将任意命令编写好之后，都可以通过<code>cmd</code>模块下发到minion去执行，然后返回执行结果。例如在master上执行：</p>
+
+<pre><code>$ salt '*' cmd.run 'uname -r'
+minion_1:
+    3.2.0-23-generic
+minion_2:
+    3.2.0-23-generic
+</code></pre>
+
+<p>得到各个minion机器的内核版本号。</p>
+
+<p>命令执行功能的一个重点就是提供目标匹配的功能(其实配置管理也需要准确匹配目标机器)，方便在某些满足特定条件的机器做特定的操作。SaltStack中把它称之为targeting，SaltStack提供多种targeting的方式，包括针对id进行匹配的globbing, 正则表达式，列表，针对Grains进行匹配，指定分组匹配，还有复合以上几种方式的复合匹配，以及批量方式。</p>
+
+<h3 id="faq">5. FAQ</h3>
+
+<p>1) 目前流行的配置管理工具有哪些？<br />
+在这篇文章<a href="http://www.vpsee.com/2013/08/a-system-configuration-management-and-orchestration-tool-saltstack/">《系统自动化配置和管理工具SaltStack》</a>的开头可以找到一份比较长的名字列表 。</p>
+
+<p>2) SaltStack和Puppet有哪些不同？<br />
+功能：SaltStack具有配置管理和命令执行两大块功能，Puppet支持配置管理，但本身不带命令执行功能。Puppet添加MCollective之后可以提供命令编排功能，但Salt从设计上就考虑了这块，而且以内部模块，与框架合成一体的方式来实现，显然比Puppet加MCollective的方案更简单优雅。
+使用：SaltStack的状态配置用YAML+jinja模板描述，Puppet则是DSL。前者较为简易好上手。
+实现：SaltStack由Python编写，使用了zeromq，Puppet则是Ruby。</p>
+
+<p>3) 比较SaltStack与Asible？<br />
+这里有一篇比较详细的比较文章：<a href="http://missingm.co/2013/06/ansible-and-salt-a-detailed-comparison/">Ansible and Salt: A detailed comparison</a></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[2013年小结]]></title>
@@ -1347,34 +1494,6 @@ geiser
 <a id="1">[1]</a> <a href="http://coolshell.cn/articles/3125.html">《主流文本编辑器学习曲线》</a>这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。<br />
 <a id="2">[2]</a> 《银河系漫游指南》中毛巾这个词条有一些特别的解释。<br />
 <a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[谈谈家乡]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/08/about-my-hometown/"/>
-    <updated>2013-01-08T14:24:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/08/about-my-hometown</id>
-    <content type="html"><![CDATA[<h3 id="section">家乡新兴</h3>
-
-<p><img src="http://www.xxphotow.com/file/6-7/19235425033.jpg" alt="新兴县城" />
-图片来自新兴摄影网</p>
-
-<p>对于这个叫做新兴的地方，我自以为很熟悉。在地理上，新兴县位于广东省中部偏西，地处山区，东邻高明鹤山，西接阳春云安，距广州170公里，气候温和，山清水秀。新兴因新兴江在境内而得名，在秦代就已立郡，历史可谓悠久，到底是先有江名再有地名，还是先有地名，再有江名，就像那个先有蛋还是先有鸡的问题。新兴在历史上曾有名新州，新城，唐代诗人王勃的《滕王阁序》写道：”宇文新州之懿范，襜帷暂驻”，这里的新州，指的就是新兴，在我读高中的时候，《滕王阁序》是语文教材上的文章，从里面读到故乡新兴着实让我们这些学生惊艳了一把，虽然诗文不免夸大，”宇文新州”一句多是奉承客气的话，况且宇文氏也不一定是新兴人，不过这一句隐隐让新兴透着一股灵 气。事实上，就在王勃写这篇文章的时候(公元653年)，一个人已经在这股灵气中诞生，这说的就是禅宗六祖慧能。</p>
-
-<p>慧能(公元638-713)，俗姓卢，生于岭南新州(今广东新兴)，得五祖弘忍传授衣钵，为禅宗六祖，提出顿悟成佛的思想，大大推动了印传佛教在中国的传播。</p>
-
-<p>慧能出身贫寒，父亲早逝，他在二十几岁正式学佛之前，一直以砍柴为生，与母亲相依为命。虽然现在离唐朝已经有一千五百多年时光，但不难想象，在王勃写《滕王阁序》的当时，这个年龄只有13岁的少年可能正在山野间砍柴，在纯粹的自然和艰辛的劳作中积累着佛性与慧心。</p>
-
-<p>在我的印象中，关于六祖的传奇故事最广为流传的有这么两个，一是与神秀对偈，就是那句经典的”菩提本无树，明镜亦非台”，二是在广州光孝寺辩论风动幡动，后 者也许更广为人知，常常作为中小学政治课本上代表唯心主义哲学的典型而出现，王家卫的电影《东邪西毒》也有引用。六祖生前致力于布道讲经，宏扬禅宗佛法，主要在广州光孝寺，韶关南华寺，新兴国恩寺3个地方，其中国恩寺座落于新兴集成镇龙山脚下，是六祖的弘法，辑录《六祖坛经》和圆寂的地方，而今六祖真身供奉于国恩寺中。对于每一个新兴人来说，六祖慧能和龙山国恩寺是从小就耳熟能详。</p>
-
-<p>六祖慧能在新兴留下的事迹比较多，龙山上他弘法讲道的场所，圆寂的场所，亲手种的荔枝等都成为后世新兴人的一种文化财产，在当今旅游文化日盛的环境下，文化财产变成了真正的白花花的银两。由于龙山本来就有天然温泉，经过开发之后变成旅游胜地，六祖+温泉渐渐变成新兴发展旅游业的两大招牌。国恩寺地方不大，前面牌坊高塔，后面花园碑林，香火常盛，每到新年或节日，往往满是求拜的信众，或求钱财，或求保佑，不一而足，我个人觉得，在今天看来它的庙堂不大而人间烟火味太重，并不适合修性坐禅，猜想在唐朝六祖在生当年，交通不发达，也许在寺中能保有一角安静，一方禅境。</p>
-
-<h3 id="section-1">小镇天堂</h3>
-
-<p><img src="http://www.xxphotow.com/file/2-8/1431872885.jpg" alt="天堂田间" />
-图片来自新兴摄影网</p>
 
 ]]></content>
   </entry>

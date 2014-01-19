@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2014-01-12T17:04:39+08:00</updated>
+  <updated>2014-01-19T16:40:40+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,153 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SaltStack简明指南(一) 认识SaltStack]]></title>
+    <link href="http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1/"/>
+    <updated>2014-01-18T01:12:00+08:00</updated>
+    <id>http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1</id>
+    <content type="html"><![CDATA[<p><a href="/images/uploads/saltstack_logo.jpg"><img src="/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
+
+<h3 id="saltstack">1. SaltStack简介</h3>
+
+<p>在一个互联网公司，随着业务量的增长，服务器的数量也会不断增加，当服务器的数量大到一定程度的时候，就不能靠人手单个单个机器的进行操作了，需要引入一些工具去帮助我们做管理和运维。这样的工具在业界有一个统称：配置管理工具。配置管理这个概念的兴起，也就是大概近10年的事，其核心就是配置管理的工具根据业界需求的不断进化，发展得越来越成熟和多样化。除了广为人知的传统的配置管理工具如Puppet和Chef，近年出现的Ansible和SaltStack也正在快速壮大中。今天这里要介绍的就是其中的SaltStack。</p>
+
+<p>SaltStack是由座落于美国盐湖城的SaltStack公司创建的开源项目，它的名字与公司所在地盐湖城有很大的渊源。它用Python实现，目前托管在github上，并提供配套的安装脚本和丰富的文档。</p>
+
+<p>SaltStack github地址：<a href="https://github.com/saltstack/salt">Salt on github</a><br />
+SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Salt official doc</a></p>
+
+<h3 id="section">2. 架构和特点</h3>
+
+<p>从功能上看，SaltStack提供了配置文件管理和命令执行两大块的功能，配置文件管理包括配置文件的下发，版本更新，依赖关系指定和管理，配置文件与操作系统软件包和进程管理的良好结合等方面，命令执行则是指下发命令到minion机器执行，SaltStack包含了种类众多的命令模块，如cmd(命令行执行)，mysql，package(系统包管理，在具体机器上会落地到apt或yum等包管理器的操作)等，方便用户对目标机器进行命令管理。</p>
+
+<p>从部署结构上看，与Asible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
+
+<p><a href="/images/uploads/saltstack简单部署结构.png"><img src="/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
+
+<p>其中master和minion都是部署在对应机器上的常驻进程。当运维管理人需要操作minion机器时，他向master进程发出对应的指令，master进程就会将对应的指令下发到所有minion进程，由minion进程在它的本机执行，例如，通过master下发test.ping命令(test.ping用来检查minion的存活，相当于master与minion之间的ping包)如图所示：</p>
+
+<p><a href="/images/uploads/saltstack_test_ping流程.png"><img src="/images/uploads/saltstack_test_ping流程.png" alt="test.ping流程图" /></a></p>
+
+<p>上图只显示了第一个minion的执行流程，其它minion的执行流程也类似，就不全部画出了。</p>
+
+<p>从代码架构上来看，Stack使用zeromq进行网络通信，使得网络通信有了较高的性能和并发度，简化了SaltStack本身网络层的实现。master与minion之间使用先ssh认证后AES加密消息的方式来保障通信安全性。master, minion内部根据功能划分为多进程，每个进程只负责特定工作，进程间通过zeromq通信，模块组织比较清晰健壮。</p>
+
+<h3 id="saltstack-1">3. SaltStack安装</h3>
+
+<p>SaltStack有安装方式，一种是根据操作系统(主要是Linux的各种发行版)的版本通过包管理器来安装，另一种是从源代码安装。下面我们简单浏览一下两种安装方式。</p>
+
+<h4 id="section-1">3.1 包管理器安装</h4>
+
+<p>目前SaltStack已经针对多个Linux发行版提供了包管理器安装脚本，对几种主流的发行版如CentOS, Ubuntu, Debian, FreeBSD都有支持。使用这种方式安装，只需要下载SaltStack官方提供的bootstrap脚本并执行即可。在命令行执行：</p>
+
+<pre><code>wget -O - http://bootstrap.saltstack.org | sudo sh
+</code></pre>
+
+<p>即为安装minion。要安装master，可在命令行执行：</p>
+
+<pre><code>curl -L http://bootstrap.saltstack.org | sudo sh -s -- -M -N
+</code></pre>
+
+<p>这个bootstrap安装脚本会判断执行机器的发行版及版本号，调用合适的包管理器添加SaltStack的二进制发行包源，安装所有的依赖包并安装命令行参数指定的SaltStack组件。可以看到通过bootstrap脚本安装SaltStack是很简单的。更多详细信息请参考官网文档的<a href="http://docs.saltstack.com/topics/installation/index.html">Installation</a>一节。</p>
+
+<h4 id="section-2">3.2 源代码安装</h4>
+
+<p>如果你使用的Linux发行版不在SaltStack bootstrap安装脚本支持的发行版列表内，或者你需要对安装做一些定制，比如通过Python的virtualenv管理不同的Python环境，那么就需要进行源代码安装了。下面以在某个virtualenv环境内安装为例，简述一下源代码安装步骤：</p>
+
+<pre><code># 首先，进入对应的virtualenv环境
+$ source /path/to/your/virtualenv/bin/active
+# 然后安装依赖包
+# 注意Debian/Ubuntu包管理器使用的是patch过的openssl库，这个M2Crypto包需要通过apt安装，详细见官网文档
+$ pip install M2Crypto 
+$ pip install pyzmq PyYAML pycrypto msgpack-python jinja2 psutil
+# 安装SaltStack
+$ pip install -e ./salt
+</code></pre>
+
+<p>虽然上述命令将Salt安装到了virtualenv中，但由于SaltStack有和系统结合的功能，因此除了Salt本身运行依赖的包之外，它还用到系统当中的一些Python软件包。比如SaltStack可以调用系统的包管理器安装软件包，在Ubuntu发行版里面，需要调用系统当中安装的python-apt包，这个包通过一个动态库.so文件提供Python接口，如果你的virtualenv环境中的Python版本和系统的Python版本不一致，就可能会导致virtualenv环境中的SaltStack调用包管理器操作失败并造成salt进程core dump。所以使用SaltStack做virtualenv源安装时，要留心这个由Python不一致造成的包依赖问题。</p>
+
+<p>virtualenv源代码安装的另一个问题是配置文件路径指定，SaltStack的配置文件，运行目录，cache目录等各种目录默认值都是指向系统目录的，这个默认值是在源代码中写死的。如果要在一台机器安装多个virtualenv SaltStack进程并希望分隔开不同进程的配置，那么就需要修改<code>root_dir</code>参数，为各个进程指派一个不同的路径。</p>
+
+<p>关于源代码安装的更多信息，可以参考官网文档的<a href="http://docs.saltstack.com/topics/hacking.html">Developing Salt</a>一节。</p>
+
+<h3 id="saltstack-2">4. SaltStack使用</h3>
+
+<p>SaltStack包安装之后，minion会向master发出认证请求，我们在master上通过<code>salt-key</code>命令把发出请求的minion私钥添加一下，就完成master与minion之间的认证，这之后就可以通过master管理所有认证过的minion了。详细的上手tutorial可以参考官网文档的<a href="http://docs.saltstack.com/topics/tutorials/walkthrough.html">SaltStack Walkthrough</a>。下面主要简单介绍一下SaltStack的两大功能。</p>
+
+<h4 id="section-3">4.1 配置管理</h4>
+
+<p>所有的配置管理工具都可以为系统状态指定一个描述，Puppet里面是用DSL编写的manifest文件，SaltStack则将其定义为State，State的状态用YAML格式编写。YAML简单清晰，表达力强，比起XML和JSON更适合用于配置文件的编写。下面用一个例子来简单说明一下如何使用SaltStack的配置管理功能。</p>
+
+<p>我们需要先编写好State配置文件，根master配置的默认值，一般将它们放在<code>/srv/salt</code>目录：</p>
+
+<pre><code># 先创建好配置根目录，'%'是root用户的shell提示符
+% mkdir -p /src/salt
+</code></pre>
+
+<p>然后在根目录创建特定名字<code>top.sls</code>的配置文件，它是SaltStack加载所有State配置的入口点，在其中添加下面的内容。</p>
+
+<pre><code>base:
+  '*':
+    - database
+</code></pre>
+
+<p>然后在根目录创建<code>database.sls</code>文件，添加以下内容：</p>
+
+<pre><code>mongodb:
+  pkg:
+    - installed
+</code></pre>
+
+<p>这样配置的意思就是对所有minion机器，都按<code>database.sls</code>文件描述的状态来配置，后者只指定一个State，就是为系统安装mongodb包。一个很简单的State配置就这样完成了。对于一个全新安装的master，在配置文件中，添加下面的配置</p>
+
+<pre><code>file_roots:
+  base:
+    - /srv/salt/
+</code></pre>
+
+<p>告诉master去<code>/srv/salt</code>这个路径去找State配置文件。然后重启master(如果master未启动就启动)，让master加载新添加的配置(如果之前已经在master配置文件中指定了file_roots，则不需要重启了)。最后，将master已经加载的配置下发到minion去执行状态更新：</p>
+
+<pre><code># salt '*' state.highstate -v
+</code></pre>
+
+<p>minion从master获取到最新的State配置后，就会在本地安装好mongodb。就这样，SaltStack集群就按我们所指定的配置执行了一次配置管理操作。</p>
+
+<p>SaltStack的State配置文件主体是YAML描述，其中可以包含jinja模板，可以定义变量，而且提供了一个静态变量系统Grains和一个动态的变量系统Pillar来帮助我们编写State配置，几种特点结合起来提供了很强的表达力，而且上手比较容易。</p>
+
+<h4 id="section-4">4.2 命令执行</h4>
+
+<p>SaltStack内置了命令执行的功能，master可以通过zeromq将命令内容下发到minion，由各个minion在本机执行。由于使用了zeromq，这个下发过程可以并行执行，速度比Ansible的无agent ssh通信快得多。因为命令执行是内置功能，而且不依赖于State状态描述，所以一旦SaltStack安装好，就可以直接使用了。SaltStack描述了100多个不同的命令模块，提供了各种各样功能的命令接口。比如通过<code>apt</code>模块可以调用Debian/Ubuntu的apt包管理器，<code>file</code>模块提供常见的文件访问/重命名/查找等操作，<code>ps</code>模块提供进程查看/管理操作等。全部的命令模块列表可以参考官网文档的<a href="http://docs.saltstack.com/ref/modules/all/">Full list of builtin execution modules</a>一节。</p>
+
+<p>其中一个比较通用的命令行接口是<code>cmd</code>模块，将任意命令编写好之后，都可以通过<code>cmd</code>模块下发到minion去执行，然后返回执行结果。例如在master上执行：</p>
+
+<pre><code>$ salt '*' cmd.run 'uname -r'
+minion_1:
+    3.2.0-23-generic
+minion_2:
+    3.2.0-23-generic
+</code></pre>
+
+<p>得到各个minion机器的内核版本号。</p>
+
+<p>命令执行功能的一个重点就是提供目标匹配的功能(其实配置管理也需要准确匹配目标机器)，方便在某些满足特定条件的机器做特定的操作。SaltStack中把它称之为targeting，SaltStack提供多种targeting的方式，包括针对id进行匹配的globbing, 正则表达式，列表，针对Grains进行匹配，指定分组匹配，还有复合以上几种方式的复合匹配，以及批量方式。</p>
+
+<h3 id="faq">5. FAQ</h3>
+
+<p>1) 目前流行的配置管理工具有哪些？<br />
+在这篇文章<a href="http://www.vpsee.com/2013/08/a-system-configuration-management-and-orchestration-tool-saltstack/">《系统自动化配置和管理工具SaltStack》</a>的开头可以找到一份比较长的名字列表 。</p>
+
+<p>2) SaltStack和Puppet有哪些不同？<br />
+功能：SaltStack具有配置管理和命令执行两大块功能，Puppet支持配置管理，但本身不带命令执行功能。Puppet添加MCollective之后可以提供命令编排功能，但Salt从设计上就考虑了这块，而且以内部模块，与框架合成一体的方式来实现，显然比Puppet加MCollective的方案更简单优雅。
+使用：SaltStack的状态配置用YAML+jinja模板描述，Puppet则是DSL。前者较为简易好上手。
+实现：SaltStack由Python编写，使用了zeromq，Puppet则是Ruby。</p>
+
+<p>3) 比较SaltStack与Asible？<br />
+这里有一篇比较详细的比较文章：<a href="http://missingm.co/2013/06/ansible-and-salt-a-detailed-comparison/">Ansible and Salt: A detailed comparison</a></p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[告别然后重新出发]]></title>
@@ -247,90 +394,6 @@ string          std::string     java.nio.ByteBuffer    str
 
 <p><em>注：</em><br />
 <a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[常用终端软件]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
-    <updated>2013-01-31T20:01:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
-    <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。</p>
-
-<p>在Linux桌面，Gnome自带的gnome-terminal，或KDE自带的konsole都是很多人的首选终端软件，它们都支持标签，并与窗口管理器(WM)有很好的集成。源自Gnome的mate-desktop中自带mate-terminal，事实上只是一个改了名字的gnome-terminal。此外，还有rxvt, xterm/roxterm等个头较小的终端软件，由于它们或轻量快速，或定制性较强，也吸引了不少使用者，早前我也常常使用rxvt-unicode，主要喜欢它启动迅速一点即开，但由于电脑的配置越来越好，其它终端如konsole也能迅速打开，rxvt-unicode的这个速度优势已经越来越小，所以渐渐也少用了。</p>
-
-<p>在Windows下，也常常需要使用ssh终端连接到Linux服务器来进行命令行操作。流行的ssh终端软件有putty，Secure CRT，XShell等几个。putty由于缺少会话管理功能，不方便用在多机器环境。所以很多人更喜欢功能强大的Secure CRT，它也算是一个比较经典的终端软件了，支持多标签，会话管理，ssh agent，登录脚本等，具有丰富的可定制性，而各种破解的版本更加有利于它抢占市场，可以说它是最流行的终端软件，没有之一。XShell则少为人知，与Secure CRT相比功能几乎同样强大的，但有一些特色的功能，比如支持在输出中进行搜索，这个功能在Mac下的iTerm2，或在Emacs中运行的终端都有，它的家庭/学校版本可以不注册免费长期使用，吸引了不少原来使用Secure CRT破解版的用户。Secure CRT和XShell的会话配置都以文件形式保存在指定目录中，在重装系统或迁移到新系统前，可以通过拷贝对应会话文件目录恢复全部的配置。</p>
-
-<p>在服务器上，与终端软件搭档的还有screen/tmux这类终端多路复用软件，它们提供了会话管理(挂起，重连，关闭)，多标签模拟，屏幕分割，对输出内容的搜索，复制，粘贴等功能，是程序员手中必不可少的终端利器。两者的功能相近，其中screen比较老，不再更新，缺少对utf8的支持，状态指示行(caption line，hardstatus line)复杂晦涩的语法也广受批评。tmux被设计为老旧的screen的替代者，并针对screen的缺点作出对应的改善，比如改进了状态指示行的配置可读性，强化了对执行脚本支持。之前我使用了很长时间的screen，后来也转向了tmux。《tmux: Productive Mouse-Free Development》这本书是一本很好的tmux用户指南，在网上可以找到。</p>
-
-<p>我经常用到的终端配置，主要有如下方面：语言环境，字符集，字体，色彩支持，编辑器。</p>
-
-<ul>
-  <li>
-    <p>语言环境</p>
-
-    <p>在Debian/Ubuntu中可以通过命令  </p>
-
-    <pre><code>  sudo dpkg-reconfigure locales
-</code></pre>
-
-    <p>来生成locale，修改系统的语言环境。在已经支持多种locale的系统中可以通过环境变量来初始化终端环境，纯终端环境一般只需要设置<code>LC_ALL</code>，桌面环境有可能需要同时设置<code>LANG</code>和<code>LANGUAGE</code>两个变量，常用的两种配置有  </p>
-
-    <pre><code>  # 设置为中文环境
-  export LC_ALL=zh_CN.utf8
-  export LANG=zh_CN.utf8
-  export LANGUAGE=zh_CN:zh
-
-  # 设置为英文环境
-  export LC_ALL=en_US.utf8
-  export LANG=en_US.utf8
-  export LANGUAGE=en_US:en:zh_CN:zh
-</code></pre>
-
-    <p>将配置添加到.bashrc，source配置或重新登录终端才生效。</p>
-  </li>
-  <li>
-    <p>字符集</p>
-
-    <p>能接触到Linux系统默认字符集一般是utf8，在ssh终端如Secure CRT中需要指定字符集(Character encoding)为UTF-8。</p>
-  </li>
-  <li>
-    <p>字体</p>
-
-    <p>推荐用编程专用的等宽字体，它们被设计成容易区分下面的字符</p>
-
-    <pre><code>  1lIi     &lt;-- 数字1，小写字母l，大小写字母i
-  0Oo      &lt;-- 数字0，大小写字母o
-  `'"      &lt;-- 单引号，双引号，反引号(写lisp必需区分单引号和反引号，你懂的)
-</code></pre>
-
-    <p>Secure CRT之类的终端软件常常将Courier New字体作为默认字体，但它不能很好地区分数字0和大写O，所以我个人并不推荐。编程专用的等宽字体网上可以找到很多种，个人常用的有</p>
-
-    <pre><code>  Monaco Yahei    --- 由版权专有的字体，Mac的Monaco字体和Windows的Yahei字体合成的
-  Ubuntu Mono    --- Ubuntu的开源字体
-</code></pre>
-
-    <p>当然，每个人的喜好审美不同，对字体的偏好也不同。</p>
-  </li>
-  <li>
-    <p>色彩支持</p>
-
-    <p>无论在Linux桌面还是Windows下，终端软件一般是支持256色显示的，通过修改Linux下的环境变量</p>
-
-    <pre><code>  export TERM=xterm-256color
-</code></pre>
-
-    <p>就可以打开对256色的支持，这个配置可以放入到.bashrc中。终端软件默认一般不打开对多色彩的支持，也需要配置一下。例如，在Secure CRT中需要在Session的Terminal配置中勾上Use Color scheme选项，Terminal的类型也推荐选择XTerm而非Linux。</p>
-
-    <p>打开对256色的支持，主要是为了在编辑器中能够充分利用到丰富的色彩，对文本或代码进行高亮，既取悦眼睛也提高编辑效率。</p>
-  </li>
-  <li>
-    <p>编辑器</p>
-
-    <p>在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p>
-  </li>
-</ul>
 
 ]]></content>
   </entry>

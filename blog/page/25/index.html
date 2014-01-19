@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="在读写代码时workspace有个好的配色，能让编程过程变得生动多彩，也能提高效率。emacs 23的默认配色主题也不错，不过个性张扬的hacker们当然不满足于只有一个选择，很多emacs玩家喜欢自已定制主题，不过一点点地配置主题多少有点繁琐，在手工hack之前，可以先试下color- &hellip;">
+  <meta name="description" content="很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。 1. 更换默认的splash 1) 在命令行参数加上 -Dosgi.splashLocation=/opt/eclipse/splash.bmp 或在eclipse根目录( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,93 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/27/change-eclipse-start-up-splash-to-your-favour/">Change Eclipse Start-up Splash to Your Favour</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-27T11:36:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>很久之前就知道如何替换eclipse启动时显示的splash(闪屏)了，不过一直没有文档记录。这里整理一下。</p>
+
+<h3 id="splash">1. 更换默认的splash</h3>
+
+<h4 id="section">1) 在命令行参数加上</h4>
+
+<pre><code>-Dosgi.splashLocation=/opt/eclipse/splash.bmp
+</code></pre>
+
+<p>或在eclipse根目录(对于网上下载的版本是根目录，对于linux各发行版下安装版本，请参照各发行版对应eclipse包)下的配置文件eclispe.ini中加入上面一行。意即指明启动splash的地址。定义osgi.splashLocation，会覆盖osgi.splashPath的定义，即用自定义的splash替换默认的那个。</p>
+
+<h4 id="eclipseconfigurationconfigini">2) 在eclipse/configuration/config.ini中加入一行</h4>
+
+<pre><code>osgi.splashLocation = ${你的splash路径}
+</code></pre>
+
+<p>如在linux下有</p>
+
+<pre><code>osgi.splashLocation = /usr/lib/eclipse/YUKI.bmp
+</code></pre>
+
+<p>(上面的/usr/lib/eclipse/即为ubuntu 8.04下的含有eclipse.ini的目录)</p>
+
+<p>在windows下有</p>
+
+<pre><code>osgi.splashLocation = D:/software/eclipse/splash.bmp
+</code></pre>
+
+<h4 id="splash-1">3) 直接替换原来的splash图片文件</h4>
+
+<p>参考在config.ini中osgi.splashPath定义，找到默认splash图片文件在文件系统中的位置。如在ubuntu 8.04下的config.ini有</p>
+
+<pre><code>osgi.splashPath = platform:/base/plugins/org.eclipse.platform
+</code></pre>
+
+<p>于是可以在</p>
+
+<pre><code>/usr/lib/eclipse/plugins/org.eclipse.platform_3.2.2.r322_v20070117b
+</code></pre>
+
+<p>找到默认的splash文件，splash.bmp。直接用你喜欢的图片替换掉此文件即可。</p>
+
+<p>效果见截图：<br />
+<img src="/images/uploads/eclipse_splash.jpg" alt="eclipse splash screenshot" /></p>
+
+<h3 id="splash-2">2. 制作个性的splash</h3>
+
+<p>由于只是简单地替换掉背景文件，而进度条和loading信息没有改变，所以最好还是使得自己制作的splash与默认的大小455×295一致，否则进度条与图片边缘不一致会比较难看，个人建议至少要使得宽度一致，而图片的格式应为.bmp文件。在网上遇到喜欢的图片资源，可以使用<a href="http://www.gimp.org/">GIMP</a>来编辑一番最后再转为.bmp文件。至于图片内容，就随便随便啦－－例如原纱央莉的……Amitabha(向如来致敬)，罪过罪过，就此打住，不要给小朋友造成坏影响。</p>
+
+<p>PS: 贴上上面截图所用的splash，图片来自网友共享: <a href="http://www.fomly.cn/20080708/eclipse-splash/">http://www.fomly.cn/20080708/eclipse-splash/</a>，略加修改。</p>
+
+<p><img src="/images/uploads/sexy_eclipse_splash.jpg" alt="sexy eclipse splash" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -207,124 +294,6 @@
 <p><a href="http://www.martyn.se/code/emacs/darkroom-mode/">http://www.martyn.se/code/emacs/darkroom-mode/</a></p>
 
 <p>内有安装与使用说明。不过我实际使用感觉并不好，w32下最大化足已。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/01/11/customize-calendar-in-emacs/">在emacs Calendar中定制中国农历节日</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-01-11T13:18:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Emacs中的 calendar mode 有很多功能，可以在 calendar 中对自己感兴趣的节日进行定制。在 gnu 官网 emacs 手册的 <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Holiday-Customizing.html">38.15.2 Customizing the Holidays</a> 部分可以找到详细的说明。这里谈谈如何定制中国的农历节日。</p>
-
-<p>下载 <a href="http://xwl.appspot.com/index_cn.html">William Xu</a> 写的 中文版日历扩展 <a href="http://xwl.appspot.com/ref/cal-china-x.el">cal-china-x.el</a> 并安装－－参考其源文件中说明将下面几句添加到 .emacs：</p>
-
-<pre><code>(require 'cal-china-x)
-(setq mark-holidays-in-calendar t)
-(setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
-(setq calendar-holidays cal-china-x-important-holidays)
-</code></pre>
-
-<p>其中 cal-china-x-important-holidays 在 cal-china-x.el 中定义如下：</p>
-
-<pre><code>(defconst cal-china-x-chinese-holidays
-  '((holiday-fixed 1 1 "元旦")
-    (holiday-lunar 12 30 "春节" 0)
-    (holiday-lunar 1 1 "春节" 0)
-    (holiday-lunar 1 2 "春节" 0)
-    (holiday-solar-term "清明" "清明节")
-    (holiday-fixed 5 1 "劳动节")
-    (holiday-lunar 5 5 "端午节" 0)
-    (holiday-lunar 8 15 "中秋节" 0)
-    (holiday-fixed 10 1 "国庆节")
-    (holiday-fixed 10 2 "国庆节")
-    (holiday-fixed 10 3 "国庆节"))
-  "Pre-defined chinese public holidays.
-You can add this to your `calendar-holidays'.")
-</code></pre>
-
-<p>若想自定义这些节日，例如添加重阳节或将春节标记为从正月一日开始，怎么办呢？可以在另外定义自己感兴趣的节日，就像在我的 .emacs 中有：</p>
-
-<pre><code>(setq holiday-wwliu-holidays
-    '(;;公历节日
-      (holiday-fixed 1 1 "元旦")
-      (holiday-fixed 2 14 "情人节")
-      (holiday-fixed 3 8 "妇女节")
-      (holiday-fixed 3 14 "白色情人节")
-      (holiday-fixed 4 1 "愚人节")
-      (holiday-fixed 5 1 "劳动节")
-      (holiday-float 5 0 2 "母亲节")
-      (holiday-fixed 6 1 "儿童节")
-      (holiday-float 6 0 3 "父亲节")
-      (holiday-fixed 9 10 "教师节")
-      (holiday-fixed 10 1 "国庆节")
-      (holiday-fixed 12 25 "圣诞节")
-      ;; 农历节日
-      (holiday-lunar 1 1 "春节" 0)
-      (holiday-lunar 1 2 "春节" 0)
-      (holiday-lunar 1 3 "春节" 0)
-      (holiday-lunar 1 15 "元宵节" 0)
-      (holiday-solar-term "清明" "清明节")
-      (holiday-lunar 5 5 "端午节" 0)
-      (holiday-lunar 8 15 "中秋节" 0)
-      ;; 生日 -- 家人,朋友
-      ;; ^_^ 这部分嘛...保密啦
-      ))
-</code></pre>
-
-<p>然后将 calendar-holidays 的值覆盖为自定义的 list 即可。</p>
-
-<pre><code>(require 'cal-china-x)
-;; 只显示我定制的节日
-(setq calendar-holidays holiday-wwliu-holidays)
-</code></pre>
-
-<p>为什么覆盖 calendar-holidays, 而不写入 holiday-general-holidays或holiday-other-holidays呢？因为 calendar-holidays 包括所有的 holidays, 如 holiday-christian-holidays, holiday-hebrew-holidays等，覆盖calendar-holidays 就相当于把其它的部分清空，只保留自己定义的 holiday-wwliu-holidays。也有的人喜欢将这些部分的 holiday 清空，如在 .emacs 中有设置如下：</p>
-
-<pre><code>(setq christian-holidays nil) ;; 不显示基督教的节日
-(setq hebrew-holidays nil)    ;; 不显示希伯来人的节日
-(setq islamic-holidays nil)   ;; 不显示伊斯兰教的节日
-...
-</code></pre>
-
-<p>不过我觉得直接覆盖 calendar-holidays 更简单些。</p>
-
-<p>配置完后通过</p>
-
-<pre><code>M-X eval-buffer
-</code></pre>
-
-<p>重新加载 .emacs。打开 calendar mode如下图所示：</p>
-
-<p><img src="/images/uploads/emacs_calendar.jpg" alt="emacs calendar 截图" /></p>
-
 </div>
   
   
