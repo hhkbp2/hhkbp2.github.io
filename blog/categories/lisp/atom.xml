@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lisp | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/lisp/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2014-01-19T23:01:07+08:00</updated>
+  <updated>2014-01-20T01:16:07+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -43,15 +43,15 @@
   (assert (every #'symbolp variables))
   (let ((temps nil))
     (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list .,variables))
-       (progn .,body)
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
        `(let
           (,,@(mapcar #'(lambda (tmp var)
                           ``(,',tmp ,,var))
                       temps variables))
           ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
                          variables temps)
-             .,body)))))
+             ,body)))))
 </code></pre>
 
 <p>原来的代码使用方法1转换后如下：</p>
@@ -60,15 +60,15 @@
   (assert (every #'symbolp variables))
   (let ((temps nil))
     (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list .,variables))
-       (progn .,body)
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
        (list 'let
          (list ,@(mapcar #'(lambda (tmp var)
                              `(list ',tmp ,var))
                          temps variables))
          (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
                        variables temps)
-           .,body)))))
+           ,body)))))
 </code></pre>
 
 <p>原来的代码使用方法2转换后如下：</p>
@@ -83,15 +83,15 @@
   (assert (every #'symbolp variables))
   (let ((temps nil))
     (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list .,variables))
-       (progn .,body)
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
        (construct-let-wrapper
          (list ,@(mapcar #'(lambda (tmp var)
                              `(construct-binding ',tmp ,var))
                          temps variables))
          (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
                        variables temps)
-           .,body)))))
+           ,body)))))
 </code></pre>
 
 <p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
@@ -100,57 +100,33 @@
 
 <blockquote>
   <p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
-</blockquote>
 
-<blockquote>
   <ol>
-    <li>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</li>
+    <li>
+      <p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
+
+      <p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
+
+      <p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
+    </li>
+    <li>
+      <p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
+
+      <p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
+
+      <pre><code>'(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+
+      <p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
+
+      <pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+
+      <p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
+    </li>
   </ol>
-</blockquote>
 
-<blockquote>
-  <pre><code> 不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式`(quote x)`，因此有一个定义良好的来自外部形式`'x`的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于`` `(foo ,x)``可以读作`(list 'foo x)`。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。
-</code></pre>
-</blockquote>
-
-<blockquote>
-  <pre><code> 为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它`!@`吧），这个宏建造一些并非列表结构的东西，你可以将`(apply #'make-a-foo (list 'baz a) l)`简写作`!@(make-a-foo (baz ,a) ,@l)`。当这个表达式`!@(...)`被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。
-</code></pre>
-</blockquote>
-
-<blockquote>
-  <ol>
-    <li>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</li>
-  </ol>
-</blockquote>
-
-<blockquote>
-  <pre><code> 我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：  
-</code></pre>
-</blockquote>
-
-<blockquote>
-  <pre><code>     '(foo (bazaroo '(fcn a ,x)))
-</code></pre>
-</blockquote>
-
-<blockquote>
-  <pre><code> 内层的引用不会“遮蔽”住`x`使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：
-</code></pre>
-</blockquote>
-
-<blockquote>
-  <pre><code>     '(foo (bazaroo `(,fcn a ,',x)))
-</code></pre>
-</blockquote>
-
-<blockquote>
-  <pre><code> 这个`,',`构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用`,,x`，因为这是说“当外层的反引用被展开时对`x`求值，得到`e`，然后当最内层反引用展开时求值`e`”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。
-</code></pre>
-</blockquote>
-
-<blockquote>
-  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。</p>
+  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。  </p>
 </blockquote>
 
 <p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
