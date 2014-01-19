@@ -153,7 +153,7 @@ $ pip install pyzmq PyYAML pycrypto msgpack-python jinja2 psutil
 $ pip install -e ./salt
 </code></pre>
 
-<p>虽然上述命令将Salt安装到了virtualenv中，但由于SaltStack有和系统结合的功能，因此除了Salt本身运行依赖的包之外，它还用到系统当中的一些Python软件包。比如SaltStack可以调用系统的包管理器安装软件包，在Ubuntu发行版里面，需要调用系统当中安装的python-apt包，这个包通过一个动态库.so文件提供Python接口，如果你的virtualenv环境中的Python版本和系统的Python版本不一致，就可能会导致virtualenv环境中的SaltStack调用包管理器操作失败并造成salt进程core dump。所以使用SaltStack做virtualenv源安装时，要留心这个由Python不一致造成的包依赖问题。</p>
+<p>虽然上述命令将Salt安装到了virtualenv中，但由于SaltStack有和系统结合的功能，因此除了Salt本身运行依赖的包之外，它还用到系统当中的一些Python软件包。比如SaltStack可以调用系统的包管理器安装软件包，在Ubuntu发行版里面，需要调用系统当中安装的python-apt包，这个包通过一个动态库.so文件提供Python接口，如果你的virtualenv环境中的Python版本和系统的Python版本不一致，就可能会导致virtualenv环境中的SaltStack调用包管理器操作失败并造成salt进程core dump。所以使用SaltStack做virtualenv源安装时，要留心这个包依赖问题。</p>
 
 <p>virtualenv源代码安装的另一个问题是配置文件路径指定，SaltStack的配置文件，运行目录，cache目录等各种目录默认值都是指向系统目录的，这个默认值是在源代码中写死的。如果要在一台机器安装多个virtualenv SaltStack进程并希望分隔开不同进程的配置，那么就需要修改<code>root_dir</code>参数，为各个进程指派一个不同的路径。</p>
 
