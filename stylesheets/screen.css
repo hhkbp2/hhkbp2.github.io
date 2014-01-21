@@ -1362,7 +1362,7 @@ body>footer a:hover { color: #484848 }
 body>footer p:last-child { margin-bottom: 0 }
 html { background: #FFFFFF }
 body {
-    font-family: 'Hiragino Sans GB', 'wenquanyi micro hei', "Microsoft Yahei", sans, serif; 
+    font-family: 'Hiragino Sans GB', "Microsoft Yahei", sans, serif; 
     font-size: 17px;
     color: #000;
     max-width: 750px;
