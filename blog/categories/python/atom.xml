@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Python | X lambda]]></title>
-  <link href="http://clisp.github.com/blog/categories/python/atom.xml" rel="self"/>
-  <link href="http://clisp.github.com/"/>
-  <updated>2014-03-08T19:49:35+08:00</updated>
-  <id>http://clisp.github.com/</id>
+  <link href="http://hhkbp2.github.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://hhkbp2.github.com/"/>
+  <updated>2014-03-08T22:37:53+08:00</updated>
+  <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
     
@@ -15,12 +15,12 @@
   
   <entry>
     <title type="html"><![CDATA[另一种可能性]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/10/another-possibility/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/08/10/another-possibility/"/>
     <updated>2013-08-10T20:36:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/10/another-possibility</id>
+    <id>http://hhkbp2.github.com/blog/2013/08/10/another-possibility</id>
     <content type="html"><![CDATA[<p><strong>更新：已经添加了它的gh-pages分支，可以<a href="/gevent-tutorial">点击这里</a>直接浏览器打开了。</strong></p>
 
-<p>前后大概经过一周，gevent-tutorial中文版终于全部译完，已经在github上发出pull request。<del>这个repository本来是一个网页，由于我用了定制域名，还不清楚在这种情况下如何将repo页挂到personal页上来，所以暂时不能在github<a href="https://github.com/clisp/gevent-tutorial/tree/chinese-translation">对应repo页面</a>上直接观看了，只能将它下载下来再看。</del></p>
+<p>前后大概经过一周，gevent-tutorial中文版终于全部译完，已经在github上发出pull request。<del>这个repository本来是一个网页，由于我用了定制域名，还不清楚在这种情况下如何将repo页挂到personal页上来，所以暂时不能在github<a href="https://github.com/hhkbp2/gevent-tutorial/tree/chinese-translation">对应repo页面</a>上直接观看了，只能将它下载下来再看。</del></p>
 
 <p>gevent的外部接口是按Python的标准模块来定的，所以很多时候不知道对应的标准模块接口，要用好gevent也会有困难，遗憾的是，这个tutorial英文原版写得比较粗略，只是简单过了一下gevent里面的主要模块和功能。关于gevent的文档并不多，我所知道的就是官网的零碎文档和这个tutorial，于是看完之余抽了一些空余时间把它翻译成了中文。几周前在公司的部门技术分享会上做过一次gevent的技术分享，那时比较忙没有写什么文档，这次翻译也算有所弥补。</p>
 
@@ -37,9 +37,9 @@
   
   <entry>
     <title type="html"><![CDATA[一份缺少诚意的中式什果沙拉]]></title>
-    <link href="http://clisp.github.com/blog/2011/05/16/reading-notes-of-py4sa-cn/"/>
+    <link href="http://hhkbp2.github.com/blog/2011/05/16/reading-notes-of-py4sa-cn/"/>
     <updated>2011-05-16T02:05:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/05/16/reading-notes-of-py4sa-cn</id>
+    <id>http://hhkbp2.github.com/blog/2011/05/16/reading-notes-of-py4sa-cn</id>
     <content type="html"><![CDATA[<p><a href="/images/uploads/py4sa_cn_cover.jpg"><img src="/images/uploads/py4sa_cn_cover.jpg" alt="py4sa cn cover" /></a></p>
 
 <p>——评《Python UNIX和Linux系统管理指南》</p>

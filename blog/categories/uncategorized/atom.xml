@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Uncategorized | X lambda]]></title>
-  <link href="http://clisp.github.com/blog/categories/uncategorized/atom.xml" rel="self"/>
-  <link href="http://clisp.github.com/"/>
-  <updated>2014-03-08T19:49:35+08:00</updated>
-  <id>http://clisp.github.com/</id>
+  <link href="http://hhkbp2.github.com/blog/categories/uncategorized/atom.xml" rel="self"/>
+  <link href="http://hhkbp2.github.com/"/>
+  <updated>2014-03-08T22:37:53+08:00</updated>
+  <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
     
@@ -15,18 +15,18 @@
   
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://clisp.github.com/blog/2012/07/07/hello-world/"/>
+    <link href="http://hhkbp2.github.com/blog/2012/07/07/hello-world/"/>
     <updated>2012-07-07T15:37:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2012/07/07/hello-world</id>
+    <id>http://hhkbp2.github.com/blog/2012/07/07/hello-world</id>
     <content type="html"><![CDATA[<p>Hello World!</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[入手神器hhkb]]></title>
-    <link href="http://clisp.github.com/blog/2012/06/24/get-one-hhkb/"/>
+    <link href="http://hhkbp2.github.com/blog/2012/06/24/get-one-hhkb/"/>
     <updated>2012-06-24T21:39:45+08:00</updated>
-    <id>http://clisp.github.com/blog/2012/06/24/get-one-hhkb</id>
+    <id>http://hhkbp2.github.com/blog/2012/06/24/get-one-hhkb</id>
     <content type="html"><![CDATA[<p>蛋痛过度，一时头脑发热，订了一把hhkb pro2。</p>
 
 <p>静电容的价格一如既往的坑爹，加上日元汇率像丰胸广告里的产品一样坚挺，萌购价格不计运费已经高到1.8K，于是直接上花尽国行。花尽在淘宝有两个店，一个叫“键步如飞”，一个叫“花尽数码专营店”，同属于花尽，但负责管理的部门不同，因为后者是天猫店，所以同样的货品直接贵一百，两才都有保修单，只是后者多一张发票，所以对比来看我的理解是，钞票和发票都是一张纸，两纸等价。</p>
@@ -62,9 +62,9 @@ sw6, off 没用到wake up功能  </p>
   
   <entry>
     <title type="html"><![CDATA[金杯月明夜，与君醉梦乡]]></title>
-    <link href="http://clisp.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight/"/>
+    <link href="http://hhkbp2.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight/"/>
     <updated>2012-02-19T01:41:44+08:00</updated>
-    <id>http://clisp.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight</id>
+    <id>http://hhkbp2.github.com/blog/2012/02/19/lets-drink-and-love-under-moonlight</id>
     <content type="html"><![CDATA[<p>——读乔治.R.R.马丁的《肉院情人》</p>
 
 <p>克劳修斯告诉我们，说我们生活所在的这个宇宙，是会热寂的，物体从高温会变低温，从有序变无序，总之一切都在衰老变坏，一去不返无可挽留。但这个宇宙中有很多事情看起来恰恰向着相反的方向发展，比如进化，又比如爱情。</p>
@@ -107,9 +107,9 @@ sw6, off 没用到wake up功能  </p>
   
   <entry>
     <title type="html"><![CDATA[彪悍的短片不需要解释]]></title>
-    <link href="http://clisp.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words/"/>
+    <link href="http://hhkbp2.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words/"/>
     <updated>2011-09-23T00:29:50+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words</id>
+    <id>http://hhkbp2.github.com/blog/2011/09/23/a-ferocious-video-is-beyond-words</id>
     <content type="html"><![CDATA[<p>老罗说彪悍的人生不需要解释，彪悍的短片也不需要。转<a href="http://v.youku.com/v_show/id_XMzA2MTg0MzA4.html" title="短片《小马》">幸福59厘米之老罗《小马》</a>。</p>
 
 ]]></content>
@@ -117,9 +117,9 @@ sw6, off 没用到wake up功能  </p>
   
   <entry>
     <title type="html"><![CDATA[那些银幕幻影，那些曾经年岁]]></title>
-    <link href="http://clisp.github.com/blog/2011/09/04/those-movies-those-days/"/>
+    <link href="http://hhkbp2.github.com/blog/2011/09/04/those-movies-those-days/"/>
     <updated>2011-09-04T17:56:33+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/09/04/those-movies-those-days</id>
+    <id>http://hhkbp2.github.com/blog/2011/09/04/those-movies-those-days</id>
     <content type="html"><![CDATA[<p>今天在微博上看到朋友转播的消息中，有一条纪念”九十年代香港电影古装篇”的视频，觉得不错，特意拿出来分享一下。</p>
 
 <p><a href="http://www.tudou.com/programs/view/HyyXvWRjX-Q/?resourceId=0_06_02_99?fr=2">九十年代香港电影古装篇</a></p>

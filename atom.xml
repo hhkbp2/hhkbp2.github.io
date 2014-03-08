@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[X lambda]]></title>
-  <link href="http://clisp.github.com/atom.xml" rel="self"/>
-  <link href="http://clisp.github.com/"/>
-  <updated>2014-03-08T19:49:35+08:00</updated>
-  <id>http://clisp.github.com/</id>
+  <link href="http://hhkbp2.github.com/atom.xml" rel="self"/>
+  <link href="http://hhkbp2.github.com/"/>
+  <updated>2014-03-08T22:37:53+08:00</updated>
+  <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Curator介绍]]></title>
-    <link href="http://clisp.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library/"/>
     <updated>2014-03-08T16:27:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library</id>
+    <id>http://hhkbp2.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library</id>
     <content type="html"><![CDATA[<p>本文翻译自Netflix<a href="#1">[1]</a>技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由Netflix工程师，Curator作者Jordan Zimmerman编写，原文在<a href="http://techblog.netflix.com/2011/11/introducing-curator-netflix-zookeeper.html">这里</a>。接触Curator已经快一年时间，期间有过写一篇介绍性文章的念头，但一直没有动手，后来回顾手头的资料，觉得其实这篇文章虽然简洁了一点，但也是一个很好的介绍，于是翻译在这里。仅用于学习，请勿用于其它用途。</p>
 
 <hr />
@@ -128,9 +128,9 @@
   
   <entry>
     <title type="html"><![CDATA[入手Retina Macbook Pro]]></title>
-    <link href="http://clisp.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook/"/>
     <updated>2014-01-19T20:47:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook</id>
+    <id>http://hhkbp2.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook</id>
     <content type="html"><![CDATA[<blockquote>
   <p>　　四月的一个晴朗的早晨，我在原宿后街同一个百分之百的女孩擦肩而过。<br />
 　　从看见她身姿的那一瞬间，我的胸口便如发生地鸣一般的震颤，口中如沙漠干得沙沙作响。<br />
@@ -152,10 +152,10 @@
   
   <entry>
     <title type="html"><![CDATA[SaltStack简明指南(一) 认识SaltStack]]></title>
-    <link href="http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/01/18/saltstack-the-missing-guide-1/"/>
     <updated>2014-01-18T01:12:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1</id>
-    <content type="html"><![CDATA[<p><a href="http://clisp.github.com/images/uploads/saltstack_logo.jpg"><img src="http://clisp.github.com/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
+    <id>http://hhkbp2.github.com/blog/2014/01/18/saltstack-the-missing-guide-1</id>
+    <content type="html"><![CDATA[<p><a href="http://hhkbp2.github.com/images/uploads/saltstack_logo.jpg"><img src="http://hhkbp2.github.com/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
 
 <h3 id="saltstack">1. SaltStack简介</h3>
 
@@ -172,11 +172,11 @@ SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Sal
 
 <p>从部署结构上看，与Ansible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
 
-<p><a href="http://clisp.github.com/images/uploads/saltstack简单部署结构.png"><img src="http://clisp.github.com/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
+<p><a href="http://hhkbp2.github.com/images/uploads/saltstack简单部署结构.png"><img src="http://hhkbp2.github.com/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
 
 <p>其中master和minion都是部署在对应机器上的常驻进程。当运维管理人需要操作minion机器时，他向master进程发出对应的指令，master进程就会将对应的指令下发到所有minion进程，由minion进程在它的本机执行，例如，通过master下发test.ping命令(test.ping用来检查minion的存活，相当于master与minion之间的ping包)如图所示：</p>
 
-<p><a href="http://clisp.github.com/images/uploads/saltstack_test_ping流程.png"><img src="http://clisp.github.com/images/uploads/saltstack_test_ping流程.png" alt="test.ping流程图" /></a></p>
+<p><a href="http://hhkbp2.github.com/images/uploads/saltstack_test_ping流程.png"><img src="http://hhkbp2.github.com/images/uploads/saltstack_test_ping流程.png" alt="test.ping流程图" /></a></p>
 
 <p>上图只显示了第一个minion的执行流程，其它minion的执行流程也类似，就不全部画出了。</p>
 
@@ -299,9 +299,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[2013年小结]]></title>
-    <link href="http://clisp.github.com/blog/2014/01/12/a-summary-of-this-year-2013/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/01/12/a-summary-of-this-year-2013/"/>
     <updated>2014-01-12T14:51:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/01/12/a-summary-of-this-year-2013</id>
+    <id>http://hhkbp2.github.com/blog/2014/01/12/a-summary-of-this-year-2013</id>
     <content type="html"><![CDATA[<p>又到了旧历年底新历年初，每年的这个时候，工作上都基本不会太忙，不会有新需求也不会赶项目，可以留出一些时间梳理思考，做做总结。但是今年比较特别，春节前后还是忙着写代码，也许是因为今年情况像逆行的洋流一样倒转——在过去这一年里我始终在思考，所以相反地就需要在年底忙活了。无论如何，每年的总结还是要做的，这已经成为习惯了。</p>
 
 <p>在2013年，我的生活方式与前一年大体相同，工作生活的地点也没有太多变化，生活上没有搬地方，工作上还是呆在老东家，虽然提了两次要离开还最后还是没有走掉，就像虽然领导两次说了要给我提薪但最后还是没有动静一样，比较戏剧化。这一年里在工作上，我做的事情基本模式是接触一些开源的框架然后付诸应用。从时间上可根据项目方向分为两个阶段：</p>
@@ -340,9 +340,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[告别然后重新出发]]></title>
-    <link href="http://clisp.github.com/blog/2013/12/22/wave-goodbye-and-start-over/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/12/22/wave-goodbye-and-start-over/"/>
     <updated>2013-12-22T22:32:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/12/22/wave-goodbye-and-start-over</id>
+    <id>http://hhkbp2.github.com/blog/2013/12/22/wave-goodbye-and-start-over</id>
     <content type="html"><![CDATA[<blockquote>
   <p>　　这段时间我疯狂改车，并且和朋友开了一个改车的铺子。大家觉得还是车好，好的车子比女人安全，比如车子不会将你一脚踹开说我找到新主人了；不会在你有急事情要出门的时候花半个钟头给自己发动机盖上抹口红；不会在你有需要的时候对你说我正好这几天来那个不能发动否则影响行车舒适性；不会有别的威武的吉普车擦身而过的时候激动得到了家还熄不了火；不会在你激烈操控的时候产生诸如侧滑等问题；不会要求你三天两头给她换个颜色否则不上街；不会要求你一定要加黄喜力的机油否则会不够润滑；不会在你不小心拉缸的时候给你几个巴掌。而你需要做的就是花钱买她，然后五千公里保养一下而不是每天早上保养一个钟头，换个机油滤清器，汽油滤清器，空气滤清器，两万公里换几个火花塞，三万公里换避震刹车油，四万公里换刹车片，检查刹车碟，六万公里换刹车碟刹车鼓，八万公里换轮胎，十万公里二手卖掉。<br />
 　　　　　　　　– 《像少年啦飞驰》  </p>
@@ -363,9 +363,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[冬夜]]></title>
-    <link href="http://clisp.github.com/blog/2013/12/14/a-winter-night/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/12/14/a-winter-night/"/>
     <updated>2013-12-14T02:23:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/12/14/a-winter-night</id>
+    <id>http://hhkbp2.github.com/blog/2013/12/14/a-winter-night</id>
     <content type="html"><![CDATA[<p>王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩，与拥挤的城市不同，家乡总是有足够的空地来容纳荒草，以及草地中所有的蝗，蟋，蛙，各种小虫以及它们生存的声息。阡陌交通，鸡犬相闻，那是卡尔维诺的马可波罗从来没有到过的地方，无论在版图中还是在脚底下。</p>
 
 <p>暮春时候的小雨总是很轻，仿佛飘浮在地球引力之外，没有重量，也压不弯长草绿叶，写雨的文字也变得轻了，仿佛入秋后露珠满天。村野之中，时光的节奏也并不总是是时分秒为单位，时节来去自有其脚步。山川沉默，田园如旧，这片土地上有人发过唐朝的梦，梦里有云海长风，有烟花三月，梦只是蝴蝶，飘忽且闪烁，宛如夜航船的灯火。盛唐之后，写诗的还大有人在，却已经没有人再读诗，不变的是青梅与宫灯，乙醇与山水，江河中流淌着岁月的唱词：红颜易老，风尘迷眼。</p>
@@ -381,10 +381,10 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[The Emacs 24 Rises]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/08/18/the-emacs-24-rises/"/>
     <updated>2013-08-18T15:06:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/18/the-emacs-24-rises</id>
-    <content type="html"><![CDATA[<p>最近发现旧邮件地址的收件箱里有网友的邮件，说想要在<a href="http://clisp.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs/">Emacs的Matrix屏保</a><code>zone-matrix</code>加入日文支持，但修改过代码并不成功云云。这份代码从2年多之前写好后我就再没怎么看过，由于它运行的时候需要刷新屏幕，比较消耗资源，我也很少启用。现在回头看看那时写的代码，写得真是幼稚，可能从现在算起过几年后再回头看看现在写的代码，也会产生类似的感觉，很有可能。后来我趁周末空闲时间把<code>zone-matrix</code>重构了一遍，并添加了对日文字符集的支持。</p>
+    <id>http://hhkbp2.github.com/blog/2013/08/18/the-emacs-24-rises</id>
+    <content type="html"><![CDATA[<p>最近发现旧邮件地址的收件箱里有网友的邮件，说想要在<a href="http://hhkbp2.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs/">Emacs的Matrix屏保</a><code>zone-matrix</code>加入日文支持，但修改过代码并不成功云云。这份代码从2年多之前写好后我就再没怎么看过，由于它运行的时候需要刷新屏幕，比较消耗资源，我也很少启用。现在回头看看那时写的代码，写得真是幼稚，可能从现在算起过几年后再回头看看现在写的代码，也会产生类似的感觉，很有可能。后来我趁周末空闲时间把<code>zone-matrix</code>重构了一遍，并添加了对日文字符集的支持。</p>
 
 <p><code>zone-matrix</code>原来的代码包含两份实现，一个是创建一个大text buffer定时刷新到屏幕，另一个是通过Emacs特有的rectangle相关操作来更新显示，最初我估计两种实现之中，应该是后者比较少耗资源，所以运行得更快或更流畅。但是实际跑起来的时候前者更流畅，对比起来后者明显较迟钝。这次重构，我把retangle换成直接操作buffer(因为猜想retangle操作会相对的没效率)，对比之下依然是text buffer实现跑起来更流畅，算是又多做了一次试验。</p>
 
@@ -392,7 +392,7 @@ minion_2:
 
 <p>Emacs 24的新特性，<a href="http://xahlee.org/">Xah Lee</a>在他的<a href="http://ergoemacs.org/emacs/emacs24_features.html">《New Features in Emacs 24》</a>里已经列得很清楚。除了弱弱的<code>electric-pair-mode</code>和<code>load-theme</code>之外，我个人觉得最重大的一个新特性就是包管理器，包数量多(我加了melpa和marmalade源)，使用起来也比较方便简洁(有时甚至觉得太过简洁，没有apt那么强大)。</p>
 
-<p>有了包管理器，<a href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public">我的配置</a>中<code>import</code>目录的很多包都可以从包管理器中checkout最新的版本了。于是我梳理了dired相关几个包的关系，更新了<code>dired+</code>, <code>dired-details</code>, <code>dired-details+</code>，清掉了没用的<code>dired-single</code>和<code>dired-tar</code>，添加了<code>dired-sort-menu</code>及<code>dired-sort-menu+</code>。</p>
+<p>有了包管理器，<a href="http://hhkbp2.github.com/blog/2013/01/13/make-my-emacs-configuration-public">我的配置</a>中<code>import</code>目录的很多包都可以从包管理器中checkout最新的版本了。于是我梳理了dired相关几个包的关系，更新了<code>dired+</code>, <code>dired-details</code>, <code>dired-details+</code>，清掉了没用的<code>dired-single</code>和<code>dired-tar</code>，添加了<code>dired-sort-menu</code>及<code>dired-sort-menu+</code>。</p>
 
 <p>Python的开发方面，则添加了<code>jedi</code>，<code>pylint</code>和<code>pep8</code>(尽管比较少用)，<code>jedi</code>大大的提升了Python开发时自动补全的用户体验，而<code>ropemacs</code>现在我只用来做重构。另外引入了<code>undo-tree</code>，<code>ido-complete-space-or-hyphen</code>, <code>helm</code>, <code>smex</code>, <code>fiplr</code>等一些包，<code>ido</code>, <code>helm</code>和<code>smex</code>构成了一个方便强大的组合。更新了Emacs 24之后，总体感觉效率有不少提高，同时也清理了一些过时的配置。之前在我的笔记本和各个公司机器之间通过bitbucket repo同步的配置，也都直接升级到24，放弃兼容23了。因为老的23版本没有包管理器，我懒得一个一个机器安装Emacs 24，也懒得把更新/添加的包同步过去，就让它们保持原样不再改动。就像我之前所说的，如果版本兼容变得比较麻烦，我会选择简单干脆的做法——那就是不做兼容。</p>
 
@@ -401,9 +401,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[青春期的非典型事件]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/08/17/atypical-events-of-puberty/"/>
     <updated>2013-08-17T21:08:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty</id>
+    <id>http://hhkbp2.github.com/blog/2013/08/17/atypical-events-of-puberty</id>
     <content type="html"><![CDATA[<blockquote>
   <p>《转山》的剧情简介，引用自<a href="http://movie.douban.com/subject/5318669/">豆瓣</a>：<br />
 　　本片改编自同名畅销书。<br />
@@ -429,9 +429,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[别了，Linux桌面]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/11/bye-linux-desktop/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/08/11/bye-linux-desktop/"/>
     <updated>2013-08-11T12:06:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/11/bye-linux-desktop</id>
+    <id>http://hhkbp2.github.com/blog/2013/08/11/bye-linux-desktop</id>
     <content type="html"><![CDATA[<blockquote>
   <p>　　“我和你一起去。”<br />
 　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br />
@@ -449,7 +449,7 @@ minion_2:
 
 <p>但是，你可能会说，不喜欢平板风格的桌面，一直用老的Gnome 2版本一直不更新不就行了？一个Windows系统可以不更新，但是一个Linux不更新则是相当少有的，因为除了桌面的包之外，其它包一直在更新，新功能/bug fix一直在添加，只有整个系统不断更新才能充分发挥到Linux的良好包管理功能。当你需要在老旧的系统使用某一个库的某一个功能，而这个版本的库依赖于在某几个较新的版本(带新特性)的包时，而这几个较新版本的包又依赖另外几个较新版本的包时，要装上那个库简直就是一场噩梦。所以说，用Linux时更新是必不可少的，至少对于我而言是这样，但更新得到的破碎桌面环境却令人头痛不已。</p>
 
-<p>去年我用了不少时间来折腾桌面环境，也尝试过除Gnome外的多个WM，直到最后用上了LMDE(见<a href="http://clisp.github.com/blog/2013/01/21/freedom-and-reason/">另一篇博文</a>)。但到上个月，当我发现要另外安装一个新系统时，LMDE的问题也来了。用LMDE的最新iso安装好系统用起来没什么问题，但一混入testing的源(另外我还加了unstable的源)，就出现一些问题：更新失败，X会话就启动失败——于是又开始折腾。在删掉plymouth，解决了plymouth的bug升起initramfs-tools更新配置失败的问题后，我觉得实在不想折腾下去了。</p>
+<p>去年我用了不少时间来折腾桌面环境，也尝试过除Gnome外的多个WM，直到最后用上了LMDE(见<a href="http://hhkbp2.github.com/blog/2013/01/21/freedom-and-reason/">另一篇博文</a>)。但到上个月，当我发现要另外安装一个新系统时，LMDE的问题也来了。用LMDE的最新iso安装好系统用起来没什么问题，但一混入testing的源(另外我还加了unstable的源)，就出现一些问题：更新失败，X会话就启动失败——于是又开始折腾。在删掉plymouth，解决了plymouth的bug升起initramfs-tools更新配置失败的问题后，我觉得实在不想折腾下去了。</p>
 
 <p>作为一个靠写代码吃饭的码农，虽然遇到问题我可以跟bug list，看源代码，但是更多时候，我更愿意集中精力用于去阅读优秀的代码(包括Linux kernel)或编写自己的作品，在使用系统的时候做一个小白用户，而不是为了某个开源社区或某个桌面软件包的蹩脚问题去折腾。回看这么多年使用Linux桌面的经验，为了学习有意折腾时候不少，但被逼要解决问题的时候更多，这一切都是何苦呢？我欣赏Linux的卓越，但是作为主力桌面系统，它的用户体验实在算不上良好。经过几天的冷静思考，我觉得是时候挥手告别Linux桌面了。</p>
 
@@ -466,12 +466,12 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[另一种可能性]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/10/another-possibility/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/08/10/another-possibility/"/>
     <updated>2013-08-10T20:36:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/10/another-possibility</id>
-    <content type="html"><![CDATA[<p><strong>更新：已经添加了它的gh-pages分支，可以<a href="http://clisp.github.com/gevent-tutorial">点击这里</a>直接浏览器打开了。</strong></p>
+    <id>http://hhkbp2.github.com/blog/2013/08/10/another-possibility</id>
+    <content type="html"><![CDATA[<p><strong>更新：已经添加了它的gh-pages分支，可以<a href="http://hhkbp2.github.com/gevent-tutorial">点击这里</a>直接浏览器打开了。</strong></p>
 
-<p>前后大概经过一周，gevent-tutorial中文版终于全部译完，已经在github上发出pull request。<del>这个repository本来是一个网页，由于我用了定制域名，还不清楚在这种情况下如何将repo页挂到personal页上来，所以暂时不能在github<a href="https://github.com/clisp/gevent-tutorial/tree/chinese-translation">对应repo页面</a>上直接观看了，只能将它下载下来再看。</del></p>
+<p>前后大概经过一周，gevent-tutorial中文版终于全部译完，已经在github上发出pull request。<del>这个repository本来是一个网页，由于我用了定制域名，还不清楚在这种情况下如何将repo页挂到personal页上来，所以暂时不能在github<a href="https://github.com/hhkbp2/gevent-tutorial/tree/chinese-translation">对应repo页面</a>上直接观看了，只能将它下载下来再看。</del></p>
 
 <p>gevent的外部接口是按Python的标准模块来定的，所以很多时候不知道对应的标准模块接口，要用好gevent也会有困难，遗憾的是，这个tutorial英文原版写得比较粗略，只是简单过了一下gevent里面的主要模块和功能。关于gevent的文档并不多，我所知道的就是官网的零碎文档和这个tutorial，于是看完之余抽了一些空余时间把它翻译成了中文。几周前在公司的部门技术分享会上做过一次gevent的技术分享，那时比较忙没有写什么文档，这次翻译也算有所弥补。</p>
 
@@ -488,9 +488,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[杂记]]></title>
-    <link href="http://clisp.github.com/blog/2013/06/15/minds-lounge/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/06/15/minds-lounge/"/>
     <updated>2013-06-15T22:35:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/06/15/minds-lounge</id>
+    <id>http://hhkbp2.github.com/blog/2013/06/15/minds-lounge</id>
     <content type="html"><![CDATA[<h3 id="section">1</h3>
 
 <p>杰克·凯鲁亚克喜欢用他自创的“自发式风格”写作，虽然这种风格往往和长期没洗的汗衫味混在一起。最近我也在实践类似的“自发式编程”。写代码与写文章有相似的地方，有时候构思和布局跟不上迎面飞驰而来的直觉。</p>
@@ -544,9 +544,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[嵌套反引用有害]]></title>
-    <link href="http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/"/>
     <updated>2013-03-10T21:37:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful</id>
+    <id>http://hhkbp2.github.com/blog/2013/03/10/nested-backquotes-considered-harmful</id>
     <content type="html"><![CDATA[<p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
 
 <hr />
@@ -677,9 +677,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[刀丛小诗]]></title>
-    <link href="http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/03/09/a-poem-in-the-sword-bush/"/>
     <updated>2013-03-09T22:05:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush</id>
+    <id>http://hhkbp2.github.com/blog/2013/03/09/a-poem-in-the-sword-bush</id>
     <content type="html"><![CDATA[<p>近日两会召开，从各种新闻报道看来，这个国家将进行又一次的领导层换届，在我工作的地方，类似的事情也在进行。在“云统治”的游戏背景设定下，这种事对于我等星斗市民并不会带来本质的变化，任它东边日出西边雨，只管一蓑任前行。从我个人的角度看，年初向领导提出加薪一事无果，长期问题还是没有得到解决，我对这份工作已没有什么期望。程序员要求提薪这件事情，马丁大叔在《程序员的职业素养》里提出了一个解读，比较有趣，很多时候事情的本质不仅是表面看起来那么回事。</p>
 
 <p>早春三月，草长莺飞。每年的这个时间前后，都会发生有人离开有人加入的情景，就像在前领导人当政的时期。在人情淡如水的这个国家与时代，人们习惯了用“天下熙熙皆为利来，天下攘攘皆为利往”这样的说法来解释所有发生的事情，难道真的有那么一种普适的理论，能够解释这个世界所有的万事万物吗？在疑邻盗斧的人眼中，全世界只有偷了斧头的人。在纷繁多变的局势下，有的人主动退出乘风而飞，有的人成为炮灰黯然远去，也许我只是有点不太习惯离别来得太突然，想起来一首旧时的诗：</p>
@@ -706,9 +706,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[无家可归的Java]]></title>
-    <link href="http://clisp.github.com/blog/2013/02/23/no-home-for-java/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/02/23/no-home-for-java/"/>
     <updated>2013-02-23T14:44:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/02/23/no-home-for-java</id>
+    <id>http://hhkbp2.github.com/blog/2013/02/23/no-home-for-java</id>
     <content type="html"><![CDATA[<h3 id="java">Java千层糕</h3>
 
 <p>因为工作需要，近3个月我一直在研究Hadoop，读了HDFS以及HDFS RAID的不少Java代码。由于很久没用Java这门语言，有很多知识都忘记了，所以重新把书页已经发黄了的《Java编程思想》(第4版)找出来又翻了一遍。这本书是我毕业时带出学校的两本编程书之一（另一本是《The C++ Programming Language: Special Edition》），当年当作圣经来反复阅读一本编程书，几年后重读，很多东西感觉都不一样了，有种“横看成岭侧成峰”的陌生之感，还是学生的时候只知C++, Java，后来又自学了Python, Common Lisp, Erlang等编程语言，回过头来看看，发现Java其实也并不是曾经眼中那样的美好。</p>
@@ -740,9 +740,9 @@ export PATH
   
   <entry>
     <title type="html"><![CDATA[Thrift实践]]></title>
-    <link href="http://clisp.github.com/blog/2013/02/10/practical-thrift/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/02/10/practical-thrift/"/>
     <updated>2013-02-10T20:15:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/02/10/practical-thrift</id>
+    <id>http://hhkbp2.github.com/blog/2013/02/10/practical-thrift</id>
     <content type="html"><![CDATA[<p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
 
 <h3 id="thriftrpc">实践1. 将thrift看作应用的RPC胶水</h3>
@@ -884,9 +884,9 @@ string          std::string     java.nio.ByteBuffer    str
   
   <entry>
     <title type="html"><![CDATA[常用终端软件]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/01/31/terminal-programs-that-i-used/"/>
     <updated>2013-01-31T20:01:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
+    <id>http://hhkbp2.github.com/blog/2013/01/31/terminal-programs-that-i-used</id>
     <content type="html"><![CDATA[<p>使用Linux，常常要做命令行操作，就常常要用到终端(Terminal)，一个好用的终端软件就好比一个帮助我们与操作系统交流的好帮手。作为一个重度Linux用户，在这里我记录一下经常使用的终端软件及配置。</p>
 
 <p>在Linux桌面，Gnome自带的gnome-terminal，或KDE自带的konsole都是很多人的首选终端软件，它们都支持标签，并与窗口管理器(WM)有很好的集成。源自Gnome的mate-desktop中自带mate-terminal，事实上只是一个改了名字的gnome-terminal。此外，还有rxvt, xterm/roxterm等个头较小的终端软件，由于它们或轻量快速，或定制性较强，也吸引了不少使用者，早前我也常常使用rxvt-unicode，主要喜欢它启动迅速一点即开，但由于电脑的配置越来越好，其它终端如konsole也能迅速打开，rxvt-unicode的这个速度优势已经越来越小，所以渐渐也少用了。</p>
@@ -959,7 +959,7 @@ string          std::string     java.nio.ByteBuffer    str
   <li>
     <p>编辑器</p>
 
-    <p>在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="http://clisp.github.com/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p>
+    <p>在Linux服务器的终端界面上做文本编辑，一般常用的都是两大神器Vim/Emacs。我用Emacs作为主要编辑器，偶尔也在没有安装Emacs的机器上用一下Vim。由于我的Emacs配置已经整理成代码库放到github，所以拉取或更新配置也很方便，详细见<a href="http://hhkbp2.github.com/blog/2013/01/13/make-my-emacs-configuration-public">这篇文章</a>。</p>
   </li>
 </ul>
 
@@ -968,16 +968,16 @@ string          std::string     java.nio.ByteBuffer    str
   
   <entry>
     <title type="html"><![CDATA[电子时代的鸦片]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/01/28/opium-in-electronic-age/"/>
     <updated>2013-01-28T23:37:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/28/opium-in-electronic-age</id>
+    <id>http://hhkbp2.github.com/blog/2013/01/28/opium-in-electronic-age</id>
     <content type="html"><![CDATA[<p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
 
 <p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams…..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
 
 <p>于是从卓越网订购了一个Intel SSD 330 120g，周末把它安装到我的小黑X201i中，换出原配的西数250g硬盘。因为新的ssd也是9.5mm，厚度与原来机械硬盘一样，所以原来的硬盘架就完美套用，换起来相当便捷。换好硬盘后，在Windows下使用Intel SSD Toolbox查看硬盘状态，出厂日期和读写次数，写入量都没问题，固件已经是最新版本不用升级，然后统一trim一次，算是完成初始化。</p>
 
-<p>之后格盘，重新通过U盘装上Linux，这次我用的安装镜像是Linux Mate Debian Edition(LMDE)。之所以不用Debian默认的安装镜像，是因为gnome-shell实在太不好用，这在之前的日志<a href="http://clisp.github.com/blog/2013/01/21/freedom-and-reason">《自由与理由》</a>中已细说过。安装LMDE的时候，还踩中过一个坑，当时选择了locale为<code>zh_CN</code>，结果在安装将要完成时，安装程序在配置locale那一步卡住了很长时间，让我很是怀疑，最后中断了安装过程重试。上网一查，原来是LMDE安装程序的一个bug，所以安装LMDE时还是用默认的locale <code>en_US</code>为好，需要修改locale的话可以在安装完成进入系统后再改。</p>
+<p>之后格盘，重新通过U盘装上Linux，这次我用的安装镜像是Linux Mate Debian Edition(LMDE)。之所以不用Debian默认的安装镜像，是因为gnome-shell实在太不好用，这在之前的日志<a href="http://hhkbp2.github.com/blog/2013/01/21/freedom-and-reason">《自由与理由》</a>中已细说过。安装LMDE的时候，还踩中过一个坑，当时选择了locale为<code>zh_CN</code>，结果在安装将要完成时，安装程序在配置locale那一步卡住了很长时间，让我很是怀疑，最后中断了安装过程重试。上网一查，原来是LMDE安装程序的一个bug，所以安装LMDE时还是用默认的locale <code>en_US</code>为好，需要修改locale的话可以在安装完成进入系统后再改。</p>
 
 <p>在Linux系统，可以针对SSD做一些优化，主要目的是用好SSD以提升读写速度，减少写入量延长SSD寿命。具体的优化原理和步骤可以参考</p>
 
@@ -999,9 +999,9 @@ string          std::string     java.nio.ByteBuffer    str
   
   <entry>
     <title type="html"><![CDATA[自由与理由]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/21/freedom-and-reason/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/01/21/freedom-and-reason/"/>
     <updated>2013-01-21T21:43:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/21/freedom-and-reason</id>
+    <id>http://hhkbp2.github.com/blog/2013/01/21/freedom-and-reason</id>
     <content type="html"><![CDATA[<p>在过去一年多的时间里，我笔记本电脑上的Debian桌面环境经历了几次变化：先是用了几个月gnome shell，然后用了几个月的xfce4，然后最近又转为mate-desktop和cinnamon。</p>
 
 <p>故事从前年一次日常系统升级开始，升级后发现桌面已经变成gnome shell，使用起来十分不习惯，体验很差，于是我配置了一下，让它没那么面目呆涩，后来再从gnome shell扩展官网添加了一些扩展，使得它尽量与gnome 2的老样子相近。这个时候的桌面环境，虽然偶尔会出现bug，但总体还算勉强能用下去。但随着不断的升级，之前配置的插件很多都不能工作了，大部分是因为版本兼容问题失效了，或者是因为插件没人维护已经过时，缺少插件支持缺少稳定性的gnome shell渐渐变得难以忍受。</p>
@@ -1026,9 +1026,9 @@ string          std::string     java.nio.ByteBuffer    str
   
   <entry>
     <title type="html"><![CDATA[在VirtualBox虚拟系统中使用USB设备]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system/"/>
     <updated>2013-01-18T21:26:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system</id>
+    <id>http://hhkbp2.github.com/blog/2013/01/18/use-usb-device-in-virtualbox-guest-system</id>
     <content type="html"><![CDATA[<p>我使用Linux作为日常操作系统，但有时需要使用Windows only软件，还是需要在虚拟机上装一个Windows。因为国内的网银只支持Windows，所以在需要虚拟的Windows系统中访问物理机器的USB接口，来读取网银的USB KEY。</p>
 
 <p>虚拟机我用的是VirtualBox，今天研究了一下如何配置它来实现这个功能，简述如下：</p>
@@ -1054,9 +1054,9 @@ string          std::string     java.nio.ByteBuffer    str
   
   <entry>
     <title type="html"><![CDATA[Thrift Erlang实现源代码阅读]]></title>
-    <link href="http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/01/16/thrift-erlang-source-code-reading/"/>
     <updated>2013-01-16T21:27:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/01/16/thrift-erlang-source-code-reading</id>
+    <id>http://hhkbp2.github.com/blog/2013/01/16/thrift-erlang-source-code-reading</id>
     <content type="html"><![CDATA[<p>Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考<a href="http://thrift.apache.org/">Thrift官方网站</a>，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP，而主要集中讨论Thrift里面的Erlang实现，假定目标读者了解Erlang，并且具有Thrift的使用经验，熟悉Thrift在其它语言的实现源代码更佳。</p>
 
 <p>本文讨论的Thrift源代码版本为0.8.0，在官网可以下载。</p>

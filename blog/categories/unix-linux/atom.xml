@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
-  <link href="http://clisp.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
-  <link href="http://clisp.github.com/"/>
-  <updated>2014-03-08T19:49:35+08:00</updated>
-  <id>http://clisp.github.com/</id>
+  <link href="http://hhkbp2.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
+  <link href="http://hhkbp2.github.com/"/>
+  <updated>2014-03-08T22:37:53+08:00</updated>
+  <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Curator介绍]]></title>
-    <link href="http://clisp.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library/"/>
     <updated>2014-03-08T16:27:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library</id>
+    <id>http://hhkbp2.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library</id>
     <content type="html"><![CDATA[<p>本文翻译自Netflix<a href="#1">[1]</a>技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由Netflix工程师，Curator作者Jordan Zimmerman编写，原文在<a href="http://techblog.netflix.com/2011/11/introducing-curator-netflix-zookeeper.html">这里</a>。接触Curator已经快一年时间，期间有过写一篇介绍性文章的念头，但一直没有动手，后来回顾手头的资料，觉得其实这篇文章虽然简洁了一点，但也是一个很好的介绍，于是翻译在这里。仅用于学习，请勿用于其它用途。</p>
 
 <hr />
@@ -128,9 +128,9 @@
   
   <entry>
     <title type="html"><![CDATA[入手Retina Macbook Pro]]></title>
-    <link href="http://clisp.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook/"/>
     <updated>2014-01-19T20:47:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook</id>
+    <id>http://hhkbp2.github.com/blog/2014/01/19/on-seeing-the-100-percent-perfect-macbook</id>
     <content type="html"><![CDATA[<blockquote>
   <p>　　四月的一个晴朗的早晨，我在原宿后街同一个百分之百的女孩擦肩而过。<br />
 　　从看见她身姿的那一瞬间，我的胸口便如发生地鸣一般的震颤，口中如沙漠干得沙沙作响。<br />
@@ -152,9 +152,9 @@
   
   <entry>
     <title type="html"><![CDATA[SaltStack简明指南(一) 认识SaltStack]]></title>
-    <link href="http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/01/18/saltstack-the-missing-guide-1/"/>
     <updated>2014-01-18T01:12:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/01/18/saltstack-the-missing-guide-1</id>
+    <id>http://hhkbp2.github.com/blog/2014/01/18/saltstack-the-missing-guide-1</id>
     <content type="html"><![CDATA[<p><a href="/images/uploads/saltstack_logo.jpg"><img src="/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
 
 <h3 id="saltstack">1. SaltStack简介</h3>
@@ -299,9 +299,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[告别然后重新出发]]></title>
-    <link href="http://clisp.github.com/blog/2013/12/22/wave-goodbye-and-start-over/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/12/22/wave-goodbye-and-start-over/"/>
     <updated>2013-12-22T22:32:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/12/22/wave-goodbye-and-start-over</id>
+    <id>http://hhkbp2.github.com/blog/2013/12/22/wave-goodbye-and-start-over</id>
     <content type="html"><![CDATA[<blockquote>
   <p>　　这段时间我疯狂改车，并且和朋友开了一个改车的铺子。大家觉得还是车好，好的车子比女人安全，比如车子不会将你一脚踹开说我找到新主人了；不会在你有急事情要出门的时候花半个钟头给自己发动机盖上抹口红；不会在你有需要的时候对你说我正好这几天来那个不能发动否则影响行车舒适性；不会有别的威武的吉普车擦身而过的时候激动得到了家还熄不了火；不会在你激烈操控的时候产生诸如侧滑等问题；不会要求你三天两头给她换个颜色否则不上街；不会要求你一定要加黄喜力的机油否则会不够润滑；不会在你不小心拉缸的时候给你几个巴掌。而你需要做的就是花钱买她，然后五千公里保养一下而不是每天早上保养一个钟头，换个机油滤清器，汽油滤清器，空气滤清器，两万公里换几个火花塞，三万公里换避震刹车油，四万公里换刹车片，检查刹车碟，六万公里换刹车碟刹车鼓，八万公里换轮胎，十万公里二手卖掉。<br />
 　　　　　　　　– 《像少年啦飞驰》  </p>
@@ -322,9 +322,9 @@ minion_2:
   
   <entry>
     <title type="html"><![CDATA[别了，Linux桌面]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/11/bye-linux-desktop/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/08/11/bye-linux-desktop/"/>
     <updated>2013-08-11T12:06:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/11/bye-linux-desktop</id>
+    <id>http://hhkbp2.github.com/blog/2013/08/11/bye-linux-desktop</id>
     <content type="html"><![CDATA[<blockquote>
   <p>　　“我和你一起去。”<br />
 　　“不。你要留在这里，帮我看好尼沃和素拉特。这是我对你仅有的请求，中尉。”<br />

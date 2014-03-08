@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Life | X lambda]]></title>
-  <link href="http://clisp.github.com/blog/categories/life/atom.xml" rel="self"/>
-  <link href="http://clisp.github.com/"/>
-  <updated>2014-03-08T19:49:35+08:00</updated>
-  <id>http://clisp.github.com/</id>
+  <link href="http://hhkbp2.github.com/blog/categories/life/atom.xml" rel="self"/>
+  <link href="http://hhkbp2.github.com/"/>
+  <updated>2014-03-08T22:37:53+08:00</updated>
+  <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[2013年小结]]></title>
-    <link href="http://clisp.github.com/blog/2014/01/12/a-summary-of-this-year-2013/"/>
+    <link href="http://hhkbp2.github.com/blog/2014/01/12/a-summary-of-this-year-2013/"/>
     <updated>2014-01-12T14:51:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2014/01/12/a-summary-of-this-year-2013</id>
+    <id>http://hhkbp2.github.com/blog/2014/01/12/a-summary-of-this-year-2013</id>
     <content type="html"><![CDATA[<p>又到了旧历年底新历年初，每年的这个时候，工作上都基本不会太忙，不会有新需求也不会赶项目，可以留出一些时间梳理思考，做做总结。但是今年比较特别，春节前后还是忙着写代码，也许是因为今年情况像逆行的洋流一样倒转——在过去这一年里我始终在思考，所以相反地就需要在年底忙活了。无论如何，每年的总结还是要做的，这已经成为习惯了。</p>
 
 <p>在2013年，我的生活方式与前一年大体相同，工作生活的地点也没有太多变化，生活上没有搬地方，工作上还是呆在老东家，虽然提了两次要离开还最后还是没有走掉，就像虽然领导两次说了要给我提薪但最后还是没有动静一样，比较戏剧化。这一年里在工作上，我做的事情基本模式是接触一些开源的框架然后付诸应用。从时间上可根据项目方向分为两个阶段：</p>
@@ -56,9 +56,9 @@
   
   <entry>
     <title type="html"><![CDATA[冬夜]]></title>
-    <link href="http://clisp.github.com/blog/2013/12/14/a-winter-night/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/12/14/a-winter-night/"/>
     <updated>2013-12-14T02:23:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/12/14/a-winter-night</id>
+    <id>http://hhkbp2.github.com/blog/2013/12/14/a-winter-night</id>
     <content type="html"><![CDATA[<p>王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩，与拥挤的城市不同，家乡总是有足够的空地来容纳荒草，以及草地中所有的蝗，蟋，蛙，各种小虫以及它们生存的声息。阡陌交通，鸡犬相闻，那是卡尔维诺的马可波罗从来没有到过的地方，无论在版图中还是在脚底下。</p>
 
 <p>暮春时候的小雨总是很轻，仿佛飘浮在地球引力之外，没有重量，也压不弯长草绿叶，写雨的文字也变得轻了，仿佛入秋后露珠满天。村野之中，时光的节奏也并不总是是时分秒为单位，时节来去自有其脚步。山川沉默，田园如旧，这片土地上有人发过唐朝的梦，梦里有云海长风，有烟花三月，梦只是蝴蝶，飘忽且闪烁，宛如夜航船的灯火。盛唐之后，写诗的还大有人在，却已经没有人再读诗，不变的是青梅与宫灯，乙醇与山水，江河中流淌着岁月的唱词：红颜易老，风尘迷眼。</p>
@@ -74,9 +74,9 @@
   
   <entry>
     <title type="html"><![CDATA[青春期的非典型事件]]></title>
-    <link href="http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/08/17/atypical-events-of-puberty/"/>
     <updated>2013-08-17T21:08:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/08/17/atypical-events-of-puberty</id>
+    <id>http://hhkbp2.github.com/blog/2013/08/17/atypical-events-of-puberty</id>
     <content type="html"><![CDATA[<blockquote>
   <p>《转山》的剧情简介，引用自<a href="http://movie.douban.com/subject/5318669/">豆瓣</a>：<br />
 　　本片改编自同名畅销书。<br />
@@ -102,9 +102,9 @@
   
   <entry>
     <title type="html"><![CDATA[杂记]]></title>
-    <link href="http://clisp.github.com/blog/2013/06/15/minds-lounge/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/06/15/minds-lounge/"/>
     <updated>2013-06-15T22:35:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/06/15/minds-lounge</id>
+    <id>http://hhkbp2.github.com/blog/2013/06/15/minds-lounge</id>
     <content type="html"><![CDATA[<h3 id="section">1</h3>
 
 <p>杰克·凯鲁亚克喜欢用他自创的“自发式风格”写作，虽然这种风格往往和长期没洗的汗衫味混在一起。最近我也在实践类似的“自发式编程”。写代码与写文章有相似的地方，有时候构思和布局跟不上迎面飞驰而来的直觉。</p>
@@ -158,9 +158,9 @@
   
   <entry>
     <title type="html"><![CDATA[刀丛小诗]]></title>
-    <link href="http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush/"/>
+    <link href="http://hhkbp2.github.com/blog/2013/03/09/a-poem-in-the-sword-bush/"/>
     <updated>2013-03-09T22:05:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2013/03/09/a-poem-in-the-sword-bush</id>
+    <id>http://hhkbp2.github.com/blog/2013/03/09/a-poem-in-the-sword-bush</id>
     <content type="html"><![CDATA[<p>近日两会召开，从各种新闻报道看来，这个国家将进行又一次的领导层换届，在我工作的地方，类似的事情也在进行。在“云统治”的游戏背景设定下，这种事对于我等星斗市民并不会带来本质的变化，任它东边日出西边雨，只管一蓑任前行。从我个人的角度看，年初向领导提出加薪一事无果，长期问题还是没有得到解决，我对这份工作已没有什么期望。程序员要求提薪这件事情，马丁大叔在《程序员的职业素养》里提出了一个解读，比较有趣，很多时候事情的本质不仅是表面看起来那么回事。</p>
 
 <p>早春三月，草长莺飞。每年的这个时间前后，都会发生有人离开有人加入的情景，就像在前领导人当政的时期。在人情淡如水的这个国家与时代，人们习惯了用“天下熙熙皆为利来，天下攘攘皆为利往”这样的说法来解释所有发生的事情，难道真的有那么一种普适的理论，能够解释这个世界所有的万事万物吗？在疑邻盗斧的人眼中，全世界只有偷了斧头的人。在纷繁多变的局势下，有的人主动退出乘风而飞，有的人成为炮灰黯然远去，也许我只是有点不太习惯离别来得太突然，想起来一首旧时的诗：</p>

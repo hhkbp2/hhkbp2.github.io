@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: C/C++ | X lambda]]></title>
-  <link href="http://clisp.github.com/blog/categories/c-c-/atom.xml" rel="self"/>
-  <link href="http://clisp.github.com/"/>
-  <updated>2014-03-08T19:49:35+08:00</updated>
-  <id>http://clisp.github.com/</id>
+  <link href="http://hhkbp2.github.com/blog/categories/c-c-/atom.xml" rel="self"/>
+  <link href="http://hhkbp2.github.com/"/>
+  <updated>2014-03-08T22:37:53+08:00</updated>
+  <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[《Effective C++》读书笔记]]></title>
-    <link href="http://clisp.github.com/blog/2011/07/24/reading-notes-of-effective-cpp/"/>
+    <link href="http://hhkbp2.github.com/blog/2011/07/24/reading-notes-of-effective-cpp/"/>
     <updated>2011-07-24T23:37:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/07/24/reading-notes-of-effective-cpp</id>
+    <id>http://hhkbp2.github.com/blog/2011/07/24/reading-notes-of-effective-cpp</id>
     <content type="html"><![CDATA[<p>昨晚在网上看到一条新闻说“伞哥”离开网易，跟着链接到了<a href="http://tianchunbinghe.blog.163.com/">“伞哥”的博客</a>上看，惊叹不已，既佩服“伞哥”写博客之多，也敬仰他对lisp的热爱和工作生活中的真性情。牛人都是乐于分享，长于撰文的。很久没有在我的blog上发文了，贴一份之前的读书笔记吧。看来有空还是多码码字，人生才能向着剽悍的方向发展。</p>
 
 <h4 id="item-1-view-c-as-a-federation-of-languages">Item 1: View C++ as a federation of languages.</h4>
@@ -284,9 +284,9 @@ Boost是一个从飞机大炮到浴缸马桶无所不包的库，也是一个脑
   
   <entry>
     <title type="html"><![CDATA[The Funnies in Sources]]></title>
-    <link href="http://clisp.github.com/blog/2011/05/07/the-funnies-in-sources/"/>
+    <link href="http://hhkbp2.github.com/blog/2011/05/07/the-funnies-in-sources/"/>
     <updated>2011-05-07T21:43:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2011/05/07/the-funnies-in-sources</id>
+    <id>http://hhkbp2.github.com/blog/2011/05/07/the-funnies-in-sources</id>
     <content type="html"><![CDATA[<p>想必每位码农(coding farmer)都有过这样的经历，在浏览源代码时，除了有时会看到迷一般的逻辑和天马行空的代码风格之外，还不时会发现一些独特有趣的表达，注释等。下面记录一下我曾经看过的一些有趣的片断，希望在曾经写出过这样的代码或被这样的代码折腾过的读者当中引起一些共鸣，以飨一笑，仅供娱乐。</p>
 
 <h5 id="linux-kernel-26-git-revision5895198c56d131cc696556a45f7ff0ea99ac297b-kernelforkc7">1. linux kernel 2.6, git revision:5895198c56d131cc696556a45f7ff0ea99ac297b, kernel/fork.c:7</h5>
@@ -312,9 +312,9 @@ namespace apache { namespace thrift {
   
   <entry>
     <title type="html"><![CDATA[My Personal Errata for C++ Primer]]></title>
-    <link href="http://clisp.github.com/blog/2010/11/28/my-personal-errata-for-c-primer/"/>
+    <link href="http://hhkbp2.github.com/blog/2010/11/28/my-personal-errata-for-c-primer/"/>
     <updated>2010-11-28T09:00:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2010/11/28/my-personal-errata-for-c-primer</id>
+    <id>http://hhkbp2.github.com/blog/2010/11/28/my-personal-errata-for-c-primer</id>
     <content type="html"><![CDATA[<p>There is an official errata for C++ Primer, 4th on informIT website with the URL:</p>
 
 <p>http://www.informit.com/content/images/9780201721485/Errata/Lippman_0201721481_Errata.html</p>
@@ -544,9 +544,9 @@ should be<br />
   
   <entry>
     <title type="html"><![CDATA[A Thought on Bit Representation of Primitive Integer Type in C/C++]]></title>
-    <link href="http://clisp.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc/"/>
+    <link href="http://hhkbp2.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc/"/>
     <updated>2010-11-28T08:36:00+08:00</updated>
-    <id>http://clisp.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc</id>
+    <id>http://hhkbp2.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc</id>
     <content type="html"><![CDATA[<p>老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。</p>
 
 <p>看天下大势如此，营利的博客业务开始衰落了。</p>
