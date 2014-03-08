@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lisp | X lambda]]></title>
   <link href="http://clisp.github.com/blog/categories/lisp/atom.xml" rel="self"/>
   <link href="http://clisp.github.com/"/>
-  <updated>2014-03-08T01:06:37+08:00</updated>
+  <updated>2014-03-08T19:02:17+08:00</updated>
   <id>http://clisp.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -25,8 +25,8 @@
 <p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
 
 <blockquote>
-  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：
-&gt; 为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</p>
+  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br />
+<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
 </blockquote>
 
 <p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>

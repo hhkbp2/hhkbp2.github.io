@@ -280,7 +280,7 @@
     </url>
     <url>
         <loc>http://clisp.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/</loc>
-        <lastmod>2014-01-20T01:14:21+08:00</lastmod>
+        <lastmod>2014-03-08T19:00:11+08:00</lastmod>
     </url>
     <url>
         <loc>http://clisp.github.com/blog/2013/06/15/minds-lounge/</loc>
@@ -325,6 +325,12 @@
         <lastmod>2014-01-19T22:35:11+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://clisp.github.com/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library/
+        </loc>
+        <lastmod>2014-03-08T18:55:52+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://clisp.github.com/404.html</loc>
         <lastmod>2013-05-05T12:01:27+08:00</lastmod>
     </url>
@@ -334,11 +340,11 @@
     </url>
     <url>
         <loc>http://clisp.github.com/blog/archives/</loc>
-        <lastmod>2014-01-20T01:22:50+08:00</lastmod>
+        <lastmod>2014-03-08T19:00:11+08:00</lastmod>
     </url>
     <url>
         <loc>http://clisp.github.com/</loc>
-        <lastmod>2014-01-20T01:22:50+08:00</lastmod>
+        <lastmod>2014-03-08T19:00:11+08:00</lastmod>
     </url>
     <url>
         <loc>http://clisp.github.com/robots.txt</loc>

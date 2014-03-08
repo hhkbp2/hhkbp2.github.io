@@ -9,7 +9,8 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="There is an official errata for C++ Primer, 4th on informIT website with the URL: http://www.informit.com/content/images/9780201721485/Errata/ &hellip;">
+  <meta name="description" content="“What is the Matrix? Control.”
+– Morpheus 对于广大的程序员来说，骇客帝国应该是一部很有吸引力的电影，因为它既有很丰富的商业大片的元素，也有很多我们熟悉的事物：英雄，导师，爱情，格斗和子弹时间，代码，骇客，人类和机器，现实与虚拟，过去和未来预言等。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +66,91 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/03/02/matrix-screen-saver-for-emacs/">Matrix Screen Saver for Emacs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-02T18:19:00+08:00" pubdate data-updated="true">Mar 2<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="/images/uploads/code_rain_matrix.jpg"><img src="/images/uploads/code_rain_matrix.jpg" alt="the source view screenshot of The Matrix" /></a></p>
+
+<blockquote>
+  <p>“What is the Matrix? Control.”<br />
+– Morpheus</p>
+</blockquote>
+
+<p>对于广大的程序员来说，骇客帝国应该是一部很有吸引力的电影，因为它既有很丰富的商业大片的元素，也有很多我们熟悉的事物：英雄，导师，爱情，格斗和子弹时间，代码，骇客，人类和机器，现实与虚拟，过去和未来预言等。而它的确是一部成功的电影，无论是从它取得的票房上来看，还是从它在世界范围产生的影响来看。</p>
+
+<p>片中为人津津乐道的地方很多，关于宗教哲学，关于现实，关于信念等等，而引起我思考最多的是the Matrix这个AI，机器，人类社会的未来的某一个发展阶段。</p>
+
+<p>什么是the Matrix呢？Morpheus说，control。控制，与被控制。即使片中那个未来社会目前还无法预见，但是其实无需等待那个AI产生的未来，看看现时当下，就很容易发现the Matrix无处不在: gfw; 高房价，control了多少人的生活; 艰难的决定，control了你用哪个客户端软件…</p>
+
+<p>而当年我们的伟大领导RMS正是因为私有软件的版权对人的控制而开始了自由软件运动。</p>
+
+<p>废话少说，长话短说，回到正题，今天说的是又一个碟形世界般的故事：</p>
+
+<p>历史的潮流不断向前推动，在这个不知从何时开始，又不知到何时结束的宏大时代的某一天的某一个不太清醒的时候，镜头转向阿图因大陆，在亚洲东部某个国家南方某个魔法并不盛行的小镇，有一个年轻人在家喝了点酒，晕晕乎乎之余仿照骇客帝国的场景，为GNU Emacs写一个Matrix屏保…</p>
+
+<p>于是就有了zone-matrix.el。</p>
+
+<p>以Linux作桌面系统也有很多时间了，长时间运行Linux，有个屏保对显示器保护比较好,在X window下有很多的屏保可用，但有时只有一个只支持几种颜色的终端。在Emacs的标准发行包中有一个zone.el，提供了几个比较不错的屏保，zone-matrix.el重用了zone.el的框架。希望给那些长时间在终端Emacs下工作的朋友多一种选择。</p>
+
+<p>下载安装：<br />
+到<a href="https://bitbucket.org/lisp/elispport/src">这里</a>下载zone-matrix.el，zone-matrix-settings.el，zone-settings.el几个文件，并放到load-path目录中。<br />
+然后在dot emacs文件中加入</p>
+
+<pre><code>(require 'zone-settings)
+</code></pre>
+
+<p>即可。效果图如下：  </p>
+
+<p>终端:  </p>
+
+<p><img src="/images/uploads/zone-matrix-under-console.jpg" alt="`zone-matrix' under console" /></p>
+
+<p>主要在终端下使用，终端下能用的颜色不多，表现力还是很有限的，有时间的话再添加多一些变化。也添加了支持X的部分代码，所以在X下也能用。</p>
+
+<p>X window:  </p>
+
+<p><img src="/images/uploads/zone-matrix-under-X.jpg" alt="`zone-matrix' under X" /></p>
+
+<p>已知的问题有：</p>
+
+<ol>
+  <li>占用的资源较多，在几年前的老机器(赛扬D 2.4G)上跑全屏，CPU占用率会达到90％。可以调整参数，适当降低屏幕刷新速度。</li>
+</ol>
+
+<p>PS：cracker，中文译作骇客，指安全破坏者。<br />
+而hacker，译作黑客，指热爱编程，通过编程让自己变得更加聪明，并乐在其中的人。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -445,61 +531,6 @@ the representation of type char and unsigned char:
 <p>so we could conclude that the same bit representation gives different value when representating in different type, signed char or unsigned char.</p>
 
 <p>when assigning a negative number, e.g. -1, to a unsigned char, e.g. named uchar, what C/C++ actually does is keep the bit represetation of -1 intact and copy it into the location where the unsigned char uchar lies. So by the way of unsigned char value representing, the unsigned char now have the value 255. It seems C++ have calculated the modulo, -1 % 256 = 255 for us.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/11/24/like-a-rolling-stone/">Like a Rolling Stone</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-24T18:27:00+08:00" pubdate data-updated="true">Nov 24<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>晚上回到住处，打开google音乐播放器播歌，然后在床上躺了一会儿，不知不觉睡着了。醒来的时候电脑在播bob dylan那首著名的歌，”How does it feel? ah, how does it feel? To be on your own, … , like a rolling stone …“，突然想起以前的老板martin，记得他说过，他喜欢听的是bob年代的音乐，耳边的歌声好像也变成的martin的声音，顿时百感横生。</p>
-
-<p>japhen离开深圳一起吃饭的时候，说起我离开后，以前的一帮人走的走散的散，短短一段时间变化很大，虽然很多东西我不能左右，不过如此听来隐隐还是觉得，我伤害了很多人。</p>
-
-<p>也许这时我需要啤酒。martin说过，生活太杯具(horrible)，人生不如意的事很多，喝酒能让人忘记不开心的事，很多英国人都习惯下班去喝酒，喝到醉了就回家睡觉。在我这个80后中国人听来，如此的人生仿佛很是无奈，不过认真想想，人生短短几十年，又有谁弄得清楚有些什么意义？终日为声色名利无止境地奔波劳碌，如能在某个夜晚，或约上三五知己，在昏暗的酒吧里喝上几杯，在这样的时间里，所有的历史与未来，浮华与潜流，伟大理想与卑鄙阴谋，激烈动荡与和平演变，冰与火都会悄然远去，一个完全属于自己的夜晚，又何尝不是一种特别的体验？</p>
-
-<p>不知道老朋友们最近有没有去喝上一杯。</p>
-
-<p>在TC的离职流程已经开始走了，今天一天只走了HR离职面谈一步，看来很多事情都有向后拖的趋势，我还要去多混几天。今天也收到f的电话，叫我抓紧回广州面试了，他一再解释说，新岗位前景有吸引力，好像怕我不放在心上似的，其实我完全没有看不起他们公司的意思，因为我也不是那种很牛的人或目空一切的人，主要是我想在离开TC之后，再计划下一步。其实一边先面试一下也无不可。有时会觉得，历史会重演，人其实是没有在教训中变得聪明，世事变幻，物事人非，其实很多事情想来也没有所谓答案不答案的。</p>
-
-<p>在付出我的代价交出我的学费之后，我学到一些东西，有些在工作与技术方面，更多的在生活方面，了解到在深圳这个地方有一些人原来是这样的工作并生活着，唐皇说以史为镜，以人为镜，意思可谓相当深奥了，而当镜子中的我头上的头发慢慢变少，人生的经历却慢慢多了，无论这些经历是好的还是坏的。很多东西旁人只会从社会的角度来看，不能说这种角度是错的，更多的时候，我只是觉得无需理会其他人的指指点点，按自己的路走下去便是了，人生只有一个，每一分钟是完全属于自己的，无论你有多少情人好友，这一路的悲欢苦乐，更多的时候都只能孤独地领受。这种意思铺展开来，就像是抄袭了古龙小说中对人物的描写叙白了。</p>
-
-<p>在反思过去的时候，发现其实我的时间其实可以用得有意义很多，想想如果这几年来耗在qq上的时间，如果有一半用在做正事上，可以看很多书，写很多代码，做很多有益身心有益社会的事，那世界又会是什么样子，转到linux后已是日渐少用它了，于是决定不再用了。在qq的个性签名上留了一个邮件地址，就算是留一个联系方式，做了一个简单的通知和了结，签名后面加了这样一句，”Somewhere along the line I knew there’d be girls, visions, everything”，这句话来自《on the road》第一章结尾的一段。</p>
-
-<p>弃用qq与前段时间的互联网大战无关，这件事自始至终我发过意见什么的，即使在战况最激烈公司群上各处论坛人声鼎沸的时候也没有趁热闹发过言。有亲友问到，简单交流几句，如此而已。套用黑泽明电影《乱》的一句对白，”这是个弱肉强食的时代”，而在21世纪这个时代这个神奇的国度真是有很多神奇的事情会发生，linux用户保持蛋定，对我来说，多用电话和邮件，加上各处大大小小的USENET，irc，论坛一堆，足矣。farewell, weapon. farewell, qq.
-时间永恒流逝，时代不断变化，但总有一些东西是保持不变的，比如bob dylan的歌，比如jack kerouac的小说。</p>
-
-<p>其实《on the road》第一章结尾那段还有一句，”somewhere along the line the pearl would be handed to me”。</p>
-
-<p>是的，我还年轻，我渴望在路上。</p>
 </div>
   
   
