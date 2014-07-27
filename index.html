@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="本文翻译自Netflix[1]技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由Netflix工程师，Curator作者Jordan Zimmerman编写，原文在这里。接触Curator已经快一年时间， &hellip;">
+  <meta name="description" content="甲午战争 是为甲午年7月，距离1894年发生的中日战争已经120年，这个后来在中方被称之为甲午战争的事件，在同为甲午年的今年引起了很多的回顾和反思。甲午战争在1894年7月高升号事件正式拉开，到1895年4月中日代表签订《马关条约》结束，经过近9个月的战事之后结果清朝海陆两军大败， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/27/systematic-error/">系统性错误</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-27T10:33:00+08:00" pubdate data-updated="true">Jul 27<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3 id="section">甲午战争</h3>
+
+<p>是为甲午年7月，距离1894年发生的中日战争已经120年，这个后来在中方被称之为甲午战争的事件，在同为甲午年的今年引起了很多的回顾和反思。甲午战争在1894年7月高升号事件正式拉开，到1895年4月中日代表签订《马关条约》结束，经过近9个月的战事之后结果清朝海陆两军大败，一个泱泱大国败于清朝当权者眼中的“蕞尔小邦”，从此滑落黑暗的深渊。</p>
+
+<p>转眼之间，百年已过，清朝早已灭亡，拉开这么长的时间距离之后，再回顾甲午当年相关的史实，除了民族情绪上的唏嘘慨叹之外，更多是对客观事件的冷静反思和总结。甲午战争，在我看来是系统性错误的一个典型例子。</p>
+
+<p>假设历史有如果的话，也许可以这样来描述为什么甲午战败是一个系统性错误：如果没有《天津会议专条》，也许中日就不会在朝鲜问题上不断增兵，终致酿成战争。如果没有洋务运动几十年耕耘，使得清廷在国力上产生自大的感觉，也许战争不爆发。如果慈禧和光绪的不是一方守旧强势，一方刻意求新这种关系的话，也许战争最后不会发动。如果清朝内部不是那样纷斗不休和战不定，也许对将到来的战争认识准备更充分一些。如果清朝海陆两军不是那么腐败废驰组织乏力，也许战争的结果不会是全面溃败……当一个清朝那样复杂庞大的系统，它的每个部分都出现问题的时候，就成为系统性错误，一些细小但不可避免的差错失误在它的每个部分相互传递和叠加，终于使之全面崩溃。</p>
+
+<h3 id="section-1">软件开发中的故事</h3>
+
+<p>相似的情景在软件开发中也是屡见不鲜，目前软件领域向着大规模、分布式的方向发展，一个复杂的软件系统往往由很多子服务、子模块组成。当一个系统内部各部分之间不能相互容错的话，就会造成错误在系统各处相互传递，由于分布式系统本身固有的大规模和复杂性，这种全局性的异常难以追踪发现，最后叠加放大造成严重结果，变成系统性的错误。</p>
+
+<p>这方面我也有一些亲身经历，曾经有一次做一个系统，为了更好的系统健壮性，我提出在系统各模块内部都做容错，以模块边界的正确性作为屏障来避免系统性的错误，但由于各模块未能做好模块内的错误处理，结果由测试环境上线到实际生产环境之后，由于环境的变化单个模块出现错误，然后错误进行了跨模块的流动，形成系统性出错，造成业务上的故障。</p>
+
+<p>如果对系统性错误没有任何认识，出现这种情况并不奇怪，但如果在对系统性错误已经有了经验并且有针对性设计之后，还是出现问题，就不能不引人深思了。最后我在这件事情上也收获了很多。</p>
+
+<h3 id="section-2">此处青山</h3>
+
+<p>一个多世纪之前，中国就因鸦片战争而进行洋务运动，几年后日本也在类似处境下开始明治维新，两个东亚国家都走过几十年的西化道路，然后甲午一战，一个走向半殖民地，一个得到飞速发展，结果悬殊。中体西用，不改国本只求器术，已经被历史证伪。一个多世纪的时间过去了，甲午战争的硝烟已随着时代远去，又一个甲午年的到来，提醒我们思考过去那个时代，以及，当今这个时代。</p>
+
+<p>在附近某个公园中，有一个邓世昌衣冠冢，他是甲午海战中致远号的管带(船长)，大东沟一役他带领船上官兵英勇血战，最后壮烈殉国全船沉没于黄海，可能因为他是广东番禺人的缘故，后人在广州这里建了一个他的衣冠。我经常到公园跑步，也时不时经过那里，墓并不大，掩映在小径和树林的后面，只有一块不大的石碑作为记录。</p>
+
+<p>倘若在盛夏的7月黄昏，沿着石板小路走上山丘，入了树林之后，不久便到邓公的衣冠冢。四野无人，天色将暗，周围宁静的树林中响起虫鸟鸣声，鸣声仿佛穿越了120年的漫长岁月，像黄海的浪潮拍打海岸一样回荡于时空之中，邓公之魂就安息于此。</p>
+
+<p>物换时移，而青山依旧。</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -249,180 +310,6 @@
 <p>除了Retina显示屏和触摸板之外，其它的我都已经比较熟悉了，于是开机登录，拿出Time Machine备份恢复系统，10多分钟之后，就得到了一个全部配置好的Mac系统，Time Machine的用户体验真是好得没话说，如果苹果要为Mac OS立教的话，我也许会去为Time Machine唱首赞美歌。有了RMBP如此精良的装备，战斗力大增之余，回头想想，Life is short，我还是调整一下路线，多做点有意思的事，少做无用功。</p>
 
 <p>在《遇见百分百女孩》里面，主角和百分百女孩终究是擦肩而过，然后女孩的身影消失在人群之中。时光以惊人的速度流逝，我在Linux桌面逗留的时光也已经一去不回了，引用小说原文的话来说：你不觉得这是个令人感伤的故事么？</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/18/saltstack-the-missing-guide-1/">SaltStack简明指南(一) 认识SaltStack</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-18T01:12:00+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/images/uploads/saltstack_logo.jpg"><img src="/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
-
-<h3 id="saltstack">1. SaltStack简介</h3>
-
-<p>在一个互联网公司，随着业务量的增长，服务器的数量也会不断增加，当服务器的数量大到一定程度的时候，就不能靠人手单个单个机器的进行操作了，需要引入一些工具去帮助我们做管理和运维。这样的工具在业界有一个统称：配置管理工具。配置管理这个概念的兴起，也就是大概近10年的事，其核心就是配置管理的工具根据业界需求的不断进化，发展得越来越成熟和多样化。除了广为人知的传统的配置管理工具如Puppet和Chef，近年出现的Ansible和SaltStack也正在快速壮大中。今天这里要介绍的就是其中的SaltStack。</p>
-
-<p>SaltStack是由座落于美国盐湖城的SaltStack公司创建的开源项目，它的名字与公司所在地盐湖城有很大的渊源。它用Python实现，目前托管在github上，并提供配套的安装脚本和丰富的文档。</p>
-
-<p>SaltStack github地址：<a href="https://github.com/saltstack/salt">Salt on github</a><br />
-SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Salt official doc</a></p>
-
-<h3 id="section">2. 架构和特点</h3>
-
-<p>从功能上看，SaltStack提供了配置文件管理和命令执行两大块的功能，配置文件管理包括配置文件的下发，版本更新，依赖关系指定和管理，配置文件与操作系统软件包和进程管理的良好结合等方面，命令执行则是指下发命令到minion机器执行，SaltStack包含了种类众多的命令模块，如cmd(命令行执行)，mysql，package(系统包管理，在具体机器上会落地到apt或yum等包管理器的操作)等，方便用户对目标机器进行命令管理。</p>
-
-<p>从部署结构上看，与Ansible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
-
-<p><a href="/images/uploads/saltstack简单部署结构.png"><img src="/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
-
-<p>其中master和minion都是部署在对应机器上的常驻进程。当运维管理人需要操作minion机器时，他向master进程发出对应的指令，master进程就会将对应的指令下发到所有minion进程，由minion进程在它的本机执行，例如，通过master下发test.ping命令(test.ping用来检查minion的存活，相当于master与minion之间的ping包)如图所示：</p>
-
-<p><a href="/images/uploads/saltstack_test_ping流程.png"><img src="/images/uploads/saltstack_test_ping流程.png" alt="test.ping流程图" /></a></p>
-
-<p>上图只显示了第一个minion的执行流程，其它minion的执行流程也类似，就不全部画出了。</p>
-
-<p>从代码架构上来看，SaltStack使用zeromq进行网络通信，使得网络通信有了较高的性能和并发度，简化了SaltStack本身网络层的实现。master与minion之间使用先经过互通密钥认证后再AES加密消息的方式来保障通信安全性。master, minion内部根据功能划分为多进程，每个进程只负责特定工作，进程间通过zeromq通信，模块组织比较清晰健壮。</p>
-
-<h3 id="saltstack-1">3. SaltStack安装</h3>
-
-<p>SaltStack有安装方式，一种是根据操作系统(主要是Linux的各种发行版)的版本通过包管理器来安装，另一种是从源代码安装。下面我们简单浏览一下两种安装方式。</p>
-
-<h4 id="section-1">3.1 包管理器安装</h4>
-
-<p>目前SaltStack已经针对多个Linux发行版提供了包管理器安装脚本，对几种主流的发行版如CentOS, Ubuntu, Debian, FreeBSD都有支持。使用这种方式安装，只需要下载SaltStack官方提供的bootstrap脚本并执行即可。在命令行执行：</p>
-
-<pre><code>wget -O - http://bootstrap.saltstack.org | sudo sh
-</code></pre>
-
-<p>即为安装minion。要安装master，可在命令行执行：</p>
-
-<pre><code>curl -L http://bootstrap.saltstack.org | sudo sh -s -- -M -N
-</code></pre>
-
-<p>这个bootstrap安装脚本会判断执行机器的发行版及版本号，调用合适的包管理器添加SaltStack的二进制发行包源，安装所有的依赖包并安装命令行参数指定的SaltStack组件。可以看到通过bootstrap脚本安装SaltStack是很简单的。更多详细信息请参考官网文档的<a href="http://docs.saltstack.com/topics/installation/index.html">Installation</a>一节。</p>
-
-<h4 id="section-2">3.2 源代码安装</h4>
-
-<p>如果你使用的Linux发行版不在SaltStack bootstrap安装脚本支持的发行版列表内，或者你需要对安装做一些定制，比如通过Python的virtualenv管理不同的Python环境，那么就需要进行源代码安装了。下面以在某个virtualenv环境内安装为例，简述一下源代码安装步骤：</p>
-
-<pre><code># 首先，进入对应的virtualenv环境
-$ source /path/to/your/virtualenv/bin/active
-# 然后安装依赖包
-# 注意Debian/Ubuntu包管理器使用的是patch过的openssl库，这个M2Crypto包需要通过apt安装，详细见官网文档
-$ pip install M2Crypto 
-$ pip install pyzmq PyYAML pycrypto msgpack-python jinja2 psutil
-# 安装SaltStack
-$ pip install -e ./salt
-</code></pre>
-
-<p>虽然上述命令将Salt安装到了virtualenv中，但由于SaltStack有和系统结合的功能，因此除了Salt本身运行依赖的包之外，它还用到系统当中的一些Python软件包。比如SaltStack可以调用系统的包管理器安装软件包，在Ubuntu发行版里面，需要调用系统当中安装的python-apt包，这个包通过一个动态库.so文件提供Python接口，如果你的virtualenv环境中的Python版本和系统的Python版本不一致，就可能会导致virtualenv环境中的SaltStack调用包管理器操作失败并造成salt进程core dump。所以使用SaltStack做virtualenv源安装时，要留心这个包依赖问题。</p>
-
-<p>virtualenv源代码安装的另一个问题是配置文件路径指定，SaltStack的配置文件，运行目录，cache目录等各种目录默认值都是指向系统目录的，这个默认值是在源代码中写死的。如果要在一台机器安装多个virtualenv SaltStack进程并希望分隔开不同进程的配置，那么就需要修改<code>root_dir</code>参数，为各个进程指派一个不同的路径。</p>
-
-<p>关于源代码安装的更多信息，可以参考官网文档的<a href="http://docs.saltstack.com/topics/hacking.html">Developing Salt</a>一节。</p>
-
-<h3 id="saltstack-2">4. SaltStack使用</h3>
-
-<p>SaltStack包安装之后，minion会向master发出认证请求，我们在master上通过<code>salt-key</code>命令把发出请求的minion私钥添加一下，就完成master与minion之间的认证，这之后就可以通过master管理所有认证过的minion了。详细的上手tutorial可以参考官网文档的<a href="http://docs.saltstack.com/topics/tutorials/walkthrough.html">SaltStack Walkthrough</a>。下面主要简单介绍一下SaltStack的两大功能。</p>
-
-<h4 id="section-3">4.1 配置管理</h4>
-
-<p>所有的配置管理工具都可以为系统状态指定一个描述，Puppet里面是用DSL编写的manifest文件，SaltStack则将其定义为State，State的状态用YAML格式编写。YAML简单清晰，表达力强，比起XML和JSON更适合用于配置文件的编写。下面用一个例子来简单说明一下如何使用SaltStack的配置管理功能。</p>
-
-<p>我们需要先编写好State配置文件，根master配置的默认值，一般将它们放在<code>/srv/salt</code>目录：</p>
-
-<pre><code># 先创建好配置根目录，'%'是root用户的shell提示符
-% mkdir -p /src/salt
-</code></pre>
-
-<p>然后在根目录创建特定名字<code>top.sls</code>的配置文件，它是SaltStack加载所有State配置的入口点，在其中添加下面的内容。</p>
-
-<pre><code>base:
-  '*':
-    - database
-</code></pre>
-
-<p>然后在根目录创建<code>database.sls</code>文件，添加以下内容：</p>
-
-<pre><code>mongodb:
-  pkg:
-    - installed
-</code></pre>
-
-<p>这样配置的意思就是对所有minion机器，都按<code>database.sls</code>文件描述的状态来配置，后者只指定一个State，就是为系统安装mongodb包。一个很简单的State配置就这样完成了。对于一个全新安装的master，在配置文件中，添加下面的配置</p>
-
-<pre><code>file_roots:
-  base:
-    - /srv/salt/
-</code></pre>
-
-<p>告诉master去<code>/srv/salt</code>这个路径去找State配置文件。然后重启master(如果master未启动就启动)，让master加载新添加的配置(如果之前已经在master配置文件中指定了file_roots，则不需要重启了)。最后，将master已经加载的配置下发到minion去执行状态更新：</p>
-
-<pre><code># salt '*' state.highstate -v
-</code></pre>
-
-<p>minion从master获取到最新的State配置后，就会在本地安装好mongodb。就这样，SaltStack集群就按我们所指定的配置执行了一次配置管理操作。</p>
-
-<p>SaltStack的State配置文件主体是YAML描述，其中可以包含jinja模板，可以定义变量，而且提供了一个静态变量系统Grains和一个动态的变量系统Pillar来帮助我们编写State配置，几种特点结合起来提供了很强的表达力，而且上手比较容易。</p>
-
-<h4 id="section-4">4.2 命令执行</h4>
-
-<p>SaltStack内置了命令执行的功能，master可以通过zeromq将命令内容下发到minion，由各个minion在本机执行。由于使用了zeromq，这个下发过程可以并行执行，速度比Ansible的无agent ssh通信快得多。因为命令执行是内置功能，而且不依赖于State状态描述，所以一旦SaltStack安装好，就可以直接使用了。SaltStack描述了100多个不同的命令模块，提供了各种各样功能的命令接口。比如通过<code>apt</code>模块可以调用Debian/Ubuntu的apt包管理器，<code>file</code>模块提供常见的文件访问/重命名/查找等操作，<code>ps</code>模块提供进程查看/管理操作等。全部的命令模块列表可以参考官网文档的<a href="http://docs.saltstack.com/ref/modules/all/">Full list of builtin execution modules</a>一节。</p>
-
-<p>其中一个比较通用的命令行接口是<code>cmd</code>模块，将任意命令编写好之后，都可以通过<code>cmd</code>模块下发到minion去执行，然后返回执行结果。例如在master上执行：</p>
-
-<pre><code>$ salt '*' cmd.run 'uname -r'
-minion_1:
-    3.2.0-23-generic
-minion_2:
-    3.2.0-23-generic
-</code></pre>
-
-<p>得到各个minion机器的内核版本号。</p>
-
-<p>命令执行功能的一个重点就是提供目标匹配的功能(其实配置管理也需要准确匹配目标机器)，方便在某些满足特定条件的机器做特定的操作。SaltStack中把它称之为targeting，SaltStack提供多种targeting的方式，包括针对id进行匹配的globbing, 正则表达式，列表，针对Grains进行匹配，指定分组匹配，还有复合以上几种方式的复合匹配，以及批量方式。</p>
-
-<h3 id="faq">5. FAQ</h3>
-
-<p>1) 目前流行的配置管理工具有哪些？<br />
-在这篇文章<a href="http://www.vpsee.com/2013/08/a-system-configuration-management-and-orchestration-tool-saltstack/">《系统自动化配置和管理工具SaltStack》</a>的开头可以找到一份比较长的名字列表 。</p>
-
-<p>2) SaltStack和Puppet有哪些不同？<br />
-功能：SaltStack具有配置管理和命令执行两大块功能，Puppet支持配置管理，但本身不带命令执行功能。Puppet添加MCollective之后可以提供命令编排功能，但Salt从设计上就考虑了这块，而且以内部模块，与框架合成一体的方式来实现，显然比Puppet加MCollective的方案更简单优雅。
-使用：SaltStack的状态配置用YAML+jinja模板描述，Puppet则是DSL。前者较为简易好上手。
-实现：SaltStack由Python编写，使用了zeromq，Puppet则是Ruby。</p>
-
-<p>3) 比较SaltStack与Ansible？<br />
-这里有一篇比较详细的比较文章：<a href="http://missingm.co/2013/06/ansible-and-salt-a-detailed-comparison/">Ansible and Salt: A detailed comparison</a></p>
 
 </div>
   
