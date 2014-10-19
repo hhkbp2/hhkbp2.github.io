@@ -101,22 +101,22 @@
 <p>回头看看，我在最近几个月保持了每个月1万行左右的代码量，由于新项目的需要，我在github上写了一些库：</p>
 
 <ol>
-  <li><a href="https://github.com/hhkbp2/GoVernor"><code>GoVernor</code></a>
+  <li><a href="https://github.com/hhkbp2/GoVernor"><code>GoVernor</code></a><br />
 Go语言的工具链在使用之前需要手工设置一些环境变量如GOROOT, GOPATH，相比于其它很多编程语言在项目根目录添加配置文件来做项目管理的方式，我个人认为它是一种退步。每次切换项目目录都要改GOPATH，其实是件麻烦的事情，特别是对于带GUI的IDE，每次改环境变量都要重启，更麻烦的是windows/linux/mac改系统环境变量的方式各不相同。<code>GoVernor</code>这个命令行工具通过查找go语言项目的标准目录结构bin/pkg/src，来“猜测”正确的GOPATH值并在调用真正的Go工具链命令之前设置好GOPATH，在命令行环境中解决了“每次切换项目目录都要改GOPATH”这个问题</li>
-  <li><a href="https://github.com/hhkbp2/raft-paper-in-chinese"><code>raft-paper-in-chinese</code></a>
+  <li><a href="https://github.com/hhkbp2/raft-paper-in-chinese"><code>raft-paper-in-chinese</code></a><br />
 Raft论文的中文翻译，只翻译了开头部分，由于没有时间一直没有继续翻译下去。</li>
-  <li><a href="https://github.com/hhkbp2/rafted"><code>rafted</code></a>
+  <li><a href="https://github.com/hhkbp2/rafted"><code>rafted</code></a><br />
 <code>raft</code>是一个在<code>Paxos</code>及它的各种变体流行10多年之后重新设计的一个分布式一致算法(协议)，它的目标除了达到等同于<code>Paxos</code>的分布式一致性之后，还特别强调算法本身的可理解性和工程上的易实现性。我们将要实现的分布式强一致bigtable模型存储系统选择了用<code>raft</code>来实现分布式一致性。而我负责这个部分的实现，在研读过市面上几种raft实现代码之后，我决定重新做一个全功能的支持可配置多种网络层的raft实现，结果就有了这个库，目前还有部分功能未实现完。</li>
-  <li><a href="https://github.com/hhkbp2/rafted-starter"><code>rafted-starter</code></a>
+  <li><a href="https://github.com/hhkbp2/rafted-starter"><code>rafted-starter</code></a><br />
 <code>rafted</code>的使用例子。</li>
-  <li><a href="https://github.com/hhbkp2/go-hsm"><code>go-hsm</code></a>
+  <li><a href="https://github.com/hhbkp2/go-hsm"><code>go-hsm</code></a><br />
 将层次状态机(HSM)从C语言移植到Go，它是<code>rafted</code>的可理解性和正确性的基础。</li>
-  <li><a href="https://github.com/hhkbp2/go-hsm-examples"><code>go-hsm-examples</code></a>
+  <li><a href="https://github.com/hhkbp2/go-hsm-examples"><code>go-hsm-examples</code></a><br />
 <code>go-hsm</code>库的使用例子，两个例子包含对应的状态转换图(state machine)设计和代码。</li>
-  <li><a href="https://github.com/hhbkp2/go-logging"><code>go-logging</code></a>
+  <li><a href="https://github.com/hhbkp2/go-logging"><code>go-logging</code></a><br />
 开发<code>rafted</code>需要一个的日志库来帮助调试，它需要有支持为不同logger指定不同log level，不同输出文件，按指定log文件大小rotate和按指定log文件个数做backup，最好顺便支持logger hierarchy和常见的几种输出目的地，如syslog和支持通过配置文件配置，综合来看我意识到其实我需要一个与Python的<code>logging</code>模块几乎相同的Go语言日志库。在网上搜索过一轮之后，发现已有的Go语言日志库glog，log4go等都满足不了我的需求，最后只有自行实现一个，结果就写了这个库。
 这个库基本上是<code>logging</code>从Python到Go的翻版，所有术语和用法都保持一致。因为时间所限，暂时还没写完所有handlers和配置文件相关的部分，所以暂时不能称之为当前最强Go日志库，但对从Python转到Go的人来说，上手成本基本上为零。</li>
-  <li><a href="https://github.com/hhkbp2/go-strftime"><code>go-strftime</code></a>
+  <li><a href="https://github.com/hhkbp2/go-strftime"><code>go-strftime</code></a><br />
 开发<code>go-logging</code>需要提供定制日志时间输出格式的功能，经过一轮折腾之后，我发现Go现有的用于定制时间格式的<code>time.Format()</code>函数并不能任意定制时间格式，远不如Python的<code>strftime()</code>函数那么灵活，于是为Go实现了一个<code>strftime()</code>。有趣的是，Go语言的设计者认为<code>time.Format()</code>要胜过<code>strftime()</code>。抛开现实世界，抛开实际的情况和需求不谈，任何人任何观点都可以是对的。</li>
 </ol>
 
