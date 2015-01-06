@@ -9,7 +9,8 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="时间过得很快，转眼就已经到了10月，也有一段比较长的时间没写博客了。人是一种适应性很强的动物，有时候随着周围环境的变化而改变了自身，但自己还不会意识到这种改变。村上春树在《世界尽头和冷酷仙境》里面说，时代的车轮一旦转动，只会越来越快，谁也无法让它停下来。而最冷酷无情的是， &hellip;">
+  <meta name="description" content="计算机程序是写给人看的，只是顺便能运行。
+　　　　　　　　　　　　　　——《计算机程序的构造和解释》[1] FSM 在计算机领域，FSM(有限状态机)是一个在自动机理论和程序设计实践中很常见的术语，简单来说，有限状态机表示的是系统根不同输入/不同条件在各个状态之间进行跳转的模型。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,6 +22,7 @@
   <link rel="canonical" href="http://hhkbp2.github.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
   <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -65,6 +67,830 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/04/hierarchical-state-machine/">层次状态机</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-04T19:22:00+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote>
+  <p>计算机程序是写给人看的，只是顺便能运行。<br />
+　　　　　　　　　　　　　　——<a href="http://book.douban.com/subject/1148282/">《计算机程序的构造和解释》</a><a href="#1">[1]</a></p>
+</blockquote>
+
+<h3 id="fsm">FSM</h3>
+
+<p>在计算机领域，FSM(有限状态机)是一个在自动机理论和程序设计实践中很常见的术语，简单来说，有限状态机表示的是系统根不同输入/不同条件在各个状态之间进行跳转的模型。可以通过图或表来描述有限状态机，这种图或表一般被称为状态图/状态转移图(State Chart)或状态转移表。因为图更加直观，本文统一使用状态图来描述有限状态机。</p>
+
+<p>在状态图里面，一般用圆圈或方框来表示状态，用箭头来表示状态之间的跳转，箭头可以带上跳转需要的输入或条件，也可以带附带其它描述。一个从空白处引出，没有源状态的箭头则表示整个系统的启动，启动后进入的第一个状态可以称为开始状态，可以用双重圆圈特别标出。整个状态图就是一个有圆圈，箭头及描述的有向图形。下面是一个<a href="http://zh.wikipedia.org/zh/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">简单例子</a>。</p>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/DFAexample.svg/220px-DFAexample.svg.png" alt="图1 计算输入包含奇数还是偶数个0的状态机" /></p>
+
+<p>上图表示一个接受二进制输入(输入为0或者1)，计算输入包含奇数还是偶数个0的状态机。其中S1状态表示”偶数个0”，S2表示”奇数个0”。系统启动后，沿着图中最左边的箭头进入S1状态，此时没有读入任何输入（0个0）。S1圆圈上方带1的箭头表示如果输入是1，则跳转到S1，即保持原状态不变。如果输入是0，则跳转到S2。其它箭头也可以类似理解。当全部输入都处理完之后，只需看当前状态是S1还是S2即可得出结论：输入具有奇数个0还是偶数个0。</p>
+
+<p>由于状态机可以将问题整体的分解成各个部分状态及跳转，直观地对系统进行建模，所以它不仅被用于理论研究过程当中，而且被广泛用于程序设计实践，在操作系统，网络协议栈，各种分布式应用中都可以见到它的身影。</p>
+
+<h3 id="fsm-1">程序设计中的FSM</h3>
+
+<p>由上面的表述我们得知，FSM是对系统的建模，是将问题/解决方案以一种条理化系统化的方式表达出来，映射到人的认知层面，而要在程序中表达FSM，也需要一定的建模工具，即用某种代码编写的方式(或称之为FSM模式)，将FSM以一种条理化系统化的方式映射到代码层面。在程序设计领域，到底有哪些常用的FSM实现方式呢？下面我们来做一个简单的回顾。</p>
+
+<p>从简单到复杂，下面我们浏览一下常见的几种FSM实现模式<a href="#2">[2]</a>。</p>
+
+<h4 id="a-if-elseswitch">a. 嵌套if-else/switch模式</h4>
+
+<p>自从1960年<a href="http://www-formal.stanford.edu/jmc/recursive.html">第一个Lisp实现</a>引入条件表达式以来，<em>if-else/switch语句</em><a href="#3">[3]</a>已经成为每个程序员手头必备的工具，每当需要”根据不同条件进入不同分支”，就搬出它来组织代码，这与FSM里面”状态之间根据不同输入进行跳转”的概念有简单的对应关系，这就使得if-else/switch语句成为人们要表达FSM时最先选择的方式。</p>
+
+<p>仍然以图1例子进行说明，我们用if-else/switch语句编写它的实现代码，用一个变量state表示当前状态，state可以取两个值S1, S2，输入input表示下一个输入的数字是0还是1，那么就有下列代码<a href="#4">[4]</a>:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kt">int</span>
+</span><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="kt">int</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">StateS1</span> <span class="nx">State</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">StateS2</span> <span class="nx">State</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span>
+</span><span class="line">	<span class="nx">One</span>  <span class="nx">Input</span> <span class="p">=</span> <span class="mi">1</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS1</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">state</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">StateS1</span><span class="p">:</span>
+</span><span class="line">		<span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">Zero</span><span class="p">:</span>
+</span><span class="line">			<span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS2</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">One</span><span class="p">:</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">StateS2</span><span class="p">:</span>
+</span><span class="line">		<span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">Zero</span><span class="p">:</span>
+</span><span class="line">			<span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS1</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">One</span><span class="p">:</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>上面的代码有一个明显的嵌套形式的结构，最外层的<code>switch</code>语句是根据当前状态state变量进入不同的分支，内层<code>switch</code>针对的则是输入，所有代码像挂在衣柜中的衣服一样从上到下一一陈列，结构比较清晰。这种嵌套形式if-else/switch语句的FSM代码组织方式，我们将其称之为<em>嵌套if-else/switch</em>模式。由于这种模式实现起来比较直观简明，所以它最为常见。</p>
+
+<p>嵌套if-else/switch具有形式嵌套，代码集中化的特点，它只适合用来表达状态个数少，或者状态间跳转逻辑比较简单的FSM。嵌套意味着缩进层次的叠加，一个像图1那么简单的实现就需要缩进4层，如果状态间的逻辑变得复杂，所需要的缩进不断叠加，代码在水平方向上会发生膨胀；集中化意味着如果状态个数增多，输入变复杂，代码从垂直方向上会发生指数级别的膨胀。即使通过简化空分支，抽取逻辑到命名函数<a href="#5">[5]</a>等方法来”压缩”水平/垂直方向上的代码行数，依然无法从根本上解决膨胀问题，代码膨胀后造成可读性和可写性的急剧下降，例如某个状态里面负责正确设置20个相关变量，而下翻了几屏代码之后，下面的某个状态又用到上面20个变量里面其中的5个，整个代码像一锅粥一样粘糊在一起，变得难于理解和维护。</p>
+
+<h4 id="a-">a. 状态表</h4>
+
+<p>另一个比较流行的模式是状态表模式。状态表模式是指将所有的状态和跳转逻辑规划成一个表格来表达FSM。仍然以图1为例子，系统中有两个状态S1和S2，不算自跳转，S1和S2之间只有两个跳转，我们用不同行来表示不同的状态，用不同的列来表示不同的输入，那么整个状态图可以组织成一张表格：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>State\Input</th>
+      <th>Zero</th>
+      <th>One</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>S1</td>
+      <td>DoSomething, S2</td>
+      <td>null</td>
+    </tr>
+    <tr>
+      <td>S2</td>
+      <td>DoSomething, S1</td>
+      <td>null</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>对应S1行, Zero列的”DoSomething, S2”表示当处于状态S1时，如果遇到输入为Zero，那么就执行动作DoSomething，然后跳转到状态S2。由于图1的例子状态图非常简单，DoSomething动作为空，这里将它特别的列出来只是为了说明在更一般化的情况下如果有其它逻辑可以放到这里来。根据这个状态表，我们可以写出下列代码：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kt">int</span>
+</span><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="nx">into</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">StateUndefined</span> <span class="nx">State</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">StateS1</span>
+</span><span class="line">	<span class="nx">StateS2</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span>
+</span><span class="line">	<span class="nx">One</span>  <span class="nx">Input</span> <span class="p">=</span> <span class="mi">1</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Action</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">DoSomething1</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// Do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">DoSomething2</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// Do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Item</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">Action</span>    <span class="nx">Action</span>
+</span><span class="line">	<span class="nx">NextState</span> <span class="nx">State</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">StateTable</span> <span class="p">=</span> <span class="p">[][]</span><span class="o">*</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">	<span class="p">[]</span><span class="o">*</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">Action</span><span class="p">:</span>    <span class="nx">DoSomething1</span><span class="p">,</span>
+</span><span class="line">			<span class="nx">NextState</span><span class="p">:</span> <span class="nx">StateS2</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="kc">nil</span><span class="p">,</span>
+</span><span class="line">	<span class="p">},</span>
+</span><span class="line">	<span class="p">[]</span><span class="o">*</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">Action</span><span class="p">:</span>    <span class="nx">DoSomething2</span><span class="p">,</span>
+</span><span class="line">			<span class="nx">NextState</span><span class="p">:</span> <span class="nx">StateS1</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="kc">nil</span><span class="p">,</span>
+</span><span class="line">	<span class="p">},</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS1</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">item</span> <span class="o">:=</span> <span class="nx">StateTable</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nx">state</span><span class="p">)][</span><span class="nb">int</span><span class="p">(</span><span class="nx">i</span><span class="p">)]</span>
+</span><span class="line">	<span class="k">if</span> <span class="nx">item</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class="line">		<span class="nx">item</span><span class="p">.</span><span class="nx">Action</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">		<span class="k">if</span> <span class="nx">item</span><span class="p">.</span><span class="nx">NextState</span> <span class="o">!=</span> <span class="nx">StateUndefined</span> <span class="p">{</span>
+</span><span class="line">			<span class="nx">state</span> <span class="p">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">NextState</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>从上述例子我们可以看到，用这种方式实现出来的代码跟画出来的状态表有一个直观的映射关系，它要求程序员将状态的划分和跳转逻辑细分到一定的合适大小的粒度，事件驱动的过程查找是对状态表的直接下标索引，性能也很高。状态表的大小是不同状态数量S和不同输入数量I的一个乘积 S * I，在常见的场景中，这张状态表可能十分大，占用大量的内存空间，然而中间包含的有效状态跳转项却相对少，也就是说状态表是一个稀疏的表。</p>
+
+<h4 id="c-">c. 状态模式</h4>
+
+<p>在OOP的<em>设计模式</em><a href="#6">[6]</a>中，有一个状态模式可以用于表达状态机。状态模式基于OOP中的代理和多态。父类定义一系列通用的接口来处理输入事件，做为状态机的对外接口形态。每个包含具体逻辑的子类各表示状态机里面的一个状态，实现父类定义好的事件处理接口。然后定义一个指向具体子类对象的变量标记当前的状态，在一个上下文相关的环境中执行此变量对应的事件处理方法，来表达状态机。依然使用上述例子，用状态模式编写出的代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="kt">int</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">One</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kd">interface</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">S1</span> <span class="p">=</span> <span class="s">&quot;S1&quot;</span>
+</span><span class="line">	<span class="nx">S2</span> <span class="p">=</span> <span class="s">&quot;S2&quot;</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">StateS1</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">c</span> <span class="o">*</span><span class="nx">Context</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS1</span><span class="p">)</span> <span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">doSomething1</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">c</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="nx">S2</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS1</span><span class="p">)</span> <span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS1</span><span class="p">)</span> <span class="nx">doSomething1</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">StateS2</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">c</span> <span class="o">*</span><span class="nx">Context</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS2</span><span class="p">)</span> <span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">doSomething2</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">c</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="nx">S1</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS2</span><span class="p">)</span> <span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS2</span><span class="p">)</span> <span class="nx">doSomething2</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Context</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">allStates</span>    <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">State</span>
+</span><span class="line">	<span class="nx">currentState</span> <span class="nx">State</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewContext</span><span class="p">()</span> <span class="o">*</span><span class="nx">Context</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">object</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Context</span><span class="p">{}</span>
+</span><span class="line">	<span class="nx">states</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">State</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">states</span><span class="p">[</span><span class="nx">S1</span><span class="p">]</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">StateS1</span><span class="p">{</span><span class="nx">c</span><span class="p">:</span> <span class="nx">object</span><span class="p">}</span>
+</span><span class="line">	<span class="nx">states</span><span class="p">[</span><span class="nx">S2</span><span class="p">]</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">StateS2</span><span class="p">{</span><span class="nx">c</span><span class="p">:</span> <span class="nx">object</span><span class="p">}</span>
+</span><span class="line">	<span class="nx">object</span><span class="p">.</span><span class="nx">allStates</span> <span class="p">=</span> <span class="nx">states</span>
+</span><span class="line">	<span class="nx">object</span><span class="p">.</span><span class="nx">currentState</span> <span class="p">=</span> <span class="nx">states</span><span class="p">[</span><span class="nx">S1</span><span class="p">]</span>
+</span><span class="line">	<span class="k">return</span> <span class="nx">object</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">Context</span><span class="p">)</span> <span class="nx">Tran</span><span class="p">(</span><span class="nx">nextState</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">if</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">allStates</span><span class="p">[</span><span class="nx">nextState</span><span class="p">];</span> <span class="nx">ok</span> <span class="p">{</span>
+</span><span class="line">		<span class="nx">self</span><span class="p">.</span><span class="nx">currentState</span> <span class="p">=</span> <span class="nx">s</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">Context</span><span class="p">)</span> <span class="nx">Handle</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">Zero</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">self</span><span class="p">.</span><span class="nx">currentState</span><span class="p">.</span><span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">One</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">self</span><span class="p">.</span><span class="nx">currentState</span><span class="p">.</span><span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">context</span> <span class="p">=</span> <span class="nx">NewContext</span><span class="p">()</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">context</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>状态模式将各个状态的逻辑局部化到每个状态类，事件分发和状态跳转的性能也很高，内存使用上也相当高效，没有稀疏表浪费内存的问题。它将状态和事件通过接口继承分隔开，实现的时候不需要列举所有事件，添加状态也只是添加子类实现，但要求有一个context类来管理上下文及所有相关的变量，状态类与context类之间的访问多了一个间接层，在某些语言里面可能会遇到封装问题(比如在C++里面访问private字段要使用friend关键字)。</p>
+
+<h4 id="fsm-2">5. 优化的FSM实现</h4>
+
+<p>结合上述几种FSM实现模式，我们可以得到一个优化的FSM实现模式，它用对象方法表示状态，将状态表嵌套到每个状态方法中，因此它包含了上述几种模式的优点：事件和状态的分离，高效的状态跳转和内存使用，直接的变量访问，直观而且扩展方便。用它重写上述例子，得到下述的代码：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+<span class="line-number">131</span>
+<span class="line-number">132</span>
+<span class="line-number">133</span>
+<span class="line-number">134</span>
+<span class="line-number">135</span>
+<span class="line-number">136</span>
+<span class="line-number">137</span>
+<span class="line-number">138</span>
+<span class="line-number">139</span>
+<span class="line-number">140</span>
+<span class="line-number">141</span>
+<span class="line-number">142</span>
+<span class="line-number">143</span>
+<span class="line-number">144</span>
+<span class="line-number">145</span>
+<span class="line-number">146</span>
+<span class="line-number">147</span>
+<span class="line-number">148</span>
+<span class="line-number">149</span>
+<span class="line-number">150</span>
+<span class="line-number">151</span>
+<span class="line-number">152</span>
+<span class="line-number">153</span>
+<span class="line-number">154</span>
+<span class="line-number">155</span>
+<span class="line-number">156</span>
+<span class="line-number">157</span>
+<span class="line-number">158</span>
+<span class="line-number">159</span>
+<span class="line-number">160</span>
+<span class="line-number">161</span>
+<span class="line-number">162</span>
+<span class="line-number">163</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="kt">int</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">One</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">EventType</span> <span class="kt">uint32</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">EventInitialize</span> <span class="nx">EventType</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">EventFinalize</span>
+</span><span class="line">	<span class="nx">EventStateEntry</span>
+</span><span class="line">	<span class="nx">EventStateExit</span>
+</span><span class="line">	<span class="nx">EventUser</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">interface</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">Type</span><span class="p">()</span> <span class="nx">EventType</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">FSMEvent</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">T</span> <span class="nx">EventType</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">FSMEvent</span><span class="p">)</span> <span class="nx">Type</span><span class="p">()</span> <span class="nx">EventType</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">T</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">FSMEvents</span> <span class="p">=</span> <span class="p">[]</span><span class="o">*</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventInitialize</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventFinalize</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventStateEntry</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventStateExit</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">FSM</span> <span class="kd">interface</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">Init</span><span class="p">()</span>
+</span><span class="line">	<span class="nx">Dispatch</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">Tran</span><span class="p">(</span><span class="nx">target</span> <span class="kt">string</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kd">func</span><span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">EventInput</span> <span class="nx">EventType</span> <span class="p">=</span> <span class="nx">EventUser</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">InputEvent</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">T</span> <span class="nx">EventType</span>
+</span><span class="line">	<span class="nx">I</span> <span class="nx">Input</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewInputEvent</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="o">*</span><span class="nx">InputEvent</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">InputEvent</span><span class="p">{</span>
+</span><span class="line">		<span class="nx">T</span><span class="p">:</span> <span class="nx">EventInput</span><span class="p">,</span>
+</span><span class="line">		<span class="nx">I</span><span class="p">:</span> <span class="nx">i</span><span class="p">,</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">InputEvent</span><span class="p">)</span> <span class="nx">Type</span><span class="p">()</span> <span class="nx">EventType</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">T</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">BaseFSM</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">AllStates</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">State</span>
+</span><span class="line">	<span class="nx">S</span>         <span class="nx">State</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewBaseFSM</span><span class="p">()</span> <span class="o">*</span><span class="nx">BaseFSM</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">BaseFSM</span><span class="p">{}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">Register</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">state</span> <span class="nx">State</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">AllStates</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="p">=</span> <span class="nx">state</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">InitState</span><span class="p">(</span><span class="nx">s</span> <span class="nx">State</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span> <span class="p">=</span> <span class="nx">s</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">FSMEvents</span><span class="p">[</span><span class="nx">EventInitialize</span><span class="p">])</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">Dispatch</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">NewInputEvent</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">Tran</span><span class="p">(</span><span class="nx">target</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">AllStates</span><span class="p">[</span><span class="nx">target</span><span class="p">]</span>
+</span><span class="line">	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span><span class="line">		<span class="nb">panic</span><span class="p">(</span><span class="s">&quot;invalid target state&quot;</span><span class="p">)</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">FSMEvents</span><span class="p">[</span><span class="nx">EventStateExit</span><span class="p">])</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span> <span class="p">=</span> <span class="nx">s</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">FSMEvents</span><span class="p">[</span><span class="nx">EventStateEntry</span><span class="p">])</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">ZeroCounter</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="o">*</span><span class="nx">BaseFSM</span>
+</span><span class="line">	<span class="nx">count</span> <span class="kt">int</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewZeroCounter</span><span class="p">()</span> <span class="o">*</span><span class="nx">ZeroCounter</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">ZeroCounter</span><span class="p">{</span>
+</span><span class="line">		<span class="nx">BaseFSM</span><span class="p">:</span> <span class="nx">NewBaseFSM</span><span class="p">(),</span>
+</span><span class="line">		<span class="nx">count</span><span class="p">:</span>   <span class="mi">0</span><span class="p">,</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">ZeroCounter</span><span class="p">)</span> <span class="nx">Init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">Register</span><span class="p">(</span><span class="s">&quot;S1&quot;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">S1</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">Register</span><span class="p">(</span><span class="s">&quot;S2&quot;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">S2</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">InitState</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">S1</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">ZeroCounter</span><span class="p">)</span> <span class="nx">S1</span><span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">e</span><span class="p">.</span><span class="nx">Type</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventInitialize</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateEntry</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateExit</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventInput</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">event</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.(</span><span class="o">*</span><span class="nx">InputEvent</span><span class="p">)</span>
+</span><span class="line">		<span class="k">if</span> <span class="nx">event</span><span class="p">.</span><span class="nx">I</span> <span class="o">==</span> <span class="nx">Zero</span> <span class="p">{</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="s">&quot;S2&quot;</span><span class="p">)</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">ZeroCounter</span><span class="p">)</span> <span class="nx">S2</span><span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">e</span><span class="p">.</span><span class="nx">Type</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateEntry</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateExit</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventInput</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">event</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.(</span><span class="o">*</span><span class="nx">InputEvent</span><span class="p">)</span>
+</span><span class="line">		<span class="k">if</span> <span class="nx">event</span><span class="p">.</span><span class="nx">I</span> <span class="o">==</span> <span class="nx">Zero</span> <span class="p">{</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="s">&quot;S1&quot;</span><span class="p">)</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">counter</span> <span class="o">*</span><span class="nx">ZeroCounter</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">counter</span> <span class="o">:=</span> <span class="nx">NewZeroCounter</span><span class="p">()</span>
+</span><span class="line">	<span class="nx">counter</span><span class="p">.</span><span class="nx">Init</span><span class="p">()</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">counter</span><span class="p">.</span><span class="nx">Dispatch</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>在这种模式中可以添加整个状态机的初始化动作，每个状态的进入/退出动作。上述代码中<code>ZeroCounter.S1()</code>方法的<code>case EventInitialize</code>分支可以放入状态机的初始化逻辑，每个状态方法的<code>case EventStateEntry</code>和<code>case EventStateExit</code>分支可以放入对应状态的进入/退出动作。这是一个重要的特性，在实际状态机编程中每个状态可以定制进入/退出动作是很有用的。</p>
+
+<h4 id="hsm">6. HSM</h4>
+
+<p>上述几种模式中，状态之间都是相互独立的，状态图没有重合的部分，整个状态机都是平坦的。然而实际上对很多问题的状态机模型都不会是那么简单，有可能问题域本身就有状态嵌套的概念，有时为了重用大段的处理逻辑或代码，我们也需要支持嵌套的状态。这方面一个经典的例子就是图形应用程序的编写，通过图形应用程序的框架(如MFC, GTK, Qt)编写应用程序，程序员只需要注册少数感兴趣的事件响应，如点击某个按钮，大部分其它的事件响应都由默认框架处理，如程序的关闭。用状态机来建模，框架就是父状态，而应用程序就是子状态，子状态只需要处理它感兴趣的少数事件，大部分事件都由向上传递到框架这个父状态来处理，这两种系统之间有一个直观的类比关系，如下图所示：</p>
+
+<p><a href="/images/uploads/embedded_state_and_gui.jpg"><img src="/images/uploads/embedded_state_and_gui.jpg" alt="Anatomy of a GUI application" /></a></p>
+
+<p>这种事件向父层传递，子层继承了父类行为的结构，我们将其称为<em>行为继承</em>，以区别开OOP里面的<em>类继承</em>。并把这种包含嵌套状态的状态机称为<em>HSM(hierarchical state machine)</em>，层次状态机。</p>
+
+<p>加上了对嵌套状态的支持之后，状态机的模型就可以变得任意复杂了，大大的扩大了状态机的适用场景和范围，如此一来用状态机对问题建模就好比用OOP对系统进行编程：识别出系统的状态及子状态，并将逻辑固化到状态及它们的跳转逻辑当中。</p>
+
+<p>那么在状态机实现模式里如何支持嵌套状态呢？从整个状态图来看，状态/子状态所形成的这张大图本质上是一个单根的树结构，每个状态图有一个根结点top，每个状态是一个树结点，可以带任意多的子状态/子结点，每个子状态只有一个父结点，要表达嵌套状态，就是要构造出这样一棵树。</p>
+
+<h3 id="go-hsm">go-hsm</h3>
+
+<p>我用Golang编写了一个HSM框架<a href="https://github.com/hhkbp2/go-hsm"><em>go-hsm</em></a>，设计要点如下：</p>
+
+<ol>
+  <li>用类来表示状态，局部化状态内部变量及逻辑，整棵状态树由具体应用构造</li>
+  <li>支持嵌套状态及行为继承，支持进入退出动作，</li>
+  <li>支持自定义事件，支持静态和动态两种跳转</li>
+</ol>
+
+<p>它的代码在<a href="https://github.com/hhkbp2/go-hsm">这里</a>，go-hsm的使用例子则放在另一个项目<a href="https://github.com/hhkbp2/go-hsm-examples"><em>go-hsm-examples</em></a>。由于Golang本身的语言特点，有一些地方的实现较其它语言多了一些缺点，比如Golang里面的binding是静态的，为了将子类对象的指针传播到父类方法，要显式传递self指针，子类的接口函数也需要由应用重写。但由于HSM本身的灵活强大，<code>go-hsm</code>具有良好的可调整性及扩展性，是一个很好的状态机建模工具，一门灵活有效表达复杂状态机的<a href="http://en.wikipedia.org/wiki/Domain-specific_language">DSL(Domain Specific Language)</a>。</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> <a href="http://mitpress.mit.edu/sicp/">《Structure and Interpretation of Computer Programs》</a>一书的中文译本。<br />
+<a id="2">[2]</a> 本文内容主要出自Miro Samek博士的经典著作《Practical Statecharts in C/C++: Quantum Programmming for Embedded Systems》，其中文译本书名为《嵌入式系统的微模块化程序设计：实用状态图C/C++实现》，翻译甚差，不推荐阅读。<br />
+<a id="3">[3]</a> 各种编程语言里面的条件判断关键字和语句都不尽相同，有的if语句带<code>then</code>关键字，有的不带<code>then</code>，有的支持<code>switch</code>，这里将它们简单统称为if-else/switch语句。<br />
+<a id="4">[4]</a> 本文中所有代码都为Go语言代码。<br />
+<a id="5">[5]</a> 之所以强调函数是命名的，是因为很多语言支持匿名函数(即lambda函数)，在嵌套if-else/switch模式内部写匿名函数定义对降低代码膨胀起不了作用。<br />
+<a id="6">[6]</a> OOP领域设计模式的流行，源于这本书《Design Patterns: Elements of Reusable Object-Oriented Software》的出版，其中文译本见<a href="http://book.douban.com/subject/1052241/">这里</a>。  </p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -194,146 +1020,6 @@ Raft论文的中文翻译，只翻译了开头部分，由于没有时间一直�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library/">Curator介绍</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-08T16:27:00+08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文翻译自Netflix<a href="#1">[1]</a>技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由Netflix工程师，Curator作者Jordan Zimmerman编写，原文在<a href="http://techblog.netflix.com/2011/11/introducing-curator-netflix-zookeeper.html">这里</a>。接触Curator已经快一年时间，期间有过写一篇介绍性文章的念头，但一直没有动手，后来回顾手头的资料，觉得其实这篇文章虽然简洁了一点，但也是一个很好的介绍，于是翻译在这里。仅用于学习，请勿用于其它用途。</p>
-
-<hr />
-
-<h3 id="netflix">Netflix的开源</h3>
-
-<p>Netflix致力于开源，我们过去写过<a href="http://techblog.netflix.com/2010/12/why-we-use-and-contribute-to-open.html">相关的博客</a>，今天我们公布Netflix开源项目的门户网页。网页<a href="https://github.com/netflix">托管在Github上</a>，有几个项目在并行推进当中(其中包括我们今天对外发布的<a href="https://github.com/netflix/curator">Curator</a>)：</p>
-
-<ul>
-  <li>Curator - Netflix的ZooKeeper库</li>
-  <li>Astyanax - Netflix的Cassandra客户端</li>
-  <li>Priam - Cassandra的跨进程备份/恢复功能，Token管理，配置中心化管理</li>
-  <li>CassJMeter - 运行Cassandra测试的JMeter插件</li>
-</ul>
-
-<h3 id="zookeeper">ZooKeeper</h3>
-
-<p>ZooKeeper是一个高性能的分布式协调服务框架。它将通用的服务，如命名，配置管理，同步，分组服务等，通过简单的接口展现出来。要全面的了解ZooKeeper，请参考以下网页：</p>
-
-<ul>
-  <li><a href="http://zookeeper.apache.org/">ZooKeeper主站</a></li>
-  <li><a href="http://zookeeper.apache.org/doc/current/recipes.html">ZooKeeper Recipes</a></li>
-  <li><a href="https://cwiki.apache.org/ZOOKEEPER/faq.html">ZooKeeper FAQ</a></li>
-  <li><a href="https://cwiki.apache.org/confluence/display/ZOOKEEPER/Index">ZooKeeper Info文档</a></li>
-  <li><a href="http://research.yahoo.com/node/2120">很好的解释ZooKeeper的视频</a></li>
-</ul>
-
-<h3 id="section">难以用好</h3>
-
-<p>ZooKeeper本身自带一个Java客户端，但使用这个客户端繁琐<a href="#2">[2]</a>而且容易出错。客户端的使用者需要做大量的手动维护性工作。比如：</p>
-
-<p>连接问题</p>
-
-<ul>
-  <li>初始化连接：ZooKeeper客户端与服务器进行握手，这需要花一些时间。如果握手未完成，任何要与服务器端同步执行的方法(如，create()，getData()等)都会抛出异常。</li>
-  <li>Failover：如果ZooKeeper客户端与服务器连接断开，它会failover到集群中另外一台服务器。然后，这个过程会使客户端退回到”初始化连接”的模式。</li>
-  <li>Session过期：有些边际情况可以导致ZooKeeper session过期。客户端需要监视这个状态，关闭并重建ZooKeeper客户端实例。</li>
-</ul>
-
-<p>恢复问题</p>
-
-<ul>
-  <li>当在Server创建顺序节点(sequential ZNode)时，有可能出现这种情况：节点成功创建了，但server在将节点名返回给客户端之前崩溃了。</li>
-  <li>ZooKeeper客户端可能会抛出几个可恢复的异常，使用者需要捕捉这些异常并做重试操作。</li>
-</ul>
-
-<p>Recipe<a href="#3">[3]</a>方面</p>
-
-<ul>
-  <li>标准的ZooKeeper recipe(如锁，选leader等)只是得到最低程序的描述，要正确地编写出来比较困难。</li>
-  <li>有一些重要的边界情况在recipe描述里没有提到。例如，锁recipe的描述中，没有说到如何处理服务器成功创建了顺序(Sequential)/临时(Ephemeral)节点，但在向客户端返回结点名之前就崩溃的情况。如果没有得到正确处理，可能会导致死锁。</li>
-  <li>某些使用场景下，必须要注意可能出现的连接问题。例如，选leader过程要监视连接的稳定性。如果连接到的服务器崩溃了，leader就不能假定自己继续为leader，除非已经成功failover到另外的服务器。</li>
-</ul>
-
-<p>上述问题(和其它类似的问题)必须由每个ZooKeeper使用者来处理。问题解决方案既不容易编写，也不是显而易见的，需要消耗相当多的时间。而Curator处理了所有的问题。</p>
-
-<h3 id="curator">Curator是什么</h3>
-
-<p>Curator n ˈkyoor͝ˌātər:，展品或者其它收藏品的看守者，管理员，ZooKeeper的Keeper。它由3个相关的项目组成：</p>
-
-<ul>
-  <li>curator-client - ZooKeeper自带客户端的替代者，它负责处理低层次的维护工作，并提供某些有用的小功能</li>
-  <li>curator-framework - Curator Framework大大地简化ZooKeeper使用的高层次API。它在ZooKeeper客户端之上添加了很多功能，并处理了与ZooKeeper集群连接管理和重试操作的复杂性。</li>
-  <li>curator-recipes - ZooKeeper某些通用recipe的实现。它是基于Curator Framework之上实现的。</li>
-</ul>
-
-<p>Curator专注于锁，选Leader等这些recipe。大部分对ZooKeeper感兴趣的人不需要关心连接管理等细节。他们想要的只是简单的使用这些recipe。Curator就是以此作为目标。</p>
-
-<p>Curator通过以下方式处理了使用ZooKeeper的复杂度：</p>
-
-<ul>
-  <li>重试机制：Curator支持可插拔式的(pluggable)重试机制。所有会产生可恢复异常的ZooKeeper操作都会在配置好的重试策略下得到重试。Curator自带了几个标准的重试策略(如二元指数后退策略)。</li>
-  <li>连接状态监视：Curator不断监视ZooKeeper连接的状态，Curator用户可以监听连接状态变化并相应的作出回应。</li>
-  <li>ZooKeeper客户端实例管理：Curator通过标准的ZooKeeper类实例来管理与ZooKeeper集群的实际连接。然而，这些实例是管理在内部(尽管你若需要也可以访问)，在需要的时候被重新创建。因此，Curator提供了对ZooKeeper集群的可靠处理(不像ZooKeeper自带的实现)。</li>
-  <li>正确，可靠的recipe：Curator实现了大部分重要的ZooKeeper recipe(还有一些附加的recipe)。它们的实现使用了ZooKeeper的最佳实践，处理了所有已知的边界情况(像前面所说的)。</li>
-  <li>Curator专注于那些让你的代码更强健，因为你完全专心于你感兴趣的ZooKeeper功能，而不用担心怎么正确完成那些的维护性工作。</li>
-</ul>
-
-<h3 id="zookeepernetflix">ZooKeeper在Netflix</h3>
-
-<p>ZooKeeper/Curator在Netflix得到了广泛的使用。使用情景有：</p>
-
-<ul>
-  <li>InterProcessMutex在各种顺序ID生成器中被用来保证值的唯一性</li>
-  <li>Cassandra备份</li>
-  <li>TrackID服务</li>
-  <li>我们的Chukwa收集器使用LeaderSelector来做各种维护性的任务</li>
-  <li>我们用了一些第三方的服务，但它们只允许有限数目的并发用户。InterProcessSemphore被用来处理这个。</li>
-  <li>各种Cache</li>
-</ul>
-
-<h3 id="curator-1">获取Curator</h3>
-
-<ul>
-  <li>Curator二进制被上传到了Maven Central，这让获取它变得很容易</li>
-  <li>Curator的源代码放在Github上托管<a href="#4">[4]</a>：<a href="https://github.com/Netflix/curator">https://github.com/Netflix/curator</a></li>
-  <li>全面的文档放在：<a href="https://github.com/Netflix/curator/wiki">https://github.com/Netflix/curator/wiki</a></li>
-</ul>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> Netflix是一个美国的在线DVD租赁公司，后来转型到网络流媒体服务。参考<a href="http://zh.wikipedia.org/wiki/Netflix">维基百科Netflix词条</a>。<br />
-<a id="2">[2]</a> 原文为non-trivial，意思应该是搞反了。<br />
-<a id="3">[3]</a> Recipe中文意思为“菜谱，配方”，感觉翻译过来不能很好的表达英文”一系列约定步骤”的意思，故不译。<br />
-<a id="4">[4]</a> Curator在去年(2013年)年中已经正式成为Apache Incubator项目，代码改为托管在Github Apache的对应目录下。主页和文档的位置也有所变化。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -351,7 +1037,7 @@ Raft论文的中文翻译，只翻译了开头部分，由于没有时间一直�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Dylan.Wen <br/>
+  Copyright &copy; 2015 - Dylan.Wen <br/>
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
 </p>
 
