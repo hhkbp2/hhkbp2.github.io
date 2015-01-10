@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Go | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/go/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-01-07T20:44:44+08:00</updated>
+  <updated>2015-01-10T13:21:23+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -29,7 +29,7 @@
 
 <p>在状态图里面，一般用圆圈或方框来表示状态，用箭头来表示状态之间的跳转，箭头可以带上跳转需要的输入或条件，也可以带附带其它描述。一个从空白处引出，没有源状态的箭头则表示整个系统的启动，启动后进入的第一个状态可以称为开始状态，可以用双重圆圈特别标出。整个状态图就是一个有圆圈，箭头及描述的有向图形。下面是一个<a href="http://zh.wikipedia.org/zh/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">简单例子</a>。</p>
 
-<p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/DFAexample.svg/220px-DFAexample.svg.png" alt="图1 计算输入包含奇数还是偶数个0的状态机" /></p>
+<p><img src="/images/uploads/dfa.png" alt="图1 计算输入包含奇数还是偶数个0的状态机" /></p>
 
 <p>上图表示一个接受二进制输入(输入为0或者1)，计算输入包含奇数还是偶数个0的状态机。其中S1状态表示”偶数个0”，S2表示”奇数个0”。系统启动后，沿着图中最左边的箭头进入S1状态，此时没有读入任何输入（0个0）。S1圆圈上方带1的箭头表示如果输入是1，则跳转到S1，即保持原状态不变。如果输入是0，则跳转到S2。其它箭头也可以类似理解。当全部输入都处理完之后，只需看当前状态是S1还是S2即可得出结论：输入具有奇数个0还是偶数个0。</p>
 
