@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="晚上回到住处，打开google音乐播放器播歌，然后在床上躺了一会儿，不知不觉睡着了。醒来的时候电脑在播bob dylan那首著名的歌，”How does it feel? ah, how does it feel? To be on your own, … , like a rolling &hellip;">
+  <meta name="description" content="老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。 看天下大势如此，营利的博客业务开始衰落了。 2009/8/7 13:34:10 «C++ Primer» mentions when talking about primitive integer &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,133 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc/">A Thought on Bit Representation of Primitive Integer Type in C/C++</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-28T08:36:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。</p>
+
+<p>看天下大势如此，营利的博客业务开始衰落了。</p>
+
+<p>2009/8/7 13:34:10</p>
+
+<p>«C++ Primer» mentions when talking about primitive integer type as follows:</p>
+
+<p>For the unsigned types, a negative value is always out of range. An object of unsigned type may never hold a negative value. Some languages make it illegal to assign a negative value to an unsigned type, but C++ does not.</p>
+
+<p>In C++ it is perfectly legal to assign a negative number to an object with unsigned type. The result is the negative value modulo the size of the type. So, if we assign 1 to an 8-bit unsigned char, the resulting value will be 255, which is 1 modulo 256.</p>
+
+<p>at page 37 («C++ Primer, 4th» English, Posts &amp; Telecom Press, 2006)</p>
+
+<p>Why a negative number which is assigned to a unsigned type would become a modulo of it? Is it because of the bit represatation? To validate the situation, I write this short code fragement(take char for example to figure out the bit representation):</p>
+
+<pre><code>//: bit_inter.cc
+#include &lt;iostream&gt;
+using std::cout;
+using std::endl;
+#include &lt;climits&gt;
+template &lt;typename T&gt;
+void print_binary(const T tchar)
+{
+for(int ix = sizeof(tchar)*8 - 1; ix &gt;= 0 ; --ix)
+{
+if( tchar &amp; (1&lt;&lt;ix) )
+cout &lt;&lt; "1";
+else
+cout &lt;&lt; "0";
+}
+}
+#define PRINT_BIT_INTER(x) \
+cout &lt;&lt; (int)x &lt;&lt; "\t" &lt;&lt; " binary representation: " &lt;&lt; "\t"; print_binary(x); cout &lt;&lt; endl;
+int main()
+{
+unsigned char uchar;
+signed char schar;
+cout &lt;&lt; "the limit of type char and unsigned char:" &lt;&lt; endl;
+cout &lt;&lt; "size of signed char: " &lt;&lt; sizeof (signed char) &lt;&lt; "\t" &lt;&lt; "size of unsigned char: " &lt;&lt; sizeof (unsigned char) &lt;&lt; endl;
+cout &lt;&lt; "SCHAR_MIN: " &lt;&lt; SCHAR_MIN &lt;&lt; "\t" &lt;&lt; "SCHAR_MAX: " &lt;&lt; SCHAR_MAX &lt;&lt; "\t" &lt;&lt; "UCHAR_MAX: " &lt;&lt; UCHAR_MAX &lt;&lt; endl;
+cout &lt;&lt; "the representation of type char and unsigned char:" &lt;&lt; endl;
+schar = 127;
+PRINT_BIT_INTER(schar);
+schar = 0;
+PRINT_BIT_INTER(schar);
+schar = -1;
+PRINT_BIT_INTER(schar);
+schar = -127;
+PRINT_BIT_INTER(schar);
+schar = -128;
+PRINT_BIT_INTER(schar);
+uchar = 0;
+PRINT_BIT_INTER(uchar);
+uchar = 128;
+PRINT_BIT_INTER(uchar);
+uchar = 255;
+PRINT_BIT_INTER(uchar);
+return 0;
+}
+
+//* output:(match 100%)
+the limit of type char and unsigned char:
+size of signed char: 1  size of unsigned char: 1
+SCHAR_MIN: -128 SCHAR_MAX: 127  UCHAR_MAX: 255
+the representation of type char and unsigned char:
+127      binary representation:         01111111
+0        binary representation:         00000000
+-1       binary representation:         11111111
+-127     binary representation:         10000001
+-128     binary representation:         10000000
+0        binary representation:         00000000
+128      binary representation:         10000000
+255      binary representation:         11111111
+
+*///:~ bit_inter.cc
+</code></pre>
+
+<p>now the bit representation of type char set is clear:</p>
+
+<pre><code>bit representation    unsigned char    signed char:
+11111111              255                  -1
+10000001              129                  -127
+10000000              128                  -128
+01111111              127                  127
+00000001              1                     1
+00000000              0                     0
+</code></pre>
+
+<p>so we could conclude that the same bit representation gives different value when representating in different type, signed char or unsigned char.</p>
+
+<p>when assigning a negative number, e.g. -1, to a unsigned char, e.g. named uchar, what C/C++ actually does is keep the bit represetation of -1 intact and copy it into the location where the unsigned char uchar lies. So by the way of unsigned char value representing, the unsigned char now have the value 255. It seems C++ have calculated the modulo, -1 % 256 = 255 for us.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -171,95 +298,6 @@
 <p>Thank All 60s All The Time, the free streaming radio, for your company all the time, with great free music and boring money saving web-site advertisements.</p>
 
 <p>On hacking.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/09/05/in-the-rain/">雨中</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-09-05T08:20:00+08:00" pubdate data-updated="true">Sep 5<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>昨晚回来的时候已经快12点，下起了很大的雨，天色已晚，冒雨前行，风助雨势，雨越发变得瓢泼，打着伞也不管用了，几乎全身湿透，路上几无行人，可见只有一片茫茫雨幕，只好盯着脚下一方土地步步为营地走。</p>
-
-<p>一个人走在大雨中，一些思绪如暗光中纷飞的雨滴，在脑海中闪烁。</p>
-
-<p>oh，想起来，很久没有更新我的blog了。</p>
-
-<h4 id="section">1. 雨之印象</h4>
-
-<p>近来的多雨天气是由台风“狮子山”带来的，而这个台风的名字，来自于香港一座同名的山。</p>
-
-<p>我不喜欢下雨，它会让我的鞋子变湿。不过雨本身有种干净的感觉。</p>
-
-<p>记得之前同事J在5月的梅雨时节曾经说过，这里的雨多得让人无法理解，记得那时深圳连续下了近一个月雨，几乎没见着太阳。奇怪的是，现在我会联想起J的，竟然是这种无意中提起的小事情。无法理解。这个词语本身就仿佛就无法理解，像一种魔法。</p>
-
-<p>雨的印象还有哪些呢？</p>
-
-<p>一种淡淡气味，来自一个很久没见的女生剪短了的头发。</p>
-
-<p>厄休拉笔下阿纳瑞斯的沙漠。</p>
-
-<p>另一个城市的美丽黄昏，那里有晴朗的天气，夕阳在天边染出一片好看的霞光，虽然很少人留意黄昏的天边美不美。</p>
-
-<p>安静纯粹的睡眠，无意识的黑色世界，永恒之地。</p>
-
-<h4 id="section-1">2. 中秋，怀念的季节</h4>
-
-<p>两年前的中秋，收到一个HW同事的短信(公司名和人名用了缩写)：</p>
-
-<pre><code>        卜算子　中秋
-坂田新天下，锦绣花团簇，中华有为二十载，漫漫辛酸路。
-群英鹏城聚，龙凤飞天舞，意气风发尽才智，后继续前仆。
-
-来HW的一些心得，与你共勉，祝中秋愉快。:-) LSH
-</code></pre>
-
-<p>岁月匆匆，朋友们四散各地，与他也没有保持联系了。只是在两年后这个中秋将近的时间里忽然想起，才意识到，自那之后，我再没有遇到那么有才的人了。</p>
-
-<h4 id="section-2">3. 门的启示</h4>
-
-<p>据说，当一道门关闭时，另一道门就会打开(When one door shuts, another opens.)，结论就是永远无法关上所有门，对于小偷来说这是个好消息。</p>
-
-<p>我不清楚打开TC这道门对我来说意味着什么，也许只是另一门的关闭。生活处处充满似是而非的暗示，像是一个没有底的迷。</p>
-
-<p>我确切知道的事情有，1. 很忙也很累，2. 并不开心。还有，到了我60岁的时候，如果我有60岁命的话，回过头来看看，我会发现人生中有两件事是确定无疑的。</p>
-
-<p>这个周末，我的门后是双休，Emacs lisp和SICP。</p>
-
-<h4 id="egg-pain">4. 结尾，egg pain未完待续</h4>
-
-<p>给我的debian更新了win7的宋体，新的宋体看起来就像无衬线的字体，线条单薄瘦长，像个长身玉立，袍袖飘飘的古人。</p>
-
-<p>回头看看，这篇文字码得很egg pain。</p>
-
-<p>blog上一些非原创的文章全都清理掉了，翻译的文章如QP附录《用C语言进行面向对象编程》也不再放出来，因为那样会侵犯原作者的版权。之前由于无知将它们贴了出来，的确很愚蠢，“悟已往之不谏，知来者之可追”，现在改正过来，迷途也未远吧。</p>
 </div>
   
   

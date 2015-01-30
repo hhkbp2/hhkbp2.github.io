@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="想必每位码农(coding farmer)都有过这样的经历，在浏览源代码时，除了有时会看到迷一般的逻辑和天马行空的代码风格之外，还不时会发现一些独特有趣的表达，注释等。下面记录一下我曾经看过的一些有趣的片断，希望在曾经写出过这样的代码或被这样的代码折腾过的读者当中引起一些共鸣，以飨一笑，仅供娱乐 &hellip;">
+  <meta name="description" content="Darkmate原本是一个gEdit的配色主题，大概在两年多之前我用过这个主题(那时我主要使用gEdit作为编辑器)，觉得不错，后来逐渐将它移植到eclipse和emacs(主编辑器转到emacs)。 emacs下的darkmate主题参考我的文章 Color Theme Darkmate for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/05/08/color-theme-darkmate-for-eclipse/">Color Theme Darkmate for Eclipse</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-08T22:54:00+08:00" pubdate data-updated="true">May 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Darkmate原本是一个gEdit的配色主题，大概在两年多之前我用过这个主题(那时我主要使用gEdit作为编辑器)，觉得不错，后来逐渐将它移植到eclipse和emacs(主编辑器转到emacs)。</p>
+
+<p>emacs下的darkmate主题参考我的文章</p>
+
+<p><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></p>
+
+<p><a href="/blog/2010/01/12/add-color-theme-for-emacs/">给emacs添加多种配色主题</a></p>
+
+<p><a href="https://bitbucket.org/hhkbp2/eclipse_config/src">这里</a>提供对应Eclipse的配色主题 下载 ,目前包含c++(cdt)，java(jdt)，python(pydev)的配色设置。</p>
+
+<p>c++配色截图如下：  </p>
+
+<p><a href="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_c++_style2.jpg" alt="color theme darkmate for eclipse c++ screenshot" /></a></p>
+
+<p>java配色截图如下：  </p>
+
+<p><a href="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg"><img src="/images/uploads/eclipse_color_theme_darkmate_java_style2.jpg" alt="color theme darkmate for eclipse java screenshot" /></a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -174,108 +226,6 @@ namespace apache { namespace thrift {
 
 <p>Noppoo Choc Mini的评测见<a href="http://article.pchome.net/content-1240636.html">这里</a>。</p>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/07/build-sock-on-linux/">Build Sock on Linux</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-07T20:27:00+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>sock是已故网络专家Richard Stevens在TCP/IP Illustrated volume 1(简称TCPv1)中为试验网络协议而写的一个程序，可以用于客户端和服务器模式，也可应用多种选项，详细用法请参考TCPv1，这里只简单记录一下如何在Linux平台下编译sock程序。</p>
-
-<p>到TCPv1的网站<br />
-http://www.kohala.com/start/tcpipiv1.html<br />
-下载源代码，并解压到本地目录。然后进入下面的sock目录，应用patch  </p>
-
-<hr />
-
-<pre><code>--- Makefile.old    1993-12-09 21:32:37.000000000 +0800
-+++ Makefile    2011-03-07 11:45:10.452949704 +0800
-@@ -1,7 +1,15 @@
-+# to customize make internal variables for compilation on Linux
-+kernel   := $(shell uname -s)
-+
- # Change the following as required:
- CC     = gcc
- 
--CFLAGS     = -ansi -Wall -Dsun -D__STDC__=0
-+ifneq "$(kernel)" "Linux"
-+    CFLAGS   += -ansi -Wall -Dsun -D__STDC__=0
-+else
-+    CFLAGS   += -Wall
-+endif
-+
- # My flags for gcc/solaris 2.3:  -ansi -Wall -Dsun -D__STDC__=0
- # Add in -DGCC_STRUCT_PROBLEM for gcc versions 1.x under SunOS 4.x
- # Add in -D__STDC__=0 for gcc under Solaris 2 (for Sun's screwy headers)
-@@ -9,10 +17,12 @@
- # Add in -D_SOCKADDR_LEN for DEC OSF/1 (see &lt;sys/socket.h&gt;)
- 
- # Following line for SVR4, Solaris 2.x
--LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
--
-+ifneq "$(kernel)" "Linux"
-+    LIBS   = /usr/ucblib/libucb.a -lsocket -lnsl
-+else
- # Following line for 4.4BSD, BSD/386, SunOS 4.x, AIX 3.2.2, OSF/1
--#LIBS  =
-+    LIBS   =
-+endif
- 
- PROGS =    sock
- OBJS = buffers.o cliopen.o crlf.o error.o loop.o main.o \
-</code></pre>
-
-<hr />
-
-<pre><code>--- strerror.c.old  1993-12-09 21:32:37.000000000 +0800
-+++ strerror.c  2011-03-07 12:24:12.625068359 +0800
-@@ -1,7 +1,7 @@
- #include   &lt;stdio.h&gt;
- 
--extern char    *sys_errlist[];
--extern int     sys_nerr;
-+//extern char  *sys_errlist[];
-+//extern int   sys_nerr;
- 
- char *
- strerror(int error)
-</code></pre>
-
-<p>然后构建</p>
-
-<pre><code>$ make
-</code></pre>
-
-<p>即可。</p>
 </div>
   
   
