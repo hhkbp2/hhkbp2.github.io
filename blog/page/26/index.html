@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下： 到GNU官网下载info形式的manual,感兴趣的有 GNU Emacs Manual，包emacs.info.tar.gz (下载地址) Emacs Lisp &hellip;">
+  <meta name="description" content="就像《Writing Emacs Extensions》(Bob Glickstein, O’REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。 1. 简化表达式的写法 如对5个数求和，c的写法为 a + b + c + d + e &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,103 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/03/prefix-notation-of-lisp/">Prefix Notation of Lisp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-03T13:12:00+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>就像《Writing Emacs Extensions》(Bob Glickstein, O’REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。</p>
+
+<h4 id="section">1. 简化表达式的写法</h4>
+
+<p>如对5个数求和，c的写法为</p>
+
+<pre><code>a + b + c + d + e
+</code></pre>
+
+<p>lisp的写法为</p>
+
+<pre><code>(+ a b c d e)
+</code></pre>
+
+<h4 id="section-1">2. 括号的配对定义了计算的次序，不需要另外定义运算的优先级</h4>
+
+<p>相信很多c或c++程序员都记不住全部运算符的优先级。例如，在语句</p>
+
+<pre><code>3 + 4 * 5
+</code></pre>
+
+<p>中，要定义运算符*优先级大于+。在lisp中，相应的表达式为</p>
+
+<pre><code>(+ 3 (* 4 5))
+</code></pre>
+
+<p>括号的配对指定了运算的次序。上式与</p>
+
+<pre><code>(* (+ 3 4) 5)
+</code></pre>
+
+<p>是不一样的。</p>
+
+<h4 id="section-2">3. 运算符与函数有统一的语法表示</h4>
+
+<p>在c语言中，函数调用的语法与运算符(除了sizeof)不同。例如</p>
+
+<pre><code>4 * 5
+</code></pre>
+
+<p>执行加法，而</p>
+
+<pre><code>func( 4, 5 )
+</code></pre>
+
+<p>则调用函数，传递给函数多个参数要用逗号隔开，用于分隔函数参数列表的逗号与逗号表达式</p>
+
+<pre><code>a = ( cal(i), cal(j), i*j )
+</code></pre>
+
+<p>中的逗号又有不同的意义。</p>
+
+<p>在lisp中，使用运算符与调用函数语法一致，为</p>
+
+<pre><code>(func 4 5)
+</code></pre>
+
+<p>参数列表中的逗号语法就不需要。类似于逗号运算符的语法表达可使用progn。</p>
+
+<p>简而言之，lisp的语法表达能力相对其他过程式编程语言(如c，或c++，java的对应这部分)并不差–当然c有结构，c++，java都有面向对象，还有佩刀战斗机泛型–其简单一致的语法降低了表示上的复杂度。可使得程序员可以专注于问题域本身，将更多的时间用于分析与设计，而不是语言本身。对比地看，c++其一为人所诟病之处就在于其语言自身复杂度已经很高。</p>
+
+<p>但是统一的或者说是到处使用的括号也使得lisp的代码布满括号，难以阅读。没有括号配对高亮功能的帮助，阅读长长的lisp程序可以说是个恶梦！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -194,48 +291,6 @@ export INFOPATH
 
 <p>即可。</p>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/03/21/debian-returns/">便，我回来了</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-03-21T15:00:00+08:00" pubdate data-updated="true">Mar 21<span>st</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了，想给我的PC升升级了。</p>
-
-<p>ubuntu的版本支持时间很有限，即使是LTS，桌面版本也只支持3年，3年之后退役之时怎么办呢，唯有升下一个版本了。而版本升级却不是那么平滑，难免或多或少有问题。虽然我没做过版本升级，不过论坛上有做小白鼠牺牲的也不是一个两个了。不过能用3年的人估计也少，都是有新版本来了就立马升级（重装）上去，之前在论坛就有帖子问有没有人一个版本连续用2年，跟帖的人不少，却没有一个真的用到2年。</p>
-
-<p>今天再回过头来看看，平滑升级真的是一个很好的特征。与其几年一次重装，不如每天一坨，稳定地升级上去。稳定，对于“漂”在外面的我很有杀伤力。</p>
-
-<p>于是重回Debian，重装系统。PC上的硬盘太老，经过多年摧残，坏道多多。而上面的叉p常常是几个月都不用一次，干脆全部格掉。用gnome testing的镜像安装好后，简单升级配置一下，就已经很好用了。界面虽然简洁了一点，不过胜在速度快，跑起来快很多，即使iceweasel也比旧的firefox快，简单比较了一下，安装的包少了500多个，没有深究是哪些包。看来还是大便对于渐渐变成命令控的我更有吸引力些。才发现还有debian-reference-zh-cn这么好的文档。</p>
 </div>
   
   
