@@ -941,8 +941,6 @@
 <ol>
   <li><a href="https://github.com/hhkbp2/GoVernor"><code>GoVernor</code></a><br />
 Go语言的工具链在使用之前需要手工设置一些环境变量如GOROOT, GOPATH，相比于其它很多编程语言在项目根目录添加配置文件来做项目管理的方式，我个人认为它是一种退步。每次切换项目目录都要改GOPATH，其实是件麻烦的事情，特别是对于带GUI的IDE，每次改环境变量都要重启，更麻烦的是windows/linux/mac改系统环境变量的方式各不相同。<code>GoVernor</code>这个命令行工具通过查找go语言项目的标准目录结构bin/pkg/src，来“猜测”正确的GOPATH值并在调用真正的Go工具链命令之前设置好GOPATH，在命令行环境中解决了“每次切换项目目录都要改GOPATH”这个问题</li>
-  <li><a href="https://github.com/hhkbp2/raft-paper-in-chinese"><code>raft-paper-in-chinese</code></a><br />
-Raft论文的中文翻译，只翻译了开头部分，由于没有时间一直没有继续翻译下去。</li>
   <li><a href="https://github.com/hhkbp2/rafted"><code>rafted</code></a><br />
 <code>raft</code>是一个在<code>Paxos</code>及它的各种变体流行10多年之后重新设计的一个分布式一致算法(协议)，它的目标除了达到等同于<code>Paxos</code>的分布式一致性之后，还特别强调算法本身的可理解性和工程上的易实现性。我们将要实现的分布式强一致bigtable模型存储系统选择了用<code>raft</code>来实现分布式一致性。而我负责这个部分的实现，在研读过市面上几种raft实现代码之后，我决定重新做一个全功能的支持可配置多种网络层的raft实现，结果就有了这个库，目前还有部分功能未实现完。</li>
   <li><a href="https://github.com/hhkbp2/rafted-starter"><code>rafted-starter</code></a><br />
