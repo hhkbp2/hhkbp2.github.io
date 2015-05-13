@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-05-07T11:19:04+08:00</updated>
+  <updated>2015-05-13T12:13:26+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -233,72 +233,57 @@ geiser
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Prefix Notation of Lisp]]></title>
-    <link href="http://hhkbp2.github.com/blog/2010/05/03/prefix-notation-of-lisp/"/>
-    <updated>2010-05-03T13:12:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2010/05/03/prefix-notation-of-lisp</id>
-    <content type="html"><![CDATA[<p>就像《Writing Emacs Extensions》(Bob Glickstein, O’REILLY 1997)在书中提到的：lisp语言的独特前缀表示降低了常见的中缀表示编程语言在语法上的复杂度。</p>
+    <title type="html"><![CDATA[给emacs安装info manual]]></title>
+    <link href="http://hhkbp2.github.com/blog/2010/04/18/install-info-manual-of-emacs/"/>
+    <updated>2010-04-18T08:29:00+08:00</updated>
+    <id>http://hhkbp2.github.com/blog/2010/04/18/install-info-manual-of-emacs</id>
+    <content type="html"><![CDATA[<p>发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下：</p>
 
-<h4 id="section">1. 简化表达式的写法</h4>
+<ol>
+  <li>
+    <p>到GNU官网下载info形式的manual,感兴趣的有</p>
 
-<p>如对5个数求和，c的写法为</p>
+    <p>GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br />
+ Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br />
+ Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)  </p>
+  </li>
+  <li>
+    <p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p>
+  </li>
+</ol>
 
-<pre><code>a + b + c + d + e
+<p>[条目名]: [对应的info文件或包(可选的子条目名)].  [条目描述]</p>
+
+<p>条目名后面要带一个”:”号，文件或包名后面要带一个”.”号。如emacs faq的条目为</p>
+
+<pre><code>* Emacs FAQ: (emacs-23/efaq).   Frequently Asked Questions about Emacs.
 </code></pre>
 
-<p>lisp的写法为</p>
+<p>将下载的三个包放入/usr/share/info/。并在info树根目录增加中相应的节点，即在文件/usr/share/info/dir的Emacs section中加入</p>
 
-<pre><code>(+ a b c d e)
+<pre><code>* Emacs
+...       &lt;== 其他条目
+
+* Emacs Manual: (emacs.info.tar). GNU Emacs Manual
+* Emacs Lisp Intro: (emacs-lisp-intro.info).  An Introduction to Programming in Emacs Lisp
+* Emacs Lisp Reference Manual: (elisp.info.tar).
+                                GNU Emacs Lisp Reference Manual
+...       &lt;== 其他条目
 </code></pre>
 
-<h4 id="section-1">2. 括号的配对定义了计算的次序，不需要另外定义运算的优先级</h4>
+<p>即可。也可以安装到自定义的info目录，此目录下要有dir文件，同时添加此info目录到INFOPATH来让info进行查找。对于bash，添加环境设置到.bashrc：</p>
 
-<p>相信很多c或c++程序员都记不住全部运算符的优先级。例如，在语句</p>
-
-<pre><code>3 + 4 * 5
+<pre><code>INFOPATH=$INFOPATH:$ADDED-INFOPATH
+export INFOPATH
 </code></pre>
 
-<p>中，要定义运算符*优先级大于+。在lisp中，相应的表达式为</p>
+<p>对于emacs，可通过变量Info-directory-list, Info-default-directory-list来定制，具体参照Manual。</p>
 
-<pre><code>(+ 3 (* 4 5))
+<p>如担心手动添加info条目会损坏原文件，可先做备份再修改，或通过install-info命令添加info条目，如</p>
+
+<pre><code>$ install-info --dir-file=dir --info-file=filename.info --section=section-name --name=entry-name --description=entry-desc
 </code></pre>
 
-<p>括号的配对指定了运算的次序。上式与</p>
-
-<pre><code>(* (+ 3 4) 5)
-</code></pre>
-
-<p>是不一样的。</p>
-
-<h4 id="section-2">3. 运算符与函数有统一的语法表示</h4>
-
-<p>在c语言中，函数调用的语法与运算符(除了sizeof)不同。例如</p>
-
-<pre><code>4 * 5
-</code></pre>
-
-<p>执行加法，而</p>
-
-<pre><code>func( 4, 5 )
-</code></pre>
-
-<p>则调用函数，传递给函数多个参数要用逗号隔开，用于分隔函数参数列表的逗号与逗号表达式</p>
-
-<pre><code>a = ( cal(i), cal(j), i*j )
-</code></pre>
-
-<p>中的逗号又有不同的意义。</p>
-
-<p>在lisp中，使用运算符与调用函数语法一致，为</p>
-
-<pre><code>(func 4 5)
-</code></pre>
-
-<p>参数列表中的逗号语法就不需要。类似于逗号运算符的语法表达可使用progn。</p>
-
-<p>简而言之，lisp的语法表达能力相对其他过程式编程语言(如c，或c++，java的对应这部分)并不差–当然c有结构，c++，java都有面向对象，还有佩刀战斗机泛型–其简单一致的语法降低了表示上的复杂度。可使得程序员可以专注于问题域本身，将更多的时间用于分析与设计，而不是语言本身。对比地看，c++其一为人所诟病之处就在于其语言自身复杂度已经很高。</p>
-
-<p>但是统一的或者说是到处使用的括号也使得lisp的代码布满括号，难以阅读。没有括号配对高亮功能的帮助，阅读长长的lisp程序可以说是个恶梦！</p>
 ]]></content>
   </entry>
   

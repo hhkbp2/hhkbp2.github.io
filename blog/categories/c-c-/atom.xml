@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C/C++ | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/c-c-/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-05-07T11:19:04+08:00</updated>
+  <updated>2015-05-13T12:13:26+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -283,34 +283,6 @@ Boost是一个从飞机大炮到浴缸马桶无所不包的库，也是一个脑
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[The Funnies in Sources]]></title>
-    <link href="http://hhkbp2.github.com/blog/2011/05/07/the-funnies-in-sources/"/>
-    <updated>2011-05-07T21:43:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2011/05/07/the-funnies-in-sources</id>
-    <content type="html"><![CDATA[<p>想必每位码农(coding farmer)都有过这样的经历，在浏览源代码时，除了有时会看到迷一般的逻辑和天马行空的代码风格之外，还不时会发现一些独特有趣的表达，注释等。下面记录一下我曾经看过的一些有趣的片断，希望在曾经写出过这样的代码或被这样的代码折腾过的读者当中引起一些共鸣，以飨一笑，仅供娱乐。</p>
-
-<h5 id="linux-kernel-26-git-revision5895198c56d131cc696556a45f7ff0ea99ac297b-kernelforkc7">1. linux kernel 2.6, git revision:5895198c56d131cc696556a45f7ff0ea99ac297b, kernel/fork.c:7</h5>
-
-<pre><code>/*
- *  'fork.c' contains the help-routines for the 'fork' system call
- * (see also entry.S and others).
- * Fork is rather simple, once you get the hang of it, but the memory
- * management can be a bitch. See 'mm/memory.c': 'copy_page_range()'
- */
-</code></pre>
-
-<h5 id="thrift-svn-revision1096750-libcppsrcasynctasyncprocessorh75">2. thrift, svn revision:1096750, lib/cpp/src/async/TAsyncProcessor.h:75</h5>
-
-<pre><code>// XXX I'm lazy for now
-namespace apache { namespace thrift {
-    using apache::thrift::async::TAsyncProcessor;
-}}
-</code></pre>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[My Personal Errata for C++ Primer]]></title>
     <link href="http://hhkbp2.github.com/blog/2010/11/28/my-personal-errata-for-c-primer/"/>
     <updated>2010-11-28T09:00:00+08:00</updated>
@@ -539,106 +511,6 @@ should be<br />
 { copy(beg, end); }
 </code></pre>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Thought on Bit Representation of Primitive Integer Type in C/C++]]></title>
-    <link href="http://hhkbp2.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc/"/>
-    <updated>2010-11-28T08:36:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2010/11/28/a-thought-on-bit-representation-of-primitive-integer-type-in-cc</id>
-    <content type="html"><![CDATA[<p>老的space live博客要迁移wordpress，不迁移的都要杯具了，保留两篇以前的文章转过来。</p>
-
-<p>看天下大势如此，营利的博客业务开始衰落了。</p>
-
-<p>2009/8/7 13:34:10</p>
-
-<p>«C++ Primer» mentions when talking about primitive integer type as follows:</p>
-
-<p>For the unsigned types, a negative value is always out of range. An object of unsigned type may never hold a negative value. Some languages make it illegal to assign a negative value to an unsigned type, but C++ does not.</p>
-
-<p>In C++ it is perfectly legal to assign a negative number to an object with unsigned type. The result is the negative value modulo the size of the type. So, if we assign 1 to an 8-bit unsigned char, the resulting value will be 255, which is 1 modulo 256.</p>
-
-<p>at page 37 («C++ Primer, 4th» English, Posts &amp; Telecom Press, 2006)</p>
-
-<p>Why a negative number which is assigned to a unsigned type would become a modulo of it? Is it because of the bit represatation? To validate the situation, I write this short code fragement(take char for example to figure out the bit representation):</p>
-
-<pre><code>//: bit_inter.cc
-#include &lt;iostream&gt;
-using std::cout;
-using std::endl;
-#include &lt;climits&gt;
-template &lt;typename T&gt;
-void print_binary(const T tchar)
-{
-for(int ix = sizeof(tchar)*8 - 1; ix &gt;= 0 ; --ix)
-{
-if( tchar &amp; (1&lt;&lt;ix) )
-cout &lt;&lt; "1";
-else
-cout &lt;&lt; "0";
-}
-}
-#define PRINT_BIT_INTER(x) \
-cout &lt;&lt; (int)x &lt;&lt; "\t" &lt;&lt; " binary representation: " &lt;&lt; "\t"; print_binary(x); cout &lt;&lt; endl;
-int main()
-{
-unsigned char uchar;
-signed char schar;
-cout &lt;&lt; "the limit of type char and unsigned char:" &lt;&lt; endl;
-cout &lt;&lt; "size of signed char: " &lt;&lt; sizeof (signed char) &lt;&lt; "\t" &lt;&lt; "size of unsigned char: " &lt;&lt; sizeof (unsigned char) &lt;&lt; endl;
-cout &lt;&lt; "SCHAR_MIN: " &lt;&lt; SCHAR_MIN &lt;&lt; "\t" &lt;&lt; "SCHAR_MAX: " &lt;&lt; SCHAR_MAX &lt;&lt; "\t" &lt;&lt; "UCHAR_MAX: " &lt;&lt; UCHAR_MAX &lt;&lt; endl;
-cout &lt;&lt; "the representation of type char and unsigned char:" &lt;&lt; endl;
-schar = 127;
-PRINT_BIT_INTER(schar);
-schar = 0;
-PRINT_BIT_INTER(schar);
-schar = -1;
-PRINT_BIT_INTER(schar);
-schar = -127;
-PRINT_BIT_INTER(schar);
-schar = -128;
-PRINT_BIT_INTER(schar);
-uchar = 0;
-PRINT_BIT_INTER(uchar);
-uchar = 128;
-PRINT_BIT_INTER(uchar);
-uchar = 255;
-PRINT_BIT_INTER(uchar);
-return 0;
-}
-
-//* output:(match 100%)
-the limit of type char and unsigned char:
-size of signed char: 1  size of unsigned char: 1
-SCHAR_MIN: -128 SCHAR_MAX: 127  UCHAR_MAX: 255
-the representation of type char and unsigned char:
-127      binary representation:         01111111
-0        binary representation:         00000000
--1       binary representation:         11111111
--127     binary representation:         10000001
--128     binary representation:         10000000
-0        binary representation:         00000000
-128      binary representation:         10000000
-255      binary representation:         11111111
-
-*///:~ bit_inter.cc
-</code></pre>
-
-<p>now the bit representation of type char set is clear:</p>
-
-<pre><code>bit representation    unsigned char    signed char:
-11111111              255                  -1
-10000001              129                  -127
-10000000              128                  -128
-01111111              127                  127
-00000001              1                     1
-00000000              0                     0
-</code></pre>
-
-<p>so we could conclude that the same bit representation gives different value when representating in different type, signed char or unsigned char.</p>
-
-<p>when assigning a negative number, e.g. -1, to a unsigned char, e.g. named uchar, what C/C++ actually does is keep the bit represetation of -1 intact and copy it into the location where the unsigned char uchar lies. So by the way of unsigned char value representing, the unsigned char now have the value 255. It seems C++ have calculated the modulo, -1 % 256 = 255 for us.</p>
 ]]></content>
   </entry>
   
