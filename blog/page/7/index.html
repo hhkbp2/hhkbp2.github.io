@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="近日两会召开，从各种新闻报道看来，这个国家将进行又一次的领导层换届，在我工作的地方，类似的事情也在进行。在“云统治”的游戏背景设定下，这种事对于我等星斗市民并不会带来本质的变化，任它东边日出西边雨，只管一蓑任前行。从我个人的角度看，年初向领导提出加薪一事无果，长期问题还是没有得到解决， &hellip;">
+  <meta name="description" content="本文翻译自《Nested Backquotes considered harmful》，只用于学习，请勿用于其它用途。 好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,166 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/10/nested-backquotes-considered-harmful/">嵌套反引用有害</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T21:37:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
+
+<hr />
+
+<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
+
+<blockquote>
+  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br />
+<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
+</blockquote>
+
+<p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
+
+<pre><code>1. 在内层使用LIST, APPEND等函数代替反引用
+2. 使用包含反引用的辅助函数
+</code></pre>
+
+<p>Bruno为每个方法提供了例子。</p>
+
+<p>首先，下面给出的这段代码用了嵌套反引用：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       `(let
+          (,,@(mapcar #'(lambda (tmp var)
+                          ``(,',tmp ,,var))
+                      temps variables))
+          ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                         variables temps)
+             ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法1转换后如下：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (list 'let
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(list ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法2转换后如下：</p>
+
+<pre><code>(defun construct-binding (variable form)
+  `(,variable ,form))
+
+(defun construct-let-wrapper (bindings body-form)
+  `(let ,bindings ,body-form))
+
+(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (construct-let-wrapper
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(construct-binding ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
+
+<p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）。Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
+
+<blockquote>
+  <p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+
+  <ol>
+    <li>
+      <p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
+
+      <p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
+
+      <p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
+    </li>
+    <li>
+      <p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
+
+      <p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
+
+      <pre><code>'(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+
+      <p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
+
+      <pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+
+      <p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
+    </li>
+  </ol>
+
+  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。  </p>
+</blockquote>
+
+<p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
+
+<pre><code>1. 使用嵌套反引用
+2. 在内层使用LIST, APPEND等函数代替反引用
+3. 使用包含反引用的辅助函数
+4. 使用一个反引用的替代实现
+</code></pre>
+
+<p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br />
+<a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -188,177 +348,6 @@ export PATH
 <p>我把这几个语句写到一个独立脚本(后缀为<code>.sh</code>)放到<code>/etc/profile.d</code>目标里面，让Shell在启动的时候自动加载了。为什么不把配置放到<code>/etc/environment</code>文件里面呢？就像网上很多写Java安装的文章所说的那样？因为后者限制较多，它并非一个脚本，所以不支持变量的引用，只支持简单的赋值，用起来并不方便。更好的做法就是放到脚本里面，如只限个人使用就是<code>.profile</code>或<code>.bashrc</code>文件，如果是系统级别的就是<code>/etc/profile.d</code>目录或<code>/etc/bash.bashrc</code>文件。关于系统变量的详细内容可参考Ubuntu的<a href="https://help.ubuntu.com/community/EnvironmentVariables">Environment Variables文档</a>。</p>
 
 <p>搞好之后，突然顿悟似的想到，为什么还需要每个Java用户手工配置这个<code>JAVA_HOME</code>呢，为什么不可以没有它？于是联想到Python，它也有一个<code>PYTHONPATH</code>变量可以用来指定模块的搜索路径，但是在Python里面即使完全不知道此变量，程序员也可以活得很舒服。对比的来看，为什么不能在Java的安装包里面自动加上几个环境变量的配置？让用户更舒适一点，有很大的困难吗？问题虽小，但对比来看这背后其实反映的是两种不同的文化，就像ESR的《大教堂和集市》所说的那样：一边是笨重的大公司，另一边是活跃的社区；一边是官僚，另一边是黑客。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/10/practical-thrift/">Thrift实践</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-10T20:15:00+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>接触Thrift已经快两年了，实际使用和阅读源代码过程中也积累了一些经验，很多时候觉得应该梳理总结一点什么写下来，但这件事一直没有做成。这次趁着春节假期，尝试将之前留下来的几个片段组织成文，还有一些章节还未构思好或未写好，先用TODO标记占坑，以后再完善。</p>
-
-<h3 id="thriftrpc">实践1. 将thrift看作应用的RPC胶水</h3>
-
-<p>流行的开源协议框架有这几种：google的Protocol Buffer，Apache(最早来自Facebook)的Thrift，还有Hadoop社区的Avro。这3种框架有着各不相同的设计目标和实现，其中Protocol Buffer设计为google内部的常用少数几种语言提供协议打包/解包(序列化/反序列化)，Avro旨在为Hadoop提供各种语言的访问接口和云计算的通讯协议标准，而Thrift则定义为Facebook内部服务的协议通讯框架，后两者除了带有协议打包/解包功能之外，都提供了较完整的RPC框架和较多的编程语言支持，但是两者的设计有较大的不同，具体反映在协议自描述性等实现细节上的种种差异。Protocol Buffer最先出现，然后是Thrift，Avro在Thrift广泛流行之后才被设计出来，从设计目标来看野心比Thrift大得多。</p>
-
-<p>本文的重点在Thrift，所以集中笔墨讨论它。Thrift的RPC框架具有的如下几个特点：</p>
-
-<ol>
-  <li>定义清晰的IDL(接口定义语言)，支持丰富的数据类型和数据结构，具有强大的表达力</li>
-  <li>较全面的多语言支持，支持常用的编程语言如C++, Java, PHP, Python，还支持不那么常用的Erlang，Haskell等，方便使用各种语言，对接各种框架</li>
-  <li>支持的协议版本升级，可配合使用灵活的客户端/服务器升级策略</li>
-  <li>内部实现层次分明，结构清晰，代码量不大</li>
-</ol>
-
-<p>如此使得它很适合作为业务应用的RPC胶水，把协议/RPC的实现和业务逻辑的表达粘合在一起，在响应快速开发和应对业务变更方面较有优势，同时这层胶水也不太厚，保有相当好的简单性和透明性，方便运营/根据各种具体需要做修改。</p>
-
-<h3 id="section">实践2. 使用合适的数据类型</h3>
-
-<h4 id="blobbinarystring">2.1 当需要blob时，优先使用binary类型而不是string类型</h4>
-
-<p>thrift支持两种字符串类型：
-1. string类型，类似编程语言中常用的字符串类型，或Mysql中的VARCHAR/TEXT字符串类型，用于表示某种语言(字符集)特定编码的字符串
-2. binary类型，类似Mysql的BLOB类型，用于表示二进制串</p>
-
-<p>虽然在部分Thrift支持的编程语言中，binary和string两个类型产生的具体数据类型是一致的，如C++。但在其它语言，这两个类型产生的具体数据类型差异较大，参考下表：</p>
-
-<pre><code>IDL Type\Lang   C++             Java                   Python
-binary          std::string     java.lang.String       str
-string          std::string     java.nio.ByteBuffer    str
-</code></pre>
-
-<p>在Java中原生支持unicode，字符类型Char设计为16位，字符的值对应Unicode的代码点(code point)<a href="#1">[1]</a>，而语言中的String也与编码方式相关，同一个String在不同的编码方式(如UTF-8或GBK)下可能表示不同的内容，这样一来就决定了String类型不适合用于存储带任意字节内容的二进制串。</p>
-
-<p>这里有一份示例代码：</p>
-
-<pre><code>https://bitbucket.org/hhkbp2/sample/src
-</code></pre>
-
-<p>其中包括C++的服务器端代码，还有C++, Java, Python 3种语言写的客户端。服务器端在收到客户端的无参数RPC请求后，向客户端发送一个值为214的字符，早于它不是ascii字符集范围内的字符，它表示的字符就由编码方式决定。3个客户端的输出对比如下：</p>
-
-<ol>
-  <li>
-    <p>C++</p>
-
-    <pre><code> $ ./cpp_client
- ./cpp_client started.
- get char in string: -15
- get char in binary: -15
- done.
-</code></pre>
-  </li>
-  <li>
-    <p>Java</p>
-
-    <pre><code> $ make run-java-client
- java \-classpath \
- /usr/local/lib/libthrift.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-jdk14.jar:/usr/share/java/slf4j-simple.jar:/usr/share/java/slf4j-jcl.jar:/usr/share/java/slf4j-nop.jar:/home/wenwenliu/pro/thrift/schargen/gen-java:/home/wenwenliu/pro/thrift/schargen \
- Client
- started.
- get char in string:
- ISO-8859-1: 63
- US-ASCII: 63
- UTF-8: -17
- UTF-16: -2
- get char in binary:
- -15
- done.
-</code></pre>
-  </li>
-  <li>
-    <p>Python</p>
-
-    <pre><code> $ make run-py-client
- python ./client.py
- ./client.pystarted.
- 'get char in string: \xf1'
- 'get char in binary: \xf1'
- done.
-</code></pre>
-  </li>
-</ol>
-
-<p>从输出中可以看到，同一个字符在Python的客户端值与服务器端一样，C++客户端打印出来的值是服务器值的二进制补码值，但在Java客户端，字符值受到编码方式的影响，经过编码方式演绎后的字符值与原来的字符值并不一致。而且在几种常见的编码方式下都得不到原来的字符值。</p>
-
-<p>假设有一个C++的服务器端，向Java的客户端传输从数据库读出来的BLOB串，而thrift协议里使用的是String类型，那么客户端得到的数据就可能与原来数据库中的blob有出入，数据是否一致取决于数据库blob里的字符取值，程序的行为有时正确有时不正确，这样就引入了一个隐晦的bug，浪费了调试的时间。</p>
-
-<p>很多情况下对Thrift的使用哪种语言是不能预知的，比如，本来是用C++后来改成Java，这样之前一直正常工作的代码就“碰巧”都不能正常工作了，所以，选择Thrift数据类型时需要考虑周全尽量通用，当然这也需要实践经验，在需要blob时，优先使用binary类型而不是string类型。</p>
-
-<h3 id="thrift">实践3. Thrift里面的同步与异步</h3>
-
-<p>thrift里面常见的几种同步异步用法：</p>
-
-<ol>
-  <li>
-    <p>同步服务器，同步客户端，同步调用，无异步<br />
-最常用的默认方式。</p>
-  </li>
-  <li>
-    <p>同步服务器，同步客户端，异步调用<br />
-用关键字oneway关键字(替换了过时的关键字async)修饰接口定义，thrift框架保证传输到位，但应用不保证一定处理完成。</p>
-  </li>
-  <li>同步客户端，异步服务器端</li>
-  <li>异步客户端，异步服务器端</li>
-</ol>
-
-<p>由于客户端和服务器端在实现上是相互独立的，所以两者在同步或异步的选择上也是独立的。这里举例说明如何编写异步服务器和异步客户端。示例代码如下：</p>
-
-<p>TODO 添加async-echo示例代码</p>
-
-<p>TODO 详述异步服务器的示例代码，详述异步客户端的实现代码，异步Thrift的内部实现简析</p>
-
-<h3 id="thrift-1">实践4. thrift内部框架一瞥</h3>
-
-<p>按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
-
-<pre><code>+-------------------------------------------+
-| Server                                    |  -- 服务器进程调度
-| (single-threaded, event-driven etc)       |
-+-------------------------------------------+
-| Processor                                 |  -- RPC接口处理函数分发，IDL定义接口的实现将挂接到这里面
-| (compiler generated)                      |
-+-------------------------------------------+
-| Protocol                                  |  -- 协议
-| (JSON, compact etc)                       |
-+-------------------------------------------+
-| Transport                                 |  -- 网络传输
-| (raw TCP, HTTP etc)                       |
-+-------------------------------------------+
-</code></pre>
-
-<p>TODO 详述各层源代码实现</p>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> Java中的2字节unicode并非与最新版本的Unicode规格严格一致。</p>
 
 </div>
   
