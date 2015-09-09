@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lisp | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/lisp/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-09-05T22:41:46+08:00</updated>
+  <updated>2015-09-09T16:01:56+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -198,7 +198,7 @@ module 'test' ['hello_world'/0]
 
 <h3 id="section-2">2.3 编译器</h3>
 
-<p>下面我们继续来讨论Joxa的编译过程，由于Core Erlang(及AST)可以由Erlang编译器编译成最终的机器码，我们只需将Joxa代码编译成Core Erlang AST便可实现将Joxa编译成机器码整个编译过程，从编译领域的分类来看，目标生成的代码是Core Erlang AST，操纵Core Erlang AST可以直接调用<code>cerl.erl</code>的接口函数，因此编译器后端这一块相对是比较简单的，重点在于前端部分：即将Joxa代码编译成Core Erlang AST。由于Joxa是Lisp语法，Lisp代码以括号划分边界的代码树的方式来表示，本身就已经有良好的结构，所以前端部分也比较简单。区别于LFE或Elixir用Leex或Yecc来生成LALR<a href="#14">[14]</a>式Lexer与Parser，Joxa采用了手写PEG<a href="#15">[15]</a> Lexer和Parser的方式。PEG编译器的代码量较小，Joxa的编译器大部分是手写的，尽管Erlang也有相应的PEG生成器<a href="https://github.com/seancribbs/neotoma">Neotoma</a>。(本节涉及到很多编译领域的术语或技术，由于本文主要是介绍Joxa，篇幅所限故不会详细解释这些术语或技术，有兴趣的读者可以自行寻找相关的资料做进一步了解)</p>
+<p>下面我们继续来讨论Joxa的编译过程，由于Core Erlang(及AST)可以由Erlang编译器编译成最终的机器码，我们只需将Joxa代码编译成Core Erlang AST便可实现将Joxa编译成机器码整个编译过程，从编译领域的分类来看，目标生成的代码是Core Erlang AST，操纵Core Erlang AST可以直接调用<code>cerl.erl</code>的接口函数，因此编译器后端这一块相对是比较简单的，重点在于前端部分：即将Joxa代码编译成Core Erlang AST。由于Joxa是Lisp语法，Lisp代码以括号划分边界的代码树的方式来表示，本身就已经有良好的结构，所以前端部分也比较简单。区别于LFE或Elixir用Leex或Yecc来生成LALR<a href="#14">[14]</a>式Lexer与Parser，Joxa采用了手写PEG<a href="#15">[15]</a> Lexer和Parser的方式。PEG编译器的代码量较小，Joxa编译器是在Erlang PEG生成器<a href="https://github.com/seancribbs/neotoma">Neotoma</a>生成代码的基础上写成的。(本节涉及到很多编译领域的术语或技术，由于本文主要是介绍Joxa，篇幅所限故不会详细解释这些术语或技术，有兴趣的读者可以自行寻找相关的资料做进一步了解)</p>
 
 <p>特别值得一提的是，Joxa的编译过程是自举的，即Joxa编译器本身是由Joxa代码编写的，这与LFE或Elixir的编译器用Erlang编写不同。Joxa的自举要求先有一份以Core Erlang AST格式存在的具有正常编译功能的代码，这部分代码在Joxa的Github代码库中，相对根目录的路径是<code>src/ast</code>(后面给出所有的代码路径都相对于根目录)。通过用Erlang编译器将这份AST代码编译成BEAM代码，然后就得到一个能直接在BEAM上执行的Joxa编译器，然后就可以运行此编译器，将编译器的Joxa源代码编译成Core Erlang AST格式。整个流程和依赖如下图所示：</p>
 

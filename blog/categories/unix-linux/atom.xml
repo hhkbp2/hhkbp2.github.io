@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Unix/Linux | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/unix-linux/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-09-05T22:41:46+08:00</updated>
+  <updated>2015-09-09T16:01:56+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,170 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cloudtable: 分布式一致性的大数据存储系统]]></title>
+    <link href="http://hhkbp2.github.com/blog/2015/09/06/cloudtable-a-distrubted-consistent-big-data-store/"/>
+    <updated>2015-09-06T11:23:00+08:00</updated>
+    <id>http://hhkbp2.github.com/blog/2015/09/06/cloudtable-a-distrubted-consistent-big-data-store</id>
+    <content type="html"><![CDATA[<center>Cloudtable项目组</center>
+
+<p>我们YY云存储团队负责向公司各部门提供存储服务，随着<a href="http://www.yy.com/">YY</a>的发展壮大，我们面对着数量级越来越大的存储需求。存储和访问PB级别的数据是一个很大的挑战，为了使得存储服务越加的高效和快速，我们持续地改进和翻新我们的工具和系统。最近，我们开发了Cloudtable，它是具有分布式一致性的，可扩展的，大容量数据存储系统。</p>
+
+<h2 id="section">为什么开发一个新数据库</h2>
+
+<p>随着业务的不断发展，过去将数据存储在传统的关系数据库的做法已经面临着诸多问题，特别是对于某些在性能方面或扩展性方面要求很高的场景，使用关系数据库来存储和查询数据就会遇到很多难以克服的困难，例如需要很高的写性能，需要超大容量的数据存储能力以及在线扩容能力等。目前我们收集到如下几种典型的存储需求：</p>
+
+<ol>
+  <li>对读写性能要求较平均或读性能要求较高的，数据总量为G量级的小容量数据存储(如元数据)</li>
+  <li>对读写性能要求不高可以容忍一定时延，但要求跨机房高可用，对数据一致性要求很高的小容量数据存储(如关键业务数据，金钱相关业务数据)</li>
+  <li>对写性能要求较高的，每天数十G量级，需要长期保存的大容量数据存储(如日志)</li>
+</ol>
+
+<p>这些需求使用传统关系数据库得不到很好的解决。另一方面，我们注意到近年在服务器上快速flash存储的兴起，单个SSD硬盘的IOPS相对传统的机械盘有着数十倍的提升，在传统数据库中的锁竞争以及频繁上下文切换不能充分利用如此之高的IOPS。因此，我们需要一个强大灵活的新数据库，以解决遇到的存储需求，充分利用硬件的发展趋势。</p>
+
+<p>我们对目前市面上多种非结构化数据库进行了调研，对较主流的几个数据库进行过评估，认为它们都不适合直接应用于我们遇到的业务场景：HBase使用Pipeline写3份(默认配置下)数据来保证数据的高可用和一致性，如果跨机房部署，datanode之间的时延较大会造成写性能的急剧下降；Cassandra用vector clock+timestamp作为版本号，需要用户解决版本冲突, 综合它在设计上的完全去中心化自动化，以及项目的成熟度有待改善两方面来考虑，运维难度较大；mongodb可以通过write concern, read Preference设置一致性级别，但无论如何设置都可能读到正在写入的数据，返回给客户的数据也可能被回滚，因此在一致性方面达不到我们的要求，并且<a href="https://www.percona.com/blog/2014/07/18/introducing-ark-a-consensus-algorithm-for-tokumx-and-mongodb/">Ark</a>协议也不是非常完备。因此，我们决定开发一个能解决我们自己独特需求的分布式数据库。</p>
+
+<h2 id="section-1">设计</h2>
+
+<p>我们将这个新数据库命名为Cloudtable，它被设计为一个分布式的，可扩展的，大容量数据存储系统，并满足以下几点设计目标：</p>
+
+<ol>
+  <li>具有分布式一致性，即在跨机房环境下保证数据读写的一致性，而且提供尽可能高的可用性</li>
+  <li>具有灵活的数据模型以解决多变的存储需求，包括高效支持变长节段，灵活地增删数据列，稀疏的数据分布等</li>
+  <li>充分利用SSD硬盘的快速读写能力，提供较高的读写性能</li>
+  <li>具有良好的集群管理能力和运维特性，如支持PB级别的数据容量，在线无缝扩容等</li>
+</ol>
+
+<h3 id="section-2">分布式一致性</h3>
+
+<p><a href="https://zh.wikipedia.org/wiki/CAP%E5%AE%9A%E7%90%86">CAP定理</a>告诉我们，一个分布式系统不可能同时满足一致性，可用性和分区容错性这三个需求，最多只能同时满足两个。在互联网业务中，往往选择降低一致性要求来提高可用性和分区容错性，由此推动了各种最终一致性存储系统的流行，但最终一致性强逼系统使用者使用者自己处理由多点读写，同步延时等带来的数据不一致性，给上层业务开发带来不小的复杂度，因此在某些场景下分布式强一致会比最终一致性更加优胜。我们观察到，在近年新推出的部分大规模分布式存储系统上，分布式一致性已经成为标准特性，如Google的Megastore和Spanner。这些系统并非完全舍弃可用性或分区容错性，而是在CAP三者之间取得一个平衡。综合我们过去几年在存储领域的经验，我们认为在目前的跨机房环境下，引入分布式一致性有助于解决我们遇到的存储需求。</p>
+
+<p>在分布式一致性领域，<a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a>占有垄断地位已经超过10年：大多数一致性算法的实现都是基于Paxos或受到Paxos的影响，在教学等场景下一致性算法的首选都是Paxos。但是Paxos既不易理解，也难于工程化。因此我们采用了在2013年推出的<a href="https://raft.github.io/">Raft</a>来实现分布式一致性，Raft是根据易理解性为目标，采用了一系列如分解问题，缩减状态空间等技巧来重新设计的分布式一致性算法，它明确定义了下述几个新颖的特性：强Leader，Leader选举，成员变更。与Paxos相比，Raft更适合用来做工程实现。</p>
+
+<h3 id="section-3">灵活的数据模型</h3>
+
+<p>我们选择了<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/bigtable-osdi06.pdf">BigTable</a>模型作为Cloudtable的数据模型，一方面是因为半结构化的数据模型比较适合我们解决多种存储需求，另一方面由于市面上多个基于BigTable模型的存储系统，如HBase, Cassandra等已经得到广泛的应用，使用这个模型便于我们新数据库的推广。BigTable模型是指以BigTable论文中提到的，一个稀疏的，分布式的，持久化存储的多维度排序Map，其中数据以Table/Row/Column Family/Column/Timestamp多个维度作区分，其中Column Family相对固定一般在建表时指定，Column Family内部的Column可以灵活增减，读写数据都通过客户端API。另外，在底层存储，它使用了LSM树为磁盘顺序读写做了优化。每个Table都拆分为多个Tablet分布在不同机器，通过动态管理众多的Tablet来达到PB级容量的支持。</p>
+
+<h3 id="ssd">充分利用SSD</h3>
+
+<p>快速flash设备近几年在服务器上有了广泛的应用，较新的SSD每块可以支持每秒数万次的IOPS，相比机械盘有了很大的提升。通过在同一台服务器插上多个SSD，我们就在单个服务器上获得了每秒数十万次IOPS的能力。传统的以原地更新B树方式实现的存储引擎，并不能很高效地利用SSD如此之高的读写能力，因此越来越多的NoSql存储系统使用了LSM树方式实现的存储。我们采用了<a href="http://rocksdb.org/">Rocksdb</a>作为存储引擎，Rocksdb是在Leveldb基础上为SSD开发的嵌入式持久Key-Value存储组件，通过专门为写进行优化，提供更好的compression，更小的写放大等手段，Rocksdb具有很高的性能以充分发挥SSD的读写能力。同时它提供丰富的配置选项，可以配置为频繁读硬盘型，全内存型，只写一次型等多种读写类型，并且内部多个地方实现为插件机制，使用者可以自由配置、替换其中的组件以满足定制需要。</p>
+
+<h3 id="section-4">良好的集群管理和运维能力</h3>
+
+<p>一个大容量的数据存储系统必然涉及数量众多的服务器与进程，它们的管理便成了系统中非常重要的一环。根据我们的经验，存储系统的运维友好性是在系统设计中最容易被忽略也是最容易出问题的地方。在Cloudtable中，每个Tablet都运行在一个由多台数据存储机器组成的集群中，每个称为StorageUnit的数据存储机器上面运行着多个进程以及Tablet，整个集群中分布着数量非常多的Tablet，我们需要把所有机器及Tablet信息，活跃Tablet与服务器映射关系，空闲机器及空间大小等系统元数据信息都统一管理起来。参考HBase，我们将使用与普通数据存储相同的机制存储系统元数据，在HBase中，这样的元数据存放于<code>-ROOT-</code>表及<code>.META.</code>表，在Cloudtable中，我们将这部分元数据的存储抽取出来成为一个独立的元数据集群，称之为Metastore。相应地，HBase中各HRegionServer的存活检测是通过Zookeeper临时结点心跳来实现的，而在Cloudtable中，我们使StorageUnit定期向Metastore写入心跳。另外，Cloudtable中有一个对应到HBase的HMaster的管理进程，我们称之为Controller，它主要负责Table，Tablet及StorageUnit的理工作，包括：</p>
+
+<ol>
+  <li>管理用户对表的增删修改操作</li>
+  <li>管理对Tablet的分配、回收以及分布，负责处理Tablet的Split</li>
+  <li>负责StorageUnit机器的负载均衡，失效处理，加减机器等</li>
+</ol>
+
+<p>将管理控制功能分离独立成两个相对简单的组件Metastore和Controller，便于我们实现其中的每一个部分。通过清楚定义的运维流程，考虑充分的异常处理，不断改进的实现过程以及大量的测试和检验，良好的集群管理和运维能力是可以实现的。</p>
+
+<h2 id="section-5">架构</h2>
+
+<p>Cloudtable是一个用Go语言编写的基于列模式存储系统。Rocksdb作为底层存储引擎，嵌入到每一个StorageUnit中，后者即是负责存储数据的进程。Metastore用于存储系统元数据，Controller用于集群管理。在系统的最外层有Gateway进程，作为接入层用于处理外部的请求。整个架构如下图所示：</p>
+
+<p><a href="/images/uploads/cloudtable_architecture.png"><img src="/images/uploads/cloudtable_architecture.png" alt="Cloudtable架构图" /></a>  </p>
+
+<p>整体跟BigTable以及基于BigTable模型的存储系统有很多相似之处<a href="#1">[1]</a>。每个StorageUnit进程内部，管理着一定数量的Tablet实例，多个不同StorageUnit的Tablet实例相同通信，组成一个高可用，分布式强一致的Tablet集群。例如上图中的Tablet A，就分布在3个不同的StorageUnit进程上。Tablet内部运行着Raft协议，同一个Tablet的所有实例组成一个Raft组。在Raft协议原来的强一致读写的基础上，我们实现了多种不同一致性的读模式：</p>
+
+<ol>
+  <li>Read Latest，一致性读</li>
+  <li>Local Read，只读本地节点，可能读到过时数据</li>
+  <li>Read After，读指定Timestamp之后的数据，如果本地读不到则转为一致性读</li>
+</ol>
+
+<p>丰富的读模式既给了用户更多的自由度，也提高了系统的可用性。另外在Bigtable或HBase的Range分区模式的基础上，Cloudtable添加了对Hash分区的支持，混合分区的开发也在计划当中。整个系统对外以Thrift接口方式向用户提供服务，兼容HBase Thrift的接口。按语义分类，接口可以分为Get, Mutation(Put/Delete/Increment/Append), Scan, CAS等几大类，同时支持批量接口以及异步调用以充分发挥系统的高性能。</p>
+
+<p>系统运行时，初始建表时预先分配的Tablet可能会超出预设大小而发生Split。Split的目标是，在原来单个Tablet实例上服务的区间[m, 2n)会分裂成两个Tablet实例[m, n), [n, 2n)并将它们分隔开放到不同的服务器。Tablet Split实现为先分离Raft Group，再后台复制存储DB并追赶日志的一整套过程。另外，我们使用Raft中的Member Change算法来处理Raft Group节点的增减，系统中有这几种情况需要增减节点：</p>
+
+<ol>
+  <li>数据迁移<br />
+ 在Tablet Split流程的后面阶段，需要将新Tablet从旧Tablet迁移出来</li>
+  <li>节点替换<br />
+ 遇到StorageUnit服务器故障崩溃，需要在一台新机器上做恢复</li>
+  <li>系统降维<br />
+ 在极端情况下，部分机房故障/网络分区可能会破坏Raft运行的条件(即Quorum集群可用)，可以通过将系统结点数降低到仍然可用的子集来继续服务</li>
+</ol>
+
+<h2 id="section-6">性能、运维</h2>
+
+<p>Cloudtable可以部署到单机房，也可以部署在异地不同机房，一个典型的部署场景是，异地跨机房环境中每台服务器上都运行多个StorageUnit进程，每个StorageUnit进程内部运行着多个Tablet实例。Cloudtable可以很好地利用SSD的IOPS以提供高速读写性能，性能测试结果显示，在使用存储服务器A3机型(CPU E5 * 2/Mem 8G * 6/480G SSD * 4 Raid 0/千兆网卡 * 2)跨机房部署的5结点集群中，运行单个Tablet写吞吐可以达到15k每秒，加载多个Tablet实例整个集群写吞吐可以达到50k每秒。在延时方面，5个机房的平均ping RTT在10\~20ms，大量的压力测试结果显示Cloudtable的平均写时延约为26ms，此时测试客户端跟Gateway在同一个机房，对于跨机房接入的应用，其时延为在此基数之上再加上接入到Gateway的耗时。</p>
+
+<p>通过不断的努力，我们相信Cloudtable已经基本达到原来在运维管理方面设定的目标。目前系统能良好运行，对于包括负载均衡，结点失效检测/恢复，在线无缝扩容等常规运维操作进行自主管理，并提供Web管理界面，AdminShell，实时的吞吐/时延监控系统等管理运维工具帮助我们进行运维监控。</p>
+
+<h2 id="section-7">应用场景</h2>
+
+<p>Cloudtable可以用于需要分布式一致性，高性能读写以及大容量要求的应用中。目前在YY公司内部有移动IM消息，频道公屏消息，xcloud等多个项目正在使用Cloudtable作为存储后台。以频道公屏消息为例作说明，它是将YY客户端所有频道公屏消息都存储到Cloudtable，消息以频道号加上时间戳加用户号为主键的方式来存储，便于以频道号、频道号及时间范围作查询。目前每天新增的数据量在10GB+，每天的吞吐量为2000+每秒，凌晨的几个小时高峰期间吞吐量为8000+每秒。每条数据都有一定时长的有效保存期，超期数据由系统自动清理。</p>
+
+<h2 id="section-8">开源</h2>
+
+<p>Cloudtable已经在今年9月初在YY内部开源。我们希望用户或其它开发者，在使用云存储团队提供的Cloudtable的存储服务之余，可以有更多的自由来接触源代码本身，来根据自己的需要来定制和加强Cloudtable。我们期待听到他们在使用服务及源代码等各个层面的反馈，以继续改进Cloudtable或添加更多的功能。请关注公司内部开源平台参与进来。</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> 为方便讨论这里整理了各个BigTable模型系统中的不同命名：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cloudtable</th>
+      <th>BigTable</th>
+      <th>HBase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tablet</td>
+      <td>Tablet</td>
+      <td>Region</td>
+    </tr>
+    <tr>
+      <td>Storage unit</td>
+      <td>Tablet server</td>
+      <td>Region server</td>
+    </tr>
+    <tr>
+      <td>Flush</td>
+      <td>Minor compaction</td>
+      <td>Flush</td>
+    </tr>
+    <tr>
+      <td>Universal compaction</td>
+      <td>Merging compaction</td>
+      <td>Minor compaction</td>
+    </tr>
+    <tr>
+      <td>Level compaction</td>
+      <td>Major compaction</td>
+      <td>Major compaction</td>
+    </tr>
+    <tr>
+      <td>Write-ahead log</td>
+      <td>Commit log</td>
+      <td>Write-ahead log</td>
+    </tr>
+    <tr>
+      <td>memtable</td>
+      <td>memtable</td>
+      <td>MemStore</td>
+    </tr>
+    <tr>
+      <td>sstable</td>
+      <td>SSTable</td>
+      <td>HFile</td>
+    </tr>
+    <tr>
+      <td>Metastore</td>
+      <td>Chubby</td>
+      <td>Zookeeper</td>
+    </tr>
+  </tbody>
+</table>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[分布式一致性，Raft以及其它]]></title>
@@ -721,153 +885,6 @@ type Input int</p>
 <p>除了Retina显示屏和触摸板之外，其它的我都已经比较熟悉了，于是开机登录，拿出Time Machine备份恢复系统，10多分钟之后，就得到了一个全部配置好的Mac系统，Time Machine的用户体验真是好得没话说，如果苹果要为Mac OS立教的话，我也许会去为Time Machine唱首赞美歌。有了RMBP如此精良的装备，战斗力大增之余，回头想想，Life is short，我还是调整一下路线，多做点有意思的事，少做无用功。</p>
 
 <p>在《遇见百分百女孩》里面，主角和百分百女孩终究是擦肩而过，然后女孩的身影消失在人群之中。时光以惊人的速度流逝，我在Linux桌面逗留的时光也已经一去不回了，引用小说原文的话来说：你不觉得这是个令人感伤的故事么？</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SaltStack简明指南(一) 认识SaltStack]]></title>
-    <link href="http://hhkbp2.github.com/blog/2014/01/18/saltstack-the-missing-guide-1/"/>
-    <updated>2014-01-18T01:12:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2014/01/18/saltstack-the-missing-guide-1</id>
-    <content type="html"><![CDATA[<p><a href="/images/uploads/saltstack_logo.jpg"><img src="/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
-
-<h3 id="saltstack">1. SaltStack简介</h3>
-
-<p>在一个互联网公司，随着业务量的增长，服务器的数量也会不断增加，当服务器的数量大到一定程度的时候，就不能靠人手单个单个机器的进行操作了，需要引入一些工具去帮助我们做管理和运维。这样的工具在业界有一个统称：配置管理工具。配置管理这个概念的兴起，也就是大概近10年的事，其核心就是配置管理的工具根据业界需求的不断进化，发展得越来越成熟和多样化。除了广为人知的传统的配置管理工具如Puppet和Chef，近年出现的Ansible和SaltStack也正在快速壮大中。今天这里要介绍的就是其中的SaltStack。</p>
-
-<p>SaltStack是由座落于美国盐湖城的SaltStack公司创建的开源项目，它的名字与公司所在地盐湖城有很大的渊源。它用Python实现，目前托管在github上，并提供配套的安装脚本和丰富的文档。</p>
-
-<p>SaltStack github地址：<a href="https://github.com/saltstack/salt">Salt on github</a><br />
-SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Salt official doc</a></p>
-
-<h3 id="section">2. 架构和特点</h3>
-
-<p>从功能上看，SaltStack提供了配置文件管理和命令执行两大块的功能，配置文件管理包括配置文件的下发，版本更新，依赖关系指定和管理，配置文件与操作系统软件包和进程管理的良好结合等方面，命令执行则是指下发命令到minion机器执行，SaltStack包含了种类众多的命令模块，如cmd(命令行执行)，mysql，package(系统包管理，在具体机器上会落地到apt或yum等包管理器的操作)等，方便用户对目标机器进行命令管理。</p>
-
-<p>从部署结构上看，与Ansible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
-
-<p><a href="/images/uploads/saltstack简单部署结构.png"><img src="/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
-
-<p>其中master和minion都是部署在对应机器上的常驻进程。当运维管理人需要操作minion机器时，他向master进程发出对应的指令，master进程就会将对应的指令下发到所有minion进程，由minion进程在它的本机执行，例如，通过master下发test.ping命令(test.ping用来检查minion的存活，相当于master与minion之间的ping包)如图所示：</p>
-
-<p><a href="/images/uploads/saltstack_test_ping流程.png"><img src="/images/uploads/saltstack_test_ping流程.png" alt="test.ping流程图" /></a></p>
-
-<p>上图只显示了第一个minion的执行流程，其它minion的执行流程也类似，就不全部画出了。</p>
-
-<p>从代码架构上来看，SaltStack使用zeromq进行网络通信，使得网络通信有了较高的性能和并发度，简化了SaltStack本身网络层的实现。master与minion之间使用先经过互通密钥认证后再AES加密消息的方式来保障通信安全性。master, minion内部根据功能划分为多进程，每个进程只负责特定工作，进程间通过zeromq通信，模块组织比较清晰健壮。</p>
-
-<h3 id="saltstack-1">3. SaltStack安装</h3>
-
-<p>SaltStack有安装方式，一种是根据操作系统(主要是Linux的各种发行版)的版本通过包管理器来安装，另一种是从源代码安装。下面我们简单浏览一下两种安装方式。</p>
-
-<h4 id="section-1">3.1 包管理器安装</h4>
-
-<p>目前SaltStack已经针对多个Linux发行版提供了包管理器安装脚本，对几种主流的发行版如CentOS, Ubuntu, Debian, FreeBSD都有支持。使用这种方式安装，只需要下载SaltStack官方提供的bootstrap脚本并执行即可。在命令行执行：</p>
-
-<pre><code>wget -O - http://bootstrap.saltstack.org | sudo sh
-</code></pre>
-
-<p>即为安装minion。要安装master，可在命令行执行：</p>
-
-<pre><code>curl -L http://bootstrap.saltstack.org | sudo sh -s -- -M -N
-</code></pre>
-
-<p>这个bootstrap安装脚本会判断执行机器的发行版及版本号，调用合适的包管理器添加SaltStack的二进制发行包源，安装所有的依赖包并安装命令行参数指定的SaltStack组件。可以看到通过bootstrap脚本安装SaltStack是很简单的。更多详细信息请参考官网文档的<a href="http://docs.saltstack.com/topics/installation/index.html">Installation</a>一节。</p>
-
-<h4 id="section-2">3.2 源代码安装</h4>
-
-<p>如果你使用的Linux发行版不在SaltStack bootstrap安装脚本支持的发行版列表内，或者你需要对安装做一些定制，比如通过Python的virtualenv管理不同的Python环境，那么就需要进行源代码安装了。下面以在某个virtualenv环境内安装为例，简述一下源代码安装步骤：</p>
-
-<pre><code># 首先，进入对应的virtualenv环境
-$ source /path/to/your/virtualenv/bin/active
-# 然后安装依赖包
-# 注意Debian/Ubuntu包管理器使用的是patch过的openssl库，这个M2Crypto包需要通过apt安装，详细见官网文档
-$ pip install M2Crypto 
-$ pip install pyzmq PyYAML pycrypto msgpack-python jinja2 psutil
-# 安装SaltStack
-$ pip install -e ./salt
-</code></pre>
-
-<p>虽然上述命令将Salt安装到了virtualenv中，但由于SaltStack有和系统结合的功能，因此除了Salt本身运行依赖的包之外，它还用到系统当中的一些Python软件包。比如SaltStack可以调用系统的包管理器安装软件包，在Ubuntu发行版里面，需要调用系统当中安装的python-apt包，这个包通过一个动态库.so文件提供Python接口，如果你的virtualenv环境中的Python版本和系统的Python版本不一致，就可能会导致virtualenv环境中的SaltStack调用包管理器操作失败并造成salt进程core dump。所以使用SaltStack做virtualenv源安装时，要留心这个包依赖问题。</p>
-
-<p>virtualenv源代码安装的另一个问题是配置文件路径指定，SaltStack的配置文件，运行目录，cache目录等各种目录默认值都是指向系统目录的，这个默认值是在源代码中写死的。如果要在一台机器安装多个virtualenv SaltStack进程并希望分隔开不同进程的配置，那么就需要修改<code>root_dir</code>参数，为各个进程指派一个不同的路径。</p>
-
-<p>关于源代码安装的更多信息，可以参考官网文档的<a href="http://docs.saltstack.com/topics/hacking.html">Developing Salt</a>一节。</p>
-
-<h3 id="saltstack-2">4. SaltStack使用</h3>
-
-<p>SaltStack包安装之后，minion会向master发出认证请求，我们在master上通过<code>salt-key</code>命令把发出请求的minion私钥添加一下，就完成master与minion之间的认证，这之后就可以通过master管理所有认证过的minion了。详细的上手tutorial可以参考官网文档的<a href="http://docs.saltstack.com/topics/tutorials/walkthrough.html">SaltStack Walkthrough</a>。下面主要简单介绍一下SaltStack的两大功能。</p>
-
-<h4 id="section-3">4.1 配置管理</h4>
-
-<p>所有的配置管理工具都可以为系统状态指定一个描述，Puppet里面是用DSL编写的manifest文件，SaltStack则将其定义为State，State的状态用YAML格式编写。YAML简单清晰，表达力强，比起XML和JSON更适合用于配置文件的编写。下面用一个例子来简单说明一下如何使用SaltStack的配置管理功能。</p>
-
-<p>我们需要先编写好State配置文件，根master配置的默认值，一般将它们放在<code>/srv/salt</code>目录：</p>
-
-<pre><code># 先创建好配置根目录，'%'是root用户的shell提示符
-% mkdir -p /src/salt
-</code></pre>
-
-<p>然后在根目录创建特定名字<code>top.sls</code>的配置文件，它是SaltStack加载所有State配置的入口点，在其中添加下面的内容。</p>
-
-<pre><code>base:
-  '*':
-    - database
-</code></pre>
-
-<p>然后在根目录创建<code>database.sls</code>文件，添加以下内容：</p>
-
-<pre><code>mongodb:
-  pkg:
-    - installed
-</code></pre>
-
-<p>这样配置的意思就是对所有minion机器，都按<code>database.sls</code>文件描述的状态来配置，后者只指定一个State，就是为系统安装mongodb包。一个很简单的State配置就这样完成了。对于一个全新安装的master，在配置文件中，添加下面的配置</p>
-
-<pre><code>file_roots:
-  base:
-    - /srv/salt/
-</code></pre>
-
-<p>告诉master去<code>/srv/salt</code>这个路径去找State配置文件。然后重启master(如果master未启动就启动)，让master加载新添加的配置(如果之前已经在master配置文件中指定了file_roots，则不需要重启了)。最后，将master已经加载的配置下发到minion去执行状态更新：</p>
-
-<pre><code># salt '*' state.highstate -v
-</code></pre>
-
-<p>minion从master获取到最新的State配置后，就会在本地安装好mongodb。就这样，SaltStack集群就按我们所指定的配置执行了一次配置管理操作。</p>
-
-<p>SaltStack的State配置文件主体是YAML描述，其中可以包含jinja模板，可以定义变量，而且提供了一个静态变量系统Grains和一个动态的变量系统Pillar来帮助我们编写State配置，几种特点结合起来提供了很强的表达力，而且上手比较容易。</p>
-
-<h4 id="section-4">4.2 命令执行</h4>
-
-<p>SaltStack内置了命令执行的功能，master可以通过zeromq将命令内容下发到minion，由各个minion在本机执行。由于使用了zeromq，这个下发过程可以并行执行，速度比Ansible的无agent ssh通信快得多。因为命令执行是内置功能，而且不依赖于State状态描述，所以一旦SaltStack安装好，就可以直接使用了。SaltStack描述了100多个不同的命令模块，提供了各种各样功能的命令接口。比如通过<code>apt</code>模块可以调用Debian/Ubuntu的apt包管理器，<code>file</code>模块提供常见的文件访问/重命名/查找等操作，<code>ps</code>模块提供进程查看/管理操作等。全部的命令模块列表可以参考官网文档的<a href="http://docs.saltstack.com/ref/modules/all/">Full list of builtin execution modules</a>一节。</p>
-
-<p>其中一个比较通用的命令行接口是<code>cmd</code>模块，将任意命令编写好之后，都可以通过<code>cmd</code>模块下发到minion去执行，然后返回执行结果。例如在master上执行：</p>
-
-<pre><code>$ salt '*' cmd.run 'uname -r'
-minion_1:
-    3.2.0-23-generic
-minion_2:
-    3.2.0-23-generic
-</code></pre>
-
-<p>得到各个minion机器的内核版本号。</p>
-
-<p>命令执行功能的一个重点就是提供目标匹配的功能(其实配置管理也需要准确匹配目标机器)，方便在某些满足特定条件的机器做特定的操作。SaltStack中把它称之为targeting，SaltStack提供多种targeting的方式，包括针对id进行匹配的globbing, 正则表达式，列表，针对Grains进行匹配，指定分组匹配，还有复合以上几种方式的复合匹配，以及批量方式。</p>
-
-<h3 id="faq">5. FAQ</h3>
-
-<p>1) 目前流行的配置管理工具有哪些？<br />
-在这篇文章<a href="http://www.vpsee.com/2013/08/a-system-configuration-management-and-orchestration-tool-saltstack/">《系统自动化配置和管理工具SaltStack》</a>的开头可以找到一份比较长的名字列表 。</p>
-
-<p>2) SaltStack和Puppet有哪些不同？<br />
-功能：SaltStack具有配置管理和命令执行两大块功能，Puppet支持配置管理，但本身不带命令执行功能。Puppet添加MCollective之后可以提供命令编排功能，但Salt从设计上就考虑了这块，而且以内部模块，与框架合成一体的方式来实现，显然比Puppet加MCollective的方案更简单优雅。
-使用：SaltStack的状态配置用YAML+jinja模板描述，Puppet则是DSL。前者较为简易好上手。
-实现：SaltStack由Python编写，使用了zeromq，Puppet则是Ruby。</p>
-
-<p>3) 比较SaltStack与Ansible？<br />
-这里有一篇比较详细的比较文章：<a href="http://missingm.co/2013/06/ansible-and-salt-a-detailed-comparison/">Ansible and Salt: A detailed comparison</a></p>
 
 ]]></content>
   </entry>
