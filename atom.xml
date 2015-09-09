@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://hhkbp2.github.com/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-09-09T16:01:56+08:00</updated>
+  <updated>2015-09-09T21:15:10+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -18,9 +18,7 @@
     <link href="http://hhkbp2.github.com/blog/2015/09/06/cloudtable-a-distrubted-consistent-big-data-store/"/>
     <updated>2015-09-06T11:23:00+08:00</updated>
     <id>http://hhkbp2.github.com/blog/2015/09/06/cloudtable-a-distrubted-consistent-big-data-store</id>
-    <content type="html"><![CDATA[<center>Cloudtable项目组</center>
-
-<p>我们YY云存储团队负责向公司各部门提供存储服务，随着<a href="http://www.yy.com/">YY</a>的发展壮大，我们面对着数量级越来越大的存储需求。存储和访问PB级别的数据是一个很大的挑战，为了使得存储服务越加的高效和快速，我们持续地改进和翻新我们的工具和系统。最近，我们开发了Cloudtable，它是具有分布式一致性的，可扩展的，大容量数据存储系统。</p>
+    <content type="html"><![CDATA[<p>我们YY云存储团队负责向公司各部门提供存储服务，随着<a href="http://www.yy.com/">YY</a>的发展壮大，我们面对着数量级越来越大的存储需求。存储和访问PB级别的数据是一个很大的挑战，为了使得存储服务越加的高效和快速，我们持续地改进和翻新我们的工具和系统。最近，我们开发了Cloudtable，它是具有分布式一致性的，可扩展的，大容量数据存储系统。</p>
 
 <h2 id="section">为什么开发一个新数据库</h2>
 
