@@ -166,7 +166,7 @@
 
 <p><a href="/images/uploads/cloudtable_architecture.png"><img src="/images/uploads/cloudtable_architecture.png" alt="Cloudtable架构图" /></a>  </p>
 
-<p>整体跟BigTable以及基于BigTable模型的存储系统有很多相似之处<a href="#1">[1]</a>。每个StorageUnit进程内部，管理着一定数量的Tablet实例，多个不同StorageUnit的Tablet实例相同通信，组成一个高可用，分布式强一致的Tablet集群。例如上图中的Tablet A，就分布在3个不同的StorageUnit进程上。Tablet内部运行着Raft协议，同一个Tablet的所有实例组成一个Raft组。在Raft协议原来的强一致读写的基础上，我们实现了多种不同一致性的读模式：</p>
+<p>整体跟BigTable以及基于BigTable模型的存储系统有很多相似之处<a href="#1">[1]</a>。每个StorageUnit进程内部，管理着一定数量的Tablet实例，多个不同StorageUnit的Tablet实例相互通信，组成一个高可用、分布式强一致的Tablet集群。例如上图中的Tablet A，就分布在3个不同的StorageUnit进程上。Tablet内部运行着Raft协议，同一个Tablet的所有实例组成一个Raft组。在Raft协议原来的强一致读写的基础上，我们实现了多种不同一致性的读模式：</p>
 
 <ol>
   <li>Read Latest，一致性读</li>
@@ -189,7 +189,7 @@
 
 <h2 id="section-6">性能、运维</h2>
 
-<p>Cloudtable可以部署到单机房，也可以部署在异地不同机房，一个典型的部署场景是，异地跨机房环境中每台服务器上都运行多个StorageUnit进程，每个StorageUnit进程内部运行着多个Tablet实例。Cloudtable可以很好地利用SSD的IOPS以提供高速读写性能，性能测试结果显示，在使用存储服务器A3机型(CPU E5 * 2/Mem 8G * 6/480G SSD * 4 Raid 0/千兆网卡 * 2)跨机房部署的5结点集群中，运行单个Tablet写吞吐可以达到15k每秒，加载多个Tablet实例整个集群写吞吐可以达到50k每秒。在延时方面，5个机房的平均ping RTT在10\~20ms，大量的压力测试结果显示Cloudtable的平均写时延约为26ms，此时测试客户端跟Gateway在同一个机房，对于跨机房接入的应用，其时延为在此基数之上再加上接入到Gateway的耗时。</p>
+<p>Cloudtable可以部署在单机房、同城多机房，也可以部署到异地多机房，一个典型的部署场景是，异地跨机房环境中每台服务器上都运行多个StorageUnit进程，每个StorageUnit进程内部运行着多个Tablet实例。Cloudtable可以很好地利用SSD的IOPS以提供高速读写性能，性能测试结果显示，在使用存储服务器A3机型(CPU E5 * 2/Mem 8G * 6/480G SSD * 4 Raid 0/千兆网卡 * 2)跨机房部署的5结点集群中，运行单个Tablet写吞吐可以达到15k每秒，加载多个Tablet实例整个集群写吞吐可以达到50k每秒。在延时方面，5个机房的平均ping RTT在10~20ms，大量的压力测试结果显示Cloudtable的平均写时延约为26ms，此时测试客户端跟Gateway在同一个机房，对于跨机房接入的应用，其时延为在此基数之上再加上接入到Gateway的耗时。</p>
 
 <p>通过不断的努力，我们相信Cloudtable已经基本达到原来在运维管理方面设定的目标。目前系统能良好运行，对于包括负载均衡，结点失效检测/恢复，在线无缝扩容等常规运维操作进行自主管理，并提供Web管理界面，AdminShell，实时的吞吐/时延监控系统等管理运维工具帮助我们进行运维监控。</p>
 
