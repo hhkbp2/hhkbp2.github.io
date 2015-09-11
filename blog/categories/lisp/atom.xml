@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lisp | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/lisp/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-09-10T08:44:52+08:00</updated>
+  <updated>2015-09-11T09:47:43+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -130,7 +130,7 @@
 <p>经典的编译过程可以分为词法分析，语法分析，语义分析，中间代码生成，中间代码优化，机器码生成等多个阶段。Erlang的代码编译过程跟经典的编译过程基本一致，也可以分成类似的多个阶段，各个阶段的输入输出如下图所示：</p>
 
 <p><a href="/images/uploads/erlang_compilation.png"><img src="/images/uploads/erlang_compilation.png" alt="Erlang编译过程的各阶段" /></a><br />
-图2 Erlang编译过程各阶段的输入输出<a href="#12">[12]</a></p>
+图2 Erlang编译过程各阶段的输入输出</p>
 
 <p>其中Core Erlang为于Erlang代码与VM内部中间代码之间的一层，它是在1999年前后提出的一种BEAM(Erlang VM的最新实现)上的语言，它被设计为：</p>
 
