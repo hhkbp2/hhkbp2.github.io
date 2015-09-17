@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://hhkbp2.github.com/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2015-09-17T17:34:36+08:00</updated>
+  <updated>2015-09-17T17:51:21+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Raft简明指南]]></title>
-    <link href="http://hhkbp2.github.com/blog/2015/09/09/a-tutorial-to-raft/"/>
-    <updated>2015-09-09T21:56:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2015/09/09/a-tutorial-to-raft</id>
+    <link href="http://hhkbp2.github.com/blog/2015/09/16/a-tutorial-to-raft/"/>
+    <updated>2015-09-16T21:56:00+08:00</updated>
+    <id>http://hhkbp2.github.com/blog/2015/09/16/a-tutorial-to-raft</id>
     <content type="html"><![CDATA[<p>在一个分布式环境下，基于读写性能、数据安全等方面的考虑，一份数据往往会有多个副本，如何维护多个副本的一致性，长期以来都是分布式系统中的一个重要而困难的问题。过去10多年的时间里，自从Leslie Lamport的古希腊故事<a href="#1">[1]</a>被重新挖出来之后，<a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a>先后风行了学术界与工程界，在分布式一致性领域占有着垄断地位，但是Paxos不易理解，难于工程化，如果你阅读过Paxos系列论文<a href="#2">[2]</a>，或关注过由Paxos衍生出来的众多系统<a href="#3">[3]</a>，相信你会有此同感。因此，Stanford大学的Diego Ongaro和John Ousterhout以易理解性为目标，重新设计了一个分布式一致性算法<a href="https://raft.github.io/">Raft</a>，并于2013年底公开发布。Raft既明确定义了算法中每个环节的细节，也考虑到了整个算法的简单性与完整性，与Paxos相比，Raft更适合用来学习以及做工程实现。下面，我将以“尝试自制一个分布式一致性算法”的思路，向大家系统地介绍Raft算法的方方面面。</p>
 
 <h3 id="section">简单尝试</h3>
@@ -166,7 +166,7 @@
 <a id="1">[1]</a> 指最初不为<a href="http://tocs.acm.org/">ACM Transactions on Computer Systems</a>所赏识的论文<a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/lamport-paxos.pdf">《The Part-Time Parliament》</a>。<br />
 <a id="2">[2]</a> 包括<a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/lamport-paxos.pdf">《The Part-Time Parliament》</a>, <a href="http://research.microsoft.com/en-us/um/people/blampson/65-ABCDPaxos/Acrobat.pdf">《Paxos Made Simple》</a>，<a href="http://research.microsoft.com/pubs/64634/web-dsn-submission.pdf?q=cheap">《Cheap Paxos》</a>, <a href="http://research.microsoft.com/pubs/64624/tr-2005-112.pdf">《Fast Paxos》</a>, <a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/paxos_made_live.pdf">《Paxos Made Live》</a>, <a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/paxos_made_live.pdf">《Paxos Made Practical》</a>等。<br />
 <a id="3">[3]</a> 包括<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/chubby-osdi06.pdf">Chubby</a>, <a href="https://zookeeper.apache.org/">Zookeeper</a>等。<br />
-<a id="4">[4]</a> 要对逻辑时钟，分布式系统时序等有一个深入的理解，请阅读Lamport的经典论文<a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/time-clocks.pdf">《Time, Clocks, and the Ordering of Events in a Distributed System》</a>。</p>
+<a id="4">[4]</a> 要深入了解逻辑时钟和分布式系统时序，请阅读Lamport的经典论文<a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/time-clocks.pdf">《Time, Clocks, and the Ordering of Events in a Distributed System》</a>。</p>
 
 ]]></content>
   </entry>
