@@ -107,7 +107,7 @@
   </header>
 
 
-  <div class="entry-content"><p>在一个分布式环境下，基于读写性能、数据安全等方面的考虑，一份数据往往会有多个副本，如何维护多个副本的一致性，长期以来都是分布式系统中的一个重要而困难的问题。过去10多年的时间里，自从Leslie Lamport的古希腊故事<a href="#1">[1]</a>被重新挖出来之后，<a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a>先后风行了学术界与工程界，在分布式一致性领域占有着垄断地位，但是Paxos不易理解，难于工程化，如果你阅读过Paxos系列论文<a href="#2">[2]</a>，或关注过由Paxos衍生出来的众多系统<a href="#3">[3]</a>，相信你会有此同感。因此，Stanford大学的Diego Ongaro和John Ousterhout以易理解性为目标，重新设计了一个分布式一致性算法<a href="https://raft.github.io/">Raft</a>，并于2013年底公开发布。Raft既明确定义了算法中每个环节的细节，也考虑到了整个算法的简单性与完整性，与Paxos相比，Raft更适合用来学习以及做工程实现。下面，我将以“尝试自制一个分布式一致性算法”的思路，向大家系统地介绍Raft算法的主要内容。</p>
+  <div class="entry-content"><p>在一个分布式环境下，基于读写性能、数据安全等方面的考虑，一份数据往往会有多个副本，如何维护多个副本的一致性，长期以来都是分布式系统中的一个重要而困难的问题。过去10多年的时间里，自从Leslie Lamport的古希腊故事<a href="#1">[1]</a>被重新挖出来之后，<a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a>先后风行了学术界与工程界，在分布式一致性领域占有着垄断地位，但是Paxos不易理解，难于工程化，如果你阅读过Paxos系列论文<a href="#2">[2]</a>，或关注过由Paxos衍生出来的众多系统<a href="#3">[3]</a>，相信你会有此同感。因此，斯坦福大学的Diego Ongaro和John Ousterhout以易理解性为目标，重新设计了一个分布式一致性算法<a href="https://raft.github.io/">Raft</a>，并于2013年底公开发布。Raft既明确定义了算法中每个环节的细节，也考虑到了整个算法的简单性与完整性，与Paxos相比，Raft更适合用来学习以及做工程实现。下面，我将以“尝试自制一个分布式一致性算法”的思路，向大家系统地介绍Raft算法的主要内容。</p>
 
 <h3 id="section">简单尝试</h3>
 
