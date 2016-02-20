@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://hhkbp2.github.com/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2016-01-28T10:59:52+08:00</updated>
+  <updated>2016-02-20T14:45:21+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,164 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Raft简明指南]]></title>
-    <link href="http://hhkbp2.github.com/blog/2015/09/16/a-tutorial-to-raft/"/>
-    <updated>2015-09-16T21:56:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2015/09/16/a-tutorial-to-raft</id>
-    <content type="html"><![CDATA[<p>在一个分布式环境下，基于读写性能、数据安全等方面的考虑，一份数据往往会有多个副本，如何维护多个副本的一致性，长期以来都是分布式系统中的一个重要而困难的问题。过去10多年的时间里，自从Leslie Lamport的古希腊故事<a href="#1">[1]</a>被重新挖出来之后，<a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos</a>先后风行了学术界与工程界，在分布式一致性领域占有着垄断地位，但是Paxos不易理解，难于工程化，如果你阅读过Paxos系列论文<a href="#2">[2]</a>，或关注过由Paxos衍生出来的众多系统<a href="#3">[3]</a>，相信你会有此同感。因此，斯坦福大学的Diego Ongaro和John Ousterhout以易理解性为目标，重新设计了一个分布式一致性算法<a href="https://raft.github.io/">Raft</a>，并于2013年底公开发布。Raft既明确定义了算法中每个环节的细节，也考虑到了整个算法的简单性与完整性，与Paxos相比，Raft更适合用来学习以及做工程实现。下面，我将以“尝试自制一个分布式一致性算法”的思路，向大家系统地介绍Raft算法的主要内容。</p>
-
-<h3 id="section">简单尝试</h3>
-
-<p>在传统单机环境中，一致性往往是围绕单份数据来考虑的，例如将读操作与写操作互斥，以保证不会读到写了一半的数据。分布式环境下，由于数据以多个副本的方式存在，因此一致性的重点更多的放在维护多个副本的一致。我们尝试考虑一下如何实现一个具有分布式一致性的系统，以系统中有5台在物理距离上分隔较远的机器为例，要保证多个副本的一致性，最简单的实现方式就是每次写操作，都写完5个结点，如图1所示：</p>
-
-<p><a href="http://hhkbp2.github.com/images/uploads/distributed_consensus_write_all.png"><img src="http://hhkbp2.github.com/images/uploads/distributed_consensus_write_all.png" alt="图1 写全部结点" /></a><br />
-图1</p>
-
-<p>假设结点<code>G</code>与其它各个结点之间RTT值如图所示，当结点<code>G</code>接收到写操作的请求并进行处理时，它对其它每个结点都执行一个RPC调用更新数据，假设写数据的耗时可以忽略，那么整个写操作的时间即为结点<code>G</code>与所有其它结点RTT的最大值，即45ms。由于写操作只有在成功更新了所有的副本之后才算成功，因此读操作可以在任一个结点进行。</p>
-
-<p>虽然看上去可以工作，但上面的方案要求所有的结点都保持可用而且连通。在现实中，由于进程崩溃/机器崩溃/网络分割等故障是很常见的，整个集群往往有部分结点不可用或者无法保持连通，因此上面的方案实际上有严重的可用性问题。若同时考虑到部分结点可能不可用/不连通的情况，一个写操作应该用什么方式更新副本？更新多少个副本？</p>
-
-<p>我们可以先想想与写全部结点相反的另一个极端：只写一个结点。若对于每个写操作，只写结点<code>G</code>成功就认为写操作成功，再由结点<code>G</code>异步地将数据同步到其它各个结点，只要读操作限制在<code>G</code>上，那么读到的数据还是最新写入的数据，是一致的。但这个方式是有问题的，一旦新写入的数据在成功同步到所有其它结点之前，结点<code>G</code>由于故障变得不可用，此时若允许从其它结点读就会读到旧数据；若不允许从其它结点读，那么系统就变得不可用。什么时候能把系统恢复可用呢？若结点<code>G</code>能及时从故障恢复过来就可以。但是结点<code>G</code>不一定能从故障中恢复到原状态，若结点<code>G</code>上的硬盘损坏了，新写入的数据就永久丢失了。</p>
-
-<p>经过上面的讨论，我们知道写单个结点和写全部结点这两种极端情况都是有问题的，那么能不能在两个极端的中间取得一个折衷呢？似乎写集群中一半结点是一个很好的中间方案。还是以图1为例，如果每次写只需要同步写<code>G</code>, <code>S</code>，即5个结点中的2个，那么可以将每次写操作的时延降低到RTT的中值，即20ms，其次还可以应付集群中最多有一半结点不可用的情况，剩下的两个结点在同步写成功之后，以异步同步的方式来更新数据。此时读操作只能在<code>G</code>，<code>S</code>这一半较新的结点进行。</p>
-
-<p>到目前为止，我们尝试设计一种实现分布式一致性的方式，虽然还有很多细节未明确，但是在此过程中，我们可以体会到：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">1. 分布式一致性算法的核心是多点复制。
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section-1">集权胜于民主</h3>
-
-<p>下面我们继续细化一下写操作的实现方式。类似于上面写单点还是写全部结点的讨论，在一个分布式环境中，可以实现为：全网只有一个结点可以处理写请求，或全网任一个结点都可以处理写请求。如果我们把在分布式环境执行多个写操作抽象成一个模型，那就会是如下的模型：</p>
-
-<p><a href="http://hhkbp2.github.com/images/uploads/distributed_consensus_module.png"><img src="http://hhkbp2.github.com/images/uploads/distributed_consensus_module.png" alt="图2 模型" /></a><br />
-图2</p>
-
-<p>每个结点都维护一份状态，图中以状态机的形式表示。每个写操作都会先写入到日志，再应用于后面的状态机。只要每个写操作都以相同的顺序串行化地添加到每个结点的日志当中，那么顺序应用每个日志的条目之后，每个结点上面的状态机最终就能够达到一致。这个模型常常被称为<em>复制的状态机</em>模型。</p>
-
-<p>若全网只有一个结点可以接受写请求，那么日志就从这个结点同步到其它所有结点，数据流向是一个单向的放射状结构。在单个结点上串行化多个写操作，这是比较容易实现的，只需要将写请求进行排队然后顺序写入日志即可。这种方案被称为<em>强Leader</em>。</p>
-
-<p>相反地，若全网有多个结点可以处理写请求，那么要串行化多个结点上面的写操作，则比较复杂，如果多个结点上，同一个日志位置有多个不同的写条目，那么如果决定哪个结点上面的对应条目是有效的？每个结点都有一个不同步的独立时钟，直接以绝对时间来分辨谁先谁后不是一个好的办法。这就需要跨结点交互去竞争日志条目的有效性。而且，除了一个条目是有效的，其它无效的写操作应该如何处理也颇费思量。我们把这种方案称为<em>完全分布式</em>。经过上面的对比，我们得知：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">2. 强Leader比完全分布式更简单更有效率。
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section-2">选举与监察</h3>
-
-<p>既然系统需要一个Leader，那么这个Leader如何产生呢？一个健壮的分布式系统应该可以根据系统当前的状况作出动态的调整，如果Leader机器崩溃了，系统应该有机制可以产生新的Leader来继续服务，这套机制应该是内嵌在系统当中的，因此我们可以直接排除人工在外部指定的方式。从一般化的角度来讲，我们需要一套系统内部的选举机制，在原有Leader失效的时候，重新选举出新的Leader。我们将问题分解成两个部分分别讨论：</p>
-
-<h4 id="leader">1. 选举新Leader</h4>
-
-<p>只要检测到Leader失效，就需要发起新的选举。在分布式环境中，由于可能出现时间不同步，或者网络断开，其中每个结点的发现旧Leader失效的时间，以及跟其它结点的连通视图可能会出现较大差别，一个较健壮的方案就是，除了刚失效的Leader之外，原来集群中的其它Follower若观察到Leader失效，就马上变成Candidate(候选人)，向集群其它结点发起投票请求。如果有Candidate收集到足够多的投票，那么就成为新的Leader。</p>
-
-<p>我们需要仔细考虑一下，如何来定义“足够多”。人类社会有类似的概念：“少数服从多数”，对于一个选举过程来说，可以认为“多数”就是“足够多”。所谓“多数”，用数学的方式来表达为：对于一个结点总数为2n+1的分布式集群，若投票数达到n+1，则选举有效。即至少有一半加一个结点投票。在Raft里面，我们将这个“多数”称之Quorom。由于每个结点只能投票一次，那么即使有多个Candidate，投票结果也只可能出现一个Leader，因为集群中不可能出现两个互不相同的Quorom，因此以Quorom为标准可以保证选举结果的唯一。</p>
-
-<p>将Quorom机制推广到普通写操作，即写操作亦需要同步写Quorom个结点才算成功，在图2的模型中，日志中的每一个条目就可以保证状态唯一，而且后来的写操作只能追加到前面的写操作条目之后，不能覆盖前一个条目的写操作，因此整个日志是随时间不断向后伸长的。同时，此时从对应的Quorom读也能读到最新的数据，为了简化实现，因为Leader必然也属于Quorom，我们可以把读限制在Leader结点。</p>
-
-<h4 id="leader-1">2. 检测Leader失效</h4>
-
-<p>故障是经常会发生的，Leader选举出来之后，如何能检测到它的失效呢？一个经典的失效检测方式就是心跳。让所有的Follower与Leader之间保持一个常规的心跳，若Leader挂掉，Follower就会在约定的时间范围内注意到Leader失去响应。为了简化，我们可以让心跳机制跟上面所述的强Leader写流程尽量保持一致，即心跳是由Leader定期发向Follower。从本质上来说，不带数据的心跳和包含写操作的数据更新RPC包都可以认为是一种Leader依然存活的依据，所以我们可以把这两种包合并成为一个。在Raft里面，用一个名为AppendEntries Request的消息把两种类型的包统一成一种格式。</p>
-
-<p>总结本节的内容，我们可以得到：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">3. 选举和心跳，是产生Leader和监察Leader的方式。
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section-3">时序同步</h3>
-
-<p>异步分布式系统当中，我们常常用逻辑时钟<a href="#4">[4]</a>来同步时序，逻辑时钟是一种通过带时间戳的异步消息来同步时序的方法。采用强Leader的实现方式，每个Leader可以指定一个任期，由于任期之内都以Leader这个单点的时间为准，单个任期之内时间是不会错乱的，那么只需要用逻辑时钟将不同任期的时序表示出来。将Leader的单个任期定义为Term，并规定Term的值从0开始单调递增。每次要切换Leader，Term的值就增一，在每个Term的开头，都先要进行选举，若成功选出Leader，则在此Leader有效工作期间Term不变。若选举不出Leader，则Term再增一，重试选举。因此得到系统的运行情况如图3所示：</p>
-
-<p><a href="http://hhkbp2.github.com/images/uploads/distributed_consensus_terms.png"><img src="http://hhkbp2.github.com/images/uploads/distributed_consensus_terms.png" alt="图3 Terms" /></a><br />
-图3</p>
-
-<p>运用类似的手法，我们给图2中Log的每个条目都进行编号，每个Log条目都带一个单调递增的index，通过(term, index)元组就可以保证Log条目的唯一性，其中term可以看作是时间标记，index可以看作是空间标记，两者的组合可以看作是时空的坐标。在一个运行的系统中，Leader向其它各个Follower不断同步数据，我们可以观察到各个结点的Log运行情况如图4所示：</p>
-
-<p><a href="http://hhkbp2.github.com/images/uploads/distributed_consensus_logs.png"><img src="http://hhkbp2.github.com/images/uploads/distributed_consensus_logs.png" alt="图4 Terms" /></a><br />
-图4</p>
-
-<p>图中最左边是每个结点的编号，每个结点的Log都自左向右伸长。当一个Log条目被Leader同步到Quorom，就变成认为成功commit，这个在前面已经讨论过。本节我们将逻辑时钟应用到强Leader方案，总结就是：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">4. 通过标记Leader任期的逻辑时钟来同步时序。
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section-4">成员变更</h3>
-
-<p>一个系统在上线运营的过程中，出于替换失效结点、增强备份数量等目的，我们往往需要替换、增减其中的成员结点。在互联网环境下，让系统离线再变更成员已经不合时宜。如何可以让一个分布式系统可以在线变更成员，并且在此过程中还能保证分布式一致性呢？要达到这个目标似乎相当困难，即使可以做到其方案也会非常复杂。</p>
-
-<p>若采用非一致性系统加减结点的做法，直接向新旧集群中各个结点下发变更的指令，由于各个结点收到指令的时序不一致，那么可能会出现，在某个时刻，新集群已经开始独立工作接受写请求，但老集群还没完全下线也接受写请求的场景，这个时候就无法保证一致性。</p>
-
-<p>我们可以将目标分开来考虑：一致性方面，新老两个集群有部分结点是重合的(至少有一个结点不变)，在新老集群切换期间要达到一致性，我们可以让每个写操作同时应用在新，老两个集群，只有两个集群同时都操作成功才算成功；服务不中断方面，我们把成员变更的操作转换为写操作，用跟写操作的同样的一套机制来处理，但可以猜想到成员变更的处理细节跟普通写操作有一定区别，前者要求更新集群内部的成员关系，后者只是简单的追加日志并应用到状态机。</p>
-
-<p>综合上述两方面，我们可以得到一个完善的方案：要变更成员时，通过向旧集群执行一个代表“要开始将旧集群变更为新集群”的写操作，向旧集群通知新集群的存在，此后的所有写操作都需要同时应用到新旧两个集群，然后再执行一个代表“旧集群退出，新集群正式接管”的写操作，一旦第二个写操作成功，整个变更过程就结束了。这个方案需要执行两次写操作，因此不是太直观。简单地描述，就是：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">5. 成员变更 = 向旧集群通知新集群 + 新旧集群同时工作 + 旧集群退出新集群接管
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section-5">日志压缩</h3>
-
-<p>从图2的模型我们不难看到，随时时间的流逝，每个结点上面的Log会变得越来越长，由于Log需要持久化到磁盘，每个Log条目都会占用一定的磁盘空间，所以我们需要适当地清理过时的Log条目。从上面的叙述可知，每个Log条目在写到Quorom会变成committed状态，再应用到后面的状态机，在成功应用到状态机之后，Log条目就已经完成使命变得过时了。考虑到Leader要给其它结点同步，有的Follower结点可能会同步得比较慢，因此若Leader上面删除了过时的Log条目，我们就无法将它同步到其它较慢的Follower，因此我们需要引入snapshot。在删除过时Log条目前，先将最后一条应用过的Log条目信息，以及状态机的一个镜像保留下来。如果需要向其它Follower发送被删除的日志条目，就以发送snapshot来以代替日志来同步状态。这个删除过时Log条目的动作在各个结点是独立进行的，不需要全集群同步进行，我们称之为<em>日志压缩</em>。</p>
-
-<p>另外，由于有了snapshot，若集群有新的结点要启动，此时新结点上面没有数据是一个空的结点，Leader可以通过向新结点发送snapshot，来帮助新结点追赶数据。本节主要讨论了日志压缩的实现，简单总结为：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">6. 日志压缩 = snapshot + 删日志
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section-6">对外交互</h3>
-
-<p>之前在讨论选举和写Quorom的时候，我们已经提到过，系统外部的Client，读写都只能在Leader上进行。由于进程崩溃，网络断开等情况的出现，系统中的Leader可能会切换，若不巧Client把写请求发送到了Follower上，那么Follower需要回复Client真正的Leader是哪个结点，再由Client重新将写请求发送到真正的Leader上。一般情况下这个简单的重定向机制就可以工作得很好。在选举过程中，有可能出现旧Leader已经挂掉，新Leader还未选出的场景，此时若有写请求发送到Candidate上，那么Candidate结点都需要告诉Client“请稍后再重试”，因为Leader最终会选举出来，因此对Client的服务也会恢复，Client只需要设定一个合适的超时，出现超时则重试。</p>
-
-<p>要特别注意的是，Client可能面临着操作重放问题。假设某个Client向Leader发送了写请求，Leader将数据同步到Quorom，然后将操作应用到了Leader上的状态机，在向Client发送表示操作成功的回包之前，Leader崩溃了。此时写操作已经成功了，但Client并不知情，后面Client会观察到操作超时，然后重新将此操作发送到新选举出来的Leader，此时就会出现同一个写操作重复应用了两次的情况。对于可以重入的操作，重放并不是问题。但对于不可重放的操作，比如<code>increment 1</code>(在原来的值基础上增加1)，如果要避免重放产生问题，可以在原来操作的基础加上条件判断，条件判断可以用数据值或时间戳值等作为条件，如由原来操作的<code>increment 1</code>变成<code>if value == 18 then increment 1</code>，于是在第二次执行操作时，条件判断就会失败因而避免了操作的重放。</p>
-
-<p>简单来总结对外交互这一块的实现，就是：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">7. 客户端从Leader读写，超时重试。
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<h3 id="section-7">总结</h3>
-
-<p>上面我们从简单尝试设计一个分布式一致性算法开始，层层推进地梳理和分析了Raft算法的主要内容。在每一个小节我们都总结了一个要点，将它们汇总如下：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">1. 分布式一致性算法的核心是多点复制。
-</span><span class="line">2. 强Leader比完全分布式更简单更有效率。
-</span><span class="line">3. 选举和心跳，是产生Leader和监察Leader的方式。
-</span><span class="line">4. 通过标记Leader任期的逻辑时钟来同步时序。
-</span><span class="line">5. 成员变更 = 向旧集群通知新集群 + 新旧集群同时工作 + 旧集群退出新集群接管
-</span><span class="line">6. 日志压缩 = snapshot + 删日志
-</span><span class="line">7. 客户端从Leader读写，超时重试。
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>这几个要点组合起来就形成一个Raft算法的主体。在尝试推导这些要点的过程中，我们采用了一系列的技巧来帮助我们理解问题以及思考解决方案，这些技巧有先极端再折衷，分解问题，缩减状态/问题空间，先分析再综合等。通过自己的思考与推导，我们对Raft的主要原理有了更加清晰的理解。要进一步了解Raft的全部实现细节，可以参考下面的资料：</p>
-
-<ol>
-  <li><a href="https://ramcloud.stanford.edu/raft.pdf">Raft论文</a>，Raft算法的主要传播载体</li>
-  <li>Raft作者之一Diego Ongaro的博士论文<a href="https://github.com/ongardie/dissertation">《Consensus: Briding Theory and Practice》</a>，相比上面的原版论文，它的篇幅更长更详细，添加了一些新内容如single server member change算法等</li>
-  <li>Raft论文中的实验结果由剑桥大学计算机实验室独立确认过，见论文<a href="http://www.cl.cam.ac.uk/~ms705/pub/papers/2015-osr-raft.pdf">《Raft Refloated: Do We Have Consensus?》</a></li>
-</ol>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> 指最初不为<a href="http://tocs.acm.org/">ACM Transactions on Computer Systems</a>所赏识的论文<a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/lamport-paxos.pdf">《The Part-Time Parliament》</a>。<br />
-<a id="2">[2]</a> 包括<a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/lamport-paxos.pdf">《The Part-Time Parliament》</a>, <a href="http://research.microsoft.com/en-us/um/people/blampson/65-ABCDPaxos/Acrobat.pdf">《Paxos Made Simple》</a>，<a href="http://research.microsoft.com/pubs/64634/web-dsn-submission.pdf?q=cheap">《Cheap Paxos》</a>, <a href="http://research.microsoft.com/pubs/64624/tr-2005-112.pdf">《Fast Paxos》</a>, <a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/paxos_made_live.pdf">《Paxos Made Live》</a>, <a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/paxos_made_live.pdf">《Paxos Made Practical》</a>等。<br />
-<a id="3">[3]</a> 包括<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//archive/chubby-osdi06.pdf">Chubby</a>, <a href="https://zookeeper.apache.org/">Zookeeper</a>等。<br />
-<a id="4">[4]</a> 要深入了解逻辑时钟和分布式系统时序，请阅读Lamport的经典论文<a href="http://research.microsoft.com/en-us/um/people/lamport/pubs/time-clocks.pdf">《Time, Clocks, and the Ordering of Events in a Distributed System》</a>。</p>
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cloudtable: 分布式一致性的大数据存储系统]]></title>
@@ -2432,6 +2274,139 @@ minion_2:
 <p>和朋友聊起房市，谈到一个问题：房价泡沫会不会破，是不是越早买房越好。这样的问题，个人感觉不会有一个简单到非黑即白的答案。</p>
 
 <p>读完黄仁宇的《万历十五年》和《黄河青山》，启发甚多。很多事情在发生的当时我们并不能准确理解它，拉开了时间的尺度之后，才能看得清楚。</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[嵌套反引用有害]]></title>
+    <link href="http://hhkbp2.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/"/>
+    <updated>2013-03-10T21:37:00+08:00</updated>
+    <id>http://hhkbp2.github.com/blog/2013/03/10/nested-backquotes-considered-harmful</id>
+    <content type="html"><![CDATA[<p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
+
+<hr />
+
+<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
+
+<blockquote>
+  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br />
+<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
+</blockquote>
+
+<p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
+
+<pre><code>1. 在内层使用LIST, APPEND等函数代替反引用
+2. 使用包含反引用的辅助函数
+</code></pre>
+
+<p>Bruno为每个方法提供了例子。</p>
+
+<p>首先，下面给出的这段代码用了嵌套反引用：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       `(let
+          (,,@(mapcar #'(lambda (tmp var)
+                          ``(,',tmp ,,var))
+                      temps variables))
+          ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                         variables temps)
+             ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法1转换后如下：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (list 'let
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(list ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法2转换后如下：</p>
+
+<pre><code>(defun construct-binding (variable form)
+  `(,variable ,form))
+
+(defun construct-let-wrapper (bindings body-form)
+  `(let ,bindings ,body-form))
+
+(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (construct-let-wrapper
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(construct-binding ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
+
+<p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）。Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
+
+<blockquote>
+  <p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+
+  <ol>
+    <li>
+      <p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
+
+      <p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
+
+      <p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
+    </li>
+    <li>
+      <p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
+
+      <p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
+
+      <pre><code>'(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+
+      <p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
+
+      <pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+
+      <p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
+    </li>
+  </ol>
+
+  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。  </p>
+</blockquote>
+
+<p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
+
+<pre><code>1. 使用嵌套反引用
+2. 在内层使用LIST, APPEND等函数代替反引用
+3. 使用包含反引用的辅助函数
+4. 使用一个反引用的替代实现
+</code></pre>
+
+<p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br />
+<a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
 
 ]]></content>
   </entry>

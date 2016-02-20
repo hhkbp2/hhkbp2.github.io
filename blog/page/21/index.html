@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="There is an official errata for C++ Primer, 4th on informIT website with the URL: http://www.informit.com/content/images/9780201721485/Errata/ &hellip;">
+  <meta name="description" content="晚上回到住处，打开google音乐播放器播歌，然后在床上躺了一会儿，不知不觉睡着了。醒来的时候电脑在播bob dylan那首著名的歌，”How does it feel? ah, how does it feel? To be on your own, … , like a rolling &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,265 +78,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/11/28/my-personal-errata-for-c-primer/">My Personal Errata for C++ Primer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-28T09:00:00+08:00" pubdate data-updated="true">Nov 28<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is an official errata for C++ Primer, 4th on informIT website with the URL:</p>
-
-<p>http://www.informit.com/content/images/9780201721485/Errata/Lippman_0201721481_Errata.html</p>
-
-<p>Here i list the other errata I found so far. The Warning must be given first that all the items raised as follows is just the statements of myself so that they might be not errata in true and not all the errata are included here( Maybe there is absolutely no such a list of errata which could give that warranty). And I don’t think I would keep updating all the time.</p>
-
-<ul>
-  <li>
-    <p>Page 101: In paragraph 4 behind</p>
-
-    <p>vector<int>::iterator mid = vi.begin() + vi.size() / 2;</int></p>
-  </li>
-</ul>
-
-<p>the word “ivec” of the sentence “This code initializes mid to refer to the element nearest to the middle of ivec.”, should be “vi” apparently.</p>
-
-<ul>
-  <li>
-    <p>Page 129: In paragraph 2 below title “Pointers and Typedefs”, given the code</p>
-
-    <p>“typedef string *pstring;
-  const pstring cstr;”</p>
-  </li>
-</ul>
-
-<p>the two occurances of “a pointer to const pstring” in the text</p>
-
-<p>“what is the type of cstr? The simple answer is that it is a pointer to const pstring. The deeper question is: what underlying type does a pointer to const pstring represent?”</p>
-
-<p>should be revised to “a const pstring”.</p>
-
-<ul>
-  <li>
-    <p>Page 136: In “Initializing a Dynamically Allocated Array” section, paragraph 2, the code fragment comment is wrong. when using an empty pair of parentheses, the array is value-initialized. So we get the correct interpretation as follows:</p>
-
-    <p>int *pia2 = new int[10](); // array of 10 int, in which every element is value-initialized to 0</p>
-  </li>
-  <li>
-    <p>Page 138: the second line of the first code fragment in grey box “CONTRASTING C-STYLE STRINGS AND C++ LIBRARY STRINGS”, should be:</p>
-
-    <p>const size_t len = strlen(pc) + 1;  // space to allocate</p>
-  </li>
-</ul>
-
-<p>rather than</p>
-
-<pre><code>const size_t len = strlen(pc + 1);  // space to allocate
-</code></pre>
-
-<ul>
-  <li>
-    <p>Page 159: Of Paragraph 2, “the second cout” should be “the third cout” to indicate this statement</p>
-
-    <p>cout « 10 « 42;</p>
-  </li>
-</ul>
-
-<p>is equal to</p>
-
-<pre><code>(cout &lt;&lt; 10) &lt;&lt; 42;
-</code></pre>
-
-<p>which doesn’t do the right.</p>
-
-<ul>
-  <li>Page 289: In “Interrogating and Controlling the State of Stream” section, the code fragment</li>
-</ul>
-
-<hr />
-<pre><code>    int ival;
-    // read cin and test only for EOF; loop is executed even if there are other IO failures
-    while(cin&gt;&gt;ival, !cin.eof()){
-       if(cin.bad()) // input stream is corrupted; bail out
-          throw runtime_error("IO stream corrupted");
-       if(cin.fail()){                      // bad input
-           cerr&lt;&lt; "bad data, try again";    // warn the user
-           cin.clear(istream::failbit);     // reset the stream
-           continue;                        // get next input
-       }
-       //ok to process ival
-    }
-</code></pre>
-
-<p>is in error interpreting misleadingly. As the following paragraph explained, when the standard input cin fail to read into ival, it would enter into the second if statement block(line 6 - line 10) , and the cin.failbit is set, cin.fail() returns true. If we wants to reset the stream, the argument passed to clear() must be istream::goodbit other than istream::failbit. To grasp more usage of IO library function clear, refer to the C++ reference(http://www.cppreference.com/wiki/):</p>
-
-<pre><code>Syntax:
-
-#include &lt;fstream&gt;
-void clear( iostate flags = ios::goodbit );
-
-The function clear() does two things:
-
-* it clears all io_stream_state_flags associated with the current stream,
-* and sets the flags denoted by flags
-
-The flags argument defaults to ios::goodbit, which means that by default, all flags will be cleared and ios::goodbit will be set.
-</code></pre>
-
-<p>As described above, although clear function that take a strm::iostate parameter seems confusing, making us misunderstand that it would clean the state of  iostate bit argument given, actually it turns off the the other iostate bits but the argument iostate bit given and turn on the latter. So, in the code fragment line 8, the argument which should be passed to clear() is istream::goodbit in terms of semanteme. Or we could call clear() directly with no argument. With the default argument ios::goodbit provided, that is equal to call clear(istream::goodbit). And after the call to clear(), the neglect of dealing with the input buffer will cause series problem. Because cin doesn’t skip the input it fail to read, in the next trip of while it will still try to read the input that causes cin fail one trip before.</p>
-
-<p>Let’s see what would happen if we take the original pratice, as it was shown in line 8 above, calling clear() with argument istream::failbit. If cin encounter a character rather than a num and fail to read into ival before end of file, cin.failbit will be set and cin.fail() will return true. Inside the while loop, the condition test in line 6 will result true and the block from line 6 to line 10 will be executed. In line 6, function clear would invalid all the other io state but valid the failbit. Because only failbit of cin is set, this statement doesn’t change anything. And  then we execute a continue to return to the start of the while to try to read the same character into ival. Obvously cin will fail again as before. Then the block from line 6 to line 10 will be executed again. In this way, It will leads to infinite loop.</p>
-
-<p>So we know there are two points we should revise: one is to reset the stream state correctly, the other is to reposition the input buffer for cin. Correct code is:</p>
-
-<hr />
-<pre><code>    int ival;
-    //   read cin and test only for EOF; loop is executed even if there are other IO failures
-    while(cin&gt;&gt;ival, !cin.eof()){
-       if(cin.bad())         //  input stream is corrupted; bail out
-          throw runtime_error("IO stream corrupted");
-       if(cin.fail()){                        // bad input
-          cerr&lt;&lt; "bad data, try again";       // warn the user
-          cin.clear();                        // reset the stream, equivalent to clear(istream::goodbit)
-          cin.igore();                        // skip the invalid character in input buffer that cause cin fail
-          continue;                           // get next input
-       }
-       //ok to process ival
-    }
-</code></pre>
-
-<ul>
-  <li>
-    <p>Page 301: In the last sentence of paragraph 1, the contents of format_message should be</p>
-
-    <p>val1: 512\nval2: 1024\n</p>
-  </li>
-</ul>
-
-<p>rather than  </p>
-
-<pre><code>val1: 512\nval2: 1024  
-</code></pre>
-
-<p>Given the ostringstream format_message is construct to be empty, it is apparent what format_message would be after the statement</p>
-
-<pre><code>format_message &lt;&lt; "val1" &lt;&lt; val1 &lt;&lt; "\n"
-               &lt;&lt; "val2" &lt;&lt; val2 &lt;&lt; "\n" ;
-</code></pre>
-
-<p>insert the indicated text into it.</p>
-
-<ul>
-  <li>
-    <p>Page 304: line 4 of paragraph 1, “They they can ba applied to”, “They they” should be “They”.</p>
-  </li>
-  <li>
-    <p>Page 321: In paragraph 2, it says the code does that “reads each element, processes it and adds a new element
-following the original”. But the example code fail to do that. In the while loop</p>
-
-    <p>while (first != last) {
-  // do some processing
-  // insert new value and reassign first, which otherwise would be invalid
-  first = v.insert(first, 42);
-  ++first; // advance first just past the element we added
-  }</p>
-  </li>
-</ul>
-
-<p>a iterator increment statement should be added, as the following</p>
-
-<pre><code>while (first != last) {
-// do some processing
-// advance first to the next element or the one past the end
-++first;
-// insert new value and reassign first, which otherwise would be invalid
-first = v.insert(first, 42);
-++first; // advance first just past the element we added
-}
-</code></pre>
-
-<p>And the following example code in the same page should be changed like this as well.</p>
-
-<ul>
-  <li>
-    <p>Page 329: At nest to last sentence in paragraph 2 which discusses the assign member function taking a pair of iterator parameters, the last word “slist2” should be “slist1”. It’s obvious that the statement</p>
-
-    <p>slist1.assign( slist2.begin(), slist2.end() );</p>
-  </li>
-</ul>
-
-<p>deletes all the elements in slist1, and then copies the elements from slist2 into slist1.</p>
-
-<ul>
-  <li>
-    <p>Page 347: Exercise 9.39, in the definition of line2, a semicolon is missing.</p>
-  </li>
-  <li>
-    <p>Page 372: In section 10.4,  the page number is wrong in item 1 of the operations set supports.<br />
-“All the common container operations listed in Section 10.2(p.358).”<br />
-should be<br />
-“All the common container operations listed in Section 10.2(p.359).”  </p>
-  </li>
-  <li>
-    <p>Page 374: Section 10.4.2, line 1, “On page 369” should be “On page 368”.</p>
-  </li>
-  <li>
-    <p>Page 423: Exercise 11.29, line 2, “in Section 11.2.3(p.400)” should be “in Section 11.2.3(p.401)”.</p>
-  </li>
-  <li>
-    <p>Page 713: the paragraph after the first code example, “If another namespace (say, AddisonWesley) also provides a TextQuery class”, “TextQuery” should be “Query”.</p>
-  </li>
-  <li>
-    <p>Page 813: In section “Algorithms to Find a Subsequence”, the description of “search_n”, line 3, in<br />
-“occurrences of the given value”<br />
-“value” should be “val”.  </p>
-  </li>
-  <li>
-    <p>Source code:
-15/makefile, line 19, the command “mk-basket2” should be “./mk_basket2” for sh/bash.
-16/overcomp.cc, line 36, one include directive missing for function strcmp(): “#include <cstring>&#8221;
-16/overcomp2.cc, the same with the previous.
-18/Queue.h, line 50, in the code:</cstring></p>
-
-    <p>template <class it=""> Queue(It, It): head(0), tail(0)
-  { copy(beg, end); }</class></p>
-  </li>
-</ul>
-
-<p>two parameters miss their name. It should be</p>
-
-<pre><code>template &lt;class It&gt; Queue(It beg, It end): head(0), tail(0)
-{ copy(beg, end); }
-</code></pre>
-
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -475,6 +216,88 @@ should be<br />
 <p>回头看看，这篇文字码得很egg pain。</p>
 
 <p>blog上一些非原创的文章全都清理掉了，翻译的文章如QP附录《用C语言进行面向对象编程》也不再放出来，因为那样会侵犯原作者的版权。之前由于无知将它们贴了出来，的确很愚蠢，“悟已往之不谏，知来者之可追”，现在改正过来，迷途也未远吧。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/18/install-info-manual-of-emacs/">给emacs安装info Manual</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-18T08:29:00+08:00" pubdate data-updated="true">Apr 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下：</p>
+
+<ol>
+  <li>
+    <p>到GNU官网下载info形式的manual,感兴趣的有</p>
+
+    <p>GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br />
+ Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br />
+ Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)  </p>
+  </li>
+  <li>
+    <p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p>
+  </li>
+</ol>
+
+<p>[条目名]: [对应的info文件或包(可选的子条目名)].  [条目描述]</p>
+
+<p>条目名后面要带一个”:”号，文件或包名后面要带一个”.”号。如emacs faq的条目为</p>
+
+<pre><code>* Emacs FAQ: (emacs-23/efaq).   Frequently Asked Questions about Emacs.
+</code></pre>
+
+<p>将下载的三个包放入/usr/share/info/。并在info树根目录增加中相应的节点，即在文件/usr/share/info/dir的Emacs section中加入</p>
+
+<pre><code>* Emacs
+...       &lt;== 其他条目
+
+* Emacs Manual: (emacs.info.tar). GNU Emacs Manual
+* Emacs Lisp Intro: (emacs-lisp-intro.info).  An Introduction to Programming in Emacs Lisp
+* Emacs Lisp Reference Manual: (elisp.info.tar).
+                                GNU Emacs Lisp Reference Manual
+...       &lt;== 其他条目
+</code></pre>
+
+<p>即可。也可以安装到自定义的info目录，此目录下要有dir文件，同时添加此info目录到INFOPATH来让info进行查找。对于bash，添加环境设置到.bashrc：</p>
+
+<pre><code>INFOPATH=$INFOPATH:$ADDED-INFOPATH
+export INFOPATH
+</code></pre>
+
+<p>对于emacs，可通过变量Info-directory-list, Info-default-directory-list来定制，具体参照Manual。</p>
+
+<p>如担心手动添加info条目会损坏原文件，可先做备份再修改，或通过install-info命令添加info条目，如</p>
+
+<pre><code>$ install-info --dir-file=dir --info-file=filename.info --section=section-name --name=entry-name --description=entry-desc
+</code></pre>
+
 </div>
   
   
