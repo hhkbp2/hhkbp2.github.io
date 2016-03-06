@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的， &hellip;">
+  <meta name="description" content="我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,7 +84,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/28/opium-in-electronic-age/">电子时代的鸦片</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/13/make-my-emacs-configuration-public/">我的Emacs配置</a></h1>
     
     
       <p class="meta">
@@ -100,35 +100,56 @@
   
 
 
-<time datetime="2013-01-28T23:37:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+<time datetime="2013-01-13T01:18:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>传记电影《乔布斯》即将上映，同为苹果公司创始人的沃兹尼亚克却对这部电影评价不高，认为这部电影扭曲事实。它作为一个商业电影，当然要考虑票房，要让情节更符合一个商业电影的模样，就难免改动事实。沃兹特别强调的一点事实是：通过生产个人电脑对社会产生影响，这个观点是沃兹从佳酿计算机俱乐部那里听来的，而不是乔布斯的创意。由于时间久远，现在想要了解那段真实的硅谷历史，我们只能找找关于那时的资料，而《黑客：计算机革命的英雄》正是这样的一本无论在写实还是写意两方面都可谓上乘的佳作。</p>
+  <div class="entry-content"><p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
 
-<p>《唐朝的黑夜》是一本让人看完之后全身冒冷汗的书，而《黑客》是一本让人看完觉得热血沸腾的书，每看一段，就心痒痒恨不得马上去编代码写软件，捋起袖子大干一场。在那个计算机产业混沌初开的时代，硬件与软件交缠不分，计算机行业飞速发展风起云涌，纷纷出现一大批标志性人物：Richard Greenblatt, Lee Felsenstein, Bill Gates, Ken Williams…..令我最印象深刻的是，书中描写的MIT科技广场大楼9楼的那段，众多黑客面对计算机那种像吃了鸦片一般废寝忘食的兴奋热情。到今天，随着技术的不断发展，计算机已经走入平常百姓家变得相当普遍，但是每一次新技术的出现和普及，还是会激发起人们的热情。CPU，内存的速度越来越快，目前个人电脑的瓶颈主要是在机械硬盘，而这两年ssd的价格已经慢慢降低到一般人可以接受的程度，我也打算给我的笔记本升级一下ssd了。</p>
+<p>作为一个Emacs控，我发现在工作环境中虽然听说过或用过Emacs的人很多，但很少人对它有兴趣，而既有兴趣又保持着热情一直用下去的人就更少了，因此玩得好的人几乎遇不到。其实Vim的情况也差不多。我在公司向其他人推销Emacs，一般别人都是直接在开发机上拷贝一份我的配置，原封不动的拿来用。后来发现有个同事D悄悄地把我的整个配置目录放到github上了，反正已经公开，于是我就被迫把bitbucket上我的Emacs配置代码库公开了。这有点像19世纪的日本黑船事件，或者中国的鸦片战争，开放的大门常常是被迫打开的。</p>
 
-<p>于是从卓越网订购了一个Intel SSD 330 120g，周末把它安装到我的小黑X201i中，换出原配的西数250g硬盘。因为新的ssd也是9.5mm，厚度与原来机械硬盘一样，所以原来的硬盘架就完美套用，换起来相当便捷。换好硬盘后，在Windows下使用Intel SSD Toolbox查看硬盘状态，出厂日期和读写次数，写入量都没问题，固件已经是最新版本不用升级，然后统一trim一次，算是完成初始化。</p>
+<p>我的Emacs配置文件代码库在：</p>
 
-<p>之后格盘，重新通过U盘装上Linux，这次我用的安装镜像是Linux Mate Debian Edition(LMDE)。之所以不用Debian默认的安装镜像，是因为gnome-shell实在太不好用，这在之前的日志<a href="/blog/2013/01/21/freedom-and-reason">《自由与理由》</a>中已细说过。安装LMDE的时候，还踩中过一个坑，当时选择了locale为<code>zh_CN</code>，结果在安装将要完成时，安装程序在配置locale那一步卡住了很长时间，让我很是怀疑，最后中断了安装过程重试。上网一查，原来是LMDE安装程序的一个bug，所以安装LMDE时还是用默认的locale <code>en_US</code>为好，需要修改locale的话可以在安装完成进入系统后再改。</p>
+<pre><code>https://github.com/hhkbp2/dot-emacs
+</code></pre>
 
-<p>在Linux系统，可以针对SSD做一些优化，主要目的是用好SSD以提升读写速度，减少写入量延长SSD寿命。具体的优化原理和步骤可以参考</p>
+<p>代码库目录结构如下：</p>
 
-<ol>
-  <li><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives_%28%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%29">Solid State Drives – Arch Wiki</a></li>
-  <li><a href="http://www.xzcblog.com/?post=92">Linux系统中对SSD硬盘优化的方法</a></li>
-</ol>
+<pre><code>├── dot_emacs              -- 链接到$HOME/.emacs
+├── import/                -- 目录，用于导入的其它扩展包和文件
+├── Makefile               -- 文件，用于解压import目录中的包，并做必要的编译
+├── personal               -- 链接到带私人信息的目录，没有提交到hg
+└── site-lisp/             -- 目录，存放配置文件，主要是自己写的，也有从其它地方拿来的
+</code></pre>
 
-<p>这些优化我只采用了一部分，文件系统用的还是Ext4，然后加了noatime, nodiratime等挂载选项来禁止更新atime，因为它在桌面系统上其实没什么用，加了nodiscard和定期trim，还分了一个与内存等大的swap分区来方便休眠(hibernate)，而像关闭文件系统日志这种动作觉得风险大没有采用。因为Intel SSD有长达几年的保修服务，所以也就不太担心写入量会太大，也不用担心会被用坏，随便写就是了。</p>
+<p>了解<a href="http://emacser.com/dea.htm">DEA</a>的朋友可能会发现，这里的目录结构和文件命名习惯都很像DEA，是的，在我的配置目录不断变大的过程中多次参考了<a href="http://emacser.com">Emacs中文网</a>和DEA，甚至site-lisp下部分文件直接拿自DEA，特别感谢Emacse中文网的主人，DEA的作者ahei。</p>
 
-<p>LMDE下还有一个坑：LMDE默认的系统菜单休眠按钮，是通过触发<code>pm-utils</code>包提供的<code>pm-hibernate</code>命令来休眠的，但实际使用中无法正常唤醒，每次休眠唤醒都是重新启动。需要安装<code>laptop-mode-tools</code>，<code>hibernate</code>这两个包，才能正常休眠及唤醒。</p>
+<p>除了import目录中带有的扩展之外，还用到了一些安装到系统目录的扩展包，它们在debian/ubuntu中的包名是：</p>
 
-<p>升级了SSD之后，机器的速度还是有很大的提升。从SSD Benchmark和HD Tune等软件在换上SSD前后测试的数据对比来看，顺序读写有2到3倍的速度提升，随机读写则有几十倍。在使用感觉上，启动系统和打开程序都明显感觉到变快了，编译代码也有明显的速度区别，以往在敲完编译命令后，看着命令行输出慢悠悠的向下滚动，现在则变得像嗑了药的赛车手一样疯狂，滚动刷屏得很快，基本上看不清里面的内容。</p>
+<pre><code>emacs-goodiel-el
+emacs23-el
+python-mode
+python-ropemacs
+erlang-mode
+geiser
+</code></pre>
 
-<p>SSD速度奇快，用过它之后就很难再用回慢吞吞的机械硬盘。从某个角度来看，SSD就类似于鸦片，它给人带来很有快感的体验，而且一旦接触就容易上瘾。自计算机诞生以来，每个年代都有其电子鸦片，几十年前，那是一个如PDP-10的计算设备，今天，则变成技术革新(如SSD的普及)，网络游戏和社交网站。</p>
+<p>安装好这些依赖包到系统后，使用命令：</p>
+
+<pre><code>hg clone https://github.com/hhkbp2/dot-emacs
+</code></pre>
+
+<p>clone一份我的配置代码库，然后在新建的dot-emacs目录运行命令：</p>
+
+<pre><code>make site-init
+</code></pre>
+
+<p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
+
+<p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
 
 </div>
   
@@ -142,7 +163,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/21/freedom-and-reason/">自由与理由</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/08/the-pragmatic-emacser/">Emacs修炼之道</a></h1>
     
     
       <p class="meta">
@@ -158,31 +179,93 @@
   
 
 
-<time datetime="2013-01-21T21:43:00+08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2013</time>
+<time datetime="2013-01-08T16:04:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>在过去一年多的时间里，我笔记本电脑上的Debian桌面环境经历了几次变化：先是用了几个月gnome shell，然后用了几个月的xfce4，然后最近又转为mate-desktop和cinnamon。</p>
+  <div class="entry-content"><blockquote>
+  <p>“Don’t panic.”<br />
+&#8212; The Hitchhiker’s Guide to the Galaxy</p>
+</blockquote>
 
-<p>故事从前年一次日常系统升级开始，升级后发现桌面已经变成gnome shell，使用起来十分不习惯，体验很差，于是我配置了一下，让它没那么面目呆涩，后来再从gnome shell扩展官网添加了一些扩展，使得它尽量与gnome 2的老样子相近。这个时候的桌面环境，虽然偶尔会出现bug，但总体还算勉强能用下去。但随着不断的升级，之前配置的插件很多都不能工作了，大部分是因为版本兼容问题失效了，或者是因为插件没人维护已经过时，缺少插件支持缺少稳定性的gnome shell渐渐变得难以忍受。</p>
+<p>作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么，与其它编辑器有什么不同，如何使用它等。Emacs是一个很大的话题，而且网上关于Emacs/Vim/其他编辑器的各种圣战中飞扬的口水已经太多了，所以这里我把这篇内容缩小到Emacs的修炼这一点上，因为对于那些真正对Emacs感兴趣并准备起锚出发的Emacs初学者，如果有一个详细的指南，它记录了从入门到进阶等各个阶段，以及前进的道路上有哪些可以借力的资料或资源等，这是很有帮助的。于是我有了写此文的打算，作为一个过来人我就斗胆写一下Emacs的修炼之道。</p>
 
-<p>被迫无奈之下，我通过虚拟机尝试过包括Sawfish, FVWM, KDE等多个桌面环境(WM)，最后决定改用xfce，因为它的问题最少，使用起来还和gnome 2比较接近。但xfce并不是一个让人省心的桌面环境，比如说，默认安装下面板没有电源指示器，还是要加一些配置，而且一些小功能也缺失，比如说外接显示器的管理，虽然用xandar命令能够基本实现需求，但它还是功能太弱，不能自动检测两个显示器的状态变化，所以xfce用起来体验也不算非常好。</p>
+<p>一般来说，那些决定不用系统自带的文本编辑器，而专门花时间学习Vim/Emacs的人都需要在文本上做比较多的工作，他们希望在工具这一块上做长期的投资——即使Vim/Emacs的入门需要一些精力和时间，但熟悉之后能提高工作效率并长期发挥作用，当然这些人之中有很多是程序员。如果你像我认识的一些朋友一样，对系统自带的文本编辑器，比如windows下的notepad，保持100%的满意，那么就不用接着往下看了，尽可跳过下文并继续留在那个与世隔绝的默认编辑器的桃花源里，这种说法好像比较鄙视notepad，但其实它主要是说：如果编辑需求复杂多变，那么编辑器相应的也需要变得复杂强大。</p>
 
-<p>后来无意中了解到原来Linux Mint发行版下有mate-desktop<a href="#1">[1]</a>和cinnamon<a href="#2">[2]</a>这两个桌面环境，于是尝试了一把，惊喜地发现它们才是我的救星。mate-desktop就是gnome 2，是老朋友了，性能足够好又稳定，cinnamon是基于gnome 3的仿mate-desktop环境，虽然内在已经是gnome 3，但用起来和老的gnome 2很像，自带的一堆扩展/插件也比较稳定，而且一直受到良好的维护，两者使用体验都不错。之后我就把xfce卸载了，请神容易送神难，像kde, gnome, xfce这种包集合，一旦装上，要搞清楚如何卸载干净不是件容易的事，因为它们含有的软件包众多，依赖关系也比较复杂，最后参考<a href="http://www.cppfans.org/1356.html">网上文章</a>，又来一轮折腾，终于算是把xfce卸载了。</p>
+<p>接下来这一个Emacs之道会有点长，因为Emacs被设计成能提供各种复杂多变的编辑功能，甚至是文本编辑之外的，例如玩游戏或收邮件等其它功能，所以Emacs才会有“伪装成操作系统的编辑器”这一别称，而且学习曲线会变得非常的，呃，奇怪<a href="#1">[1]</a>。尽管下文有点长，但是记得带上你的毛巾<a href="#2">[2]</a>，无论遇到什么情况，最重要的是，Don’t panic。</p>
 
-<p>在过去一年多的时间里，在Linux上的桌面环境我做很多不同的尝试，体验过了很多坑爹的事情，也不知道花费了多少时间，最后兜兜转转用起mate-desktop来，发现还是回到了原来的gnome 2，那就是一年多之前原本用着的。回过头来看看，其实我的需求其实非常简单，只不过是一个稳定方便的图形界面。不断折腾一年多之后回到原地，这让人有种非常讽刺的感觉。gnome 3的推出，带来的是所谓平板电脑交互方式<a href="#3">[3]</a>和无数人的吐槽，甚至于像Linus Torvalds这样大名鼎鼎的人前段时间也大骂“无可容忍的凌乱”。难道gnome 3开发社区的人不知道gnome shell又丑又难用吗？难道他们不知道那么多人的吐槽吗？不可能吧。目前gnome 3这样的存在，只能证明：一个自以为是的产品不是最可耻的，一个自以为是，坚持错误的产品也不是最可耻的，最可耻的是那些自以为是，坚持错误，而又不理用户反馈闭门造车的产品。</p>
+<p>我把Emacs修炼的道路分为几个主要的阶段：</p>
 
-<p>Linux的桌面环境本来就不受人待见，gnome 3之后更是乱象丛生。不是每个Linux的桌面用户都有折腾的时间和精力，他们也不是注定要被gnome 3揉虐。总之，gnome 3社区有继续脑残的自由，而我也有不再折腾的理由。Mac桌面的用户体验很好，我这个长期Linux桌面粉是不是也要叛逃到苹果门下了？</p>
+<h3 id="section">1. 入门小徒</h3>
 
-<p>被逼的。</p>
+<p>初学Emacs，首先要了解Emacs的基本操作，Emacs自带的tutorial文档就是为零起点的新手而写的，它介绍了窗口(window)，文件，缓冲区等概念，并一步一步的指导初学者学习光标移动，插入修改，搜索，保存退出等基础功能，是最好的入门指南。默认的键绑定下在Emacs中使用C-h t可以打开这个tutorial文档，也有对应的中文译版叫《Emacs快速指南》，文档不长，整个看完并按文档指引练习一下，之后就可以用Emacs完成简单的文本编辑。</p>
+
+<p>接下来可以阅读《Learning GNU Emacs》，这本由老牌黑客Eric Raymond参与编写的书是学习Emacs的经典书目，内容很多也很全面，它介绍了从用Emacs做基本的文本编辑，到用Emacs收发邮件阅读网页，到定制编辑宏以及做程序开发等各种功能。初学者可以只读前5章，对Emacs的环境及常用操作做一个比较细致的了解。这本书的原英文第1版讨论的是Emacs的18版本，之后第2版出版，讨论的是Emacs的19.30版，而2004年出版的第3版，则随着Emacs的版本升级把内容更新到21.3版，到2013的今天，Emacs的主版本号已经升到24，虽然这本书在过去一段时间也算是与时俱进，但从版本上来远远落后于Emacs更新的速度，不过，很多内容在Emacs中保持稳定，还是很有价值的，只是阅读的时候要注意一下版本变化。这本书也有中文译本，已经绝版，但对应的只是较旧的英文第2版，译文流畅印刷错误也少，译本质量尚佳，因为是针对初学者而写的入门书，讲解详细，辅以图示截屏帮助理解，读来比较轻松。</p>
+
+<p>进一步学习的话，则根据各人的需求而选择了，需求不同则学习的内容也不同。希望使用Emacs来做大量重复编辑的人可以学习定制编辑宏，用来写笔记的可以学习outline-mode或org-mode，用来收邮件的可以学习mew等邮件客户端的用法。考虑到使用Emacs的人当中有很多的程序员，那么也根据编程语言的不同，学习的编辑模式也不同，Emacs对于多种编程语言都有着很好的支持，如C, C++, Java, Shell, Python, Perl, Erlang, Lisp……还有常见标记语言如Html, XML和排版用的Tex, LaTeX和Troff等。此外你可能会需要一些特别的功能，这些功能在其它的编辑器/IDE也有，比如显示行号，在编写代码时的自动补全，全文格式化，代码折叠与展开，实时显示代码错误等，Emacs还有一些比较独特好玩的功能，如hungry delete。学习这些内容，除了《Learning GNU Emacs》这本书第5章后面的多个章节之外，网上也有很多的资料，不过就比较分散了，要找到Emacs是否有满足你特定需要的扩展，或者这些扩展怎么使用，google是一个很好帮手。</p>
+
+<p>这个时候你已经很熟悉Emacs日常使用，以及为自己的编辑需要加了一些扩展和定制，在配置文件不断变大的同时，你可能也知道一点简单的Emacs Lisp写法，但对Emacs Lisp还没有深入的了解。</p>
+
+<p>由于各人的编辑需求不一样，这个寻找某种特定功能并定制使用的过程可长可短，了解Emacs在各种编辑模式下的功能有助于进一步学习Emacs Lisp及Emacs的内部实现，但这不是必需的。即使你很快的进入下一阶段开始系统学习Emacs Lisp，但如果时不时会遇到新的编辑需要，还是会重复上述的扩展定制过程。以像我自己为例，因为需要编辑的代码种类越来越多，如后来的Markdown, Erlang，所以也对应的添加了markdown-mode, erlang-mode的定制代码。</p>
+
+<h3 id="section-1">2. 登堂入室</h3>
+
+<p>在接触Emacs的过程中，很多新手都会注意到一个事实：Emacs是用一种叫做Emacs Lisp的Lisp方言写的，如果不懂Emacs Lisp是无法进一步走入Emacs的殿堂的。所以在这里我把“开始系统的学习Emacs Lisp”做为进入到第2阶段的标志。</p>
+
+<p>在Emacs自带的Info文档中，对Emacs的描述是：  </p>
+
+<blockquote>
+  <p>Emacs is the extensible, customizable, self-documenting real-time display editor.</p>
+</blockquote>
+
+<p>可以看到，可扩展性，可定制性和自文档化是Emacs三个特别强调的特点，前两个特点或者其它编辑器也有，比如Vim，但自我文档化这一点，可算是Emacs的一个独门绝技，是的，在visual studio中也有帮助系统，不过与Emacs的自文档化比起来，还是差得太远了，这方面可以比肩Lisp的编程语言不多，Python是其中一个，自文档化与交互式编程结合起来，整个编程环境会让写代码的人相当舒服。</p>
+
+<p>要开始Emacs Lisp之旅，最好的学习资料也是Emacs自带的文档，在Info中有一个Emacs Lisp的入门教程《An Introduction to Programming in Emacs Lisp》，这个文档由另一位老牌黑客Robert Chassell所写，由浅入深地详细介绍了Emacs Lisp中的列表操作，函数，缓冲区操作，窄化，剪切粘贴，正则表达式，代码调试等内容，由于把读者定位为没学过编程的人，所以行文比较啰嗦，程序员读起来可能会有点不耐烦。它也有中文翻译版，书名叫做《GNU Emacs Lisp编程入门》，不过也比较旧了，是2001年由FSF中国组织翻译并出版的，年代久远，对应的Emacs版本是19，这本中译版也已经绝版，不过网上可以找到电子版。虽然后来大师洪峰在他某次答问中说这本中译版质量很高<a href="#3">[3]</a>，我个人看过纸版全书之后觉得其实翻译和出版的错误也不少，像他读过那么多书的人肯定清楚一个译本的质量怎么才算是“很高”，不过此书的中文翻译是他组织的，有点敝帚自珍也是人之常情。</p>
+
+<p>特别值得一提的是，在这本书的前言里，作者Robert说“希望读者养成阅读源代码的习惯”，并把Emacs当成一个代码的宝藏，学习其工作机制。书中的内容多是具体的代码细节，看过之后是会忘记的，但“深入代码”这个习惯一旦养成，受用无穷。我个人认为也可以依据同样的标准来定义玩Emacs的程度，真正Emacs玩得好，不是说要用过多少个扩展，用得有多么的熟悉，而是深入到源代码去了解其内部实现。</p>
+
+<p>在读完《GNU Emacs Lisp编程入门》的基础上，可以找一些其它的Emacs Lisp入门级资料来看看，比如wiki上的Emacs Lisp Cookbook，上面就有常用的各种数据结构，文件目录操作等的代码示例。经过学习之后，到网上一些站点，比如<a href="http://emacser.com/">Emacs中文网</a>或<a href="http://ergoemacs.org/emacs/blog.html">李杀网</a>，看一些文章通读其中简单的Lisp代码已经没有困难。</p>
+
+<p>同时，可以阅读一些Emacs中常用小功能的源代码，比如自动高亮括号的paren.el，高亮当前行的highlight-current-light.el，显示行号的linum.el，自动插入括号对的skeleton.el等，在读源代码的过程中有时会遇到未知的库函数和新的概念，通过查询Emacs的自带文档一般可以解决问题。</p>
+
+<p>通过前面的学习，在前一阶段的基础上你已经掌握大量的Emacs Lisp，在阅读源代码上有了不少的积累，但由于没有全面系统的学习Emacs Lisp，有时候读起源代码来不懂的地方太多，会有种力不从心之感，这时候就可以开始进入第3阶段。</p>
+
+<h3 id="section-2">3. 武林高手</h3>
+
+<p>对于学习Emacs Lisp，最权威的两个文档当然是Emacs自带的Info文档《The Emacs Editor》和《The Emacs Lisp Reference Manual》，前者主要介绍作为编辑器的Emacs概念和机制，比如kill-ring，display, key-binding, 各种mode等，重点在使用，后者则全面系统的介绍了Emacs Lisp这门编程语言，比如各种数据结构及操作，宏，文加载等，重点在于编程，Emacs Lisp作为Emacs的实现语言，当然两个文档会有标题或内容看起来很类似的章节，但由于两个文档重点不一样，两者互为呼应补充而非重复。这两个都是大部头，要读完的话甚费时日，但其内容并不艰深，读起来还算轻松，耐心读完的话，会功力剧增，对Emacs的理解有很大的提高。虽然我在这里把两个文档一起列出，但其实阅读顺序和阅读习惯可以按各人的习惯自由安排：可以先读前一本，读完再读后一本；也可以先读后一本，在遇到新概念的时候再回头看看前一本的对应章节。这两种都是比较有效的读法。就像电影《黑客帝国》第一部所讲的，在Neo知道Matrix不是看起来那样的真实之后，进入Matrix中能看到一些不真实的事物，读完这两本书之后，你再进入Emacs的时候，看着界面的buffer，高亮的代码块，mode-line等，不再只是看到它们显示出来的样子，而且透过表面看到了里面运行的模块和流动的代码。</p>
+
+<p>作为读书的补充，可以适当的找一些源代码来看，一些常用的扩展如auto-complete, yasnippet等代码目录结构不算复杂的都合适。我个人建议以兴趣和熟悉程度为出发点，以你熟悉的mode，或最感兴趣的扩展来作为开始，因为对外部功能了解越多，越有助于理解其内部代码，就像熟悉Linux的库和系统接口，有助于阅读内核源代码一样。</p>
+
+<p>到此，你已经全面系统的学习过Emacs和Emacs Lisp，在阅读源代码上也有了大量的积累。在正式变为高手之前，还有需要做一件事情：写至少一个扩展，并奉献出来。在开源文化或黑客伦理中，一个人成为高手或黑客，不仅因为他技术高超，而且因为他有很好的奉献精神。写一个扩展需要很多的劳动，写一个规模大而且质量好的扩展更是辛苦。虽然在前面的学习过程中，你已经读过一些扩展的源代码了，但在开始正式自己写扩展之前，或者你有兴趣阅读一下《Writing GNU Emacs Extensions》这本书，了解一下如何从头到尾写一个扩展。这本由Bob Glickstein写的书于1997年由O’Reilly出版，虽然内容很好，但是真的远远落后于时代了，对应的Emacs版本是18，目前能找到的电子版印刷错误也较多。</p>
+
+<h3 id="section-3">4. 飞升成仙</h3>
+
+<p>到了这个阶段，进一步提升自己的方向有两个，一曰深度，一曰广度。</p>
+
+<p>深度方面，可以全面阅读Emacs的源代码，学习其底层的C核心，Emacs Lisp解释器的原理，学习Emacs的启动/运行过程，事件机制，与外部进程的接口，等等。还可以找一些较复杂较庞大的扩展代码来看，例如广为人知的巨兽<a href="http://cedet.sourceforge.net/">CEDET</a>等，除了熟悉如何用Emacs Lisp来实际编写大项目之外，还需要懂得很多与具体应用紧密相关的内容，例如对于CEDET，就需要知道编程语言的词法文法解析过程。这种复杂项目对基础知识的要求较高，读起来较为艰深，需要做好“深挖洞，广积粮”的准备。</p>
+
+<p>广度方面，可以广泛涉猎其它Lisp方言，学习Lisp的实现，历史及著名项目等，甚至可以弄一个Lisp Machine来玩玩，或者学习其它的函数式编程语言。这个话题太大，但我还是尽力尝试提供一点帮助信息。最大的两个Lisp方言当然是Common Lisp和Scheme，如果详细叙述如何学习Common Lisp或Scheme，那么可以需要写的篇幅比本文长得多，或者将来在我的博客上会出现《Common Lisp修炼之道》或《Scheme修炼之道》，但至少暂时是既无能力也无计划。这里只是简单列一下可供参考的书目：</p>
+
+<p>《Structure and Interpretation of Computer Programs》，中译本《计算机程序的构造和解释》<br />
+《Ansi Common Lisp》，目前网上有在线中文翻译版本，前几章翻译得还不错<br />
+《Practical Common Lisp》， 伞哥(田春)翻译了中文版，2011年出版，有的地方读起来比较生涩<br />
+《On Lisp》，伞哥和其他人合作翻译，网上有电子版，翻译质量很高，就像前文所说，“很高”这两个字不是随便用的<br />
+《Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp》，由AI大牛Peter Norvig所写的，书名看起来只是AI方面的书，但其实也是一本很好的Common Lisp教程<br />
+《Common LISP The Language, 2nd》，描述Common Lisp的语言标准  </p>
+
+<p>还有很多Lisp好书都没有一一列出，此外函数式编程语言也不少，虽然有时学习曲线陡得像是悬崖峭壁，但如果你真的到了这一步，相信会有足够的兴趣和技能支撑你继续走下去，总之可以选择的方向太多，这篇小文只谈Emacs修炼，适可而止。</p>
+
+<p>到了这个层次，当然你也要注重发光发热，提挈后辈，可以在社区或邮件组多活动活动，奉献代码，解答疑问。不过这个也是大话题了，网上组织众多各人习惯不同，非三言几语能够说得清楚，按下不表。</p>
+
+<p>如果以上提到的这些内容你都已经深入钻研，深到地球核心，又广到天际之远，那么恭喜恭喜，你可以正式宣称“神丹炼成，择日飞升”，到这个时候，你所需要的只剩下《颈椎病和鼠标手康复指南》。两千年前庄子就说了，“吾生也有涯，而知也无涯。以有涯随无涯，殆已；已而为知者，殆而已矣。”喜欢折腾Emacs的朋友们，人生短暂，还是悠着点吧。</p>
 
 <p><em>注：</em><br />
-<a id="1">[1]</a> 安装可参考<a href="http://wiki.mate-desktop.org/download">官网</a>。<br />
-<a id="2">[2]</a> 安装可参考<a href="http://linuxg.net/how-to-install-cinnamon-on-debian-wheezy/">这里</a>。<br />
-<a id="3">[3]</a> Ubuntu推出的Unity也是为平板而设计的，他们都强迫PC用户去适应平板风格，哎，这演的是哪一出。  </p>
+<a id="1">[1]</a> <a href="http://coolshell.cn/articles/3125.html">《主流文本编辑器学习曲线》</a>这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。<br />
+<a id="2">[2]</a> 《银河系漫游指南》中毛巾这个词条有一些特别的解释。<br />
+<a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。  </p>
 
 </div>
   
@@ -196,7 +279,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/16/thrift-erlang-source-code-reading/">Thrift Erlang实现源代码阅读</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/01/reading-note-of-practical-common-lisp-2/">《实用common Lisp编程》读书笔记 (二)</a></h1>
     
     
       <p class="meta">
@@ -212,419 +295,486 @@
   
 
 
-<time datetime="2013-01-16T21:27:00+08:00" pubdate data-updated="true">Jan 16<span>th</span>, 2013</time>
+<time datetime="2013-01-01T16:41:00+08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Thrift是一个可伸缩的跨语言RPC框架，它支持包括C++, Java, Python, Perl, Ruby, Erlang等多种编程语言。关于它的更多信息请参考<a href="http://thrift.apache.org/">Thrift官方网站</a>，本文不是Thrift的入门指南，也不会解释Erlang这门语言的语法或OTP，而主要集中讨论Thrift里面的Erlang实现，假定目标读者了解Erlang，并且具有Thrift的使用经验，熟悉Thrift在其它语言的实现源代码更佳。</p>
+  <div class="entry-content"><h3 id="section">第10章 数字，字符和字符串</h3>
+<p>本章介绍内置的“标量”数据类型：数字，字符和字符串。  </p>
 
-<p>本文讨论的Thrift源代码版本为0.8.0，在官网可以下载。</p>
+<h4 id="section-1">10.1 数字</h4>
+<p>lisp对数学支持良好，支持任意精度有理数，支持高性能数值计算  </p>
 
-<p>虽然这里重点讨论的是内部实现的源代码，但是开始源代码之旅之前，简单回忆一下如何用Erlang编写Thrift客户端和服务器端是很帮助的。</p>
+<h4 id="section-2">10.2 字面数值</h4>
+<p>1) 整数：+/-后跟数字。支持比值写法。支持多种进制<br />
+二进制以#B或#b开头，后跟0,1<br />
+八进制以#O或#o开头，后跟0-7<br />
+十六进制以#X或#x开头，后跟0-9A-F, 0-9a-f<br />
+其它进制以#nR开头，后跟0-9A-Z(或a-z)  </p>
 
-<h2 id="section">1 编写客户端与服务器端</h2>
+<p>2) 浮点数，共有4种：短型，单精度，双精度，长型<br />
+表示法：<br />
+可选符号＋十进制数字序列+科学记数法指数标记字母+可选符号+数字序列<br />
+例如+1.23d+25<br />
+其中指数标记字母s, f, d, l及其大写分别代表短型，单精度，双精度，长型  </p>
 
-<p>使用各种语言来编写Thrift客户端和服务器端的步骤都相同：在安装好thrift后，先编写好RPC的服务定义文件，再用Thrift的编译器编译生成某种语言的客户端和服务器端的RPC桩代码，然后再编写客户端和服务器代码。</p>
+<p>3) 复数<br />
+#C或#c后跟两个实数组成的列表  </p>
 
-<p>Thrift 0.8.0版本的发布包中，tutorial目录下有自带的示例代码，就以它为例来说明。</p>
+<h4 id="section-3">10.3 初等数学</h4>
+<p>基本运算符：加，减，乘除<br />
+用于截断和舍入：<br />
+FLOOR，向负无穷方向截断<br />
+CEILING，向正无穷方向截断<br />
+TRUNCATE，向零截断<br />
+ROUND，舍入到最接近的整数上<br />
+求模：MOD和REM求模的余数<br />
+加1减1:　1+，1-<br />
+自增/自减宏：INCF，DECF  </p>
 
-<h3 id="section-1">1.1 编译发布包自带示例</h3>
+<h4 id="section-4">10.4 数值比较</h4>
+<p>数值等价函数 =<br />
+等价谓词EQL，EQUALP<br />
+其它等价相关函数 /=, &lt;, &gt;, &lt;=, &gt;=<br />
+求最小或最大值 MIN, MAX<br />
+其它常用函数 ZEROP, MINUSP, PLUSP, EVENP, ODDP  </p>
 
-<p>可以先进入发布包根目录下的tutorial目录，这里有两个后缀为.thrift的RPC接口定义文件，不熟悉Thrift接口定义文件写法的读者，可以先看看官网的<a href="http://thrift.apache.org/docs/idl/">Thrift接口定义语言(IDL)文档</a>，不熟悉Thrift使用步骤的读者也可以先读一下tutorial目录下面的README文件。使用命令</p>
+<h4 id="section-5">10.5 高等数学</h4>
+<p>LOG, EXP, EXPT, SIN, COS, TAN, ASIN, ACOS, ATAN等  </p>
 
-<pre><code>$ thrift -r --gen erl tutorial.thrift
+<h4 id="section-6">10.6 字符</h4>
+<p>字符语法 #\后跟字符  </p>
+
+<h4 id="section-7">10.7 字符比较</h4>
+<p>大小写相关 CHAR=<br />
+大小写无关 CHAR-EQUAL<br />
+大小写相关命名：对应数值比较符前面，加CHAR<br />
+大小写无关命名：对应数值比较符前面，加CHAR和一个连字符<br />
+特例：<br />
+&lt;=　NOT-GREATERP<br />
+&gt;= NOT-LESSP  </p>
+
+<h4 id="section-8">10.8 字符串</h4>
+<p>字符串是一给字符数组，可以用序列处理函数来处理  </p>
+
+<h4 id="section-9">10.9 字符串比较</h4>
+<p>将字符比较函数的命名中的CHAR换为STRING，如STRING-EQUAL  </p>
+
+<h3 id="section-10">第11章 集合</h3>
+<p>Common Lisp支持向量(数组，列表或元组)和哈希表(关联数组，映射，字典)  </p>
+
+<h4 id="section-11">11.1 向量</h4>
+<p>Common Lisp的微量有两种：定长向量与变长向量<br />
+定长向量：用VECTOR函数生成，#(…)语法是字面向量<br />
+MAKE-ARRAY可用于生成定长和变长向量，关键字参数有initial-element, fill-pointer, adjustable<br />
+操作函数有VECTOR-PUSH和VECTOR-PUSH-EXTEND  </p>
+
+<h4 id="section-12">11.2 向量的子类型</h4>
+<p>MAKE-ARRAY函数的关键字element-type，传递了向量元素的类型信息，如字符为CHARACTER，位为BIT  </p>
+
+<h4 id="section-13">11.3 作为序列的向量</h4>
+<p>序列分为两种子类型：向量和列表，所有序列函数都可应用于它们<br />
+序列函数有：<br />
+LENGTH，返回长度<br />
+ELT，通过索引访问，超出边界时报错，返回左值  </p>
+
+<h4 id="section-14">11.4 序列迭代函数</h4>
+<p>COUNT，计算序列中某项出现的次数<br />
+FIND，查找某项<br />
+POSITION，查找某项在序列中的索引<br />
+REMOVE，在序列中移除某项，非破坏性<br />
+SUBSTITUTE，替换序列中的匹配项，非破坏性<br />
+这五个参数都支持关键字参数key, test, test-not, start, end, from-end, count，从而得到非常多的功能组合  </p>
+
+<h4 id="section-15">11.5 高阶函数变体</h4>
+<p>11.4中的函数命名后加上-IF，或-IF-NOT<br />
+REMOVE-DUPLICATES  </p>
+
+<h4 id="section-16">11.6 整个序列上的操作</h4>
+<p>COPY-SEQ，复制序列<br />
+REVERSE，生成逆序的新序列<br />
+CONCATENATE，生成任意数量序列连接的新序列  </p>
+
+<h4 id="section-17">11.7 排序与合并</h4>
+<p>SORT，排序<br />
+STABLE-SORT，稳定排序<br />
+两个都具有破坏性<br />
+MERGE，合并序列  </p>
+
+<h4 id="section-18">11.8 子序列操作</h4>
+<p>SUBSEQ，取子序列，左值<br />
+FILL，设置序列中的值<br />
+SEARCH，查找匹配序列<br />
+MISMATCH，比较两个序列，找出首个不同的位置  </p>
+
+<h4 id="section-19">11.9 序列谓词</h4>
+<p>EVERY，谓词对序列每个元素为成立时真，否则为假<br />
+SOME, 谓词对序列中某个元素成立时真，否则为假<br />
+NOTANY，谓词对序列中每个元素都不成立时真，否则为假<br />
+NOTEVERY，谓词不是对序列中每个元素都成立为真，否则为假  </p>
+
+<h4 id="section-20">11.10 序列映射函数</h4>
+<p>MAP，将函数应用到序列中每个元素对上形成新序列<br />
+MAP-INTO，类似于MAP，但将结果写回到第一个参数中，不会扩展变长向量<br />
+REDUCE，将两参数函数累积应用到单个序列中的两两元素上  </p>
+
+<h4 id="section-21">11.11 哈希表</h4>
+<p>MAKE-HASH-TABLE，创建哈希表，支持test关键字，默认用EQL<br />
+GETHASH，访问哈希表<br />
+MULTIPLE-VALUE-BIND，取出多重返回值<br />
+REMHASH，删除哈希表中的项<br />
+CLRHASH，清除哈希表中所有项  </p>
+
+<h4 id="section-22">11.12 哈希表迭代</h4>
+<p>MAPHASH，类似于MAP函数，只能用SETF/GETHASH修改当前项，REMHASH删除当前项<br />
+LOOP宏，也可以迭代哈希表，如</p>
+
+<pre><code>(loop for k being the has-keys in *h* using (hash-value v)
+  do (format t "~a =&gt; ~a~%" k v))
 </code></pre>
 
-<p>调用thrift编译器生成对应的客户端和服务器端的Erlang桩代码，生成的新目录一般命名为<code>gen-LANG</code>，其中<code>LANG</code>即为上面命令中选项<code>--gen</code>后面的语言名字，刚才编译命令生成的新目录为<code>gen-erl</code>，此目录下生成的文件如下：</p>
+<h3 id="lisp">第12章 LISP名字的由来：列表处理</h3>
+<p>列表在lisp中扮演重要角色</p>
 
-<pre><code>├── calculator_thrift.erl      -- 对应Calculator的接口代码
-├── calculator_thrift.hrl
-├── shared_constants.hrl
-├── sharedService_thrift.erl   -- 对应SharedService的接口代码
-├── sharedService_thrift.hrl
-├── shared_types.erl
-├── shared_types.hrl           -- shared.thrift文件中声明的所有类型
-├── tutorial_constants.hrl     -- tutorial.thrift文件中声明的所有常数
-├── tutorial_types.erl
-└── tutorial_types.hrl         -- tutorial.thrift文件中声明的所有类型
+<h4 id="section-23">12.1 “没有列表”</h4>
+<p>列表由点对单元(cons cell)构成。函数CONS可以创建cons cell。函数CAR和CDR可以取出cons cell中的值。<br />
+点对单元，列表可以用方框箭头图表示。lisp对列表处理有相当大的函数库支持。  </p>
+
+<h4 id="section-24">12.2 函数式编程和列表</h4>
+<p>函数式编程本质：程序员由没有副作用的函数组成。<br />
+APPEND函数的实现利用了共享结构。  </p>
+
+<h4 id="section-25">12.3 “破坏性”操作</h4>
+<p>common lisp并非纯函数式语言，它支持破坏性的(destructive)操作。<br />
+破坏性操作有：所有SETF的使用，如VECTOR-PUSH或VECTOR-POP这类在底层使用了SETF的函数<br />
+回收性操作，目的在于优化，有：</p>
+
+<pre><code>REVERSE                   NREVERSE
+REMOVE(-IF, -IF-NOT)?     DELETE(-IF, -IF-NOT)?
+REMOVE-DUPLICATES         DELETE-DUPLICATES
+APPEND                    NCONC
+SUBSITUTE(-IF, -IF-NOT)?  NSUBSTITUTE(-IF, -IF-NOT)?
+...                       ...
 </code></pre>
 
-<p>其中生成的几种文件已经用注释标志出来，一种是接口代码，一种是类型代码。通过对比.thrift接口定义文件里面的内容和生成的Erlang代码，可以总结出各种IDL数据类型在编译后转化成的Erlang代码</p>
+<p>具有可靠副作用的回收函数：NCONC, NSUBSTITUTE变体</p>
 
-<pre><code>IDL数据类型                   编译生成的Erlang代码
-enum                        宏
-基本类型常数                   宏
-map                         dict
-struct(optional选项不起作用)   record(Erlang里的record支持多层嵌套)
-exception                   record
-service                     针对每个接口生成function_info()函数，其中每个接口一组
+<h4 id="section-26">12.4 组合回收性函数和共享结构</h4>
+<p>回收性函数的习惯用法：<br />
+1) 函数内部局部环境中PUSH多个元素并统一NREVERSE, 例子：  </p>
+
+<pre><code>(defun upto (max)
+  (let ((result nil))
+    (dotimes (i max)
+      (push i result))
+    (nreverse result)))
+;;
+;; 生成从0开始的n个自然数组成的列表
+(upto 10) -&gt; (0 1 2 3 4 5 6 7 8 9 10)
 </code></pre>
 
-<p>我们重点看一下service的接口，以较复杂的service Calculator的calculate接口为例，它的IDL定义为</p>
+<p>2) 将回收性函数的返回值立即重新赋值到原来变量，例子：  </p>
 
-<pre><code>i32 calculate(1:i32 logid, 2:Work w) throws (1:InvalidOperation ouch),
+<pre><code>(setf foo (delete nil foo))
 </code></pre>
 
-<p>对应的生成<code>function_info()</code>函数如下：</p>
+<p>PUSH/NREVERSE和SETF/DELETE的习惯用法占据了80%的回收性函数使用。<br />
+常见的开发过程：先全部用函数式风格，后期性能评估需要优化再将部分操作替换成相应的回收性版本<br />
+排序函数SORT，STABLE-SORT, MERGE没有对应的非破性性版本，需要和COPY-LIST合用  </p>
 
-<pre><code>% calculate(This, Logid, W)
-function_info('calculate', params_type) -&gt;
-{struct, [{1, i32}, {2, {struct, {'tutorial_types', 'work'}}}]};
-function_info('calculate', reply_type) -&gt;
-i32;
-function_info('calculate', exceptions) -&gt;
-{struct, [{1, {struct, {'tutorial_types', 'invalidOperation'}}}]};
+<h4 id="section-27">12.5 列表处理函数</h4>
+<p>common lisp的列表处理函数库:
+FIRST, REST, SECOND … TENTH, NTH, NTHCDR, 28个复合CAR/CDR函数, LAST, BUTLAST, NBUTLAST, LDIFF, TAILP, LIST*, MAKE-LIST, REVAPPEND, NRECONC, CONSP, ATOM, LISTP, NULL</p>
+
+<h4 id="section-28">12.6 映射</h4>
+
+<pre><code>高阶函数     破坏性版本   控制构造  备注
+MAP         MAP-INTO    --        结果类型可变
+MAPCAR      MAPCAN      MAPC      操作元素
+MAPLIST     MAPCON      MAPL      操作cons cell
 </code></pre>
 
-<p>可以看到<code>function_info()</code>函数的第一个参数是接口的名字字符串，第二个参数依次分别为此接口的参数，返回值和可能抛出的异常，对于参数和异常，都命名为struct的Erlang tuple，内部嵌套的参数列表中保留了参数索引，返回值类型则因接口定义是简单类型或复杂类型而异，IDL简单类型则直接映射为名字，复杂类型则同样转为命名为struct的tuple。为什么把接口的几个部分拆开用<code>function_info()</code>这样的函数调用来记录接口定义呢，了解Thrift其它语言(如C++, Python)实现的人看到这种形式会更觉得奇怪，在后面我们将会看到这种做法是与底层框架的调用紧密相关的，所以这里先跳过此疑问。</p>
+<h4 id="section-29">12.7 其他结构</h4>
+<p>列表可以用来表示树，集合以及alist, plist</p>
 
-<h3 id="thrift">1.2 Thrift编译器</h3>
+<h3 id="section-30">第13章 超越列表：点对单元的其他用法</h3>
 
-<p>从.thrift接口定义文件是如何生成Erlang桩代码的呢？感兴趣的读者可以到发布包的compiler目录下阅读IDL解析器和各语言的生成器来一探究竟，这里限于篇幅就跳过这部分了。</p>
+<h4 id="section-31">13.1 树</h4>
+<p>构成：每个cons cell作为一个树结点，cons cell的CAR指向它的左子结点，CDR指向它的右子结点<br />
+COPY-LIST和COPY-TREE操作的区别：是否生递归成新CAR结点<br />
+其它树操作函数：TREE-EQUAL, SUBST(-IF, -IF-NOT), NSUBST(-IF, -IF-NOT)  </p>
 
-<h3 id="section-2">1.3 示例客户端代码</h3>
+<h4 id="section-32">13.2 集合</h4>
+<p>集合操作(相应的回收性函数版本带前缀N)：<br />
+ADJOIN, 创建集合<br />
+MEMBER(-IF, -IF-NOT), 成员判定<br />
+INTERSECTION, 并集<br />
+UNION, 交集
+SET-DIFFERENCE, 差集
+SET-EXCLUSIVE-OR, 对称差集
+SUBSETP, 子集判定</p>
 
-<p>看过编译生成的桩代码之后，我们再看一下0.8.0版本发布包里面对应的客户端和服务器端代码，在<code>tutorial/erl</code>目录下有：</p>
+<h4 id="alistplist">13.3 查询表：alist和plist</h4>
+<p>关联表(association list)：键值映射，正向反向查找<br />
+构成：每个列表元素为一个cons cell，car为key, cdr为value<br />
+操作：查询函数ASSOC(-IF, -IF-NOT)，插入新值ACONS，反向查找RASSOC(-IF, -IF-NOT)，复制COPY-ALIST，创建(PAIRLIS)</p>
 
-<pre><code>├── client.erl        -- 客户端
-├── client.sh
-├── json_client.erl   -- json协议客户端
-├── README
-├── server.erl        -- 服务器端
-└── server.sh
+<p>属性表(property list)，构成：交替出现的键和值<br />
+操作：查询GETF, 移除REMF，抽取多个值GET-PROPERTIES<br />
+每个符号对象都有一个plist，通过函数SYMBOL-PLIST可获取，移除操作REMPROP</p>
+
+<h4 id="destructuring-bind">13.4 DESTRUCTURING-BIND</h4>
+<p>基本结构：  </p>
+
+<pre><code>(destructuring-bind (parameter*) list
+  body-form*)
 </code></pre>
 
-<p>用注释标识出了客户端和服务器端的代码，其中<code>json_client.erl</code>与<code>client.erl</code>的不同只在于改用了json协议，这里就略过了。我们重点看一下客户端和服务器端的代码。</p>
+<p>支持&amp;optional, &amp;rest, &amp;key参数类型以及解构参数列表, 还支持&amp;whole参数  </p>
 
-<p>示例客户端的代码主要分成3个部分：</p>
+<h3 id="io">第14章 文件和文件I/O</h3>
 
-<ol>
-  <li>
-    <p>创建一个连接到指定服务器的客户端实体(这里的“实体”一词，是指向一个关联向某个内存对象的符号，本来想用“对象”一词，但Erlang是函数式编程语言)</p>
+<h4 id="section-33">14.1 读取文件数据</h4>
+<p>OPEN函数打开文件流，支持关键字:if-does-not-exist, :error, :create
+READ-CHAR读取单个字符
+READ-LINE读取一行文本(去掉行束结束字符)
+READ读取单一S-表达式
+CLOSE关闭流
+PRINT以可读形式打印Lisp对象</p>
 
-    <pre><code> {ok, Client0} = thrift_client_util:new("127.0.0.1",
-                                        Port,
-                                        calculator_thrift,
-                                        []),
+<h4 id="section-34">14.2 读取二进制数据</h4>
+<p>向OPEN函数传递值为’(unsigned-byte 8)的:element-type参数
+READ-BYTE读取字节</p>
+
+<h4 id="section-35">14.3 批量读取</h4>
+<p>READ-SEQUENCE函数，兼容字符或二进制流, 读取序列较高效</p>
+
+<h4 id="section-36">14.4 文件输出</h4>
+<p>OPEN函数:direction关键字赋值:output，:if-exists关键字可取值:supersede, :append, :overwrite, nil<br />
+WRITE-CHAR写入单一字符<br />
+WRITE-LINE写入一行(自动添加平台相关的行结束符)<br />
+WRITE-STRING写入一个字符串(不添加行结束符)<br />
+TERPRI输出行结束符(换行)
+FRESH-LINE如果不在行首就打印一个换行
+PRINT打印换行，空格，S-表达式，PRIN1打印S-表达式，PPRINT美化打印S-表达式, 变量*PRINT-READABLY*控制打印内容是否可由READ读回<br />
+PRINC可打印Lisp对象，FORMAT灵活强大<br />
+写入二进制数据同样需要关键字:element-type赋值为’(unsigned-byte 8)<br />
+WRITE-SEQUENCE函数同样兼容字符或二进制流的写入，对序列较高效  </p>
+
+<h4 id="section-37">14.5 关闭文件</h4>
+<p>WITH-OPEN-FILE宏保证文件关闭</p>
+
+<h4 id="section-38">14.6 文件名</h4>
+<p>common lisp有抽象而复杂的路径名表示，文件名一般使用字符串就足够</p>
+
+<h4 id="section-39">14.7 路径名如何表示文件名</h4>
+<p>路径名6组件：主机(host)，设备(device)，目录(directory)，名称(name)，类型(type)以及版本(version)，目录名有关键字:absolute或:relative<br />
+PATHNAME函数将文件名字符串转化为路径名<br />
+PATHNAME-DIRECTORY, PATHNAME-NAME, PATHNAME-TYPE, PATHNAME-HOST, PATHNAME-DEVICE, PATHNAME-VERSION访问路径名各个组件
+路径名独特的读取语法: #p后接一个双引号字符串
+NAMESTRING，将路径名转成字符串，DIRECTORY-NAMESTRING, FILE-NAMESTRING返回路径名组件对应的字符串</p>
+
+<h4 id="section-40">14.8 构造新路径名</h4>
+<p>MAKE-PATHNAME函数用于构造新路径名<br />
+MERGE-PATHNAMES函数用于合并两个路径名<br />
+ENOUGH-NAMESTRING函数获取相对目录
+*DEFAULT-PATHNAME-DEFAULTS*保存默认的路径组件值 </p>
+
+<h4 id="section-41">14.9 目录名的两种表示方法</h4>
+<p>文件形式或全目录形式  </p>
+
+<h4 id="section-42">14.10 与文件系统交互</h4>
+<p>PROBE-FILE函数测试文件是否存在，返回真实名称<br />
+DIRECTORY函数列出文件<br />
+DELETE-FILE函数删除文件，RENAME-FILE函数修改名字<br />
+ENSURE-DIRECTORIES-EXIST函数在必要时创建目录<br />
+FILE-WRITE-DATA函数返回文件上次写入时间<br />
+FILE-AUTHOR返回文件所有者<br />
+FILE-LENGTH函数返回文件长度<br />
+FILE-POSITION函数返回流在文件中的位置  </p>
+
+<h4 id="io-1">14.11 其他I/O类型</h4>
+<p>STRING-STREAM函数从一个字符串中读写数据<br />
+MAKE-STRING-INPUT-STREAM和MAKE-STRING-OUTPUT-STREAM函数用来创建STING-STREAM<br />
+GET-OUTPUT-STREAM-STRING函数用来获取被写入STRING-STREAM的字符串<br />
+WITH-INPUT-FROM-STRING和WITH-OUTPUT-TO-STRING是前面两个操作的便利接口  </p>
+
+<p>语言标准定义多种形式的流拼接：<br />
+BROADCAST-STREAM, 有MAKE-BROADCAST-STREAM等操作<br />
+CONCATENATED-STREAM，有MAKE-CONCATENATED-STREAM等操作<br />
+TWO-WAY-STREAM和ECHO-STREAM，有MAKE-TWO-WAY-STREAM和MAKE-ECHO-STREAM等操作</p>
+
+<h3 id="section-43">第15章 实践：可移植路径名库</h3>
+
+<h4 id="api">15.1 API</h4>
+<p>目标：写一函数库，支持获取目录文件列表，检测给定名字的文件或目录是否存在</p>
+
+<h4 id="features">15.2 *FEATURES*和读取期条件化</h4>
+<p>*FEATURES*是一个平台支持特性的符号列表<br />
+读取器通过两个语法标记#+和#-支持特性表达式<br />
+#+之后的特性表达式为真，下一个表达式正常读取，否则被跳过<br />
+#-之后的特性表达式为假，下一个表达式正常读取，否则被跳过<br />
+条件化过程发生在读取器中，被跳过的表达式不会进入编译器，所以没有编译阶段或运行时代价</p>
+
+<h4 id="section-44">15.3 列目录</h4>
+<p>较多平台相关的代码细节，省略</p>
+
+<h4 id="section-45">15.4 测试文件的存在</h4>
+<p>较多平台相关的代码细节，省略</p>
+
+<h4 id="section-46">15.5 遍历目录树</h4>
+<p>递归在目录树中调用参数函数</p>
+
+<h3 id="section-47">第16章 重新审视面向对象：广义函数</h3>
+<p>介绍common lisp的面向对象系统CLOS(common lisp object system)历史</p>
+
+<h4 id="section-48">16.1 广义函数和类</h4>
+<p>CLOS和多数面向对象语言一样基于类，但方法调用不是通过消息传递，而是通过广义函数</p>
+
+<h4 id="section-49">16.2 广义函数和方法</h4>
+<p>广义函数描述抽象操作不提供实现，只有名字和参数列表<br />
+当广义函数被调用时，由系统来进行方法组合和绑定  </p>
+
+<h4 id="defgeneric">16.3 DEFGENERIC</h4>
+<p>举一个简单的银行应用为例说明DEFGENERIC的语法</p>
+
+<h4 id="defmethod">16.4 DEFMETHOD</h4>
+<p>特化上一节定义的广义函数，说明DEFMETHOD的语法<br />
+CALL-NEXT-METHOD可用于组合可应用的方法<br />
+DEFMETHOD支持EQL特化  </p>
+
+<h4 id="section-50">16.5 方法组合</h4>
+<p>可应用方法列表排序，相关性，多重方法</p>
+
+<h4 id="section-51">16.6 标准方法组合</h4>
+<p>标准方法组合机制支持:before, :after, :around三种辅助方法<br />
+:before方法：将在所有主方法之前以最相关者优先的顺序来运行<br />
+:after方法：将在所有主方法之后以最相关者最不优先的顺序来运行
+:around方法：运行在所有:before方法, 主方法，:after方法的利欲复合体的外围，以类似主方法的顺序被组合，一般都需要调用CALL-NEXT-METHOD函数，来调用下一个:around方法或:before方法</p>
+
+<h4 id="section-52">16.7 其他方法组合</h4>
+<p>除标准方法外，还有9种其他的内置方法组合，也称为简单内置方法组合，它们是：<br />
++, AND, OR, LIST, APPEND, NCONC, MIN, MAX, PROGN  </p>
+
+<h4 id="section-53">16.8 多重方法</h4>
+<p>多重方法是指显式地特化了超过一个广义函数的必要形参的方法，与消息传递有真正区别</p>
+
+<h3 id="section-54">第17章 重新审视面向对象：类</h3>
+<p>common lisp中所有数据类型都组织成类T为单根的类层次体系，包括内置类和用户定义类  </p>
+
+<h4 id="defclass">17.1 DEFCLASS</h4>
+<p>DEFCLASS宏用来创建用户定义类，它只定义数据类型，关联行为通过广义函数和子类的特化方法定义<br />
+DEFCLASS的语法：  </p>
+
+<pre><code>(defclass name (direct-superclass-name*)
+  (slot-specifier*))
 </code></pre>
 
-    <p><code>thrift_client_util:new()</code>这个函数封装了创建并初始化客户端实体的代码，我们跟一下看看它做了哪些事情。</p>
+<p>没有指定基类就直接成为STANDARD-OBJECT的子类。<br />
+MAKE-INSTANCE函数用来创建类的实例。  </p>
 
-    <p>Thrift的Erlang实现全部源代码都在<code>lib/erl/src/</code>目录，这个目录也就是本文重点讨论的源代码所在，打开目录下<code>thrift_client_util.erl</code>文件，会发现文件很短，没多少代码，其中导出的<code>new()</code>函数用于创建并初始化客户端实体：</p>
+<h4 id="section-55">17.2 槽描述符</h4>
+<p>槽可以通过SLOT-VALUE访问<br />
+广义函数PRINT-OBJECT定义了类对象的打印形式  </p>
 
-    <pre><code> new(Host, Port, Service, Options)
-   when is_integer(Port), is_atom(Service), is_list(Options) -&gt;
-     {ProtoOpts, TransOpts} = split_options(Options),
+<h4 id="section-56">17.3 对象初始化</h4>
+<p>DEFCLASS宏定义中对槽添加参数控制初始化<br />
+:initarg参数作为槽默认值<br />
+:initform参数作为槽默认构造表达式<br />
+在广义函数INITIALIZE-INSTANCE上特化一个:after方法可以用来精确控制自定义类的槽初始化  </p>
 
-     {ok, TransportFactory} =
-         thrift_socket_transport:new_transport_factory(Host, Port, TransOpts),
+<h4 id="section-57">17.4 访问函数</h4>
+<p>DEFCLASS宏定义中对槽添加:reader，:writer和:accessor参数来创建读写函数  </p>
 
-     {ok, ProtocolFactory} = thrift_binary_protocol:new_protocol_factory(
-                               TransportFactory, ProtoOpts),
+<h4 id="with-slotswith-accessors">17.5 WITH-SLOTS和WITH-ACCESSORS</h4>
+<p>简化对SLOT-VALUE和槽的读写函数的调用方式  </p>
 
-     {ok, Protocol} = ProtocolFactory(),
+<h4 id="section-58">17.6 分配在类上的槽</h4>
+<p>DEFCLASS宏定义中槽的:allocation参数，可取值:instance或:class<br />
+注意:class槽与C++/Python里面的类静态字段不同</p>
 
-     thrift_client:new(Protocol, Service).
+<h4 id="section-59">17.7 槽和继承</h4>
+<p>一个对象只能有一个给定名字的槽，子类的槽会同所有父类的槽合并，避免名字冲突，初始化和访问函数都会随之合并。  </p>
+
+<h4 id="section-60">17.8 多重继承</h4>
+<p>多重继承下，槽的合并优先级和广义函数的方法相关性问题</p>
+
+<h3 id="format">第18章 一些FORMAT秘诀</h3>
+<p>FORMAT强大简洁，但其控制字符串容易变得晦涩难懂  </p>
+
+<h4 id="format-1">18.1 FORMAT函数</h4>
+<p>FORMAT有两个必要参数，附加的参数提供插入输出的值
+第一个必要参数，可取值为T, NIL，一个流或一个带填充指针的字符串
+第二个必要参数是控制字符串</p>
+
+<h4 id="format-2">18.2 FORMAT指令</h4>
+<p>控制字符串中可包含指令，所有FORMAT指令都以一个波浪线(~)开始，后面跟单个大小写不限的字符，指令可带有参数</p>
+
+<h4 id="section-61">18.3 基本格式化</h4>
+
+<pre><code>指令    作用
+~A      打印任何类型，输出可读形式
+~S      打印任何类型，输出可被READ回读形式
+~%      输出换行
+~&amp;      产生新行
+~~      输出~字符
 </code></pre>
 
-    <p>其中<code>split_options()</code>用于分拣传入的选项，这个函数就定义在当前模块(也就是说在同一个文件)，其实现也很简单，就是用来划分开Transport和Protocol对应的选项。然后<code>new()</code>函数依次创建transport和protocol，最后创建并返回client，熟悉Thrift其它语言客户端写法的人会发现这段代码似曾相似，这几个创建客户端的步骤也很常见了，所以我们跳到下一步看看接口调用的代码。</p>
-  </li>
-  <li>
-    <p>使用上一步创建的客户端实体来调用RPC接口</p>
+<h4 id="section-62">18.4 字符和整数指令</h4>
 
-    <p>调用RPC接口的Erlang代码也只是常见的函数调用形式，没有什么出奇的地方，接口的参数以列表形式传入，返回值包含在tuple里面。由于Erlang中变量只能一次赋值，所以每次调用的返回值都会返回新操作过的客户端实体。下面是其中一个简单例子：</p>
-
-    <pre><code> {Client3, {ok, Sum1}} = thrift_client:call(Client2, add, [1, 4]),
- io:format("1+4=~p~n", [Sum1]),
+<pre><code>指令    作用
+~C      打印字符
+~D      打印十进制整数
+~X      打印十六进制
+~O      打印八进制
+~B      打印二进制
+~R      通用的自定义进制打印
 </code></pre>
 
-    <p>示例代码中也有带复杂参数的接口和抛出异常的接口的调用例子，也比较简单，这里就不一一展开了。</p>
-  </li>
-  <li>
-    <p>最后关闭与服务器的连接</p>
+<h4 id="section-63">18.5 浮点指令</h4>
 
-    <p>调用<code>thrift_client:close()</code>关闭连闭。</p>
-  </li>
-</ol>
-
-<h3 id="section-3">1.4 示例服务器端代码</h3>
-
-<p>示例服务器端的代码也较短，主要包含这两个部分：</p>
-
-<ol>
-  <li>
-    <p>RPC接口的Erlang实现</p>
-
-    <p>实现一个Thrift RPC接口，就是写一个名字参数返回值与IDL接口定义一致的函数，也可以直接throw声明的异常，这部分示例的函数都比较简单。</p>
-  </li>
-  <li>
-    <p>服务端器进程接口</p>
-
-    <p>通过适当参数调用<code>thrift_socket_server:start()</code>启动进程，通过<code>thrift_socket_server:stop()</code>停止进程。</p>
-
-    <p>最后<code>handle_function()</code>用于在当前模块分发接口处理函数，接口分为无回包（返回ok）和有回包（返回命名为reply的tuple）两种情况，这与IDL的接口定义，以及1的接口实现函数是对应的。</p>
-
-    <p>特别值得一提的是，这种分发在Erlang这个动态语言中，从接口名（符号而非字符串）映射到接口的调用，只需要调用一下apply函数。同样的分发在C++中是这样做的：通过Thrift编译生成的桩代码，通过生成的processor类的<code>process_fn()</code>来查找接口名字与接口调用函数的映射，再回调到handler的对应接口实现函数。对比之下，静态语言中的从接口名到接口实现的分发比较纡回，代码量也较大，而动态语言的实现代码则简单清爽。</p>
-  </li>
-</ol>
-
-<h2 id="erlang">2 Erlang实现源代码</h2>
-
-<p>了解过Thrift客户端和服务器端之后，接下来看看Erlang的实现代码。按照官方文档给出的整体框架，Thrift自下到上可以分为4层：</p>
-
-<pre><code>+-------------------------------------------+
-| Server                                    |  -- 服务器进程调度
-| (single-threaded, event-driven etc)       |
-+-------------------------------------------+
-| Processor                                 |  -- RPC接口处理函数分发，IDL定义接口的实现将挂接到这里面
-| (compiler generated)                      |
-+-------------------------------------------+
-| Protocol                                  |  -- 协议
-| (JSON, compact etc)                       |
-+-------------------------------------------+
-| Transport                                 |  -- 网络传输
-| (raw TCP, HTTP etc)                       |
-+-------------------------------------------+
+<pre><code>指令     作用
+~F       十进制浮点数，太大或太小时变成科学计数法
+~E       总是科学计数法
+~G       组合了~F, ~E
+~$       简单的~F，用于输出货币
 </code></pre>
 
-<p>这个层次是根据代码的静态结构划分的，而非运行时的状态。在运行时下一层的接口由上一层调用，最后汇聚到顶层由顶层的Server启动服务，而并非每层都有对应的运行实体（线程或进程），从下层至上层的一层一层的回调。</p>
+<h4 id="section-64">18.6 英语指令</h4>
 
-<p>在各种语言的实现中，每一层的接口都是设计好的固定接口。例如在C++中，transport这一层是由虚基类Transport衍生的单根类体系，根类Transport的<code>open()</code>, <code>close()</code>, <code>read()</code>, <code>write()</code>, <code>flush()</code>等成员函数确定了Transport层的接口，各种Transport的实现如TBufferedTransport, THttpTransport只是不同地实现了这些统一接口。</p>
-
-<p>在Erlang中，跨模块（也就是跨文件）之间接口的一致性一般是通过behaviour来保证的，按同样的每层接口固定的实现思路，我们可以猜想在Erlang中每一层的接口都会写成behaviour。</p>
-
-<p>下面我们就按这个分层结构，自下而上的逐层分析。</p>
-
-<h3 id="transport">2.1 Transport</h3>
-
-<p>Transport层包括<code>lib/erl/erc</code>目录下文件名带transport字样的几个文件：</p>
-
-<pre><code>├── thrift_base64_transport.erl
-├── thrift_buffered_transport.erl
-├── thrift_disk_log_transport.erl
-├── thrift_file_transport.erl
-├── thrift_framed_transport.erl
-├── thrift_http_transport.erl
-├── thrift_memory_buffer.erl
-├── thrift_socket_transport.erl
-├── thrift_transport.erl
-└── thrift_transport_state_test.erl
+<pre><code>指令     作用
+~R       打印英语单词或罗马数字
+~P       复数化单词
+~(, ~)   定制范围输出字母小写，首字母大写，全大写
 </code></pre>
 
-<p>打开<code>thrift_transport.erl</code>，果然文件头就定义了Transport层的behaviour <code>thrift_transport</code>。</p>
+<h4 id="section-65">18.7 条件格式化</h4>
 
-<pre><code>behaviour_info(callbacks) -&gt;
-    [{read, 2},
-     {write, 2},
-     {flush, 1},
-     {close, 1}
-    ].
+<pre><code>指令      作用
+~[, ~]    输出的子句取决于对应参数的值
 </code></pre>
 
-<p>整个Transport的代码比较简单，重点有两个，一是用来记录状态的record <code>transport</code>，定义为</p>
+<h4 id="section-66">18.8 迭代</h4>
 
-<pre><code>-record(transport, {module, data}).
+<pre><code>指令        作用
+~{, ~}, ~^  在列表元素上进行迭代
 </code></pre>
 
-<p>另一个是各个接口的实现方式，以<code>read()</code>函数为例</p>
+<h4 id="section-67">18.9 跳，跳，跳</h4>
 
-<pre><code>-spec read(#transport{}, non_neg_integer()) -&gt; {#transport{}, {ok, binary()} | {error, _Reason}}.
-read(Transport, Len) when is_integer(Len) -&gt;
-    Module = Transport#transport.module,
-    {NewTransData, Result} = Module:read(Transport#transport.data, Len),
-    {Transport#transport{data = NewTransData}, Result}.
+<pre><code>指令       作用
+~*         跳过下一个参数，或前移重用一个参数
 </code></pre>
 
-<p>这里只是简单调用具体实现模块的<code>read()</code>函数，在Erlang里面通过传递<code>Module</code>和<code>function</code>来进行跨模块的调用也是很常用的技巧了，在OTP里面经常见到。</p>
+<h4 id="section-68">18.10 还有更多……</h4>
 
-<p>下面我们看一个具体的Transport实现，这里选择较底层的<code>thrift_socket_transport.erl</code>来展开讨论，其它的Transport实现类似，限于篇幅就不一一展开了。</p>
-
-<p>没有意外，<code>thrift_socket_transport</code>模块实现了上面定义的Transport behaviour <code>thrift_transport</code>，引入了另外的record来保存它独有的状态数据：</p>
-
-<pre><code>-record(data, {socket,
-               recv_timeout=infinity}).
--type state() :: #data{}.
+<pre><code>指令      作用
+~?        从参数中获取控制字符串
+~/        调用函数来处理下一个参数
 </code></pre>
-
-<p>由于有Erlang有简单易用的gen_tcp模块，对应Transport层的代码也较为简洁，创建socket的函数是从transport工厂函数返回的：</p>
-
-<pre><code>new_transport_factory(Host, Port, Options) -&gt;
-    ParsedOpts = parse_factory_options(Options, #factory_opts{}),
-
-    F = fun() -&gt;
-                SockOpts = [binary,
-                            {packet, 0},
-                            {active, false},
-                            {nodelay, true} |
-                            ParsedOpts#factory_opts.sockopts],
-                case catch gen_tcp:connect(Host, Port, SockOpts,
-                                           ParsedOpts#factory_opts.connect_timeout) of
-                    {ok, Sock} -&gt;
-                        {ok, Transport} = thrift_socket_transport:new(Sock),
-                        {ok, BufTransport} =
-                            case ParsedOpts#factory_opts.framed of
-                                true  -&gt; thrift_framed_transport:new(Transport);
-                                false -&gt; thrift_buffered_transport:new(Transport)
-                            end,
-                        {ok, BufTransport};
-                    Error  -&gt;
-                        Error
-                end
-        end,
-    {ok, F}.
-</code></pre>
-
-<p>闭包返回的函数里面，先是创建到服务器的连接，然后根据传入的选项创建<code>buffered_transport</code>或<code>framed_transport</code>，这两者也是使用Thrift时常用的两种简单transport了，一种是流，一种带长度header。</p>
-
-<p>有了创建好的socket，每次读写的时候就相当容易了，例如：</p>
-
-<pre><code>read(This = #data{socket=Socket, recv_timeout=Timeout}, Len)
-  when is_integer(Len), Len &gt;= 0 -&gt;
-    case gen_tcp:recv(Socket, Len, Timeout) of
-        Err = {error, timeout} -&gt;
-            error_logger:info_msg("read timeout: peer conn ~p", [inet:peername(Socket)]),
-            gen_tcp:close(Socket),
-            {This, Err};
-        Data -&gt;
-            {This, Data}
-    end.
-
-%% We can't really flush - everything is flushed when we write
-flush(This) -&gt;
-    {This, ok}.
-</code></pre>
-
-<p>注意在外层包装的<code>buffered_transport</code>或<code>framed_transport</code>都有缓存数据，所以<code>socket_transport</code>的<code>flush()</code>函数为空。</p>
-
-<p>这个<code>socket_transport</code>只用于客户端，服务器端由于需要按OTP的gen_server风格来写，所以放在另外的单独文件<code>thrift_socket_server.erl</code>中，它的实现代码将后面讨论。</p>
-
-<h3 id="protocol">2.2 Protocol</h3>
-
-<p>Protocol层包括<code>lib/erl/erc</code>目录下文件名带protocol字样的几个文件：</p>
-
-<pre><code>├── thrift_binary_protocol.erl
-├── thrift_json_protocol.erl
-├── thrift_protocol.erl
-</code></pre>
-
-<p>有了前面的经验，再读Protocol就变得轻车熟路了。通过阅读它的代码，我们知道<code>thrift_protocol.erl</code>定义了Protocol层接口的behaviour。以<code>thrift_binary_protocol.erl</code>为例来看具体Protocol实现，它做了IDL的数据类型的序列化值与Erlang atom的相互映射，同时针对各种IDL数据类型实现了对简单类型，结构类型，map, set, list 3种容器类型的读写（序列化与反序列化，或称做打包和解包协议）函数，Binary Protocol虽然设计简单，但由于IDL类型众多细节也比较多，了解Thrift实现的读者应该比较清楚，不清楚的话可以详细阅读源代码，这里就快速带过了。</p>
-
-<h3 id="processor">2.3 Processor</h3>
-
-<p>Processor只有一个文件<code>thrift_processor.erl</code>。按Thrift的分层结构，Processor是挂接用户定制的IDL服务接口的地方，所以只存在于server。作为一个承上接下的层次，它的内部状态数据记录了IDL接口的实现模块<code>service</code>，接口分发模块<code>handler</code>和底层的<code>protocol</code>。</p>
-
-<pre><code>-record(thrift_processor, {handler, protocol, service}).
-</code></pre>
-
-<p>通过<code>init()</code>函数初始化Processor后server对应的连接处理进程进入的无限循环<code>loop()</code>函数，负责处理来自单个客户端的请求：</p>
-
-<pre><code>loop(State0 = #thrift_processor{protocol  = Proto0}) -&gt;
-    {Proto1, MessageBegin} = thrift_protocol:read(Proto0, message_begin),
-    State1 = State0#thrift_processor{protocol = Proto1},
-    case MessageBegin of
-        #protocol_message_begin{name = Function,
-                                type = ?tMessageType_CALL,
-                                seqid = Seqid} -&gt;
-            {State2, ok} = handle_function(State1, list_to_atom(Function), Seqid),
-            loop(State2);
-        #protocol_message_begin{name = Function,
-                                type = ?tMessageType_ONEWAY, 
-                                seqid = Seqid} -&gt;
-            {State2, ok} = handle_function(State1, list_to_atom(Function), Seqid),
-            loop(State2);
-        {error, timeout} -&gt;
-            thrift_protocol:close_transport(Proto1),
-            ok;
-        {error, closed} -&gt;
-            %% error_logger:info_msg("Client disconnected~n"),
-            thrift_protocol:close_transport(Proto1),
-            exit(shutdown)
-    end.
-</code></pre>
-
-<p>它从protocol中读出请求包头，并调用<code>handle_function()</code>进行实际的处理，代码中用了<code>list_to_atom()</code>来将从协议包中解出的函数名字符串转为Erlang符号，因为Erlang的符号在实现中不进行垃圾回收，所以如果有恶意的客户端发送百万级数格式正确但函数名不合法的请求，就可以把服务器拖垮，但将Thrift定位于内部服务使用，它的常用协议也没有加密机制，所以这里的代码可以认为是没问题的。</p>
-
-<p>接下来重点看看实际请求的<code>handle_function()</code>，它调用<code>handler_function()</code>查询对应接口的所有参数及类型，这个函数是Thrift编译器生成的桩代码，在1.1节我们已经见过了，当前的疑问也得到了解答：桩代码之所以按文件<code>thrift_service.erl</code>定义的behaviour那样来生成，目的在于与这里的调用保持一致。然后根据得到的参数信息，从protocol中把请求包里所有参数解包出来，这个时候请求包的全部内容都已经被读取出来了，服务器端有了足够的信息来进行接口调用，于是调用接口的分发模块Handler的<code>handle_function()</code>函数来将请求分发到具体的接口实现函数，这个<code>handle_function()</code>函数我们之前在1.4节也已经见过了。</p>
-
-<pre><code>handle_function(State0=#thrift_processor{protocol = Proto0,
-                                         handler = Handler,
-                                         service = Service},
-                Function,
-                Seqid) -&gt;
-    InParams = Service:function_info(Function, params_type),
-
-    {Proto1, {ok, Params}} = thrift_protocol:read(Proto0, InParams),
-    State1 = State0#thrift_processor{protocol = Proto1},
-
-    try
-        Result = Handler:handle_function(Function, Params),
-        %% {Micro, Result} = better_timer(Handler, handle_function, [Function, Params]),
-        %% error_logger:info_msg("Processed ~p(~p) in ~.4fms~n",
-        %%                       [Function, Params, Micro/1000.0]),
-        handle_success(State1, Function, Result, Seqid)
-    catch
-        Type:Data when Type =:= throw orelse Type =:= error -&gt;
-            handle_function_catch(State1, Function, Type, Data, Seqid)
-    end.
-</code></pre>
-
-<p>在<code>handle_function()</code>成功处理完请求后，它调用<code>handle_success()</code>查询桩代码中的对应接口返回值声明，在需要回包时进行回包，如果<code>handle_function()</code>抛出异常时，它调用<code>handle_function_catch()</code>查询IDL接口定义的异常声明，在需要回包时将异常进行适当的序列化后发送回包。发送回包的函数<code>send_reply()</code>则使用了下层protocol的<code>write()</code>, <code>flush_transport()</code>接口。</p>
-
-<h3 id="server">2.4 Server</h3>
-
-<p>作为这门语言的设计目标其中之一，Erlang对Server有很好的支持，提供了superviour, gen_server等OTP模块为Server长期稳定运行保驾护航，对OTP不熟悉的读者可以先读读由连城翻译的《Erlang/OTP并发编程实战》。</p>
-
-<p>Thrift的Server也是一个定制的gen_server，其源代码包括<code>lib/erl/erc</code>目录下文件名带server字样的几个文件：</p>
-
-<pre><code>├── thrift_server.erl          -- 简单的单进程Server
-├── thrift_socket_server.erl   -- 产品级多进程Server
-</code></pre>
-
-<p>其中单进程Server比较简单，在启动将socket设置成异步，在收到请求时通过<code>start_processor()</code>函数始化transport, protocol，并spawn一个processor开始处理请求。我们重点看一下多进程的Server代码。</p>
-
-<p>多进程的socket_server可以通过<code>start()</code>函数来启动，这个我们在1.4节已经了解，它调用了<code>start_sever()</code>并通过gen_server的标准机制调用到<code>init()</code>函数。<code>init()</code>负责初始化Server并侦听服务端口，一旦有客户端连接进入，会调用<code>new_acceptor()</code>函数，后者会针对每个新连接创建一个新进程，并调用<code>acceptor_loop()</code>函数对应的来创建transport, protocol并调用processor的入口函数<code>init()</code>来开始处理请求，<code>acceptor_loop()</code>内执行的步骤与单进程的<code>start_processor()</code>函数类似，因为都是针对的都是单个客户端。其它的代码就比较简单了，这里略过。</p>
-
-<h3 id="client">2.5 Client</h3>
-
-<p>Client相关的源代码包括<code>lib/erl/erc</code>目录下文件名带client字样的几个文件：</p>
-
-<pre><code>├── thrift_client.erl
-├── thrift_client_util.erl
-├── thrift_reconnecting_client.erl
-</code></pre>
-
-<p>其中<code>thrift_client_util.erl</code>这个文件在1.3节我们已经讨论过。<code>thrift_client.erl</code>中是常用的简单客户端代码，我们将重点讨论它。<code>thrift_reconnecting_client.erl</code>是用gen_server实现的本地Server，伪装成Client，在简单客户端的基础上加上了自动重连服务器的功能，这里就不展开了。</p>
-
-<p><code>thrift_client.erl</code>中，常规的Thrift接口调用通过函数<code>call()</code>组织成为发出调用，接收回包两步，如代码所示：</p>
-
-<pre><code>-spec call(#tclient{}, atom(), list()) -&gt; {#tclient{}, {ok, any()} | {error, any()}}.
-call(Client = #tclient{}, Function, Args)
-  when is_atom(Function), is_list(Args) -&gt;
-    case send_function_call(Client, Function, Args) of
-        {Client1, ok} -&gt;
-            receive_function_result(Client1, Function);
-        Else -&gt;
-            Else
-    end.
-</code></pre>
-
-<p>如前文所述，Server端解包请求包时反序列化包头包体的逻辑，和打包回复包序列化包头包体的逻辑都放在processor中，Client端由于没有经过processor，于是这部分代码就放在Client模块中，Client打包发向Server的请求包和解包来自Server的回复包的代码分别在函数<code>send_function_call()</code>和<code>receive_function_result()</code>，后者根据回包的类型不同而执行不同的解包动作：如果是正常回包，则调用<code>handle_reply()</code>解之，如果回包是异常，则调用<code>handle_application_exception()</code>解之，整个代码还是比较简单的。</p>
-
-<h3 id="section-4">2.5 其它代码</h3>
-
-<p>目录<code>lib/erl</code>还有其它的一些测试代码，都比较简单，这里就不展开了：</p>
-
-<pre><code>├── include     -- 共用的hrl文件
-├── src
-└── test        -- 测试代码
-</code></pre>
-
-<h2 id="section-5">3 总结</h2>
-
-<p>Thrift Erlang实现的所有主要代码到这里就讨论完了。总体来看，整个实现并不复杂，代码阅读起来也比较简明易懂，认真读起来很快就可以读完，对比C++或Python等其他语言的实现来看，Erlang实现的代码量相当小，这得益于Erlang对网络编程，服务器编写的优秀支持，以及函数式编程的清晰语义。</p>
 
 </div>
   
