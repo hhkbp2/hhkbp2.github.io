@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="Emacs中的 calendar mode 有很多功能，可以在 calendar 中对自己感兴趣的节日进行定制。在 gnu 官网 emacs 手册的 38.15.2 Customizing the Holidays 部分可以找到详细的说明。这里谈谈如何定制中国的农历节日。 下载 William &hellip;">
+  <meta name="description" content="Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/03/01/color-theme-darkmate-for-emacs/">Color Theme Darkmate for Emacs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-01T03:34:00+08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and try to fontify Emacs as the font-lock facilities do, I found there is a bug in the Color Theme latest version 6.6.0 package.</p>
+
+<p>Line 689 of the source file “color-theme.el”, in the defination of function “color-theme-spec-compat”, it uses “cadar” to fetch out the property of only the first element of face specification, rather than fetch out the whole specification. So give the face specification as</p>
+
+<pre><code>(dired-mark
+      ((((class color) (min-colors 88)) (:foreground "red"))
+       (((class color) (min-colors 16)) (:foreground "green"))
+       (((class color) (min-colors 8)) (:foreground "blue"))
+       (((type tty) (class mono)) (:foreground "white"))
+       (t (:foreground "red"))))
+</code></pre>
+
+<p>It is a correct face specification(refer to macro `defface’ for more information of face specification), and “dired-mark” should be in color “green” under 16-color environment and “blue” under 8-color environment. However function “color-theme-spec-compat” just set “dired-mark” to be “red” in any case. It reduces the flexibility of face-lock facilities of Emacs when using Color Theme.</p>
+
+<p>To fix this, I revise the defination of “color-theme-spec-compat” like</p>
+
+<pre><code>(defun color-theme-spec-compat (spec)
+  "An redifination of `color-theme-spec-compat' of `color-theme'.
+To apply different face settings according to different term types."
+  (let (compat-spec props)
+    (dolist (dis-atts spec)
+      (setq props (cadr dis-atts))
+      (when (plist-member props :bold)
+        (setq props (color-theme-plist-delete props :bold))
+        (unless (plist-member props :weight)
+          (setq props (plist-put props :weight 'bold))))
+      (when (plist-member props :italic)
+        (setq props (color-theme-plist-delete props :italic))
+        (unless (plist-member props :slant)
+          (setq props (plist-put props :slant 'italic))))
+      (setcdr dis-atts `(,props))
+      (add-to-list 'compat-spec dis-atts 'APPEND))
+    compat-spec))
+</code></pre>
+
+<p>and put this into the file “color-theme+.el”.</p>
+
+<p>I give a try out to customize a color-theme of my favour as well. I name it “color-theme-darkmate”. This color theme is inspired by the theme <a href="http://live.gnome.org/GtkSourceView/StyleSchemes">darkmate</a> of <a href="http://projects.gnome.org/gedit/">gEdit</a>, which is a color theme somewhat similar with the theme of editor <a href="http://macromates.com/">TextMate</a> on Mac. I never use the editor TextMate before and don’t know how much does “color-theme-darkmate” look like the theme TextMate. The settings in “color-theme-darkmate.el” is created in the opinion of using a few elementary colors as consistantly as possible in various modes to make a colorful and eye candy Emacs.</p>
+
+<p>You could download “color-theme+.el” and “color-theme-darkmate.el” <a href="https://github.com/hhkbp2/dot-emacs/tree/master/site-lisp">here</a>.</p>
+
+<p>Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://hhkbp2.github.com/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2016-03-06T20:59:48+08:00</updated>
+  <updated>2016-06-08T02:49:48+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[念念不忘，亦有回响]]></title>
+    <link href="http://hhkbp2.github.com/blog/2016/06/08/minds-echo/"/>
+    <updated>2016-06-08T00:00:00+08:00</updated>
+    <id>http://hhkbp2.github.com/blog/2016/06/08/minds-echo</id>
+    <content type="html"><![CDATA[<p>多年以前，当我在Linux下选择Emacs做为编辑器的时候，似乎只是一个比较随机的选择。当时我已经接触并使用VI有一段日子，然而我使用它的体验并不算愉快，也许是我被VI命令模式和编辑模式搞乱了太多次，于是想找个其它编辑器试试，而当时我所知道的Linux终端字符界面编辑器并不多，Emacs是其中一个，然后我就开始使用Emacs，从此一发不可收拾，走上了一条不断修炼的漫漫长路。这段经历后来浓缩成了<a href="http://hhkbp2.github.com/blog/2013/01/08/the-pragmatic-emacser/">《Emacs修炼之道》</a>这篇文章。Emacs不仅给我提供了一个舒适高效的编辑器工具与环境，也引领我走入了Lisp语言的世界。在此之前，我跟大多数人一样，认识中的Lisp语言都是既遥远又陌生，觉得它就像中国古代的甲骨文，又或者是中美洲玛雅符号那样的古老而且荒废。日后我在一个介绍计算机历史的资料上看到了这张图片，觉得它十分准确地描述了之前我对Lisp的印象：</p>
+
+<p><img src="http://hhkbp2.github.com/images/uploads/Byte_Magazine_Volume_04_Number_08_LISP.jpg" alt="Byte杂志第4期Lisp封面" /></p>
+
+<p>这个图片是《Byte》杂志在1979年第4期的封面，它借用了经典科幻电影《2001太空漫游》中的场景，人类宇航员在探索月球时发现神秘的黑石，黑石由一种远超人类的智慧和技术制造，并于百万年前就放置在月球上等待人类的发现。电影中的黑石多次出现，启发着人类的心智的作用，从猿人开始带领人类走向越来越高级的文明。原电影的黑石是光滑无字的，此图则在黑石上写满了Lisp代码，以突显Lisp风格古老技术先进的观感。</p>
+
+<p>1979年至今已经过去30多年了，其间经历世事沧桑，一个又一个浪潮在计算机行业冒升又落下，一门又一门新的编程语言流行而又衰落。Lisp语言早已退出流行的行列，然而却始终吸引着一小群程序员前仆后继地不断进入它的世界。除了传统的几种Lisp方言，伴随着JVM的流行以及多核化的潮流，2007年诞生的Clojure将Lisp在JVM平台重新做了一个现代的实现，也掀起了一波新的潮流，吸引了很多人的关注和使用。几十年前诞生的编程语言，大多早已消失在历史的长河中了，为什么Lisp能够保持长期的生命力呢？正如看待黑客文化时有人主要关注它的政治正确，有人则将它看成是嗡嗡作响的经济引擎，不同的人对Lisp优点的看法也大不相同。有人喜欢Lisp以List作为唯一代码组织方式的简单明了，有人欣赏Lisp由核心几个特殊Form支撑起来的体系，对应着数学领域里面的公理上搭建大厦的体系结构，有人则更实利化只关注可以帮助提高开发效率的那些方面。在我看来，Lisp最吸引我的一点就是强大的元编程能力，非常便于编写DSL。当然这并不是说其它方面不重要，如交互式编程，强调函数式风格但又不强制函数式为唯一风格等特点也是可圈可点。</p>
+
+<p>Lisp的思想和设计是如此优秀，然而传统的几种方言的实现Scheme，Common Lisp还有另外几个方言都没能紧跟这个时代的步伐，Clojure的作者Rich Hickey必定是深知这点，才会创造了Clojure。感谢Rich，我们得以知道在某个语言的成熟VM上实现一个现代Lisp的可行性，也欣赏到了Clojure设计与哲学的种种优雅美丽之处。Clojure设计于运行在JVM之上，固然是它的成功关键，因为如此一来就可以重用成熟的JVM环境以及丰富的代码库，同时Java程序员这个群体也非常庞大，能吸引到的Clojure使用者也多。另一方面也产生了一些缺点，因为底层的JVM原本是为Java设计实现的，而Java的并发模型还停留在操作系统进程/线程和锁这一种方式，因此Clojure除了保留Java的并发原语之外，还在并发上做了多种尝试，像软事务内存，几种不同的原语delay, future, promise，还有几种不同的引用类型。如此多的新概念和原语不可谓不丰富，同时也是繁多复杂。每当我的脑细胞因为折腾可变与不变或者write skew而被烧死一部分的时候，我总是怀念Erlang Actor并发模型的简单。</p>
+
+<p>既然要顺适多核化的趋势，就需要语言本身的并发机制支持用户态进程/协程。那么为什么不直接使用Erlang呢？虽然Erlang并不是Lisp，但Erlang的设计也受到Lisp的影响，很多地方都有Lisp的影子，比如交互shell，热更新等。然而我对Erlang也有觉得不满意的地方，除了经常被, ; .几个符号搞晕之外，最大的不满是来自于在Erlang里做元编程的不便<a href="#1">[1]</a>，但是Erlang代码又有很强烈的元编程需求，比如OTP里面的大片模板代码。因此在编写Erlang代码的时候，我又相当怀念Lisp的Macro。</p>
+
+<p>那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也有一堆，基本上每年都是新学一到两门新语言，虽然把它们用来写大量代码的机会很少，但也算是对不少编程语言有了认识，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。</p>
+
+<p>作为参与设计Erlang的元老，Robert一直以来也是探索Erlang应用方面的先行者，早在2007年就写了LFE，并且推动和影响了一众后来基于Erlang VM的新语言，如Elixir。LFE是Lisp Flavored Erlang的缩写，顾名思义，LFE就是把Erlang写成Lisp，除了多了一些括号之外(去掉了Erlang原来的分隔符如, ; .等)跟Erlang十分相似，LFE的设计目标在于提供一个可扩展语法的Erlang，它的实现也达到这个目标。然后跟我理想中的Lisp语言相去有一定距离，我并不喜欢它的Lisp-2风格，跟Erlang相似的模块设计如显式的export，只在编译时可用的Macro等方面。</p>
+
+<p>另外一个实现Joxa则是由Eric在2011年开始写的，Eric也是Erlang界的老前辈了，他先是试用过LFE，然后觉得并不如意才重新设计和实现了Joxa，之前我写过的文章<a href="http://hhkbp2.github.com/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/">《Joxa: 一种基于Erlang VM的现代Lisp编程语言》</a>详细描述了两者的渊源和差别，这里就不再展开了。总的来说，Joxa的Lisp味相对更浓一些，更符合我的个人口味。在过去的一年多时间里，我仔细阅读了Joxa的实现并添加了Erlang R17后引入的Map的语法。Joxa虽好，但有两个主要原因让我不得不考虑重新做一个实现：</p>
+
+<ol>
+  <li>
+    <p>Joxa目前的实现是用自举的方式将Lisp代码经过编译转换成Core Erlang，自举是很cool的一种实现编译器的方式，然而用在语法不够稳定的场景下，会提高后续语言开发的复杂度和难度。Core Erlang也是一个规模小巧设计良好的中间层，然而文档方面相当缺乏，很多时候必需花大量时间人手去获取从上层到它的翻译细节。相对来说更上层的Abstract Format虽然规模更大，然而文档较多，一些工具也只工作在这一层，所以更适合用于做为编译器的目标语言。在这一点上我和Eric讨论得出的一致结论是，要将Joxa用Erlang重写并将目标输出定位到Abstract Format，却因为彼此都忙暂时未有足够精力将其重写。</p>
+  </li>
+  <li>
+    <p>Joxa的设计目标强调它要小而简，希望成为一个小的核心语言，如果其他人有需要就在其上定制扩展。这种设计也是Lisp语言的一种传统特色，由于扩展性强，可以做到核心小扩展大，类似的思想也被人在不同的语言和项目上实现，比如PyPy和Python 3。然而我更希望有一套功能较多较全的编程语言，因此需要在语法和代码规模上都需要添加(或者改动，但主要是添加)很多内容，这就与Joxa的目标有冲突。据我所知Eric对Joxa有明确的定位，应该不会乐意在Joxa里面接受这些添加或改变，因此最好我还是用一个新项目名字来重写一个基于Erlang VM的Lisp实现。</p>
+  </li>
+</ol>
+
+<p>一直以来我有个朦胧的想法，希望在下一个我能够自己决定命名的项目，能够用上一个带有我居住所在地中国华南地区的风物，或者带有东南亚色彩的名字，在给这个新项目取名时，老家旧居楼房前面的两棵高大的木棉树出现在我的脑海，那是一种在南方非常常见非常普通的树，平时不会特别觉察到它们的存在，然而有时觉察到它们的存在却又不禁觉得特别，像鲁迅笔下所说：“在我的后园，可以看见墙外有两株树，一株是枣树，还有一株也是枣树”。于是就将这个新项目的名字取为木棉，英文是Kapok。</p>
+
+<p>我想，Kapok这个新的基于Erlang VM上的Lisp实现会包含如下这些内容：</p>
+
+<ol>
+  <li>
+    <p>一套类似Clojure风格的现代Lisp语法(Lisp-1)，当然在语法上并不能无脑照抄Clojure，比如方括号[]在Clojure中表示Vector，在Erlang却是List，那么Kapok里如何选择？若语义跟随前者，是用Erlang的tuple来实现Vector语义还是另外再做一套实现？若语义跟随后者，和普通圆括号()又如何区分，各自的使用场景如何确定？每处细节都需要仔细考量，这些细节也会影响其它方面，如下面将提到的兼容性。另外Clojure语法糖较多，而我不喜欢太甜。</p>
+  </li>
+  <li>
+    <p>与Erlang VM保持最大的兼容，在Erlang VM上实现的多种语言，都选择了将语法及语义尽量向Erlang靠拢，比如新语言的函数直接编译成Erlang的函数，如此得以保持良好的兼容性，新语言的代码可以直接与Erlang VM基础设施与已有库代码进行相互调用，不像Clojure那样需要通过中间包装。Erlang是一门函数式语言，这意味着新语言最好也保持这种函数式的语义，当然也可以通过上层逻辑修改这种限制，比如另一门基于Erlang VM的语言Elixir通过在编译器做变量名映射的技巧使得在Elixir里同一个变量可以做多次绑定，如此一来Elixir在变量使用上更像命令式语言。基于两个原因我个人更偏向于在Kapok里面完全保留Erlang的函数式语义，一是它利于并发，二是它语义更清晰。</p>
+  </li>
+  <li>
+    <p>新的语言机制，目前已经在考虑中的有：支持Clojure的Protocol(运行时类型分派，让语言更动态)，探索一套带类型标注的DSL来做强类型编程(强制编译时类型检查，让语言更静态)，Lazy API。其中第Protocal和Lazy API源自Clojure(当然Clojure也借鉴了其它语言)，并且已经在Elixir中得到实现。同时我对其它新想法持开放的态度。</p>
+  </li>
+  <li>
+    <p>功能丰富接口现代的标准库，包括常用宏，文件，网络等方面，特别一提的是Erlang原生用字符列表来表示字符串并不理想，因此需要有一整套高效易用的unicode字符串标准库，在LFE和Elixir中都重新定义了binary string，这是一个比较好的方案，可以借鉴。</p>
+  </li>
+  <li>
+    <p>强大且现代的开发工具集，包括：文档及Apropos接口/工具，编辑器集成(如Emacs mode), 项目管理工具(参考Mix)，交互性开发环境(集成Slime和Swank)等</p>
+  </li>
+</ol>
+
+<p>上面的几点综合了Clojure, Erlang, Joxa, LFE, Elixir, Emacs等多种语言或机制，希望可以取多家之长，提供一套强大完整的开发环境。当然也可以说是一个大杂烩，然而不是无脑照搬，库和工具集可以丰富多样，然而基础语法需要保持简约节制，避免出现C++或Scala那样过于烧脑的设计。同时也要了解到上面几点内容只是一个初步的想法，后面可能会根据实际情况有所添加或改变。我一直有个用一门新编程语言编写一个开源数据库的朦胧想法，Kapok完善到一定程度之后，也许可以用Kapok来完成我这个想法。</p>
+
+<p>有了简要设计，就可以开工编写代码了，首先要实现的是1, 2两点，亦即核心编译器部分。要写Kapok的想法早在去年就已经产生，然而一直拖拖拉拉未能动手。去年年中祖母去世，让我明白到时间匆匆人生太短，有些事情想做就抓紧时间去做，不然迟早人人都会变成坟上的一把黄土。于是开始动手，由于平时上下班剩余时间不多，生活琐事缠身，进展较为缓慢，逐渐完成了编译器前端，大概到今年初开始写后端，也算是慢慢重温了一遍大学时开的编译课程。最近有了一些时间，终于折腾到可以跑起来的程度。我想Kapok这个项目不可谓不大，终究不能短期内完成，要做到非常完善的程度，更是有待时日。就像长跑，并非重在一时之快慢，积跬步恒坚持，方能走得更久更远。我所需要做的，就是调整呼吸，跨开步子。</p>
+
+<p>于是就把Kapok开源了，github地址在<a href="https://github.com/kapok-lang/kapok">这里</a>，虽然暂时还有很多问题和缺点，也有很多想法未能实现，但我想这也算是一个不错的长跑起步。</p>
+
+<p>十年之前，当我第一次安装并启动Emacs的时候，决没有料到会十年之后它带领我在Lisp的世界走了这么远。几年之前在接触Erlang，Clojure的时候，没有想到有一天会用Erlang重写一门Clojure风格的Lisp语言。一年之前开始着手Kapok的时候，我也不知道这个项目要做到何时，做到什么程度。然后事情冥冥中就这样发生了，而我将沿着这条路继续向前走。王家卫电影《一代宗师》里面，宫先生说“念念不忘，必有回响”，行知做人跟练武一样，秉着意念坚持下去，终究能有一点回响。</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> Sean Cribbs总结了在Erlang里做元编程的几种方式，Erlang Macro，Parse Transform, Syntax Tree，并在2015年Erlang User Conference做了题为<a href="http://www.erlang-factory.com/euc2015/sean-cribbs">《Techniques for Metaprogramming in Erlang》</a>的演讲，有兴趣可以详细了解，这几种方式都有其缺点，Macro表达力太弱，而后两者虽然强大却过于复杂，远远说不上方便。</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cloudtable: 分布式一致性的大数据存储系统]]></title>
@@ -2274,139 +2342,6 @@ minion_2:
 <p>和朋友聊起房市，谈到一个问题：房价泡沫会不会破，是不是越早买房越好。这样的问题，个人感觉不会有一个简单到非黑即白的答案。</p>
 
 <p>读完黄仁宇的《万历十五年》和《黄河青山》，启发甚多。很多事情在发生的当时我们并不能准确理解它，拉开了时间的尺度之后，才能看得清楚。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[嵌套反引用有害]]></title>
-    <link href="http://hhkbp2.github.com/blog/2013/03/10/nested-backquotes-considered-harmful/"/>
-    <updated>2013-03-10T21:37:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2013/03/10/nested-backquotes-considered-harmful</id>
-    <content type="html"><![CDATA[<p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
-
-<hr />
-
-<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
-
-<blockquote>
-  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br />
-<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
-</blockquote>
-
-<p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
-
-<pre><code>1. 在内层使用LIST, APPEND等函数代替反引用
-2. 使用包含反引用的辅助函数
-</code></pre>
-
-<p>Bruno为每个方法提供了例子。</p>
-
-<p>首先，下面给出的这段代码用了嵌套反引用：</p>
-
-<pre><code>(defmacro once-only (variables &amp;rest body)
-  (assert (every #'symbolp variables))
-  (let ((temps nil))
-    (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list ,variables))
-       (progn ,body)
-       `(let
-          (,,@(mapcar #'(lambda (tmp var)
-                          ``(,',tmp ,,var))
-                      temps variables))
-          ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
-                         variables temps)
-             ,body)))))
-</code></pre>
-
-<p>原来的代码使用方法1转换后如下：</p>
-
-<pre><code>(defmacro once-only (variables &amp;rest body)
-  (assert (every #'symbolp variables))
-  (let ((temps nil))
-    (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list ,variables))
-       (progn ,body)
-       (list 'let
-         (list ,@(mapcar #'(lambda (tmp var)
-                             `(list ',tmp ,var))
-                         temps variables))
-         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
-                       variables temps)
-           ,body)))))
-</code></pre>
-
-<p>原来的代码使用方法2转换后如下：</p>
-
-<pre><code>(defun construct-binding (variable form)
-  `(,variable ,form))
-
-(defun construct-let-wrapper (bindings body-form)
-  `(let ,bindings ,body-form))
-
-(defmacro once-only (variables &amp;rest body)
-  (assert (every #'symbolp variables))
-  (let ((temps nil))
-    (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list ,variables))
-       (progn ,body)
-       (construct-let-wrapper
-         (list ,@(mapcar #'(lambda (tmp var)
-                             `(construct-binding ',tmp ,var))
-                         temps variables))
-         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
-                       variables temps)
-           ,body)))))
-</code></pre>
-
-<p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
-
-<p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）。Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
-
-<blockquote>
-  <p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
-
-  <ol>
-    <li>
-      <p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
-
-      <p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
-
-      <p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
-    </li>
-    <li>
-      <p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
-
-      <p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
-
-      <pre><code>'(foo (bazaroo '(fcn a ,x)))
-</code></pre>
-
-      <p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
-
-      <pre><code>'(foo (bazaroo `(,fcn a ,',x)))
-</code></pre>
-
-      <p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
-    </li>
-  </ol>
-
-  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。  </p>
-</blockquote>
-
-<p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
-
-<pre><code>1. 使用嵌套反引用
-2. 在内层使用LIST, APPEND等函数代替反引用
-3. 使用包含反引用的辅助函数
-4. 使用一个反引用的替代实现
-</code></pre>
-
-<p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br />
-<a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
 
 ]]></content>
   </entry>

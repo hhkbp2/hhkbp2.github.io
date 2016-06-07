@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="我们YY云存储团队负责向公司各部门提供存储服务，随着YY的发展壮大，我们面对着数量级越来越大的存储需求。存储和访问PB级别的数据是一个很大的挑战，为了使得存储服务越加的高效和快速，我们持续地改进和翻新我们的工具和系统。最近，我们开发了Cloudtable，它是具有分布式一致性的，可扩展的， &hellip;">
+  <meta name="description" content="多年以前，当我在Linux下选择Emacs做为编辑器的时候，似乎只是一个比较随机的选择。当时我已经接触并使用VI有一段日子，然而我使用它的体验并不算愉快，也许是我被VI命令模式和编辑模式搞乱了太多次，于是想找个其它编辑器试试，而当时我所知道的Linux终端字符界面编辑器并不多，Emacs是其中一个 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,101 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/06/08/minds-echo/">念念不忘，亦有回响</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-06-08T00:00:00+08:00" pubdate data-updated="true">Jun 8<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>多年以前，当我在Linux下选择Emacs做为编辑器的时候，似乎只是一个比较随机的选择。当时我已经接触并使用VI有一段日子，然而我使用它的体验并不算愉快，也许是我被VI命令模式和编辑模式搞乱了太多次，于是想找个其它编辑器试试，而当时我所知道的Linux终端字符界面编辑器并不多，Emacs是其中一个，然后我就开始使用Emacs，从此一发不可收拾，走上了一条不断修炼的漫漫长路。这段经历后来浓缩成了<a href="/blog/2013/01/08/the-pragmatic-emacser/">《Emacs修炼之道》</a>这篇文章。Emacs不仅给我提供了一个舒适高效的编辑器工具与环境，也引领我走入了Lisp语言的世界。在此之前，我跟大多数人一样，认识中的Lisp语言都是既遥远又陌生，觉得它就像中国古代的甲骨文，又或者是中美洲玛雅符号那样的古老而且荒废。日后我在一个介绍计算机历史的资料上看到了这张图片，觉得它十分准确地描述了之前我对Lisp的印象：</p>
+
+<p><img src="/images/uploads/Byte_Magazine_Volume_04_Number_08_LISP.jpg" alt="Byte杂志第4期Lisp封面" /></p>
+
+<p>这个图片是《Byte》杂志在1979年第4期的封面，它借用了经典科幻电影《2001太空漫游》中的场景，人类宇航员在探索月球时发现神秘的黑石，黑石由一种远超人类的智慧和技术制造，并于百万年前就放置在月球上等待人类的发现。电影中的黑石多次出现，启发着人类的心智的作用，从猿人开始带领人类走向越来越高级的文明。原电影的黑石是光滑无字的，此图则在黑石上写满了Lisp代码，以突显Lisp风格古老技术先进的观感。</p>
+
+<p>1979年至今已经过去30多年了，其间经历世事沧桑，一个又一个浪潮在计算机行业冒升又落下，一门又一门新的编程语言流行而又衰落。Lisp语言早已退出流行的行列，然而却始终吸引着一小群程序员前仆后继地不断进入它的世界。除了传统的几种Lisp方言，伴随着JVM的流行以及多核化的潮流，2007年诞生的Clojure将Lisp在JVM平台重新做了一个现代的实现，也掀起了一波新的潮流，吸引了很多人的关注和使用。几十年前诞生的编程语言，大多早已消失在历史的长河中了，为什么Lisp能够保持长期的生命力呢？正如看待黑客文化时有人主要关注它的政治正确，有人则将它看成是嗡嗡作响的经济引擎，不同的人对Lisp优点的看法也大不相同。有人喜欢Lisp以List作为唯一代码组织方式的简单明了，有人欣赏Lisp由核心几个特殊Form支撑起来的体系，对应着数学领域里面的公理上搭建大厦的体系结构，有人则更实利化只关注可以帮助提高开发效率的那些方面。在我看来，Lisp最吸引我的一点就是强大的元编程能力，非常便于编写DSL。当然这并不是说其它方面不重要，如交互式编程，强调函数式风格但又不强制函数式为唯一风格等特点也是可圈可点。</p>
+
+<p>Lisp的思想和设计是如此优秀，然而传统的几种方言的实现Scheme，Common Lisp还有另外几个方言都没能紧跟这个时代的步伐，Clojure的作者Rich Hickey必定是深知这点，才会创造了Clojure。感谢Rich，我们得以知道在某个语言的成熟VM上实现一个现代Lisp的可行性，也欣赏到了Clojure设计与哲学的种种优雅美丽之处。Clojure设计于运行在JVM之上，固然是它的成功关键，因为如此一来就可以重用成熟的JVM环境以及丰富的代码库，同时Java程序员这个群体也非常庞大，能吸引到的Clojure使用者也多。另一方面也产生了一些缺点，因为底层的JVM原本是为Java设计实现的，而Java的并发模型还停留在操作系统进程/线程和锁这一种方式，因此Clojure除了保留Java的并发原语之外，还在并发上做了多种尝试，像软事务内存，几种不同的原语delay, future, promise，还有几种不同的引用类型。如此多的新概念和原语不可谓不丰富，同时也是繁多复杂。每当我的脑细胞因为折腾可变与不变或者write skew而被烧死一部分的时候，我总是怀念Erlang Actor并发模型的简单。</p>
+
+<p>既然要顺适多核化的趋势，就需要语言本身的并发机制支持用户态进程/协程。那么为什么不直接使用Erlang呢？虽然Erlang并不是Lisp，但Erlang的设计也受到Lisp的影响，很多地方都有Lisp的影子，比如交互shell，热更新等。然而我对Erlang也有觉得不满意的地方，除了经常被, ; .几个符号搞晕之外，最大的不满是来自于在Erlang里做元编程的不便<a href="#1">[1]</a>，但是Erlang代码又有很强烈的元编程需求，比如OTP里面的大片模板代码。因此在编写Erlang代码的时候，我又相当怀念Lisp的Macro。</p>
+
+<p>那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也有一堆，基本上每年都是新学一到两门新语言，虽然把它们用来写大量代码的机会很少，但也算是对不少编程语言有了认识，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。</p>
+
+<p>作为参与设计Erlang的元老，Robert一直以来也是探索Erlang应用方面的先行者，早在2007年就写了LFE，并且推动和影响了一众后来基于Erlang VM的新语言，如Elixir。LFE是Lisp Flavored Erlang的缩写，顾名思义，LFE就是把Erlang写成Lisp，除了多了一些括号之外(去掉了Erlang原来的分隔符如, ; .等)跟Erlang十分相似，LFE的设计目标在于提供一个可扩展语法的Erlang，它的实现也达到这个目标。然后跟我理想中的Lisp语言相去有一定距离，我并不喜欢它的Lisp-2风格，跟Erlang相似的模块设计如显式的export，只在编译时可用的Macro等方面。</p>
+
+<p>另外一个实现Joxa则是由Eric在2011年开始写的，Eric也是Erlang界的老前辈了，他先是试用过LFE，然后觉得并不如意才重新设计和实现了Joxa，之前我写过的文章<a href="/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/">《Joxa: 一种基于Erlang VM的现代Lisp编程语言》</a>详细描述了两者的渊源和差别，这里就不再展开了。总的来说，Joxa的Lisp味相对更浓一些，更符合我的个人口味。在过去的一年多时间里，我仔细阅读了Joxa的实现并添加了Erlang R17后引入的Map的语法。Joxa虽好，但有两个主要原因让我不得不考虑重新做一个实现：</p>
+
+<ol>
+  <li>
+    <p>Joxa目前的实现是用自举的方式将Lisp代码经过编译转换成Core Erlang，自举是很cool的一种实现编译器的方式，然而用在语法不够稳定的场景下，会提高后续语言开发的复杂度和难度。Core Erlang也是一个规模小巧设计良好的中间层，然而文档方面相当缺乏，很多时候必需花大量时间人手去获取从上层到它的翻译细节。相对来说更上层的Abstract Format虽然规模更大，然而文档较多，一些工具也只工作在这一层，所以更适合用于做为编译器的目标语言。在这一点上我和Eric讨论得出的一致结论是，要将Joxa用Erlang重写并将目标输出定位到Abstract Format，却因为彼此都忙暂时未有足够精力将其重写。</p>
+  </li>
+  <li>
+    <p>Joxa的设计目标强调它要小而简，希望成为一个小的核心语言，如果其他人有需要就在其上定制扩展。这种设计也是Lisp语言的一种传统特色，由于扩展性强，可以做到核心小扩展大，类似的思想也被人在不同的语言和项目上实现，比如PyPy和Python 3。然而我更希望有一套功能较多较全的编程语言，因此需要在语法和代码规模上都需要添加(或者改动，但主要是添加)很多内容，这就与Joxa的目标有冲突。据我所知Eric对Joxa有明确的定位，应该不会乐意在Joxa里面接受这些添加或改变，因此最好我还是用一个新项目名字来重写一个基于Erlang VM的Lisp实现。</p>
+  </li>
+</ol>
+
+<p>一直以来我有个朦胧的想法，希望在下一个我能够自己决定命名的项目，能够用上一个带有我居住所在地中国华南地区的风物，或者带有东南亚色彩的名字，在给这个新项目取名时，老家旧居楼房前面的两棵高大的木棉树出现在我的脑海，那是一种在南方非常常见非常普通的树，平时不会特别觉察到它们的存在，然而有时觉察到它们的存在却又不禁觉得特别，像鲁迅笔下所说：“在我的后园，可以看见墙外有两株树，一株是枣树，还有一株也是枣树”。于是就将这个新项目的名字取为木棉，英文是Kapok。</p>
+
+<p>我想，Kapok这个新的基于Erlang VM上的Lisp实现会包含如下这些内容：</p>
+
+<ol>
+  <li>
+    <p>一套类似Clojure风格的现代Lisp语法(Lisp-1)，当然在语法上并不能无脑照抄Clojure，比如方括号[]在Clojure中表示Vector，在Erlang却是List，那么Kapok里如何选择？若语义跟随前者，是用Erlang的tuple来实现Vector语义还是另外再做一套实现？若语义跟随后者，和普通圆括号()又如何区分，各自的使用场景如何确定？每处细节都需要仔细考量，这些细节也会影响其它方面，如下面将提到的兼容性。另外Clojure语法糖较多，而我不喜欢太甜。</p>
+  </li>
+  <li>
+    <p>与Erlang VM保持最大的兼容，在Erlang VM上实现的多种语言，都选择了将语法及语义尽量向Erlang靠拢，比如新语言的函数直接编译成Erlang的函数，如此得以保持良好的兼容性，新语言的代码可以直接与Erlang VM基础设施与已有库代码进行相互调用，不像Clojure那样需要通过中间包装。Erlang是一门函数式语言，这意味着新语言最好也保持这种函数式的语义，当然也可以通过上层逻辑修改这种限制，比如另一门基于Erlang VM的语言Elixir通过在编译器做变量名映射的技巧使得在Elixir里同一个变量可以做多次绑定，如此一来Elixir在变量使用上更像命令式语言。基于两个原因我个人更偏向于在Kapok里面完全保留Erlang的函数式语义，一是它利于并发，二是它语义更清晰。</p>
+  </li>
+  <li>
+    <p>新的语言机制，目前已经在考虑中的有：支持Clojure的Protocol(运行时类型分派，让语言更动态)，探索一套带类型标注的DSL来做强类型编程(强制编译时类型检查，让语言更静态)，Lazy API。其中第Protocal和Lazy API源自Clojure(当然Clojure也借鉴了其它语言)，并且已经在Elixir中得到实现。同时我对其它新想法持开放的态度。</p>
+  </li>
+  <li>
+    <p>功能丰富接口现代的标准库，包括常用宏，文件，网络等方面，特别一提的是Erlang原生用字符列表来表示字符串并不理想，因此需要有一整套高效易用的unicode字符串标准库，在LFE和Elixir中都重新定义了binary string，这是一个比较好的方案，可以借鉴。</p>
+  </li>
+  <li>
+    <p>强大且现代的开发工具集，包括：文档及Apropos接口/工具，编辑器集成(如Emacs mode), 项目管理工具(参考Mix)，交互性开发环境(集成Slime和Swank)等</p>
+  </li>
+</ol>
+
+<p>上面的几点综合了Clojure, Erlang, Joxa, LFE, Elixir, Emacs等多种语言或机制，希望可以取多家之长，提供一套强大完整的开发环境。当然也可以说是一个大杂烩，然而不是无脑照搬，库和工具集可以丰富多样，然而基础语法需要保持简约节制，避免出现C++或Scala那样过于烧脑的设计。同时也要了解到上面几点内容只是一个初步的想法，后面可能会根据实际情况有所添加或改变。我一直有个用一门新编程语言编写一个开源数据库的朦胧想法，Kapok完善到一定程度之后，也许可以用Kapok来完成我这个想法。</p>
+
+<p>有了简要设计，就可以开工编写代码了，首先要实现的是1, 2两点，亦即核心编译器部分。要写Kapok的想法早在去年就已经产生，然而一直拖拖拉拉未能动手。去年年中祖母去世，让我明白到时间匆匆人生太短，有些事情想做就抓紧时间去做，不然迟早人人都会变成坟上的一把黄土。于是开始动手，由于平时上下班剩余时间不多，生活琐事缠身，进展较为缓慢，逐渐完成了编译器前端，大概到今年初开始写后端，也算是慢慢重温了一遍大学时开的编译课程。最近有了一些时间，终于折腾到可以跑起来的程度。我想Kapok这个项目不可谓不大，终究不能短期内完成，要做到非常完善的程度，更是有待时日。就像长跑，并非重在一时之快慢，积跬步恒坚持，方能走得更久更远。我所需要做的，就是调整呼吸，跨开步子。</p>
+
+<p>于是就把Kapok开源了，github地址在<a href="https://github.com/kapok-lang/kapok">这里</a>，虽然暂时还有很多问题和缺点，也有很多想法未能实现，但我想这也算是一个不错的长跑起步。</p>
+
+<p>十年之前，当我第一次安装并启动Emacs的时候，决没有料到会十年之后它带领我在Lisp的世界走了这么远。几年之前在接触Erlang，Clojure的时候，没有想到有一天会用Erlang重写一门Clojure风格的Lisp语言。一年之前开始着手Kapok的时候，我也不知道这个项目要做到何时，做到什么程度。然后事情冥冥中就这样发生了，而我将沿着这条路继续向前走。王家卫电影《一代宗师》里面，宫先生说“念念不忘，必有回响”，行知做人跟练武一样，秉着意念坚持下去，终究能有一点回响。</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> Sean Cribbs总结了在Erlang里做元编程的几种方式，Erlang Macro，Parse Transform, Syntax Tree，并在2015年Erlang User Conference做了题为<a href="http://www.erlang-factory.com/euc2015/sean-cribbs">《Techniques for Metaprogramming in Erlang》</a>的演讲，有兴趣可以详细了解，这几种方式都有其缺点，Macro表达力太弱，而后两者虽然强大却过于复杂，远远说不上方便。</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -689,160 +784,6 @@ It doesn’t actually mean anything. Many years ago it was an acronym for some p
 <a id="15">[15]</a> PEG是Packrat Expression Parsing的缩写，它是一种相对较新的自顶向下语法分析方法。<br />
 <a id="16">[16]</a> 其中Map的语法支持由我添加，写此文时未进入主干分支。<br />
 <a id="17">[17]</a> 从推广应用的角度来看，在2011年中开始开发的Elixir在各个基于Erlang VM的新编程语言上是走得最前的。  </p>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/02/09/distrubuted-consensus-raft-and-other/">分布式一致性，Raft以及其它</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-09T19:09:00+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>今天收到了一本从杭州寄过来的新书<a href="http://book.douban.com/subject/26292004/">《从Paxos到Zookeeper：分布式一致性原理与实践》</a>，书的封面是一个动漫化的动物园管理员和一些萌萌的动物，设计得相当有趣。这本书从理论的角度讲解了分布式一致性的概念，常见的几种协议，从实践的角度详述了Zookeeper的使用和内部实现，是国内图书市场上第一本关于分布式一致性领域的书，填补了这一块空白。关于分布式一致性，Paxos，Zookeeper等协议或框架，虽然之前有很多人做过研究分享，网上也有一些信噪比很小的零散资料或文章，但是把相关内容系统化的组织起来进行详细讲解，这本书应该是首次。谢谢这本书的作者倪超给我这个挂名审过稿的人寄来一本新书，虽然这本书的内容我之前已经看过一次，但是好酒不妨多品好书不妨多读，后面我还会抽时间多读读。</p>
-
-<p>分布式一致性领域无论是从理论上还是从实践上都是计算机业界一个很重要的领域，自1989年由计算机科学家Leslie Lamport提出以来，至今已经超过25年，四分之一个世纪之前Lamport用希腊岛屿议会的故事来形象化描述的这个名为Paxos算法，引出了接下来10年中Paxos被忽视然后被发现又受到重新重视的一段奇闻，2000年之后Paxos开始走向工业界，Google参考Paxos实现了Chubby并在2006年发表了公开的论文，由于Chubby不开源，Yahoo另外做了一个类似的系统Zookeeper并于2009年在Apache上开源。Zookeeper使用一个经过裁切简化过的分布式一致性协议Zab。由于Paxos协议本身比较复杂，斯坦福大学的Diego Ongaro和John Ousterhout两人在现有各种分布式一致性协议的基础上，针对Paxos复杂难以理解和工程化的现状，把可理解性作为首要的目标，重新设计了一套分布式一致性协议Raft，并在2013年发表了相应的论文。</p>
-
-<p>我们公司的存储团队今年计划做一套基于Bigtable模型的分布式强一致性存储系统Cloudtable，即使用了Raft协议，这块由我一个人负责，而我今年主要做的事情也只有这一件，就是在这套存储系统里面用Raft协议实现分布式强一致的特性。在如今年底这一个时间点，回顾这一年我们所做的整个项目，同时回顾我自己所做的Raft这一块，我发现其实里面问题不少，同时也积累了一些经验，下面尝试简单总结分享一下。</p>
-
-<h4 id="section">1. 进度把控</h4>
-<p>可能是由于所在的团队成员大家的做事风格都比较倾向于埋头做事，在进度把握上我们做得比较差，主要犯了两个较大错误，一个是动手太晚，从5月初开展项目，经过需求讨论，架构设计与讨论，研读论文，阅读分析业界开源实现等工作之后，到了8月份才开始动手写代码，算是比较晚的，另外一个错误是项目的进度没有及时沟通尽量透明化，各模块分别开发集成得比较晚，结果在集成阶段发展很多问题，造成项目用时过了原本估计的上线时间12月初。当然这里面很大责任在于我，因为Raft在整个项目中复杂度和风险都是最高，我作为主力一直都没有很好的将设计和实现公开与大家交流沟通清楚（也有进度压力原因），中间也走了一些弯路花了过多的时间在实现上面，结果在测试和性能优化两块的时间超出了预期。</p>
-
-<h4 id="section-1">2. 具体设计与实现</h4>
-<p>Raft协议推出至今已经有一段日子了，已经有不少的开源实现，其中做的比较好的原作者用C++写的LogCabin，还有Core OS公司的用Go语言写的go-raft，Hashicorp公司的hashicorp-raft，我们团队使用的语言也是Go，在研讨过这么些个开源实现之后，我做出来的raft模块跟hashicorp-raft从运行结构来看是比较相似的：本地结点和每个远程结点都对应一个go routine，它们相互之间通过channel通讯，底下的Log和网络层抽象成一个可供多routine互斥访问独立的模块，本地结点和远程结点都直接调用log和网络层的接口。我写的raft模块使用的HSM来表达状态机，协议逻辑会更清晰一些。回顾整个设计与实现，主要的问题在于缺乏DSL。</p>
-
-<p>Raft算法的实现分为主要逻辑与持久化Log模块，网络通讯模块等几个部分，其中外围的模块是以一种支持性的角色出现在主要逻辑中，从代码上看，主要逻辑的代码会有很多调用外围模块的调用，而这些模块的边界都划得很分明带上error返回值，为处理好这些模块的边界error需要在主要逻辑中多插入很多代码，会导致本来很少代码就能表达完的协议膨胀得很大。简单的一个说明是，在Go语言里面，接口返回error是很常见的，如</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_function</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>如果你有几个不同的接口要调用，而且每个接口异常都需要几行代码来处理，那种整个代码就会膨胀开来，变得比较乱，如在Python里面可能有</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="k">try</span><span class="p">:</span>
-</span><span class="line">    <span class="n">call_f1</span><span class="p">()</span>
-</span><span class="line">    <span class="o">//</span> <span class="err">做点其它事</span>
-</span><span class="line">    <span class="n">call_f2</span><span class="p">()</span>
-</span><span class="line">    <span class="o">//</span> <span class="err">做点其它事</span>
-</span><span class="line">    <span class="n">call_f3</span><span class="p">()</span>
-</span><span class="line"><span class="k">except</span> <span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span class="line">    <span class="c"># 打日志</span>
-</span><span class="line">    <span class="c"># 处理错误</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>但在go里面只能是</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_f1</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span><span class="line"><span class="c1">// 做点其它事</span>
-</span><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_f2</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span><span class="line"><span class="c1">// 做点其它事</span>
-</span><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_f3</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>如果处理错误的代码不是那么的短的话，那么前者会比后者要简短得多。这个问题部分的是因为我用Go语言写系统经验不多，遵循了Go的惯例在模块边界用了error，而且是分得比较细的error，每种error的处理都有或多或少有点不同(至少报错的日志字符串是不同的)，然而事实上对于大部分外围模块的错误，如日志文件损坏，磁盘挂了，网络断线等，Raft协议的处理都只是打一条日志然后尝试重启，因此只需要笼统对待就可以了，因为本地结点和远程结点是两份代码，两份代码都需要做外围模块的调用，这个问题变得更加严重。Core OS的其中一位工程师提醒过我这个问题，但我并没有给予足够的重视。其实在这种”算法正确性事关生死，需要很短很简要的代码来写完算法”的情景下，异常机制是比较适合的，但因为Go没有异常，而panic的捕捉又需要十分的小心<a href="#1">[1]</a>，加上约定的用法是包内用panic，包外用API error，为了方便组织代码分工我把外围模块划分到其它包(目录)里面去了，种种原因综合起来直到做完才发现这里有比较大的问题。</p>
-
-<p>当然最适合这种情景的是DSL(Domain Specific Language)，如果有一门DSL既能处理好复杂的异常也能够很简洁的表达出Raft的逻辑，就比较完美了。经过一些调查研究之后，我发现Go语言是拙于写DSL的，可以说无法写DSL，最多只能写写流式接口，而像Gisp<a href="#1">[1]</a>这种扩展模块虽然设计思路很有创造性，但最多也只能作为辅助性的工具。</p>
-
-<h4 id="section-2">4. 性能优化</h4>
-
-<p>在Raft协议中，每次写操作都会生成一个对应的日志条目，只有将对应的日志条目复制到集群中足够多的结点并且持久化到磁盘之后，才能认为写操作成功然后回复到发起调用的客户端。这个过程中主要动作有两个：日志的网络同步和写磁盘持久化。优化Raft协议的性能，主要是围绕这两个动作进行。下面简述一下我在实现和优化Raft协议过程中的一些经验。</p>
-
-<h5 id="section-3">4.1. 写磁盘持久化</h5>
-
-<p>Raft协议需要将它的日志条目持久化以保证协议的正确性，无论在Leader结点还是Follower结点，都需要保证条目不会因进程的崩溃而消失，因此需要将日志条目持久化。在Linux平台上，这一般通过将数据写入磁盘后调用Fsync()或采用O_SYNC标志开启同步写模式，以确保写入的数据从Linux的内核缓冲刷到磁盘上。我们服务器使用的机械盘只有300～400次IOPS，SSD盘有几千次IOPS，如果每持久化一个日志条目就调用Fsync()，那么每秒的写吞吐量只有对应的IOPS数，是相当低的。如果将Fsync()操作的时延平摊到多个日志条目，即采用批写加上Fsync()的方式，则可以提高每秒吞吐量。若将进行Fsync()写的每批日志条目数定义为M，将每秒最多可以完成的Fsync()写操作的次数定义为N，那么吞吐量Q = M * N，假如画出Q对于M的变化曲线，则会是一个倒U型曲线。经过测试，对于SSD盘当M=2000, N=300多的时候曲线到达高点，此时的吞吐量约为600000。采用这种方法可以提高写磁盘的吞吐量，但却增加了日志条目的写平均延时。</p>
-
-<h5 id="section-4">4.2. 日志的网络同步</h5>
-
-<p>Raft协议需要将它的日志条目复制到足够多的结点，以保证在集群中少数结点出现故障的情况下，之前写成功的数据依然不会丢失，因此需要将日志条目进行网络复制。在Raft的论文中，Leader向Follower不断发出包名为AppendEntries Request的数据包或者心跳包，我们将这类包简称AE Request，每个AE Request可以包含多个日志条目，每个AE Request被正常处理后Follower都会发回一个AE Response，为了简单起见，Leader在超时时间内未收到AE Response不会发出下一个AE Request，此时即使Leader有比上次发出的AE Request所包含的最后一个日志条目更加新日志条目，也要等到收到AE Response后才开始同步。在这种单步AE的日志同步方式下，网络的延时越长，就越影响Leader同步/提交日志条目的吞吐量。如何解决这个问题呢？TCP协议中的Long Fat Pipe选项给了我们一个启发，对于宽且长的管道，可以将同步单条的方式改为异步批量的方式来提高吞吐。然后我们将同步方式改进为：如果网络层连续进行多次单步的AE通信都成功，那么就认为这条网络连接是通畅的，就可以进入一个异步批量的模式(将其称之为Pipeline Mode)，此时Leader将多个AE Request先后发出，然后统一等待回包。采用这种方式可以提高日志同步的吞吐量，但却增加了实现的复杂度，要增加两个模式的跳转，异步模式时的回包乱序，重放的处理等。</p>
-
-<hr />
-
-<p>在经历了讨论，开发，测试，修bug，性能优化这一切的有苦有乐的过程之后，我们取得了阶段性结果，正处于准备下一阶段上线运营之时，突然地公司做了一个组织架构的调整，然后Cloudtable团队被拆散，大部分成员转型去做流媒体传输，公司重视流媒体轻视存储的思路已经变得相当明显，存储团队在此过程中被边缘化了。从公司的角度来看，毕竟流媒体及传输才是公司的核心竞争力，那么拆掉存储团队去加强流媒体团队也是非常正常的举动。只不过对于留下来的少数几个存储人员，难免有种大势而去的萧索之感。这大半年来编写Raft协议的实现对于我个人来说是一次很独特的经验，虽然也许我没有机会重写一次的Raft模块了，但是有了前面的经验，如果由我重写一次Raft模块，我想它会包含这些设计要点：</p>
-
-<ul>
-  <li>Raft的核心逻辑是一个FSM，本地结点和远程结点都用简单透明的(不带类封装)数据结构表示，重点在数据结构而不在流程，代码尽量简洁，注意：要放在一个routine运行</li>
-  <li>两个外围模块，Log写磁盘，网络层写网络，模块边界用panic而不用error，简化error强迫症的造成代码膨胀的影响</li>
-  <li>Log模块分为磁盘持久化数据和内存缓冲数据两层，缓冲数据主要是为了提高批量Fsync()写和日志同步时拷贝日志条目的效率，磁盘部分设计要简单，可设计为一个磁盘文件，超出定长则打snapshot的工作方式，因为此模块只有核心逻辑routine单个调用者，所以整个实现代码无需加锁</li>
-  <li>网络层只处理简单网络收发，可运行在一个或多个routine上，像Pipeline Mode等复杂逻辑放到核心FSM，跨routine通信通过拷贝数据走channel</li>
-</ul>
-
-<p>虽然用Go语言无法编写DSL，但通过上面的要点故意地压缩核心逻辑的篇幅，还是可以达到较简洁地用代码表达Raft协议本身的效果。另外模块的划分简化了模块的实现和跨routine的数据共享，Raft协议的日志同步时，由于要将一份日志同步多个Follower，Leader结点会有一个写放大的问题，这里没有提及到，可以将日志同步需要做的多次序列化合并到一次来做优化，是否要做这个优化可以根据实际CPU消耗情况和性能需求来做判断。</p>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> panic及recover的使用就像扫雷，一不小心就会炸得你缺胳膊少腿，具体可以参考<a href="https://github.com/qyuhen/book">《Go学习笔记》</a>中的3.6节。<br />
-<a id="2">[2]</a> 据Gisp的作者刘鑫老师说，Gisp只能当成try catch throw来用，用来写主要逻辑有效率低，调试困难等问题，Gisp并不是一门完整的语言。  </p>
 
 </div>
   
