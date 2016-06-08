@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lisp | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/lisp/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2016-06-08T13:28:29+08:00</updated>
+  <updated>2016-06-08T14:22:36+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -26,7 +26,7 @@
 
 <p>Lisp的思想和设计是如此优秀，然而传统的几种方言的实现Scheme，Common Lisp还有另外几个方言都没能紧跟这个时代的步伐，Clojure的作者Rich Hickey必定是深知这点，才会创造了Clojure。感谢Rich，我们得以知道在某个语言的成熟VM上实现一个现代Lisp的可行性，也欣赏到了Clojure设计与哲学的种种优雅美丽之处。Clojure设计于运行在JVM之上，固然是它的成功关键，因为如此一来就可以重用成熟的JVM环境以及丰富的代码库，同时Java程序员这个群体也非常庞大，能吸引到的Clojure使用者也多。另一方面也产生了一些缺点，因为底层的JVM原本是为Java设计实现的，而Java的并发模型还停留在操作系统进程/线程和锁这一种方式，因此Clojure除了保留Java的并发原语之外，还在并发上做了多种尝试，像软事务内存，几种不同的原语delay, future, promise，还有几种不同的引用类型。如此多的新概念和原语不可谓不丰富，同时也是繁多复杂。每当我的脑细胞因为折腾可变与不变或者write skew而被烧死一部分的时候，我总是怀念Erlang Actor并发模型的简单。</p>
 
-<p>既然要顺适多核化的趋势，就需要语言本身的并发机制支持用户态进程/协程。那么为什么不直接使用Erlang呢？虽然Erlang并不是Lisp，但Erlang的设计也受到Lisp的影响，很多地方都有Lisp的影子，比如交互shell，热更新等。然而我对Erlang也有觉得不满意的地方，除了经常被, ; .几个符号搞晕之外，最大的不满是来自于在Erlang里做元编程的不便<a href="#1">[1]</a>，但是Erlang代码又有很强烈的元编程需求，比如OTP里面的大片模板代码。因此在编写Erlang代码的时候，我又相当怀念Lisp的Macro。</p>
+<p>既然要顺适多核化的趋势，就需要语言本身的并发机制支持用户态进程/协程。那么为什么不直接使用Erlang呢？虽然Erlang并不是Lisp，但Erlang的设计也受到Lisp的影响，很多地方都有Lisp的影子，比如交互shell，热更新等。然而我对Erlang也有觉得不满意的地方，除了经常被, ; .几个符号搞晕之外，最大的不满是来自于在Erlang里做元编程的不便，但是Erlang代码又有很强烈的元编程需求，比如OTP里面的大片模板代码。因此在编写Erlang代码的时候，我又相当怀念Lisp的Macro。</p>
 
 <p>那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也有一堆，基本上每年都是新学一到两门新语言，虽然把它们用来写大量代码的机会很少，但也算是对不少编程语言有了认识，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。</p>
 
@@ -72,9 +72,6 @@
 <p>于是就把Kapok开源了，github地址在<a href="https://github.com/kapok-lang/kapok">这里</a>，虽然暂时还有很多问题和缺点，也有很多想法未能实现，但我想这也算是一个不错的长跑起步。</p>
 
 <p>十年之前，当我第一次安装并启动Emacs的时候，决没有料到会十年之后它带领我在Lisp的世界走了这么远。几年之前在接触Erlang，Clojure的时候，没有想到有一天会用Erlang重写一门Clojure风格的Lisp语言。一年之前开始着手Kapok的时候，我也不知道这个项目要做到何时，做到什么程度。然后事情冥冥中就这样发生了，而我将沿着这条路继续向前走。王家卫电影《一代宗师》里面，宫先生说“念念不忘，必有回响”，行知做人跟练武一样，秉着意念坚持下去，终究能有一点回响。</p>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> Sean Cribbs总结了在Erlang里做元编程的几种方式，Erlang Macro，Parse Transform, Syntax Tree，并在2015年Erlang User Conference做了题为<a href="http://www.erlang-factory.com/euc2015/sean-cribbs">《Techniques for Metaprogramming in Erlang》</a>的演讲，有兴趣可以详细了解，这几种方式都有其缺点，Macro表达力太弱，而后两者虽然强大却过于复杂，远远说不上方便。</p>
 
 ]]></content>
   </entry>
