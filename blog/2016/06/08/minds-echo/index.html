@@ -116,7 +116,7 @@
 
 <p>那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也不少，基本上每年都会学一到两门新语言，虽然不是每个新学语言都有机会用来写大量的代码，但也算是见识了不少编程语言，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。</p>
 
-<p>作为参与设计Erlang的元老，Robert一直以来也是探索Erlang应用方面的先行者，早在2007年就写了LFE，并且推动和影响了一众后来基于Erlang VM的新语言，如Elixir。LFE是Lisp Flavored Erlang的缩写，顾名思义，LFE就是把Erlang写成Lisp，除了多了一些括号之外(去掉了Erlang原来的分隔符如, ; .等)跟Erlang十分相似，LFE的设计目标在于提供一个可扩展语法的Erlang，它的实现也达到这个目标。然后跟我理想中的Lisp语言相去有一定距离，我并不喜欢它的Lisp-2风格，跟Erlang相似的模块设计如显式的export，只在编译时可用的Macro等方面。</p>
+<p>作为参与设计Erlang的元老，Robert一直以来也是探索Erlang应用方面的先行者，早在2007年就写了LFE，并且影响了一众后来基于Erlang VM的新语言，如Elixir。LFE是Lisp Flavored Erlang的缩写，顾名思义，LFE就是把Erlang写成Lisp，除了多了一些括号之外(去掉了Erlang原来的分隔符如, ; .等)跟Erlang十分相似，LFE的设计目标在于提供一个可扩展语法的Erlang，它的实现也达到这个目标。然后跟我理想中的Lisp语言相去有一定距离，我并不喜欢它的Lisp-2风格，跟Erlang相似的模块设计如显式的export，只在编译时可用的Macro等方面。</p>
 
 <p>另外一个实现Joxa则是由Eric在2011年开始写的，Eric也是Erlang界的老前辈了，他先是试用过LFE，然后觉得并不如意才重新设计和实现了Joxa，之前我写过的文章<a href="/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/">《Joxa: 一种基于Erlang VM的现代Lisp编程语言》</a>详细描述了两者的渊源和差别，这里就不再展开了。总的来说，Joxa的Lisp味相对更浓一些，更符合我的个人口味。在过去的一年多时间里，我仔细阅读了Joxa的实现并添加了Erlang R17后引入的Map的语法。Joxa虽好，但有两个主要原因让我不得不考虑重新做一个实现：</p>
 
