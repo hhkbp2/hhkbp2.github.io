@@ -4,7 +4,7 @@
   <title><![CDATA[X lambda]]></title>
   <link href="http://hhkbp2.github.com/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2016-06-08T14:22:36+08:00</updated>
+  <updated>2016-06-09T04:28:25+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -28,7 +28,7 @@
 
 <p>既然要顺适多核化的趋势，就需要语言本身的并发机制支持用户态进程/协程。那么为什么不直接使用Erlang呢？虽然Erlang并不是Lisp，但Erlang的设计也受到Lisp的影响，很多地方都有Lisp的影子，比如交互shell，热更新等。然而我对Erlang也有觉得不满意的地方，除了经常被, ; .几个符号搞晕之外，最大的不满是来自于在Erlang里做元编程的不便，但是Erlang代码又有很强烈的元编程需求，比如OTP里面的大片模板代码。因此在编写Erlang代码的时候，我又相当怀念Lisp的Macro。</p>
 
-<p>那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也有一堆，基本上每年都是新学一到两门新语言，虽然把它们用来写大量代码的机会很少，但也算是对不少编程语言有了认识，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。</p>
+<p>那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也不少，基本上每年都会学一到两门新语言，虽然把每个语言用来写大量代码的机会很少，但也算是见识了不少编程语言，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。</p>
 
 <p>作为参与设计Erlang的元老，Robert一直以来也是探索Erlang应用方面的先行者，早在2007年就写了LFE，并且推动和影响了一众后来基于Erlang VM的新语言，如Elixir。LFE是Lisp Flavored Erlang的缩写，顾名思义，LFE就是把Erlang写成Lisp，除了多了一些括号之外(去掉了Erlang原来的分隔符如, ; .等)跟Erlang十分相似，LFE的设计目标在于提供一个可扩展语法的Erlang，它的实现也达到这个目标。然后跟我理想中的Lisp语言相去有一定距离，我并不喜欢它的Lisp-2风格，跟Erlang相似的模块设计如显式的export，只在编译时可用的Macro等方面。</p>
 
