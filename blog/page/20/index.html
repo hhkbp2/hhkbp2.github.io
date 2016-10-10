@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了 &hellip;">
+  <meta name="description" content="Color Theme is an Emacs-Lisp package for making Emacs colorful and beautiful. It is popularly used among Emacsers, including me. When I use it and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,48 +71,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/03/21/debian-returns/">便，我回来了</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-03-21T15:00:00+08:00" pubdate data-updated="true">Mar 21<span>st</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>很快4月就要迎来ubuntu 10.04，时间过得飞快，不知不觉就是2年，8.04的发布似乎还如在昨天——当然是一个夸张的说法，感觉是这两年来生活与经历变了许多（人也折旧了好多），但PC上的8.04却一直稳如磐石，每天都跑得欢欢畅畅，没出过毛病，也可能是因为我只升级LTS的包吧 。很多软件包都旧了，想给我的PC升升级了。</p>
-
-<p>ubuntu的版本支持时间很有限，即使是LTS，桌面版本也只支持3年，3年之后退役之时怎么办呢，唯有升下一个版本了。而版本升级却不是那么平滑，难免或多或少有问题。虽然我没做过版本升级，不过论坛上有做小白鼠牺牲的也不是一个两个了。不过能用3年的人估计也少，都是有新版本来了就立马升级（重装）上去，之前在论坛就有帖子问有没有人一个版本连续用2年，跟帖的人不少，却没有一个真的用到2年。</p>
-
-<p>今天再回过头来看看，平滑升级真的是一个很好的特征。与其几年一次重装，不如每天一坨，稳定地升级上去。稳定，对于“漂”在外面的我很有杀伤力。</p>
-
-<p>于是重回Debian，重装系统。PC上的硬盘太老，经过多年摧残，坏道多多。而上面的叉p常常是几个月都不用一次，干脆全部格掉。用gnome testing的镜像安装好后，简单升级配置一下，就已经很好用了。界面虽然简洁了一点，不过胜在速度快，跑起来快很多，即使iceweasel也比旧的firefox快，简单比较了一下，安装的包少了500多个，没有深究是哪些包。看来还是大便对于渐渐变成命令控的我更有吸引力些。才发现还有debian-reference-zh-cn这么好的文档。</p>
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -309,9 +267,80 @@ You can add this to your `calendar-holidays'.")
 
     </article>
   
-  <div class="pagination">
+  
+    <article>
+      
+  <header>
     
-      <a class="prev" href="/blog/page/21/">&larr; Older</a>
+      <h1 class="entry-title"><a href="/blog/2010/01/11/add-tab-bar-in-emacs/">给 Emacs 添加标签栏</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-11T12:41:00+08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Emacs 默认没有标签栏，使用 tabbar 这个扩展可以给emacs添加标签栏。参见<a href="http://docs.huihoo.com/homepage/shredderyin/emacs_elisp.html">王垠所写的 emacs elisp 扩展</a>中关于 tabbar.el 的部分或 <a href="http://www.emacswiki.org/emacs/TabBarMode">tabbar mode on Emacs Wiki</a> 。</p>
+
+<p>在 debian/ubuntu 下，包 emacs-goodies-el 即包含众多好用的 emacs 扩展，也包括 tabbar。安装好tabbar后，默认的外观比较素，可通过设置 tabbar-button, tabbar-selected, tabbar-highlight, tabbar-separator (具体各部分的名字可参考 tabbar.el 源文件) 等部分定制tabbar的外观，以配合 color-theme 的外观风格。我在 .emacs 中通过：</p>
+
+<pre><code>;;;; 设置tabbar外观
+;; 设置默认主题: 字体, 背景和前景颜色，大小
+(set-face-attribute 'tabbar-default nil
+                    :family "Vera Sans YuanTi Mono"
+                    :background "gray80"
+                    :foreground "gray30"
+                    :height 1.0
+                    )
+;; 设置左边按钮外观：外框框边大小和颜色
+(set-face-attribute 'tabbar-button nil
+                    :inherit 'tabbar-default
+                    :box '(:line-width 1 :color "gray30")
+                    )
+;; 设置当前tab外观：颜色，字体，外框大小和颜色
+(set-face-attribute 'tabbar-selected nil
+                    :inherit 'tabbar-default
+                    :foreground "DarkGreen"
+                    :background "LightGoldenrod"
+                    :box '(:line-width 2 :color "DarkGoldenrod")
+                    ;; :overline "black"
+                    ;; :underline "black"
+                    :weight 'bold
+                    )
+;; 设置非当前tab外观：外框大小和颜色
+(set-face-attribute 'tabbar-unselected nil
+                    :inherit 'tabbar-default
+                    :box '(:line-width 2 :color "gray70")
+                    )
+</code></pre>
+
+<p>定制其外观。在 emacs-snapshot 中得到的效果如下：</p>
+
+<p><img src="/images/uploads/emacs_tabbar.jpg" alt="emacs snapshot下tabbar外观截图" /></p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
     
