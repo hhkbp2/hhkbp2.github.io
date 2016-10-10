@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="又到了旧历年底新历年初，每年的这个时候，工作上都基本不会太忙，不会有新需求也不会赶项目，可以留出一些时间梳理思考，做做总结。但是今年比较特别，春节前后还是忙着写代码，也许是因为今年情况像逆行的洋流一样倒转——在过去这一年里我始终在思考，所以相反地就需要在年底忙活了。无论如何，每年的总结还是要做的， &hellip;">
+  <meta name="description" content="1. SaltStack简介 在一个互联网公司，随着业务量的增长，服务器的数量也会不断增加，当服务器的数量大到一定程度的时候，就不能靠人手单个单个机器的进行操作了，需要引入一些工具去帮助我们做管理和运维。这样的工具在业界有一个统称：配置管理工具。配置管理这个概念的兴起，也就是大概近10年的事， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -24,28 +24,21 @@
   
   <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
-  <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
-  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 
 <!--
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 -->
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
 
 <!--
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
 -->
-
-
-<!--
-<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
--->
-<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href='http://fonts.useso.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
 
 
   
@@ -78,6 +71,180 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/18/saltstack-the-missing-guide-1/">SaltStack简明指南(一) 认识SaltStack</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-18T01:12:00+08:00" pubdate data-updated="true">Jan 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="/images/uploads/saltstack_logo.jpg"><img src="/images/uploads/saltstack_logo.jpg" alt="SaltStack Logo" /></a></p>
+
+<h3 id="saltstack">1. SaltStack简介</h3>
+
+<p>在一个互联网公司，随着业务量的增长，服务器的数量也会不断增加，当服务器的数量大到一定程度的时候，就不能靠人手单个单个机器的进行操作了，需要引入一些工具去帮助我们做管理和运维。这样的工具在业界有一个统称：配置管理工具。配置管理这个概念的兴起，也就是大概近10年的事，其核心就是配置管理的工具根据业界需求的不断进化，发展得越来越成熟和多样化。除了广为人知的传统的配置管理工具如Puppet和Chef，近年出现的Ansible和SaltStack也正在快速壮大中。今天这里要介绍的就是其中的SaltStack。</p>
+
+<p>SaltStack是由座落于美国盐湖城的SaltStack公司创建的开源项目，它的名字与公司所在地盐湖城有很大的渊源。它用Python实现，目前托管在github上，并提供配套的安装脚本和丰富的文档。</p>
+
+<p>SaltStack github地址：<a href="https://github.com/saltstack/salt">Salt on github</a><br />
+SaltStack官网文档地址：<a href="http://docs.saltstack.com/index.html">Salt official doc</a></p>
+
+<h3 id="section">2. 架构和特点</h3>
+
+<p>从功能上看，SaltStack提供了配置文件管理和命令执行两大块的功能，配置文件管理包括配置文件的下发，版本更新，依赖关系指定和管理，配置文件与操作系统软件包和进程管理的良好结合等方面，命令执行则是指下发命令到minion机器执行，SaltStack包含了种类众多的命令模块，如cmd(命令行执行)，mysql，package(系统包管理，在具体机器上会落地到apt或yum等包管理器的操作)等，方便用户对目标机器进行命令管理。</p>
+
+<p>从部署结构上看，与Ansible没有agent的设计相反，SaltStack的在部署上可以分为master和minion两个部分，其中master相当于统领所有机器的总管，而minion则是部署在被管理机器上面的agent进程，master通过网络将配置管理相关的操作下发到minion，由minion在对应机器的本地执行。典型的部署例子如下图所示：</p>
+
+<p><a href="/images/uploads/saltstack简单部署结构.png"><img src="/images/uploads/saltstack简单部署结构.png" alt="简单部署结构" /></a></p>
+
+<p>其中master和minion都是部署在对应机器上的常驻进程。当运维管理人需要操作minion机器时，他向master进程发出对应的指令，master进程就会将对应的指令下发到所有minion进程，由minion进程在它的本机执行，例如，通过master下发test.ping命令(test.ping用来检查minion的存活，相当于master与minion之间的ping包)如图所示：</p>
+
+<p><a href="/images/uploads/saltstack_test_ping流程.png"><img src="/images/uploads/saltstack_test_ping流程.png" alt="test.ping流程图" /></a></p>
+
+<p>上图只显示了第一个minion的执行流程，其它minion的执行流程也类似，就不全部画出了。</p>
+
+<p>从代码架构上来看，SaltStack使用zeromq进行网络通信，使得网络通信有了较高的性能和并发度，简化了SaltStack本身网络层的实现。master与minion之间使用先经过互通密钥认证后再AES加密消息的方式来保障通信安全性。master, minion内部根据功能划分为多进程，每个进程只负责特定工作，进程间通过zeromq通信，模块组织比较清晰健壮。</p>
+
+<h3 id="saltstack-1">3. SaltStack安装</h3>
+
+<p>SaltStack有安装方式，一种是根据操作系统(主要是Linux的各种发行版)的版本通过包管理器来安装，另一种是从源代码安装。下面我们简单浏览一下两种安装方式。</p>
+
+<h4 id="section-1">3.1 包管理器安装</h4>
+
+<p>目前SaltStack已经针对多个Linux发行版提供了包管理器安装脚本，对几种主流的发行版如CentOS, Ubuntu, Debian, FreeBSD都有支持。使用这种方式安装，只需要下载SaltStack官方提供的bootstrap脚本并执行即可。在命令行执行：</p>
+
+<pre><code>wget -O - http://bootstrap.saltstack.org | sudo sh
+</code></pre>
+
+<p>即为安装minion。要安装master，可在命令行执行：</p>
+
+<pre><code>curl -L http://bootstrap.saltstack.org | sudo sh -s -- -M -N
+</code></pre>
+
+<p>这个bootstrap安装脚本会判断执行机器的发行版及版本号，调用合适的包管理器添加SaltStack的二进制发行包源，安装所有的依赖包并安装命令行参数指定的SaltStack组件。可以看到通过bootstrap脚本安装SaltStack是很简单的。更多详细信息请参考官网文档的<a href="http://docs.saltstack.com/topics/installation/index.html">Installation</a>一节。</p>
+
+<h4 id="section-2">3.2 源代码安装</h4>
+
+<p>如果你使用的Linux发行版不在SaltStack bootstrap安装脚本支持的发行版列表内，或者你需要对安装做一些定制，比如通过Python的virtualenv管理不同的Python环境，那么就需要进行源代码安装了。下面以在某个virtualenv环境内安装为例，简述一下源代码安装步骤：</p>
+
+<pre><code># 首先，进入对应的virtualenv环境
+$ source /path/to/your/virtualenv/bin/active
+# 然后安装依赖包
+# 注意Debian/Ubuntu包管理器使用的是patch过的openssl库，这个M2Crypto包需要通过apt安装，详细见官网文档
+$ pip install M2Crypto 
+$ pip install pyzmq PyYAML pycrypto msgpack-python jinja2 psutil
+# 安装SaltStack
+$ pip install -e ./salt
+</code></pre>
+
+<p>虽然上述命令将Salt安装到了virtualenv中，但由于SaltStack有和系统结合的功能，因此除了Salt本身运行依赖的包之外，它还用到系统当中的一些Python软件包。比如SaltStack可以调用系统的包管理器安装软件包，在Ubuntu发行版里面，需要调用系统当中安装的python-apt包，这个包通过一个动态库.so文件提供Python接口，如果你的virtualenv环境中的Python版本和系统的Python版本不一致，就可能会导致virtualenv环境中的SaltStack调用包管理器操作失败并造成salt进程core dump。所以使用SaltStack做virtualenv源安装时，要留心这个包依赖问题。</p>
+
+<p>virtualenv源代码安装的另一个问题是配置文件路径指定，SaltStack的配置文件，运行目录，cache目录等各种目录默认值都是指向系统目录的，这个默认值是在源代码中写死的。如果要在一台机器安装多个virtualenv SaltStack进程并希望分隔开不同进程的配置，那么就需要修改<code>root_dir</code>参数，为各个进程指派一个不同的路径。</p>
+
+<p>关于源代码安装的更多信息，可以参考官网文档的<a href="http://docs.saltstack.com/topics/hacking.html">Developing Salt</a>一节。</p>
+
+<h3 id="saltstack-2">4. SaltStack使用</h3>
+
+<p>SaltStack包安装之后，minion会向master发出认证请求，我们在master上通过<code>salt-key</code>命令把发出请求的minion私钥添加一下，就完成master与minion之间的认证，这之后就可以通过master管理所有认证过的minion了。详细的上手tutorial可以参考官网文档的<a href="http://docs.saltstack.com/topics/tutorials/walkthrough.html">SaltStack Walkthrough</a>。下面主要简单介绍一下SaltStack的两大功能。</p>
+
+<h4 id="section-3">4.1 配置管理</h4>
+
+<p>所有的配置管理工具都可以为系统状态指定一个描述，Puppet里面是用DSL编写的manifest文件，SaltStack则将其定义为State，State的状态用YAML格式编写。YAML简单清晰，表达力强，比起XML和JSON更适合用于配置文件的编写。下面用一个例子来简单说明一下如何使用SaltStack的配置管理功能。</p>
+
+<p>我们需要先编写好State配置文件，根master配置的默认值，一般将它们放在<code>/srv/salt</code>目录：</p>
+
+<pre><code># 先创建好配置根目录，'%'是root用户的shell提示符
+% mkdir -p /src/salt
+</code></pre>
+
+<p>然后在根目录创建特定名字<code>top.sls</code>的配置文件，它是SaltStack加载所有State配置的入口点，在其中添加下面的内容。</p>
+
+<pre><code>base:
+  '*':
+    - database
+</code></pre>
+
+<p>然后在根目录创建<code>database.sls</code>文件，添加以下内容：</p>
+
+<pre><code>mongodb:
+  pkg:
+    - installed
+</code></pre>
+
+<p>这样配置的意思就是对所有minion机器，都按<code>database.sls</code>文件描述的状态来配置，后者只指定一个State，就是为系统安装mongodb包。一个很简单的State配置就这样完成了。对于一个全新安装的master，在配置文件中，添加下面的配置</p>
+
+<pre><code>file_roots:
+  base:
+    - /srv/salt/
+</code></pre>
+
+<p>告诉master去<code>/srv/salt</code>这个路径去找State配置文件。然后重启master(如果master未启动就启动)，让master加载新添加的配置(如果之前已经在master配置文件中指定了file_roots，则不需要重启了)。最后，将master已经加载的配置下发到minion去执行状态更新：</p>
+
+<pre><code># salt '*' state.highstate -v
+</code></pre>
+
+<p>minion从master获取到最新的State配置后，就会在本地安装好mongodb。就这样，SaltStack集群就按我们所指定的配置执行了一次配置管理操作。</p>
+
+<p>SaltStack的State配置文件主体是YAML描述，其中可以包含jinja模板，可以定义变量，而且提供了一个静态变量系统Grains和一个动态的变量系统Pillar来帮助我们编写State配置，几种特点结合起来提供了很强的表达力，而且上手比较容易。</p>
+
+<h4 id="section-4">4.2 命令执行</h4>
+
+<p>SaltStack内置了命令执行的功能，master可以通过zeromq将命令内容下发到minion，由各个minion在本机执行。由于使用了zeromq，这个下发过程可以并行执行，速度比Ansible的无agent ssh通信快得多。因为命令执行是内置功能，而且不依赖于State状态描述，所以一旦SaltStack安装好，就可以直接使用了。SaltStack描述了100多个不同的命令模块，提供了各种各样功能的命令接口。比如通过<code>apt</code>模块可以调用Debian/Ubuntu的apt包管理器，<code>file</code>模块提供常见的文件访问/重命名/查找等操作，<code>ps</code>模块提供进程查看/管理操作等。全部的命令模块列表可以参考官网文档的<a href="http://docs.saltstack.com/ref/modules/all/">Full list of builtin execution modules</a>一节。</p>
+
+<p>其中一个比较通用的命令行接口是<code>cmd</code>模块，将任意命令编写好之后，都可以通过<code>cmd</code>模块下发到minion去执行，然后返回执行结果。例如在master上执行：</p>
+
+<pre><code>$ salt '*' cmd.run 'uname -r'
+minion_1:
+    3.2.0-23-generic
+minion_2:
+    3.2.0-23-generic
+</code></pre>
+
+<p>得到各个minion机器的内核版本号。</p>
+
+<p>命令执行功能的一个重点就是提供目标匹配的功能(其实配置管理也需要准确匹配目标机器)，方便在某些满足特定条件的机器做特定的操作。SaltStack中把它称之为targeting，SaltStack提供多种targeting的方式，包括针对id进行匹配的globbing, 正则表达式，列表，针对Grains进行匹配，指定分组匹配，还有复合以上几种方式的复合匹配，以及批量方式。</p>
+
+<h3 id="faq">5. FAQ</h3>
+
+<p>1) 目前流行的配置管理工具有哪些？<br />
+在这篇文章<a href="http://www.vpsee.com/2013/08/a-system-configuration-management-and-orchestration-tool-saltstack/">《系统自动化配置和管理工具SaltStack》</a>的开头可以找到一份比较长的名字列表 。</p>
+
+<p>2) SaltStack和Puppet有哪些不同？<br />
+功能：SaltStack具有配置管理和命令执行两大块功能，Puppet支持配置管理，但本身不带命令执行功能。Puppet添加MCollective之后可以提供命令编排功能，但Salt从设计上就考虑了这块，而且以内部模块，与框架合成一体的方式来实现，显然比Puppet加MCollective的方案更简单优雅。
+使用：SaltStack的状态配置用YAML+jinja模板描述，Puppet则是DSL。前者较为简易好上手。
+实现：SaltStack由Python编写，使用了zeromq，Puppet则是Ruby。</p>
+
+<p>3) 比较SaltStack与Ansible？<br />
+这里有一篇比较详细的比较文章：<a href="http://missingm.co/2013/06/ansible-and-salt-a-detailed-comparison/">Ansible and Salt: A detailed comparison</a></p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -189,51 +356,6 @@
 <p>对比Windows桌面，Mac桌面没有那么丰富的娱乐和资源，但也没有了不断的打扰和染上病毒的风险。对比Linux桌面，Mac并非是纯正的“开源(自由)软件”血统，但桌面功能齐全而且运行稳定。在使用Mac系统一段时间之后，我觉得它最体贴一点就是：它很少在我需要做点正经事的时候告诉我因为有个系统或者应用软件问题需要维护或打断一下。</p>
 
 <p>这就像《像少年啦飞驰》里面拿车子和女人相比较，虽然小说原文多少带点刻薄。这是一部带着很多残念的小说，而大部分的情节我都已经记不起了，印象中只记得有这样一个片断：挥手告别，然后重新出发。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/14/a-winter-night/">冬夜</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-14T02:23:00+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩，与拥挤的城市不同，家乡总是有足够的空地来容纳荒草，以及草地中所有的蝗，蟋，蛙，各种小虫以及它们生存的声息。阡陌交通，鸡犬相闻，那是卡尔维诺的马可波罗从来没有到过的地方，无论在版图中还是在脚底下。</p>
-
-<p>暮春时候的小雨总是很轻，仿佛飘浮在地球引力之外，没有重量，也压不弯长草绿叶，写雨的文字也变得轻了，仿佛入秋后露珠满天。村野之中，时光的节奏也并不总是是时分秒为单位，时节来去自有其脚步。山川沉默，田园如旧，这片土地上有人发过唐朝的梦，梦里有云海长风，有烟花三月，梦只是蝴蝶，飘忽且闪烁，宛如夜航船的灯火。盛唐之后，写诗的还大有人在，却已经没有人再读诗，不变的是青梅与宫灯，乙醇与山水，江河中流淌着岁月的唱词：红颜易老，风尘迷眼。</p>
-
-<p>禅师有言，思者即念，无增无减。光线是会随角度的变化而变化的，就像黑漆漆的雨夜可以浓也可以淡，并不仅属于玻璃窗上的雨滴。</p>
-
-<p>那个成语说，枕一枕黄梁，醒来就已经是重生。魂来枫林青，魂返关塞黑，每个故事都有着前提后续，在华丽的世界跳脱轮回，却只是奏鸣曲的一个小音符。很多写完了的故事都好像还有下文。</p>
-
-<p>睡眠如同一条大河蜿蜒而来，由远而近，种种的片断记忆如水气弥漫。</p>
 
 </div>
   
