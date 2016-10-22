@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="今天收到了一本从杭州寄过来的新书《从Paxos到Zookeeper：分布式一致性原理与实践》，书的封面是一个动漫化的动物园管理员和一些萌萌的动物，设计得相当有趣。这本书从理论的角度讲解了分布式一致性的概念，常见的几种协议，从实践的角度详述了Zookeeper的使用和内部实现， &hellip;">
+  <meta name="description" content="Joxa是一种基于Erlang VM的现代Lisp编程语言，创始人是美国的Eric Merritt[1]。通过在Erlang VM上引入一个精心设计的Lisp语法，它保留了Lisp和Erlang两者的众多优点：简洁而且语义清晰的Lisp语法，强大的Macro，鼓励交互式开发，支持高并发， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,435 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/">Joxa: 一种基于Erlang VM的现代Lisp编程语言</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-08-20T20:34:00+08:00" pubdate data-updated="true">Aug 20<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://joxa.org/">Joxa</a>是一种基于Erlang VM的现代Lisp编程语言，创始人是美国的Eric Merritt<a href="#1">[1]</a>。通过在Erlang VM上引入一个精心设计的Lisp语法，它保留了Lisp和Erlang两者的众多优点：简洁而且语义清晰的Lisp语法，强大的Macro，鼓励交互式开发，支持高并发，函数式风格等，并且与现有的Erlang平台保持良好兼容。它是一门功能全面的通用编程语言。</p>
+
+<p>Joxa的官方网站是<a href="http://joxa.org/">joxa.org</a>，在这个官方网站上，有它的源代码<a href="https://github.com/joxa/joxa">github地址</a>，以及<a href="http://docs.joxa.org/en/latest/">在线文档</a>。为什么这门编程语言取名为Joxa呢？关于Joxa这个名字的由来，Eric Merritt曾经对我在邮件组的提问做过如下解释：</p>
+
+<blockquote>
+  <p>其实这个名字并无特别的意义。很多年前我想开始一个“基于Java的某个项目”，于是有了它的缩写Joxa这个名字。这个项目从来没有开始做过，但我把域名买下来了并一直持有着。到今天，4个字母的域名已经很少能注册到了，所以我决定用它来做为这门语言的名字。<a href="#2">[2]</a></p>
+</blockquote>
+
+<p>除了名字开头有个字母”J”，Joxa与Java并没有太大的关系了，Joxa主要受到了Erlang及基于JVM的编程语言Clojure的影响。下面我们先介绍一下Erlang和Clojure，再讨论Joxa受到了它们的哪些影响。</p>
+
+<h2 id="erlang-clojurejoxa">1. Erlang, Clojure以及Joxa</h2>
+
+<h3 id="erlang">1.1 Erlang，高并发的函数式容错编程语言</h3>
+
+<p>Erlang是一门通用的并发程序设计语言，它由瑞典爱立信的Joe Armstrong在上世纪80年代开发，并于1998年对外开源，Erlang这个名字来源自丹麦数学家及统计学家Agner Krarup Erlang。经过近30年的发展，Erlang目前是支持高并发的编程语言翘楚之一，它在语言层面封装了Actor模型，实现了用户空间的轻量级进程，将消息传递作为Actor间通信的唯一方式，避免了由传统的线程和锁在并发方面的限制与缺点。Erlang被设计为电信级系统的编程语言，强调分布式，容错，软实时和公平调度，在语法上它主要受到Prolog及Lisp的影响，保留了函数式，动态，交互式开发等特点。具体来讲，Erlang这个名字可以分成3个方面的要素：</p>
+
+<ol>
+  <li>编程语言Erlang本身</li>
+  <li>总称为OTP的一系列程序设计原则及代码库</li>
+  <li>称为Erlang VM或BEAM的Erlang虚拟机</li>
+</ol>
+
+<p>Erlang设计于近30年前，因此从现在的角度来看，它在语法，编程环境(包括文档等)及工具链等方面有很多地方都有改进空间。由于Erlang VM是目前工业界支持高并发的最成熟的VM之一，大量技术专家及工程师们在上面投入了无数的工作，通过在Erlang VM上设计一门新语言来重用Erlang VM的优良特性，既能发挥Erlang VM的长处，又能改善Erlang语言本身在语法、工具链等方面的缺点，扬长而避短，是比较完美的方案。业界近几年涌现了众多基于Erlang VM的编程语言，下面介绍其中几种：</p>
+
+<ol>
+  <li>LFE<br />
+ <a href="http://lfe.io/">LFE</a>是Lisp Flavored Erlang的缩写，它是由Robert Virding<a href="#3">[3]</a>于2007年开始开发的一门函数式的并发的通用编程语言，LFE采用了Lisp-2<a href="#4">[4]</a>风格的语法，通过将LFE代码编译为Core Erlang代码运行在BEAM上，保留了Erlang VM分布式，容错，软实时等优点，同时支持Lisp Macro，使得LFE兼有强大的元编程能力，并实现了一个功能丰富的REPL<a href="#5">[5]</a>。</li>
+  <li>Reia<br />
+ <a href="http://reia-lang.org/">Reia</a>是一门基于Erlang VM上的类似Ruby的脚本编程语言，它由Tony Arcieri<a href="#6">[6]</a>于2010年中开始开发，它在Erlang VM的分布式，并发，容错，热更新的基础之上，引入了Ruby的友好语法，灵活的代码块，反射及元编程功能力。遗憾的是，Reia在2011年宣布不再更新。</li>
+  <li>Elixir<br />
+ <a href="http://elixir-lang.org/">Elixir</a>是一门动态的函数式编程语言，它由José Valim<a href="#7">[7]</a>于2012年开发。Elixir同样采用了类Ruby的语法，通过支持强大的Macro功能，它在简洁的语言核心上，建立了一系列的标准库，包括Unicode字符串及相关操作，重写了单元测试框架，丰富的数据类型等，它吸收了Clojure的Protocol，严格和惰性API，还提供了现代的交互命令行，脚本相关的库函数及项目管理工具。通过将Elixir代码编译为Erlang AST，Elixir得以重用Erlang VM的高并发及高效率，克服了Ruby在并发方面的缺陷。由于得到Jose及其它Ruby界牛人的喜爱及宣传<a href="#8">[8]</a>，Elixir在近两年开始流行起来。</li>
+</ol>
+
+<p>由于本文主要是讲Joxa，上述这几种编程语言只是简单带过，就不详细展开了。</p>
+
+<p>上面几种编程语言的设计方案虽然有很多不同之处，但从整体思路上几乎是相同的，那就是：通过将代码编译成为Erlang VM上的代码，良好兼容Erlang VM，于是保留了上述3要素中的后两点，同时从头设计语言的语法，并在标准库，工具链等一些方面做补充完善。Joxa的设计也是类似，它选择了Lisp做为Erlang VM上的新语言，不过它走了一条和LFE不同的道路。Eric Merritt后来专门写了一个博客文章<a href="http://blog.ericbmerritt.com/2012/02/21/differences-between-joxa-and-lfe.html">《Differences Between Joxa and LFE》</a>来谈Joxa和LFE的不同之处，他说：</p>
+
+<blockquote>
+  <p>最主要和重要的区别在于这两门语言的目标。我认为Robert实现LFE的主要目标在于提供一个可变的语法可扩展的Erlang版本，如此一来人们就可以在需要时改变语言。同时我坚信Robert喜欢实现编程语言，他应该很享受实现LFE的过程。我当然也乐于实现Joxa，然而，当坐下来实现Joxa的时候我怀有一些非常特定的目标：  </p>
+
+  <ol>
+    <li>我需要一个用于开发DSL(Domain Specific Language，领域特定语言)的平台  </li>
+    <li>我想要一个更具交互性和动态的开发环境。类似于Slime和Swank那种<a href="#9">[9]</a>  </li>
+    <li>我希望充分利用所有已经存在的相当优秀的Lisp工具  </li>
+  </ol>
+
+  <p>上述每点都可以在Erlang里面解决。例如，我可以用Leex和Yecc<a href="#10">[10]</a>实现DSL，但我实现DSL的最好体验总是来自Lisp：使用Lisp函数和Macro来打造这些DSL。不过我使用Erlang有很长时间了，我不愿意放弃Erlang VM上面的优良功能来换成Lisp的种种优点。唯一的解决方法似乎只有使用一门基于Erlang VM之上的Lisp语言。</p>
+
+  <p>显而易见的首先选择是LFE，于是我花了几周时间深入研究这门语言和它的内部实现。最后我得到这个结论：它并没有满足我的需求。剩下的唯一退路就是我自己重新创造一门语言(同时也有一点怀疑自己不太明智)。  </p>
+</blockquote>
+
+<p>从整体来看，LFE更像一门披着Lisp外衣的Erlang，相当于给原来Erlang语法添加了括号和Macro，这与Eric Merritt理想中的Erlang VM上的Lisp语言相去甚远，于是他创造了Joxa，而Joxa的语法及风格受到Clojure的影响更大。为什么Clojure能受到Eric的如此青睐呢？它到底有什么出众之处呢？下面我们来了解一下。</p>
+
+<h3 id="clojurejvmlisp">1.2 Clojure，JVM上的函数式Lisp编程语言</h3>
+
+<p>Clojure是一门动态的强类型编程语言，作者是Rich Hickey。它寄居在JVM之上，设计成能够与JVM/Java良好互操作，既利用了JVM所提供的成熟高效的运行环境，也兼容众多流行的Java库与框架，同时它采用了Lisp语法和Macro，非常便于表达DSL，加上一套函数式的持久数据结构，并提供并发机制及惰性语义，使得简洁优雅语言成为函数式编程，并发编程的良好载体，同时重用了成熟流行的JVM平台，使得它便于在现有Java程序员中推广并流行，在这一点上区别于以往所有独立开发的函数式语言。此外它也吸收了Java中的面向对象思想和CLOS<a href="#11">[11]</a>，发展出Protocol及多重方法。另外，Clojure自带一系列丰富的标准库，定义了一套项目管理规范，并提供了优秀的项目工具及REPL，使得它在开发环境，交互式开发方面成为佼佼者。</p>
+
+<p>Clojure设计成为Java的一个库包，Clojure代码会编译成JVM byte code，正因为它以一种非侵入性的方式运行在JVM之上，所以在函数式的语言层面，会有一些其它函数式语言不可能出现的“瑕疵”，例如函数没有尾递归优化。兼容JVM平台的已有代码，在重用/连接已有项目方面既是一种优势，但有时混合函数式与命令式代码也会产生实际冲突。在并发方面，语言提供的多种并发原语，delay, future, promise，agent，STM等虽然强大，但从语言整体来看比较复杂。Clojure的很多地方可以体会到作者有意保持简单与功能(复杂)的平衡，在设计上做了务实折衷的克制。与此相反，另外一个基于JVM的语言Scala在设计上就显得博爱放任，看到各个好的特性就收入到语言当中，宛如中国古代的皇帝举国征选妃嫔。</p>
+
+<p>相比各种“主流”编程语言，Clojure至今仍是小众语言，虽然如此，它的推出仍然不可谓不成功，既培养了一个健康壮大的社区，也在市场上占有一定的流行度，产生了一批具有相当影响力的项目，如流式数据处理框架<a href="https://storm.apache.org/">Storm</a>等。Clojure成功地向人们展示了这几个可能性：</p>
+
+<ol>
+  <li>在JVM平台实现一个函数式，并发的动态编程语言</li>
+  <li>通过融合持久数据结构，Protocol等优异特性，复兴Lisp</li>
+  <li>如何语言设计上在功能、简单与务实之间取得折衷平衡并树立起自身的特色</li>
+</ol>
+
+<p>正因为有些如此之多的优点，Clojure才对程序员们有着如此之大的吸引力。也难怪身为老Lisp爱好者的Eric Merritt在创造Joxa时会受到Clojure的较大的影响。下面我们来谈谈Joxa的设计。</p>
+
+<h3 id="joxa-erlang-vmlisp">1.3 Joxa, Erlang VM上的新Lisp编程语言</h3>
+
+<p>对照上述多种语言的实现，Joxa的设计主要有如下几个要点：</p>
+
+<ol>
+  <li>上层语言为Lisp，主要目标为用于写DSL(或者作为其它上层Lisp的元语言)，语言的核心部分要简洁</li>
+  <li>底层将Joxa代码编译成Erlang VM代码，将Joxa代码映射到Erlang上的对应语法结构，比如Joxa里面的函数即为Erlang函数</li>
+  <li>语言核心之外提供REPL，方便编译/执行脚本的命令行工具等</li>
+</ol>
+
+<p>其中Lisp的语法可以参考简洁，优雅的Clojure，由于Erlang VM与JVM有着非常多的差异，正如Erlang语言与Java语言有着非常多的差异，所以可以预期的是，Joxa在语法上面不能完全保持与Clojure一致，同时这里面有一个目标用户的问题：Joxa更多的是为了Clojure程序员转向Erlang平台而设计，还是为了Erlang程序员转向Lisp而设计。若为前者，就尽量保留可能多的Clojure语法及规范，若为后者则将语法尽可能向Erlang靠拢比较理想。这时Joxa选择了后一种，即认为Joxa主要是解决Erlang现有的问题，所以从语法上来考虑，最后出来的结果很可能是一种Lisp与Erlang的独一无二的新结合。所有的Lisp语言从结构上来看，都具有一种类似数学的体系结构，包括以下几个部分：</p>
+
+<ol>
+  <li>一切表达式皆为List，List有两种，原子及函数调用。代码即数据(总结为同像性)</li>
+  <li>7个基本原语(又称之为特殊Form)加上可以操纵语言本身的Macro，两者作为核心，在此之上演化出整个语言</li>
+</ol>
+
+<p>这就像数学体系，最核心的部分是几条基本原理，然后通过逻辑推导，演化出其它数学分支以构成整个体系，可以不断向外扩展。Joxa将会有同样的结构，核心部分将保持尽可能的简洁，只包括基本原语及Macro，极简的核心既节省开发成本，也给外延留下尽可能大的空间。此处的外延包括针对特定问题领域而言的DSL，也包括其它上层的Lisp语言，从本质上来说这两者本来就没有区别，只不过因为针对的范围有大有小所以说法不同。从语法设计上，Joxa会跟LFE有如下的不同：</p>
+
+<ol>
+  <li>Joxa会是Lisp-1，而LFE是Lisp-2</li>
+  <li>Joxa的语法会向Lisp靠拢，而LFE更像Erlang</li>
+  <li>Joxa中Macro求值语义与Lisp更为一致，而LFE的Macro求值语义与函数求值语言不同</li>
+</ol>
+
+<p>为了保持与Erlang VM现有的平台等保持无缝兼容，以充分利用现有的Erlang VM的开发规范与代码库等，第2点是必需的。将Joxa建立在Erlang VM平台的生态环境之上，固然是因为作者对Erlang VM的熟悉与喜欢，客观上也可以充分发挥Erlang生态的优势。从上面的叙述也可以看到，众多Erlang VM上的非Erlang编程语言也采用了这种“无缝兼容”设计，虽然它们在实现层面会有一些不同之处。这一点同时确定了Joxa将会保留Erlang的一些语言特性，例如按文件划分的模块化，函数式风格，代码要求先通过编译等。</p>
+
+<p>第3点与开发环境相关，REPL是各种Lisp方言已经是司空见惯了，Erlang在设计的时候也吸收了这个概念，但是实现得不如Lisp的REPL那么好用，比如强制输入为表达式(每行的后面必须输入”.”号)，Record不能用等。Joxa的REPL会参考Clojure与Erlang的REPL，结合前者的完整性和后者的功能，在易用性给予特别的关注。同时针对编译、脚本化等开发流程中的各个阶段都提供编辑器、命令行工具等支持。</p>
+
+<h2 id="section">2. 设计与实现细节</h2>
+
+<p>下面我们来详细讨论Joxa的设计与实现。根据上述的设计要点，要将Joxa代码要编译成Erlang VM代码，必需先熟悉Erlang代码的编译过程，在此过程中找出合适的切入点。</p>
+
+<h3 id="erlang-1">2.1 Erlang编译过程</h3>
+
+<p>一个经典的编译过程可以分为如下图所示的多个阶段：</p>
+
+<p><a href="/images/uploads/classic_compilation.png"><img src="/images/uploads/classic_compilation.png" alt="传统编译过程的各阶段" /></a><br />
+图1 经典编译过程的各阶段<a href="#12">[12]</a></p>
+
+<p>经典的编译过程可以分为词法分析，语法分析，语义分析，中间代码生成，中间代码优化，机器码生成等多个阶段。Erlang的代码编译过程跟经典的编译过程基本一致，也可以分成类似的多个阶段，各个阶段的输入输出如下图所示：</p>
+
+<p><a href="/images/uploads/erlang_compilation.png"><img src="/images/uploads/erlang_compilation.png" alt="Erlang编译过程的各阶段" /></a><br />
+图2 Erlang编译过程各阶段的输入输出</p>
+
+<p>其中Core Erlang为于Erlang代码与VM内部中间代码之间的一层，它是在1999年前后提出的一种BEAM(Erlang VM的最新实现)上的语言，它被设计为：</p>
+
+<ol>
+  <li>语法清晰简单，严格的更高阶函数式语言</li>
+  <li>尽可能规范化，以便相关代码遍历工具的开发</li>
+  <li>从Erlang代码向Core Erlang代码的翻译应该直白，从Core Erlang向VM内部实现中间代码的翻译也应该简单</li>
+  <li>有良好定义的文本表示形式，语法简单无歧义，便于人阅读，调试及测试</li>
+</ol>
+
+<p>由于Core Erlang是清晰简单，有良好定义的文本语言，便于作为目标语言，而且Erlang的代码优化和错误检测大多都在Core Erlang层进行，如果我们要在Erlang VM打造新编程语言，那么将新语言的代码编译成Core Erlang(或AST)，将会是一个很好的解决方案。很多Erlang VM上的语言都选择了这种方案，比如LFE，但也有语言选择了编译成Erlang AST，比如Elixir，精通Elixir Macro的人对Erlang AST应该比较熟悉。相对于Core Erlang，Erlang AST更接近于Erlang本身，层次也更高。Core Erlang相关的功能定义在<code>cerl.erl</code>这个模块里面，包括对如模块、函数等各种Erlang语言结构的初始化、操纵等功能的一系列函数。</p>
+
+<h3 id="section-1">2.2  一个简单例子</h3>
+
+<p>下面举一个简单的Hello World程序作为例子<a href="#13">[13]</a>，让读者对Erlang AST与Core Erlang有一个感性认识。原始的Erlang代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">test</span><span class="p">).</span>
+</span><span class="line"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">hello_world</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
+</span><span class="line"><span class="nf">hello_world</span><span class="p">()</span> <span class="o">-&gt;</span>
+</span><span class="line">    <span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">).</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对应的Core Erlang代码如下所示：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="n">module</span> <span class="n">&#39;test&#39;</span> <span class="p">[</span><span class="n">&#39;hello_world&#39;</span><span class="o">/</span><span class="mi">0</span><span class="p">]</span>
+</span><span class="line">    <span class="n">attributes</span> <span class="p">[]</span>
+</span><span class="line"><span class="n">&#39;hello_world&#39;</span><span class="o">/</span><span class="mi">0</span> <span class="o">=</span>
+</span><span class="line">    <span class="k">fun</span> <span class="p">()</span> <span class="o">-&gt;</span>
+</span><span class="line">        <span class="n">call</span> <span class="nn">&#39;io&#39;</span><span class="p">:</span><span class="nf">&#39;format&#39;</span>
+</span><span class="line">            <span class="p">(</span><span class="err">“</span><span class="nv">Hello</span> <span class="nv">World</span><span class="err">”</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对比两份代码，可以看到Core Erlang与Erlang之间的映射还是很直观的。将原始的Erlang代码编译为Erlang AST，可以得到：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">[{</span><span class="n">attribute</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">module</span><span class="p">,</span><span class="n">test</span><span class="p">},</span>
+</span><span class="line"> <span class="p">{</span><span class="n">attribute</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">export</span><span class="p">,[{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}]},</span>
+</span><span class="line"> <span class="p">{</span><span class="n">function</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+</span><span class="line">   <span class="p">[{</span><span class="n">clause</span><span class="p">,</span><span class="mi">2</span><span class="p">,[],[],</span>
+</span><span class="line">     <span class="p">[{</span><span class="n">call</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span>
+</span><span class="line">       <span class="p">{</span><span class="n">remote</span><span class="p">,</span><span class="mi">3</span><span class="p">,{</span><span class="n">atom</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">io</span><span class="p">},{</span><span class="n">atom</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">format</span><span class="p">}},</span>
+</span><span class="line">         <span class="p">[{</span><span class="n">string</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&quot;Hello World&quot;</span><span class="p">}]}]}]}]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>编译为Core Erlang AST即得到：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">{</span><span class="n">c_module</span><span class="p">,[],</span>
+</span><span class="line">  <span class="p">{</span><span class="n">c_literal</span><span class="p">,[],</span><span class="n">test</span><span class="p">},</span>
+</span><span class="line">    <span class="p">[{</span><span class="n">c_var</span><span class="p">,[],{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}}],</span>
+</span><span class="line">      <span class="p">[],</span>
+</span><span class="line">     <span class="p">[{</span> <span class="p">{</span><span class="n">c_var</span><span class="p">,[],{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+</span><span class="line">       <span class="p">{</span><span class="n">c_fun</span><span class="p">,[</span><span class="mi">2</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
+</span><span class="line">         <span class="p">[],</span>
+</span><span class="line">         <span class="p">{</span><span class="n">c_call</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
+</span><span class="line">           <span class="p">{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span><span class="n">io</span><span class="p">},</span>
+</span><span class="line">           <span class="p">{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span><span class="n">format</span><span class="p">},</span>
+</span><span class="line">           <span class="p">[{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
+</span><span class="line">              <span class="s">&quot;Hello World&quot;</span><span class="p">}]}}}]}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对比两者，容易看出Erlang AST更高层更抽象，Core Erlang AST更底层更规范。</p>
+
+<h3 id="section-2">2.3 编译器</h3>
+
+<p>下面我们继续来讨论Joxa的编译过程，由于Core Erlang(及AST)可以由Erlang编译器编译成最终的机器码，我们只需将Joxa代码编译成Core Erlang AST便可实现将Joxa编译成机器码整个编译过程，从编译领域的分类来看，目标生成的代码是Core Erlang AST，操纵Core Erlang AST可以直接调用<code>cerl.erl</code>的接口函数，因此编译器后端这一块相对是比较简单的，重点在于前端部分：即将Joxa代码编译成Core Erlang AST。由于Joxa是Lisp语法，Lisp代码以括号划分边界的代码树的方式来表示，本身就已经有良好的结构，所以前端部分也比较简单。区别于LFE或Elixir用Leex或Yecc来生成LALR<a href="#14">[14]</a>式Lexer与Parser，Joxa采用了手写PEG<a href="#15">[15]</a> Lexer和Parser的方式。PEG编译器的代码量较小，Joxa编译器是在Erlang PEG生成器<a href="https://github.com/seancribbs/neotoma">Neotoma</a>生成代码的基础上写成的。(本节涉及到很多编译领域的术语或技术，由于本文主要是介绍Joxa，篇幅所限故不会详细解释这些术语或技术，有兴趣的读者可以自行寻找相关的资料做进一步了解)</p>
+
+<p>特别值得一提的是，Joxa的编译过程是自举的，即Joxa编译器本身是由Joxa代码编写的，这与LFE或Elixir的编译器用Erlang编写不同。Joxa的自举要求先有一份以Core Erlang AST格式存在的具有正常编译功能的代码，这部分代码在Joxa的Github代码库中，相对根目录的路径是<code>src/ast</code>(后面给出所有的代码路径都相对于根目录)。通过用Erlang编译器将这份AST代码编译成BEAM代码，然后就得到一个能直接在BEAM上执行的Joxa编译器，然后就可以运行此编译器，将编译器的Joxa源代码编译成Core Erlang AST格式。整个流程和依赖如下图所示：</p>
+
+<p><a href="/images/uploads/joxa_self_bootstrap.png"><img src="/images/uploads/joxa_self_bootstrap.png" alt="Joxa的自举及编译流程" /></a><br />
+图3 Joxa的自举及编译流程</p>
+
+<p>由上图可以看到整个流程三个步骤是一个循环，要成功实现自举，必然要先实现其中的一个部分，在此基础上才能实现其中其它两个部分。在Joxa的编译器实现中，AST这部分先由作者Eric人手先写出基本的语法解析功能，然后再编写对应功能的编译器的Joxa代码，用AST编译出来可执行的编译器，去验证对应的Joxa代码，然后再按此流程不断添加更多的功能，错误一般出现在编译Joxa代码的时候，此时遇到的错误是由新添加的AST代码还是Joxa代码引起的，有时并不容易定位出来。虽然Core Erlang简单清晰，但手写Core Erlang AST是相当繁琐的，而且由于Joxa语法本身还在不断演变，从头开发一个这样的自举编译器，其难度可以猜想是比较大的。我曾经为Joxa添加过Map语法的支持，对此开发流程的复杂性有较深的体会。编程语言的自举也可以按另外一个思路来做：先用另外一门常见的语言，比如C语言来写编译器，然后当语言的语法发展到比较稳定成熟的时候，再使用这门语言的本身来实现自身的编译器，由于已经有了一个能够工作经过充分检验的C编译器，所以自举的实现就有了一个可靠的保障，大大降低其难度。</p>
+
+<p>编译器这部分的Joxa代码的路径是<code>src/joxa-cmp-*.jxa</code>(其中<code>*</code>符号表示通配)。按照编译器前端和后端的分类法，下面我们讨论一下各主要文件的代码分布。PEG的词法分析部分需要构造一系列对应于词素(lexeme)的正则表达式，首先需要有正则表达式的元操作的函数定义，所谓“元操作”，用各种编程语言里面的正则表达式的术语来说，即是元字符，比如”*“符号用于“匹配0个或多个”。在PEG里面元操作是通过函数来表达的，这部分的代码在<code>src/joxa-cmp-peg.jxa</code>。词素，比如注释或数字，它们的定义放在<code>src/joxa-cmp-lexer.jxa</code>。<code>src/joxa-cmp-parser.jxa</code>则包含Parser的代码。编译器的主要逻辑放在<code>src/joxa-compiler.jxa</code>，它调用Parser来解析读入的字符流，成功解析之后调用<code>make-forms</code>函数递归遍历解析得到的语法树来生成Core Erlang AST，在编译过程中会执行对函数调用的合法性检查，Macro的递归展开等动作。后端的代码按语义的分类分成下述多个文件：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">├── joxa-cmp-binary.jxa           # Binary
+</span><span class="line">├── joxa-cmp-call.jxa             # 函数调用
+</span><span class="line">├── joxa-cmp-case.jxa             # case语句
+</span><span class="line">├── joxa-cmp-defs.jxa             # 函数、宏定义
+</span><span class="line">├── joxa-cmp-expr.jxa             # 表达式
+</span><span class="line">├── joxa-cmp-joxa-info.jxa        # 模块info
+</span><span class="line">├── joxa-cmp-literal.jxa          # 常量，常量表达式
+</span><span class="line">├── joxa-cmp-ns.jxa               # namespace
+</span><span class="line">└── joxa-cmp-spec.jxa             # spec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以上即为Joxa编译器实现各部分代码的所在文件。整个编译器实现从代码量上来说并不大。</p>
+
+<h3 id="section-3">2.4 数据类型</h3>
+
+<p>与Elixir在Erlang数据类型的基础上添加了Range、正则表达式、Unicode字符串等新数据类型不同，Joxa支持的数据类型与Erlang保持一致，并没有添加新的数据类型，所有的数据类型包括如下几种<a href="#16">[16]</a>：</p>
+
+<ol>
+  <li>简单类型：不定长整数，浮点数，原子</li>
+  <li>系统类型：PID, Port, Reference</li>
+  <li>集合类型: Tuple, Record，Map, List, Binary</li>
+</ol>
+
+<p>各种数据类型的字面量语法请参考Joxa的在线文档。值得一提的是，围绕Record的各种操作，Joxa在语法上做了包装，便于解耦Record的内部实现与接口，提高了可用性，Elixir在这个方面走得更远，引入了Clojure的Protocol。另外一个常用的集合类型set是通过Erlang库提供的，并没有赋予特别的语法。</p>
+
+<h3 id="form">2.5 特殊Form及标准库基础原语</h3>
+
+<p>Joxa里面的特殊Form及标准库中的基础原语包括以下几个:</p>
+
+<ul>
+  <li><code>let*</code>, <code>let</code><br />
+  用于绑定变量，不同于Erlang中的绑定操作或Clojure的<code>let</code>操作，<code>let*</code>并不支持Pattern Matching或解构，Pattern Matching或解构需要通过<code>case</code>，标准库中的<code>let</code>是一个用<code>let*</code>和<code>case</code>实现的对应支持Pattern Matching的版本</li>
+  <li><code>case</code><br />
+  整个Joxa语言中为数很少的一个支持Pattern Matching的原语之一，与Erlang里面在函数签名，变量匹配，<code>case</code>语句等各种语法结构都可以做Pattern Matching不同</li>
+  <li><code>receive</code><br />
+  接收消息，但没有对应的<code>send</code>原语，这可以通过调用Erlang模块或OTP库接口实现，支持Pattern Matching</li>
+  <li><code>do</code><br />
+  分组表达式成一块，类似于Lisp里面的<code>progn</code></li>
+  <li><code>apply</code><br />
+  以列表函数调用指定函数，类似于Lisp的<code>apply</code></li>
+  <li><code>fn</code><br />
+  构造匿名函数，类似于Erlang的<code>fun</code>，或Lisp的<code>lambda</code></li>
+  <li><code>defn</code>, <code>defn+</code><br />
+  定义模块内可见，模块外可见函数</li>
+  <li><code>defspec</code><br />
+  用于定义前置声明</li>
+  <li><code>defmacro</code>, <code>defmacro+</code>, <code>quote</code>, <code>quasiquote</code>, <code>~</code>, <code>~@</code>, <code>gensym</code>, <code>macroexpand-1</code><br />
+  Macro操作，下一节再展开讨论</li>
+  <li><code>use</code>, <code>require</code>, <code>as</code><br />
+  namespace相关操作，源自于Clojure里面的对应物，要注意的是不同于Clojure默认会在所有namespace自动导入<code>clojure.core</code>，Joxa并不会自动导入<code>joxa-core</code></li>
+  <li><code>try*</code>, <code>try</code><br />
+  两者<code>catch</code>用于异常捕取，用法跟Erlang里面的对应物类似，两者的区别在于是否支持Pattern Matching，类似于<code>let*</code>和<code>let</code></li>
+  <li>
+    <p>特殊常量，都以函数方式进行调用</p>
+
+    <pre><code>  ($filename)       ;; 当前文件的文件名(连后缀)
+  ($namespace)      ;; 当前的namespace
+  ($line-number)    ;; 当前的行号
+  ($function-name)  ;; 当前的函数名
+</code></pre>
+  </li>
+  <li>其它如<code>attr</code>，<code>when</code>等原语就不一一列举了。</li>
+</ul>
+
+<h3 id="macro">2.6 Macro</h3>
+
+<p>作为Lisp类语言的杀手级特性，以及表达DSL的终极利器，一直以来Macro在Lisp类语言中都有着重要的地位。Joxa中的Macro原语与Common Lisp或Clojure等之前的Lisp语言保持了一致，详细列出如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">defmacro     -- 定义模块内部Macro
+</span><span class="line">defmacro+    -- 定义对模块外部可见Macro
+</span><span class="line">quote        -- 抑制求值
+</span><span class="line">quasiquote   -- 对应Common Lisp里面的back quote，或Clojure里面的syntax quote，部分求值
+</span><span class="line">~            -- unquote，对符号后面元素进行求值
+</span><span class="line">~@           -- unquote-splicing，对符号后面的List元素进行求值并展开到当前位置
+</span><span class="line">gensym       -- 动态生成新变量，用于保证Macro健康(或称Macro卫生)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>另外为方便调试，标准库中提供了<code>macroexpand-1</code>函数，用于单次展开Macro，这个函数也沿袭于传统的Lisp语言，但是并没有提供<code>macroexpand</code>(<code>macroexpand-all</code>)。</p>
+
+<p>在Joxa里面使用Macro，跟之前的Lisp语言并没有什么不同，以一个标准库<code>joxa-core</code>模块里的代码为例：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="nf">defmacro+</span> <span class="k">let </span><span class="p">(</span><span class="nf">args</span> <span class="o">&amp;</span><span class="nb">rest </span><span class="nv">body</span><span class="p">)</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">let*</span> <span class="p">(</span><span class="nf">process-arg-body</span>
+</span><span class="line">        <span class="p">(</span><span class="k">fn </span><span class="p">(</span><span class="nf">arg</span><span class="p">)</span>
+</span><span class="line">            <span class="p">(</span><span class="nf">case</span> <span class="nv">arg</span>
+</span><span class="line">              <span class="p">([</span><span class="nv">r</span> <span class="nv">e</span><span class="p">]</span>
+</span><span class="line">               <span class="o">`</span><span class="p">(</span><span class="nf">case</span> <span class="o">~</span><span class="nv">e</span>
+</span><span class="line">                  <span class="p">(</span><span class="o">~</span><span class="nv">r</span> <span class="o">~@</span><span class="nv">body</span><span class="p">)))</span>
+</span><span class="line">              <span class="p">((</span><span class="nf">r</span> <span class="k">. </span><span class="p">(</span><span class="nf">e</span> <span class="k">. </span><span class="nv">rest</span><span class="p">))</span>
+</span><span class="line">               <span class="o">`</span><span class="p">(</span><span class="nf">case</span> <span class="o">~</span><span class="nv">e</span>
+</span><span class="line">                  <span class="p">(</span><span class="o">~</span><span class="nv">r</span> <span class="o">~</span><span class="p">(</span><span class="nf">process-arg-body</span> <span class="nv">rest</span><span class="p">))))</span>
+</span><span class="line">              <span class="p">(</span><span class="nf">detail</span> <span class="p">(</span><span class="nf">erlang/error</span> <span class="p">{</span><span class="ss">:malformed-let-expression</span> <span class="nv">detail</span><span class="p">})))))</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">process-arg-body</span> <span class="nv">args</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Joxa在语法上直接定义为Lisp风格，因此在Macro的定义及使用上面，与传统一脉相承并无修改。在这个Macro定义里面，除了Pattern Matching，以及递归调用<code>process-arg-body</code>之外，与传统Lisp语言并无不同，熟悉传统Lisp的人可以很快就读懂。对比的来看，在Elixir这样的非Lisp语言中引入Macro，由于上层语言的语法与AST并不一致，所以程序员必需记住/区分上层语言与AST两种环境，因此相对较为复杂，比如，在Elixir Macro的签名处Pattern Matching Erlang AST，就在以Elixir的语法编写的Macro定义中，暴露了底层的AST格式。这种复杂性虽然从设计上来说是必需的折衷，但在习惯了Lisp Macro的人看来可能不会太喜欢。Joxa作者Eric在2015年一次接受《This is not a Monad tutorial》的<a href="https://medium.com/this-is-not-a-monad-tutorial/eric-merritt-erlang-and-distributed-systems-expert-gives-his-views-on-beam-languages-hindley-a09b15f53a2f">采访</a>中就表示过不喜欢Elixir Macro的复杂性。</p>
+
+<h3 id="section-4">2.7 标准库概览</h3>
+
+<p>Joxa的标准库只包括少数几个基本函数以及对OTP的简单包装。详细列出如下：</p>
+
+<ul>
+  <li><code>joxa-core</code><br />
+  基本操作: <code>!=</code>, <code>lte</code>, <code>gte</code>, <code>and</code>, <code>or</code>, <code>+</code>, <code>-</code>, <code>incr</code>, <code>decr</code>, <code>if</code>, <code>when</code>, <code>unless</code>, <code>try</code>, <code>let</code>, <code>define</code></li>
+  <li><code>joxa-eunit</code><br />
+  eunit相关函数封装</li>
+  <li><code>joxa-lists</code><br />
+  list相关的功能函数： <code>dolist</code>, <code>hd</code>, <code>tl</code>, <code>foldl</code>, <code>map</code>, <code>lists-binding</code>, <code>#</code>, <code>all</code>, <code>any</code></li>
+  <li><code>joxa-records</code><br />
+  Record相关函数</li>
+  <li><code>joxa-shell</code><br />
+  REPL函数的简单实现</li>
+  <li><code>joxa-otp</code>, <code>joxa-otp-gen-server</code>, <code>joxa-otp-supervisor</code>, <code>joxa-otp-application</code><br />
+  Erlang OTP相关接口的封装函数</li>
+</ul>
+
+<p>代码规模很小，跟Elixir的标准库相比差得很远。其功能比较简陋，称之为标准库也许太大，或者称之为帮助函数更加准确。由于Joxa可以直接调用Erlang代码，因此功能缺失之处可由其它Erlang库补充。</p>
+
+<h3 id="section-5">2.8 开发环境及工具链</h3>
+
+<p>目前Joxa只有一个名为<code>joxa</code>的命令行工具，用于编译Joxa源代码，启动REPL，这个工具的功能也比较简陋，跟Clojure的REPL还有很大的距离。源代码中有一个Emacs的Major Mode配置文件<code>emacs/joxa-mode.el</code>，可以在用Emacs开发Joxa时设置缩进，关键字高亮，键绑定等。上面提到的与Slime和Swank集成，则尚未开发。</p>
+
+<h3 id="section-6">2.9 项目状态</h3>
+
+<p>Joxa从2011年底开始开发，一直到2013年初都比较活跃，这之后代码提交量变得相当少，在当前这个时间点(2015年8月)回头看看提交日志，已经有一年多的时间没有任何更新。虽然还未完成原来的设计目标，wiki上面的计划也有很多开发要做，但是由于作者Eric工作上比较忙，而Joxa社区实在太弱小，除作者之外并没有其它的人员贡献过大量代码，因此短期之内似乎项目状态不会重新变得活跃。在Google Group上有Joxa的邮件组，在近一年多时间内也相当少人发言。在应用上，除了作者Eric将Joxa用于编写他的创业项目之外，目前市面上没有看到其它的应用<a href="#17">[17]</a>。综合来看，Joxa的项目状态是比较停滞的。</p>
+
+<h2 id="section-7">3. 总结</h2>
+
+<p>Joxa是一种基于Erlang VM的现代Lisp语言，有着简洁清晰的Lisp语法，支持强大的Macro，是在Erlang VM编写DSL的一个很好的载体，它无缝兼容Erlang VM平台，是一门功能全面的通用编程语言。它在语言设计及编译器实现方面质量优良，但目前完成度不高，工具链并不完整，市面上也少见应用。作为一门较新的基于Erlang VM的编程语言，它有待进一步的发展完善。</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> Eric Merritt是《Erlang and OTP in Action》(中文译本《Erlang/OTP并发编程实战》)一书的作者之一，Erlware项目联合创始人，Afiniate公司的CTO。<br />
+<a id="2">[2]</a> 翻译自邮件原文<br />
+It doesn’t actually mean anything. Many years ago it was an acronym for some project I wanted to start ‘Java oriented something or other’. I never made that project but I bought the domain and have kept it these years. Four letter domains are pretty uncommon these days, so I just decided to use it as the name for the language. Thats all.<br />
+<a id="3">[3]</a> 作为Erlang语言联合创始人以及Joe Armstrong的长期亲密战友，Robert Virding自从当年在爱立信计算机科学实验室开始，长期以来在Erlang的设计，标准库，编译器，发展推广等方方面面都做了杰出的贡献。<br />
+<a id="4">[4]</a> Lisp-1和Lisp-2的区别在于函数与变量是否共用同一命名空间，一个详细的解释可以参考文章<a href="http://ergoemacs.org/emacs/lisp1_vs_lisp2.html">《What’s Lisp-1, What’s Lisp-2? Bad Jargon or Good Jargon?》</a><br />
+<a id="5">[5]</a> REPL是Read-Eval-Print Loop的缩写，最早被用于指代开发Lisp程序过程中，交互式命令行不断执行读取程序员的输入代码，对其进行求值并打印出求值结果的循环动作。后来这个概念被Python，Ruby及各种交互式命令行工具吸收并推广开来。<br />
+<a id="6">[6]</a> Tony Arcieri是一位美国的软件工程师，他的博客见<a href="http://tonyarcieri.com/">这里</a>。<br />
+<a id="7">[7]</a> José Valim是一位波兰的软件工程师，他最被人熟知的两个身份是Ruby On Rails的核心成员以及Elixir编程语言的创始人。<br />
+<a id="8">[8]</a> 比如Joe Armstrong于2013年中写了博客文章<a href="http://joearms.github.io/2013/05/31/a-week-with-elixir.html">《A Week with Elixir》</a>盛赞了Elixir“结合了Ruby和Erlang的优良特性”，Dave Thomas于2014年发布了新书<a href="https://pragprog.com/book/elixir/programming-elixir">《Programming Elixir》</a>向有其它语言经验的程序员提供了一本系统的教程。<br />
+<a id="9">[9]</a> 译者注：<a href="https://common-lisp.net/project/slime/">Slime</a>是Superior Lisp Interaction Mode for Emacs的缩写，它为Emacs提供了一整套交互式开发Common Lisp的功能集，包括编译，调试，文档查找等等，Slime是客户端，Swank是对应的服务器端，它们共同组成了一个强大的程序开发环境。<br />
+<a id="10">[10]</a> 译者注：<a href="http://erlang.org/doc/man/leex.html">Leex</a>和<a href="http://erlang.org/doc/man/yecc.html">Yecc</a>是Erlang语言的Lex和Yacc工具集。<br />
+<a id="11">[11]</a> CLOS是the Common Lisp Object System的缩写，是指在Common Lisp中实现面向对象机制的一系列代码库。<br />
+<a id="12">[12]</a> 此图来自编译领域的经典著作《Compilers: Principles, Techniques, &amp; Tools》第三版，中译本《编译原理》。<br />
+<a id="13">[13]</a> 这个例子来自Eric Merritt 2012年8月在Chicago Erlang User Group上的技术分享《Joxa: A Full Featured Lisp on the Erlang VM》，录像视频见<a href="https://vimeo.com/49116180">这里</a>.<br />
+<a id="14">[14]</a> LALR是LookAhead LR的缩写，LR中的L表示对输入进行从左到右的扫描，R表示反向构造出一个最右的推导序列。LALR是流行的自底向上语法分析方法。<br />
+<a id="15">[15]</a> PEG是Packrat Expression Parsing的缩写，它是一种相对较新的自顶向下语法分析方法。<br />
+<a id="16">[16]</a> 其中Map的语法支持由我添加，写此文时未进入主干分支。<br />
+<a id="17">[17]</a> 从推广应用的角度来看，在2011年中开始开发的Elixir在各个基于Erlang VM的新编程语言上是走得最前的。  </p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -271,185 +700,6 @@
 <p>马尔科姆·格拉德威尔的书在中国的流行，很大程度上是由于老罗罗永浩的宣传推荐。格拉德威尔带着一种颠覆性的思维阐述了现代人类的意识和行为中的奇妙和误区，而且他还是个讲故事的好手，看过他的几本作品之后，我印象更深的不是他所讲的道理而是他讲故事的方式，那种将讲理和故事像精心构造出来的乐高积木一样组织起来的行文手法。建筑师们是精于此道的，尤其是中国古代的建筑师，他们用梁柱，斗拱，榫卯穿插连接，搭建了一个个精巧绝纶的结构，从混沌中形成某种形式组织，应该就是美的所在了吧。</p>
 
 <p>当然这些只是静态的结构，另外一些动态的结构，如运行中的程序，进行中的人生，则复杂得多。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/01/all-about-ergodox/">人体工学机械键盘Ergodox</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-01T22:09:00+08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>作为一个码农，我每天的工作主要就是敲打键盘，因为工作的特殊性，我平均每天面对电脑使用键盘鼠标至少达到10个小时，长期如此，我发现我的手腕时不时会出现无力、僵硬甚至酸痛的现象，这种感觉有时在夜晚睡觉时会特别明显，而右手又比左手要严重。后来经了解这是管腕综合症的症状，是由于长期敲击键盘和使用鼠标造成重复性的神经压迫受损引起的。要缓解这这种症状，除了平时注意多休息之外，我还特别了解过有没有什么工具对此有所帮助，然后发现其实我们最常用的传统键盘，在对手和肩的人体工学上并不是太科学。因为传统键盘是一个长方形的整体，它的键位分布也是各行平行，使用的时候就需要人弯曲手腕和肘弯来形成合适的角度，这种弯曲一旦长时间保持，就会造成手腕肩头等部位的习惯性疲劳甚至病症。如下图左边所示：</p>
-
-<p><img src="/images/uploads/ergodox/keyboard_ergonomics.jpg" alt="普通键盘和人体工学键盘对比图" /></p>
-
-<p>一个考虑到人体工学的键盘，设计上应该是左右两边从中间分开，让身体两侧的肘部和手腕，形成更舒适自然的角度，如上图的右边所示。很多的人体工学键盘都带有这样的设计，其中包括微软出品的几款薄膜键盘：停产的Natural Keyboard Elite和后继者Natural Ergonomic Keyboard 4000，较新的Sculpt Ergonomic Keyboard。</p>
-
-<p><img src="/images/uploads/ergodox/microsoft_ergonomic_keyboard_elite.jpg" alt="微软人体工学键盘Elite" /></p>
-
-<p>带人体工学设计的键盘还有较少见的Truly Ergonomic公司推出的<a href="https://www.trulyergonomic.com/">True Ergonomic Keyboard</a>，<a href="http://www.kinesis-ergo.com/">Kinesis</a>的Advantage和FreeStyle 2等，而像Cherry的<a href="http://www.pcpop.com/doc/0/326/326420_all.shtml">MX 5000</a>这种早就停产的绝版产品已经难于在市场上觅到其踪影。</p>
-
-<p><img src="/images/uploads/ergodox/truly_ergonomic_keyboard.jpg" alt="Truly Ergonomic Keyboard" /></p>
-
-<p>这些键盘左右两边都分叉开，有的可以自由调整分叉角度，有的则角度固定，左右两边都是连成一体的。这些键盘中有的全部键位都采用MX机械轴，有的则为薄膜键盘，薄膜键盘的一大缺点就是手感差，不像MX轴那样寿命长手感好。另外其中有的键盘键位与普通的差异比较大，由于不支持编程，无法自定义键位，用户必然需要一段较长的时间去适应它的独特键位。有没有一个键盘，既有人体工学的设计，也是全键位MX轴，甚至支持全键位编程，可以满足文字工作者对键盘在人体工学、手感和寿命各方面的要求呢？它就是Ergodox。</p>
-
-<h2 id="ergodox">Ergodox简介</h2>
-
-<p>Ergodox是一个硬件开源项目，它的项目网站见<a href="http://ergodox.org">这里</a>。它主要有如下几个特点：</p>
-
-<ol>
-  <li>
-    <p>分体式设计<br />
-整个键盘分为左右两个相互独立的部分，左右两边相互对称，中间用线材连接用于通讯。除了常见的字母/数字键区之外，每边还有一个延伸的拇指区，和一些特殊的控制大键位。分体式设计使得用户在使用时可以将左右两边以任何角度或位置摆放，提供了很大的灵活性和舒适度。</p>
-  </li>
-  <li>
-    <p>直列错行键位<br />
-在传统键位中，键位的行是平行的，行与行之间，不同列是错开的，这种设计来源于最早的机械式打字机设计，因为每个键的连杆都要错开一定角度，同一个位置不能有两条连杆重合，否则就会造成冲突。如下图所示：<br />
-<img src="/images/uploads/ergodox/mechanical_typewriter.jpg" alt="传统机械式打字机" /><br />
-这种错列的设计从人手的角度来看并不科学，因为对于每一根手指，直上直下才是比较方便的，而且不同的手指长度不同，平行的行键位只是为了方便制造。后来计算机的键盘沿用了打字机这种错位的设计，但现代的键盘都是电信号触发的，连杆早已不复存在，这种平行错列的设计只是简单地追随传统。<br />
-<img src="/images/uploads/ergodox/straight_rows_keyboard.jpg" alt="常见的直行错列键位" /><br />
-Ergodox给出了一个更科学的设计：直列错行。每根手根负责一个直列，不同行即不同手指则按各指长度错开成一定距离。<br />
-<img src="/images/uploads/ergodox/ergodox_straight_columns.jpg" alt="Ergodox直列错行键位" />  </p>
-  </li>
-  <li>
-    <p>全键位MX轴<br />
-全部键位都使用MX轴，其中每个键位可以自由搭配不同的轴，以供用户的个人定制。常见的MX轴定制方案有：基本键位一种轴，扩展(特殊)键位配另一种轴；或4指控制部分一种轴，拇指部分配另一种轴等。MX轴的使用既改善了手感也提升了寿命。</p>
-  </li>
-  <li>
-    <p>全键位可编程<br />
-全键位可编程，满足了高端用户定制键位映射的需要，虽然键映射可以在不同类型的操作系统中做软件映射来做(如Mac中有karabiner，Windows中有Auto Hotkey)。但是在硬件层面做，可定制的范围更广可玩性更强，同时可以做到换系统即插即用的效果，而且Ergodox支持多达30个layout，足以满足绝大多数的键位定制需求。</p>
-  </li>
-</ol>
-
-<h2 id="ergodox-1">获得Ergodox</h2>
-
-<p>由于Ergodox是硬件开源的，有兴趣的用户可以根据官网给出的配件列表自行收集配件组装，如果你和我一样，基于不方便购买配件或没时间等原因，不愿意一点一点的攒配件，也可以通过网络购买。目前主要有两种方式可以买到Ergodox：</p>
-
-<h3 id="massdrop">1. Massdrop团购</h3>
-
-<p><a href="https://www.massdrop.com">Massdrop</a>是美国的一个团购网站，上面主要集中了一批对音响、电子、机械键盘等方面的爱好者，围绕着相关产品用户可以参与团购，社区交流等活动。早在两年之前，Massdrop就开展了Ergodox的团购，在<a href="https://www.massdrop.com/buy/ergodox">Massdrop的Ergodox主页</a>上，有Ergodox的一个较详细介绍，包括它由哪些配件组成，可以选择不同颜色的MX轴体，半掌全掌两个不同的尺寸，DSA和DCS两种不同的键帽，不同颜色的阳极铝材质上面板，组装完成之后的成品图等等。由于Massdrop出售的只是Ergodox的零配件，并非组装好的键盘，因此它还提供了一个图文并茂的<a href="https://www.massdrop.com/ext/ergodox/assembly">组装教程</a>，另外有一个方便Ergodox用户做定制键位的<a href="https://www.massdrop.com/ext/ergodox">键位编程配置网页</a>。</p>
-
-<p>有兴趣团购的用户可以点击网页右边的蓝色”Request”按钮，来申请团购。一般每过3个月左右，申请人数到达200个之后，Massdrop就会开放团购，通知之前申请过团购的人去提交订单，当然之前没申请过的人也可以马上下单，下单的时候用户可以定制尺寸，MX轴颜色等选项，最后通过信用卡扣款。在团购结束之后，Massdrop会向上游供应商提出订单生产或购货，越多人组团下单，优惠的尺度越大，一般来说组团的人每批都能达到200个以上，成本会降低到$199，当然这只是键盘本身的价格，如果加订键帽则需要加钱。</p>
-
-<p>在Massdrop团购耗时会比较长，以我参加的2014年9月这一批次团购的经验来看，除了要等待团购开放这段时间，下单付款之后，大概要8~9周后才开始发货，然后快递走UPSMI(UPS Mail Innovations)到国内大概花了3周，以此估算从下单到收到邮件需要12周也就是3个月的时间。因为Massdrop上出售的是零件，Ergodox的亚克力材质外壳、PCB、一堆零件和轴等等装在一起也是比较大件的包裹，包裹通过海关时运气不好的话可能被征关税。UPSMI包裹在国内这段是由EMS负责运送的，EMS的送货服务非常高明：包裹运到本地邮局，EMS的工作人员就打电话给我，叫我在限时之内去领取包裹，所以它也不用考虑邮件地址写得是否准确——因为最准确的投递服务就是让用户自行跑过去领，不用投递。当然EMS的工作人员还是经验丰富的，他们在通知我领包裹的电话里就提醒我包裹已经被税，去领取邮件时记得带上钱付关税。</p>
-
-<p>在2014年9月这一批次我订的配件如下：</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>配件</th>
-      <th>价格</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Ergodox本身(包括PCB，电容电阻等零件，亚克力壳，轴体)</td>
-      <td>$199</td>
-    </tr>
-    <tr>
-      <td>亚克力壳(全掌)加钱</td>
-      <td>$10</td>
-    </tr>
-    <tr>
-      <td>DCS键帽</td>
-      <td>$49.99</td>
-    </tr>
-    <tr>
-      <td>银色铝质上面板</td>
-      <td>$39.99</td>
-    </tr>
-    <tr>
-      <td>运费</td>
-      <td>$24.99</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>全部配件总计298.98美刀，加上运费共323.97美刀，按当时汇率换成人民币是1995块。由于包裹上贴着的配件单写的是这批团购的键盘价格$199，海关收关税是按包裹所标总价的10％征收。我按EMS工作人员的指示交了122块人民币的关税，把包裹带回家对照票据后发现如果按真正的配件价格来收取关税的话，需要多交几十块人民币的关税，由于Massdrop寄件人员没有将全部配件写在包裹外面的工作失误，使得我个人在为国家的光荣税收方面少作了一些贡献，作为人民群众的我表示情绪稳定。</p>
-
-<p>收到配件之后，下一步就是组装了，除了Massdrop上面的<a href="https://www.massdrop.com/ext/ergodox/assembly">组装教程</a>，另外在Youtube上面有一个名为<a href="https://www.youtube.com/watch?v=x1irVrAl3Ts">Ergo-Dox keyboard assembly</a>的组装视频，对于新手比较有参考价值。组装过程中需要把电容，MX轴等焊接到PCB上，这需要用到烙铁，由于我很久都没有做过焊接而且手上也没有烙铁，焊锡这些工具，所以花了大概200块人民币通过淘宝购买了一些工具，其中包括入门级的黄花907自动调温烙铁，无铅焊锡，吸锡器，斜口钳，镊子等工具，因为拿不准用哪种型号的烙铁头适合焊接Ergodox的配件，所以多要了几个不同型号的烙铁头，全部焊装完成之后发现其实型号为MT-3927的1.6D平头烙铁头适合用于几乎所有焊点，而型号为900M-T-B的烙铁自带尖头用得不多，只有少数几个焊点适合用上，比如Ergodox对外的USB接头处几个小焊点。其中镊子最好是弯头的，用于夹住每个键位下面的小电容，方便做SMT焊接。</p>
-
-<p>参考上面给出的组装教程网页和视频，一般人都可以完成整个焊接过程，不过特别提醒一下，组装之前要细看每一个步骤所用到的配件和安装说明，注意安装的正反面和位置，如果漏掉一些关键信息可能会造成问题，比如我在焊PCB下面对应每个键位SMT电容时，没有注意看电容上面的极性，当整个键盘都组装完成之后，烧入固件连上电脑才发现有一半的键没有反应，然后出动了万用表检查，才发现有问题的键位SMT电容焊反了(电容上有标记的一端应该对应PCB方块焊头的一头，而不是圆焊点的一头)，只能拆下来重新焊上。</p>
-
-<p><img src="/images/uploads/ergodox/ergodox_in_assembly.jpg" alt="Ergodox In Assembly" /></p>
-
-<p>在整个焊接过程中，我个人认为刚才提到的SMT电容和对外的USB接头这两处是比较难焊接的，前者是因为电容很小，而且SMT容易虚焊，如果像Youtube视频那样用熔锡和热风枪来做是比较容易的，但用一般的烙铁操作起来比较繁琐，我用了一个土办法：先为一边点上热锡，用镊子夹住电容粘上去放好位置，再把另一边也点上热锡，最后轻轻按紧电容，两边焊点都用烙铁加热一下，以免虚焊。如此折腾下来，最后到整个键盘组装完成之后，没有发现有虚焊。第二个难点就是USB接头处，首先把Mini USB的接头裁切出来的时候要小心，尽量不要弄断各黑、白、绿、红各颜色接线里面的铜丝，焊接的时候各颜色的线头和PCB的连接处的位置保持好也很关键，Youtube视频中在焊实底面焊点之前，他在PCB上表面先点上一点焊锡以做固定，这办法比较有效。即使如此，由于这几个焊点小，线材小加上位置比较容易移动，而且焊接时间要控制好，一旦烙铁靠得太久线材就会开始熔掉，要焊好还是不太容易的。至于MX轴，由于对应的焊点比较粗，相对来说容易焊得多。像我没有太多焊接经验，组装好一整套Ergodox并确认功能正常(拆掉重装过SMT电容)大概需要花10多小时。</p>
-
-<p>由于我个人不太喜欢灯(我觉得闪亮的键盘灯是一种打扰，Macbook上的键盘灯也从来不用)，而且手头的Ergodox键帽都是不透明的，在键轴上面加灯也看不见，所以我没有像标准安装教程所示的那样装灯。要注意的一点是，由于PCB在MX轴的下面，如果要装灯则需要先把MX轴的上盖拆下来，加上灯，再把MX轴焊到PCB上，上面给出的Youtube教程是先把MX轴焊到PCB，再用一个叫做beast switch tool的工具从上面打开MX的上盖加灯，这个switch tool很难买到<a href="#1">[1]</a>，所以一般还是要先拆开上盖再焊MX轴。</p>
-
-<p>焊接完成之后，给teensy芯片烧入固件，就可以正常使用了，为了确认焊接没出问题，烧录完固件之后可以第一时间试试每个键确认功能都正常，再装上亚克力外壳和键帽。一般来说亚克力板是比较容易粘上灰尘和指纹的，上表面指纹容易擦掉但是每层亚克力板之间的灰尘如果长期累积下来，对于有洁癖的人来说可能会觉得影响观感，所以我组装的时候保留了亚克力板表面深棕色的薄纸没有撕掉，上表面装上特别订购的铝质面板，这样一来上表面不会留指纹，也看不见键盘里面的亚克力面板之间的灰尘，不过由于上表面是金属，冬天会冻手，和Macbook键盘前面的手托类似。</p>
-
-<h3 id="section">2. 淘宝网购</h3>
-
-<p>由上面我自己的经历可以知道，通过Massdrop团购Ergodox零件再自行组装的成本是相当高昂的，需要花掉团购成本、关税、焊接工具成本共2500块人民币左右的金钱成本，而且要付出很大的人力和时间成本：很长的团购和到货时间，取国际邮件、购买烙铁等工具的时间，还有10多个小时的组装人工和时间。除非自己动手能给你带来很大的乐趣，不然通过这种方法来搞一套Ergodox并非良策。其实Ergodox所用到的电容电阻，MX轴等零件都是市面上比较容易搞到的大路货，PCB和亚克力板也可以在深圳华强北找商家打印或通过淘宝定制，它的成本远远低于Massdrop这一条渠道。话说回来，通过Massdrop买到的零件也有一些国内生产的配件(比如TRRS线)，当你耗费时日不远万里从国外搞到一套Ergodox的配件，打开包裹一看发现很多”Made In China”的时候，我不知道你会有什么反应，反正我是对着关税的收据一轮苦笑。</p>
-
-<p>有个朋友rabinz比较早接触到Ergodox，他原本打算在国内攒零配件来组Ergodox，由于零配件一般是成批卖的，所以后来他攒了很多的零配件，此后更是在原有的Ergodox的基础上做了一些设计方面的改进。他在淘宝上开了一个网店，以一个实惠的价格出售整套组装好的Ergodox，并向用户提供一些定制服务：比如各种轴的搭配，大键区卫星轴、平衡轴的选择等，对Ergodox有兴趣的话可以去<a href="http://shop115018335.taobao.com/?spm=a1z10.1-c.0.0.5ErRqZ">那里</a>看看。</p>
-
-<p>我之前在网上多收了一副rabinz做的半掌Ergodox，下面简单的比较一下它和前面所讲的我自己组装的一套，看看两者有何区别。</p>
-
-<ol>
-  <li>
-    <p>整体<br />
-<img src="/images/uploads/ergodox/ergodox_classic_overview.jpg" alt="Ergodox Classic" /><br />
-<img src="/images/uploads/ergodox/ergodox_fullhand_overview.jpg" alt="Ergodox Fullhand" /><br />
-两套都是Ergodox，硬件键位自然是相同。前者是半掌尺寸带灰色DSA键帽，上表面是透明的亚克力板；后者是全掌尺寸带黑色DCS键帽，上表面是不透明银色的阳极氧化铝板。</p>
-  </li>
-  <li>
-    <p>接合<br />
-<img src="/images/uploads/ergodox/ergodox_screw.jpg" alt="Ergodox Classic Screw" /><br />
-半掌Ergodox使用了两条小螺钉在中间通过内嵌螺母连接在一起，在上下两个表面都做了沉孔处理，本来尺寸就较小的螺钉头只比亚克力面板表面高出一点；全掌的一套则使用单条大螺钉和螺母，螺钉头比较粗，上表板也没有做沉孔处理，所以螺钉头明显高出上表面很多，螺母头为半圆球形，尺寸相当于两个螺钉头。全掌的几块亚克力板总厚度比半掌的要薄，但由于上下两面的螺钉头占用了比较多的空间，所以从整体高度上来看，全掌的反而显得略厚。<br />
-<img src="/images/uploads/ergodox/ergodox_height.jpg" alt="Ergodox Height" />  </p>
-  </li>
-  <li>
-    <p>钢板<br />
-从上面几个图明显看到，半掌键盘中间有一块黑色的钢板，全掌的则没有，机械键盘是否带钢板会对手感有所影响，带钢板的话受力时刚性会较好，按键触底会更硬朗一些。</p>
-  </li>
-  <li>
-    <p>大键区
-<img src="/images/uploads/ergodox/ergodox_thumb_area.jpg" alt="Ergodox Thumb Area" /><br />
-半掌键盘是青轴，两个大键使用了卫星轴，而全掌的则是白轴，大键区只是普通单轴。在常见的机械键盘产品中，一般大于2X宽度的键轴都会加上卫星轴或者平衡轴，避免键轴受力走偏，以改善大键的手感。要安装卫星轴或平衡轴的话，需要从PCB到中间面板都准备相应的孔位，但Massdrop出售的Ergodox无论是PCB还是中间面板都没有准备对应的孔位，因此只能装上单轴。</p>
-  </li>
-</ol>
-
-<p>经过上面的比较，容易看出rabinz做的Ergodox加入了一些优化，跟Massdrop渠道的自组Ergodox相比占有相当的优势，即使只考虑金钱成本，Massdrop的也高出很多，所以综合来看，通过淘宝向rabinz购买组装好的Ergodox成品，是更好的选择。如果你只是个一般用户，希望拥有一把Ergodox但不愿意自己攒零件动手焊接组装，那么通过淘宝向rabinz订购更是绝佳的选择。</p>
-
-<h2 id="section-1">体验与总结</h2>
-
-<p>有了Ergodox，我在敲打键盘时两手就能以舒服的角度随意放在桌面上，使用了一段时间的Ergodox之后，我手腕的不适症状已经大为减轻，它的人体工学设计起到了很好的效果。在我逐渐上手Ergodox的过程中也遇到一些问题，比如需要一点时间适应它独特(但设计正确)的键位布局：刚刚开始使用Ergodox时，我对Ergodox的键位布局还不是太习惯，由于它的直列错行布局跟一般键盘的直行错列不同，盲打时只要一离开Home Row手指经常会打错列，经过一段时间的练习之后，基本上已经熟悉它的布局，现在无论是普通键盘还是Ergodox，一上手都能操作自如。另外目前市面上并没有适用于全掌Ergodox的包(半掌Ergodox的包倒是有，可以到<a href="https://www.massdrop.com/buy/ergodox-hard-case">这里</a>购买)，全掌Ergodox个头大便携性不好，只能放在家里使用。</p>
-
-<p>总体来看，Ergodox设计独特，成本不菲，对于像我一样想改善管腕综合症症状的电脑用户，Ergodox是一个很值得买的机械键盘，对于喜欢DIY喜欢折腾机械键盘的玩家，Ergodox也是一个具有很高可玩性的产品。</p>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> 有关beast switch tool在Ergodox组装过程中的使用方法可以参考<a href="http://www.chiphell.com/thread-939124-1-1.html">这里</a>，但它太难买到，你也可以参考<a href="http://deskthority.net/workshop-f7/i-did-a-guide-of-how-to-open-cherry-switches-t2458.html">这里</a>用常见的文件夹自已DIY一个。</p>
 
 </div>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="本文受文章《Happy Hacking keyboard pro 2的艺术》启发而写，像对广大人民群众进行科普一般地，它向我们介绍了HHKB pro2这款键盘，而the art of xxx这个标题不禁让人想到又红又专的The Art of Computer Programming和The Art &hellip;">
+  <meta name="description" content="——评《Python UNIX和Linux系统管理指南》 手上这本《Python UNIX和Linux系统管理指南》(以下简称py4sa_cn，py4sa是对应的英文版《Python for UNIX and Linux System Administration》的缩写，cn表示中文译版) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,138 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/05/16/reading-notes-of-py4sa-cn/">一份缺少诚意的中式什果沙拉</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-16T02:05:00+08:00" pubdate data-updated="true">May 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="/images/uploads/py4sa_cn_cover.jpg"><img src="/images/uploads/py4sa_cn_cover.jpg" alt="py4sa cn cover" /></a></p>
+
+<p>——评《Python UNIX和Linux系统管理指南》</p>
+
+<p>手上这本《Python UNIX和Linux系统管理指南》(以下简称py4sa_cn，py4sa是对应的英文版《Python for UNIX and Linux System Administration》的缩写，cn表示中文译版)从卓越亚马逊网购拿到已经有2周，不过一直只是搁在书桌上没有看，这几天有空的时候随手翻看了一下，到今天14日这一本薄薄的400多页的书已经全部看过一遍，看完掩卷，感觉就像在饥肠辘辘的情况下刚刚吃过一份缺少诚意的中式什果沙拉。</p>
+
+<p>《py4sa_cn》这本书主要介绍Python作为一门简单易用，具有强大库功能支持的语言如何应用到管理UNIX和Linux服务器上，正如书的封底《Red Hat Magazine》的评价所说，是针对Python的入门者，读者不需要有Shell编程经验，其实这个定位其实比较尴尬，因为这样一本书的读者其实主要有两种，一种是有UNIX/Linux系统管理的工作需要或经验，一种是Python的爱好(学习)者，当然两种读者可能会有交集，而前者不会没有Shell编程背景，也不会满意于系统管理或编程方面入门级的唠叨，而后者(我也是其中一个)更多的在于扩充知识面，了解Python与系统管理这两者的结合点，这本书也不会是学习python的第一本书，所以没必要从零开始讲(如详细讲述str的方法)，而《py4sa_cn》给人的感觉就像是它要做第一种读者的第一本Python书，或者第二种读者的第一本系统管理书，而这两个目标都完成得不好，在这点上个人觉得不够给力。</p>
+
+<p>书中内容的确讲得很浅白，涉及的范围面很广，不过每个方面都是蜻蜓点水，简单介绍一下背景和使用，加插几个例子，缺少深入的内容，只可以作为起点扩大视野，从书中给出的线索开始找其它资料代码进一步扩展和深入，从英文版原书两位作者的背景介绍来看，两位应该都是牛人，书中的内容涉猎范围的确很广，体现了两位作者的功力，对于我这样一个菜鸟来说，就像是刘姥姥走了大观园，各种的模块框架术语让我目不暇接眼花瞭乱，但是定位之低内容之浅以及为数众多的行文前后索引和排版错误，又让人觉得它像是匆忙赶工的书稿而非成品。O’Reilly官网这本书的页面上有一个勘误表，不过很明显并非大部分的错误都收录了进去。到了中文译版，这些错误并没有被发现和修正，反而有更多的新问题被引入。我读书没有写读书笔记的习惯，不过对于写得好自己喜欢的书，如果看到有错误一般都会记录下来，做一个勘误表，像之前的Cpp Primer勘误或UNPe3勘误，不过这本书的话，看来觉得意趣廖廖，搞得没有列勘误表的兴致了。</p>
+
+<p>举几个例子说明在阅读《py4sa_cn》过程中发现的问题：</p>
+
+<h4 id="section">1. 行文印刷或排版错误类</h4>
+
+<h5 id="section-1">1.1 第43页最后一句</h5>
+<p>“%wquickref中的%ho帮助行同使用标准的%who?返回”<br />
+这里可能是张无忌大教主来做过一次乾坤小挪移，正确的应该是<br />
+“%quickref中的%who帮助行同使用标准的%who?返回”  </p>
+
+<h5 id="section-2">1.2 第102页第2段第1句</h5>
+<p>“Finditer()是对findall()的略微修改”<br />
+这里有microsoft office word的影子，Python的标识符可是大小写敏感的。  </p>
+
+<h5 id="stringio2">1.3 第116页，”StringIO”一节下面第2段</h5>
+<p>’&#8217;’并将字符串”This is…\nnreadline()should see”’’’  
+有错，应该是”\nreadline() should”。  </p>
+
+<h5 id="element-treeout3xml">1.4 第124面，”Element Tree”一节下，示例代码Out[3]中，后面的&lt;/xml&gt;应该是没有的</h5>
+
+<h5 id="section-3">1.5 第249页名人简介框框，第1句</h5>
+<p>“Kevin Gibbs是Google App Engine中的先进技术。Kevin在2004年加入Google”<br />
+这个…估计Kevin Gibbs本人看到会震精吧。  </p>
+
+<h5 id="unix-mashups-shellpython21">1.6 第392页，”Unix Mashups: 整合Shell命令到Python命令行工具中”一节第2段第1行</h5>
+<p>“另外，混合一个命令行工具和纯Pyton”<br />
+明显拼写错误了。即使完全不会技术的审校也轻易能看出来，除非他不知道在审的书是什么书名。  </p>
+
+<h4 id="section-4">2. 代码错误类</h4>
+
+<h5 id="section-5">2.1 第155页，第3个代码示例中，命令行</h5>
+<pre><code>'''
+$ python port_checker_tcp.py -a 192.168.1.15 -p 81 &amp;&amp; echo "FAILURE"
+''' 其中的"&amp;&amp;"应该是"||"才对，英文版原书也是"||"，估计从原书copy然后paste的时候搞混了，向广大中小学生证明了一点：其实抄或者说复制粘贴也是需要专业的精神的，否则一不小心抄错了或者把别的同学的名字也抄下来了，敢情闹笑话不是。  
+</code></pre>
+
+<h5 id="sysargvpy">2.2 第383页，以例13-1 sysargv.py的代码实现，来敲命令行</h5>
+<pre><code>"./sysargv.py foo" 命令行是不可能出现  
+"['./sysargv.py', 'test']" 的，看来张教主又出现了。这个问题英文版原书也有。  
+</code></pre>
+
+<h4 id="section-6">3. 硬译乱译类</h4>
+
+<h5 id="section-7">3.1 第53页，”可变扩展”一节中第1段第2行</h5>
+
+<p>“其中，第一个是可变扩展（Variable Expansion）”<br />
+第1次看到这个句子的时候我愕然了一下，然后看看标题是大黑体的”可变扩展”，不禁哑然失笑。我不想猜测译者是怎么翻译这本书的用的是哪种工具，不过如果真的要猜测的话，那么出现在我脑海中的第一件事物就是自动翻译软件，如google翻译或金山快译。Variable Expansion这里面的Variable不译成变量(名词)而译为可变的(形容词)，我觉得真是相当突兀的，用时下流行的话来说，就是被雷到了，而且是里嫩外焦那种。  </p>
+
+<h5 id="section-8">3.2 第109页第3段第2行</h5>
+<pre><code>'''使用"try/finally"代码块将文件进行封闭是一个非常有用的方法，尤其是在使用write()调用时。''' 这里我前后来回看了几次都不明白什么叫做"将文件进行封闭"，直接找来原文，原来是  
+'''It is good practice to wrap your file opens with a try/finally block, especially when you are using write() calls.''' 姑且不论这个"将文件进行封闭"是什么意思，那个"非常有用的方法"是怎么来的呢?难道"好的实践"这么直白的意思还要意译？  
+</code></pre>
+
+<h5 id="section-9">3.3 第186页，”使用路径，目录和文件”一节第2段第1行</h5>
+<p>“通常，Python的标准库有一些杀死工具，可以停止作业的执行。”<br />
+“杀死工具”一词看得我半荦半素，直接找到原文<br />
+“As always, the Standard Library in Python has some killer tools to get the job done.”<br />
+What？原来如此！难怪前后文都没有说到kill进程，但突然冒出这样的一句。又见自动翻译软件！其实它的意思是Python的标准库中有一些杀手级工具，可以帮你完成工作，这里的工作结合上下文来看是指进行与路径，目录和文件相关的操作。  </p>
+
+<h5 id="section-10">3.4 第191页倒数第2段第3行</h5>
+<p>“注意，line[7]之所以返回了file11.txt，是因为dirB是dirA的超集。而在line[6]中之所以结果为空，是因为dirA包含了dirB的全部内容。”
+这样一来相当于睁大眼睛说瞎话了，英文版原文是<br />
+“Notice that line [7] returns file11.txt because dirB is a superset of dirA, but in line [6] the results are empty because dirA contains all of the same items as dirB.”<br />
+其实很简单，dirA和dirB是两个集合，dirA是dirB的子集，dirB是dirA的超集，两者分别为<br />
+    In [3]: dirA
+    Out[3]: set([‘file1.txt’, ‘file00.txt’, ‘file0.txt’])
+    In [5]: dirB
+    Out[5]: set([‘file1.txt’, ‘file00.txt’, ‘file11.txt’, ‘file0.txt’])</p>
+
+<h5 id="section-11">3.5 第302页第一行</h5>
+<p>“在例10-16中，我们告诉tracd在screen中运行。一旦进程开始运行，可以简单地使用Ctrl-A进行分离。如果希望重新连接，使用Ctrl-D。”
+这句话太强大了，一下就把我这个GNU screen小资深用户搞迷糊了。来看英文版原文<br />
+“In Example 10-16, we tell tracd to run within screen. Once the process starts, we can then simply detach using Ctrl-A, then Ctrl-D, if we ever want to reattach.”<br />
+意思是说，用screen跑进程可以先detach，什么时候想回到这个环境再reattch，detach的话用的是Ctrl-A后接Ctrl-D这两个快捷键组合，其中Ctrl-A是screen默认配置下的控制键组合的前缀。翻译出来的中文真是断句如神强大无匹七零八落。  </p>
+
+<h4 id="section-12">4. 前言不搭后语类</h4>
+
+<h5 id="section-13">4.1 第397页，”整合配置文件”一节下面第3段最后一句</h5>
+<p>“请参阅前一章以获得更多的使用ConfigParser模块的细节信息。”<br />
+而前一章根本就没有讲到ConfigParser，这个错误来自英文版原书。  </p>
+
+<p>其实还有很多问题，比如代码示例没有标注源文件文件名，不方便找到对应的源码文件；示例代码缩进乱排乱摆犹如街上的走鬼小摊，要知道Python是一种以缩进来表示代码结构的语言；提供下载的代码也显得相当敷衍，比如<br />
+    code/code/data/code/enumarate_file_dir_path.py
+    code/code/data/code/enumarate_paths.py
+这两个文件其实代码是一样的；排版英文字符间距大小不一；代码示例中命令行有时有命令行提示符”$”，有时没有提示符，显得相当随意；纸质太差。  </p>
+
+<p>上面举例列出的问题并不是我在阅读《py4sa_cn》过程中发现的全部，在更多的读者的雪亮眼睛面前，相信也将会有更多的错误被发现。这种种问题都显得这本书的出版质量与O’Reilly的大名相去甚远，有的是印刷排版的小错误，但是有的地方体现出来的，更多的是缺乏好好做一本书的诚意。总的来说，这本书的将Python与系统管理结合角度新颖，覆盖范围也比较广泛，虽然内容过浅，也算是一本值得一读的入门级轻松读物，一碟开胃小菜，就像一份什果沙拉，里面的鲜果种类不少，但吃起来味道比较淡，加上来一个毁一个来两个毁一双的中式做法，最多也只能算是一份缺少诚意的中式什果沙拉。建议直接读英文版，中英文两个版本的电子书在网上都很容易找得到，至于中文版的纸版书是否值得一买，这就不好乱下评价鼓惑读者了，各人有各自的判断，作为一个支付真金白银买了这本纸版书的读者，我在这里分享一下自己的感受，并衷心表达两点希望：1. 世界和平；2. 码出来的字对本文读者有所帮助。吐槽完毕。</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -218,58 +350,6 @@ http://www.kohala.com/start/tcpipiv1.html<br />
 </code></pre>
 
 <p>即可。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/03/06/my-errata-of-unpe3/">My Errata of UNPe3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-03-06T19:31:00+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>This is my errata of Unix Network Programming volume 1: The Sockets Networking API, 3 edition</p>
-
-<ol>
-  <li>
-    <p>p248 line 4 of paragraph 1:<br />
-“vefiry by running netstat on freebsd)”<br />
-should be<br />
-“verify by running netstat on freebsd4)”<br />
-freebsd and freebsd4 are two different machines, according to the hosts and networks topology for this text.</p>
-  </li>
-  <li>
-    <p>p324 line 2 of paragraph 2, below the first testga command output, “-h bsdi” should be “-h freebsd4”.</p>
-  </li>
-  <li>
-    <p>p681 the section title “6.4 TCP Echo Server Using Threads” should be “26.4 TCP Echo Server Using Threads”.</p>
-  </li>
-</ol>
 </div>
   
   
