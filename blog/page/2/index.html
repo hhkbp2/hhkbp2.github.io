@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="Joxa是一种基于Erlang VM的现代Lisp编程语言，创始人是美国的Eric Merritt[1]。通过在Erlang VM上引入一个精心设计的Lisp语法，它保留了Lisp和Erlang两者的众多优点：简洁而且语义清晰的Lisp语法，强大的Macro，鼓励交互式开发，支持高并发， &hellip;">
+  <meta name="description" content="王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,7 +77,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/">Joxa: 一种基于Erlang VM的现代Lisp编程语言</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/12/14/a-winter-night/">冬夜</a></h1>
     
     
       <p class="meta">
@@ -93,406 +93,22 @@
   
 
 
-<time datetime="2015-08-20T20:34:00+08:00" pubdate data-updated="true">Aug 20<span>th</span>, 2015</time>
+<time datetime="2013-12-14T02:23:00+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><a href="http://joxa.org/">Joxa</a>是一种基于Erlang VM的现代Lisp编程语言，创始人是美国的Eric Merritt<a href="#1">[1]</a>。通过在Erlang VM上引入一个精心设计的Lisp语法，它保留了Lisp和Erlang两者的众多优点：简洁而且语义清晰的Lisp语法，强大的Macro，鼓励交互式开发，支持高并发，函数式风格等，并且与现有的Erlang平台保持良好兼容。它是一门功能全面的通用编程语言。</p>
+  <div class="entry-content"><p>王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩，与拥挤的城市不同，家乡总是有足够的空地来容纳荒草，以及草地中所有的蝗，蟋，蛙，各种小虫以及它们生存的声息。阡陌交通，鸡犬相闻，那是卡尔维诺的马可波罗从来没有到过的地方，无论在版图中还是在脚底下。</p>
 
-<p>Joxa的官方网站是<a href="http://joxa.org/">joxa.org</a>，在这个官方网站上，有它的源代码<a href="https://github.com/joxa/joxa">github地址</a>，以及<a href="http://docs.joxa.org/en/latest/">在线文档</a>。为什么这门编程语言取名为Joxa呢？关于Joxa这个名字的由来，Eric Merritt曾经对我在邮件组的提问做过如下解释：</p>
+<p>暮春时候的小雨总是很轻，仿佛飘浮在地球引力之外，没有重量，也压不弯长草绿叶，写雨的文字也变得轻了，仿佛入秋后露珠满天。村野之中，时光的节奏也并不总是是时分秒为单位，时节来去自有其脚步。山川沉默，田园如旧，这片土地上有人发过唐朝的梦，梦里有云海长风，有烟花三月，梦只是蝴蝶，飘忽且闪烁，宛如夜航船的灯火。盛唐之后，写诗的还大有人在，却已经没有人再读诗，不变的是青梅与宫灯，乙醇与山水，江河中流淌着岁月的唱词：红颜易老，风尘迷眼。</p>
 
-<blockquote>
-  <p>其实这个名字并无特别的意义。很多年前我想开始一个“基于Java的某个项目”，于是有了它的缩写Joxa这个名字。这个项目从来没有开始做过，但我把域名买下来了并一直持有着。到今天，4个字母的域名已经很少能注册到了，所以我决定用它来做为这门语言的名字。<a href="#2">[2]</a></p>
-</blockquote>
+<p>禅师有言，思者即念，无增无减。光线是会随角度的变化而变化的，就像黑漆漆的雨夜可以浓也可以淡，并不仅属于玻璃窗上的雨滴。</p>
 
-<p>除了名字开头有个字母”J”，Joxa与Java并没有太大的关系了，Joxa主要受到了Erlang及基于JVM的编程语言Clojure的影响。下面我们先介绍一下Erlang和Clojure，再讨论Joxa受到了它们的哪些影响。</p>
+<p>那个成语说，枕一枕黄梁，醒来就已经是重生。魂来枫林青，魂返关塞黑，每个故事都有着前提后续，在华丽的世界跳脱轮回，却只是奏鸣曲的一个小音符。很多写完了的故事都好像还有下文。</p>
 
-<h2 id="erlang-clojurejoxa">1. Erlang, Clojure以及Joxa</h2>
-
-<h3 id="erlang">1.1 Erlang，高并发的函数式容错编程语言</h3>
-
-<p>Erlang是一门通用的并发程序设计语言，它由瑞典爱立信的Joe Armstrong在上世纪80年代开发，并于1998年对外开源，Erlang这个名字来源自丹麦数学家及统计学家Agner Krarup Erlang。经过近30年的发展，Erlang目前是支持高并发的编程语言翘楚之一，它在语言层面封装了Actor模型，实现了用户空间的轻量级进程，将消息传递作为Actor间通信的唯一方式，避免了由传统的线程和锁在并发方面的限制与缺点。Erlang被设计为电信级系统的编程语言，强调分布式，容错，软实时和公平调度，在语法上它主要受到Prolog及Lisp的影响，保留了函数式，动态，交互式开发等特点。具体来讲，Erlang这个名字可以分成3个方面的要素：</p>
-
-<ol>
-  <li>编程语言Erlang本身</li>
-  <li>总称为OTP的一系列程序设计原则及代码库</li>
-  <li>称为Erlang VM或BEAM的Erlang虚拟机</li>
-</ol>
-
-<p>Erlang设计于近30年前，因此从现在的角度来看，它在语法，编程环境(包括文档等)及工具链等方面有很多地方都有改进空间。由于Erlang VM是目前工业界支持高并发的最成熟的VM之一，大量技术专家及工程师们在上面投入了无数的工作，通过在Erlang VM上设计一门新语言来重用Erlang VM的优良特性，既能发挥Erlang VM的长处，又能改善Erlang语言本身在语法、工具链等方面的缺点，扬长而避短，是比较完美的方案。业界近几年涌现了众多基于Erlang VM的编程语言，下面介绍其中几种：</p>
-
-<ol>
-  <li>LFE<br />
- <a href="http://lfe.io/">LFE</a>是Lisp Flavored Erlang的缩写，它是由Robert Virding<a href="#3">[3]</a>于2007年开始开发的一门函数式的并发的通用编程语言，LFE采用了Lisp-2<a href="#4">[4]</a>风格的语法，通过将LFE代码编译为Core Erlang代码运行在BEAM上，保留了Erlang VM分布式，容错，软实时等优点，同时支持Lisp Macro，使得LFE兼有强大的元编程能力，并实现了一个功能丰富的REPL<a href="#5">[5]</a>。</li>
-  <li>Reia<br />
- <a href="http://reia-lang.org/">Reia</a>是一门基于Erlang VM上的类似Ruby的脚本编程语言，它由Tony Arcieri<a href="#6">[6]</a>于2010年中开始开发，它在Erlang VM的分布式，并发，容错，热更新的基础之上，引入了Ruby的友好语法，灵活的代码块，反射及元编程功能力。遗憾的是，Reia在2011年宣布不再更新。</li>
-  <li>Elixir<br />
- <a href="http://elixir-lang.org/">Elixir</a>是一门动态的函数式编程语言，它由José Valim<a href="#7">[7]</a>于2012年开发。Elixir同样采用了类Ruby的语法，通过支持强大的Macro功能，它在简洁的语言核心上，建立了一系列的标准库，包括Unicode字符串及相关操作，重写了单元测试框架，丰富的数据类型等，它吸收了Clojure的Protocol，严格和惰性API，还提供了现代的交互命令行，脚本相关的库函数及项目管理工具。通过将Elixir代码编译为Erlang AST，Elixir得以重用Erlang VM的高并发及高效率，克服了Ruby在并发方面的缺陷。由于得到Jose及其它Ruby界牛人的喜爱及宣传<a href="#8">[8]</a>，Elixir在近两年开始流行起来。</li>
-</ol>
-
-<p>由于本文主要是讲Joxa，上述这几种编程语言只是简单带过，就不详细展开了。</p>
-
-<p>上面几种编程语言的设计方案虽然有很多不同之处，但从整体思路上几乎是相同的，那就是：通过将代码编译成为Erlang VM上的代码，良好兼容Erlang VM，于是保留了上述3要素中的后两点，同时从头设计语言的语法，并在标准库，工具链等一些方面做补充完善。Joxa的设计也是类似，它选择了Lisp做为Erlang VM上的新语言，不过它走了一条和LFE不同的道路。Eric Merritt后来专门写了一个博客文章<a href="http://blog.ericbmerritt.com/2012/02/21/differences-between-joxa-and-lfe.html">《Differences Between Joxa and LFE》</a>来谈Joxa和LFE的不同之处，他说：</p>
-
-<blockquote>
-  <p>最主要和重要的区别在于这两门语言的目标。我认为Robert实现LFE的主要目标在于提供一个可变的语法可扩展的Erlang版本，如此一来人们就可以在需要时改变语言。同时我坚信Robert喜欢实现编程语言，他应该很享受实现LFE的过程。我当然也乐于实现Joxa，然而，当坐下来实现Joxa的时候我怀有一些非常特定的目标：  </p>
-
-  <ol>
-    <li>我需要一个用于开发DSL(Domain Specific Language，领域特定语言)的平台  </li>
-    <li>我想要一个更具交互性和动态的开发环境。类似于Slime和Swank那种<a href="#9">[9]</a>  </li>
-    <li>我希望充分利用所有已经存在的相当优秀的Lisp工具  </li>
-  </ol>
-
-  <p>上述每点都可以在Erlang里面解决。例如，我可以用Leex和Yecc<a href="#10">[10]</a>实现DSL，但我实现DSL的最好体验总是来自Lisp：使用Lisp函数和Macro来打造这些DSL。不过我使用Erlang有很长时间了，我不愿意放弃Erlang VM上面的优良功能来换成Lisp的种种优点。唯一的解决方法似乎只有使用一门基于Erlang VM之上的Lisp语言。</p>
-
-  <p>显而易见的首先选择是LFE，于是我花了几周时间深入研究这门语言和它的内部实现。最后我得到这个结论：它并没有满足我的需求。剩下的唯一退路就是我自己重新创造一门语言(同时也有一点怀疑自己不太明智)。  </p>
-</blockquote>
-
-<p>从整体来看，LFE更像一门披着Lisp外衣的Erlang，相当于给原来Erlang语法添加了括号和Macro，这与Eric Merritt理想中的Erlang VM上的Lisp语言相去甚远，于是他创造了Joxa，而Joxa的语法及风格受到Clojure的影响更大。为什么Clojure能受到Eric的如此青睐呢？它到底有什么出众之处呢？下面我们来了解一下。</p>
-
-<h3 id="clojurejvmlisp">1.2 Clojure，JVM上的函数式Lisp编程语言</h3>
-
-<p>Clojure是一门动态的强类型编程语言，作者是Rich Hickey。它寄居在JVM之上，设计成能够与JVM/Java良好互操作，既利用了JVM所提供的成熟高效的运行环境，也兼容众多流行的Java库与框架，同时它采用了Lisp语法和Macro，非常便于表达DSL，加上一套函数式的持久数据结构，并提供并发机制及惰性语义，使得简洁优雅语言成为函数式编程，并发编程的良好载体，同时重用了成熟流行的JVM平台，使得它便于在现有Java程序员中推广并流行，在这一点上区别于以往所有独立开发的函数式语言。此外它也吸收了Java中的面向对象思想和CLOS<a href="#11">[11]</a>，发展出Protocol及多重方法。另外，Clojure自带一系列丰富的标准库，定义了一套项目管理规范，并提供了优秀的项目工具及REPL，使得它在开发环境，交互式开发方面成为佼佼者。</p>
-
-<p>Clojure设计成为Java的一个库包，Clojure代码会编译成JVM byte code，正因为它以一种非侵入性的方式运行在JVM之上，所以在函数式的语言层面，会有一些其它函数式语言不可能出现的“瑕疵”，例如函数没有尾递归优化。兼容JVM平台的已有代码，在重用/连接已有项目方面既是一种优势，但有时混合函数式与命令式代码也会产生实际冲突。在并发方面，语言提供的多种并发原语，delay, future, promise，agent，STM等虽然强大，但从语言整体来看比较复杂。Clojure的很多地方可以体会到作者有意保持简单与功能(复杂)的平衡，在设计上做了务实折衷的克制。与此相反，另外一个基于JVM的语言Scala在设计上就显得博爱放任，看到各个好的特性就收入到语言当中，宛如中国古代的皇帝举国征选妃嫔。</p>
-
-<p>相比各种“主流”编程语言，Clojure至今仍是小众语言，虽然如此，它的推出仍然不可谓不成功，既培养了一个健康壮大的社区，也在市场上占有一定的流行度，产生了一批具有相当影响力的项目，如流式数据处理框架<a href="https://storm.apache.org/">Storm</a>等。Clojure成功地向人们展示了这几个可能性：</p>
-
-<ol>
-  <li>在JVM平台实现一个函数式，并发的动态编程语言</li>
-  <li>通过融合持久数据结构，Protocol等优异特性，复兴Lisp</li>
-  <li>如何语言设计上在功能、简单与务实之间取得折衷平衡并树立起自身的特色</li>
-</ol>
-
-<p>正因为有些如此之多的优点，Clojure才对程序员们有着如此之大的吸引力。也难怪身为老Lisp爱好者的Eric Merritt在创造Joxa时会受到Clojure的较大的影响。下面我们来谈谈Joxa的设计。</p>
-
-<h3 id="joxa-erlang-vmlisp">1.3 Joxa, Erlang VM上的新Lisp编程语言</h3>
-
-<p>对照上述多种语言的实现，Joxa的设计主要有如下几个要点：</p>
-
-<ol>
-  <li>上层语言为Lisp，主要目标为用于写DSL(或者作为其它上层Lisp的元语言)，语言的核心部分要简洁</li>
-  <li>底层将Joxa代码编译成Erlang VM代码，将Joxa代码映射到Erlang上的对应语法结构，比如Joxa里面的函数即为Erlang函数</li>
-  <li>语言核心之外提供REPL，方便编译/执行脚本的命令行工具等</li>
-</ol>
-
-<p>其中Lisp的语法可以参考简洁，优雅的Clojure，由于Erlang VM与JVM有着非常多的差异，正如Erlang语言与Java语言有着非常多的差异，所以可以预期的是，Joxa在语法上面不能完全保持与Clojure一致，同时这里面有一个目标用户的问题：Joxa更多的是为了Clojure程序员转向Erlang平台而设计，还是为了Erlang程序员转向Lisp而设计。若为前者，就尽量保留可能多的Clojure语法及规范，若为后者则将语法尽可能向Erlang靠拢比较理想。这时Joxa选择了后一种，即认为Joxa主要是解决Erlang现有的问题，所以从语法上来考虑，最后出来的结果很可能是一种Lisp与Erlang的独一无二的新结合。所有的Lisp语言从结构上来看，都具有一种类似数学的体系结构，包括以下几个部分：</p>
-
-<ol>
-  <li>一切表达式皆为List，List有两种，原子及函数调用。代码即数据(总结为同像性)</li>
-  <li>7个基本原语(又称之为特殊Form)加上可以操纵语言本身的Macro，两者作为核心，在此之上演化出整个语言</li>
-</ol>
-
-<p>这就像数学体系，最核心的部分是几条基本原理，然后通过逻辑推导，演化出其它数学分支以构成整个体系，可以不断向外扩展。Joxa将会有同样的结构，核心部分将保持尽可能的简洁，只包括基本原语及Macro，极简的核心既节省开发成本，也给外延留下尽可能大的空间。此处的外延包括针对特定问题领域而言的DSL，也包括其它上层的Lisp语言，从本质上来说这两者本来就没有区别，只不过因为针对的范围有大有小所以说法不同。从语法设计上，Joxa会跟LFE有如下的不同：</p>
-
-<ol>
-  <li>Joxa会是Lisp-1，而LFE是Lisp-2</li>
-  <li>Joxa的语法会向Lisp靠拢，而LFE更像Erlang</li>
-  <li>Joxa中Macro求值语义与Lisp更为一致，而LFE的Macro求值语义与函数求值语言不同</li>
-</ol>
-
-<p>为了保持与Erlang VM现有的平台等保持无缝兼容，以充分利用现有的Erlang VM的开发规范与代码库等，第2点是必需的。将Joxa建立在Erlang VM平台的生态环境之上，固然是因为作者对Erlang VM的熟悉与喜欢，客观上也可以充分发挥Erlang生态的优势。从上面的叙述也可以看到，众多Erlang VM上的非Erlang编程语言也采用了这种“无缝兼容”设计，虽然它们在实现层面会有一些不同之处。这一点同时确定了Joxa将会保留Erlang的一些语言特性，例如按文件划分的模块化，函数式风格，代码要求先通过编译等。</p>
-
-<p>第3点与开发环境相关，REPL是各种Lisp方言已经是司空见惯了，Erlang在设计的时候也吸收了这个概念，但是实现得不如Lisp的REPL那么好用，比如强制输入为表达式(每行的后面必须输入”.”号)，Record不能用等。Joxa的REPL会参考Clojure与Erlang的REPL，结合前者的完整性和后者的功能，在易用性给予特别的关注。同时针对编译、脚本化等开发流程中的各个阶段都提供编辑器、命令行工具等支持。</p>
-
-<h2 id="section">2. 设计与实现细节</h2>
-
-<p>下面我们来详细讨论Joxa的设计与实现。根据上述的设计要点，要将Joxa代码要编译成Erlang VM代码，必需先熟悉Erlang代码的编译过程，在此过程中找出合适的切入点。</p>
-
-<h3 id="erlang-1">2.1 Erlang编译过程</h3>
-
-<p>一个经典的编译过程可以分为如下图所示的多个阶段：</p>
-
-<p><a href="/images/uploads/classic_compilation.png"><img src="/images/uploads/classic_compilation.png" alt="传统编译过程的各阶段" /></a><br />
-图1 经典编译过程的各阶段<a href="#12">[12]</a></p>
-
-<p>经典的编译过程可以分为词法分析，语法分析，语义分析，中间代码生成，中间代码优化，机器码生成等多个阶段。Erlang的代码编译过程跟经典的编译过程基本一致，也可以分成类似的多个阶段，各个阶段的输入输出如下图所示：</p>
-
-<p><a href="/images/uploads/erlang_compilation.png"><img src="/images/uploads/erlang_compilation.png" alt="Erlang编译过程的各阶段" /></a><br />
-图2 Erlang编译过程各阶段的输入输出</p>
-
-<p>其中Core Erlang为于Erlang代码与VM内部中间代码之间的一层，它是在1999年前后提出的一种BEAM(Erlang VM的最新实现)上的语言，它被设计为：</p>
-
-<ol>
-  <li>语法清晰简单，严格的更高阶函数式语言</li>
-  <li>尽可能规范化，以便相关代码遍历工具的开发</li>
-  <li>从Erlang代码向Core Erlang代码的翻译应该直白，从Core Erlang向VM内部实现中间代码的翻译也应该简单</li>
-  <li>有良好定义的文本表示形式，语法简单无歧义，便于人阅读，调试及测试</li>
-</ol>
-
-<p>由于Core Erlang是清晰简单，有良好定义的文本语言，便于作为目标语言，而且Erlang的代码优化和错误检测大多都在Core Erlang层进行，如果我们要在Erlang VM打造新编程语言，那么将新语言的代码编译成Core Erlang(或AST)，将会是一个很好的解决方案。很多Erlang VM上的语言都选择了这种方案，比如LFE，但也有语言选择了编译成Erlang AST，比如Elixir，精通Elixir Macro的人对Erlang AST应该比较熟悉。相对于Core Erlang，Erlang AST更接近于Erlang本身，层次也更高。Core Erlang相关的功能定义在<code>cerl.erl</code>这个模块里面，包括对如模块、函数等各种Erlang语言结构的初始化、操纵等功能的一系列函数。</p>
-
-<h3 id="section-1">2.2  一个简单例子</h3>
-
-<p>下面举一个简单的Hello World程序作为例子<a href="#13">[13]</a>，让读者对Erlang AST与Core Erlang有一个感性认识。原始的Erlang代码如下：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">test</span><span class="p">).</span>
-</span><span class="line"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">hello_world</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
-</span><span class="line"><span class="nf">hello_world</span><span class="p">()</span> <span class="o">-&gt;</span>
-</span><span class="line">    <span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">).</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>对应的Core Erlang代码如下所示：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="n">module</span> <span class="n">&#39;test&#39;</span> <span class="p">[</span><span class="n">&#39;hello_world&#39;</span><span class="o">/</span><span class="mi">0</span><span class="p">]</span>
-</span><span class="line">    <span class="n">attributes</span> <span class="p">[]</span>
-</span><span class="line"><span class="n">&#39;hello_world&#39;</span><span class="o">/</span><span class="mi">0</span> <span class="o">=</span>
-</span><span class="line">    <span class="k">fun</span> <span class="p">()</span> <span class="o">-&gt;</span>
-</span><span class="line">        <span class="n">call</span> <span class="nn">&#39;io&#39;</span><span class="p">:</span><span class="nf">&#39;format&#39;</span>
-</span><span class="line">            <span class="p">(</span><span class="err">“</span><span class="nv">Hello</span> <span class="nv">World</span><span class="err">”</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>对比两份代码，可以看到Core Erlang与Erlang之间的映射还是很直观的。将原始的Erlang代码编译为Erlang AST，可以得到：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">[{</span><span class="n">attribute</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">module</span><span class="p">,</span><span class="n">test</span><span class="p">},</span>
-</span><span class="line"> <span class="p">{</span><span class="n">attribute</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">export</span><span class="p">,[{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}]},</span>
-</span><span class="line"> <span class="p">{</span><span class="n">function</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
-</span><span class="line">   <span class="p">[{</span><span class="n">clause</span><span class="p">,</span><span class="mi">2</span><span class="p">,[],[],</span>
-</span><span class="line">     <span class="p">[{</span><span class="n">call</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span>
-</span><span class="line">       <span class="p">{</span><span class="n">remote</span><span class="p">,</span><span class="mi">3</span><span class="p">,{</span><span class="n">atom</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">io</span><span class="p">},{</span><span class="n">atom</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">format</span><span class="p">}},</span>
-</span><span class="line">         <span class="p">[{</span><span class="n">string</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&quot;Hello World&quot;</span><span class="p">}]}]}]}]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>编译为Core Erlang AST即得到：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">{</span><span class="n">c_module</span><span class="p">,[],</span>
-</span><span class="line">  <span class="p">{</span><span class="n">c_literal</span><span class="p">,[],</span><span class="n">test</span><span class="p">},</span>
-</span><span class="line">    <span class="p">[{</span><span class="n">c_var</span><span class="p">,[],{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}}],</span>
-</span><span class="line">      <span class="p">[],</span>
-</span><span class="line">     <span class="p">[{</span> <span class="p">{</span><span class="n">c_var</span><span class="p">,[],{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
-</span><span class="line">       <span class="p">{</span><span class="n">c_fun</span><span class="p">,[</span><span class="mi">2</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
-</span><span class="line">         <span class="p">[],</span>
-</span><span class="line">         <span class="p">{</span><span class="n">c_call</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
-</span><span class="line">           <span class="p">{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span><span class="n">io</span><span class="p">},</span>
-</span><span class="line">           <span class="p">{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span><span class="n">format</span><span class="p">},</span>
-</span><span class="line">           <span class="p">[{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
-</span><span class="line">              <span class="s">&quot;Hello World&quot;</span><span class="p">}]}}}]}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>对比两者，容易看出Erlang AST更高层更抽象，Core Erlang AST更底层更规范。</p>
-
-<h3 id="section-2">2.3 编译器</h3>
-
-<p>下面我们继续来讨论Joxa的编译过程，由于Core Erlang(及AST)可以由Erlang编译器编译成最终的机器码，我们只需将Joxa代码编译成Core Erlang AST便可实现将Joxa编译成机器码整个编译过程，从编译领域的分类来看，目标生成的代码是Core Erlang AST，操纵Core Erlang AST可以直接调用<code>cerl.erl</code>的接口函数，因此编译器后端这一块相对是比较简单的，重点在于前端部分：即将Joxa代码编译成Core Erlang AST。由于Joxa是Lisp语法，Lisp代码以括号划分边界的代码树的方式来表示，本身就已经有良好的结构，所以前端部分也比较简单。区别于LFE或Elixir用Leex或Yecc来生成LALR<a href="#14">[14]</a>式Lexer与Parser，Joxa采用了手写PEG<a href="#15">[15]</a> Lexer和Parser的方式。PEG编译器的代码量较小，Joxa编译器是在Erlang PEG生成器<a href="https://github.com/seancribbs/neotoma">Neotoma</a>生成代码的基础上写成的。(本节涉及到很多编译领域的术语或技术，由于本文主要是介绍Joxa，篇幅所限故不会详细解释这些术语或技术，有兴趣的读者可以自行寻找相关的资料做进一步了解)</p>
-
-<p>特别值得一提的是，Joxa的编译过程是自举的，即Joxa编译器本身是由Joxa代码编写的，这与LFE或Elixir的编译器用Erlang编写不同。Joxa的自举要求先有一份以Core Erlang AST格式存在的具有正常编译功能的代码，这部分代码在Joxa的Github代码库中，相对根目录的路径是<code>src/ast</code>(后面给出所有的代码路径都相对于根目录)。通过用Erlang编译器将这份AST代码编译成BEAM代码，然后就得到一个能直接在BEAM上执行的Joxa编译器，然后就可以运行此编译器，将编译器的Joxa源代码编译成Core Erlang AST格式。整个流程和依赖如下图所示：</p>
-
-<p><a href="/images/uploads/joxa_self_bootstrap.png"><img src="/images/uploads/joxa_self_bootstrap.png" alt="Joxa的自举及编译流程" /></a><br />
-图3 Joxa的自举及编译流程</p>
-
-<p>由上图可以看到整个流程三个步骤是一个循环，要成功实现自举，必然要先实现其中的一个部分，在此基础上才能实现其中其它两个部分。在Joxa的编译器实现中，AST这部分先由作者Eric人手先写出基本的语法解析功能，然后再编写对应功能的编译器的Joxa代码，用AST编译出来可执行的编译器，去验证对应的Joxa代码，然后再按此流程不断添加更多的功能，错误一般出现在编译Joxa代码的时候，此时遇到的错误是由新添加的AST代码还是Joxa代码引起的，有时并不容易定位出来。虽然Core Erlang简单清晰，但手写Core Erlang AST是相当繁琐的，而且由于Joxa语法本身还在不断演变，从头开发一个这样的自举编译器，其难度可以猜想是比较大的。我曾经为Joxa添加过Map语法的支持，对此开发流程的复杂性有较深的体会。编程语言的自举也可以按另外一个思路来做：先用另外一门常见的语言，比如C语言来写编译器，然后当语言的语法发展到比较稳定成熟的时候，再使用这门语言的本身来实现自身的编译器，由于已经有了一个能够工作经过充分检验的C编译器，所以自举的实现就有了一个可靠的保障，大大降低其难度。</p>
-
-<p>编译器这部分的Joxa代码的路径是<code>src/joxa-cmp-*.jxa</code>(其中<code>*</code>符号表示通配)。按照编译器前端和后端的分类法，下面我们讨论一下各主要文件的代码分布。PEG的词法分析部分需要构造一系列对应于词素(lexeme)的正则表达式，首先需要有正则表达式的元操作的函数定义，所谓“元操作”，用各种编程语言里面的正则表达式的术语来说，即是元字符，比如”*“符号用于“匹配0个或多个”。在PEG里面元操作是通过函数来表达的，这部分的代码在<code>src/joxa-cmp-peg.jxa</code>。词素，比如注释或数字，它们的定义放在<code>src/joxa-cmp-lexer.jxa</code>。<code>src/joxa-cmp-parser.jxa</code>则包含Parser的代码。编译器的主要逻辑放在<code>src/joxa-compiler.jxa</code>，它调用Parser来解析读入的字符流，成功解析之后调用<code>make-forms</code>函数递归遍历解析得到的语法树来生成Core Erlang AST，在编译过程中会执行对函数调用的合法性检查，Macro的递归展开等动作。后端的代码按语义的分类分成下述多个文件：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">├── joxa-cmp-binary.jxa           # Binary
-</span><span class="line">├── joxa-cmp-call.jxa             # 函数调用
-</span><span class="line">├── joxa-cmp-case.jxa             # case语句
-</span><span class="line">├── joxa-cmp-defs.jxa             # 函数、宏定义
-</span><span class="line">├── joxa-cmp-expr.jxa             # 表达式
-</span><span class="line">├── joxa-cmp-joxa-info.jxa        # 模块info
-</span><span class="line">├── joxa-cmp-literal.jxa          # 常量，常量表达式
-</span><span class="line">├── joxa-cmp-ns.jxa               # namespace
-</span><span class="line">└── joxa-cmp-spec.jxa             # spec
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>以上即为Joxa编译器实现各部分代码的所在文件。整个编译器实现从代码量上来说并不大。</p>
-
-<h3 id="section-3">2.4 数据类型</h3>
-
-<p>与Elixir在Erlang数据类型的基础上添加了Range、正则表达式、Unicode字符串等新数据类型不同，Joxa支持的数据类型与Erlang保持一致，并没有添加新的数据类型，所有的数据类型包括如下几种<a href="#16">[16]</a>：</p>
-
-<ol>
-  <li>简单类型：不定长整数，浮点数，原子</li>
-  <li>系统类型：PID, Port, Reference</li>
-  <li>集合类型: Tuple, Record，Map, List, Binary</li>
-</ol>
-
-<p>各种数据类型的字面量语法请参考Joxa的在线文档。值得一提的是，围绕Record的各种操作，Joxa在语法上做了包装，便于解耦Record的内部实现与接口，提高了可用性，Elixir在这个方面走得更远，引入了Clojure的Protocol。另外一个常用的集合类型set是通过Erlang库提供的，并没有赋予特别的语法。</p>
-
-<h3 id="form">2.5 特殊Form及标准库基础原语</h3>
-
-<p>Joxa里面的特殊Form及标准库中的基础原语包括以下几个:</p>
-
-<ul>
-  <li><code>let*</code>, <code>let</code><br />
-  用于绑定变量，不同于Erlang中的绑定操作或Clojure的<code>let</code>操作，<code>let*</code>并不支持Pattern Matching或解构，Pattern Matching或解构需要通过<code>case</code>，标准库中的<code>let</code>是一个用<code>let*</code>和<code>case</code>实现的对应支持Pattern Matching的版本</li>
-  <li><code>case</code><br />
-  整个Joxa语言中为数很少的一个支持Pattern Matching的原语之一，与Erlang里面在函数签名，变量匹配，<code>case</code>语句等各种语法结构都可以做Pattern Matching不同</li>
-  <li><code>receive</code><br />
-  接收消息，但没有对应的<code>send</code>原语，这可以通过调用Erlang模块或OTP库接口实现，支持Pattern Matching</li>
-  <li><code>do</code><br />
-  分组表达式成一块，类似于Lisp里面的<code>progn</code></li>
-  <li><code>apply</code><br />
-  以列表函数调用指定函数，类似于Lisp的<code>apply</code></li>
-  <li><code>fn</code><br />
-  构造匿名函数，类似于Erlang的<code>fun</code>，或Lisp的<code>lambda</code></li>
-  <li><code>defn</code>, <code>defn+</code><br />
-  定义模块内可见，模块外可见函数</li>
-  <li><code>defspec</code><br />
-  用于定义前置声明</li>
-  <li><code>defmacro</code>, <code>defmacro+</code>, <code>quote</code>, <code>quasiquote</code>, <code>~</code>, <code>~@</code>, <code>gensym</code>, <code>macroexpand-1</code><br />
-  Macro操作，下一节再展开讨论</li>
-  <li><code>use</code>, <code>require</code>, <code>as</code><br />
-  namespace相关操作，源自于Clojure里面的对应物，要注意的是不同于Clojure默认会在所有namespace自动导入<code>clojure.core</code>，Joxa并不会自动导入<code>joxa-core</code></li>
-  <li><code>try*</code>, <code>try</code><br />
-  两者<code>catch</code>用于异常捕取，用法跟Erlang里面的对应物类似，两者的区别在于是否支持Pattern Matching，类似于<code>let*</code>和<code>let</code></li>
-  <li>
-    <p>特殊常量，都以函数方式进行调用</p>
-
-    <pre><code>  ($filename)       ;; 当前文件的文件名(连后缀)
-  ($namespace)      ;; 当前的namespace
-  ($line-number)    ;; 当前的行号
-  ($function-name)  ;; 当前的函数名
-</code></pre>
-  </li>
-  <li>其它如<code>attr</code>，<code>when</code>等原语就不一一列举了。</li>
-</ul>
-
-<h3 id="macro">2.6 Macro</h3>
-
-<p>作为Lisp类语言的杀手级特性，以及表达DSL的终极利器，一直以来Macro在Lisp类语言中都有着重要的地位。Joxa中的Macro原语与Common Lisp或Clojure等之前的Lisp语言保持了一致，详细列出如下：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-</pre></td><td class="code"><pre><code class="text"><span class="line">defmacro     -- 定义模块内部Macro
-</span><span class="line">defmacro+    -- 定义对模块外部可见Macro
-</span><span class="line">quote        -- 抑制求值
-</span><span class="line">quasiquote   -- 对应Common Lisp里面的back quote，或Clojure里面的syntax quote，部分求值
-</span><span class="line">~            -- unquote，对符号后面元素进行求值
-</span><span class="line">~@           -- unquote-splicing，对符号后面的List元素进行求值并展开到当前位置
-</span><span class="line">gensym       -- 动态生成新变量，用于保证Macro健康(或称Macro卫生)
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>另外为方便调试，标准库中提供了<code>macroexpand-1</code>函数，用于单次展开Macro，这个函数也沿袭于传统的Lisp语言，但是并没有提供<code>macroexpand</code>(<code>macroexpand-all</code>)。</p>
-
-<p>在Joxa里面使用Macro，跟之前的Lisp语言并没有什么不同，以一个标准库<code>joxa-core</code>模块里的代码为例：</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="nf">defmacro+</span> <span class="k">let </span><span class="p">(</span><span class="nf">args</span> <span class="o">&amp;</span><span class="nb">rest </span><span class="nv">body</span><span class="p">)</span>
-</span><span class="line">  <span class="p">(</span><span class="nf">let*</span> <span class="p">(</span><span class="nf">process-arg-body</span>
-</span><span class="line">        <span class="p">(</span><span class="k">fn </span><span class="p">(</span><span class="nf">arg</span><span class="p">)</span>
-</span><span class="line">            <span class="p">(</span><span class="nf">case</span> <span class="nv">arg</span>
-</span><span class="line">              <span class="p">([</span><span class="nv">r</span> <span class="nv">e</span><span class="p">]</span>
-</span><span class="line">               <span class="o">`</span><span class="p">(</span><span class="nf">case</span> <span class="o">~</span><span class="nv">e</span>
-</span><span class="line">                  <span class="p">(</span><span class="o">~</span><span class="nv">r</span> <span class="o">~@</span><span class="nv">body</span><span class="p">)))</span>
-</span><span class="line">              <span class="p">((</span><span class="nf">r</span> <span class="k">. </span><span class="p">(</span><span class="nf">e</span> <span class="k">. </span><span class="nv">rest</span><span class="p">))</span>
-</span><span class="line">               <span class="o">`</span><span class="p">(</span><span class="nf">case</span> <span class="o">~</span><span class="nv">e</span>
-</span><span class="line">                  <span class="p">(</span><span class="o">~</span><span class="nv">r</span> <span class="o">~</span><span class="p">(</span><span class="nf">process-arg-body</span> <span class="nv">rest</span><span class="p">))))</span>
-</span><span class="line">              <span class="p">(</span><span class="nf">detail</span> <span class="p">(</span><span class="nf">erlang/error</span> <span class="p">{</span><span class="ss">:malformed-let-expression</span> <span class="nv">detail</span><span class="p">})))))</span>
-</span><span class="line">    <span class="p">(</span><span class="nf">process-arg-body</span> <span class="nv">args</span><span class="p">)))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>Joxa在语法上直接定义为Lisp风格，因此在Macro的定义及使用上面，与传统一脉相承并无修改。在这个Macro定义里面，除了Pattern Matching，以及递归调用<code>process-arg-body</code>之外，与传统Lisp语言并无不同，熟悉传统Lisp的人可以很快就读懂。对比的来看，在Elixir这样的非Lisp语言中引入Macro，由于上层语言的语法与AST并不一致，所以程序员必需记住/区分上层语言与AST两种环境，因此相对较为复杂，比如，在Elixir Macro的签名处Pattern Matching Erlang AST，就在以Elixir的语法编写的Macro定义中，暴露了底层的AST格式。这种复杂性虽然从设计上来说是必需的折衷，但在习惯了Lisp Macro的人看来可能不会太喜欢。Joxa作者Eric在2015年一次接受《This is not a Monad tutorial》的<a href="https://medium.com/this-is-not-a-monad-tutorial/eric-merritt-erlang-and-distributed-systems-expert-gives-his-views-on-beam-languages-hindley-a09b15f53a2f">采访</a>中就表示过不喜欢Elixir Macro的复杂性。</p>
-
-<h3 id="section-4">2.7 标准库概览</h3>
-
-<p>Joxa的标准库只包括少数几个基本函数以及对OTP的简单包装。详细列出如下：</p>
-
-<ul>
-  <li><code>joxa-core</code><br />
-  基本操作: <code>!=</code>, <code>lte</code>, <code>gte</code>, <code>and</code>, <code>or</code>, <code>+</code>, <code>-</code>, <code>incr</code>, <code>decr</code>, <code>if</code>, <code>when</code>, <code>unless</code>, <code>try</code>, <code>let</code>, <code>define</code></li>
-  <li><code>joxa-eunit</code><br />
-  eunit相关函数封装</li>
-  <li><code>joxa-lists</code><br />
-  list相关的功能函数： <code>dolist</code>, <code>hd</code>, <code>tl</code>, <code>foldl</code>, <code>map</code>, <code>lists-binding</code>, <code>#</code>, <code>all</code>, <code>any</code></li>
-  <li><code>joxa-records</code><br />
-  Record相关函数</li>
-  <li><code>joxa-shell</code><br />
-  REPL函数的简单实现</li>
-  <li><code>joxa-otp</code>, <code>joxa-otp-gen-server</code>, <code>joxa-otp-supervisor</code>, <code>joxa-otp-application</code><br />
-  Erlang OTP相关接口的封装函数</li>
-</ul>
-
-<p>代码规模很小，跟Elixir的标准库相比差得很远。其功能比较简陋，称之为标准库也许太大，或者称之为帮助函数更加准确。由于Joxa可以直接调用Erlang代码，因此功能缺失之处可由其它Erlang库补充。</p>
-
-<h3 id="section-5">2.8 开发环境及工具链</h3>
-
-<p>目前Joxa只有一个名为<code>joxa</code>的命令行工具，用于编译Joxa源代码，启动REPL，这个工具的功能也比较简陋，跟Clojure的REPL还有很大的距离。源代码中有一个Emacs的Major Mode配置文件<code>emacs/joxa-mode.el</code>，可以在用Emacs开发Joxa时设置缩进，关键字高亮，键绑定等。上面提到的与Slime和Swank集成，则尚未开发。</p>
-
-<h3 id="section-6">2.9 项目状态</h3>
-
-<p>Joxa从2011年底开始开发，一直到2013年初都比较活跃，这之后代码提交量变得相当少，在当前这个时间点(2015年8月)回头看看提交日志，已经有一年多的时间没有任何更新。虽然还未完成原来的设计目标，wiki上面的计划也有很多开发要做，但是由于作者Eric工作上比较忙，而Joxa社区实在太弱小，除作者之外并没有其它的人员贡献过大量代码，因此短期之内似乎项目状态不会重新变得活跃。在Google Group上有Joxa的邮件组，在近一年多时间内也相当少人发言。在应用上，除了作者Eric将Joxa用于编写他的创业项目之外，目前市面上没有看到其它的应用<a href="#17">[17]</a>。综合来看，Joxa的项目状态是比较停滞的。</p>
-
-<h2 id="section-7">3. 总结</h2>
-
-<p>Joxa是一种基于Erlang VM的现代Lisp语言，有着简洁清晰的Lisp语法，支持强大的Macro，是在Erlang VM编写DSL的一个很好的载体，它无缝兼容Erlang VM平台，是一门功能全面的通用编程语言。它在语言设计及编译器实现方面质量优良，但目前完成度不高，工具链并不完整，市面上也少见应用。作为一门较新的基于Erlang VM的编程语言，它有待进一步的发展完善。</p>
-
-<p><em>注：</em><br />
-<a id="1">[1]</a> Eric Merritt是《Erlang and OTP in Action》(中文译本《Erlang/OTP并发编程实战》)一书的作者之一，Erlware项目联合创始人，Afiniate公司的CTO。<br />
-<a id="2">[2]</a> 翻译自邮件原文<br />
-It doesn’t actually mean anything. Many years ago it was an acronym for some project I wanted to start ‘Java oriented something or other’. I never made that project but I bought the domain and have kept it these years. Four letter domains are pretty uncommon these days, so I just decided to use it as the name for the language. Thats all.<br />
-<a id="3">[3]</a> 作为Erlang语言联合创始人以及Joe Armstrong的长期亲密战友，Robert Virding自从当年在爱立信计算机科学实验室开始，长期以来在Erlang的设计，标准库，编译器，发展推广等方方面面都做了杰出的贡献。<br />
-<a id="4">[4]</a> Lisp-1和Lisp-2的区别在于函数与变量是否共用同一命名空间，一个详细的解释可以参考文章<a href="http://ergoemacs.org/emacs/lisp1_vs_lisp2.html">《What’s Lisp-1, What’s Lisp-2? Bad Jargon or Good Jargon?》</a><br />
-<a id="5">[5]</a> REPL是Read-Eval-Print Loop的缩写，最早被用于指代开发Lisp程序过程中，交互式命令行不断执行读取程序员的输入代码，对其进行求值并打印出求值结果的循环动作。后来这个概念被Python，Ruby及各种交互式命令行工具吸收并推广开来。<br />
-<a id="6">[6]</a> Tony Arcieri是一位美国的软件工程师，他的博客见<a href="http://tonyarcieri.com/">这里</a>。<br />
-<a id="7">[7]</a> José Valim是一位波兰的软件工程师，他最被人熟知的两个身份是Ruby On Rails的核心成员以及Elixir编程语言的创始人。<br />
-<a id="8">[8]</a> 比如Joe Armstrong于2013年中写了博客文章<a href="http://joearms.github.io/2013/05/31/a-week-with-elixir.html">《A Week with Elixir》</a>盛赞了Elixir“结合了Ruby和Erlang的优良特性”，Dave Thomas于2014年发布了新书<a href="https://pragprog.com/book/elixir/programming-elixir">《Programming Elixir》</a>向有其它语言经验的程序员提供了一本系统的教程。<br />
-<a id="9">[9]</a> 译者注：<a href="https://common-lisp.net/project/slime/">Slime</a>是Superior Lisp Interaction Mode for Emacs的缩写，它为Emacs提供了一整套交互式开发Common Lisp的功能集，包括编译，调试，文档查找等等，Slime是客户端，Swank是对应的服务器端，它们共同组成了一个强大的程序开发环境。<br />
-<a id="10">[10]</a> 译者注：<a href="http://erlang.org/doc/man/leex.html">Leex</a>和<a href="http://erlang.org/doc/man/yecc.html">Yecc</a>是Erlang语言的Lex和Yacc工具集。<br />
-<a id="11">[11]</a> CLOS是the Common Lisp Object System的缩写，是指在Common Lisp中实现面向对象机制的一系列代码库。<br />
-<a id="12">[12]</a> 此图来自编译领域的经典著作《Compilers: Principles, Techniques, &amp; Tools》第三版，中译本《编译原理》。<br />
-<a id="13">[13]</a> 这个例子来自Eric Merritt 2012年8月在Chicago Erlang User Group上的技术分享《Joxa: A Full Featured Lisp on the Erlang VM》，录像视频见<a href="https://vimeo.com/49116180">这里</a>.<br />
-<a id="14">[14]</a> LALR是LookAhead LR的缩写，LR中的L表示对输入进行从左到右的扫描，R表示反向构造出一个最右的推导序列。LALR是流行的自底向上语法分析方法。<br />
-<a id="15">[15]</a> PEG是Packrat Expression Parsing的缩写，它是一种相对较新的自顶向下语法分析方法。<br />
-<a id="16">[16]</a> 其中Map的语法支持由我添加，写此文时未进入主干分支。<br />
-<a id="17">[17]</a> 从推广应用的角度来看，在2011年中开始开发的Elixir在各个基于Erlang VM的新编程语言上是走得最前的。  </p>
+<p>睡眠如同一条大河蜿蜒而来，由远而近，种种的片断记忆如水气弥漫。</p>
 
 </div>
   
@@ -506,7 +122,7 @@ It doesn’t actually mean anything. Many years ago it was an acronym for some p
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/02/09/distrubuted-consensus-raft-and-other/">分布式一致性，Raft以及其它</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/03/10/nested-backquotes-considered-harmful/">嵌套反引用有害</a></h1>
     
     
       <p class="meta">
@@ -522,131 +138,137 @@ It doesn’t actually mean anything. Many years ago it was an acronym for some p
   
 
 
-<time datetime="2015-02-09T19:09:00+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2015</time>
+<time datetime="2013-03-10T21:37:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>今天收到了一本从杭州寄过来的新书<a href="http://book.douban.com/subject/26292004/">《从Paxos到Zookeeper：分布式一致性原理与实践》</a>，书的封面是一个动漫化的动物园管理员和一些萌萌的动物，设计得相当有趣。这本书从理论的角度讲解了分布式一致性的概念，常见的几种协议，从实践的角度详述了Zookeeper的使用和内部实现，是国内图书市场上第一本关于分布式一致性领域的书，填补了这一块空白。关于分布式一致性，Paxos，Zookeeper等协议或框架，虽然之前有很多人做过研究分享，网上也有一些信噪比很小的零散资料或文章，但是把相关内容系统化的组织起来进行详细讲解，这本书应该是首次。谢谢这本书的作者倪超给我这个挂名审过稿的人寄来一本新书，虽然这本书的内容我之前已经看过一次，但是好酒不妨多品好书不妨多读，后面我还会抽时间多读读。</p>
-
-<p>分布式一致性领域无论是从理论上还是从实践上都是计算机业界一个很重要的领域，自1989年由计算机科学家Leslie Lamport提出以来，至今已经超过25年，四分之一个世纪之前Lamport用希腊岛屿议会的故事来形象化描述的这个名为Paxos算法，引出了接下来10年中Paxos被忽视然后被发现又受到重新重视的一段奇闻，2000年之后Paxos开始走向工业界，Google参考Paxos实现了Chubby并在2006年发表了公开的论文，由于Chubby不开源，Yahoo另外做了一个类似的系统Zookeeper并于2009年在Apache上开源。Zookeeper使用一个经过裁切简化过的分布式一致性协议Zab。由于Paxos协议本身比较复杂，斯坦福大学的Diego Ongaro和John Ousterhout两人在现有各种分布式一致性协议的基础上，针对Paxos复杂难以理解和工程化的现状，把可理解性作为首要的目标，重新设计了一套分布式一致性协议Raft，并在2013年发表了相应的论文。</p>
-
-<p>我们公司的存储团队今年计划做一套基于Bigtable模型的分布式强一致性存储系统Cloudtable，即使用了Raft协议，这块由我一个人负责，而我今年主要做的事情也只有这一件，就是在这套存储系统里面用Raft协议实现分布式强一致的特性。在如今年底这一个时间点，回顾这一年我们所做的整个项目，同时回顾我自己所做的Raft这一块，我发现其实里面问题不少，同时也积累了一些经验，下面尝试简单总结分享一下。</p>
-
-<h4 id="section">1. 进度把控</h4>
-<p>可能是由于所在的团队成员大家的做事风格都比较倾向于埋头做事，在进度把握上我们做得比较差，主要犯了两个较大错误，一个是动手太晚，从5月初开展项目，经过需求讨论，架构设计与讨论，研读论文，阅读分析业界开源实现等工作之后，到了8月份才开始动手写代码，算是比较晚的，另外一个错误是项目的进度没有及时沟通尽量透明化，各模块分别开发集成得比较晚，结果在集成阶段发展很多问题，造成项目用时过了原本估计的上线时间12月初。当然这里面很大责任在于我，因为Raft在整个项目中复杂度和风险都是最高，我作为主力一直都没有很好的将设计和实现公开与大家交流沟通清楚（也有进度压力原因），中间也走了一些弯路花了过多的时间在实现上面，结果在测试和性能优化两块的时间超出了预期。</p>
-
-<h4 id="section-1">2. 具体设计与实现</h4>
-<p>Raft协议推出至今已经有一段日子了，已经有不少的开源实现，其中做的比较好的原作者用C++写的LogCabin，还有Core OS公司的用Go语言写的go-raft，Hashicorp公司的hashicorp-raft，我们团队使用的语言也是Go，在研讨过这么些个开源实现之后，我做出来的raft模块跟hashicorp-raft从运行结构来看是比较相似的：本地结点和每个远程结点都对应一个go routine，它们相互之间通过channel通讯，底下的Log和网络层抽象成一个可供多routine互斥访问独立的模块，本地结点和远程结点都直接调用log和网络层的接口。我写的raft模块使用的HSM来表达状态机，协议逻辑会更清晰一些。回顾整个设计与实现，主要的问题在于缺乏DSL。</p>
-
-<p>Raft算法的实现分为主要逻辑与持久化Log模块，网络通讯模块等几个部分，其中外围的模块是以一种支持性的角色出现在主要逻辑中，从代码上看，主要逻辑的代码会有很多调用外围模块的调用，而这些模块的边界都划得很分明带上error返回值，为处理好这些模块的边界error需要在主要逻辑中多插入很多代码，会导致本来很少代码就能表达完的协议膨胀得很大。简单的一个说明是，在Go语言里面，接口返回error是很常见的，如</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_function</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>如果你有几个不同的接口要调用，而且每个接口异常都需要几行代码来处理，那种整个代码就会膨胀开来，变得比较乱，如在Python里面可能有</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="k">try</span><span class="p">:</span>
-</span><span class="line">    <span class="n">call_f1</span><span class="p">()</span>
-</span><span class="line">    <span class="o">//</span> <span class="err">做点其它事</span>
-</span><span class="line">    <span class="n">call_f2</span><span class="p">()</span>
-</span><span class="line">    <span class="o">//</span> <span class="err">做点其它事</span>
-</span><span class="line">    <span class="n">call_f3</span><span class="p">()</span>
-</span><span class="line"><span class="k">except</span> <span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-</span><span class="line">    <span class="c"># 打日志</span>
-</span><span class="line">    <span class="c"># 处理错误</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>但在go里面只能是</p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-<span class="line-number">9</span>
-<span class="line-number">10</span>
-<span class="line-number">11</span>
-<span class="line-number">12</span>
-<span class="line-number">13</span>
-<span class="line-number">14</span>
-<span class="line-number">15</span>
-<span class="line-number">16</span>
-<span class="line-number">17</span>
-</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_f1</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span><span class="line"><span class="c1">// 做点其它事</span>
-</span><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_f2</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span><span class="line"><span class="c1">// 做点其它事</span>
-</span><span class="line"><span class="nx">err</span> <span class="o">:=</span> <span class="nx">call_f3</span><span class="p">()</span>
-</span><span class="line"><span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-</span><span class="line">		<span class="c1">// 打日志</span>
-</span><span class="line">		<span class="c1">// 处理错误</span>
-</span><span class="line"><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-
-<p>如果处理错误的代码不是那么的短的话，那么前者会比后者要简短得多。这个问题部分的是因为我用Go语言写系统经验不多，遵循了Go的惯例在模块边界用了error，而且是分得比较细的error，每种error的处理都有或多或少有点不同(至少报错的日志字符串是不同的)，然而事实上对于大部分外围模块的错误，如日志文件损坏，磁盘挂了，网络断线等，Raft协议的处理都只是打一条日志然后尝试重启，因此只需要笼统对待就可以了，因为本地结点和远程结点是两份代码，两份代码都需要做外围模块的调用，这个问题变得更加严重。Core OS的其中一位工程师提醒过我这个问题，但我并没有给予足够的重视。其实在这种”算法正确性事关生死，需要很短很简要的代码来写完算法”的情景下，异常机制是比较适合的，但因为Go没有异常，而panic的捕捉又需要十分的小心<a href="#1">[1]</a>，加上约定的用法是包内用panic，包外用API error，为了方便组织代码分工我把外围模块划分到其它包(目录)里面去了，种种原因综合起来直到做完才发现这里有比较大的问题。</p>
-
-<p>当然最适合这种情景的是DSL(Domain Specific Language)，如果有一门DSL既能处理好复杂的异常也能够很简洁的表达出Raft的逻辑，就比较完美了。经过一些调查研究之后，我发现Go语言是拙于写DSL的，可以说无法写DSL，最多只能写写流式接口，而像Gisp<a href="#1">[1]</a>这种扩展模块虽然设计思路很有创造性，但最多也只能作为辅助性的工具。</p>
-
-<h4 id="section-2">4. 性能优化</h4>
-
-<p>在Raft协议中，每次写操作都会生成一个对应的日志条目，只有将对应的日志条目复制到集群中足够多的结点并且持久化到磁盘之后，才能认为写操作成功然后回复到发起调用的客户端。这个过程中主要动作有两个：日志的网络同步和写磁盘持久化。优化Raft协议的性能，主要是围绕这两个动作进行。下面简述一下我在实现和优化Raft协议过程中的一些经验。</p>
-
-<h5 id="section-3">4.1. 写磁盘持久化</h5>
-
-<p>Raft协议需要将它的日志条目持久化以保证协议的正确性，无论在Leader结点还是Follower结点，都需要保证条目不会因进程的崩溃而消失，因此需要将日志条目持久化。在Linux平台上，这一般通过将数据写入磁盘后调用Fsync()或采用O_SYNC标志开启同步写模式，以确保写入的数据从Linux的内核缓冲刷到磁盘上。我们服务器使用的机械盘只有300～400次IOPS，SSD盘有几千次IOPS，如果每持久化一个日志条目就调用Fsync()，那么每秒的写吞吐量只有对应的IOPS数，是相当低的。如果将Fsync()操作的时延平摊到多个日志条目，即采用批写加上Fsync()的方式，则可以提高每秒吞吐量。若将进行Fsync()写的每批日志条目数定义为M，将每秒最多可以完成的Fsync()写操作的次数定义为N，那么吞吐量Q = M * N，假如画出Q对于M的变化曲线，则会是一个倒U型曲线。经过测试，对于SSD盘当M=2000, N=300多的时候曲线到达高点，此时的吞吐量约为600000。采用这种方法可以提高写磁盘的吞吐量，但却增加了日志条目的写平均延时。</p>
-
-<h5 id="section-4">4.2. 日志的网络同步</h5>
-
-<p>Raft协议需要将它的日志条目复制到足够多的结点，以保证在集群中少数结点出现故障的情况下，之前写成功的数据依然不会丢失，因此需要将日志条目进行网络复制。在Raft的论文中，Leader向Follower不断发出包名为AppendEntries Request的数据包或者心跳包，我们将这类包简称AE Request，每个AE Request可以包含多个日志条目，每个AE Request被正常处理后Follower都会发回一个AE Response，为了简单起见，Leader在超时时间内未收到AE Response不会发出下一个AE Request，此时即使Leader有比上次发出的AE Request所包含的最后一个日志条目更加新日志条目，也要等到收到AE Response后才开始同步。在这种单步AE的日志同步方式下，网络的延时越长，就越影响Leader同步/提交日志条目的吞吐量。如何解决这个问题呢？TCP协议中的Long Fat Pipe选项给了我们一个启发，对于宽且长的管道，可以将同步单条的方式改为异步批量的方式来提高吞吐。然后我们将同步方式改进为：如果网络层连续进行多次单步的AE通信都成功，那么就认为这条网络连接是通畅的，就可以进入一个异步批量的模式(将其称之为Pipeline Mode)，此时Leader将多个AE Request先后发出，然后统一等待回包。采用这种方式可以提高日志同步的吞吐量，但却增加了实现的复杂度，要增加两个模式的跳转，异步模式时的回包乱序，重放的处理等。</p>
+  <div class="entry-content"><p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
 
 <hr />
 
-<p>在经历了讨论，开发，测试，修bug，性能优化这一切的有苦有乐的过程之后，我们取得了阶段性结果，正处于准备下一阶段上线运营之时，突然地公司做了一个组织架构的调整，然后Cloudtable团队被拆散，大部分成员转型去做流媒体传输，公司重视流媒体轻视存储的思路已经变得相当明显，存储团队在此过程中被边缘化了。从公司的角度来看，毕竟流媒体及传输才是公司的核心竞争力，那么拆掉存储团队去加强流媒体团队也是非常正常的举动。只不过对于留下来的少数几个存储人员，难免有种大势而去的萧索之感。这大半年来编写Raft协议的实现对于我个人来说是一次很独特的经验，虽然也许我没有机会重写一次的Raft模块了，但是有了前面的经验，如果由我重写一次Raft模块，我想它会包含这些设计要点：</p>
+<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
 
-<ul>
-  <li>Raft的核心逻辑是一个FSM，本地结点和远程结点都用简单透明的(不带类封装)数据结构表示，重点在数据结构而不在流程，代码尽量简洁，注意：要放在一个routine运行</li>
-  <li>两个外围模块，Log写磁盘，网络层写网络，模块边界用panic而不用error，简化error强迫症的造成代码膨胀的影响</li>
-  <li>Log模块分为磁盘持久化数据和内存缓冲数据两层，缓冲数据主要是为了提高批量Fsync()写和日志同步时拷贝日志条目的效率，磁盘部分设计要简单，可设计为一个磁盘文件，超出定长则打snapshot的工作方式，因为此模块只有核心逻辑routine单个调用者，所以整个实现代码无需加锁</li>
-  <li>网络层只处理简单网络收发，可运行在一个或多个routine上，像Pipeline Mode等复杂逻辑放到核心FSM，跨routine通信通过拷贝数据走channel</li>
-</ul>
+<blockquote>
+  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br />
+<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
+</blockquote>
 
-<p>虽然用Go语言无法编写DSL，但通过上面的要点故意地压缩核心逻辑的篇幅，还是可以达到较简洁地用代码表达Raft协议本身的效果。另外模块的划分简化了模块的实现和跨routine的数据共享，Raft协议的日志同步时，由于要将一份日志同步多个Follower，Leader结点会有一个写放大的问题，这里没有提及到，可以将日志同步需要做的多次序列化合并到一次来做优化，是否要做这个优化可以根据实际CPU消耗情况和性能需求来做判断。</p>
+<p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
+
+<pre><code>1. 在内层使用LIST, APPEND等函数代替反引用
+2. 使用包含反引用的辅助函数
+</code></pre>
+
+<p>Bruno为每个方法提供了例子。</p>
+
+<p>首先，下面给出的这段代码用了嵌套反引用：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       `(let
+          (,,@(mapcar #'(lambda (tmp var)
+                          ``(,',tmp ,,var))
+                      temps variables))
+          ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                         variables temps)
+             ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法1转换后如下：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (list 'let
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(list ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法2转换后如下：</p>
+
+<pre><code>(defun construct-binding (variable form)
+  `(,variable ,form))
+
+(defun construct-let-wrapper (bindings body-form)
+  `(let ,bindings ,body-form))
+
+(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (construct-let-wrapper
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(construct-binding ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
+
+<p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）。Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
+
+<blockquote>
+  <p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+
+  <ol>
+    <li>
+      <p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
+
+      <p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
+
+      <p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
+    </li>
+    <li>
+      <p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
+
+      <p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
+
+      <pre><code>'(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+
+      <p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
+
+      <pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+
+      <p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
+    </li>
+  </ol>
+
+  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。  </p>
+</blockquote>
+
+<p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
+
+<pre><code>1. 使用嵌套反引用
+2. 在内层使用LIST, APPEND等函数代替反引用
+3. 使用包含反引用的辅助函数
+4. 使用一个反引用的替代实现
+</code></pre>
+
+<p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
 
 <p><em>注：</em><br />
-<a id="1">[1]</a> panic及recover的使用就像扫雷，一不小心就会炸得你缺胳膊少腿，具体可以参考<a href="https://github.com/qyuhen/book">《Go学习笔记》</a>中的3.6节。<br />
-<a id="2">[2]</a> 据Gisp的作者刘鑫老师说，Gisp只能当成try catch throw来用，用来写主要逻辑有效率低，调试困难等问题，Gisp并不是一门完整的语言。  </p>
+<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br />
+<a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
 
 </div>
   
@@ -660,7 +282,7 @@ It doesn’t actually mean anything. Many years ago it was an acronym for some p
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/01/17/rainny-cold-winter-night/">热茶</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/01/08/the-pragmatic-emacser/">Emacs修炼之道</a></h1>
     
     
       <p class="meta">
@@ -676,30 +298,93 @@ It doesn’t actually mean anything. Many years ago it was an acronym for some p
   
 
 
-<time datetime="2015-01-17T18:39:00+08:00" pubdate data-updated="true">Jan 17<span>th</span>, 2015</time>
+<time datetime="2013-01-08T16:04:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3 id="section">动态</h3>
+  <div class="entry-content"><blockquote>
+  <p>“Don’t panic.”<br />
+&#8212; The Hitchhiker’s Guide to the Galaxy</p>
+</blockquote>
 
-<p>因为公司部门构架调整的缘故，我所在的团队被拆分，团队的大部分人员转移到另外一个部门去做流媒体传输，以展开对另外一个视频直播网站的正面竞争。这个调整来得比较突然，宣布的第二天就开始生效，而宣布的当天下午下班之后，我们还是组织了一次聚餐。没有意外的，我们还是去了吃火锅——不知何故，我们选择吃火锅的次数相对较多。面对突如其来的人事调整，虽然大家都有点蒙了，但吃火锅期间我们谈笑依然，只是想到自此匆匆一别，谈笑中多少有点离别的意思，平时开车不喝酒的人也没开车前去而喝起了酒。</p>
+<p>作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么，与其它编辑器有什么不同，如何使用它等。Emacs是一个很大的话题，而且网上关于Emacs/Vim/其他编辑器的各种圣战中飞扬的口水已经太多了，所以这里我把这篇内容缩小到Emacs的修炼这一点上，因为对于那些真正对Emacs感兴趣并准备起锚出发的Emacs初学者，如果有一个详细的指南，它记录了从入门到进阶等各个阶段，以及前进的道路上有哪些可以借力的资料或资源等，这是很有帮助的。于是我有了写此文的打算，作为一个过来人我就斗胆写一下Emacs的修炼之道。</p>
 
-<p>聚餐结束我坐地铁返回住处，走出地铁口的时候，大雨仍旧在下，好一个寒冷的冬夜。踏过深深浅浅的水坑我顺着路边的灯光慢慢走回去，身上又湿又冷。我想，在这样一个寒冷的冬季雨夜，人们联想到的会是温暖明亮的火炉边的一杯热茶，或者炉边一个托尔金式的故事，只是在今夜，我只有身上的一阵久久不散的火锅味。</p>
+<p>一般来说，那些决定不用系统自带的文本编辑器，而专门花时间学习Vim/Emacs的人都需要在文本上做比较多的工作，他们希望在工具这一块上做长期的投资——即使Vim/Emacs的入门需要一些精力和时间，但熟悉之后能提高工作效率并长期发挥作用，当然这些人之中有很多是程序员。如果你像我认识的一些朋友一样，对系统自带的文本编辑器，比如windows下的notepad，保持100%的满意，那么就不用接着往下看了，尽可跳过下文并继续留在那个与世隔绝的默认编辑器的桃花源里，这种说法好像比较鄙视notepad，但其实它主要是说：如果编辑需求复杂多变，那么编辑器相应的也需要变得复杂强大。</p>
 
-<h3 id="section-1">视象</h3>
+<p>接下来这一个Emacs之道会有点长，因为Emacs被设计成能提供各种复杂多变的编辑功能，甚至是文本编辑之外的，例如玩游戏或收邮件等其它功能，所以Emacs才会有“伪装成操作系统的编辑器”这一别称，而且学习曲线会变得非常的，呃，奇怪<a href="#1">[1]</a>。尽管下文有点长，但是记得带上你的毛巾<a href="#2">[2]</a>，无论遇到什么情况，最重要的是，Don’t panic。</p>
 
-<p>马可波罗在《看不见的城市》里面对忽必烈说，有些地方是看得见的，有些则看不见，不是目光所不能及，而是心神所不能达。历史上每一件事都关联着另一件事，而时间不断流动空间不断变化，因果互扣缠绕相循没有终点。没有人能够在无限的时间里洞察一切，因此即使强如庞大帝国的王，也有看不见的地方。这种说法很有一种上帝视角的意味，从绝对的意义上讲，人毕竟不是全能全知的神。一个人能够接触到只是他周围发生的事情，即使这样也能够感知到事情与事情之间，过去与未来的复杂错综的影响与联系，足以让他在时空的漩涡巨涛中感到战战惊惊。</p>
+<p>我把Emacs修炼的道路分为几个主要的阶段：</p>
 
-<p>能够从马哥波罗与忽必烈的对话中读出了一种历史沧桑之感，意味着我的年纪已经活到了不小的岁数。岁月真是无情。</p>
+<h3 id="section">1. 入门小徒</h3>
 
-<h3 id="section-2">结构</h3>
+<p>初学Emacs，首先要了解Emacs的基本操作，Emacs自带的tutorial文档就是为零起点的新手而写的，它介绍了窗口(window)，文件，缓冲区等概念，并一步一步的指导初学者学习光标移动，插入修改，搜索，保存退出等基础功能，是最好的入门指南。默认的键绑定下在Emacs中使用C-h t可以打开这个tutorial文档，也有对应的中文译版叫《Emacs快速指南》，文档不长，整个看完并按文档指引练习一下，之后就可以用Emacs完成简单的文本编辑。</p>
 
-<p>马尔科姆·格拉德威尔的书在中国的流行，很大程度上是由于老罗罗永浩的宣传推荐。格拉德威尔带着一种颠覆性的思维阐述了现代人类的意识和行为中的奇妙和误区，而且他还是个讲故事的好手，看过他的几本作品之后，我印象更深的不是他所讲的道理而是他讲故事的方式，那种将讲理和故事像精心构造出来的乐高积木一样组织起来的行文手法。建筑师们是精于此道的，尤其是中国古代的建筑师，他们用梁柱，斗拱，榫卯穿插连接，搭建了一个个精巧绝纶的结构，从混沌中形成某种形式组织，应该就是美的所在了吧。</p>
+<p>接下来可以阅读《Learning GNU Emacs》，这本由老牌黑客Eric Raymond参与编写的书是学习Emacs的经典书目，内容很多也很全面，它介绍了从用Emacs做基本的文本编辑，到用Emacs收发邮件阅读网页，到定制编辑宏以及做程序开发等各种功能。初学者可以只读前5章，对Emacs的环境及常用操作做一个比较细致的了解。这本书的原英文第1版讨论的是Emacs的18版本，之后第2版出版，讨论的是Emacs的19.30版，而2004年出版的第3版，则随着Emacs的版本升级把内容更新到21.3版，到2013的今天，Emacs的主版本号已经升到24，虽然这本书在过去一段时间也算是与时俱进，但从版本上来远远落后于Emacs更新的速度，不过，很多内容在Emacs中保持稳定，还是很有价值的，只是阅读的时候要注意一下版本变化。这本书也有中文译本，已经绝版，但对应的只是较旧的英文第2版，译文流畅印刷错误也少，译本质量尚佳，因为是针对初学者而写的入门书，讲解详细，辅以图示截屏帮助理解，读来比较轻松。</p>
 
-<p>当然这些只是静态的结构，另外一些动态的结构，如运行中的程序，进行中的人生，则复杂得多。</p>
+<p>进一步学习的话，则根据各人的需求而选择了，需求不同则学习的内容也不同。希望使用Emacs来做大量重复编辑的人可以学习定制编辑宏，用来写笔记的可以学习outline-mode或org-mode，用来收邮件的可以学习mew等邮件客户端的用法。考虑到使用Emacs的人当中有很多的程序员，那么也根据编程语言的不同，学习的编辑模式也不同，Emacs对于多种编程语言都有着很好的支持，如C, C++, Java, Shell, Python, Perl, Erlang, Lisp……还有常见标记语言如Html, XML和排版用的Tex, LaTeX和Troff等。此外你可能会需要一些特别的功能，这些功能在其它的编辑器/IDE也有，比如显示行号，在编写代码时的自动补全，全文格式化，代码折叠与展开，实时显示代码错误等，Emacs还有一些比较独特好玩的功能，如hungry delete。学习这些内容，除了《Learning GNU Emacs》这本书第5章后面的多个章节之外，网上也有很多的资料，不过就比较分散了，要找到Emacs是否有满足你特定需要的扩展，或者这些扩展怎么使用，google是一个很好帮手。</p>
+
+<p>这个时候你已经很熟悉Emacs日常使用，以及为自己的编辑需要加了一些扩展和定制，在配置文件不断变大的同时，你可能也知道一点简单的Emacs Lisp写法，但对Emacs Lisp还没有深入的了解。</p>
+
+<p>由于各人的编辑需求不一样，这个寻找某种特定功能并定制使用的过程可长可短，了解Emacs在各种编辑模式下的功能有助于进一步学习Emacs Lisp及Emacs的内部实现，但这不是必需的。即使你很快的进入下一阶段开始系统学习Emacs Lisp，但如果时不时会遇到新的编辑需要，还是会重复上述的扩展定制过程。以像我自己为例，因为需要编辑的代码种类越来越多，如后来的Markdown, Erlang，所以也对应的添加了markdown-mode, erlang-mode的定制代码。</p>
+
+<h3 id="section-1">2. 登堂入室</h3>
+
+<p>在接触Emacs的过程中，很多新手都会注意到一个事实：Emacs是用一种叫做Emacs Lisp的Lisp方言写的，如果不懂Emacs Lisp是无法进一步走入Emacs的殿堂的。所以在这里我把“开始系统的学习Emacs Lisp”做为进入到第2阶段的标志。</p>
+
+<p>在Emacs自带的Info文档中，对Emacs的描述是：  </p>
+
+<blockquote>
+  <p>Emacs is the extensible, customizable, self-documenting real-time display editor.</p>
+</blockquote>
+
+<p>可以看到，可扩展性，可定制性和自文档化是Emacs三个特别强调的特点，前两个特点或者其它编辑器也有，比如Vim，但自我文档化这一点，可算是Emacs的一个独门绝技，是的，在visual studio中也有帮助系统，不过与Emacs的自文档化比起来，还是差得太远了，这方面可以比肩Lisp的编程语言不多，Python是其中一个，自文档化与交互式编程结合起来，整个编程环境会让写代码的人相当舒服。</p>
+
+<p>要开始Emacs Lisp之旅，最好的学习资料也是Emacs自带的文档，在Info中有一个Emacs Lisp的入门教程《An Introduction to Programming in Emacs Lisp》，这个文档由另一位老牌黑客Robert Chassell所写，由浅入深地详细介绍了Emacs Lisp中的列表操作，函数，缓冲区操作，窄化，剪切粘贴，正则表达式，代码调试等内容，由于把读者定位为没学过编程的人，所以行文比较啰嗦，程序员读起来可能会有点不耐烦。它也有中文翻译版，书名叫做《GNU Emacs Lisp编程入门》，不过也比较旧了，是2001年由FSF中国组织翻译并出版的，年代久远，对应的Emacs版本是19，这本中译版也已经绝版，不过网上可以找到电子版。虽然后来大师洪峰在他某次答问中说这本中译版质量很高<a href="#3">[3]</a>，我个人看过纸版全书之后觉得其实翻译和出版的错误也不少，像他读过那么多书的人肯定清楚一个译本的质量怎么才算是“很高”，不过此书的中文翻译是他组织的，有点敝帚自珍也是人之常情。</p>
+
+<p>特别值得一提的是，在这本书的前言里，作者Robert说“希望读者养成阅读源代码的习惯”，并把Emacs当成一个代码的宝藏，学习其工作机制。书中的内容多是具体的代码细节，看过之后是会忘记的，但“深入代码”这个习惯一旦养成，受用无穷。我个人认为也可以依据同样的标准来定义玩Emacs的程度，真正Emacs玩得好，不是说要用过多少个扩展，用得有多么的熟悉，而是深入到源代码去了解其内部实现。</p>
+
+<p>在读完《GNU Emacs Lisp编程入门》的基础上，可以找一些其它的Emacs Lisp入门级资料来看看，比如wiki上的Emacs Lisp Cookbook，上面就有常用的各种数据结构，文件目录操作等的代码示例。经过学习之后，到网上一些站点，比如<a href="http://emacser.com/">Emacs中文网</a>或<a href="http://ergoemacs.org/emacs/blog.html">李杀网</a>，看一些文章通读其中简单的Lisp代码已经没有困难。</p>
+
+<p>同时，可以阅读一些Emacs中常用小功能的源代码，比如自动高亮括号的paren.el，高亮当前行的highlight-current-light.el，显示行号的linum.el，自动插入括号对的skeleton.el等，在读源代码的过程中有时会遇到未知的库函数和新的概念，通过查询Emacs的自带文档一般可以解决问题。</p>
+
+<p>通过前面的学习，在前一阶段的基础上你已经掌握大量的Emacs Lisp，在阅读源代码上有了不少的积累，但由于没有全面系统的学习Emacs Lisp，有时候读起源代码来不懂的地方太多，会有种力不从心之感，这时候就可以开始进入第3阶段。</p>
+
+<h3 id="section-2">3. 武林高手</h3>
+
+<p>对于学习Emacs Lisp，最权威的两个文档当然是Emacs自带的Info文档《The Emacs Editor》和《The Emacs Lisp Reference Manual》，前者主要介绍作为编辑器的Emacs概念和机制，比如kill-ring，display, key-binding, 各种mode等，重点在使用，后者则全面系统的介绍了Emacs Lisp这门编程语言，比如各种数据结构及操作，宏，文加载等，重点在于编程，Emacs Lisp作为Emacs的实现语言，当然两个文档会有标题或内容看起来很类似的章节，但由于两个文档重点不一样，两者互为呼应补充而非重复。这两个都是大部头，要读完的话甚费时日，但其内容并不艰深，读起来还算轻松，耐心读完的话，会功力剧增，对Emacs的理解有很大的提高。虽然我在这里把两个文档一起列出，但其实阅读顺序和阅读习惯可以按各人的习惯自由安排：可以先读前一本，读完再读后一本；也可以先读后一本，在遇到新概念的时候再回头看看前一本的对应章节。这两种都是比较有效的读法。就像电影《黑客帝国》第一部所讲的，在Neo知道Matrix不是看起来那样的真实之后，进入Matrix中能看到一些不真实的事物，读完这两本书之后，你再进入Emacs的时候，看着界面的buffer，高亮的代码块，mode-line等，不再只是看到它们显示出来的样子，而且透过表面看到了里面运行的模块和流动的代码。</p>
+
+<p>作为读书的补充，可以适当的找一些源代码来看，一些常用的扩展如auto-complete, yasnippet等代码目录结构不算复杂的都合适。我个人建议以兴趣和熟悉程度为出发点，以你熟悉的mode，或最感兴趣的扩展来作为开始，因为对外部功能了解越多，越有助于理解其内部代码，就像熟悉Linux的库和系统接口，有助于阅读内核源代码一样。</p>
+
+<p>到此，你已经全面系统的学习过Emacs和Emacs Lisp，在阅读源代码上也有了大量的积累。在正式变为高手之前，还有需要做一件事情：写至少一个扩展，并奉献出来。在开源文化或黑客伦理中，一个人成为高手或黑客，不仅因为他技术高超，而且因为他有很好的奉献精神。写一个扩展需要很多的劳动，写一个规模大而且质量好的扩展更是辛苦。虽然在前面的学习过程中，你已经读过一些扩展的源代码了，但在开始正式自己写扩展之前，或者你有兴趣阅读一下《Writing GNU Emacs Extensions》这本书，了解一下如何从头到尾写一个扩展。这本由Bob Glickstein写的书于1997年由O’Reilly出版，虽然内容很好，但是真的远远落后于时代了，对应的Emacs版本是18，目前能找到的电子版印刷错误也较多。</p>
+
+<h3 id="section-3">4. 飞升成仙</h3>
+
+<p>到了这个阶段，进一步提升自己的方向有两个，一曰深度，一曰广度。</p>
+
+<p>深度方面，可以全面阅读Emacs的源代码，学习其底层的C核心，Emacs Lisp解释器的原理，学习Emacs的启动/运行过程，事件机制，与外部进程的接口，等等。还可以找一些较复杂较庞大的扩展代码来看，例如广为人知的巨兽<a href="http://cedet.sourceforge.net/">CEDET</a>等，除了熟悉如何用Emacs Lisp来实际编写大项目之外，还需要懂得很多与具体应用紧密相关的内容，例如对于CEDET，就需要知道编程语言的词法文法解析过程。这种复杂项目对基础知识的要求较高，读起来较为艰深，需要做好“深挖洞，广积粮”的准备。</p>
+
+<p>广度方面，可以广泛涉猎其它Lisp方言，学习Lisp的实现，历史及著名项目等，甚至可以弄一个Lisp Machine来玩玩，或者学习其它的函数式编程语言。这个话题太大，但我还是尽力尝试提供一点帮助信息。最大的两个Lisp方言当然是Common Lisp和Scheme，如果详细叙述如何学习Common Lisp或Scheme，那么可以需要写的篇幅比本文长得多，或者将来在我的博客上会出现《Common Lisp修炼之道》或《Scheme修炼之道》，但至少暂时是既无能力也无计划。这里只是简单列一下可供参考的书目：</p>
+
+<p>《Structure and Interpretation of Computer Programs》，中译本《计算机程序的构造和解释》<br />
+《Ansi Common Lisp》，目前网上有在线中文翻译版本，前几章翻译得还不错<br />
+《Practical Common Lisp》， 伞哥(田春)翻译了中文版，2011年出版，有的地方读起来比较生涩<br />
+《On Lisp》，伞哥和其他人合作翻译，网上有电子版，翻译质量很高，就像前文所说，“很高”这两个字不是随便用的<br />
+《Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp》，由AI大牛Peter Norvig所写的，书名看起来只是AI方面的书，但其实也是一本很好的Common Lisp教程<br />
+《Common LISP The Language, 2nd》，描述Common Lisp的语言标准  </p>
+
+<p>还有很多Lisp好书都没有一一列出，此外函数式编程语言也不少，虽然有时学习曲线陡得像是悬崖峭壁，但如果你真的到了这一步，相信会有足够的兴趣和技能支撑你继续走下去，总之可以选择的方向太多，这篇小文只谈Emacs修炼，适可而止。</p>
+
+<p>到了这个层次，当然你也要注重发光发热，提挈后辈，可以在社区或邮件组多活动活动，奉献代码，解答疑问。不过这个也是大话题了，网上组织众多各人习惯不同，非三言几语能够说得清楚，按下不表。</p>
+
+<p>如果以上提到的这些内容你都已经深入钻研，深到地球核心，又广到天际之远，那么恭喜恭喜，你可以正式宣称“神丹炼成，择日飞升”，到这个时候，你所需要的只剩下《颈椎病和鼠标手康复指南》。两千年前庄子就说了，“吾生也有涯，而知也无涯。以有涯随无涯，殆已；已而为知者，殆而已矣。”喜欢折腾Emacs的朋友们，人生短暂，还是悠着点吧。</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> <a href="http://coolshell.cn/articles/3125.html">《主流文本编辑器学习曲线》</a>这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。<br />
+<a id="2">[2]</a> 《银河系漫游指南》中毛巾这个词条有一些特别的解释。<br />
+<a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。  </p>
 
 </div>
   
@@ -709,8 +394,6 @@ It doesn’t actually mean anything. Many years ago it was an acronym for some p
     </article>
   
   <div class="pagination">
-    
-      <a class="prev" href="/blog/page/3/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -727,7 +410,7 @@ It doesn’t actually mean anything. Many years ago it was an acronym for some p
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Dylan.Wen <br/>
+  Copyright &copy; 2017 - Dylan.Wen <br/>
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
 </p>
 

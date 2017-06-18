@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Emacs | X lambda]]></title>
   <link href="http://hhkbp2.github.com/blog/categories/emacs/atom.xml" rel="self"/>
   <link href="http://hhkbp2.github.com/"/>
-  <updated>2016-10-24T00:04:50+08:00</updated>
+  <updated>2017-06-19T02:42:49+08:00</updated>
   <id>http://hhkbp2.github.com/</id>
   <author>
     <name><![CDATA[Dylan.Wen]]></name>
@@ -12,78 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[The Emacs 24 Rises]]></title>
-    <link href="http://hhkbp2.github.com/blog/2013/08/18/the-emacs-24-rises/"/>
-    <updated>2013-08-18T15:06:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2013/08/18/the-emacs-24-rises</id>
-    <content type="html"><![CDATA[<p>最近发现旧邮件地址的收件箱里有网友的邮件，说想要在<a href="/blog/2011/03/02/matrix-screen-saver-for-emacs/">Emacs的Matrix屏保</a><code>zone-matrix</code>加入日文支持，但修改过代码并不成功云云。这份代码从2年多之前写好后我就再没怎么看过，由于它运行的时候需要刷新屏幕，比较消耗资源，我也很少启用。现在回头看看那时写的代码，写得真是幼稚，可能从现在算起过几年后再回头看看现在写的代码，也会产生类似的感觉，很有可能。后来我趁周末空闲时间把<code>zone-matrix</code>重构了一遍，并添加了对日文字符集的支持。</p>
-
-<p><code>zone-matrix</code>原来的代码包含两份实现，一个是创建一个大text buffer定时刷新到屏幕，另一个是通过Emacs特有的rectangle相关操作来更新显示，最初我估计两种实现之中，应该是后者比较少耗资源，所以运行得更快或更流畅。但是实际跑起来的时候前者更流畅，对比起来后者明显较迟钝。这次重构，我把retangle换成直接操作buffer(因为猜想retangle操作会相对的没效率)，对比之下依然是text buffer实现跑起来更流畅，算是又多做了一次试验。</p>
-
-<p>重写完<code>zone-matrix</code>之余，想到Emacs 24已经发布1年多了，顺便也升级了吧。于是开工：安装新版本，浏览从23到24的修改，更新库包，更新配置……折腾得不亦乐乎。</p>
-
-<p>Emacs 24的新特性，<a href="http://xahlee.org/">Xah Lee</a>在他的<a href="http://ergoemacs.org/emacs/emacs24_features.html">《New Features in Emacs 24》</a>里已经列得很清楚。除了弱弱的<code>electric-pair-mode</code>和<code>load-theme</code>之外，我个人觉得最重大的一个新特性就是包管理器，包数量多(我加了melpa和marmalade源)，使用起来也比较方便简洁(有时甚至觉得太过简洁，没有apt那么强大)。</p>
-
-<p>有了包管理器，<a href="/blog/2013/01/13/make-my-emacs-configuration-public">我的配置</a>中<code>import</code>目录的很多包都可以从包管理器中checkout最新的版本了。于是我梳理了dired相关几个包的关系，更新了<code>dired+</code>, <code>dired-details</code>, <code>dired-details+</code>，清掉了没用的<code>dired-single</code>和<code>dired-tar</code>，添加了<code>dired-sort-menu</code>及<code>dired-sort-menu+</code>。</p>
-
-<p>Python的开发方面，则添加了<code>jedi</code>，<code>pylint</code>和<code>pep8</code>(尽管比较少用)，<code>jedi</code>大大的提升了Python开发时自动补全的用户体验，而<code>ropemacs</code>现在我只用来做重构。另外引入了<code>undo-tree</code>，<code>ido-complete-space-or-hyphen</code>, <code>helm</code>, <code>smex</code>, <code>fiplr</code>等一些包，<code>ido</code>, <code>helm</code>和<code>smex</code>构成了一个方便强大的组合。更新了Emacs 24之后，总体感觉效率有不少提高，同时也清理了一些过时的配置。之前在我的笔记本和各个公司机器之间通过bitbucket repo同步的配置，也都直接升级到24，放弃兼容23了。因为老的23版本没有包管理器，我懒得一个一个机器安装Emacs 24，也懒得把更新/添加的包同步过去，就让它们保持原样不再改动。就像我之前所说的，如果版本兼容变得比较麻烦，我会选择简单干脆的做法——那就是不做兼容。</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[我的Emacs配置]]></title>
-    <link href="http://hhkbp2.github.com/blog/2013/01/13/make-my-emacs-configuration-public/"/>
-    <updated>2013-01-13T01:18:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2013/01/13/make-my-emacs-configuration-public</id>
-    <content type="html"><![CDATA[<p>我的Emacs配置文件，之前一直是放在自己笔记本的硬盘上，用hg管着版本，然后手工copy到公司的开发机上，前段时间因为需要在多台机器上用Emacs来编辑东西，于是整理了一下，把所有的配置文件都放在bitbucket上，方便在新机器上同步配置文件。由于一直只是自己用，偶然做一点小修改，没打算公开，所以这个bitbucket的代码库一直都是设置为私有。</p>
-
-<p>作为一个Emacs控，我发现在工作环境中虽然听说过或用过Emacs的人很多，但很少人对它有兴趣，而既有兴趣又保持着热情一直用下去的人就更少了，因此玩得好的人几乎遇不到。其实Vim的情况也差不多。我在公司向其他人推销Emacs，一般别人都是直接在开发机上拷贝一份我的配置，原封不动的拿来用。后来发现有个同事D悄悄地把我的整个配置目录放到github上了，反正已经公开，于是我就被迫把bitbucket上我的Emacs配置代码库公开了。这有点像19世纪的日本黑船事件，或者中国的鸦片战争，开放的大门常常是被迫打开的。</p>
-
-<p>我的Emacs配置文件代码库在：</p>
-
-<pre><code>https://github.com/hhkbp2/dot-emacs
-</code></pre>
-
-<p>代码库目录结构如下：</p>
-
-<pre><code>├── dot_emacs              -- 链接到$HOME/.emacs
-├── import/                -- 目录，用于导入的其它扩展包和文件
-├── Makefile               -- 文件，用于解压import目录中的包，并做必要的编译
-├── personal               -- 链接到带私人信息的目录，没有提交到hg
-└── site-lisp/             -- 目录，存放配置文件，主要是自己写的，也有从其它地方拿来的
-</code></pre>
-
-<p>了解<a href="http://emacser.com/dea.htm">DEA</a>的朋友可能会发现，这里的目录结构和文件命名习惯都很像DEA，是的，在我的配置目录不断变大的过程中多次参考了<a href="http://emacser.com">Emacs中文网</a>和DEA，甚至site-lisp下部分文件直接拿自DEA，特别感谢Emacse中文网的主人，DEA的作者ahei。</p>
-
-<p>除了import目录中带有的扩展之外，还用到了一些安装到系统目录的扩展包，它们在debian/ubuntu中的包名是：</p>
-
-<pre><code>emacs-goodiel-el
-emacs23-el
-python-mode
-python-ropemacs
-erlang-mode
-geiser
-</code></pre>
-
-<p>安装好这些依赖包到系统后，使用命令：</p>
-
-<pre><code>hg clone https://github.com/hhkbp2/dot-emacs
-</code></pre>
-
-<p>clone一份我的配置代码库，然后在新建的dot-emacs目录运行命令：</p>
-
-<pre><code>make site-init
-</code></pre>
-
-<p>即可。上面的make命令会从import目录解压各个压缩包并做必要的编译，并将$HOME目录的.emacs链接到dot_emacs文件。如果你用的是其它发行版，或者并非Emacs 23这个版本，可以在make命令运行或Emacs的配置加载时看看有没有报错，再根据报错信息来定位是不是缺少了某个依赖包或文件。</p>
-
-<p>由于Linux发行版众多，同时Emacs有从22到24的各个版本变化，各个扩展包的版本也或多或少有差异，我发现在公司的开发机和自己的笔记本上保持同一份配置的可用性并不是一件轻松的事情，不时地会在某一台机器上出现“文件不存在”或“函数不存在”这种小问题，于是就需要添加对应的版本兼容代码并在多个机器上测试。连同一个软件Emacs在算是同一类系统Linux上做兼容都这么磨人，可想维护那些跨多个平台或多个实现的库是件不容易的事，远远谈不上好玩。对待版本或机器差异，目前我在Emacs配置中使用的方法简单而且粗暴——如果能够简单几行代码搞定最好，否则就直接放弃不作兼容。人生苦短，保持简单就是了。</p>
-
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Emacs修炼之道]]></title>
@@ -170,119 +98,6 @@ geiser
 <a id="1">[1]</a> <a href="http://coolshell.cn/articles/3125.html">《主流文本编辑器学习曲线》</a>这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。<br />
 <a id="2">[2]</a> 《银河系漫游指南》中毛巾这个词条有一些特别的解释。<br />
 <a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。  </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Matrix Screen Saver for Emacs]]></title>
-    <link href="http://hhkbp2.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs/"/>
-    <updated>2011-03-02T18:19:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2011/03/02/matrix-screen-saver-for-emacs</id>
-    <content type="html"><![CDATA[<p><a href="/images/uploads/code_rain_matrix.jpg"><img src="/images/uploads/code_rain_matrix.jpg" alt="the source view screenshot of The Matrix" /></a></p>
-
-<blockquote>
-  <p>“What is the Matrix? Control.”<br />
-– Morpheus</p>
-</blockquote>
-
-<p>对于广大的程序员来说，骇客帝国应该是一部很有吸引力的电影，因为它既有很丰富的商业大片的元素，也有很多我们熟悉的事物：英雄，导师，爱情，格斗和子弹时间，代码，骇客，人类和机器，现实与虚拟，过去和未来预言等。而它的确是一部成功的电影，无论是从它取得的票房上来看，还是从它在世界范围产生的影响来看。</p>
-
-<p>片中为人津津乐道的地方很多，关于宗教哲学，关于现实，关于信念等等，而引起我思考最多的是the Matrix这个AI，机器，人类社会的未来的某一个发展阶段。</p>
-
-<p>什么是the Matrix呢？Morpheus说，control。控制，与被控制。即使片中那个未来社会目前还无法预见，但是其实无需等待那个AI产生的未来，看看现时当下，就很容易发现the Matrix无处不在: gfw; 高房价，control了多少人的生活; 艰难的决定，control了你用哪个客户端软件…</p>
-
-<p>而当年我们的伟大领导RMS正是因为私有软件的版权对人的控制而开始了自由软件运动。</p>
-
-<p>废话少说，长话短说，回到正题，今天说的是又一个碟形世界般的故事：</p>
-
-<p>历史的潮流不断向前推动，在这个不知从何时开始，又不知到何时结束的宏大时代的某一天的某一个不太清醒的时候，镜头转向阿图因大陆，在亚洲东部某个国家南方某个魔法并不盛行的小镇，有一个年轻人在家喝了点酒，晕晕乎乎之余仿照骇客帝国的场景，为GNU Emacs写一个Matrix屏保…</p>
-
-<p>于是就有了zone-matrix.el。</p>
-
-<p>以Linux作桌面系统也有很多时间了，长时间运行Linux，有个屏保对显示器保护比较好,在X window下有很多的屏保可用，但有时只有一个只支持几种颜色的终端。在Emacs的标准发行包中有一个zone.el，提供了几个比较不错的屏保，zone-matrix.el重用了zone.el的框架。希望给那些长时间在终端Emacs下工作的朋友多一种选择。</p>
-
-<p>下载安装：<br />
-到<a href="https://github.com/hhkbp2/dot-emacs/tree/master/site-lisp">这里</a>下载zone-matrix.el，zone-matrix-settings.el，zone-settings.el几个文件，并放到load-path目录中。<br />
-然后在dot emacs文件中加入</p>
-
-<pre><code>(require 'zone-settings)
-</code></pre>
-
-<p>即可。效果图如下：  </p>
-
-<p>终端:  </p>
-
-<p><img src="/images/uploads/zone-matrix-under-console.jpg" alt="`zone-matrix' under console" /></p>
-
-<p>主要在终端下使用，终端下能用的颜色不多，表现力还是很有限的，有时间的话再添加多一些变化。也添加了支持X的部分代码，所以在X下也能用。</p>
-
-<p>X window:  </p>
-
-<p><img src="/images/uploads/zone-matrix-under-X.jpg" alt="`zone-matrix' under X" /></p>
-
-<p>已知的问题有：</p>
-
-<ol>
-  <li>占用的资源较多，在几年前的老机器(赛扬D 2.4G)上跑全屏，CPU占用率会达到90％。可以调整参数，适当降低屏幕刷新速度。</li>
-</ol>
-
-<p>PS：cracker，中文译作骇客，指安全破坏者。<br />
-而hacker，译作黑客，指热爱编程，通过编程让自己变得更加聪明，并乐在其中的人。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[给emacs安装info manual]]></title>
-    <link href="http://hhkbp2.github.com/blog/2010/04/18/install-info-manual-of-emacs/"/>
-    <updated>2010-04-18T08:29:00+08:00</updated>
-    <id>http://hhkbp2.github.com/blog/2010/04/18/install-info-manual-of-emacs</id>
-    <content type="html"><![CDATA[<p>发现在debian squeeze(testing)上安装emacs23默认是不带lisp manual的，于是手动安装。方法如下：</p>
-
-<ol>
-  <li>
-    <p>到GNU官网下载info形式的manual,感兴趣的有</p>
-
-    <p>GNU Emacs Manual，包emacs.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/emacs.html">下载地址</a>)<br />
- Emacs Lisp Introduction，包emacs-lisp-intro.info.gz (<a href="http://www.gnu.org/software/emacs/emacs-lisp-intro/">下载地址</a>)<br />
- Emacs Lisp Reference Manual，包elisp.info.tar.gz (<a href="http://www.gnu.org/software/emacs/manual/elisp.html">下载地址</a>)  </p>
-  </li>
-  <li>
-    <p>安装下载的info包。debian下标准的info文件位于目录/usr/share/info，此目录下文件dir用于提供info树的根菜单，此目录下每个info包在文件dir里都有一个条目对应，条目可以放在一个或者多个section下，每个条目由三部分组成</p>
-  </li>
-</ol>
-
-<p>[条目名]: [对应的info文件或包(可选的子条目名)].  [条目描述]</p>
-
-<p>条目名后面要带一个”:”号，文件或包名后面要带一个”.”号。如emacs faq的条目为</p>
-
-<pre><code>* Emacs FAQ: (emacs-23/efaq).   Frequently Asked Questions about Emacs.
-</code></pre>
-
-<p>将下载的三个包放入/usr/share/info/。并在info树根目录增加中相应的节点，即在文件/usr/share/info/dir的Emacs section中加入</p>
-
-<pre><code>* Emacs
-...       &lt;== 其他条目
-
-* Emacs Manual: (emacs.info.tar). GNU Emacs Manual
-* Emacs Lisp Intro: (emacs-lisp-intro.info).  An Introduction to Programming in Emacs Lisp
-* Emacs Lisp Reference Manual: (elisp.info.tar).
-                                GNU Emacs Lisp Reference Manual
-...       &lt;== 其他条目
-</code></pre>
-
-<p>即可。也可以安装到自定义的info目录，此目录下要有dir文件，同时添加此info目录到INFOPATH来让info进行查找。对于bash，添加环境设置到.bashrc：</p>
-
-<pre><code>INFOPATH=$INFOPATH:$ADDED-INFOPATH
-export INFOPATH
-</code></pre>
-
-<p>对于emacs，可通过变量Info-directory-list, Info-default-directory-list来定制，具体参照Manual。</p>
-
-<p>如担心手动添加info条目会损坏原文件，可先做备份再修改，或通过install-info命令添加info条目，如</p>
-
-<pre><code>$ install-info --dir-file=dir --info-file=filename.info --section=section-name --name=entry-name --description=entry-desc
-</code></pre>
 
 ]]></content>
   </entry>
