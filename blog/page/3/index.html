@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Emacs 修炼之道 - X lambda</title>
+  <title>X lambda</title>
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="“Don’t panic.”
-&#8212; The Hitchhiker’s Guide to the Galaxy 作为一个 Emacs 控，在办公室我也积极的向别人推荐 Emacs，有时候会需要向别人介绍和解释 Emacs，比如它能够做什么，与其它编辑器有什么不同，如何使用它等。Emacs &hellip;">
+  <meta name="description" content="本文翻译自 Netflix[1]技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由 Netflix 工程师，Curator 作者 Jordan Zimmerman 编写，原文在这里。接触 Curator 已经快一年时间， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://hhkbp2.github.com/blog/2013/01/08/the-pragmatic-emacser">
+  <link rel="canonical" href="http://hhkbp2.github.com/blog/page/3">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -74,12 +73,315 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">Emacs 修炼之道</h1>
+      <h1 class="entry-title"><a href="/blog/2014/03/08/introducing-curator-the-netflix-zookeeper-library/">Curator 介绍</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-08T16:27:00+08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文翻译自 Netflix<a href="#1">[1]</a>技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由 Netflix 工程师，Curator 作者 Jordan Zimmerman 编写，原文在<a href="http://techblog.netflix.com/2011/11/introducing-curator-netflix-zookeeper.html">这里</a>。接触 Curator 已经快一年时间，期间有过写一篇介绍性文章的念头，但一直没有动手，后来回顾手头的资料，觉得其实这篇文章虽然简洁了一点，但也是一个很好的介绍，于是翻译在这里。仅用于学习，请勿用于其它用途。</p>
+
+<hr />
+
+<h3 id="netflix-">Netflix 的开源</h3>
+
+<p>Netflix 致力于开源，我们过去写过<a href="http://techblog.netflix.com/2010/12/why-we-use-and-contribute-to-open.html">相关的博客</a>，今天我们公布 Netflix 开源项目的门户网页。网页<a href="https://github.com/netflix">托管在 Github 上</a>，有几个项目在并行推进当中(其中包括我们今天对外发布的 <a href="https://github.com/netflix/curator">Curator</a>)：</p>
+
+<ul>
+  <li>Curator - Netflix 的 ZooKeeper 库</li>
+  <li>Astyanax - Netflix 的 Cassandra 客户端</li>
+  <li>Priam - Cassandra 的跨进程备份/恢复功能，Token 管理，配置中心化管理</li>
+  <li>CassJMeter - 运行 Cassandra 测试的 JMeter 插件</li>
+</ul>
+
+<h3 id="zookeeper">ZooKeeper</h3>
+
+<p>ZooKeeper 是一个高性能的分布式协调服务框架。它将通用的服务，如命名，配置管理，同步，分组服务等，通过简单的接口展现出来。要全面的了解 ZooKeeper，请参考以下网页：</p>
+
+<ul>
+  <li><a href="http://zookeeper.apache.org/">ZooKeeper 主站</a></li>
+  <li><a href="http://zookeeper.apache.org/doc/current/recipes.html">ZooKeeper Recipes</a></li>
+  <li><a href="https://cwiki.apache.org/ZOOKEEPER/faq.html">ZooKeeper FAQ</a></li>
+  <li><a href="https://cwiki.apache.org/confluence/display/ZOOKEEPER/Index">ZooKeeper Info 文档</a></li>
+  <li><a href="http://research.yahoo.com/node/2120">很好的解释 ZooKeeper 的视频</a></li>
+</ul>
+
+<h3 id="section">难以用好</h3>
+
+<p>ZooKeeper 本身自带一个 Java 客户端，但使用这个客户端繁琐<a href="#2">[2]</a>而且容易出错。客户端的使用者需要做大量的手动维护性工作。比如：</p>
+
+<p>连接问题</p>
+
+<ul>
+  <li>初始化连接：ZooKeeper 客户端与服务器进行握手，这需要花一些时间。如果握手未完成，任何要与服务器端同步执行的方法(如，create()，getData()等)都会抛出异常。</li>
+  <li>Failover：如果 ZooKeeper 客户端与服务器连接断开，它会 failover 到集群中另外一台服务器。然后，这个过程会使客户端退回到”初始化连接”的模式。</li>
+  <li>Session 过期：有些边际情况可以导致 ZooKeeper session 过期。客户端需要监视这个状态，关闭并重建 ZooKeeper 客户端实例。</li>
+</ul>
+
+<p>恢复问题</p>
+
+<ul>
+  <li>当在 Server 创建顺序节点(sequential ZNode)时，有可能出现这种情况：节点成功创建了，但 server 在将节点名返回给客户端之前崩溃了。</li>
+  <li>ZooKeeper 客户端可能会抛出几个可恢复的异常，使用者需要捕捉这些异常并做重试操作。</li>
+</ul>
+
+<p>Recipe<a href="#3">[3]</a>方面</p>
+
+<ul>
+  <li>标准的 ZooKeeper recipe(如锁，选 leader 等)只是得到最低程序的描述，要正确地编写出来比较困难。</li>
+  <li>有一些重要的边界情况在 recipe 描述里没有提到。例如，锁 recipe 的描述中，没有说到如何处理服务器成功创建了顺序(Sequential)/临时(Ephemeral)节点，但在向客户端返回结点名之前就崩溃的情况。如果没有得到正确处理，可能会导致死锁。</li>
+  <li>某些使用场景下，必须要注意可能出现的连接问题。例如，选 leader 过程要监视连接的稳定性。如果连接到的服务器崩溃了，leader 就不能假定自己继续为 leader，除非已经成功 failover 到另外的服务器。</li>
+</ul>
+
+<p>上述问题(和其它类似的问题)必须由每个 ZooKeeper 使用者来处理。问题解决方案既不容易编写，也不是显而易见的，需要消耗相当多的时间。而 Curator 处理了所有的问题。</p>
+
+<h3 id="curator-">Curator 是什么</h3>
+
+<p>Curator n ˈkyoor͝ˌātər:，展品或者其它收藏品的看守者，管理员，ZooKeeper 的 Keeper。它由 3 个相关的项目组成：</p>
+
+<ul>
+  <li>curator-client - ZooKeeper 自带客户端的替代者，它负责处理低层次的维护工作，并提供某些有用的小功能</li>
+  <li>curator-framework - Curator Framework 大大地简化 ZooKeeper 使用的高层次 API。它在 ZooKeeper 客户端之上添加了很多功能，并处理了与 ZooKeeper 集群连接管理和重试操作的复杂性。</li>
+  <li>curator-recipes - ZooKeeper 某些通用 recipe 的实现。它是基于 Curator Framework 之上实现的。</li>
+</ul>
+
+<p>Curator 专注于锁，选 Leader 等这些 recipe。大部分对 ZooKeeper 感兴趣的人不需要关心连接管理等细节。他们想要的只是简单的使用这些 recipe。Curator 就是以此作为目标。</p>
+
+<p>Curator 通过以下方式处理了使用 ZooKeeper 的复杂度：</p>
+
+<ul>
+  <li>重试机制：Curator 支持可插拔式的(pluggable)重试机制。所有会产生可恢复异常的 ZooKeeper 操作都会在配置好的重试策略下得到重试。Curator 自带了几个标准的重试策略(如二元指数后退策略)。</li>
+  <li>连接状态监视：Curator 不断监视 ZooKeeper 连接的状态，Curator 用户可以监听连接状态变化并相应的作出回应。</li>
+  <li>ZooKeeper 客户端实例管理：Curator 通过标准的 ZooKeeper 类实例来管理与 ZooKeeper 集群的实际连接。然而，这些实例是管理在内部(尽管你若需要也可以访问)，在需要的时候被重新创建。因此，Curator 提供了对 ZooKeeper 集群的可靠处理(不像 ZooKeeper 自带的实现)。</li>
+  <li>正确，可靠的 recipe：Curator 实现了大部分重要的 ZooKeeper recipe(还有一些附加的 recipe)。它们的实现使用了 ZooKeeper 的最佳实践，处理了所有已知的边界情况(像前面所说的)。</li>
+  <li>Curator 专注于那些让你的代码更强健，因为你完全专心于你感兴趣的 ZooKeeper 功能，而不用担心怎么正确完成那些的维护性工作。</li>
+</ul>
+
+<h3 id="zookeeper--netflix">ZooKeeper 在 Netflix</h3>
+
+<p>ZooKeeper/Curator 在 Netflix 得到了广泛的使用。使用情景有：</p>
+
+<ul>
+  <li>InterProcessMutex 在各种顺序 ID 生成器中被用来保证值的唯一性</li>
+  <li>Cassandra 备份</li>
+  <li>TrackID 服务</li>
+  <li>我们的 Chukwa 收集器使用 LeaderSelector 来做各种维护性的任务</li>
+  <li>我们用了一些第三方的服务，但它们只允许有限数目的并发用户。InterProcessSemphore 被用来处理这个。</li>
+  <li>各种 Cache</li>
+</ul>
+
+<h3 id="curator">获取 Curator</h3>
+
+<ul>
+  <li>Curator 二进制被上传到了 Maven Central，这让获取它变得很容易</li>
+  <li>Curator 的源代码放在 Github 上托管<a href="#4">[4]</a>：<a href="https://github.com/Netflix/curator">https://github.com/Netflix/curator</a></li>
+  <li>全面的文档放在：<a href="https://github.com/Netflix/curator/wiki">https://github.com/Netflix/curator/wiki</a></li>
+</ul>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> Netflix 是一个美国的在线 DVD 租赁公司，后来转型到网络流媒体服务。参考<a href="http://zh.wikipedia.org/wiki/Netflix">维基百科 Netflix 词条</a>。<br />
+<a id="2">[2]</a> 原文为 non-trivial，意思应该是搞反了。<br />
+<a id="3">[3]</a> Recipe 中文意思为“菜谱，配方”，感觉翻译过来不能很好的表达英文”一系列约定步骤”的意思，故不译。<br />
+<a id="4">[4]</a> Curator 在去年(2013 年)年中已经正式成为 Apache Incubator 项目，代码改为托管在 Github Apache 的对应目录下。主页和文档的位置也有所变化。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/10/nested-backquotes-considered-harmful/">嵌套反引用有害</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-10T21:37:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
+
+<hr />
+
+<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
+
+<blockquote>
+  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么 Alan Bawden 的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是 <a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a> 所推荐的）。Alan 的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham 在他的书《On Lisp》的第 16 章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br />
+<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
+</blockquote>
+
+<p>Bruno Haible 最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在 c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
+
+<pre><code>1. 在内层使用 LIST, APPEND 等函数代替反引用
+2. 使用包含反引用的辅助函数
+</code></pre>
+
+<p>Bruno 为每个方法提供了例子。</p>
+
+<p>首先，下面给出的这段代码用了嵌套反引用：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       `(let
+          (,,@(mapcar #'(lambda (tmp var)
+                          ``(,',tmp ,,var))
+                      temps variables))
+          ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                         variables temps)
+             ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法 1 转换后如下：</p>
+
+<pre><code>(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (list 'let
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(list ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>原来的代码使用方法 2 转换后如下：</p>
+
+<pre><code>(defun construct-binding (variable form)
+  `(,variable ,form))
+
+(defun construct-let-wrapper (bindings body-form)
+  `(let ,bindings ,body-form))
+
+(defmacro once-only (variables &amp;rest body)
+  (assert (every #'symbolp variables))
+  (let ((temps nil))
+    (dotimes (i (length variables)) (push (gensym) temps))
+    `(if (every #'side-effect-free? (list ,variables))
+       (progn ,body)
+       (construct-let-wrapper
+         (list ,@(mapcar #'(lambda (tmp var)
+                             `(construct-binding ',tmp ,var))
+                         temps variables))
+         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
+                       variables temps)
+           ,body)))))
+</code></pre>
+
+<p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
+
+<p>作为 Bruno 建议方法的一种替代，也许你会考虑使用 <a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a> 的 BQ 反引用工具（包含在 <a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a> 中）。Drew 在 <a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools 手册</a>中对这个反引用问题有一个很好的解释：</p>
+
+<blockquote>
+  <p>反引用是 Lisp 的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+
+  <ol>
+    <li>
+      <p>当实现一个像反引用这样的机制时，需要 3 个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro 就是这样读取的）。之后宏展开器将 backquote 调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
+
+      <p>不幸的是，Common Lisp 标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个 Lisp 实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
+
+      <p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多 Lisp 实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
+    </li>
+    <li>
+      <p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
+
+      <p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
+
+      <pre><code>'(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+
+      <p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
+
+      <pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+
+      <p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
+    </li>
+  </ol>
+
+  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。  </p>
+</blockquote>
+
+<p>因此，正如 Common Lisp 里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4 种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
+
+<pre><code>1. 使用嵌套反引用
+2. 在内层使用 LIST, APPEND 等函数代替反引用
+3. 使用包含反引用的辅助函数
+4. 使用一个反引用的替代实现
+</code></pre>
+
+<p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> 即 Obfuscation Contest。国际 C 语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br />
+<a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp 中文版》对应章节。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/08/the-pragmatic-emacser/">Emacs 修炼之道</a></h1>
     
     
       <p class="meta">
@@ -102,7 +404,7 @@
   </header>
 
 
-<div class="entry-content"><blockquote>
+  <div class="entry-content"><blockquote>
   <p>“Don’t panic.”<br />
 &#8212; The Hitchhiker’s Guide to the Galaxy</p>
 </blockquote>
@@ -184,65 +486,27 @@
 <a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。  </p>
 
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
-
-      
-
-
-
-
-
-
-
-
   
 
 
-<time datetime="2013-01-08T16:04:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
-      
-
-<span class="categories">
+    </article>
   
-    <a class='category' href='/blog/categories/emacs/'>Emacs</a>
-  
-</span>
-
-
-    </p>
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  
-  
-</div>
-
+      <a class="prev" href="/blog/page/4/">&larr; Older</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/02/19/lets-drink-and-love-under-moonlight/" title="Previous Post: 金杯月明夜，与君醉梦乡">&laquo; 金杯月明夜，与君醉梦乡</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2013/03/10/nested-backquotes-considered-harmful/" title="Next Post: 嵌套反引用有害">嵌套反引用有害 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    
+  </div>
 </div>
-
 <aside class="sidebar">
   
     
   
 </aside>
-
 
     </div>
   </div>

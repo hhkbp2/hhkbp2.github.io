@@ -1,0 +1,702 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kapok 的设计与实现: Macro - X lambda</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="Kapok 是我设计与实现的一个基于 Erlang VM 的现代 Lisp 编程语言。《念念不忘，亦有回响》这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中 Macro 的具体设计和实现。 Lisp 是一系列采用括号包围中缀表达式的列表形式来编写代码的编程语言的统称，借用一位朋友的说法， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hhkbp2.github.com/blog/2017/08/14/kapok-the-design-and-implementation-of-macro">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+
+<!-- load source han serif sc font -->
+<script src="https://use.typekit.net/yvt2jaq.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+<!--
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+-->
+
+
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:xlambda.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a><span class="divider"></span></li>
+  <li><a href="/blog/about"></i>About</a><span class="divider"></span></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Kapok 的设计与实现: Macro</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-14T16:20:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/images/uploads/kapok_flowers.jpg" alt="木棉花" /></p>
+
+<p><a href="https://github.com/kapok-lang/kapok">Kapok</a> 是我设计与实现的一个基于 Erlang VM 的现代 Lisp 编程语言。<a href="/blog/2016/06/08/minds-echo/">《念念不忘，亦有回响》</a>这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中 Macro 的具体设计和实现。</p>
+
+<p>Lisp 是一系列采用括号包围中缀表达式的列表形式来编写代码的编程语言的统称，借用一位朋友的说法，Lisp 就是“裸写 AST”。由于这种特别的写法，在 Lisp 里面将代码作为数据来操作相当容易，而实现这种操作的就是 Macro。有很多的书籍和资料都有描述 Lisp Macro，这里就不展开了，简单的来说，Lisp Macro 是一种在编译时执行的，接受列表输入，输出列表的特殊函数。如果我们构思一下如何在 Erlang VM 上为一门 Lisp 语言实现 Macro，可以得到这几个要点：</p>
+
+<ol>
+  <li>Macro 实现为函数，而 Erlang 和 Erlang VM 支持函数  </li>
+  <li>Macro 对应的实现函数，其输入是代码 AST，输出也是 AST  </li>
+  <li>Macro 在编译时执行，Macro 本身的代码需要在被调用前的代码编译前编译完成  </li>
+</ol>
+
+<p>下面我们进一步看看 Kapok Macro 的具体实现。</p>
+
+<h2 id="section">函数的实现</h2>
+
+<p>将 Lisp Macro 实现为函数，首先我们要在 Erlang VM 上实现 Lisp 函数。Erlang 是一门函数式编程语言，在它的代码编译过程中，生成的 Abstract Form(或称为 Syntax Tree)和 Core Erlang 这两种中间代码都直接支持函数。Erlang 函数比较特别，参数个数(Arity)也是函数签名的一部分，它支持多个子句但是每个子句只能有固定个数的参数，举例<code>erlang:spawn/1</code>和<code>erlang:spawn/3</code>是一个同名函数的两个子句。目前已经存在的几个 Erlang VM 上的语言实现，如 LFE 等，大都沿用了 Erlang 函数的这个设计，除了 Elixir 在函数参数的最后面引入 Keyword List。如果将 Kapok 的函数直接编译成 Erlang 函数，函数参数定义和签名可以照抄过来，是容易做到的。但传统的 Lisp，比如 Common Lisp, 在函数参数定义这块支持<code>&amp;optional</code>, <code>&amp;rest</code>, <code>&amp;key</code>这几个关键字，其中<code>&amp;optional</code>表示这个关键字后面的参数是可选的，<code>&amp;rest</code>表示将后面的参数构造成一个 list，<code>&amp;key</code>表示可以用 key value 匹配的形式来调用函数。能不能在 Erlang VM 上实现对这几个关键字的支持呢？不妨尝试一下。</p>
+
+<p>首先思考一下如何实现<code>&amp;optional</code>，我们知道<code>&amp;optional</code>后面的参数在调用时可以不传入而采用默认值。举例来说，如果在 Common Lisp 里面有这个函数定义</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(defun f (a &amp;optional b c)
+</span><span class="line">  ;; 具体实现
+</span><span class="line">  ...
+</span><span class="line">  )</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以下面几种方式来调用都是合法的</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(f 1 2 3)
+</span><span class="line">(f 1 2)
+</span><span class="line">(f 1)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这种调用的形式可以适配到 Erlang 的子句上面来。比如上面的函数定义<code>f</code>可以实现成 Erlang 函数：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">f(A) -&gt;
+</span><span class="line">  f(A, nil, nil).
+</span><span class="line">f(A, B) -&gt;
+</span><span class="line">  f(A, B, nil).
+</span><span class="line">f(A, B, C) -&gt;
+</span><span class="line">  %% 具体实现
+</span><span class="line">  ...;</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果参数 B, C 被省略了，那么就用一个默认值来调用参数多一个的子句，这里假定默认参数统一为 Atom nil(Lisp 里面 optional 参数的默认值为 symbol nil)。</p>
+
+<p>然后再考虑如何实现<code>&amp;rest</code>, <code>&amp;key</code>。我们看看一个常用的函数参数实现技巧。假设现在需要定义一个函数，这个函数只允许有一个参数(不考虑这个限制是否合理)，然而你需要传入两个参数，你会怎么定义这个函数？</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">%% An Erlang function which calculates the area of a rectangle
+</span><span class="line">%% with specified length and width.
+</span><span class="line">calc_area({length, width}) -&gt;
+</span><span class="line">   length * width.</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>你会将这个函数的唯一参数定义成一个能存放两个参数的结构，然后在调用时用实际参数构造一个这样的结构传入。上面是一个以 Erlang 编写的例子，事实上用其它语言比如 Python, C 来实现，思路也是一样。</p>
+
+<p>类似地，对于<code>&amp;rest</code>参数，可以将<code>&amp;rest</code>后面的参数构造成一个列表传入。举例说明，若有 Lisp 的函数定义</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(defun f (a &amp;rest b)
+</span><span class="line">  ;; 具体实现
+</span><span class="line">  ...
+</span><span class="line">  )</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>可以翻译成对应的 Erlang 函数如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">f(A) -&gt;
+</span><span class="line">  f(A, []).
+</span><span class="line">f(A, B) -&gt;
+</span><span class="line">  ;; 具体实现，此处 B 是一个列表
+</span><span class="line">  ...</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果调用 Lisp 函数<code>f</code>的实际参数超过一个，那么从第二个参数开始及之后的实际参数都会被放入一个 List 中，赋值给<code>B</code>变量。比如对于调用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(f 1 2 3 4)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>那么实际调用的对应代码就变成</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">f(A = 1, B = [2 3 4])</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对于关键字<code>&amp;key</code>，也可以采取类似的思路。比如对于函数定义</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(defun f (a &amp;key b c)
+</span><span class="line">  ;; 具体实现 
+</span><span class="line">  ...
+</span><span class="line">  )</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>会翻译成对应的 Erlang 函数定义</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">f(A) -&gt;
+</span><span class="line">  f(A, maps:new()).
+</span><span class="line">f(A, Map) -&gt;
+</span><span class="line">  %% 具体实现
+</span><span class="line">  ...</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>调用时会变换实际参数为第二个形参构造一个 Map。比如这样的调用</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(f 1 :c 3)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>会翻译成</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">f(A = 1, Map = #{c =&gt; 3})</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>所描述的都是 Lisp 函数定义里，固定参数后出现<code>&amp;optional</code>, <code>&amp;rest</code>, <code>&amp;key</code>三个关键字其中之一的简单情况。如果两个关键字都用上，还是否能够工作呢？我们知道<code>&amp;rest</code>, <code>&amp;key</code>都在最后一个参数上做文章，如果<code>&amp;rest</code>, <code>&amp;key</code>同时出现，那最后一个参数是构造成 List 还是 Map？幸好这种情况不会发生，在 Common Lisp 的编程规范中限制了函数定义中<code>&amp;optional</code>, <code>&amp;rest</code>, <code>&amp;key</code>这几个关键字的用法如下：</p>
+
+<ol>
+  <li>固定参数 + <code>&amp;optional</code>/<code>&amp;rest</code>/<code>&amp;key</code> 其中之一的简单情况，上面我们已经过了一遍</li>
+  <li><code>&amp;key</code>与<code>&amp;optional</code>, <code>&amp;rest</code>混用会产生奇怪行为，所以<code>&amp;key</code>不能与它们混用</li>
+  <li><code>&amp;optional</code>可与<code>&amp;rest</code>混用，但是约定<code>&amp;optional</code>在前，<code>&amp;rest</code>在后</li>
+</ol>
+
+<p>只有第 3 点是混用的情况，根据的实现方式可知<code>&amp;optional</code>和<code>&amp;rest</code>没有冲突，第 3 点是可以实现的。</p>
+
+<p>上面花了很长的篇幅来详细描述如何在 Erlang VM 实现 Lisp 函数，由开头的讨论可知 Macro 也是函数，有了函数的实现作为基础，下面我们进一步讨论 Macro 函数的输入输出。</p>
+
+<h2 id="ast-">AST 的处理</h2>
+
+<p>从代码的书写形式来看，在 Lisp 里面代码是列表，因此 Lisp Macro 的输入和输出都是列表。在实现层面，Lisp 列表形式的代码会经过词法分析语法分析，最后变成编译器内部表示 AST。AST 主要保存这几类信息：类别，数值，元数据。例如，在 Lisp 代码里面的<code>100</code>字面量，就需要一个 AST 数据结构记录下它是一个常量，值为整数 100，它在代码文件里面的行号是多少等。Kapok 内部将 AST 定义为 Erlang Tuple</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{Category, Meta, Value}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>其中<code>Category</code>表示这个结点的类别，比如 integer 常量，list, map 等。<code>Meta</code>是一个保存元数据的 Property List。<code>Value</code>则是记录了实际的取值，比如对于 integer 常量，就记录了常量的值是 100，对于 List 类型，就记录了这个 List 包含的所有元素的子结点 AST。</p>
+
+<p>熟悉 Elixir 元编程的人看到这个定义会觉得很熟悉，因为 AST 在 Elixir 中的定义也是如此。</p>
+
+<p>Macro 的输入和输出都是 AST，在编译过程中，每一个对 Macro 的调用，都是使用参数的对应的 AST 来调用 Macro 的实现函数。举例说明，比如对于 Macro 定义</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(defmacro unless [test &amp;rest body]
+</span><span class="line">  """Evaluates test. If logical false, evaluates body in an implicit do."""
+</span><span class="line">  `(case (core.true? ~test)
+</span><span class="line">     (^true ^ok)
+</span><span class="line">     (^false ~@body)))</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>有调用代码如下</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(unless (f 1)
+</span><span class="line">  (g 2)
+</span><span class="line">  (h 3))</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>那么在 Macro 展开的时候会得到调用如下，以对应 Erlang 代码来描述：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">unless(AST{(f 1)}, [AST{(g 2)}, AST{(h 3)}])</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>其中<code>AST{X}</code>表示 Lisp 表达式<code>X</code>(也就是在 Lisp 代码里面看到的形式)对应的 AST，每个 AST 展开都是上面所述的 Tuple 结构，为方便描述这里使用了简单表示。Macro 展开的过程，即是输入的 AST 流经过 unless 函数，对应的参数经过变换之后得到输出如下:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">AST{(case (core.true? (f 1))
+</span><span class="line">      (^true ^ok)
+</span><span class="line">      (^false (g 2) (h 3)))}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>整个输出是一个完整的 case 表达式的 AST，检查 case 表达式和 unless Macro 的定义，我们可知<code>AST{(f 1)}</code>插入到了指定的条件判断参数处，而<code>[AST{(g 2)}, AST{(h 3)}]</code>中的元素被取出放入了<code>false</code>分支。</p>
+
+<p>在 Kapok 编译的最后阶段，这种内部 AST 会转换成 Erlang Abstract Form，最后把它用 Erlang Compiler 编译并加载到 Erlang VM。这部分的转换的逻辑相当于繁琐，篇幅所限就不再一一展开。</p>
+
+<h2 id="macro-">Macro 编译，展开</h2>
+
+<p>普通函数一般是在运行时执行的，Macro 与之不同，它在编译时执行。要在编译时调用一个 Macro，这个 Macro 的定义必须已知，并且经过编译，才可能被调用。在 Erlang 里面，模块(Module)即是代码的基本组织单元，也是编译的基本单元，虽然也可以对单个表达式进行编译。已有的几种基于 Erlang VM 的语言，如 Elixir, LFE，都采用了将他们的代码模块翻译到 Erlang 模块然后按模块编译的方式。按模块编译对于 Macro 的编译和展开会产生一个编译顺序的问题，举例来说在 Elixir 里面，你需要先声明一个模块<code>m1</code>，在里面编写宏<code>mac</code>的定义，然后声明另外一个模块<code>m2</code>，在<code>m2</code>里面的代码，假设是函数<code>f</code>，调用<code>mac</code>，编译的时候会先编译<code>m1</code>，使得<code>mac</code>的定义被编译过，然后编译<code>m2</code>，编译<code>m2</code>时在<code>mac</code>被调用的地方执行它。你不能把<code>f</code>和<code>mac</code>都写在同一个模块，否则在这个模块被编译的时候，<code>mac</code>就不能被执行。在 Kapok 中，我沿用了 Joxa 的一个技巧，<code>f</code>和<code>mac</code>可以写到同一个模块，但是<code>mac</code>必须放在<code>f</code>之前，在编译时，如果发现<code>f</code>中的代码调用了一个当前模块的 Macro，那么就将<code>f</code>之前的代码当成一个完整的模块，以一个随机生成的模块名，送到 Erlang Compiler 编译，编译后就可以调用其中的<code>mac</code>。</p>
+
+<p>每次调用一个 Macro，都会将调用时的参数 AST 传入，得到结果 AST，再插入到原来调用处，这样称之为一次展开。在 Lisp 中，Macro 的展开是递归的，即是说如果展开<code>mac</code>之后，得到的代码若还有其它的 Macro，比如<code>unless</code>，还会进一步展开，直至所有 Macro 都全部展开为止。</p>
+
+<h2 id="section-1">一个完整的例子</h2>
+
+<p>最后，以一个完整的例子来说明整个 Kapok 编译过程，包括上面提到的函数翻译，Macro 的编译和展开等，以帮助理解。用一个简单的 Kapok 函数定义为例</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(defn g [n]
+</span><span class="line">  (io.format "call g(n = ~p)~n", [n]))</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这段代码经过词法分析，语法分析阶段后，会生成 AST 如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{list,[{line,4},{column,1}],
+</span><span class="line">      [{identifier,[{line,4},{column,2}],defn},
+</span><span class="line">       {identifier,[{line,4},{column,7}],g},
+</span><span class="line">       {literal_list,[{line,4},{column,9}],
+</span><span class="line">                     [{identifier,[{line,4},{column,10}],n}]},
+</span><span class="line">       {list,[{line,5},{column,3}],
+</span><span class="line">             [{dot,[{line,5},{column,6}],{io,format}},
+</span><span class="line">              {binary_string,[{line,5},{column,14}],&lt;&lt;"call g(n = ~p)~n"&gt;&gt;},
+</span><span class="line">              {literal_list,[{line,5},{column,34}],
+</span><span class="line">                            [{identifier,[{line,5},{column,35}],n}]}]}]}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>其结构比较简明，从中可以识别出标识符<code>defn</code>, <code>g</code>, <code>n</code>及<code>list</code>等结构。这个 AST 由于没有任何 Macro 调用，经过 Macro Expand 阶段没有任何变化，然后会转换成 Erlang Abstract Form 如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{function,0,g,1,
+</span><span class="line"> [{clause,4,
+</span><span class="line">   [{var,4,n}],
+</span><span class="line">   [],
+</span><span class="line">   [{call,5,
+</span><span class="line">     {remote,5,{atom,0,io},{atom,0,format}},
+</span><span class="line">     [{bin,0,[{bin_element,0,{string,0,"call g(n = ~p)~n"},default,default}]},
+</span><span class="line">      {cons,0,{var,5,n},{nil,0}}]}]}]}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这段中间代码同样比较简单，容易看到函数<code>g</code>只带一个参数<code>n</code>，在它唯一的一个子句里面调用了一个<code>io.format</code>函数。</p>
+
+<p>我们可以加上前面提到的 Macro，并且添加一个调用 Macro 的代码，如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(defmacro unless [test &amp;rest body]
+</span><span class="line">  """Evaluates test. If logical false, evaluates body in an implicit do."""
+</span><span class="line">  (io.format "call unless macro~n")
+</span><span class="line">  `(case (core.true? ~test)
+</span><span class="line">     (^true ^ok)
+</span><span class="line">     (^false
+</span><span class="line">      (io.format "before exprs in body!~n")
+</span><span class="line">      ~@body)))
+</span><span class="line">
+</span><span class="line">(defn f [n]
+</span><span class="line">  (g n)
+</span><span class="line">  (unless (== n 0)
+</span><span class="line">    (io.format "1. n: ~p~n" [n])
+</span><span class="line">    (io.format "2. hello macro~n")))</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>f</code>的定义在经过词法与语法分析阶段后得到 AST</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{list,[{line,16},{column,1}],
+</span><span class="line">      [{identifier,[{line,16},{column,2}],defn},
+</span><span class="line">       {identifier,[{line,16},{column,7}],f},
+</span><span class="line">       {literal_list,[{line,16},{column,9}],
+</span><span class="line">                     [{identifier,[{line,16},{column,10}],n}]},
+</span><span class="line">       {list,[{line,17},{column,3}],
+</span><span class="line">             [{identifier,[{line,17},{column,4}],g},
+</span><span class="line">              {identifier,[{line,17},{column,6}],n}]},
+</span><span class="line">       {list,[{line,18},{column,3}],
+</span><span class="line">             [{identifier,[{line,18},{column,4}],unless},
+</span><span class="line">              {list,[{line,18},{column,11}],
+</span><span class="line">                    [{identifier,[{line,18},{column,12}],'=='},
+</span><span class="line">                     {identifier,[{line,18},{column,15}],n},
+</span><span class="line">                     {number,[{line,18},{column,17}],0}]},
+</span><span class="line">              {list,[{line,19},{column,5}],
+</span><span class="line">                    [{dot,[{line,19},{column,8}],{io,format}},
+</span><span class="line">                     {binary_string,[{line,19},{column,16}],&lt;&lt;"1. n: ~p~n"&gt;&gt;},
+</span><span class="line">                     {literal_list,[{line,19},{column,29}],
+</span><span class="line">                                   [{identifier,[{line,19},{column,30}],n}]}]},
+</span><span class="line">              {list,[{line,20},{column,5}],
+</span><span class="line">                    [{dot,[{line,20},{column,8}],{io,format}},
+</span><span class="line">                     {binary_string,[{line,20},{column,16}],
+</span><span class="line">                                    &lt;&lt;"2. hello macro~n"&gt;&gt;}]}]}]}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>其中可以看到有<code>{list, _, [{identifier, _, unless}, ...]}</code>这样一个宏调用。因为这个宏是在同一个模块的前面定义的，Kapok 编译器就将<code>f</code>之前的代码，包括<code>g</code>, <code>unless</code>的定义作为另一个模块编译完后，用<code>f</code>中调用<code>unless</code>的实际参数 AST 作为参数来调用<code>unless</code>。即<code>unless</code>被调用时得到的参数如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{list,[{line,18},{column,11}],
+</span><span class="line">      [{identifier,[{line,18},{column,12}],'=='},
+</span><span class="line">       {identifier,[{line,18},{column,15}],n},
+</span><span class="line">       {number,[{line,18},{column,17}],0}]},
+</span><span class="line">[{list,[{line,19},{column,5}],
+</span><span class="line">       [{dot,[{line,19},{column,8}],{io,format}},
+</span><span class="line">        {binary_string,[{line,19},{column,16}],&lt;&lt;"1. n: ~p~n"&gt;&gt;},
+</span><span class="line">        {literal_list,[{line,19},{column,29}],
+</span><span class="line">                      [{identifier,[{line,19},{column,30}],n}]}]},
+</span><span class="line"> {list,[{line,20},{column,5}],
+</span><span class="line">       [{dot,[{line,20},{column,8}],{io,format}},
+</span><span class="line">        {binary_string,[{line,20},{column,16}],&lt;&lt;"2. hello macro~n"&gt;&gt;}]}]</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>其中第一个参数是一个 list AST，第二个参数是一个 List，它的元素也是两个 AST。这一串 AST 流经<code>unless</code>函数之后，经过转换返回的结果是</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">{list,
+</span><span class="line">   [{line,10},{column,4}],
+</span><span class="line">   [{identifier,[{line,10},{column,5}],'case'},
+</span><span class="line">    {list,
+</span><span class="line">        [{line,10},{column,10}],
+</span><span class="line">        [{dot,[{line,10},{column,15}],{core,'true?'}},
+</span><span class="line">         {list,
+</span><span class="line">             [{line,18},{column,11}],
+</span><span class="line">             [{identifier,[{line,18},{column,12}],'=='},
+</span><span class="line">              {identifier,[{line,18},{column,15}],n},
+</span><span class="line">              {number,[{line,18},{column,17}],0}]}]},
+</span><span class="line">    {list,
+</span><span class="line">        [{line,11},{column,6}],
+</span><span class="line">        [{atom,[{line,11},{column,7}],true},
+</span><span class="line">         {atom,[{line,11},{column,12}],ok}]},
+</span><span class="line">    {list,
+</span><span class="line">        [{line,12},{column,6}],
+</span><span class="line">        [{atom,[{line,12},{column,7}],false},
+</span><span class="line">         {list,
+</span><span class="line">             [{line,13},{column,7}],
+</span><span class="line">             [{dot,[{line,13},{column,10}],{io,format}},
+</span><span class="line">              {binary_string,
+</span><span class="line">                  [{line,13},{column,18}],
+</span><span class="line">                  &lt;&lt;"before exprs in body!~n"&gt;&gt;}]},
+</span><span class="line">         {list,
+</span><span class="line">             [{line,19},{column,5}],
+</span><span class="line">             [{dot,[{line,19},{column,8}],{io,format}},
+</span><span class="line">              {binary_string,[{line,19},{column,16}],&lt;&lt;"1. n: ~p~n"&gt;&gt;},
+</span><span class="line">              {literal_list,
+</span><span class="line">                  [{line,19},{column,29}],
+</span><span class="line">                  [{identifier,[{line,19},{column,30}],n}]}]},
+</span><span class="line">         {list,
+</span><span class="line">             [{line,20},{column,5}],
+</span><span class="line">             [{dot,[{line,20},{column,8}],{io,format}},
+</span><span class="line">              {binary_string,
+</span><span class="line">                  [{line,20},{column,16}],
+</span><span class="line">                  &lt;&lt;"2. hello macro~n"&gt;&gt;}]}]}]}</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>从中可以看到输入的 AST 参数已经被转换插入到指定的地方，这个<code>unless</code>返回的 AST 也将被插入到<code>f</code>中<code>unless</code>被调用的地方，从而达到修改/变换代码的效果。由于篇幅所限，<code>f</code>以及整个模块最后生成的 Erlang Abstract code 就不一一展示了。最后贴出整个示例的完整模块 Kapok 代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">(ns x
+</span><span class="line">  (require io))
+</span><span class="line">
+</span><span class="line">(defn g [n]
+</span><span class="line">  (io.format "call g(n = ~p)~n", [n]))
+</span><span class="line">
+</span><span class="line">(defmacro unless [test &amp;rest body]
+</span><span class="line">  """Evaluates test. If logical false, evaluates body in an implicit do."""
+</span><span class="line">  (io.format "call unless macro~n")
+</span><span class="line">  `(case (core.true? ~test)
+</span><span class="line">     (^true ^ok)
+</span><span class="line">     (^false
+</span><span class="line">      (io.format "before exprs in body!~n")
+</span><span class="line">      ~@body)))
+</span><span class="line">
+</span><span class="line">(defn f [n]
+</span><span class="line">  (g n)
+</span><span class="line">  (unless (== n 0)
+</span><span class="line">    (io.format "1. n: ~p~n" [n])
+</span><span class="line">    (io.format "2. hello macro~n")))
+</span><span class="line">
+</span><span class="line">(defn main []
+</span><span class="line">  (f 0)
+</span><span class="line">  (f 1))</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>假定这份代码在文件<code>x.kpk</code>中，编译安装 kapok 之后(具体的编译安装过程可以参考 Kapok 文档，不再详述)使用命令</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">$ kapok x.kpk</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>即完成编译<code>x</code>模块，并运行其中的<code>main</code>函数。可得到结果输出</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">call unless macro
+</span><span class="line">call g(n = 0)
+</span><span class="line">call g(n = 1)
+</span><span class="line">before exprs in body!
+</span><span class="line">1. n: 1
+</span><span class="line">2. hello macro</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>在代码里，<code>main</code>函数调用了 2 次<code>f</code>，<code>f</code>又调用了<code>g</code>，于是有 2 行<code>call g(...</code>的输出。然而由于<code>unless</code>是在编译时被调用的，只在<code>f</code>的定义里被调用了一次，所以只能看到 1 行”call unless macro”的输出，而且<code>unless</code>展开时输出的这一行在最前面，因为它是在编译阶段执行的，而所有其它<code>io.format</code>都是在运行阶段执行的。最后我们来看一下最后三行输出，”before exprs …“一行是在 Macro 里面定义的，”1. …”, “2. …“这两行则是在调用<code>unless</code>时的输入参数，它们按指定的顺序被组合到同一个<code>case</code>分支中。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-14T16:20:00+08:00" pubdate data-updated="true">Aug 14<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/lisp/'>Lisp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/08/minds-echo/" title="Previous Post: 念念不忘，亦有回响">&laquo; 念念不忘，亦有回响</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2018/03/19/kapok-the-design-and-implementation-of-protocol/" title="Next Post: Kapok 的设计与实现: Protocol">Kapok 的设计与实现: Protocol &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Dylan.Wen <br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kapok 的设计与实现: Protocol - X lambda</title>
+  <meta name="author" content="Dylan.Wen">
+
+  
+  <meta name="description" content="Kapok 是我设计与实现的一个基于 Erlang VM 的现代 Lisp 编程语言。《念念不忘，亦有回响》这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中 Protocol 的具体设计和实现。 Protocol 是什么 为了更好地进行程序的编写，编程语言往往需要引入一些抽象， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://hhkbp2.github.com/blog/2018/03/19/kapok-the-design-and-implementation-of-protocol">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/atom.xml" rel="alternate" title="X lambda" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+
+<!-- load source han serif sc font -->
+<script src="https://use.typekit.net/yvt2jaq.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+<!--
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+-->
+
+
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:xlambda.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a><span class="divider"></span></li>
+  <li><a href="/blog/about"></i>About</a><span class="divider"></span></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Kapok 的设计与实现: Protocol</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-03-19T14:56:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://github.com/kapok-lang/kapok">Kapok</a> 是我设计与实现的一个基于 Erlang VM 的现代 Lisp 编程语言。<a href="/blog/2016/06/08/minds-echo/">《念念不忘，亦有回响》</a>这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中 Protocol 的具体设计和实现。</p>
+
+<h2 id="protocol-">Protocol 是什么</h2>
+
+<p>为了更好地进行程序的编写，编程语言往往需要引入一些抽象，比如一个函数是一系列操作的封装，一个模块是一堆函数的封装，然后出于通用性的需要，又定义了函数签名来区分具有相同参数类型和参数个数的函数，对于具有相同函数签名的模块，在 Erlang 我们定义了行为(Behavior)。类似地，Protocol 也是一种对数据类型和基于数据类型上实现的一些函数的抽象。在面向对象编程语言(OOP)非常流行的今天，这种抽象更多地被称为类与接口。</p>
+
+<p>下面简单举例来说明 Protocol 是什么。在 Erlang 里面，如果我们要编写一段代码来处理不同的数据类型，往往需要在一大块集中代码里面针对每一种数据类型进行不同的处理。假设我们正在编写一个 Json 模块，这个模块要处理 list, binary, number 三种类型的 encode(编码)操作，那么就有代码：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="nf">encode</span><span class="p">(</span><span class="nv">Item</span><span class="p">)</span> <span class="k">when</span> <span class="nb">is_list</span><span class="p">(</span><span class="nv">Item</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line">  <span class="c">% ...</span>
+</span><span class="line"><span class="nf">encode</span><span class="p">(</span><span class="nv">Item</span><span class="p">)</span> <span class="k">when</span> <span class="nb">is_binary</span><span class="p">(</span><span class="nv">Item</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line">  <span class="c">% ...</span>
+</span><span class="line"><span class="nf">encode</span><span class="p">(</span><span class="nv">Item</span><span class="p">)</span> <span class="k">when</span> <span class="nb">is_number</span><span class="p">(</span><span class="nv">Item</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line">  <span class="c">% ...</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>如果要添加更多的数据类型，那么就在模块内部添加对应那个数据类型的分支。但是如果你没有这个模块的源代码就无法添加，而且经过长时间添加多个类型支持后这个模块变得非常大，难于维护。Elixir 引入了 Protocol，针对上述的 encode 操作，可以定义成一个 Protocol，代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="elixir"><span class="line"><span class="k">defprotocol</span> <span class="no">JSON</span> <span class="k">do</span>
+</span><span class="line"><span class="k">  def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对于任何实现了<code>JSON</code> Protocol 的数据类型对象<code>data</code>，都可以直接调用下述函数：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="elixir"><span class="line"><span class="no">JSON</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这些数据类型的<code>JSON</code> Protocol 实现可以分散放在各个文件中，没有要集中维护的问题，当你需要添加一个新的数据类型的支持时，也不需要已有模块的源代码。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+</pre></td><td class="code"><pre><code class="elixir"><span class="line"><span class="k">defimpl</span> <span class="no">JSON</span><span class="p">,</span> <span class="ss">for:</span> <span class="no">List</span> <span class="k">do</span>
+</span><span class="line"><span class="k">  def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="c1"># ...</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">defimpl</span> <span class="no">JSON</span><span class="p">,</span> <span class="ss">for:</span> <span class="no">BitString</span> <span class="k">do</span>
+</span><span class="line"><span class="k">  def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="c1"># ...</span>
+</span><span class="line"><span class="k">end</span>
+</span><span class="line">
+</span><span class="line"><span class="k">defimpl</span> <span class="no">JSON</span><span class="p">,</span> <span class="ss">for:</span> <span class="no">Number</span> <span class="k">do</span>
+</span><span class="line"><span class="k">  def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="c1"># ...</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>通过 Protocol 这样一个抽象，我们可以在函数式的编程语言中，定义对数据类型绑定一系列的接口，然后针对这些通用的接口来进行编程。针对接口编程一个常常被提到的用法是，在需要快速编写原型的时候，使用简单的数据类型进行接口编程，先快速实现功能，等到程序稳定下来，后期需要进行性能优化的时候，再将接口下面的数据类型更换成更高效的实现，这个过程中所有的接口使用代码都不需要修改。</p>
+
+<h2 id="elixir--protocol-">Elixir 中 Protocol 的实现</h2>
+
+<p>Protocol，或者说类接口，它的广义的概念可以追溯到 20 世纪 80 年代开始流行的面向对象编程语言，比如 C++，甚至更早之前 60~70 年代就已经存在的 Lisp，从那个年代流传至今的很多 Lisp 方言中，都或多或少有着这种抽象，比如 Common Lisp 中的 Sequence 的概念。而在 Erlang VM 上实现了 Protocol 的 Elixir 语言，它则是参考了 Clojure 的 Protocol 定义和实现。下面简单描述一下 Elixir 的 Protocol 实现。</p>
+
+<p>从上面的例子我们可以看到，Protocol 的本质是将数据类型和接口分开定义，并在运行时进行动态绑定。上述例子中，对于 List 类型，定义了对应的 encode 实现，调用 Protocol 的接口<code>JSON.encode(data)</code>时，如果 data 是 List 类型，就进行动态分发，执行对应的 encode 实现。那么如何实现这种动态绑定或者说分发呢？由于 Erlang 是一个函数式编程语言，Erlang VM 的基本语义中也只支持模块和函数，因为 Protocol 的每个实现可以分开，而 Erlang VM 中基础的编译单元是模块，一个简单的映射方法就是将每个 Protocol 实现映射为一个模块。而对于接口模块<code>JSON</code>，很自然地也成为一个单独的模块。那么就只剩下一个问题了，即如何实现当调用<code>JSON.encode()</code>时，将执行路径转到<code>defimpl JSON, for: List</code>模块的<code>encode()</code>函数，这里可以实现为在运行时拼接模块名，然后调用具体模块的函数。上述的 Elixir 代码中的例子，将编译成对应的 Erlang 代码：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="elixir"><span class="line">      <span class="no">Elixir</span>                                  <span class="no">Erlang</span>
+</span><span class="line"><span class="k">defprotocol</span> <span class="no">JSON</span> <span class="k">do                     </span><span class="o">-</span><span class="n">module</span><span class="p">(</span><span class="no">JSON</span><span class="p">)</span><span class="o">.</span>
+</span><span class="line">  <span class="k">def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>         <span class="err">生成</span>          <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line"><span class="k">end</span>                                        <span class="k">case</span> <span class="n">item</span> <span class="n">of</span>
+</span><span class="line">                                         <span class="n">data</span> <span class="ow">when</span> <span class="n">is_list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line">                                           <span class="s1">&#39;JSON.List&#39;</span><span class="ss">:encode</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span><span class="line">                                         <span class="n">data</span> <span class="ow">when</span> <span class="n">is_binary</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line">                                           <span class="s1">&#39;JSON.BitString&#39;</span><span class="ss">:encode</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span><span class="line">                                         <span class="n">data</span> <span class="ow">when</span> <span class="n">is_number</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line">                                           <span class="s1">&#39;JSON.Number&#39;</span><span class="ss">:encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class="line">                                         <span class="n">data</span> <span class="ow">when</span> <span class="n">is_struct_X</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span>
+</span><span class="line">                                           <span class="s1">&#39;JSON.X&#39;</span><span class="p">:</span> <span class="n">encode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class="line">                                       <span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>这里的 struct_X 表示除了几个基本数据类型以外的用户自定义 struct 类型，其中 X 为 struct 的名字，即对应 Elixir 中的代码</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="elixir"><span class="line"><span class="k">defmodule</span> <span class="no">X</span> <span class="k">do</span>
+</span><span class="line"><span class="k">  </span><span class="n">defstruct</span> <span class="c1"># ...</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对于各个数据的类型的实现，可以映射为各个 Erlang 模块：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="elixir"><span class="line">      <span class="no">Elixir</span>                                         <span class="no">Erlang</span>
+</span><span class="line"><span class="k">defimpl</span> <span class="no">JSON</span><span class="p">,</span> <span class="ss">for:</span> <span class="no">List</span> <span class="k">do            </span><span class="err">生成</span>      <span class="o">-</span><span class="n">module</span><span class="p">(</span><span class="s1">&#39;JSON.List&#39;</span><span class="p">)</span><span class="o">.</span>
+</span><span class="line">  <span class="k">def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="c1"># ...                        encode(item) -&gt;</span>
+</span><span class="line"><span class="k">end</span>                                               <span class="err">%%</span> <span class="o">...</span>
+</span><span class="line">
+</span><span class="line"><span class="k">defimpl</span> <span class="no">JSON</span><span class="p">,</span> <span class="ss">for:</span> <span class="no">BitString</span> <span class="k">do                 </span><span class="o">-</span><span class="n">module</span><span class="p">(</span><span class="s1">&#39;JSON.BitString&#39;</span><span class="p">)</span><span class="o">.</span>
+</span><span class="line">  <span class="k">def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="c1"># ...                        encode(item) -&gt;</span>
+</span><span class="line"><span class="k">end</span>                                               <span class="err">%%</span> <span class="o">...</span>
+</span><span class="line">
+</span><span class="line"><span class="k">defimpl</span> <span class="no">JSON</span><span class="p">,</span> <span class="ss">for:</span> <span class="no">Number</span> <span class="k">do                    </span><span class="o">-</span><span class="n">module</span><span class="p">(</span><span class="s1">&#39;JSON.Number&#39;</span><span class="p">)</span><span class="o">.</span>
+</span><span class="line">  <span class="k">def</span> <span class="n">encode</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="c1"># ...                        encode(item) -&gt;</span>
+</span><span class="line"><span class="k">end</span>                                               <span class="err">%%</span> <span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>注意其中的模块名是由 Protocol 名字，即这个例子中的 JSON，和具体的数据类型名，即这个例子中的 List, BitString, Number 等，两者拼接而成。</p>
+
+<h2 id="kapok--protocol-">Kapok 中 Protocol 的实现</h2>
+
+<p>既然 Elixir 已经实现了 Protocol，而且 Kapok 和 Elixir 都兼容于 Erlang VM，那么除了另外捣腾一套 Protocol 的用法和实现之外，比较好的做法就是兼容 Elixir 的实现，从而达到重用所有 Elixir 己经有的库和代码的效果。Elixir 中定义了每个 Protocol 模块都必需具备的接口函数，具体列出如下，它们都是通过 defprocotol 宏来实现的：</p>
+
+<ul>
+  <li>
+    <p><code>__protocol__/1</code> 
+当参数是<code>:name</code>，返回 Protocol 名字
+当参数是<code>:functions</code>，返回一个元素为 Protocol 接口函数和参数个数的关键字列表
+当参数是<code>:impls</code>，返回一个实现的列表</p>
+  </li>
+  <li>
+    <p><code>impl_for/1</code>
+接收一个 struct，返回为此 struct 实现当前 Protocol 的模块名，如果不存在这样的实现模块则返回<code>:nil</code></p>
+  </li>
+  <li>
+    <p><code>impl_for!/1</code>
+类似于上面的<code>impl_for/1</code>，区别在于当实现模块不存在时不返回<code>:nil</code>而是抛出异常</p>
+  </li>
+</ul>
+
+<p>在 Kapok 中，也定义类似的 Macro<code>defprotocol</code>来生成这些接口函数。类似地，对于 Elixir 中的<code>defstruct</code>, <code>defimpl</code> Macro，Kapok 也定义了对应的 Macro 来生成对应的 struct 结构，和实现函数接口。</p>
+
+<p>以上所述的种种 Protocol 结构都是通过 Macro，这个强大的 Lisp 编程方式，来实现的。通过 Macro 处理手写代码，生成新代码，我们可以在 Kapok 实现一套类似于 Elixir Protocol 原语，无缝对接到已有的 Elixir 代码和库中。</p>
+
+<h2 id="kapok--protocol--1">Kapok 的 Protocol 使用示例</h2>
+
+<p>最后附上一个 Kapok 代码示例，展示一下 Protocol 在 Kapok 中的定义和使用，便于理解。</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="c1">;; 定义一个用于此示例的 Protocol</span>
+</span><span class="line"><span class="p">(</span><span class="kd">defprotocol </span><span class="nv">pr</span>
+</span><span class="line">  <span class="s">&quot;A protocol to print something.&quot;</span>
+</span><span class="line">  <span class="c1">;; 此 Protocol 唯一接口用来打印某个数据</span>
+</span><span class="line">  <span class="p">(</span><span class="nb">print </span><span class="p">[</span><span class="nv">self</span><span class="p">]))</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; 为 Atom 数据类型实现 pr Protocol</span>
+</span><span class="line"><span class="p">(</span><span class="nf">defimpl</span> <span class="nb">pr </span><span class="nv">Atom</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">require</span> <span class="nv">io</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">  <span class="p">(</span><span class="kd">defn </span><span class="nb">print </span><span class="p">[</span><span class="nv">atom</span><span class="p">]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">io.format</span> <span class="s">&quot;print an atom: #&#39;~p&#39;~n&quot;</span> <span class="p">[</span><span class="nv">atom</span><span class="p">])))</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">;; 为 List 数据类型实现 pr Protocol</span>
+</span><span class="line"><span class="p">(</span><span class="nf">defimpl</span> <span class="nb">pr </span><span class="nv">List</span>
+</span><span class="line">  <span class="c1">;; 在 print 的实现代码中，直接使用了 Elixir 的 Enum Protocol</span>
+</span><span class="line">  <span class="c1">;; 所以这里用了一行代码引入 Elixir.Enum 模块</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">require</span> <span class="p">(</span><span class="nf">Elixir.Enum</span> <span class="ss">:as</span> <span class="nv">enum</span><span class="p">)</span>
+</span><span class="line">           <span class="nv">io</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line">  <span class="p">(</span><span class="kd">defn </span><span class="nb">print </span><span class="p">[</span><span class="nv">list</span><span class="p">]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">io.format</span> <span class="s">&quot;print a char list: #\&quot;&quot;</span><span class="p">)</span>
+</span><span class="line">    <span class="c1">;; 直接在 List 上调用 enum.map，直接使用 Elixir 库代码</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">enum.map</span> <span class="nv">list</span>
+</span><span class="line">              <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">x</span><span class="p">]</span> <span class="p">(</span><span class="nf">io.format</span> <span class="s">&quot;~c&quot;</span> <span class="p">[</span><span class="nv">x</span><span class="p">])))</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">io.format</span> <span class="s">&quot;\&quot;~n&quot;</span><span class="p">)))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">ns </span><span class="nv">protocol-examples</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">require</span> <span class="nv">pr</span><span class="p">))</span>
+</span><span class="line">
+</span><span class="line"><span class="p">(</span><span class="kd">defn </span><span class="nv">main</span> <span class="p">[]</span>
+</span><span class="line">  <span class="c1">;; 下面先后声明了 Atom 和 List 两种数据类型的实例，并调用 pr.print 接口</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">data</span> <span class="o">#</span><span class="nv">abc</span><span class="p">]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">pr.print</span> <span class="nv">data</span><span class="p">))</span>
+</span><span class="line">  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">data</span> <span class="o">#</span><span class="s">&quot;abc&quot;</span><span class="p">]</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">pr.print</span> <span class="nv">data</span><span class="p">)))</span>
+</span><span class="line"><span class="c1">;; 得到输出</span>
+</span><span class="line"><span class="nb">print </span><span class="nv">an</span> <span class="nv">atom</span><span class="err">:</span> <span class="o">#</span><span class="ss">&#39;abc</span><span class="o">&#39;</span>
+</span><span class="line"><span class="nb">print </span><span class="nv">a</span> <span class="nb">char </span><span class="nv">list</span><span class="err">:</span> <span class="o">#</span><span class="s">&quot;abc&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dylan.Wen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-03-19T14:56:00+08:00" pubdate data-updated="true">Mar 19<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/lisp/'>Lisp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/08/14/kapok-the-design-and-implementation-of-macro/" title="Previous Post: Kapok 的设计与实现: Macro">&laquo; Kapok 的设计与实现: Macro</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Dylan.Wen <br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

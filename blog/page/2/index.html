@@ -9,7 +9,7 @@
   <meta name="author" content="Dylan.Wen">
 
   
-  <meta name="description" content="王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩 &hellip;">
+  <meta name="description" content="Joxa 是一种基于 Erlang VM 的现代 Lisp 编程语言，创始人是美国的 Eric Merritt[1]。通过在 Erlang VM 上引入一个精心设计的 Lisp 语法，它保留了 Lisp 和 Erlang 两者的众多优点：简洁而且语义清晰的 Lisp 语法，强大的 Macro， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -34,6 +34,10 @@
 -->
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
+
+<!-- load source han serif sc font -->
+<script src="https://use.typekit.net/yvt2jaq.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
 
 <!--
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -77,7 +81,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/14/a-winter-night/">冬夜</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/">Joxa: 一种基于 Erlang VM 的现代 Lisp 编程语言</a></h1>
     
     
       <p class="meta">
@@ -93,182 +97,406 @@
   
 
 
-<time datetime="2013-12-14T02:23:00+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time>
+<time datetime="2015-08-20T20:34:00+08:00" pubdate data-updated="true">Aug 20<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>王家卫电影里有一个盲剑客，记得他有一句对白说道：“每年春天，家乡的桃花都会开得很灿烂”。桃之夭夭，笑如人面，好一片阳春光景，而关于家乡的记忆总是这样的鲜活。我常觉得春意会像树木一样生长，新芽，嫩叶，每一天不动声息，但又丰润挺立，覆盖着生命力的气息，渐渐壮大成油油的绿色。乡间有小河竹林，也有矮树田亩，与拥挤的城市不同，家乡总是有足够的空地来容纳荒草，以及草地中所有的蝗，蟋，蛙，各种小虫以及它们生存的声息。阡陌交通，鸡犬相闻，那是卡尔维诺的马可波罗从来没有到过的地方，无论在版图中还是在脚底下。</p>
+  <div class="entry-content"><p><a href="http://joxa.org/">Joxa</a> 是一种基于 Erlang VM 的现代 Lisp 编程语言，创始人是美国的 Eric Merritt<a href="#1">[1]</a>。通过在 Erlang VM 上引入一个精心设计的 Lisp 语法，它保留了 Lisp 和 Erlang 两者的众多优点：简洁而且语义清晰的 Lisp 语法，强大的 Macro，鼓励交互式开发，支持高并发，函数式风格等，并且与现有的 Erlang 平台保持良好兼容。它是一门功能全面的通用编程语言。</p>
 
-<p>暮春时候的小雨总是很轻，仿佛飘浮在地球引力之外，没有重量，也压不弯长草绿叶，写雨的文字也变得轻了，仿佛入秋后露珠满天。村野之中，时光的节奏也并不总是是时分秒为单位，时节来去自有其脚步。山川沉默，田园如旧，这片土地上有人发过唐朝的梦，梦里有云海长风，有烟花三月，梦只是蝴蝶，飘忽且闪烁，宛如夜航船的灯火。盛唐之后，写诗的还大有人在，却已经没有人再读诗，不变的是青梅与宫灯，乙醇与山水，江河中流淌着岁月的唱词：红颜易老，风尘迷眼。</p>
-
-<p>禅师有言，思者即念，无增无减。光线是会随角度的变化而变化的，就像黑漆漆的雨夜可以浓也可以淡，并不仅属于玻璃窗上的雨滴。</p>
-
-<p>那个成语说，枕一枕黄梁，醒来就已经是重生。魂来枫林青，魂返关塞黑，每个故事都有着前提后续，在华丽的世界跳脱轮回，却只是奏鸣曲的一个小音符。很多写完了的故事都好像还有下文。</p>
-
-<p>睡眠如同一条大河蜿蜒而来，由远而近，种种的片断记忆如水气弥漫。</p>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/10/nested-backquotes-considered-harmful/">嵌套反引用有害</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-10T21:37:00+08:00" pubdate data-updated="true">Mar 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
-
-<hr />
-
-<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
+<p>Joxa 的官方网站是 <a href="http://joxa.org/">joxa.org</a>，在这个官方网站上，有它的源代码 <a href="https://github.com/joxa/joxa">github 地址</a>，以及<a href="http://docs.joxa.org/en/latest/">在线文档</a>。为什么这门编程语言取名为 Joxa 呢？关于 Joxa 这个名字的由来，Eric Merritt 曾经对我在邮件组的提问做过如下解释：</p>
 
 <blockquote>
-  <p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br />
-<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
+  <p>其实这个名字并无特别的意义。很多年前我想开始一个“基于 Java 的某个项目”，于是有了它的缩写 Joxa 这个名字。这个项目从来没有开始做过，但我把域名买下来了并一直持有着。到今天，4 个字母的域名已经很少能注册到了，所以我决定用它来做为这门语言的名字。<a href="#2">[2]</a></p>
 </blockquote>
 
-<p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
+<p>除了名字开头有个字母”J”，Joxa 与 Java 并没有太大的关系了，Joxa 主要受到了 Erlang 及基于 JVM 的编程语言 Clojure 的影响。下面我们先介绍一下 Erlang 和 Clojure，再讨论 Joxa 受到了它们的哪些影响。</p>
 
-<pre><code>1. 在内层使用LIST, APPEND等函数代替反引用
-2. 使用包含反引用的辅助函数
-</code></pre>
+<h2 id="erlang-clojure--joxa">1. Erlang, Clojure 以及 Joxa</h2>
 
-<p>Bruno为每个方法提供了例子。</p>
+<h3 id="erlang">1.1 Erlang，高并发的函数式容错编程语言</h3>
 
-<p>首先，下面给出的这段代码用了嵌套反引用：</p>
+<p>Erlang 是一门通用的并发程序设计语言，它由瑞典爱立信的 Joe Armstrong 在上世纪 80 年代开发，并于 1998 年对外开源，Erlang 这个名字来源自丹麦数学家及统计学家 Agner Krarup Erlang。经过近 30 年的发展，Erlang 目前是支持高并发的编程语言翘楚之一，它在语言层面封装了 Actor 模型，实现了用户空间的轻量级进程，将消息传递作为 Actor 间通信的唯一方式，避免了由传统的线程和锁在并发方面的限制与缺点。Erlang 被设计为电信级系统的编程语言，强调分布式，容错，软实时和公平调度，在语法上它主要受到 Prolog 及 Lisp 的影响，保留了函数式，动态，交互式开发等特点。具体来讲，Erlang 这个名字可以分成 3 个方面的要素：</p>
 
-<pre><code>(defmacro once-only (variables &amp;rest body)
-  (assert (every #'symbolp variables))
-  (let ((temps nil))
-    (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list ,variables))
-       (progn ,body)
-       `(let
-          (,,@(mapcar #'(lambda (tmp var)
-                          ``(,',tmp ,,var))
-                      temps variables))
-          ,(let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
-                         variables temps)
-             ,body)))))
-</code></pre>
+<ol>
+  <li>编程语言 Erlang 本身</li>
+  <li>总称为 OTP 的一系列程序设计原则及代码库</li>
+  <li>称为 Erlang VM 或 BEAM 的 Erlang 虚拟机</li>
+</ol>
 
-<p>原来的代码使用方法1转换后如下：</p>
+<p>Erlang 设计于近 30 年前，因此从现在的角度来看，它在语法，编程环境(包括文档等)及工具链等方面有很多地方都有改进空间。由于 Erlang VM 是目前工业界支持高并发的最成熟的 VM 之一，大量技术专家及工程师们在上面投入了无数的工作，通过在 Erlang VM 上设计一门新语言来重用 Erlang VM 的优良特性，既能发挥 Erlang VM 的长处，又能改善 Erlang 语言本身在语法、工具链等方面的缺点，扬长而避短，是比较完美的方案。业界近几年涌现了众多基于 Erlang VM 的编程语言，下面介绍其中几种：</p>
 
-<pre><code>(defmacro once-only (variables &amp;rest body)
-  (assert (every #'symbolp variables))
-  (let ((temps nil))
-    (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list ,variables))
-       (progn ,body)
-       (list 'let
-         (list ,@(mapcar #'(lambda (tmp var)
-                             `(list ',tmp ,var))
-                         temps variables))
-         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
-                       variables temps)
-           ,body)))))
-</code></pre>
+<ol>
+  <li>LFE<br />
+ <a href="http://lfe.io/">LFE</a> 是 Lisp Flavored Erlang 的缩写，它是由 Robert Virding<a href="#3">[3]</a>于 2007 年开始开发的一门函数式的并发的通用编程语言，LFE 采用了 Lisp-2<a href="#4">[4]</a>风格的语法，通过将 LFE 代码编译为 Core Erlang 代码运行在 BEAM 上，保留了 Erlang VM 分布式，容错，软实时等优点，同时支持 Lisp Macro，使得 LFE 兼有强大的元编程能力，并实现了一个功能丰富的 REPL<a href="#5">[5]</a>。</li>
+  <li>Reia<br />
+ <a href="http://reia-lang.org/">Reia</a> 是一门基于 Erlang VM 上的类似 Ruby 的脚本编程语言，它由 Tony Arcieri<a href="#6">[6]</a>于 2010 年中开始开发，它在 Erlang VM 的分布式，并发，容错，热更新的基础之上，引入了 Ruby 的友好语法，灵活的代码块，反射及元编程功能力。遗憾的是，Reia 在 2011 年宣布不再更新。</li>
+  <li>Elixir<br />
+ <a href="http://elixir-lang.org/">Elixir</a> 是一门动态的函数式编程语言，它由 José Valim<a href="#7">[7]</a>于 2012 年开发。Elixir 同样采用了类 Ruby 的语法，通过支持强大的 Macro 功能，它在简洁的语言核心上，建立了一系列的标准库，包括 Unicode 字符串及相关操作，重写了单元测试框架，丰富的数据类型等，它吸收了 Clojure 的 Protocol，严格和惰性 API，还提供了现代的交互命令行，脚本相关的库函数及项目管理工具。通过将 Elixir 代码编译为 Erlang AST，Elixir 得以重用 Erlang VM 的高并发及高效率，克服了 Ruby 在并发方面的缺陷。由于得到 Jose 及其它 Ruby 界牛人的喜爱及宣传<a href="#8">[8]</a>，Elixir 在近两年开始流行起来。</li>
+</ol>
 
-<p>原来的代码使用方法2转换后如下：</p>
+<p>由于本文主要是讲 Joxa，上述这几种编程语言只是简单带过，就不详细展开了。</p>
 
-<pre><code>(defun construct-binding (variable form)
-  `(,variable ,form))
-
-(defun construct-let-wrapper (bindings body-form)
-  `(let ,bindings ,body-form))
-
-(defmacro once-only (variables &amp;rest body)
-  (assert (every #'symbolp variables))
-  (let ((temps nil))
-    (dotimes (i (length variables)) (push (gensym) temps))
-    `(if (every #'side-effect-free? (list ,variables))
-       (progn ,body)
-       (construct-let-wrapper
-         (list ,@(mapcar #'(lambda (tmp var)
-                             `(construct-binding ',tmp ,var))
-                         temps variables))
-         (let ,(mapcar #'(lambda (var tmp) `(,var ',tmp))
-                       variables temps)
-           ,body)))))
-</code></pre>
-
-<p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
-
-<p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）。Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
+<p>上面几种编程语言的设计方案虽然有很多不同之处，但从整体思路上几乎是相同的，那就是：通过将代码编译成为 Erlang VM 上的代码，良好兼容 Erlang VM，于是保留了上述 3 要素中的后两点，同时从头设计语言的语法，并在标准库，工具链等一些方面做补充完善。Joxa 的设计也是类似，它选择了 Lisp 做为 Erlang VM 上的新语言，不过它走了一条和 LFE 不同的道路。Eric Merritt 后来专门写了一个博客文章<a href="http://blog.ericbmerritt.com/2012/02/21/differences-between-joxa-and-lfe.html">《Differences Between Joxa and LFE》</a>来谈 Joxa 和 LFE 的不同之处，他说：</p>
 
 <blockquote>
-  <p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+  <p>最主要和重要的区别在于这两门语言的目标。我认为 Robert 实现 LFE 的主要目标在于提供一个可变的语法可扩展的 Erlang 版本，如此一来人们就可以在需要时改变语言。同时我坚信 Robert 喜欢实现编程语言，他应该很享受实现 LFE 的过程。我当然也乐于实现 Joxa，然而，当坐下来实现 Joxa 的时候我怀有一些非常特定的目标：  </p>
 
   <ol>
-    <li>
-      <p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code>`(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code>`(foo ,x)</code>。</p>
-
-      <p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code>`(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
-
-      <p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
-    </li>
-    <li>
-      <p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
-
-      <p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
-
-      <pre><code>'(foo (bazaroo '(fcn a ,x)))
-</code></pre>
-
-      <p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
-
-      <pre><code>'(foo (bazaroo `(,fcn a ,',x)))
-</code></pre>
-
-      <p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
-    </li>
+    <li>我需要一个用于开发 DSL(Domain Specific Language，领域特定语言)的平台  </li>
+    <li>我想要一个更具交互性和动态的开发环境。类似于 Slime 和 Swank 那种<a href="#9">[9]</a>  </li>
+    <li>我希望充分利用所有已经存在的相当优秀的 Lisp 工具  </li>
   </ol>
 
-  <p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。  </p>
+  <p>上述每点都可以在 Erlang 里面解决。例如，我可以用 Leex 和 Yecc<a href="#10">[10]</a>实现 DSL，但我实现 DSL 的最好体验总是来自 Lisp：使用 Lisp 函数和 Macro 来打造这些 DSL。不过我使用 Erlang 有很长时间了，我不愿意放弃 Erlang VM 上面的优良功能来换成 Lisp 的种种优点。唯一的解决方法似乎只有使用一门基于 Erlang VM 之上的 Lisp 语言。</p>
+
+  <p>显而易见的首先选择是 LFE，于是我花了几周时间深入研究这门语言和它的内部实现。最后我得到这个结论：它并没有满足我的需求。剩下的唯一退路就是我自己重新创造一门语言(同时也有一点怀疑自己不太明智)。  </p>
 </blockquote>
 
-<p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
+<p>从整体来看，LFE 更像一门披着 Lisp 外衣的 Erlang，相当于给原来 Erlang 语法添加了括号和 Macro，这与 Eric Merritt 理想中的 Erlang VM 上的 Lisp 语言相去甚远，于是他创造了 Joxa，而 Joxa 的语法及风格受到 Clojure 的影响更大。为什么 Clojure 能受到 Eric 的如此青睐呢？它到底有什么出众之处呢？下面我们来了解一下。</p>
 
-<pre><code>1. 使用嵌套反引用
-2. 在内层使用LIST, APPEND等函数代替反引用
-3. 使用包含反引用的辅助函数
-4. 使用一个反引用的替代实现
+<h3 id="clojurejvm--lisp-">1.2 Clojure，JVM 上的函数式 Lisp 编程语言</h3>
+
+<p>Clojure 是一门动态的强类型编程语言，作者是 Rich Hickey。它寄居在 JVM 之上，设计成能够与 JVM/Java 良好互操作，既利用了 JVM 所提供的成熟高效的运行环境，也兼容众多流行的 Java 库与框架，同时它采用了 Lisp 语法和 Macro，非常便于表达 DSL，加上一套函数式的持久数据结构，并提供并发机制及惰性语义，使得简洁优雅语言成为函数式编程，并发编程的良好载体，同时重用了成熟流行的 JVM 平台，使得它便于在现有 Java 程序员中推广并流行，在这一点上区别于以往所有独立开发的函数式语言。此外它也吸收了 Java 中的面向对象思想和 CLOS<a href="#11">[11]</a>，发展出 Protocol 及多重方法。另外，Clojure 自带一系列丰富的标准库，定义了一套项目管理规范，并提供了优秀的项目工具及 REPL，使得它在开发环境，交互式开发方面成为佼佼者。</p>
+
+<p>Clojure 设计成为 Java 的一个库包，Clojure 代码会编译成 JVM byte code，正因为它以一种非侵入性的方式运行在 JVM 之上，所以在函数式的语言层面，会有一些其它函数式语言不可能出现的“瑕疵”，例如函数没有尾递归优化。兼容 JVM 平台的已有代码，在重用/连接已有项目方面既是一种优势，但有时混合函数式与命令式代码也会产生实际冲突。在并发方面，语言提供的多种并发原语，delay, future, promise，agent，STM 等虽然强大，但从语言整体来看比较复杂。Clojure 的很多地方可以体会到作者有意保持简单与功能(复杂)的平衡，在设计上做了务实折衷的克制。与此相反，另外一个基于 JVM 的语言 Scala 在设计上就显得博爱放任，看到各个好的特性就收入到语言当中，宛如中国古代的皇帝举国征选妃嫔。</p>
+
+<p>相比各种“主流”编程语言，Clojure 至今仍是小众语言，虽然如此，它的推出仍然不可谓不成功，既培养了一个健康壮大的社区，也在市场上占有一定的流行度，产生了一批具有相当影响力的项目，如流式数据处理框架 <a href="https://storm.apache.org/">Storm</a> 等。Clojure 成功地向人们展示了这几个可能性：</p>
+
+<ol>
+  <li>在 JVM 平台实现一个函数式，并发的动态编程语言</li>
+  <li>通过融合持久数据结构，Protocol 等优异特性，复兴 Lisp</li>
+  <li>如何语言设计上在功能、简单与务实之间取得折衷平衡并树立起自身的特色</li>
+</ol>
+
+<p>正因为有些如此之多的优点，Clojure 才对程序员们有着如此之大的吸引力。也难怪身为老 Lisp 爱好者的 Eric Merritt 在创造 Joxa 时会受到 Clojure 的较大的影响。下面我们来谈谈 Joxa 的设计。</p>
+
+<h3 id="joxa-erlang-vm--lisp-">1.3 Joxa, Erlang VM 上的新 Lisp 编程语言</h3>
+
+<p>对照上述多种语言的实现，Joxa 的设计主要有如下几个要点：</p>
+
+<ol>
+  <li>上层语言为 Lisp，主要目标为用于写 DSL(或者作为其它上层 Lisp 的元语言)，语言的核心部分要简洁</li>
+  <li>底层将 Joxa 代码编译成 Erlang VM 代码，将 Joxa 代码映射到 Erlang 上的对应语法结构，比如 Joxa 里面的函数即为 Erlang 函数</li>
+  <li>语言核心之外提供 REPL，方便编译/执行脚本的命令行工具等</li>
+</ol>
+
+<p>其中 Lisp 的语法可以参考简洁，优雅的 Clojure，由于 Erlang VM 与 JVM 有着非常多的差异，正如 Erlang 语言与 Java 语言有着非常多的差异，所以可以预期的是，Joxa 在语法上面不能完全保持与 Clojure 一致，同时这里面有一个目标用户的问题：Joxa 更多的是为了 Clojure 程序员转向 Erlang 平台而设计，还是为了 Erlang 程序员转向 Lisp 而设计。若为前者，就尽量保留可能多的 Clojure 语法及规范，若为后者则将语法尽可能向 Erlang 靠拢比较理想。这时 Joxa 选择了后一种，即认为 Joxa 主要是解决 Erlang 现有的问题，所以从语法上来考虑，最后出来的结果很可能是一种 Lisp 与 Erlang 的独一无二的新结合。所有的 Lisp 语言从结构上来看，都具有一种类似数学的体系结构，包括以下几个部分：</p>
+
+<ol>
+  <li>一切表达式皆为 List，List 有两种，原子及函数调用。代码即数据(总结为同像性)</li>
+  <li>7 个基本原语(又称之为特殊 Form)加上可以操纵语言本身的 Macro，两者作为核心，在此之上演化出整个语言</li>
+</ol>
+
+<p>这就像数学体系，最核心的部分是几条基本原理，然后通过逻辑推导，演化出其它数学分支以构成整个体系，可以不断向外扩展。Joxa 将会有同样的结构，核心部分将保持尽可能的简洁，只包括基本原语及 Macro，极简的核心既节省开发成本，也给外延留下尽可能大的空间。此处的外延包括针对特定问题领域而言的 DSL，也包括其它上层的 Lisp 语言，从本质上来说这两者本来就没有区别，只不过因为针对的范围有大有小所以说法不同。从语法设计上，Joxa 会跟 LFE 有如下的不同：</p>
+
+<ol>
+  <li>Joxa 会是 Lisp-1，而 LFE 是 Lisp-2</li>
+  <li>Joxa 的语法会向 Lisp 靠拢，而 LFE 更像 Erlang</li>
+  <li>Joxa 中 Macro 求值语义与 Lisp 更为一致，而 LFE 的 Macro 求值语义与函数求值语言不同</li>
+</ol>
+
+<p>为了保持与 Erlang VM 现有的平台等保持无缝兼容，以充分利用现有的 Erlang VM 的开发规范与代码库等，第 2 点是必需的。将 Joxa 建立在 Erlang VM 平台的生态环境之上，固然是因为作者对 Erlang VM 的熟悉与喜欢，客观上也可以充分发挥 Erlang 生态的优势。从上面的叙述也可以看到，众多 Erlang VM 上的非 Erlang 编程语言也采用了这种“无缝兼容”设计，虽然它们在实现层面会有一些不同之处。这一点同时确定了 Joxa 将会保留 Erlang 的一些语言特性，例如按文件划分的模块化，函数式风格，代码要求先通过编译等。</p>
+
+<p>第 3 点与开发环境相关，REPL 是各种 Lisp 方言已经是司空见惯了，Erlang 在设计的时候也吸收了这个概念，但是实现得不如 Lisp 的 REPL 那么好用，比如强制输入为表达式(每行的后面必须输入”.”号)，Record 不能用等。Joxa 的 REPL 会参考 Clojure 与 Erlang 的 REPL，结合前者的完整性和后者的功能，在易用性给予特别的关注。同时针对编译、脚本化等开发流程中的各个阶段都提供编辑器、命令行工具等支持。</p>
+
+<h2 id="section">2. 设计与实现细节</h2>
+
+<p>下面我们来详细讨论 Joxa 的设计与实现。根据上述的设计要点，要将 Joxa 代码要编译成 Erlang VM 代码，必需先熟悉 Erlang 代码的编译过程，在此过程中找出合适的切入点。</p>
+
+<h3 id="erlang-">2.1 Erlang 编译过程</h3>
+
+<p>一个经典的编译过程可以分为如下图所示的多个阶段：</p>
+
+<p><a href="/images/uploads/classic_compilation.png"><img src="/images/uploads/classic_compilation.png" alt="传统编译过程的各阶段" /></a><br />
+图 1 经典编译过程的各阶段<a href="#12">[12]</a></p>
+
+<p>经典的编译过程可以分为词法分析，语法分析，语义分析，中间代码生成，中间代码优化，机器码生成等多个阶段。Erlang 的代码编译过程跟经典的编译过程基本一致，也可以分成类似的多个阶段，各个阶段的输入输出如下图所示：</p>
+
+<p><a href="/images/uploads/erlang_compilation.png"><img src="/images/uploads/erlang_compilation.png" alt="Erlang 编译过程的各阶段" /></a><br />
+图 2 Erlang 编译过程各阶段的输入输出</p>
+
+<p>其中 Core Erlang 为于 Erlang 代码与 VM 内部中间代码之间的一层，它是在 1999 年前后提出的一种 BEAM(Erlang VM 的最新实现)上的语言，它被设计为：</p>
+
+<ol>
+  <li>语法清晰简单，严格的更高阶函数式语言</li>
+  <li>尽可能规范化，以便相关代码遍历工具的开发</li>
+  <li>从 Erlang 代码向 Core Erlang 代码的翻译应该直白，从 Core Erlang 向 VM 内部实现中间代码的翻译也应该简单</li>
+  <li>有良好定义的文本表示形式，语法简单无歧义，便于人阅读，调试及测试</li>
+</ol>
+
+<p>由于 Core Erlang 是清晰简单，有良好定义的文本语言，便于作为目标语言，而且 Erlang 的代码优化和错误检测大多都在 Core Erlang 层进行，如果我们要在 Erlang VM 打造新编程语言，那么将新语言的代码编译成 Core Erlang(或 AST)，将会是一个很好的解决方案。很多 Erlang VM 上的语言都选择了这种方案，比如 LFE，但也有语言选择了编译成 Erlang AST，比如 Elixir，精通 Elixir Macro 的人对 Erlang AST 应该比较熟悉。相对于 Core Erlang，Erlang AST 更接近于 Erlang 本身，层次也更高。Core Erlang 相关的功能定义在<code>cerl.erl</code>这个模块里面，包括对如模块、函数等各种 Erlang 语言结构的初始化、操纵等功能的一系列函数。</p>
+
+<h3 id="section-1">2.2  一个简单例子</h3>
+
+<p>下面举一个简单的 Hello World 程序作为例子<a href="#13">[13]</a>，让读者对 Erlang AST 与 Core Erlang 有一个感性认识。原始的 Erlang 代码如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">test</span><span class="p">).</span>
+</span><span class="line"><span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">hello_world</span><span class="o">/</span><span class="mi">0</span><span class="p">]).</span>
+</span><span class="line"><span class="nf">hello_world</span><span class="p">()</span> <span class="o">-&gt;</span>
+</span><span class="line">    <span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">).</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对应的 Core Erlang 代码如下所示：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="n">module</span> <span class="n">&#39;test&#39;</span> <span class="p">[</span><span class="n">&#39;hello_world&#39;</span><span class="o">/</span><span class="mi">0</span><span class="p">]</span>
+</span><span class="line">    <span class="n">attributes</span> <span class="p">[]</span>
+</span><span class="line"><span class="n">&#39;hello_world&#39;</span><span class="o">/</span><span class="mi">0</span> <span class="o">=</span>
+</span><span class="line">    <span class="k">fun</span> <span class="p">()</span> <span class="o">-&gt;</span>
+</span><span class="line">        <span class="n">call</span> <span class="nn">&#39;io&#39;</span><span class="p">:</span><span class="nf">&#39;format&#39;</span>
+</span><span class="line">            <span class="p">(</span><span class="err">“</span><span class="nv">Hello</span> <span class="nv">World</span><span class="err">”</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对比两份代码，可以看到 Core Erlang 与 Erlang 之间的映射还是很直观的。将原始的 Erlang 代码编译为 Erlang AST，可以得到：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">[{</span><span class="n">attribute</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">module</span><span class="p">,</span><span class="n">test</span><span class="p">},</span>
+</span><span class="line"> <span class="p">{</span><span class="n">attribute</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">export</span><span class="p">,[{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}]},</span>
+</span><span class="line"> <span class="p">{</span><span class="n">function</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+</span><span class="line">   <span class="p">[{</span><span class="n">clause</span><span class="p">,</span><span class="mi">2</span><span class="p">,[],[],</span>
+</span><span class="line">     <span class="p">[{</span><span class="n">call</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span>
+</span><span class="line">       <span class="p">{</span><span class="n">remote</span><span class="p">,</span><span class="mi">3</span><span class="p">,{</span><span class="n">atom</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">io</span><span class="p">},{</span><span class="n">atom</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">format</span><span class="p">}},</span>
+</span><span class="line">         <span class="p">[{</span><span class="n">string</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="s">&quot;Hello World&quot;</span><span class="p">}]}]}]}]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>编译为 Core Erlang AST 即得到：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="erlang"><span class="line"><span class="p">{</span><span class="n">c_module</span><span class="p">,[],</span>
+</span><span class="line">  <span class="p">{</span><span class="n">c_literal</span><span class="p">,[],</span><span class="n">test</span><span class="p">},</span>
+</span><span class="line">    <span class="p">[{</span><span class="n">c_var</span><span class="p">,[],{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}}],</span>
+</span><span class="line">      <span class="p">[],</span>
+</span><span class="line">     <span class="p">[{</span> <span class="p">{</span><span class="n">c_var</span><span class="p">,[],{</span><span class="n">hello_world</span><span class="p">,</span><span class="mi">0</span><span class="p">}},</span>
+</span><span class="line">       <span class="p">{</span><span class="n">c_fun</span><span class="p">,[</span><span class="mi">2</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
+</span><span class="line">         <span class="p">[],</span>
+</span><span class="line">         <span class="p">{</span><span class="n">c_call</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
+</span><span class="line">           <span class="p">{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span><span class="n">io</span><span class="p">},</span>
+</span><span class="line">           <span class="p">{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span><span class="n">format</span><span class="p">},</span>
+</span><span class="line">           <span class="p">[{</span><span class="n">c_literal</span><span class="p">,[</span><span class="mi">3</span><span class="p">,{</span><span class="n">file</span><span class="p">,[]}],</span>
+</span><span class="line">              <span class="s">&quot;Hello World&quot;</span><span class="p">}]}}}]}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>对比两者，容易看出 Erlang AST 更高层更抽象，Core Erlang AST 更底层更规范。</p>
+
+<h3 id="section-2">2.3 编译器</h3>
+
+<p>下面我们继续来讨论 Joxa 的编译过程，由于 Core Erlang(及 AST)可以由 Erlang 编译器编译成最终的机器码，我们只需将 Joxa 代码编译成 Core Erlang AST 便可实现将 Joxa 编译成机器码整个编译过程，从编译领域的分类来看，目标生成的代码是 Core Erlang AST，操纵 Core Erlang AST 可以直接调用<code>cerl.erl</code>的接口函数，因此编译器后端这一块相对是比较简单的，重点在于前端部分：即将 Joxa 代码编译成 Core Erlang AST。由于 Joxa 是 Lisp 语法，Lisp 代码以括号划分边界的代码树的方式来表示，本身就已经有良好的结构，所以前端部分也比较简单。区别于 LFE 或 Elixir 用 Leex 或 Yecc 来生成 LALR<a href="#14">[14]</a>式 Lexer 与 Parser，Joxa 采用了手写 PEG<a href="#15">[15]</a> Lexer 和 Parser 的方式。PEG 编译器的代码量较小，Joxa 编译器是在 Erlang PEG 生成器 <a href="https://github.com/seancribbs/neotoma">Neotoma</a> 生成代码的基础上写成的。(本节涉及到很多编译领域的术语或技术，由于本文主要是介绍 Joxa，篇幅所限故不会详细解释这些术语或技术，有兴趣的读者可以自行寻找相关的资料做进一步了解)</p>
+
+<p>特别值得一提的是，Joxa 的编译过程是自举的，即 Joxa 编译器本身是由 Joxa 代码编写的，这与 LFE 或 Elixir 的编译器用 Erlang 编写不同。Joxa 的自举要求先有一份以 Core Erlang AST 格式存在的具有正常编译功能的代码，这部分代码在 Joxa 的 Github 代码库中，相对根目录的路径是<code>src/ast</code>(后面给出所有的代码路径都相对于根目录)。通过用 Erlang 编译器将这份 AST 代码编译成 BEAM 代码，然后就得到一个能直接在 BEAM 上执行的 Joxa 编译器，然后就可以运行此编译器，将编译器的 Joxa 源代码编译成 Core Erlang AST 格式。整个流程和依赖如下图所示：</p>
+
+<p><a href="/images/uploads/joxa_self_bootstrap.png"><img src="/images/uploads/joxa_self_bootstrap.png" alt="Joxa 的自举及编译流程" /></a><br />
+图 3 Joxa 的自举及编译流程</p>
+
+<p>由上图可以看到整个流程三个步骤是一个循环，要成功实现自举，必然要先实现其中的一个部分，在此基础上才能实现其中其它两个部分。在 Joxa 的编译器实现中，AST 这部分先由作者 Eric 人手先写出基本的语法解析功能，然后再编写对应功能的编译器的 Joxa 代码，用 AST 编译出来可执行的编译器，去验证对应的 Joxa 代码，然后再按此流程不断添加更多的功能，错误一般出现在编译 Joxa 代码的时候，此时遇到的错误是由新添加的 AST 代码还是 Joxa 代码引起的，有时并不容易定位出来。虽然 Core Erlang 简单清晰，但手写 Core Erlang AST 是相当繁琐的，而且由于 Joxa 语法本身还在不断演变，从头开发一个这样的自举编译器，其难度可以猜想是比较大的。我曾经为 Joxa 添加过 Map 语法的支持，对此开发流程的复杂性有较深的体会。编程语言的自举也可以按另外一个思路来做：先用另外一门常见的语言，比如 C 语言来写编译器，然后当语言的语法发展到比较稳定成熟的时候，再使用这门语言的本身来实现自身的编译器，由于已经有了一个能够工作经过充分检验的 C 编译器，所以自举的实现就有了一个可靠的保障，大大降低其难度。</p>
+
+<p>编译器这部分的 Joxa 代码的路径是<code>src/joxa-cmp-*.jxa</code>(其中<code>*</code>符号表示通配)。按照编译器前端和后端的分类法，下面我们讨论一下各主要文件的代码分布。PEG 的词法分析部分需要构造一系列对应于词素(lexeme)的正则表达式，首先需要有正则表达式的元操作的函数定义，所谓“元操作”，用各种编程语言里面的正则表达式的术语来说，即是元字符，比如”*“符号用于“匹配 0 个或多个”。在 PEG 里面元操作是通过函数来表达的，这部分的代码在<code>src/joxa-cmp-peg.jxa</code>。词素，比如注释或数字，它们的定义放在<code>src/joxa-cmp-lexer.jxa</code>。<code>src/joxa-cmp-parser.jxa</code>则包含 Parser 的代码。编译器的主要逻辑放在<code>src/joxa-compiler.jxa</code>，它调用 Parser 来解析读入的字符流，成功解析之后调用<code>make-forms</code>函数递归遍历解析得到的语法树来生成 Core Erlang AST，在编译过程中会执行对函数调用的合法性检查，Macro 的递归展开等动作。后端的代码按语义的分类分成下述多个文件：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">├── joxa-cmp-binary.jxa           # Binary
+</span><span class="line">├── joxa-cmp-call.jxa             # 函数调用
+</span><span class="line">├── joxa-cmp-case.jxa             # case 语句
+</span><span class="line">├── joxa-cmp-defs.jxa             # 函数、宏定义
+</span><span class="line">├── joxa-cmp-expr.jxa             # 表达式
+</span><span class="line">├── joxa-cmp-joxa-info.jxa        # 模块 info
+</span><span class="line">├── joxa-cmp-literal.jxa          # 常量，常量表达式
+</span><span class="line">├── joxa-cmp-ns.jxa               # namespace
+</span><span class="line">└── joxa-cmp-spec.jxa             # spec
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>以上即为 Joxa 编译器实现各部分代码的所在文件。整个编译器实现从代码量上来说并不大。</p>
+
+<h3 id="section-3">2.4 数据类型</h3>
+
+<p>与 Elixir 在 Erlang 数据类型的基础上添加了 Range、正则表达式、Unicode 字符串等新数据类型不同，Joxa 支持的数据类型与 Erlang 保持一致，并没有添加新的数据类型，所有的数据类型包括如下几种<a href="#16">[16]</a>：</p>
+
+<ol>
+  <li>简单类型：不定长整数，浮点数，原子</li>
+  <li>系统类型：PID, Port, Reference</li>
+  <li>集合类型: Tuple, Record，Map, List, Binary</li>
+</ol>
+
+<p>各种数据类型的字面量语法请参考 Joxa 的在线文档。值得一提的是，围绕 Record 的各种操作，Joxa 在语法上做了包装，便于解耦 Record 的内部实现与接口，提高了可用性，Elixir 在这个方面走得更远，引入了 Clojure 的 Protocol。另外一个常用的集合类型 set 是通过 Erlang 库提供的，并没有赋予特别的语法。</p>
+
+<h3 id="form-">2.5 特殊 Form 及标准库基础原语</h3>
+
+<p>Joxa 里面的特殊 Form 及标准库中的基础原语包括以下几个:</p>
+
+<ul>
+  <li><code>let*</code>, <code>let</code><br />
+  用于绑定变量，不同于 Erlang 中的绑定操作或 Clojure 的<code>let</code>操作，<code>let*</code>并不支持 Pattern Matching 或解构，Pattern Matching 或解构需要通过<code>case</code>，标准库中的<code>let</code>是一个用<code>let*</code>和<code>case</code>实现的对应支持 Pattern Matching 的版本</li>
+  <li><code>case</code><br />
+  整个 Joxa 语言中为数很少的一个支持 Pattern Matching 的原语之一，与 Erlang 里面在函数签名，变量匹配，<code>case</code>语句等各种语法结构都可以做 Pattern Matching 不同</li>
+  <li><code>receive</code><br />
+  接收消息，但没有对应的<code>send</code>原语，这可以通过调用 Erlang 模块或 OTP 库接口实现，支持 Pattern Matching</li>
+  <li><code>do</code><br />
+  分组表达式成一块，类似于 Lisp 里面的<code>progn</code></li>
+  <li><code>apply</code><br />
+  以列表函数调用指定函数，类似于 Lisp 的<code>apply</code></li>
+  <li><code>fn</code><br />
+  构造匿名函数，类似于 Erlang 的<code>fun</code>，或 Lisp 的<code>lambda</code></li>
+  <li><code>defn</code>, <code>defn+</code><br />
+  定义模块内可见，模块外可见函数</li>
+  <li><code>defspec</code><br />
+  用于定义前置声明</li>
+  <li><code>defmacro</code>, <code>defmacro+</code>, <code>quote</code>, <code>quasiquote</code>, <code>~</code>, <code>~@</code>, <code>gensym</code>, <code>macroexpand-1</code><br />
+  Macro 操作，下一节再展开讨论</li>
+  <li><code>use</code>, <code>require</code>, <code>as</code><br />
+  namespace 相关操作，源自于 Clojure 里面的对应物，要注意的是不同于 Clojure 默认会在所有 namespace 自动导入<code>clojure.core</code>，Joxa 并不会自动导入<code>joxa-core</code></li>
+  <li><code>try*</code>, <code>try</code><br />
+  两者<code>catch</code>用于异常捕取，用法跟 Erlang 里面的对应物类似，两者的区别在于是否支持 Pattern Matching，类似于<code>let*</code>和<code>let</code></li>
+  <li>
+    <p>特殊常量，都以函数方式进行调用</p>
+
+    <pre><code>  ($filename)       ;; 当前文件的文件名(连后缀)
+  ($namespace)      ;; 当前的 namespace
+  ($line-number)    ;; 当前的行号
+  ($function-name)  ;; 当前的函数名
 </code></pre>
+  </li>
+  <li>其它如<code>attr</code>，<code>when</code>等原语就不一一列举了。</li>
+</ul>
 
-<p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
+<h3 id="macro">2.6 Macro</h3>
+
+<p>作为 Lisp 类语言的杀手级特性，以及表达 DSL 的终极利器，一直以来 Macro 在 Lisp 类语言中都有着重要的地位。Joxa 中的 Macro 原语与 Common Lisp 或 Clojure 等之前的 Lisp 语言保持了一致，详细列出如下：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="text"><span class="line">defmacro     -- 定义模块内部 Macro
+</span><span class="line">defmacro+    -- 定义对模块外部可见 Macro
+</span><span class="line">quote        -- 抑制求值
+</span><span class="line">quasiquote   -- 对应 Common Lisp 里面的 back quote，或 Clojure 里面的 syntax quote，部分求值
+</span><span class="line">~            -- unquote，对符号后面元素进行求值
+</span><span class="line">~@           -- unquote-splicing，对符号后面的 List 元素进行求值并展开到当前位置
+</span><span class="line">gensym       -- 动态生成新变量，用于保证 Macro 健康(或称 Macro 卫生)
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>另外为方便调试，标准库中提供了<code>macroexpand-1</code>函数，用于单次展开 Macro，这个函数也沿袭于传统的 Lisp 语言，但是并没有提供<code>macroexpand</code>(<code>macroexpand-all</code>)。</p>
+
+<p>在 Joxa 里面使用 Macro，跟之前的 Lisp 语言并没有什么不同，以一个标准库<code>joxa-core</code>模块里的代码为例：</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="clojure"><span class="line"><span class="p">(</span><span class="nf">defmacro+</span> <span class="k">let </span><span class="p">(</span><span class="nf">args</span> <span class="o">&amp;</span><span class="nb">rest </span><span class="nv">body</span><span class="p">)</span>
+</span><span class="line">  <span class="p">(</span><span class="nf">let*</span> <span class="p">(</span><span class="nf">process-arg-body</span>
+</span><span class="line">        <span class="p">(</span><span class="k">fn </span><span class="p">(</span><span class="nf">arg</span><span class="p">)</span>
+</span><span class="line">            <span class="p">(</span><span class="nf">case</span> <span class="nv">arg</span>
+</span><span class="line">              <span class="p">([</span><span class="nv">r</span> <span class="nv">e</span><span class="p">]</span>
+</span><span class="line">               <span class="o">`</span><span class="p">(</span><span class="nf">case</span> <span class="o">~</span><span class="nv">e</span>
+</span><span class="line">                  <span class="p">(</span><span class="o">~</span><span class="nv">r</span> <span class="o">~@</span><span class="nv">body</span><span class="p">)))</span>
+</span><span class="line">              <span class="p">((</span><span class="nf">r</span> <span class="k">. </span><span class="p">(</span><span class="nf">e</span> <span class="k">. </span><span class="nv">rest</span><span class="p">))</span>
+</span><span class="line">               <span class="o">`</span><span class="p">(</span><span class="nf">case</span> <span class="o">~</span><span class="nv">e</span>
+</span><span class="line">                  <span class="p">(</span><span class="o">~</span><span class="nv">r</span> <span class="o">~</span><span class="p">(</span><span class="nf">process-arg-body</span> <span class="nv">rest</span><span class="p">))))</span>
+</span><span class="line">              <span class="p">(</span><span class="nf">detail</span> <span class="p">(</span><span class="nf">erlang/error</span> <span class="p">{</span><span class="ss">:malformed-let-expression</span> <span class="nv">detail</span><span class="p">})))))</span>
+</span><span class="line">    <span class="p">(</span><span class="nf">process-arg-body</span> <span class="nv">args</span><span class="p">)))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Joxa 在语法上直接定义为 Lisp 风格，因此在 Macro 的定义及使用上面，与传统一脉相承并无修改。在这个 Macro 定义里面，除了 Pattern Matching，以及递归调用<code>process-arg-body</code>之外，与传统 Lisp 语言并无不同，熟悉传统 Lisp 的人可以很快就读懂。对比的来看，在 Elixir 这样的非 Lisp 语言中引入 Macro，由于上层语言的语法与 AST 并不一致，所以程序员必需记住/区分上层语言与 AST 两种环境，因此相对较为复杂，比如，在 Elixir Macro 的签名处 Pattern Matching Erlang AST，就在以 Elixir 的语法编写的 Macro 定义中，暴露了底层的 AST 格式。这种复杂性虽然从设计上来说是必需的折衷，但在习惯了 Lisp Macro 的人看来可能不会太喜欢。Joxa 作者 Eric 在 2015 年一次接受《This is not a Monad tutorial》的<a href="https://medium.com/this-is-not-a-monad-tutorial/eric-merritt-erlang-and-distributed-systems-expert-gives-his-views-on-beam-languages-hindley-a09b15f53a2f">采访</a>中就表示过不喜欢 Elixir Macro 的复杂性。</p>
+
+<h3 id="section-4">2.7 标准库概览</h3>
+
+<p>Joxa 的标准库只包括少数几个基本函数以及对 OTP 的简单包装。详细列出如下：</p>
+
+<ul>
+  <li><code>joxa-core</code><br />
+  基本操作: <code>!=</code>, <code>lte</code>, <code>gte</code>, <code>and</code>, <code>or</code>, <code>+</code>, <code>-</code>, <code>incr</code>, <code>decr</code>, <code>if</code>, <code>when</code>, <code>unless</code>, <code>try</code>, <code>let</code>, <code>define</code></li>
+  <li><code>joxa-eunit</code><br />
+  eunit 相关函数封装</li>
+  <li><code>joxa-lists</code><br />
+  list 相关的功能函数： <code>dolist</code>, <code>hd</code>, <code>tl</code>, <code>foldl</code>, <code>map</code>, <code>lists-binding</code>, <code>#</code>, <code>all</code>, <code>any</code></li>
+  <li><code>joxa-records</code><br />
+  Record 相关函数</li>
+  <li><code>joxa-shell</code><br />
+  REPL 函数的简单实现</li>
+  <li><code>joxa-otp</code>, <code>joxa-otp-gen-server</code>, <code>joxa-otp-supervisor</code>, <code>joxa-otp-application</code><br />
+  Erlang OTP 相关接口的封装函数</li>
+</ul>
+
+<p>代码规模很小，跟 Elixir 的标准库相比差得很远。其功能比较简陋，称之为标准库也许太大，或者称之为帮助函数更加准确。由于 Joxa 可以直接调用 Erlang 代码，因此功能缺失之处可由其它 Erlang 库补充。</p>
+
+<h3 id="section-5">2.8 开发环境及工具链</h3>
+
+<p>目前 Joxa 只有一个名为<code>joxa</code>的命令行工具，用于编译 Joxa 源代码，启动 REPL，这个工具的功能也比较简陋，跟 Clojure 的 REPL 还有很大的距离。源代码中有一个 Emacs 的 Major Mode 配置文件<code>emacs/joxa-mode.el</code>，可以在用 Emacs 开发 Joxa 时设置缩进，关键字高亮，键绑定等。上面提到的与 Slime 和 Swank 集成，则尚未开发。</p>
+
+<h3 id="section-6">2.9 项目状态</h3>
+
+<p>Joxa 从 2011 年底开始开发，一直到 2013 年初都比较活跃，这之后代码提交量变得相当少，在当前这个时间点(2015 年 8 月)回头看看提交日志，已经有一年多的时间没有任何更新。虽然还未完成原来的设计目标，wiki 上面的计划也有很多开发要做，但是由于作者 Eric 工作上比较忙，而 Joxa 社区实在太弱小，除作者之外并没有其它的人员贡献过大量代码，因此短期之内似乎项目状态不会重新变得活跃。在 Google Group 上有 Joxa 的邮件组，在近一年多时间内也相当少人发言。在应用上，除了作者 Eric 将 Joxa 用于编写他的创业项目之外，目前市面上没有看到其它的应用<a href="#17">[17]</a>。综合来看，Joxa 的项目状态是比较停滞的。</p>
+
+<h2 id="section-7">3. 总结</h2>
+
+<p>Joxa 是一种基于 Erlang VM 的现代 Lisp 语言，有着简洁清晰的 Lisp 语法，支持强大的 Macro，是在 Erlang VM 编写 DSL 的一个很好的载体，它无缝兼容 Erlang VM 平台，是一门功能全面的通用编程语言。它在语言设计及编译器实现方面质量优良，但目前完成度不高，工具链并不完整，市面上也少见应用。作为一门较新的基于 Erlang VM 的编程语言，它有待进一步的发展完善。</p>
 
 <p><em>注：</em><br />
-<a id="1">[1]</a> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br />
-<a id="2">[2]</a> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
+<a id="1">[1]</a> Eric Merritt 是《Erlang and OTP in Action》(中文译本《Erlang/OTP 并发编程实战》)一书的作者之一，Erlware 项目联合创始人，Afiniate 公司的 CTO。<br />
+<a id="2">[2]</a> 翻译自邮件原文<br />
+It doesn’t actually mean anything. Many years ago it was an acronym for some project I wanted to start ‘Java oriented something or other’. I never made that project but I bought the domain and have kept it these years. Four letter domains are pretty uncommon these days, so I just decided to use it as the name for the language. Thats all.<br />
+<a id="3">[3]</a> 作为 Erlang 语言联合创始人以及 Joe Armstrong 的长期亲密战友，Robert Virding 自从当年在爱立信计算机科学实验室开始，长期以来在 Erlang 的设计，标准库，编译器，发展推广等方方面面都做了杰出的贡献。<br />
+<a id="4">[4]</a> Lisp-1 和 Lisp-2 的区别在于函数与变量是否共用同一命名空间，一个详细的解释可以参考文章<a href="http://ergoemacs.org/emacs/lisp1_vs_lisp2.html">《What’s Lisp-1, What’s Lisp-2? Bad Jargon or Good Jargon?》</a><br />
+<a id="5">[5]</a> REPL 是 Read-Eval-Print Loop 的缩写，最早被用于指代开发 Lisp 程序过程中，交互式命令行不断执行读取程序员的输入代码，对其进行求值并打印出求值结果的循环动作。后来这个概念被 Python，Ruby 及各种交互式命令行工具吸收并推广开来。<br />
+<a id="6">[6]</a> Tony Arcieri 是一位美国的软件工程师，他的博客见<a href="http://tonyarcieri.com/">这里</a>。<br />
+<a id="7">[7]</a> José Valim 是一位波兰的软件工程师，他最被人熟知的两个身份是 Ruby On Rails 的核心成员以及 Elixir 编程语言的创始人。<br />
+<a id="8">[8]</a> 比如 Joe Armstrong 于 2013 年中写了博客文章<a href="http://joearms.github.io/2013/05/31/a-week-with-elixir.html">《A Week with Elixir》</a>盛赞了 Elixir“结合了 Ruby 和 Erlang 的优良特性”，Dave Thomas 于 2014 年发布了新书<a href="https://pragprog.com/book/elixir/programming-elixir">《Programming Elixir》</a>向有其它语言经验的程序员提供了一本系统的教程。<br />
+<a id="9">[9]</a> 译者注：<a href="https://common-lisp.net/project/slime/">Slime</a> 是 Superior Lisp Interaction Mode for Emacs 的缩写，它为 Emacs 提供了一整套交互式开发 Common Lisp 的功能集，包括编译，调试，文档查找等等，Slime 是客户端，Swank 是对应的服务器端，它们共同组成了一个强大的程序开发环境。<br />
+<a id="10">[10]</a> 译者注：<a href="http://erlang.org/doc/man/leex.html">Leex</a> 和 <a href="http://erlang.org/doc/man/yecc.html">Yecc</a> 是 Erlang 语言的 Lex 和 Yacc 工具集。<br />
+<a id="11">[11]</a> CLOS 是 the Common Lisp Object System 的缩写，是指在 Common Lisp 中实现面向对象机制的一系列代码库。<br />
+<a id="12">[12]</a> 此图来自编译领域的经典著作《Compilers: Principles, Techniques, &amp; Tools》第三版，中译本《编译原理》。<br />
+<a id="13">[13]</a> 这个例子来自 Eric Merritt 2012 年 8 月在 Chicago Erlang User Group 上的技术分享《Joxa: A Full Featured Lisp on the Erlang VM》，录像视频见<a href="https://vimeo.com/49116180">这里</a>.<br />
+<a id="14">[14]</a> LALR 是 LookAhead LR 的缩写，LR 中的 L 表示对输入进行从左到右的扫描，R 表示反向构造出一个最右的推导序列。LALR 是流行的自底向上语法分析方法。<br />
+<a id="15">[15]</a> PEG 是 Packrat Expression Parsing 的缩写，它是一种相对较新的自顶向下语法分析方法。<br />
+<a id="16">[16]</a> 其中 Map 的语法支持由我添加，写此文时未进入主干分支。<br />
+<a id="17">[17]</a> 从推广应用的角度来看，在 2011 年中开始开发的 Elixir 在各个基于 Erlang VM 的新编程语言上是走得最前的。  </p>
 
 </div>
   
@@ -282,7 +510,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/08/the-pragmatic-emacser/">Emacs修炼之道</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/01/01/all-about-ergodox/">人体工学机械键盘 Ergodox</a></h1>
     
     
       <p class="meta">
@@ -298,7 +526,186 @@
   
 
 
-<time datetime="2013-01-08T16:04:00+08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2013</time>
+<time datetime="2015-01-01T22:09:00+08:00" pubdate data-updated="true">Jan 1<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>作为一个码农，我每天的工作主要就是敲打键盘，因为工作的特殊性，我平均每天面对电脑使用键盘鼠标至少达到 10 个小时，长期如此，我发现我的手腕时不时会出现无力、僵硬甚至酸痛的现象，这种感觉有时在夜晚睡觉时会特别明显，而右手又比左手要严重。后来经了解这是管腕综合症的症状，是由于长期敲击键盘和使用鼠标造成重复性的神经压迫受损引起的。要缓解这这种症状，除了平时注意多休息之外，我还特别了解过有没有什么工具对此有所帮助，然后发现其实我们最常用的传统键盘，在对手和肩的人体工学上并不是太科学。因为传统键盘是一个长方形的整体，它的键位分布也是各行平行，使用的时候就需要人弯曲手腕和肘弯来形成合适的角度，这种弯曲一旦长时间保持，就会造成手腕肩头等部位的习惯性疲劳甚至病症。如下图左边所示：</p>
+
+<p><img src="/images/uploads/ergodox/keyboard_ergonomics.jpg" alt="普通键盘和人体工学键盘对比图" /></p>
+
+<p>一个考虑到人体工学的键盘，设计上应该是左右两边从中间分开，让身体两侧的肘部和手腕，形成更舒适自然的角度，如上图的右边所示。很多的人体工学键盘都带有这样的设计，其中包括微软出品的几款薄膜键盘：停产的 Natural Keyboard Elite 和后继者 Natural Ergonomic Keyboard 4000，较新的 Sculpt Ergonomic Keyboard。</p>
+
+<p><img src="/images/uploads/ergodox/microsoft_ergonomic_keyboard_elite.jpg" alt="微软人体工学键盘 Elite" /></p>
+
+<p>带人体工学设计的键盘还有较少见的 Truly Ergonomic 公司推出的 <a href="https://www.trulyergonomic.com/">True Ergonomic Keyboard</a>，<a href="http://www.kinesis-ergo.com/">Kinesis</a> 的 Advantage 和 FreeStyle 2 等，而像 Cherry 的 <a href="http://www.pcpop.com/doc/0/326/326420_all.shtml">MX 5000</a> 这种早就停产的绝版产品已经难于在市场上觅到其踪影。</p>
+
+<p><img src="/images/uploads/ergodox/truly_ergonomic_keyboard.jpg" alt="Truly Ergonomic Keyboard" /></p>
+
+<p>这些键盘左右两边都分叉开，有的可以自由调整分叉角度，有的则角度固定，左右两边都是连成一体的。这些键盘中有的全部键位都采用 MX 机械轴，有的则为薄膜键盘，薄膜键盘的一大缺点就是手感差，不像 MX 轴那样寿命长手感好。另外其中有的键盘键位与普通的差异比较大，由于不支持编程，无法自定义键位，用户必然需要一段较长的时间去适应它的独特键位。有没有一个键盘，既有人体工学的设计，也是全键位 MX 轴，甚至支持全键位编程，可以满足文字工作者对键盘在人体工学、手感和寿命各方面的要求呢？它就是 Ergodox。</p>
+
+<h2 id="ergodox-">Ergodox 简介</h2>
+
+<p>Ergodox 是一个硬件开源项目，它的项目网站见<a href="http://ergodox.org">这里</a>。它主要有如下几个特点：</p>
+
+<ol>
+  <li>
+    <p>分体式设计<br />
+整个键盘分为左右两个相互独立的部分，左右两边相互对称，中间用线材连接用于通讯。除了常见的字母/数字键区之外，每边还有一个延伸的拇指区，和一些特殊的控制大键位。分体式设计使得用户在使用时可以将左右两边以任何角度或位置摆放，提供了很大的灵活性和舒适度。</p>
+  </li>
+  <li>
+    <p>直列错行键位<br />
+在传统键位中，键位的行是平行的，行与行之间，不同列是错开的，这种设计来源于最早的机械式打字机设计，因为每个键的连杆都要错开一定角度，同一个位置不能有两条连杆重合，否则就会造成冲突。如下图所示：<br />
+<img src="/images/uploads/ergodox/mechanical_typewriter.jpg" alt="传统机械式打字机" /><br />
+这种错列的设计从人手的角度来看并不科学，因为对于每一根手指，直上直下才是比较方便的，而且不同的手指长度不同，平行的行键位只是为了方便制造。后来计算机的键盘沿用了打字机这种错位的设计，但现代的键盘都是电信号触发的，连杆早已不复存在，这种平行错列的设计只是简单地追随传统。<br />
+<img src="/images/uploads/ergodox/straight_rows_keyboard.jpg" alt="常见的直行错列键位" /><br />
+Ergodox 给出了一个更科学的设计：直列错行。每根手根负责一个直列，不同行即不同手指则按各指长度错开成一定距离。<br />
+<img src="/images/uploads/ergodox/ergodox_straight_columns.jpg" alt="Ergodox 直列错行键位" />  </p>
+  </li>
+  <li>
+    <p>全键位 MX 轴<br />
+全部键位都使用 MX 轴，其中每个键位可以自由搭配不同的轴，以供用户的个人定制。常见的 MX 轴定制方案有：基本键位一种轴，扩展(特殊)键位配另一种轴；或 4 指控制部分一种轴，拇指部分配另一种轴等。MX 轴的使用既改善了手感也提升了寿命。</p>
+  </li>
+  <li>
+    <p>全键位可编程<br />
+全键位可编程，满足了高端用户定制键位映射的需要，虽然键映射可以在不同类型的操作系统中做软件映射来做(如 Mac 中有 karabiner，Windows 中有 Auto Hotkey)。但是在硬件层面做，可定制的范围更广可玩性更强，同时可以做到换系统即插即用的效果，而且 Ergodox 支持多达 30 个 layout，足以满足绝大多数的键位定制需求。</p>
+  </li>
+</ol>
+
+<h2 id="ergodox">获得 Ergodox</h2>
+
+<p>由于 Ergodox 是硬件开源的，有兴趣的用户可以根据官网给出的配件列表自行收集配件组装，如果你和我一样，基于不方便购买配件或没时间等原因，不愿意一点一点的攒配件，也可以通过网络购买。目前主要有两种方式可以买到 Ergodox：</p>
+
+<h3 id="massdrop-">1. Massdrop 团购</h3>
+
+<p><a href="https://www.massdrop.com">Massdrop</a> 是美国的一个团购网站，上面主要集中了一批对音响、电子、机械键盘等方面的爱好者，围绕着相关产品用户可以参与团购，社区交流等活动。早在两年之前，Massdrop 就开展了 Ergodox 的团购，在 <a href="https://www.massdrop.com/buy/ergodox">Massdrop 的 Ergodox 主页</a>上，有 Ergodox 的一个较详细介绍，包括它由哪些配件组成，可以选择不同颜色的 MX 轴体，半掌全掌两个不同的尺寸，DSA 和 DCS 两种不同的键帽，不同颜色的阳极铝材质上面板，组装完成之后的成品图等等。由于 Massdrop 出售的只是 Ergodox 的零配件，并非组装好的键盘，因此它还提供了一个图文并茂的<a href="https://www.massdrop.com/ext/ergodox/assembly">组装教程</a>，另外有一个方便 Ergodox 用户做定制键位的<a href="https://www.massdrop.com/ext/ergodox">键位编程配置网页</a>。</p>
+
+<p>有兴趣团购的用户可以点击网页右边的蓝色”Request”按钮，来申请团购。一般每过 3 个月左右，申请人数到达 200 个之后，Massdrop 就会开放团购，通知之前申请过团购的人去提交订单，当然之前没申请过的人也可以马上下单，下单的时候用户可以定制尺寸，MX 轴颜色等选项，最后通过信用卡扣款。在团购结束之后，Massdrop 会向上游供应商提出订单生产或购货，越多人组团下单，优惠的尺度越大，一般来说组团的人每批都能达到 200 个以上，成本会降低到$199，当然这只是键盘本身的价格，如果加订键帽则需要加钱。</p>
+
+<p>在 Massdrop 团购耗时会比较长，以我参加的 2014 年 9 月这一批次团购的经验来看，除了要等待团购开放这段时间，下单付款之后，大概要 8~9 周后才开始发货，然后快递走 UPSMI(UPS Mail Innovations)到国内大概花了 3 周，以此估算从下单到收到邮件需要 12 周也就是 3 个月的时间。因为 Massdrop 上出售的是零件，Ergodox 的亚克力材质外壳、PCB、一堆零件和轴等等装在一起也是比较大件的包裹，包裹通过海关时运气不好的话可能被征关税。UPSMI 包裹在国内这段是由 EMS 负责运送的，EMS 的送货服务非常高明：包裹运到本地邮局，EMS 的工作人员就打电话给我，叫我在限时之内去领取包裹，所以它也不用考虑邮件地址写得是否准确——因为最准确的投递服务就是让用户自行跑过去领，不用投递。当然 EMS 的工作人员还是经验丰富的，他们在通知我领包裹的电话里就提醒我包裹已经被税，去领取邮件时记得带上钱付关税。</p>
+
+<p>在 2014 年 9 月这一批次我订的配件如下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>配件</th>
+      <th>价格</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ergodox 本身(包括 PCB，电容电阻等零件，亚克力壳，轴体)</td>
+      <td>$199</td>
+    </tr>
+    <tr>
+      <td>亚克力壳(全掌)加钱</td>
+      <td>$10</td>
+    </tr>
+    <tr>
+      <td>DCS 键帽</td>
+      <td>$49.99</td>
+    </tr>
+    <tr>
+      <td>银色铝质上面板</td>
+      <td>$39.99</td>
+    </tr>
+    <tr>
+      <td>运费</td>
+      <td>$24.99</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>全部配件总计 298.98 美刀，加上运费共 323.97 美刀，按当时汇率换成人民币是 1995 块。由于包裹上贴着的配件单写的是这批团购的键盘价格$199，海关收关税是按包裹所标总价的 10％征收。我按 EMS 工作人员的指示交了 122 块人民币的关税，把包裹带回家对照票据后发现如果按真正的配件价格来收取关税的话，需要多交几十块人民币的关税，由于 Massdrop 寄件人员没有将全部配件写在包裹外面的工作失误，使得我个人在为国家的光荣税收方面少作了一些贡献，作为人民群众的我表示情绪稳定。</p>
+
+<p>收到配件之后，下一步就是组装了，除了 Massdrop 上面的<a href="https://www.massdrop.com/ext/ergodox/assembly">组装教程</a>，另外在 Youtube 上面有一个名为 <a href="https://www.youtube.com/watch?v=x1irVrAl3Ts">Ergo-Dox keyboard assembly</a> 的组装视频，对于新手比较有参考价值。组装过程中需要把电容，MX 轴等焊接到 PCB 上，这需要用到烙铁，由于我很久都没有做过焊接而且手上也没有烙铁，焊锡这些工具，所以花了大概 200 块人民币通过淘宝购买了一些工具，其中包括入门级的黄花 907 自动调温烙铁，无铅焊锡，吸锡器，斜口钳，镊子等工具，因为拿不准用哪种型号的烙铁头适合焊接 Ergodox 的配件，所以多要了几个不同型号的烙铁头，全部焊装完成之后发现其实型号为 MT-3927 的 1.6D 平头烙铁头适合用于几乎所有焊点，而型号为 900M-T-B 的烙铁自带尖头用得不多，只有少数几个焊点适合用上，比如 Ergodox 对外的 USB 接头处几个小焊点。其中镊子最好是弯头的，用于夹住每个键位下面的小电容，方便做 SMT 焊接。</p>
+
+<p>参考上面给出的组装教程网页和视频，一般人都可以完成整个焊接过程，不过特别提醒一下，组装之前要细看每一个步骤所用到的配件和安装说明，注意安装的正反面和位置，如果漏掉一些关键信息可能会造成问题，比如我在焊 PCB 下面对应每个键位 SMT 电容时，没有注意看电容上面的极性，当整个键盘都组装完成之后，烧入固件连上电脑才发现有一半的键没有反应，然后出动了万用表检查，才发现有问题的键位 SMT 电容焊反了(电容上有标记的一端应该对应 PCB 方块焊头的一头，而不是圆焊点的一头)，只能拆下来重新焊上。</p>
+
+<p><img src="/images/uploads/ergodox/ergodox_in_assembly.jpg" alt="Ergodox In Assembly" /></p>
+
+<p>在整个焊接过程中，我个人认为刚才提到的 SMT 电容和对外的 USB 接头这两处是比较难焊接的，前者是因为电容很小，而且 SMT 容易虚焊，如果像 Youtube 视频那样用熔锡和热风枪来做是比较容易的，但用一般的烙铁操作起来比较繁琐，我用了一个土办法：先为一边点上热锡，用镊子夹住电容粘上去放好位置，再把另一边也点上热锡，最后轻轻按紧电容，两边焊点都用烙铁加热一下，以免虚焊。如此折腾下来，最后到整个键盘组装完成之后，没有发现有虚焊。第二个难点就是 USB 接头处，首先把 Mini USB 的接头裁切出来的时候要小心，尽量不要弄断各黑、白、绿、红各颜色接线里面的铜丝，焊接的时候各颜色的线头和 PCB 的连接处的位置保持好也很关键，Youtube 视频中在焊实底面焊点之前，他在 PCB 上表面先点上一点焊锡以做固定，这办法比较有效。即使如此，由于这几个焊点小，线材小加上位置比较容易移动，而且焊接时间要控制好，一旦烙铁靠得太久线材就会开始熔掉，要焊好还是不太容易的。至于 MX 轴，由于对应的焊点比较粗，相对来说容易焊得多。像我没有太多焊接经验，组装好一整套 Ergodox 并确认功能正常(拆掉重装过 SMT 电容)大概需要花 10 多小时。</p>
+
+<p>由于我个人不太喜欢灯(我觉得闪亮的键盘灯是一种打扰，Macbook 上的键盘灯也从来不用)，而且手头的 Ergodox 键帽都是不透明的，在键轴上面加灯也看不见，所以我没有像标准安装教程所示的那样装灯。要注意的一点是，由于 PCB 在 MX 轴的下面，如果要装灯则需要先把 MX 轴的上盖拆下来，加上灯，再把 MX 轴焊到 PCB 上，上面给出的 Youtube 教程是先把 MX 轴焊到 PCB，再用一个叫做 beast switch tool 的工具从上面打开 MX 的上盖加灯，这个 switch tool 很难买到<a href="#1">[1]</a>，所以一般还是要先拆开上盖再焊 MX 轴。</p>
+
+<p>焊接完成之后，给 teensy 芯片烧入固件，就可以正常使用了，为了确认焊接没出问题，烧录完固件之后可以第一时间试试每个键确认功能都正常，再装上亚克力外壳和键帽。一般来说亚克力板是比较容易粘上灰尘和指纹的，上表面指纹容易擦掉但是每层亚克力板之间的灰尘如果长期累积下来，对于有洁癖的人来说可能会觉得影响观感，所以我组装的时候保留了亚克力板表面深棕色的薄纸没有撕掉，上表面装上特别订购的铝质面板，这样一来上表面不会留指纹，也看不见键盘里面的亚克力面板之间的灰尘，不过由于上表面是金属，冬天会冻手，和 Macbook 键盘前面的手托类似。</p>
+
+<h3 id="section">2. 淘宝网购</h3>
+
+<p>由上面我自己的经历可以知道，通过 Massdrop 团购 Ergodox 零件再自行组装的成本是相当高昂的，需要花掉团购成本、关税、焊接工具成本共 2500 块人民币左右的金钱成本，而且要付出很大的人力和时间成本：很长的团购和到货时间，取国际邮件、购买烙铁等工具的时间，还有 10 多个小时的组装人工和时间。除非自己动手能给你带来很大的乐趣，不然通过这种方法来搞一套 Ergodox 并非良策。其实 Ergodox 所用到的电容电阻，MX 轴等零件都是市面上比较容易搞到的大路货，PCB 和亚克力板也可以在深圳华强北找商家打印或通过淘宝定制，它的成本远远低于 Massdrop 这一条渠道。话说回来，通过 Massdrop 买到的零件也有一些国内生产的配件(比如 TRRS 线)，当你耗费时日不远万里从国外搞到一套 Ergodox 的配件，打开包裹一看发现很多”Made In China”的时候，我不知道你会有什么反应，反正我是对着关税的收据一轮苦笑。</p>
+
+<p>有个朋友 rabinz 比较早接触到 Ergodox，他原本打算在国内攒零配件来组 Ergodox，由于零配件一般是成批卖的，所以后来他攒了很多的零配件，此后更是在原有的 Ergodox 的基础上做了一些设计方面的改进。他在淘宝上开了一个网店，以一个实惠的价格出售整套组装好的 Ergodox，并向用户提供一些定制服务：比如各种轴的搭配，大键区卫星轴、平衡轴的选择等，对 Ergodox 有兴趣的话可以去<a href="http://shop115018335.taobao.com/?spm=a1z10.1-c.0.0.5ErRqZ">那里</a>看看。</p>
+
+<p>我之前在网上多收了一副 rabinz 做的半掌 Ergodox，下面简单的比较一下它和前面所讲的我自己组装的一套，看看两者有何区别。</p>
+
+<ol>
+  <li>
+    <p>整体<br />
+<img src="/images/uploads/ergodox/ergodox_classic_overview.jpg" alt="Ergodox Classic" /><br />
+<img src="/images/uploads/ergodox/ergodox_fullhand_overview.jpg" alt="Ergodox Fullhand" /><br />
+两套都是 Ergodox，硬件键位自然是相同。前者是半掌尺寸带灰色 DSA 键帽，上表面是透明的亚克力板；后者是全掌尺寸带黑色 DCS 键帽，上表面是不透明银色的阳极氧化铝板。</p>
+  </li>
+  <li>
+    <p>接合<br />
+<img src="/images/uploads/ergodox/ergodox_screw.jpg" alt="Ergodox Classic Screw" /><br />
+半掌 Ergodox 使用了两条小螺钉在中间通过内嵌螺母连接在一起，在上下两个表面都做了沉孔处理，本来尺寸就较小的螺钉头只比亚克力面板表面高出一点；全掌的一套则使用单条大螺钉和螺母，螺钉头比较粗，上表板也没有做沉孔处理，所以螺钉头明显高出上表面很多，螺母头为半圆球形，尺寸相当于两个螺钉头。全掌的几块亚克力板总厚度比半掌的要薄，但由于上下两面的螺钉头占用了比较多的空间，所以从整体高度上来看，全掌的反而显得略厚。<br />
+<img src="/images/uploads/ergodox/ergodox_height.jpg" alt="Ergodox Height" />  </p>
+  </li>
+  <li>
+    <p>钢板<br />
+从上面几个图明显看到，半掌键盘中间有一块黑色的钢板，全掌的则没有，机械键盘是否带钢板会对手感有所影响，带钢板的话受力时刚性会较好，按键触底会更硬朗一些。</p>
+  </li>
+  <li>
+    <p>大键区
+<img src="/images/uploads/ergodox/ergodox_thumb_area.jpg" alt="Ergodox Thumb Area" /><br />
+半掌键盘是青轴，两个大键使用了卫星轴，而全掌的则是白轴，大键区只是普通单轴。在常见的机械键盘产品中，一般大于 2X 宽度的键轴都会加上卫星轴或者平衡轴，避免键轴受力走偏，以改善大键的手感。要安装卫星轴或平衡轴的话，需要从 PCB 到中间面板都准备相应的孔位，但 Massdrop 出售的 Ergodox 无论是 PCB 还是中间面板都没有准备对应的孔位，因此只能装上单轴。</p>
+  </li>
+</ol>
+
+<p>经过上面的比较，容易看出 rabinz 做的 Ergodox 加入了一些优化，跟 Massdrop 渠道的自组 Ergodox 相比占有相当的优势，即使只考虑金钱成本，Massdrop 的也高出很多，所以综合来看，通过淘宝向 rabinz 购买组装好的 Ergodox 成品，是更好的选择。如果你只是个一般用户，希望拥有一把 Ergodox 但不愿意自己攒零件动手焊接组装，那么通过淘宝向 rabinz 订购更是绝佳的选择。</p>
+
+<h2 id="section-1">体验与总结</h2>
+
+<p>有了 Ergodox，我在敲打键盘时两手就能以舒服的角度随意放在桌面上，使用了一段时间的 Ergodox 之后，我手腕的不适症状已经大为减轻，它的人体工学设计起到了很好的效果。在我逐渐上手 Ergodox 的过程中也遇到一些问题，比如需要一点时间适应它独特(但设计正确)的键位布局：刚刚开始使用 Ergodox 时，我对 Ergodox 的键位布局还不是太习惯，由于它的直列错行布局跟一般键盘的直行错列不同，盲打时只要一离开 Home Row 手指经常会打错列，经过一段时间的练习之后，基本上已经熟悉它的布局，现在无论是普通键盘还是 Ergodox，一上手都能操作自如。另外目前市面上并没有适用于全掌 Ergodox 的包(半掌 Ergodox 的包倒是有，可以到<a href="https://www.massdrop.com/buy/ergodox-hard-case">这里</a>购买)，全掌 Ergodox 个头大便携性不好，只能放在家里使用。</p>
+
+<p>总体来看，Ergodox 设计独特，成本不菲，对于像我一样想改善管腕综合症症状的电脑用户，Ergodox 是一个很值得买的机械键盘，对于喜欢 DIY 喜欢折腾机械键盘的玩家，Ergodox 也是一个具有很高可玩性的产品。</p>
+
+<p><em>注：</em><br />
+<a id="1">[1]</a> 有关 beast switch tool 在 Ergodox 组装过程中的使用方法可以参考<a href="http://www.chiphell.com/thread-939124-1-1.html">这里</a>，但它太难买到，你也可以参考<a href="http://deskthority.net/workshop-f7/i-did-a-guide-of-how-to-open-cherry-switches-t2458.html">这里</a>用常见的文件夹自已 DIY 一个。</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/04/hierarchical-state-machine/">层次状态机</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-04T19:22:00+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2014</time>
         
       </p>
     
@@ -306,85 +713,793 @@
 
 
   <div class="entry-content"><blockquote>
-  <p>“Don’t panic.”<br />
-&#8212; The Hitchhiker’s Guide to the Galaxy</p>
+  <p>计算机程序是写给人看的，只是顺便能运行。<br />
+　　　　　　　　　　　　　　——<a href="http://book.douban.com/subject/1148282/">《计算机程序的构造和解释》</a><a href="#1">[1]</a></p>
 </blockquote>
 
-<p>作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么，与其它编辑器有什么不同，如何使用它等。Emacs是一个很大的话题，而且网上关于Emacs/Vim/其他编辑器的各种圣战中飞扬的口水已经太多了，所以这里我把这篇内容缩小到Emacs的修炼这一点上，因为对于那些真正对Emacs感兴趣并准备起锚出发的Emacs初学者，如果有一个详细的指南，它记录了从入门到进阶等各个阶段，以及前进的道路上有哪些可以借力的资料或资源等，这是很有帮助的。于是我有了写此文的打算，作为一个过来人我就斗胆写一下Emacs的修炼之道。</p>
+<h3 id="fsm">FSM</h3>
 
-<p>一般来说，那些决定不用系统自带的文本编辑器，而专门花时间学习Vim/Emacs的人都需要在文本上做比较多的工作，他们希望在工具这一块上做长期的投资——即使Vim/Emacs的入门需要一些精力和时间，但熟悉之后能提高工作效率并长期发挥作用，当然这些人之中有很多是程序员。如果你像我认识的一些朋友一样，对系统自带的文本编辑器，比如windows下的notepad，保持100%的满意，那么就不用接着往下看了，尽可跳过下文并继续留在那个与世隔绝的默认编辑器的桃花源里，这种说法好像比较鄙视notepad，但其实它主要是说：如果编辑需求复杂多变，那么编辑器相应的也需要变得复杂强大。</p>
+<p>在计算机领域，FSM(有限状态机)是一个在自动机理论和程序设计实践中很常见的术语，简单来说，有限状态机表示的是系统根不同输入/不同条件在各个状态之间进行跳转的模型。可以通过图或表来描述有限状态机，这种图或表一般被称为状态图/状态转移图(State Chart)或状态转移表。因为图更加直观，本文统一使用状态图来描述有限状态机。</p>
 
-<p>接下来这一个Emacs之道会有点长，因为Emacs被设计成能提供各种复杂多变的编辑功能，甚至是文本编辑之外的，例如玩游戏或收邮件等其它功能，所以Emacs才会有“伪装成操作系统的编辑器”这一别称，而且学习曲线会变得非常的，呃，奇怪<a href="#1">[1]</a>。尽管下文有点长，但是记得带上你的毛巾<a href="#2">[2]</a>，无论遇到什么情况，最重要的是，Don’t panic。</p>
+<p>在状态图里面，一般用圆圈或方框来表示状态，用箭头来表示状态之间的跳转，箭头可以带上跳转需要的输入或条件，也可以带附带其它描述。一个从空白处引出，没有源状态的箭头则表示整个系统的启动，启动后进入的第一个状态可以称为开始状态，可以用双重圆圈特别标出。整个状态图就是一个有圆圈，箭头及描述的有向图形。下面是一个<a href="http://zh.wikipedia.org/zh/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">简单例子</a>。</p>
 
-<p>我把Emacs修炼的道路分为几个主要的阶段：</p>
+<p><img src="/images/uploads/dfa.png" alt="图 1 计算输入包含奇数还是偶数个 0 的状态机" /></p>
 
-<h3 id="section">1. 入门小徒</h3>
+<p>上图表示一个接受二进制输入(输入为 0 或者 1)，计算输入包含奇数还是偶数个 0 的状态机。其中 S1 状态表示”偶数个 0”，S2 表示”奇数个 0”。系统启动后，沿着图中最左边的箭头进入 S1 状态，此时没有读入任何输入（0 个 0）。S1 圆圈上方带 1 的箭头表示如果输入是 1，则跳转到 S1，即保持原状态不变。如果输入是 0，则跳转到 S2。其它箭头也可以类似理解。当全部输入都处理完之后，只需看当前状态是 S1 还是 S2 即可得出结论：输入具有奇数个 0 还是偶数个 0。</p>
 
-<p>初学Emacs，首先要了解Emacs的基本操作，Emacs自带的tutorial文档就是为零起点的新手而写的，它介绍了窗口(window)，文件，缓冲区等概念，并一步一步的指导初学者学习光标移动，插入修改，搜索，保存退出等基础功能，是最好的入门指南。默认的键绑定下在Emacs中使用C-h t可以打开这个tutorial文档，也有对应的中文译版叫《Emacs快速指南》，文档不长，整个看完并按文档指引练习一下，之后就可以用Emacs完成简单的文本编辑。</p>
+<p>由于状态机可以将问题整体的分解成各个部分状态及跳转，直观地对系统进行建模，所以它不仅被用于理论研究过程当中，而且被广泛用于程序设计实践，在操作系统，网络协议栈，各种分布式应用中都可以见到它的身影。</p>
 
-<p>接下来可以阅读《Learning GNU Emacs》，这本由老牌黑客Eric Raymond参与编写的书是学习Emacs的经典书目，内容很多也很全面，它介绍了从用Emacs做基本的文本编辑，到用Emacs收发邮件阅读网页，到定制编辑宏以及做程序开发等各种功能。初学者可以只读前5章，对Emacs的环境及常用操作做一个比较细致的了解。这本书的原英文第1版讨论的是Emacs的18版本，之后第2版出版，讨论的是Emacs的19.30版，而2004年出版的第3版，则随着Emacs的版本升级把内容更新到21.3版，到2013的今天，Emacs的主版本号已经升到24，虽然这本书在过去一段时间也算是与时俱进，但从版本上来远远落后于Emacs更新的速度，不过，很多内容在Emacs中保持稳定，还是很有价值的，只是阅读的时候要注意一下版本变化。这本书也有中文译本，已经绝版，但对应的只是较旧的英文第2版，译文流畅印刷错误也少，译本质量尚佳，因为是针对初学者而写的入门书，讲解详细，辅以图示截屏帮助理解，读来比较轻松。</p>
+<h3 id="fsm-1">程序设计中的 FSM</h3>
 
-<p>进一步学习的话，则根据各人的需求而选择了，需求不同则学习的内容也不同。希望使用Emacs来做大量重复编辑的人可以学习定制编辑宏，用来写笔记的可以学习outline-mode或org-mode，用来收邮件的可以学习mew等邮件客户端的用法。考虑到使用Emacs的人当中有很多的程序员，那么也根据编程语言的不同，学习的编辑模式也不同，Emacs对于多种编程语言都有着很好的支持，如C, C++, Java, Shell, Python, Perl, Erlang, Lisp……还有常见标记语言如Html, XML和排版用的Tex, LaTeX和Troff等。此外你可能会需要一些特别的功能，这些功能在其它的编辑器/IDE也有，比如显示行号，在编写代码时的自动补全，全文格式化，代码折叠与展开，实时显示代码错误等，Emacs还有一些比较独特好玩的功能，如hungry delete。学习这些内容，除了《Learning GNU Emacs》这本书第5章后面的多个章节之外，网上也有很多的资料，不过就比较分散了，要找到Emacs是否有满足你特定需要的扩展，或者这些扩展怎么使用，google是一个很好帮手。</p>
+<p>由上面的表述我们得知，FSM 是对系统的建模，是将问题/解决方案以一种条理化系统化的方式表达出来，映射到人的认知层面，而要在程序中表达 FSM，也需要一定的建模工具，即用某种代码编写的方式(或称之为 FSM 模式)，将 FSM 以一种条理化系统化的方式映射到代码层面。在程序设计领域，到底有哪些常用的 FSM 实现方式呢？下面我们来做一个简单的回顾。</p>
 
-<p>这个时候你已经很熟悉Emacs日常使用，以及为自己的编辑需要加了一些扩展和定制，在配置文件不断变大的同时，你可能也知道一点简单的Emacs Lisp写法，但对Emacs Lisp还没有深入的了解。</p>
+<p>从简单到复杂，下面我们浏览一下常见的几种 FSM 实现模式<a href="#2">[2]</a>。</p>
 
-<p>由于各人的编辑需求不一样，这个寻找某种特定功能并定制使用的过程可长可短，了解Emacs在各种编辑模式下的功能有助于进一步学习Emacs Lisp及Emacs的内部实现，但这不是必需的。即使你很快的进入下一阶段开始系统学习Emacs Lisp，但如果时不时会遇到新的编辑需要，还是会重复上述的扩展定制过程。以像我自己为例，因为需要编辑的代码种类越来越多，如后来的Markdown, Erlang，所以也对应的添加了markdown-mode, erlang-mode的定制代码。</p>
+<h4 id="a--if-elseswitch-">a. 嵌套 if-else/switch 模式</h4>
 
-<h3 id="section-1">2. 登堂入室</h3>
+<p>自从 1960 年<a href="http://www-formal.stanford.edu/jmc/recursive.html">第一个 Lisp 实现</a>引入条件表达式以来，<em>if-else/switch 语句</em><a href="#3">[3]</a>已经成为每个程序员手头必备的工具，每当需要”根据不同条件进入不同分支”，就搬出它来组织代码，这与 FSM 里面”状态之间根据不同输入进行跳转”的概念有简单的对应关系，这就使得 if-else/switch 语句成为人们要表达 FSM 时最先选择的方式。</p>
 
-<p>在接触Emacs的过程中，很多新手都会注意到一个事实：Emacs是用一种叫做Emacs Lisp的Lisp方言写的，如果不懂Emacs Lisp是无法进一步走入Emacs的殿堂的。所以在这里我把“开始系统的学习Emacs Lisp”做为进入到第2阶段的标志。</p>
+<p>仍然以图 1 例子进行说明，我们用 if-else/switch 语句编写它的实现代码，用一个变量 state 表示当前状态，state 可以取两个值 S1, S2，输入 input 表示下一个输入的数字是 0 还是 1，那么就有下列代码<a href="#4">[4]</a>:</p>
 
-<p>在Emacs自带的Info文档中，对Emacs的描述是：  </p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kt">int</span>
+</span><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="kt">int</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">StateS1</span> <span class="nx">State</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">StateS2</span> <span class="nx">State</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span>
+</span><span class="line">	<span class="nx">One</span>  <span class="nx">Input</span> <span class="p">=</span> <span class="mi">1</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS1</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">state</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">StateS1</span><span class="p">:</span>
+</span><span class="line">		<span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">Zero</span><span class="p">:</span>
+</span><span class="line">			<span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS2</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">One</span><span class="p">:</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">StateS2</span><span class="p">:</span>
+</span><span class="line">		<span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">Zero</span><span class="p">:</span>
+</span><span class="line">			<span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS1</span>
+</span><span class="line">		<span class="k">case</span> <span class="nx">One</span><span class="p">:</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<blockquote>
-  <p>Emacs is the extensible, customizable, self-documenting real-time display editor.</p>
-</blockquote>
+<p>上面的代码有一个明显的嵌套形式的结构，最外层的<code>switch</code>语句是根据当前状态 state 变量进入不同的分支，内层<code>switch</code>针对的则是输入，所有代码像挂在衣柜中的衣服一样从上到下一一陈列，结构比较清晰。这种嵌套形式 if-else/switch 语句的 FSM 代码组织方式，我们将其称之为*嵌套 if-else/switch *模式。由于这种模式实现起来比较直观简明，所以它最为常见。</p>
 
-<p>可以看到，可扩展性，可定制性和自文档化是Emacs三个特别强调的特点，前两个特点或者其它编辑器也有，比如Vim，但自我文档化这一点，可算是Emacs的一个独门绝技，是的，在visual studio中也有帮助系统，不过与Emacs的自文档化比起来，还是差得太远了，这方面可以比肩Lisp的编程语言不多，Python是其中一个，自文档化与交互式编程结合起来，整个编程环境会让写代码的人相当舒服。</p>
+<p>嵌套 if-else/switch 具有形式嵌套，代码集中化的特点，它只适合用来表达状态个数少，或者状态间跳转逻辑比较简单的 FSM。嵌套意味着缩进层次的叠加，一个像图 1 那么简单的实现就需要缩进 4 层，如果状态间的逻辑变得复杂，所需要的缩进不断叠加，代码在水平方向上会发生膨胀；集中化意味着如果状态个数增多，输入变复杂，代码从垂直方向上会发生指数级别的膨胀。即使通过简化空分支，抽取逻辑到命名函数<a href="#5">[5]</a>等方法来”压缩”水平/垂直方向上的代码行数，依然无法从根本上解决膨胀问题，代码膨胀后造成可读性和可写性的急剧下降，例如某个状态里面负责正确设置 20 个相关变量，而下翻了几屏代码之后，下面的某个状态又用到上面 20 个变量里面其中的 5 个，整个代码像一锅粥一样粘糊在一起，变得难于理解和维护。</p>
 
-<p>要开始Emacs Lisp之旅，最好的学习资料也是Emacs自带的文档，在Info中有一个Emacs Lisp的入门教程《An Introduction to Programming in Emacs Lisp》，这个文档由另一位老牌黑客Robert Chassell所写，由浅入深地详细介绍了Emacs Lisp中的列表操作，函数，缓冲区操作，窄化，剪切粘贴，正则表达式，代码调试等内容，由于把读者定位为没学过编程的人，所以行文比较啰嗦，程序员读起来可能会有点不耐烦。它也有中文翻译版，书名叫做《GNU Emacs Lisp编程入门》，不过也比较旧了，是2001年由FSF中国组织翻译并出版的，年代久远，对应的Emacs版本是19，这本中译版也已经绝版，不过网上可以找到电子版。虽然后来大师洪峰在他某次答问中说这本中译版质量很高<a href="#3">[3]</a>，我个人看过纸版全书之后觉得其实翻译和出版的错误也不少，像他读过那么多书的人肯定清楚一个译本的质量怎么才算是“很高”，不过此书的中文翻译是他组织的，有点敝帚自珍也是人之常情。</p>
+<h4 id="a-">a. 状态表</h4>
 
-<p>特别值得一提的是，在这本书的前言里，作者Robert说“希望读者养成阅读源代码的习惯”，并把Emacs当成一个代码的宝藏，学习其工作机制。书中的内容多是具体的代码细节，看过之后是会忘记的，但“深入代码”这个习惯一旦养成，受用无穷。我个人认为也可以依据同样的标准来定义玩Emacs的程度，真正Emacs玩得好，不是说要用过多少个扩展，用得有多么的熟悉，而是深入到源代码去了解其内部实现。</p>
+<p>另一个比较流行的模式是状态表模式。状态表模式是指将所有的状态和跳转逻辑规划成一个表格来表达 FSM。仍然以图 1 为例子，系统中有两个状态 S1 和 S2，不算自跳转，S1 和 S2 之间只有两个跳转，我们用不同行来表示不同的状态，用不同的列来表示不同的输入，那么整个状态图可以组织成一张表格：</p>
 
-<p>在读完《GNU Emacs Lisp编程入门》的基础上，可以找一些其它的Emacs Lisp入门级资料来看看，比如wiki上的Emacs Lisp Cookbook，上面就有常用的各种数据结构，文件目录操作等的代码示例。经过学习之后，到网上一些站点，比如<a href="http://emacser.com/">Emacs中文网</a>或<a href="http://ergoemacs.org/emacs/blog.html">李杀网</a>，看一些文章通读其中简单的Lisp代码已经没有困难。</p>
+<table>
+  <thead>
+    <tr>
+      <th>State\Input</th>
+      <th>Zero</th>
+      <th>One</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>S1</td>
+      <td>DoSomething, S2</td>
+      <td>null</td>
+    </tr>
+    <tr>
+      <td>S2</td>
+      <td>DoSomething, S1</td>
+      <td>null</td>
+    </tr>
+  </tbody>
+</table>
 
-<p>同时，可以阅读一些Emacs中常用小功能的源代码，比如自动高亮括号的paren.el，高亮当前行的highlight-current-light.el，显示行号的linum.el，自动插入括号对的skeleton.el等，在读源代码的过程中有时会遇到未知的库函数和新的概念，通过查询Emacs的自带文档一般可以解决问题。</p>
+<p>对应 S1 行, Zero 列的”DoSomething, S2”表示当处于状态 S1 时，如果遇到输入为 Zero，那么就执行动作 DoSomething，然后跳转到状态 S2。由于图 1 的例子状态图非常简单，DoSomething 动作为空，这里将它特别的列出来只是为了说明在更一般化的情况下如果有其它逻辑可以放到这里来。根据这个状态表，我们可以写出下列代码：</p>
 
-<p>通过前面的学习，在前一阶段的基础上你已经掌握大量的Emacs Lisp，在阅读源代码上有了不少的积累，但由于没有全面系统的学习Emacs Lisp，有时候读起源代码来不懂的地方太多，会有种力不从心之感，这时候就可以开始进入第3阶段。</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kt">int</span>
+</span><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="nx">into</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">StateUndefined</span> <span class="nx">State</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">StateS1</span>
+</span><span class="line">	<span class="nx">StateS2</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span>
+</span><span class="line">	<span class="nx">One</span>  <span class="nx">Input</span> <span class="p">=</span> <span class="mi">1</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Action</span> <span class="kd">func</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">DoSomething1</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// Do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">DoSomething2</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// Do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Item</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">Action</span>    <span class="nx">Action</span>
+</span><span class="line">	<span class="nx">NextState</span> <span class="nx">State</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">StateTable</span> <span class="p">=</span> <span class="p">[][]</span><span class="o">*</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">	<span class="p">[]</span><span class="o">*</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">Action</span><span class="p">:</span>    <span class="nx">DoSomething1</span><span class="p">,</span>
+</span><span class="line">			<span class="nx">NextState</span><span class="p">:</span> <span class="nx">StateS2</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="kc">nil</span><span class="p">,</span>
+</span><span class="line">	<span class="p">},</span>
+</span><span class="line">	<span class="p">[]</span><span class="o">*</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">Item</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">Action</span><span class="p">:</span>    <span class="nx">DoSomething2</span><span class="p">,</span>
+</span><span class="line">			<span class="nx">NextState</span><span class="p">:</span> <span class="nx">StateS1</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="kc">nil</span><span class="p">,</span>
+</span><span class="line">	<span class="p">},</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">state</span> <span class="p">=</span> <span class="nx">StateS1</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">item</span> <span class="o">:=</span> <span class="nx">StateTable</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nx">state</span><span class="p">)][</span><span class="nb">int</span><span class="p">(</span><span class="nx">i</span><span class="p">)]</span>
+</span><span class="line">	<span class="k">if</span> <span class="nx">item</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class="line">		<span class="nx">item</span><span class="p">.</span><span class="nx">Action</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">		<span class="k">if</span> <span class="nx">item</span><span class="p">.</span><span class="nx">NextState</span> <span class="o">!=</span> <span class="nx">StateUndefined</span> <span class="p">{</span>
+</span><span class="line">			<span class="nx">state</span> <span class="p">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">NextState</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h3 id="section-2">3. 武林高手</h3>
+<p>从上述例子我们可以看到，用这种方式实现出来的代码跟画出来的状态表有一个直观的映射关系，它要求程序员将状态的划分和跳转逻辑细分到一定的合适大小的粒度，事件驱动的过程查找是对状态表的直接下标索引，性能也很高。状态表的大小是不同状态数量 S 和不同输入数量 I 的一个乘积 S * I，在常见的场景中，这张状态表可能十分大，占用大量的内存空间，然而中间包含的有效状态跳转项却相对少，也就是说状态表是一个稀疏的表。</p>
 
-<p>对于学习Emacs Lisp，最权威的两个文档当然是Emacs自带的Info文档《The Emacs Editor》和《The Emacs Lisp Reference Manual》，前者主要介绍作为编辑器的Emacs概念和机制，比如kill-ring，display, key-binding, 各种mode等，重点在使用，后者则全面系统的介绍了Emacs Lisp这门编程语言，比如各种数据结构及操作，宏，文加载等，重点在于编程，Emacs Lisp作为Emacs的实现语言，当然两个文档会有标题或内容看起来很类似的章节，但由于两个文档重点不一样，两者互为呼应补充而非重复。这两个都是大部头，要读完的话甚费时日，但其内容并不艰深，读起来还算轻松，耐心读完的话，会功力剧增，对Emacs的理解有很大的提高。虽然我在这里把两个文档一起列出，但其实阅读顺序和阅读习惯可以按各人的习惯自由安排：可以先读前一本，读完再读后一本；也可以先读后一本，在遇到新概念的时候再回头看看前一本的对应章节。这两种都是比较有效的读法。就像电影《黑客帝国》第一部所讲的，在Neo知道Matrix不是看起来那样的真实之后，进入Matrix中能看到一些不真实的事物，读完这两本书之后，你再进入Emacs的时候，看着界面的buffer，高亮的代码块，mode-line等，不再只是看到它们显示出来的样子，而且透过表面看到了里面运行的模块和流动的代码。</p>
+<h4 id="c-">c. 状态模式</h4>
 
-<p>作为读书的补充，可以适当的找一些源代码来看，一些常用的扩展如auto-complete, yasnippet等代码目录结构不算复杂的都合适。我个人建议以兴趣和熟悉程度为出发点，以你熟悉的mode，或最感兴趣的扩展来作为开始，因为对外部功能了解越多，越有助于理解其内部代码，就像熟悉Linux的库和系统接口，有助于阅读内核源代码一样。</p>
+<p>在 OOP 的<em>设计模式</em><a href="#6">[6]</a>中，有一个状态模式可以用于表达状态机。状态模式基于 OOP 中的代理和多态。父类定义一系列通用的接口来处理输入事件，做为状态机的对外接口形态。每个包含具体逻辑的子类各表示状态机里面的一个状态，实现父类定义好的事件处理接口。然后定义一个指向具体子类对象的变量标记当前的状态，在一个上下文相关的环境中执行此变量对应的事件处理方法，来表达状态机。依然使用上述例子，用状态模式编写出的代码如下：</p>
 
-<p>到此，你已经全面系统的学习过Emacs和Emacs Lisp，在阅读源代码上也有了大量的积累。在正式变为高手之前，还有需要做一件事情：写至少一个扩展，并奉献出来。在开源文化或黑客伦理中，一个人成为高手或黑客，不仅因为他技术高超，而且因为他有很好的奉献精神。写一个扩展需要很多的劳动，写一个规模大而且质量好的扩展更是辛苦。虽然在前面的学习过程中，你已经读过一些扩展的源代码了，但在开始正式自己写扩展之前，或者你有兴趣阅读一下《Writing GNU Emacs Extensions》这本书，了解一下如何从头到尾写一个扩展。这本由Bob Glickstein写的书于1997年由O’Reilly出版，虽然内容很好，但是真的远远落后于时代了，对应的Emacs版本是18，目前能找到的电子版印刷错误也较多。</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="kt">int</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">One</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kd">interface</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">S1</span> <span class="p">=</span> <span class="s">&quot;S1&quot;</span>
+</span><span class="line">	<span class="nx">S2</span> <span class="p">=</span> <span class="s">&quot;S2&quot;</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">StateS1</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">c</span> <span class="o">*</span><span class="nx">Context</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS1</span><span class="p">)</span> <span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">doSomething1</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">c</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="nx">S2</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS1</span><span class="p">)</span> <span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS1</span><span class="p">)</span> <span class="nx">doSomething1</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">StateS2</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">c</span> <span class="o">*</span><span class="nx">Context</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS2</span><span class="p">)</span> <span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">doSomething2</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">c</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="nx">S1</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS2</span><span class="p">)</span> <span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">StateS2</span><span class="p">)</span> <span class="nx">doSomething2</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="c1">// do nothing here</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Context</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">allStates</span>    <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">State</span>
+</span><span class="line">	<span class="nx">currentState</span> <span class="nx">State</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewContext</span><span class="p">()</span> <span class="o">*</span><span class="nx">Context</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">object</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Context</span><span class="p">{}</span>
+</span><span class="line">	<span class="nx">states</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">State</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">states</span><span class="p">[</span><span class="nx">S1</span><span class="p">]</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">StateS1</span><span class="p">{</span><span class="nx">c</span><span class="p">:</span> <span class="nx">object</span><span class="p">}</span>
+</span><span class="line">	<span class="nx">states</span><span class="p">[</span><span class="nx">S2</span><span class="p">]</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">StateS2</span><span class="p">{</span><span class="nx">c</span><span class="p">:</span> <span class="nx">object</span><span class="p">}</span>
+</span><span class="line">	<span class="nx">object</span><span class="p">.</span><span class="nx">allStates</span> <span class="p">=</span> <span class="nx">states</span>
+</span><span class="line">	<span class="nx">object</span><span class="p">.</span><span class="nx">currentState</span> <span class="p">=</span> <span class="nx">states</span><span class="p">[</span><span class="nx">S1</span><span class="p">]</span>
+</span><span class="line">	<span class="k">return</span> <span class="nx">object</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">Context</span><span class="p">)</span> <span class="nx">Tran</span><span class="p">(</span><span class="nx">nextState</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">if</span> <span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">allStates</span><span class="p">[</span><span class="nx">nextState</span><span class="p">];</span> <span class="nx">ok</span> <span class="p">{</span>
+</span><span class="line">		<span class="nx">self</span><span class="p">.</span><span class="nx">currentState</span> <span class="p">=</span> <span class="nx">s</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">Context</span><span class="p">)</span> <span class="nx">Handle</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">i</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">Zero</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">self</span><span class="p">.</span><span class="nx">currentState</span><span class="p">.</span><span class="nx">OnEventZero</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">One</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">self</span><span class="p">.</span><span class="nx">currentState</span><span class="p">.</span><span class="nx">OnEventOne</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="nx">context</span> <span class="p">=</span> <span class="nx">NewContext</span><span class="p">()</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">context</span><span class="p">.</span><span class="nx">Handle</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<h3 id="section-3">4. 飞升成仙</h3>
+<p>状态模式将各个状态的逻辑局部化到每个状态类，事件分发和状态跳转的性能也很高，内存使用上也相当高效，没有稀疏表浪费内存的问题。它将状态和事件通过接口继承分隔开，实现的时候不需要列举所有事件，添加状态也只是添加子类实现，但要求有一个 context 类来管理上下文及所有相关的变量，状态类与 context 类之间的访问多了一个间接层，在某些语言里面可能会遇到封装问题(比如在 C++里面访问 private 字段要使用 friend 关键字)。</p>
 
-<p>到了这个阶段，进一步提升自己的方向有两个，一曰深度，一曰广度。</p>
+<h4 id="d--fsm-">d. 优化的 FSM 实现</h4>
 
-<p>深度方面，可以全面阅读Emacs的源代码，学习其底层的C核心，Emacs Lisp解释器的原理，学习Emacs的启动/运行过程，事件机制，与外部进程的接口，等等。还可以找一些较复杂较庞大的扩展代码来看，例如广为人知的巨兽<a href="http://cedet.sourceforge.net/">CEDET</a>等，除了熟悉如何用Emacs Lisp来实际编写大项目之外，还需要懂得很多与具体应用紧密相关的内容，例如对于CEDET，就需要知道编程语言的词法文法解析过程。这种复杂项目对基础知识的要求较高，读起来较为艰深，需要做好“深挖洞，广积粮”的准备。</p>
+<p>结合上述几种 FSM 实现模式，我们可以得到一个优化的 FSM 实现模式，它用对象方法表示状态，将状态表嵌套到每个状态方法中，因此它包含了上述几种模式的优点：事件和状态的分离，高效的状态跳转和内存使用，直接的变量访问，直观而且扩展方便。用它重写上述例子，得到下述的代码：</p>
 
-<p>广度方面，可以广泛涉猎其它Lisp方言，学习Lisp的实现，历史及著名项目等，甚至可以弄一个Lisp Machine来玩玩，或者学习其它的函数式编程语言。这个话题太大，但我还是尽力尝试提供一点帮助信息。最大的两个Lisp方言当然是Common Lisp和Scheme，如果详细叙述如何学习Common Lisp或Scheme，那么可以需要写的篇幅比本文长得多，或者将来在我的博客上会出现《Common Lisp修炼之道》或《Scheme修炼之道》，但至少暂时是既无能力也无计划。这里只是简单列一下可供参考的书目：</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+<span class="line-number">52</span>
+<span class="line-number">53</span>
+<span class="line-number">54</span>
+<span class="line-number">55</span>
+<span class="line-number">56</span>
+<span class="line-number">57</span>
+<span class="line-number">58</span>
+<span class="line-number">59</span>
+<span class="line-number">60</span>
+<span class="line-number">61</span>
+<span class="line-number">62</span>
+<span class="line-number">63</span>
+<span class="line-number">64</span>
+<span class="line-number">65</span>
+<span class="line-number">66</span>
+<span class="line-number">67</span>
+<span class="line-number">68</span>
+<span class="line-number">69</span>
+<span class="line-number">70</span>
+<span class="line-number">71</span>
+<span class="line-number">72</span>
+<span class="line-number">73</span>
+<span class="line-number">74</span>
+<span class="line-number">75</span>
+<span class="line-number">76</span>
+<span class="line-number">77</span>
+<span class="line-number">78</span>
+<span class="line-number">79</span>
+<span class="line-number">80</span>
+<span class="line-number">81</span>
+<span class="line-number">82</span>
+<span class="line-number">83</span>
+<span class="line-number">84</span>
+<span class="line-number">85</span>
+<span class="line-number">86</span>
+<span class="line-number">87</span>
+<span class="line-number">88</span>
+<span class="line-number">89</span>
+<span class="line-number">90</span>
+<span class="line-number">91</span>
+<span class="line-number">92</span>
+<span class="line-number">93</span>
+<span class="line-number">94</span>
+<span class="line-number">95</span>
+<span class="line-number">96</span>
+<span class="line-number">97</span>
+<span class="line-number">98</span>
+<span class="line-number">99</span>
+<span class="line-number">100</span>
+<span class="line-number">101</span>
+<span class="line-number">102</span>
+<span class="line-number">103</span>
+<span class="line-number">104</span>
+<span class="line-number">105</span>
+<span class="line-number">106</span>
+<span class="line-number">107</span>
+<span class="line-number">108</span>
+<span class="line-number">109</span>
+<span class="line-number">110</span>
+<span class="line-number">111</span>
+<span class="line-number">112</span>
+<span class="line-number">113</span>
+<span class="line-number">114</span>
+<span class="line-number">115</span>
+<span class="line-number">116</span>
+<span class="line-number">117</span>
+<span class="line-number">118</span>
+<span class="line-number">119</span>
+<span class="line-number">120</span>
+<span class="line-number">121</span>
+<span class="line-number">122</span>
+<span class="line-number">123</span>
+<span class="line-number">124</span>
+<span class="line-number">125</span>
+<span class="line-number">126</span>
+<span class="line-number">127</span>
+<span class="line-number">128</span>
+<span class="line-number">129</span>
+<span class="line-number">130</span>
+<span class="line-number">131</span>
+<span class="line-number">132</span>
+<span class="line-number">133</span>
+<span class="line-number">134</span>
+<span class="line-number">135</span>
+<span class="line-number">136</span>
+<span class="line-number">137</span>
+<span class="line-number">138</span>
+<span class="line-number">139</span>
+<span class="line-number">140</span>
+<span class="line-number">141</span>
+<span class="line-number">142</span>
+<span class="line-number">143</span>
+<span class="line-number">144</span>
+<span class="line-number">145</span>
+<span class="line-number">146</span>
+<span class="line-number">147</span>
+<span class="line-number">148</span>
+<span class="line-number">149</span>
+<span class="line-number">150</span>
+<span class="line-number">151</span>
+<span class="line-number">152</span>
+<span class="line-number">153</span>
+<span class="line-number">154</span>
+<span class="line-number">155</span>
+<span class="line-number">156</span>
+<span class="line-number">157</span>
+<span class="line-number">158</span>
+<span class="line-number">159</span>
+<span class="line-number">160</span>
+<span class="line-number">161</span>
+<span class="line-number">162</span>
+<span class="line-number">163</span>
+</pre></td><td class="code"><pre><code class="go"><span class="line"><span class="kd">type</span> <span class="nx">Input</span> <span class="kt">int</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">Zero</span> <span class="nx">Input</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">One</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">EventType</span> <span class="kt">uint32</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">EventInitialize</span> <span class="nx">EventType</span> <span class="p">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line">	<span class="nx">EventFinalize</span>
+</span><span class="line">	<span class="nx">EventStateEntry</span>
+</span><span class="line">	<span class="nx">EventStateExit</span>
+</span><span class="line">	<span class="nx">EventUser</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">Event</span> <span class="kd">interface</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">Type</span><span class="p">()</span> <span class="nx">EventType</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">FSMEvent</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">T</span> <span class="nx">EventType</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">FSMEvent</span><span class="p">)</span> <span class="nx">Type</span><span class="p">()</span> <span class="nx">EventType</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">T</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">FSMEvents</span> <span class="p">=</span> <span class="p">[]</span><span class="o">*</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventInitialize</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventFinalize</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventStateEntry</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">		<span class="o">&amp;</span><span class="nx">FSMEvent</span><span class="p">{</span>
+</span><span class="line">			<span class="nx">T</span><span class="p">:</span> <span class="nx">EventStateExit</span><span class="p">,</span>
+</span><span class="line">		<span class="p">},</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">FSM</span> <span class="kd">interface</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">Init</span><span class="p">()</span>
+</span><span class="line">	<span class="nx">Dispatch</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">Tran</span><span class="p">(</span><span class="nx">target</span> <span class="kt">string</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">State</span> <span class="kd">func</span><span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">const</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">EventInput</span> <span class="nx">EventType</span> <span class="p">=</span> <span class="nx">EventUser</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="kc">iota</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">InputEvent</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">T</span> <span class="nx">EventType</span>
+</span><span class="line">	<span class="nx">I</span> <span class="nx">Input</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewInputEvent</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="o">*</span><span class="nx">InputEvent</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">InputEvent</span><span class="p">{</span>
+</span><span class="line">		<span class="nx">T</span><span class="p">:</span> <span class="nx">EventInput</span><span class="p">,</span>
+</span><span class="line">		<span class="nx">I</span><span class="p">:</span> <span class="nx">i</span><span class="p">,</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">InputEvent</span><span class="p">)</span> <span class="nx">Type</span><span class="p">()</span> <span class="nx">EventType</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="nx">self</span><span class="p">.</span><span class="nx">T</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">BaseFSM</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">AllStates</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">State</span>
+</span><span class="line">	<span class="nx">S</span>         <span class="nx">State</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewBaseFSM</span><span class="p">()</span> <span class="o">*</span><span class="nx">BaseFSM</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">BaseFSM</span><span class="p">{}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">Register</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">state</span> <span class="nx">State</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">AllStates</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="p">=</span> <span class="nx">state</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">InitState</span><span class="p">(</span><span class="nx">s</span> <span class="nx">State</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span> <span class="p">=</span> <span class="nx">s</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">FSMEvents</span><span class="p">[</span><span class="nx">EventInitialize</span><span class="p">])</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">Dispatch</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">NewInputEvent</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">BaseFSM</span><span class="p">)</span> <span class="nx">Tran</span><span class="p">(</span><span class="nx">target</span> <span class="kt">string</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">s</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">AllStates</span><span class="p">[</span><span class="nx">target</span><span class="p">]</span>
+</span><span class="line">	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span><span class="line">		<span class="nb">panic</span><span class="p">(</span><span class="s">&quot;invalid target state&quot;</span><span class="p">)</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">FSMEvents</span><span class="p">[</span><span class="nx">EventStateExit</span><span class="p">])</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span> <span class="p">=</span> <span class="nx">s</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">S</span><span class="p">(</span><span class="nx">FSMEvents</span><span class="p">[</span><span class="nx">EventStateEntry</span><span class="p">])</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">type</span> <span class="nx">ZeroCounter</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class="line">	<span class="o">*</span><span class="nx">BaseFSM</span>
+</span><span class="line">	<span class="nx">count</span> <span class="kt">int</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NewZeroCounter</span><span class="p">()</span> <span class="o">*</span><span class="nx">ZeroCounter</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">ZeroCounter</span><span class="p">{</span>
+</span><span class="line">		<span class="nx">BaseFSM</span><span class="p">:</span> <span class="nx">NewBaseFSM</span><span class="p">(),</span>
+</span><span class="line">		<span class="nx">count</span><span class="p">:</span>   <span class="mi">0</span><span class="p">,</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">ZeroCounter</span><span class="p">)</span> <span class="nx">Init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">Register</span><span class="p">(</span><span class="s">&quot;S1&quot;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">S1</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">Register</span><span class="p">(</span><span class="s">&quot;S2&quot;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">S2</span><span class="p">)</span>
+</span><span class="line">	<span class="nx">self</span><span class="p">.</span><span class="nx">InitState</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">S1</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">ZeroCounter</span><span class="p">)</span> <span class="nx">S1</span><span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">e</span><span class="p">.</span><span class="nx">Type</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventInitialize</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateEntry</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateExit</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventInput</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">event</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.(</span><span class="o">*</span><span class="nx">InputEvent</span><span class="p">)</span>
+</span><span class="line">		<span class="k">if</span> <span class="nx">event</span><span class="p">.</span><span class="nx">I</span> <span class="o">==</span> <span class="nx">Zero</span> <span class="p">{</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="s">&quot;S2&quot;</span><span class="p">)</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="p">(</span><span class="nx">self</span> <span class="o">*</span><span class="nx">ZeroCounter</span><span class="p">)</span> <span class="nx">S2</span><span class="p">(</span><span class="nx">e</span> <span class="nx">Event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">switch</span> <span class="nx">e</span><span class="p">.</span><span class="nx">Type</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateEntry</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventStateExit</span><span class="p">:</span>
+</span><span class="line">	<span class="k">case</span> <span class="nx">EventInput</span><span class="p">:</span>
+</span><span class="line">		<span class="nx">event</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">e</span><span class="p">.(</span><span class="o">*</span><span class="nx">InputEvent</span><span class="p">)</span>
+</span><span class="line">		<span class="k">if</span> <span class="nx">event</span><span class="p">.</span><span class="nx">I</span> <span class="o">==</span> <span class="nx">Zero</span> <span class="p">{</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span>
+</span><span class="line">			<span class="nx">self</span><span class="p">.</span><span class="nx">Tran</span><span class="p">(</span><span class="s">&quot;S1&quot;</span><span class="p">)</span>
+</span><span class="line">		<span class="p">}</span>
+</span><span class="line">	<span class="p">}</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">var</span> <span class="p">(</span>
+</span><span class="line">	<span class="nx">counter</span> <span class="o">*</span><span class="nx">ZeroCounter</span>
+</span><span class="line"><span class="p">)</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">counter</span> <span class="o">:=</span> <span class="nx">NewZeroCounter</span><span class="p">()</span>
+</span><span class="line">	<span class="nx">counter</span><span class="p">.</span><span class="nx">Init</span><span class="p">()</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kd">func</span> <span class="nx">NumberOfZero</span><span class="p">(</span><span class="nx">i</span> <span class="nx">Input</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">	<span class="nx">counter</span><span class="p">.</span><span class="nx">Dispatch</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>《Structure and Interpretation of Computer Programs》，中译本《计算机程序的构造和解释》<br />
-《Ansi Common Lisp》，目前网上有在线中文翻译版本，前几章翻译得还不错<br />
-《Practical Common Lisp》， 伞哥(田春)翻译了中文版，2011年出版，有的地方读起来比较生涩<br />
-《On Lisp》，伞哥和其他人合作翻译，网上有电子版，翻译质量很高，就像前文所说，“很高”这两个字不是随便用的<br />
-《Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp》，由AI大牛Peter Norvig所写的，书名看起来只是AI方面的书，但其实也是一本很好的Common Lisp教程<br />
-《Common LISP The Language, 2nd》，描述Common Lisp的语言标准  </p>
+<p>在这种模式中可以添加整个状态机的初始化动作，每个状态的进入/退出动作。上述代码中<code>ZeroCounter.S1()</code>方法的<code>case EventInitialize</code>分支可以放入状态机的初始化逻辑，每个状态方法的<code>case EventStateEntry</code>和<code>case EventStateExit</code>分支可以放入对应状态的进入/退出动作。这是一个重要的特性，在实际状态机编程中每个状态可以定制进入/退出动作是很有用的。</p>
 
-<p>还有很多Lisp好书都没有一一列出，此外函数式编程语言也不少，虽然有时学习曲线陡得像是悬崖峭壁，但如果你真的到了这一步，相信会有足够的兴趣和技能支撑你继续走下去，总之可以选择的方向太多，这篇小文只谈Emacs修炼，适可而止。</p>
+<h4 id="e-hsm">e. HSM</h4>
 
-<p>到了这个层次，当然你也要注重发光发热，提挈后辈，可以在社区或邮件组多活动活动，奉献代码，解答疑问。不过这个也是大话题了，网上组织众多各人习惯不同，非三言几语能够说得清楚，按下不表。</p>
+<p>上述几种模式中，状态之间都是相互独立的，状态图没有重合的部分，整个状态机都是平坦的。然而实际上很多问题的状态机模型都不会是那么简单，有可能问题域本身就有状态嵌套的概念，有时为了重用大段的处理逻辑或代码，我们也需要支持嵌套的状态。这方面一个经典的例子就是图形应用程序的编写，通过图形应用程序的框架(如 MFC, GTK, Qt)编写应用程序，程序员只需要注册少数感兴趣的事件响应，如点击某个按钮，大部分其它的事件响应都由默认框架处理，如程序的关闭。用状态机来建模，框架就是父状态，而应用程序就是子状态，子状态只需要处理它感兴趣的少数事件，大部分事件都由向上传递到框架这个父状态来处理，这两种系统之间有一个直观的类比关系，如下图所示：</p>
 
-<p>如果以上提到的这些内容你都已经深入钻研，深到地球核心，又广到天际之远，那么恭喜恭喜，你可以正式宣称“神丹炼成，择日飞升”，到这个时候，你所需要的只剩下《颈椎病和鼠标手康复指南》。两千年前庄子就说了，“吾生也有涯，而知也无涯。以有涯随无涯，殆已；已而为知者，殆而已矣。”喜欢折腾Emacs的朋友们，人生短暂，还是悠着点吧。</p>
+<p><a href="/images/uploads/embedded_state_and_gui.jpg"><img src="/images/uploads/embedded_state_and_gui.jpg" alt="Anatomy of a GUI application" /></a></p>
+
+<p>这种事件向父层传递，子层继承了父类行为的结构，我们将其称为<em>行为继承</em>，以区别开 OOP 里面的<em>类继承</em>。并把这种包含嵌套状态的状态机称为* HSM(hierarchical state machine)*，层次状态机。</p>
+
+<p>加上了对嵌套状态的支持之后，状态机的模型就可以变得任意复杂了，大大的扩大了状态机的适用场景和范围，如此一来用状态机对问题建模就好比用 OOP 对系统进行编程：识别出系统的状态及子状态，并将逻辑固化到状态及它们的跳转逻辑当中。</p>
+
+<p>那么在状态机实现模式里如何支持嵌套状态呢？从整个状态图来看，状态/子状态所形成的这张大图本质上是一个单根的树结构，每个状态图有一个根结点 top，每个状态是一个树结点，可以带任意多的子状态/子结点，每个子状态只有一个父结点，要表达嵌套状态，就是要构造出这样一棵树。</p>
+
+<h3 id="go-hsm">go-hsm</h3>
+
+<p>我用 Golang 编写了一个 HSM 框架<a href="https://github.com/hhkbp2/go-hsm"><em>go-hsm</em></a>，设计要点如下：</p>
+
+<ol>
+  <li>用类来表示状态，局部化状态内部变量及逻辑，整棵状态树由具体应用构造</li>
+  <li>支持嵌套状态及行为继承，支持进入退出动作，</li>
+  <li>支持自定义事件，支持静态和动态两种跳转</li>
+</ol>
+
+<p>它的代码在<a href="https://github.com/hhkbp2/go-hsm">这里</a>，go-hsm 的使用例子则放在另一个项目<a href="https://github.com/hhkbp2/go-hsm-examples"><em>go-hsm-examples</em></a>。由于 Golang 本身的语言特点，有一些地方的实现较其它语言多了一些缺点，比如 Golang 里面的 binding 是静态的，为了将子类对象的指针传播到父类方法，要显式传递 self 指针，子类的接口函数也需要由应用重写。但由于 HSM 本身的灵活强大，<code>go-hsm</code>具有良好的可调整性及扩展性，是一个很好的状态机建模工具，一门灵活有效表达复杂状态机的 <a href="http://en.wikipedia.org/wiki/Domain-specific_language">DSL(Domain Specific Language)</a>。</p>
 
 <p><em>注：</em><br />
-<a id="1">[1]</a> <a href="http://coolshell.cn/articles/3125.html">《主流文本编辑器学习曲线》</a>这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。<br />
-<a id="2">[2]</a> 《银河系漫游指南》中毛巾这个词条有一些特别的解释。<br />
-<a id="3">[3]</a> 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。  </p>
+<a id="1">[1]</a> <a href="http://mitpress.mit.edu/sicp/">《Structure and Interpretation of Computer Programs》</a>一书的中文译本。<br />
+<a id="2">[2]</a> 本文内容主要出自 Miro Samek 博士的经典著作《Practical Statecharts in C/C++: Quantum Programmming for Embedded Systems》，其中文译本书名为《嵌入式系统的微模块化程序设计：实用状态图 C/C++实现》，翻译甚差，不推荐阅读。<br />
+<a id="3">[3]</a> 各种编程语言里面的条件判断关键字和语句都不尽相同，有的 if 语句带<code>then</code>关键字，有的不带<code>then</code>，有的支持<code>switch</code>，这里将它们简单统称为 if-else/switch 语句。<br />
+<a id="4">[4]</a> 本文中所有代码都为 Go 语言代码。<br />
+<a id="5">[5]</a> 之所以强调函数是命名的，是因为很多语言支持匿名函数(即 lambda 函数)，在嵌套 if-else/switch 模式内部写匿名函数定义对降低代码膨胀起不了作用。<br />
+<a id="6">[6]</a> OOP 领域设计模式的流行，源于这本书《Design Patterns: Elements of Reusable Object-Oriented Software》的出版，其中文译本见<a href="http://book.douban.com/subject/1052241/">这里</a>。  </p>
 
 </div>
   
@@ -394,6 +1509,8 @@
     </article>
   
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -410,7 +1527,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Dylan.Wen <br/>
+  Copyright &copy; 2019 - Dylan.Wen <br/>
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
 </p>
 
