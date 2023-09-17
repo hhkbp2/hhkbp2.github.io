@@ -1,0 +1,154 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>
+            
+                    ZooKeeper on
+                
+            
+            hhkbp2&#39;s blog</title>
+        <link>https://hhkbp2.com/tags/zookeeper/</link>
+        <description>Recent content  in ZooKeeper
+            on hhkbp2&#39;s blog</description>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 17 Sep 2023 18:23:56 +0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+            <atom:link href="https://hhkbp2.com/tags/zookeeper/index.xml" rel="self" type="application/rss&#43;xml" />
+        
+            
+            <item>
+                <title>Curator 介绍</title>
+                <link>https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/</link>
+                
+                
+                <description>&lt;p&gt;本文翻译自Netflix&lt;a href=&#34;#1&#34;&gt;[1]&lt;/a&gt;技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由Netflix工程师，Curator作者Jordan Zimmerman编写，原文在&lt;a href=&#34;http://techblog.netflix.com/2011/11/introducing-curator-netflix-zookeeper.html&#34;&gt;这里&lt;/a&gt;。接触Curator已经快一年时间，期间有过写一篇介绍性文章的念头，但一直没有动手，后来回顾手头的资料，觉得其实这篇文章虽然简洁了一点，但也是一个很好的介绍，于是翻译在这里。仅用于学习，请勿用于其它用途。&lt;/p&gt;
+&lt;hr&gt;
+
+&lt;h3 id=&#34;netflix的开源&#34;&gt;Netflix的开源&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#netflix%e7%9a%84%e5%bc%80%e6%ba%90&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;Netflix致力于开源，我们过去写过&lt;a href=&#34;http://techblog.netflix.com/2010/12/why-we-use-and-contribute-to-open.html&#34;&gt;相关的博客&lt;/a&gt;，今天我们公布Netflix开源项目的门户网页。网页&lt;a href=&#34;https://github.com/netflix&#34;&gt;托管在Github上&lt;/a&gt;，有几个项目在并行推进当中(其中包括我们今天对外发布的&lt;a href=&#34;https://github.com/netflix/curator&#34;&gt;Curator&lt;/a&gt;)：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Curator - Netflix的ZooKeeper库&lt;/li&gt;
+&lt;li&gt;Astyanax - Netflix的Cassandra客户端&lt;/li&gt;
+&lt;li&gt;Priam - Cassandra的跨进程备份/恢复功能，Token管理，配置中心化管理&lt;/li&gt;
+&lt;li&gt;CassJMeter - 运行Cassandra测试的JMeter插件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;zookeeper&#34;&gt;ZooKeeper&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#zookeeper&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;ZooKeeper是一个高性能的分布式协调服务框架。它将通用的服务，如命名，配置管理，同步，分组服务等，通过简单的接口展现出来。要全面的了解ZooKeeper，请参考以下网页：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://zookeeper.apache.org/&#34;&gt;ZooKeeper主站&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://zookeeper.apache.org/doc/current/recipes.html&#34;&gt;ZooKeeper Recipes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cwiki.apache.org/ZOOKEEPER/faq.html&#34;&gt;ZooKeeper FAQ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://cwiki.apache.org/confluence/display/ZOOKEEPER/Index&#34;&gt;ZooKeeper Info文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://research.yahoo.com/node/2120&#34;&gt;很好的解释ZooKeeper的视频&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;难以用好&#34;&gt;难以用好&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#%e9%9a%be%e4%bb%a5%e7%94%a8%e5%a5%bd&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;ZooKeeper本身自带一个Java客户端，但使用这个客户端繁琐&lt;a href=&#34;#2&#34;&gt;[2]&lt;/a&gt;而且容易出错。客户端的使用者需要做大量的手动维护性工作。比如：&lt;/p&gt;
+&lt;p&gt;连接问题&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化连接：ZooKeeper客户端与服务器进行握手，这需要花一些时间。如果握手未完成，任何要与服务器端同步执行的方法(如，create()，getData()等)都会抛出异常。&lt;/li&gt;
+&lt;li&gt;Failover：如果ZooKeeper客户端与服务器连接断开，它会failover到集群中另外一台服务器。然后，这个过程会使客户端退回到&amp;quot;初始化连接&amp;quot;的模式。&lt;/li&gt;
+&lt;li&gt;Session过期：有些边际情况可以导致ZooKeeper session过期。客户端需要监视这个状态，关闭并重建ZooKeeper客户端实例。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;恢复问题&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当在Server创建顺序节点(sequential ZNode)时，有可能出现这种情况：节点成功创建了，但server在将节点名返回给客户端之前崩溃了。&lt;/li&gt;
+&lt;li&gt;ZooKeeper客户端可能会抛出几个可恢复的异常，使用者需要捕捉这些异常并做重试操作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Recipe&lt;a href=&#34;#3&#34;&gt;[3]&lt;/a&gt;方面&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;标准的ZooKeeper recipe(如锁，选leader等)只是得到最低程序的描述，要正确地编写出来比较困难。&lt;/li&gt;
+&lt;li&gt;有一些重要的边界情况在recipe描述里没有提到。例如，锁recipe的描述中，没有说到如何处理服务器成功创建了顺序(Sequential)/临时(Ephemeral)节点，但在向客户端返回结点名之前就崩溃的情况。如果没有得到正确处理，可能会导致死锁。&lt;/li&gt;
+&lt;li&gt;某些使用场景下，必须要注意可能出现的连接问题。例如，选leader过程要监视连接的稳定性。如果连接到的服务器崩溃了，leader就不能假定自己继续为leader，除非已经成功failover到另外的服务器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上述问题(和其它类似的问题)必须由每个ZooKeeper使用者来处理。问题解决方案既不容易编写，也不是显而易见的，需要消耗相当多的时间。而Curator处理了所有的问题。&lt;/p&gt;
+
+&lt;h3 id=&#34;curator是什么&#34;&gt;Curator是什么&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#curator%e6%98%af%e4%bb%80%e4%b9%88&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;Curator n ˈkyoor͝ˌātər:，展品或者其它收藏品的看守者，管理员，ZooKeeper的Keeper。它由3个相关的项目组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;curator-client - ZooKeeper自带客户端的替代者，它负责处理低层次的维护工作，并提供某些有用的小功能&lt;/li&gt;
+&lt;li&gt;curator-framework - Curator Framework大大地简化ZooKeeper使用的高层次API。它在ZooKeeper客户端之上添加了很多功能，并处理了与ZooKeeper集群连接管理和重试操作的复杂性。&lt;/li&gt;
+&lt;li&gt;curator-recipes - ZooKeeper某些通用recipe的实现。它是基于Curator Framework之上实现的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Curator专注于锁，选Leader等这些recipe。大部分对ZooKeeper感兴趣的人不需要关心连接管理等细节。他们想要的只是简单的使用这些recipe。Curator就是以此作为目标。&lt;/p&gt;
+&lt;p&gt;Curator通过以下方式处理了使用ZooKeeper的复杂度：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;重试机制：Curator支持可插拔式的(pluggable)重试机制。所有会产生可恢复异常的ZooKeeper操作都会在配置好的重试策略下得到重试。Curator自带了几个标准的重试策略(如二元指数后退策略)。&lt;/li&gt;
+&lt;li&gt;连接状态监视：Curator不断监视ZooKeeper连接的状态，Curator用户可以监听连接状态变化并相应的作出回应。&lt;/li&gt;
+&lt;li&gt;ZooKeeper客户端实例管理：Curator通过标准的ZooKeeper类实例来管理与ZooKeeper集群的实际连接。然而，这些实例是管理在内部(尽管你若需要也可以访问)，在需要的时候被重新创建。因此，Curator提供了对ZooKeeper集群的可靠处理(不像ZooKeeper自带的实现)。&lt;/li&gt;
+&lt;li&gt;正确，可靠的recipe：Curator实现了大部分重要的ZooKeeper recipe(还有一些附加的recipe)。它们的实现使用了ZooKeeper的最佳实践，处理了所有已知的边界情况(像前面所说的)。&lt;/li&gt;
+&lt;li&gt;Curator专注于那些让你的代码更强健，因为你完全专心于你感兴趣的ZooKeeper功能，而不用担心怎么正确完成那些的维护性工作。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;zookeeper在netflix&#34;&gt;ZooKeeper在Netflix&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#zookeeper%e5%9c%a8netflix&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;ZooKeeper/Curator在Netflix得到了广泛的使用。使用情景有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;InterProcessMutex在各种顺序ID生成器中被用来保证值的唯一性&lt;/li&gt;
+&lt;li&gt;Cassandra备份&lt;/li&gt;
+&lt;li&gt;TrackID服务&lt;/li&gt;
+&lt;li&gt;我们的Chukwa收集器使用LeaderSelector来做各种维护性的任务&lt;/li&gt;
+&lt;li&gt;我们用了一些第三方的服务，但它们只允许有限数目的并发用户。InterProcessSemphore被用来处理这个。&lt;/li&gt;
+&lt;li&gt;各种Cache&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;获取curator&#34;&gt;获取Curator&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#%e8%8e%b7%e5%8f%96curator&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;Curator二进制被上传到了Maven Central，这让获取它变得很容易&lt;/li&gt;
+&lt;li&gt;Curator的源代码放在Github上托管&lt;a href=&#34;#4&#34;&gt;[4]&lt;/a&gt;：&lt;a href=&#34;https://github.com/Netflix/curator&#34;&gt;https://github.com/Netflix/curator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;全面的文档放在：&lt;a href=&#34;https://github.com/Netflix/curator/wiki&#34;&gt;https://github.com/Netflix/curator/wiki&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;注：&lt;/em&gt;&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[1]&lt;!-- raw HTML omitted --&gt; Netflix是一个美国的在线DVD租赁公司，后来转型到网络流媒体服务。参考&lt;a href=&#34;http://zh.wikipedia.org/wiki/Netflix&#34;&gt;维基百科Netflix词条&lt;/a&gt;。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[2]&lt;!-- raw HTML omitted --&gt; 原文为non-trivial，意思应该是搞反了。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[3]&lt;!-- raw HTML omitted --&gt; Recipe中文意思为“菜谱，配方”，感觉翻译过来不能很好的表达英文&amp;quot;一系列约定步骤&amp;quot;的意思，故不译。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[4]&lt;!-- raw HTML omitted --&gt; Curator在去年(2013年)年中已经正式成为Apache Incubator项目，代码改为托管在Github Apache的对应目录下。主页和文档的位置也有所变化。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/linux">Linux</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/zookeeper">ZooKeeper</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/curator">Curator</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/client">client</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/</guid>
+                <pubDate>Sat, 08 Mar 2014 16:27:00 +0800</pubDate>
+            </item>
+        
+    </channel>
+</rss>
+
+

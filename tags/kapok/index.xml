@@ -1,0 +1,592 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>
+            
+                    Kapok on
+                
+            
+            hhkbp2&#39;s blog</title>
+        <link>https://hhkbp2.com/tags/kapok/</link>
+        <description>Recent content  in Kapok
+            on hhkbp2&#39;s blog</description>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 17 Sep 2023 18:23:56 +0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+            <atom:link href="https://hhkbp2.com/tags/kapok/index.xml" rel="self" type="application/rss&#43;xml" />
+        
+            
+            <item>
+                <title>Kapok 的设计与实现: Protocol</title>
+                <link>https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/</link>
+                
+                
+                <description>&lt;p&gt;&lt;a href=&#34;https://github.com/kapok-lang/kapok&#34;&gt;Kapok&lt;/a&gt;是我设计与实现的一个基于Erlang VM的现代Lisp编程语言。&lt;a href=&#34;https://hhkbp2.com/blog/2016/06/08/minds-echo/&#34;&gt;《念念不忘，亦有回响》&lt;/a&gt;这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中Protocol的具体设计和实现。&lt;/p&gt;
+
+&lt;h2 id=&#34;protocol是什么&#34;&gt;Protocol是什么&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#protocol%e6%98%af%e4%bb%80%e4%b9%88&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;为了更好地进行程序的编写，编程语言往往需要引入一些抽象，比如一个函数是一系列操作的封装，一个模块是一堆函数的封装，然后出于通用性的需要，又定义了函数签名来区分具有相同参数类型和参数个数的函数，对于具有相同函数签名的模块，在Erlang我们定义了行为(Behavior)。类似地，Protocol也是一种对数据类型和基于数据类型上实现的一些函数的抽象。在面向对象编程语言(OOP)非常流行的今天，这种抽象更多地被称为类与接口。&lt;/p&gt;
+&lt;p&gt;下面简单举例来说明Protocol是什么。在Erlang里面，如果我们要编写一段代码来处理不同的数据类型，往往需要在一大块集中代码里面针对每一种数据类型进行不同的处理。假设我们正在编写一个Json模块，这个模块要处理list, binary, number三种类型的encode(编码)操作，那么就有代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-&lt;span style=&#34;color:#800080&#34;&gt;module&lt;/span&gt;(json)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;encode&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;when&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;is_list&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;encode&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;when&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;is_binary&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;encode&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;when&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;is_number&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果要添加更多的数据类型，那么就在模块内部添加对应那个数据类型的分支。但是如果你没有这个模块的源代码就无法添加，而且经过长时间添加多个类型支持后这个模块变得非常大，难于维护。Elixir引入了Protocol，针对上述的encode操作，可以定义成一个Protocol，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defprotocol&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于任何实现了&lt;code&gt;JSON&lt;/code&gt; Protocol的数据类型对象&lt;code&gt;data&lt;/code&gt;，都可以直接调用下述函数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;encode(data)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这些数据类型的&lt;code&gt;JSON&lt;/code&gt; Protocol实现可以分散放在各个文件中，没有要集中维护的问题，当你需要添加一个新的数据类型的支持时，也不需要已有模块的源代码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;, &lt;span style=&#34;color:#990073&#34;&gt;for&lt;/span&gt;: &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;List&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item) &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;, &lt;span style=&#34;color:#990073&#34;&gt;for&lt;/span&gt;: &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;BitString&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item) &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;, &lt;span style=&#34;color:#990073&#34;&gt;for&lt;/span&gt;: &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;Number&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item) &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过Protocol这样一个抽象，我们可以在函数式的编程语言中，定义对数据类型绑定一系列的接口，然后针对这些通用的接口来进行编程。针对接口编程一个常常被提到的用法是，在需要快速编写原型的时候，使用简单的数据类型进行接口编程，先快速实现功能，等到程序稳定下来，后期需要进行性能优化的时候，再将接口下面的数据类型更换成更高效的实现，这个过程中所有的接口使用代码都不需要修改。&lt;/p&gt;
+
+&lt;h2 id=&#34;elixir中protocol的实现&#34;&gt;Elixir中Protocol的实现&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#elixir%e4%b8%adprotocol%e7%9a%84%e5%ae%9e%e7%8e%b0&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;Protocol，或者说类接口，它的广义的概念可以追溯到20世纪80年代开始流行的面向对象编程语言，比如C++，甚至更早之前60~70年代就已经存在的Lisp，从那个年代流传至今的很多Lisp方言中，都或多或少有着这种抽象，比如Common Lisp中的Sequence的概念。而在Erlang VM上实现了Protocol的Elixir语言，它则是参考了Clojure的Protocol定义和实现。下面简单描述一下Elixir的Protocol实现。&lt;/p&gt;
+&lt;p&gt;从上面的例子我们可以看到，Protocol的本质是将数据类型和接口分开定义，并在运行时进行动态绑定。上述例子中，对于List类型，定义了对应的encode实现，调用Protocol的接口&lt;code&gt;JSON.encode(data)&lt;/code&gt;时，如果data是List类型，就进行动态分发，执行对应的encode实现。那么如何实现这种动态绑定或者说分发呢？由于Erlang是一个函数式编程语言，Erlang VM的基本语义中也只支持模块和函数，因为Protocol的每个实现可以分开，而Erlang VM中基础的编译单元是模块，一个简单的映射方法就是将每个Protocol实现映射为一个模块。而对于接口模块&lt;code&gt;JSON&lt;/code&gt;，很自然地也成为一个单独的模块。那么就只剩下一个问题了，即如何实现当调用&lt;code&gt;JSON.encode()&lt;/code&gt;时，将执行路径转到&lt;code&gt;defimpl JSON, for: List&lt;/code&gt;模块的&lt;code&gt;encode()&lt;/code&gt;函数，这里可以实现为在运行时拼接模块名，然后调用具体模块的函数。上述的Elixir代码中的例子，将编译成对应的Erlang代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          Elixir                                  Erlang
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defprotocol JSON do                     -module(JSON).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item)         生成          encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                        case item of
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_list(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.List&amp;#39;:encode(data);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_binary(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.BitString&amp;#39;:encode(data);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_number(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.Number&amp;#39;:encode(data)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_struct_X(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.X&amp;#39;: encode(data)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                           ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里的struct_X表示除了几个基本数据类型以外的用户自定义struct类型，其中X为struct的名字，即对应Elixir中的代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defmodule&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;X&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defstruct&lt;/span&gt; &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于各个数据的类型的实现，可以映射为各个Erlang模块：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          Elixir                                         Erlang
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defimpl JSON, for: List do            生成      -module(&amp;#39;JSON.List&amp;#39;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item) # ...                        encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                               %% ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defimpl JSON, for: BitString do                 -module(&amp;#39;JSON.BitString&amp;#39;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item) # ...                        encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                               %% ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defimpl JSON, for: Number do                    -module(&amp;#39;JSON.Number&amp;#39;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item) # ...                        encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                               %% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注意其中的模块名是由Protocol名字，即这个例子中的JSON，和具体的数据类型名，即这个例子中的List, BitString, Number等，两者拼接而成。&lt;/p&gt;
+
+&lt;h2 id=&#34;kapok中protocol的实现&#34;&gt;Kapok中Protocol的实现&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#kapok%e4%b8%adprotocol%e7%9a%84%e5%ae%9e%e7%8e%b0&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;既然Elixir已经实现了Protocol，而且Kapok和Elixir都兼容于Erlang VM，那么除了另外捣腾一套Protocol的用法和实现之外，比较好的做法就是兼容Elixir的实现，从而达到重用所有Elixir己经有的库和代码的效果。Elixir中定义了每个Protocol模块都必需具备的接口函数，具体列出如下，它们都是通过defprocotol宏来实现的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;__protocol__/1&lt;/code&gt;
+当参数是&lt;code&gt;:name&lt;/code&gt;，返回Protocol名字
+当参数是&lt;code&gt;:functions&lt;/code&gt;，返回一个元素为Protocol接口函数和参数个数的关键字列表
+当参数是&lt;code&gt;:impls&lt;/code&gt;，返回一个实现的列表&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;impl_for/1&lt;/code&gt;
+接收一个struct，返回为此struct实现当前Protocol的模块名，如果不存在这样的实现模块则返回&lt;code&gt;:nil&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;impl_for!/1&lt;/code&gt;
+类似于上面的&lt;code&gt;impl_for/1&lt;/code&gt;，区别在于当实现模块不存在时不返回&lt;code&gt;:nil&lt;/code&gt;而是抛出异常&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在Kapok中，也定义类似的Macro&lt;code&gt;defprotocol&lt;/code&gt;来生成这些接口函数。类似地，对于Elixir中的&lt;code&gt;defstruct&lt;/code&gt;, &lt;code&gt;defimpl&lt;/code&gt; Macro，Kapok也定义了对应的Macro来生成对应的struct结构，和实现函数接口。&lt;/p&gt;
+&lt;p&gt;以上所述的种种Protocol结构都是通过Macro，这个强大的Lisp编程方式，来实现的。通过Macro处理手写代码，生成新代码，我们可以在Kapok实现一套类似于Elixir Protocol原语，无缝对接到已有的Elixir代码和库中。&lt;/p&gt;
+
+&lt;h2 id=&#34;kapok的protocol使用示例&#34;&gt;Kapok的Protocol使用示例&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#kapok%e7%9a%84protocol%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;最后附上一个Kapok代码示例，展示一下Protocol在Kapok中的定义和使用，便于理解。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-clojure&#34; data-lang=&#34;clojure&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 定义一个用于此示例的Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defprotocol &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;pr&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;A protocol to print something.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 此Protocol唯一接口用来打印某个数据&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;self&lt;/span&gt;]))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 为Atom数据类型实现pr Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;pr &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;Atom&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;require&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;io&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defn &lt;/span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;atom&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;print an atom: #&amp;#39;~p&amp;#39;~n&amp;#34;&lt;/span&gt; [&lt;span style=&#34;color:#008080&#34;&gt;atom&lt;/span&gt;])))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 为List数据类型实现pr Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;pr &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;List&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 在print的实现代码中，直接使用了Elixir的Enum Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 所以这里用了一行代码引入Elixir.Enum模块&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;require&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Elixir.Enum&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;:as&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;enum&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           &lt;span style=&#34;color:#008080&#34;&gt;io&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defn &lt;/span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;list&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;print a char list: #\&amp;#34;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 直接在List上调用enum.map，直接使用Elixir库代码&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;enum.map&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;list&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;fn &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;x&lt;/span&gt;] (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;~c&amp;#34;&lt;/span&gt; [&lt;span style=&#34;color:#008080&#34;&gt;x&lt;/span&gt;])))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;\&amp;#34;~n&amp;#34;&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;ns &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;protocol-examples&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;require&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;pr&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defn &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;main&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 下面先后声明了Atom和List两种数据类型的实例，并调用pr.print接口&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;abc&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;pr.print&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;abc&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;pr.print&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 得到输出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;an&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;atom&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;abc&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;char &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;abc&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/lisp">Lisp</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/erlang">Erlang</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/elixir">Elixir</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/kapok">Kapok</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/</guid>
+                <pubDate>Mon, 19 Mar 2018 14:56:00 +0800</pubDate>
+            </item>
+        
+            
+            <item>
+                <title>Kapok 的设计与实现: Macro</title>
+                <link>https://hhkbp2.com/kapok-the-design-and-implementation-of-macro/</link>
+                
+                
+                <description>
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/kapok-the-design-and-implementation-of-macro/kapok_flowers.jpg&#34; title=&#34;木棉花&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/kapok-lang/kapok&#34;&gt;Kapok&lt;/a&gt;是我设计与实现的一个基于Erlang VM的现代Lisp编程语言。&lt;a href=&#34;https://hhkbp2.com/blog/2016/06/08/minds-echo/&#34;&gt;《念念不忘，亦有回响》&lt;/a&gt;这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中Macro的具体设计和实现。&lt;/p&gt;
+&lt;p&gt;Lisp是一系列采用括号包围中缀表达式的列表形式来编写代码的编程语言的统称，借用一位朋友的说法，Lisp就是“裸写AST”。由于这种特别的写法，在Lisp里面将代码作为数据来操作相当容易，而实现这种操作的就是Macro。有很多的书籍和资料都有描述Lisp Macro，这里就不展开了，简单的来说，Lisp Macro是一种在编译时执行的，接受列表输入，输出列表的特殊函数。如果我们构思一下如何在Erlang VM上为一门Lisp语言实现Macro，可以得到这几个要点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Macro实现为函数，而Erlang和Erlang VM支持函数&lt;/li&gt;
+&lt;li&gt;Macro对应的实现函数，其输入是代码AST，输出也是AST&lt;/li&gt;
+&lt;li&gt;Macro在编译时执行，Macro本身的代码需要在被调用前的代码编译前编译完成&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下面我们进一步看看Kapok Macro的具体实现。&lt;/p&gt;
+
+&lt;h2 id=&#34;函数的实现&#34;&gt;函数的实现&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9e%e7%8e%b0&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;将Lisp Macro实现为函数，首先我们要在Erlang VM上实现Lisp函数。Erlang是一门函数式编程语言，在它的代码编译过程中，生成的Abstract Form(或称为Syntax Tree)和Core Erlang这两种中间代码都直接支持函数。Erlang函数比较特别，参数个数(Arity)也是函数签名的一部分，它支持多个子句但是每个子句只能有固定个数的参数，举例&lt;code&gt;erlang:spawn/1&lt;/code&gt;和&lt;code&gt;erlang:spawn/3&lt;/code&gt;是一个同名函数的两个子句。目前已经存在的几个Erlang VM上的语言实现，如LFE等，大都沿用了Erlang函数的这个设计，除了Elixir在函数参数的最后面引入Keyword List。如果将Kapok的函数直接编译成Erlang函数，函数参数定义和签名可以照抄过来，是容易做到的。但传统的Lisp，比如Common Lisp, 在函数参数定义这块支持&lt;code&gt;&amp;amp;optional&lt;/code&gt;, &lt;code&gt;&amp;amp;rest&lt;/code&gt;, &lt;code&gt;&amp;amp;key&lt;/code&gt;这几个关键字，其中&lt;code&gt;&amp;amp;optional&lt;/code&gt;表示这个关键字后面的参数是可选的，&lt;code&gt;&amp;amp;rest&lt;/code&gt;表示将后面的参数构造成一个list，&lt;code&gt;&amp;amp;key&lt;/code&gt;表示可以用key value匹配的形式来调用函数。能不能在Erlang VM上实现对这几个关键字的支持呢？不妨尝试一下。&lt;/p&gt;
+&lt;p&gt;首先思考一下如何实现&lt;code&gt;&amp;amp;optional&lt;/code&gt;，我们知道&lt;code&gt;&amp;amp;optional&lt;/code&gt;后面的参数在调用时可以不传入而采用默认值。举例来说，如果在Common Lisp里面有这个函数定义&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;optional&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;b&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;c&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 具体实现&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  )
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以下面几种方式来调用都是合法的&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这种调用的形式可以适配到Erlang的子句上面来。比如上面的函数定义&lt;code&gt;f&lt;/code&gt;可以实现成Erlang函数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  f(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, nil, nil).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;B&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  f(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;B&lt;/span&gt;, nil).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;B&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;C&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;%% 具体实现
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;  ...;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果参数B, C被省略了，那么就用一个默认值来调用参数多一个的子句，这里假定默认参数统一为Atom nil(Lisp里面optional参数的默认值为symbol nil)。&lt;/p&gt;
+&lt;p&gt;然后再考虑如何实现&lt;code&gt;&amp;amp;rest&lt;/code&gt;, &lt;code&gt;&amp;amp;key&lt;/code&gt;。我们看看一个常用的函数参数实现技巧。假设现在需要定义一个函数，这个函数只允许有一个参数(不考虑这个限制是否合理)，然而你需要传入两个参数，你会怎么定义这个函数？&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;%% An Erlang function which calculates the area of a rectangle
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;%% with specified length and width.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;calc_area&lt;/span&gt;({&lt;span style=&#34;color:#0086b3&#34;&gt;length&lt;/span&gt;, width}) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   &lt;span style=&#34;color:#0086b3&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt; width.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;你会将这个函数的唯一参数定义成一个能存放两个参数的结构，然后在调用时用实际参数构造一个这样的结构传入。上面是一个以Erlang编写的例子，事实上用其它语言比如Python, C来实现，思路也是一样。&lt;/p&gt;
+&lt;p&gt;类似地，对于&lt;code&gt;&amp;amp;rest&lt;/code&gt;参数，可以将&lt;code&gt;&amp;amp;rest&lt;/code&gt;后面的参数构造成一个列表传入。举例说明，若有Lisp的函数定义&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;rest&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;b&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 具体实现&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  )
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以翻译成对应的Erlang函数如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  f(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, []).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;B&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  ;; &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;具体实现，此处&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;B是一个列表&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果调用Lisp函数&lt;code&gt;f&lt;/code&gt;的实际参数超过一个，那么从第二个参数开始及之后的实际参数都会被放入一个List中，赋值给&lt;code&gt;B&lt;/code&gt;变量。比如对于调用&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;那么实际调用的对应代码就变成&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;B&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于关键字&lt;code&gt;&amp;amp;key&lt;/code&gt;，也可以采取类似的思路。比如对于函数定义&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;key&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;b&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;c&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 具体实现 &lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  )
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;会翻译成对应的Erlang函数定义&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  f(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, &lt;span style=&#34;color:#555&#34;&gt;maps&lt;/span&gt;:&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;new&lt;/span&gt;()).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;Map&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;%% 具体实现
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;  ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;调用时会变换实际参数为第二个形参构造一个Map。比如这样的调用&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;:c&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;会翻译成&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;f&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;A&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;Map&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;=&lt;/span&gt; #{c &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;所描述的都是Lisp函数定义里，固定参数后出现&lt;code&gt;&amp;amp;optional&lt;/code&gt;, &lt;code&gt;&amp;amp;rest&lt;/code&gt;, &lt;code&gt;&amp;amp;key&lt;/code&gt;三个关键字其中之一的简单情况。如果两个关键字都用上，还是否能够工作呢？我们知道&lt;code&gt;&amp;amp;rest&lt;/code&gt;, &lt;code&gt;&amp;amp;key&lt;/code&gt;都在最后一个参数上做文章，如果&lt;code&gt;&amp;amp;rest&lt;/code&gt;, &lt;code&gt;&amp;amp;key&lt;/code&gt;同时出现，那最后一个参数是构造成List还是Map？幸好这种情况不会发生，在Common Lisp的编程规范中限制了函数定义中&lt;code&gt;&amp;amp;optional&lt;/code&gt;, &lt;code&gt;&amp;amp;rest&lt;/code&gt;, &lt;code&gt;&amp;amp;key&lt;/code&gt;这几个关键字的用法如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;固定参数 + &lt;code&gt;&amp;amp;optional&lt;/code&gt;/&lt;code&gt;&amp;amp;rest&lt;/code&gt;/&lt;code&gt;&amp;amp;key&lt;/code&gt; 其中之一的简单情况，上面我们已经过了一遍&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp;key&lt;/code&gt;与&lt;code&gt;&amp;amp;optional&lt;/code&gt;, &lt;code&gt;&amp;amp;rest&lt;/code&gt;混用会产生奇怪行为，所以&lt;code&gt;&amp;amp;key&lt;/code&gt;不能与它们混用&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp;optional&lt;/code&gt;可与&lt;code&gt;&amp;amp;rest&lt;/code&gt;混用，但是约定&lt;code&gt;&amp;amp;optional&lt;/code&gt;在前，&lt;code&gt;&amp;amp;rest&lt;/code&gt;在后&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;只有第3点是混用的情况，根据的实现方式可知&lt;code&gt;&amp;amp;optional&lt;/code&gt;和&lt;code&gt;&amp;amp;rest&lt;/code&gt;没有冲突，第3点是可以实现的。&lt;/p&gt;
+&lt;p&gt;上面花了很长的篇幅来详细描述如何在Erlang VM实现Lisp函数，由开头的讨论可知Macro也是函数，有了函数的实现作为基础，下面我们进一步讨论Macro函数的输入输出。&lt;/p&gt;
+
+&lt;h2 id=&#34;ast的处理&#34;&gt;AST的处理&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#ast%e7%9a%84%e5%a4%84%e7%90%86&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;从代码的书写形式来看，在Lisp里面代码是列表，因此Lisp Macro的输入和输出都是列表。在实现层面，Lisp列表形式的代码会经过词法分析语法分析，最后变成编译器内部表示AST。AST主要保存这几类信息：类别，数值，元数据。例如，在Lisp代码里面的&lt;code&gt;100&lt;/code&gt;字面量，就需要一个AST数据结构记录下它是一个常量，值为整数100，它在代码文件里面的行号是多少等。Kapok内部将AST定义为Erlang Tuple&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{&lt;span style=&#34;color:#008080&#34;&gt;Category&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;Meta&lt;/span&gt;, &lt;span style=&#34;color:#008080&#34;&gt;Value&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中&lt;code&gt;Category&lt;/code&gt;表示这个结点的类别，比如integer常量，list, map等。&lt;code&gt;Meta&lt;/code&gt;是一个保存元数据的Property List。&lt;code&gt;Value&lt;/code&gt;则是记录了实际的取值，比如对于integer常量，就记录了常量的值是100，对于List类型，就记录了这个List包含的所有元素的子结点AST。&lt;/p&gt;
+&lt;p&gt;熟悉Elixir元编程的人看到这个定义会觉得很熟悉，因为AST在Elixir中的定义也是如此。&lt;/p&gt;
+&lt;p&gt;Macro的输入和输出都是AST，在编译过程中，每一个对Macro的调用，都是使用参数的对应的AST来调用Macro的实现函数。举例说明，比如对于Macro定义&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defmacro&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;unless&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[test&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;rest&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;body]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&amp;#34;&amp;#34;Evaluates test. If logical false, evaluates body in an implicit do.&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;case&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;core.true?&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;~test&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     (&lt;span style=&#34;color:#008080&#34;&gt;^true&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;^ok&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     (&lt;span style=&#34;color:#008080&#34;&gt;^false&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;~@body&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;有调用代码如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;unless&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;g&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;h&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;那么在Macro展开的时候会得到调用如下，以对应Erlang代码来描述：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;unless&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;AST&lt;/span&gt;{(f &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;)}, [&lt;span style=&#34;color:#008080&#34;&gt;AST&lt;/span&gt;{(g &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;)}, &lt;span style=&#34;color:#008080&#34;&gt;AST&lt;/span&gt;{(h &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;)}])
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中&lt;code&gt;AST{X}&lt;/code&gt;表示Lisp表达式&lt;code&gt;X&lt;/code&gt;(也就是在Lisp代码里面看到的形式)对应的AST，每个AST展开都是上面所述的Tuple结构，为方便描述这里使用了简单表示。Macro展开的过程，即是输入的AST流经过unless函数，对应的参数经过变换之后得到输出如下:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#008080&#34;&gt;AST&lt;/span&gt;{(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; (core.true&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;?&lt;/span&gt; (f &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      (&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;^&lt;/span&gt;true &lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;^&lt;/span&gt;ok)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      (&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;^&lt;/span&gt;false (g &lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;) (h &lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;)))}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;整个输出是一个完整的case表达式的AST，检查case表达式和unless Macro的定义，我们可知&lt;code&gt;AST{(f 1)}&lt;/code&gt;插入到了指定的条件判断参数处，而&lt;code&gt;[AST{(g 2)}, AST{(h 3)}]&lt;/code&gt;中的元素被取出放入了&lt;code&gt;false&lt;/code&gt;分支。&lt;/p&gt;
+&lt;p&gt;在Kapok编译的最后阶段，这种内部AST会转换成Erlang Abstract Form，最后把它用Erlang Compiler编译并加载到Erlang VM。这部分的转换的逻辑相当于繁琐，篇幅所限就不再一一展开。&lt;/p&gt;
+
+&lt;h2 id=&#34;macro编译展开&#34;&gt;Macro编译，展开&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#macro%e7%bc%96%e8%af%91%e5%b1%95%e5%bc%80&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;普通函数一般是在运行时执行的，Macro与之不同，它在编译时执行。要在编译时调用一个Macro，这个Macro的定义必须已知，并且经过编译，才可能被调用。在Erlang里面，模块(Module)即是代码的基本组织单元，也是编译的基本单元，虽然也可以对单个表达式进行编译。已有的几种基于Erlang VM的语言，如Elixir, LFE，都采用了将他们的代码模块翻译到Erlang模块然后按模块编译的方式。按模块编译对于Macro的编译和展开会产生一个编译顺序的问题，举例来说在Elixir里面，你需要先声明一个模块&lt;code&gt;m1&lt;/code&gt;，在里面编写宏&lt;code&gt;mac&lt;/code&gt;的定义，然后声明另外一个模块&lt;code&gt;m2&lt;/code&gt;，在&lt;code&gt;m2&lt;/code&gt;里面的代码，假设是函数&lt;code&gt;f&lt;/code&gt;，调用&lt;code&gt;mac&lt;/code&gt;，编译的时候会先编译&lt;code&gt;m1&lt;/code&gt;，使得&lt;code&gt;mac&lt;/code&gt;的定义被编译过，然后编译&lt;code&gt;m2&lt;/code&gt;，编译&lt;code&gt;m2&lt;/code&gt;时在&lt;code&gt;mac&lt;/code&gt;被调用的地方执行它。你不能把&lt;code&gt;f&lt;/code&gt;和&lt;code&gt;mac&lt;/code&gt;都写在同一个模块，否则在这个模块被编译的时候，&lt;code&gt;mac&lt;/code&gt;就不能被执行。在Kapok中，我沿用了Joxa的一个技巧，&lt;code&gt;f&lt;/code&gt;和&lt;code&gt;mac&lt;/code&gt;可以写到同一个模块，但是&lt;code&gt;mac&lt;/code&gt;必须放在&lt;code&gt;f&lt;/code&gt;之前，在编译时，如果发现&lt;code&gt;f&lt;/code&gt;中的代码调用了一个当前模块的Macro，那么就将&lt;code&gt;f&lt;/code&gt;之前的代码当成一个完整的模块，以一个随机生成的模块名，送到Erlang Compiler编译，编译后就可以调用其中的&lt;code&gt;mac&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;每次调用一个Macro，都会将调用时的参数AST传入，得到结果AST，再插入到原来调用处，这样称之为一次展开。在Lisp中，Macro的展开是递归的，即是说如果展开&lt;code&gt;mac&lt;/code&gt;之后，得到的代码若还有其它的Macro，比如&lt;code&gt;unless&lt;/code&gt;，还会进一步展开，直至所有Macro都全部展开为止。&lt;/p&gt;
+
+&lt;h2 id=&#34;一个完整的例子&#34;&gt;一个完整的例子&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#%e4%b8%80%e4%b8%aa%e5%ae%8c%e6%95%b4%e7%9a%84%e4%be%8b%e5%ad%90&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;最后，以一个完整的例子来说明整个Kapok编译过程，包括上面提到的函数翻译，Macro的编译和展开等，以帮助理解。用一个简单的Kapok函数定义为例&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;defn&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;g&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;call g(n = ~p)~n&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这段代码经过词法分析，语法分析阶段后，会生成AST如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{list,[{line,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;}],defn},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;7&lt;/span&gt;}],g},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {literal_list,[{line,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;9&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                     [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;}],n}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {list,[{line,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;6&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {binary_string,[{line,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;14&lt;/span&gt;}],&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;call g(n = &lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~p&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {literal_list,[{line,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;34&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                            [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;35&lt;/span&gt;}],n}]}]}]}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其结构比较简明，从中可以识别出标识符&lt;code&gt;defn&lt;/code&gt;, &lt;code&gt;g&lt;/code&gt;, &lt;code&gt;n&lt;/code&gt;及&lt;code&gt;list&lt;/code&gt;等结构。这个AST由于没有任何Macro调用，经过Macro Expand阶段没有任何变化，然后会转换成Erlang Abstract Form如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{function,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,g,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; [{clause,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   [{var,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;,n}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   [],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   [{call,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     {remote,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;,{atom,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,io},{atom,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     [{bin,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,[{bin_element,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,{string,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;call g(n = &lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~p&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;},default,default}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      {cons,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,{var,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;,n},{nil,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;}}]}]}]}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这段中间代码同样比较简单，容易看到函数&lt;code&gt;g&lt;/code&gt;只带一个参数&lt;code&gt;n&lt;/code&gt;，在它唯一的一个子句里面调用了一个&lt;code&gt;io.format&lt;/code&gt;函数。&lt;/p&gt;
+&lt;p&gt;我们可以加上前面提到的Macro，并且添加一个调用Macro的代码，如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defmacro&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;unless&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[test&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;rest&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;body]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&amp;#34;&amp;#34;Evaluates test. If logical false, evaluates body in an implicit do.&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;call unless macro~n&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;case&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;core.true?&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;~test&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     (&lt;span style=&#34;color:#008080&#34;&gt;^true&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;^ok&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     (&lt;span style=&#34;color:#008080&#34;&gt;^false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;before exprs in body!~n&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#008080&#34;&gt;~@body&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;defn&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;g&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;n&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#0086b3&#34;&gt;unless&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;1. n: ~p~n&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;2. hello macro~n&amp;#34;&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;f&lt;/code&gt;的定义在经过词法与语法分析阶段后得到AST&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{list,[{line,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;}],defn},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;7&lt;/span&gt;}],f},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {literal_list,[{line,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;9&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                     [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;}],n}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {list,[{line,&lt;span style=&#34;color:#099&#34;&gt;17&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;17&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;}],g},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;17&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;6&lt;/span&gt;}],n}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {list,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;}],unless},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {list,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;11&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;}],&amp;#39;==&amp;#39;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                     {identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;15&lt;/span&gt;}],n},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                     {number,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;17&lt;/span&gt;}],&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {list,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;8&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                     {binary_string,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;}],&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;1. n: &lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~p~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                     {literal_list,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;29&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                   [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;30&lt;/span&gt;}],n}]}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {list,[{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                    [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;8&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                     {binary_string,[{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;2. hello macro&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;}]}]}]}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中可以看到有&lt;code&gt;{list, _, [{identifier, _, unless}, ...]}&lt;/code&gt;这样一个宏调用。因为这个宏是在同一个模块的前面定义的，Kapok编译器就将&lt;code&gt;f&lt;/code&gt;之前的代码，包括&lt;code&gt;g&lt;/code&gt;, &lt;code&gt;unless&lt;/code&gt;的定义作为另一个模块编译完后，用&lt;code&gt;f&lt;/code&gt;中调用&lt;code&gt;unless&lt;/code&gt;的实际参数AST作为参数来调用&lt;code&gt;unless&lt;/code&gt;。即&lt;code&gt;unless&lt;/code&gt;被调用时得到的参数如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{list,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;11&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;}],&amp;#39;==&amp;#39;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;15&lt;/span&gt;}],n},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {number,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;17&lt;/span&gt;}],&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[{list,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;8&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {binary_string,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;}],&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;1. n: &lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~p~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {literal_list,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;29&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;30&lt;/span&gt;}],n}]}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; {list,[{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;8&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {binary_string,[{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;}],&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;2. hello macro&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;}]}]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中第一个参数是一个list AST，第二个参数是一个List，它的元素也是两个AST。这一串AST流经&lt;code&gt;unless&lt;/code&gt;函数之后，经过转换返回的结果是&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   [{line,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;4&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;}],&amp;#39;case&amp;#39;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [{line,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;15&lt;/span&gt;}],{core,&amp;#39;true?&amp;#39;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         {list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;11&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;}],&amp;#39;==&amp;#39;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;15&lt;/span&gt;}],n},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {number,[{line,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;17&lt;/span&gt;}],&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;}]}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [{line,&lt;span style=&#34;color:#099&#34;&gt;11&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;6&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [{atom,[{line,&lt;span style=&#34;color:#099&#34;&gt;11&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;7&lt;/span&gt;}],true},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         {atom,[{line,&lt;span style=&#34;color:#099&#34;&gt;11&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;}],ok}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [{line,&lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;6&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        [{atom,[{line,&lt;span style=&#34;color:#099&#34;&gt;12&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;7&lt;/span&gt;}],false},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         {list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{line,&lt;span style=&#34;color:#099&#34;&gt;13&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;7&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;13&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;10&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {binary_string,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  [{line,&lt;span style=&#34;color:#099&#34;&gt;13&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;18&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;before exprs in body!&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         {list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;8&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {binary_string,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;}],&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;1. n: &lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~p~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {literal_list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  [{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;29&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  [{identifier,[{line,&lt;span style=&#34;color:#099&#34;&gt;19&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;30&lt;/span&gt;}],n}]}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         {list,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;5&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             [{dot,[{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;8&lt;/span&gt;}],{io,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              {binary_string,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  [{line,&lt;span style=&#34;color:#099&#34;&gt;20&lt;/span&gt;},{column,&lt;span style=&#34;color:#099&#34;&gt;16&lt;/span&gt;}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;2. hello macro&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;~n&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt;}]}]}]}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从中可以看到输入的AST参数已经被转换插入到指定的地方，这个&lt;code&gt;unless&lt;/code&gt;返回的AST也将被插入到&lt;code&gt;f&lt;/code&gt;中&lt;code&gt;unless&lt;/code&gt;被调用的地方，从而达到修改/变换代码的效果。由于篇幅所限，&lt;code&gt;f&lt;/code&gt;以及整个模块最后生成的Erlang Abstract code就不一一展示了。最后贴出整个示例的完整模块Kapok代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;ns&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;x&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;require&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;io&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;defn&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;g&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;call g(n = ~p)~n&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defmacro&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;unless&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[test&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;rest&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;body]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;&amp;#34;&amp;#34;Evaluates test. If logical false, evaluates body in an implicit do.&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;call unless macro~n&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;case&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;core.true?&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;~test&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     (&lt;span style=&#34;color:#008080&#34;&gt;^true&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;^ok&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     (&lt;span style=&#34;color:#008080&#34;&gt;^false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;before exprs in body!~n&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#008080&#34;&gt;~@body&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;defn&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;g&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;n&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#0086b3&#34;&gt;unless&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;1. n: ~p~n&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[n]&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#008080&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;2. hello macro~n&amp;#34;&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;defn&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;main&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#008080&#34;&gt;f&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;假定这份代码在文件&lt;code&gt;x.kpk&lt;/code&gt;中，编译安装kapok之后(具体的编译安装过程可以参考Kapok文档，不再详述)使用命令&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kapok x.kpk
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;即完成编译&lt;code&gt;x&lt;/code&gt;模块，并运行其中的&lt;code&gt;main&lt;/code&gt;函数。可得到结果输出&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;call unless macro
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;call g(n = 0)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;call g(n = 1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;before exprs in body!
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1. n: 1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2. hello macro
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在代码里，&lt;code&gt;main&lt;/code&gt;函数调用了2次&lt;code&gt;f&lt;/code&gt;，&lt;code&gt;f&lt;/code&gt;又调用了&lt;code&gt;g&lt;/code&gt;，于是有2行&lt;code&gt;call g(...&lt;/code&gt;的输出。然而由于&lt;code&gt;unless&lt;/code&gt;是在编译时被调用的，只在&lt;code&gt;f&lt;/code&gt;的定义里被调用了一次，所以只能看到1行&amp;quot;call unless macro&amp;quot;的输出，而且&lt;code&gt;unless&lt;/code&gt;展开时输出的这一行在最前面，因为它是在编译阶段执行的，而所有其它&lt;code&gt;io.format&lt;/code&gt;都是在运行阶段执行的。最后我们来看一下最后三行输出，&amp;ldquo;before exprs &amp;hellip;&amp;ldquo;一行是在Macro里面定义的，&amp;ldquo;1. &amp;hellip;&amp;rdquo;, &amp;ldquo;2. &amp;hellip;&amp;ldquo;这两行则是在调用&lt;code&gt;unless&lt;/code&gt;时的输入参数，它们按指定的顺序被组合到同一个&lt;code&gt;case&lt;/code&gt;分支中。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/lisp">Lisp</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/erlang">Erlang</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/clojure">Clojure</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/kapok">Kapok</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/kapok-the-design-and-implementation-of-macro/</guid>
+                <pubDate>Mon, 14 Aug 2017 16:20:00 +0800</pubDate>
+            </item>
+        
+            
+            <item>
+                <title>念念不忘，亦有回响</title>
+                <link>https://hhkbp2.com/minds-echo/</link>
+                
+                
+                <description>
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/minds-echo/lights_in_the_grandmaster.jpg&#34; title=&#34;电影《一代宗师》佛前灯&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;多年以前，当我在Linux下选择Emacs做为编辑器的时候，似乎只是一个比较随机的选择。当时我已经接触并使用VI有一段日子，然而我使用它的体验并不算愉快，也许是我被VI命令模式和编辑模式搞乱了太多次，于是想找个其它编辑器试试，而当时我所知道的Linux终端字符界面编辑器并不多，Emacs是其中一个，然后我就开始使用Emacs，从此一发不可收拾，走上了一条不断修炼的漫漫长路。这段经历后来浓缩成了&lt;a href=&#34;https://hhkbp2.com/blog/2013/01/08/the-pragmatic-emacser/&#34;&gt;《Emacs修炼之道》&lt;/a&gt;这篇文章。Emacs不仅给我提供了一个舒适高效的编辑器工具与环境，也引领我走入了Lisp语言的世界。&lt;/p&gt;
+&lt;p&gt;Lisp语言诞生自几十年前，这几十年间世事沧桑，一个又一个浪潮在计算机行业冒升又落下，一门又一门新的编程语言流行而又衰落，Lisp语言早已退出流行的行列，然而却始终吸引着一小群程序员前仆后继地不断进入它的世界。除了传统的几种Lisp方言，2007年出现的Clojure将Lisp在JVM平台重新做了一个现代的实现，也掀起了一波新的潮流，吸引了很多人的关注和使用。几十年前诞生的编程语言，大多早已消失在历史的长河中了，为什么Lisp能够保持长期的生命力呢？正如看待黑客文化时有人主要关注它的政治正确，有人则将它看成是嗡嗡作响的经济引擎，不同的人对Lisp优点的看法也大不相同。有人喜欢Lisp以List作为唯一代码组织方式的简单明了，有人欣赏Lisp由核心几个特殊Form支撑起来的体系，对应着数学领域里面的公理上搭建大厦的体系结构，有人则更实利化只关注可以帮助提高开发效率的那些方面。在我看来，Lisp最吸引我的一点就是强大的元编程能力，非常便于编写DSL。当然这并不是说其它方面不重要，如交互式编程，强调函数式风格但又不强制函数式为唯一风格等特点也是可圈可点。&lt;/p&gt;
+&lt;p&gt;Lisp的思想和设计是如此优秀，然而传统的几种方言的实现Scheme，Common Lisp还有另外几个方言都没能紧跟这个时代的步伐，Clojure的作者Rich Hickey必定是深知这点，才会创造了Clojure。感谢Rich，我们得以知道在某个语言的成熟VM上实现一个现代Lisp的可行性，也欣赏到了Clojure设计与哲学的种种优雅美丽之处。Clojure设计于运行在JVM之上，固然是它的成功关键，因为如此一来就可以重用成熟的JVM环境以及丰富的代码库，同时Java程序员这个群体也非常庞大，能吸引到的Clojure使用者也多。另一方面也产生了一些缺点，因为底层的JVM原本是为Java设计实现的，而Java的并发模型还停留在操作系统进程/线程和锁这一种方式，因此Clojure除了保留Java的并发原语之外，还在并发上做了多种尝试，像软事务内存，几种不同的原语delay, future, promise，还有几种不同的引用类型。如此多的新概念和原语不可谓不丰富，同时也是繁多复杂。每当我的脑细胞因为折腾可变与不变或者write skew而被烧死一部分的时候，我总是怀念Erlang Actor并发模型的简单。&lt;/p&gt;
+&lt;p&gt;既然要顺适多核化的趋势，就需要语言本身的并发机制支持用户态进程/协程。那么为什么不直接使用Erlang呢？虽然Erlang并不是Lisp，但Erlang的设计也受到Lisp的影响，很多地方都有Lisp的影子，比如交互shell，热更新等。然而我对Erlang也有觉得不满意的地方，除了经常被, ; .几个符号搞晕之外，最大的不满是来自于在Erlang里做元编程的不便，但是Erlang代码又有很强烈的元编程需求，比如OTP里面的大片模板代码。因此在编写Erlang代码的时候，我又相当怀念Lisp的Macro。&lt;/p&gt;
+&lt;p&gt;那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也不少，基本上每年都会学一到两门新语言，虽然不是每个新学语言都有机会用来写大量的代码，但也算是见识了不少编程语言，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。&lt;/p&gt;
+&lt;p&gt;作为参与设计Erlang的元老，Robert一直以来也是探索Erlang应用方面的先行者，早在2007年就写了LFE，并且影响了一众后来基于Erlang VM的新语言，如Elixir。LFE是Lisp Flavored Erlang的缩写，顾名思义，LFE就是把Erlang写成Lisp，除了多了一些括号之外(去掉了Erlang原来的分隔符如, ; .等)跟Erlang十分相似，LFE的设计目标在于提供一个可扩展语法的Erlang，它的实现也达到这个目标。然后跟我理想中的Lisp语言相去有一定距离，我并不喜欢它的Lisp-2风格，跟Erlang相似的模块设计如显式的export，只在编译时可用的Macro等方面。&lt;/p&gt;
+&lt;p&gt;另外一个实现Joxa则是由Eric在2011年开始写的，Eric也是Erlang界的老前辈了，他先是试用过LFE，然后觉得并不如意才重新设计和实现了Joxa，之前我写过的文章&lt;a href=&#34;https://hhkbp2.com/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/&#34;&gt;《Joxa: 一种基于Erlang VM的现代Lisp编程语言》&lt;/a&gt;详细描述了两者的渊源和差别，这里就不再展开了。总的来说，Joxa的Lisp味相对更浓一些，更符合我的个人口味。在过去的一年多时间里，我仔细阅读了Joxa的实现并添加了Erlang R17后引入的Map的语法。Joxa虽好，但有两个主要原因让我不得不考虑重新做一个实现：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Joxa目前的实现是用自举的方式将Lisp代码经过编译转换成Core Erlang，自举是很cool的一种实现编译器的方式，然而用在语法不够稳定的场景下，会提高后续语言开发的复杂度和难度。Core Erlang也是一个规模小巧设计良好的中间层，然而文档方面相当缺乏，很多时候必需花大量时间人手去获取从上层到它的翻译细节。相对来说更上层的Abstract Format虽然规模更大，然而文档较多，一些工具也只工作在这一层，所以更适合用于做为编译器的目标语言。在这一点上我和Eric讨论得出的一致结论是，要将Joxa用Erlang重写并将目标输出定位到Abstract Format，却因为彼此都忙暂时未有足够精力将其重写。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Joxa的设计目标强调它要小而简，希望成为一个小的核心语言，如果其他人有需要就在其上定制扩展。这种设计也是Lisp语言的一种传统特色，由于扩展性强，可以做到核心小扩展大，类似的思想也被人在不同的语言和项目上实现，比如PyPy和Python 3。然而我更希望有一套功能较多较全的编程语言，因此需要在语法和代码规模上都需要添加(或者改动，但主要是添加)很多内容，这就与Joxa的目标有冲突。据我所知Eric对Joxa有明确的定位，应该不会乐意在Joxa里面接受这些添加或改变，因此最好我还是用一个新项目名字来重写一个基于Erlang VM的Lisp实现。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;一直以来我有个朦胧的想法，希望在下一个我能够自己决定命名的项目，能够用上一个带有我居住所在地中国华南地区的风物，或者带有东南亚色彩的名字，在给这个新项目取名时，老家旧居楼房前面的两棵高大的木棉树出现在我的脑海，那是一种在南方非常常见非常普通的树，平时不会特别觉察到它们的存在，然而有时觉察到它们的存在却又不禁觉得特别，像鲁迅笔下所说：“在我的后园，可以看见墙外有两株树，一株是枣树，还有一株也是枣树”。于是就将这个新项目的名字取为木棉，英文是Kapok。&lt;/p&gt;
+&lt;p&gt;我想，Kapok这个新的基于Erlang VM上的Lisp实现会包含如下这些内容：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;一套类似Clojure风格的现代Lisp语法(Lisp-1)，当然在语法上并不能无脑照抄Clojure，比如方括号[]在Clojure中表示Vector，在Erlang却是List，那么Kapok里如何选择？若语义跟随前者，是用Erlang的tuple来实现Vector语义还是另外再做一套实现？若语义跟随后者，和普通圆括号()又如何区分，各自的使用场景如何确定？每处细节都需要仔细考量，这些细节也会影响其它方面，如下面将提到的兼容性。另外Clojure语法糖较多，而我不喜欢太甜。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;与Erlang VM保持最大的兼容，在Erlang VM上实现的多种语言，都选择了将语法及语义尽量向Erlang靠拢，比如新语言的函数直接编译成Erlang的函数，如此得以保持良好的兼容性，新语言的代码可以直接与Erlang VM基础设施与已有库代码进行相互调用，不像Clojure那样需要通过中间包装。Erlang是一门函数式语言，这意味着新语言最好也保持这种函数式的语义，当然也可以通过上层逻辑修改这种限制，比如另一门基于Erlang VM的语言Elixir通过在编译器做变量名映射的技巧使得在Elixir里同一个变量可以做多次绑定，如此一来Elixir在变量使用上更像命令式语言。基于两个原因我个人更偏向于在Kapok里面完全保留Erlang的函数式语义，一是它利于并发，二是它语义更清晰。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;新的语言机制，目前已经在考虑中的有：支持Clojure的Protocol(运行时类型分派，让语言更动态)，探索一套带类型标注的DSL来做强类型编程(强制编译时类型检查，让语言更静态)，Lazy API。其中第Protocal和Lazy API源自Clojure(当然Clojure也借鉴了其它语言)，并且已经在Elixir中得到实现。同时我对其它新想法持开放的态度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;功能丰富接口现代的标准库，包括常用宏，文件，网络等方面，特别一提的是Erlang原生用字符列表来表示字符串并不理想，因此需要有一整套高效易用的unicode字符串标准库，在LFE和Elixir中都重新定义了binary string，这是一个比较好的方案，可以借鉴。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;强大且现代的开发工具集，包括：文档及Apropos接口/工具，编辑器集成(如Emacs mode), 项目管理工具(参考Mix)，交互性开发环境(集成Slime和Swank)等&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;上面的几点综合了Clojure, Erlang, Joxa, LFE, Elixir, Emacs等多种语言或机制，希望可以取多家之长，提供一套强大完整的开发环境。当然也可以说是一个大杂烩，然而不是无脑照搬，库和工具集可以丰富多样，然而基础语法需要保持简约节制，避免出现C++或Scala那样过于烧脑的设计。同时也要了解到上面几点内容只是一个初步的想法，后面可能会根据实际情况有所添加或改变。我一直有个用一门新编程语言编写一个开源数据库的朦胧想法，Kapok完善到一定程度之后，也许可以用Kapok来完成我这个想法。&lt;/p&gt;
+&lt;p&gt;有了简要设计，就可以开工编写代码了，首先要实现的是1, 2两点，亦即核心编译器部分。要写Kapok的想法早在去年就已经产生，然而一直拖拖拉拉未能动手。去年年中祖母去世，让我明白到时间匆匆人生太短，有些事情想做就抓紧时间去做，迟早人生的终点只是青山上的一把黄土。于是开始动手，由于平时上下班剩余时间不多，生活琐事缠身，进展较为缓慢，拖拉了几个月逐渐完成了编译器前端，大概到今年初开始写后端，也算是慢慢重温了一遍大学时开的编译课程。最近有了一些时间，终于折腾到可以跑起来的程度。我想Kapok这个项目不可谓不大，终究不能短期内完成，要做到非常完善的程度，更是有待时日。就像长跑，并非重在一时之快慢，积跬步恒坚持，方能走得更久更远。我所需要做的，就是调整呼吸，跨开步子。&lt;/p&gt;
+&lt;p&gt;于是就把Kapok开源了，github地址在&lt;a href=&#34;https://github.com/kapok-lang/kapok&#34;&gt;这里&lt;/a&gt;，虽然暂时还有很多问题和缺点，也有很多想法未能实现，但我想这也算是一个不错的长跑起步。&lt;/p&gt;
+&lt;p&gt;十年之前，当我第一次安装并启动Emacs的时候，决没有料到会十年之后它带领我在Lisp的世界走了这么远。几年之前在接触Erlang，Clojure的时候，没有想到有一天会用Erlang重写一门Clojure风格的Lisp语言。一年之前开始着手Kapok的时候，我也不知道这个项目要做到何时，做到什么程度。然后事情冥冥中就这样发生了，而我将沿着这条路继续向前走。王家卫电影《一代宗师》里面，宫先生说“念念不忘，必有回响”，行知做人跟练武一样，秉着意念坚持下去，终究能有一点回响。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/lisp">Lisp</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/erlang">Erlang</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/clojure">Clojure</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/kapok">Kapok</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/minds-echo/</guid>
+                <pubDate>Wed, 08 Jun 2016 00:00:00 +0800</pubDate>
+            </item>
+        
+    </channel>
+</rss>
+
+

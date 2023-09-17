@@ -1,0 +1,119 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>
+            
+                    Emacs on
+                
+            
+            hhkbp2&#39;s blog</title>
+        <link>https://hhkbp2.com/categories/emacs/</link>
+        <description>Recent content  in Emacs
+            on hhkbp2&#39;s blog</description>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 17 Sep 2023 18:23:56 +0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+            <atom:link href="https://hhkbp2.com/categories/emacs/index.xml" rel="self" type="application/rss&#43;xml" />
+        
+            
+            <item>
+                <title>Emacs 修炼之道</title>
+                <link>https://hhkbp2.com/the-pragmatic-emacser/</link>
+                
+                
+                <description>&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;Don&amp;rsquo;t panic.&amp;rdquo;&lt;br&gt;
+-- The Hitchhiker&amp;rsquo;s Guide to the Galaxy&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么，与其它编辑器有什么不同，如何使用它等。Emacs是一个很大的话题，而且网上关于Emacs/Vim/其他编辑器的各种圣战中飞扬的口水已经太多了，所以这里我把这篇内容缩小到Emacs的修炼这一点上，因为对于那些真正对Emacs感兴趣并准备起锚出发的Emacs初学者，如果有一个详细的指南，它记录了从入门到进阶等各个阶段，以及前进的道路上有哪些可以借力的资料或资源等，这是很有帮助的。于是我有了写此文的打算，作为一个过来人我就斗胆写一下Emacs的修炼之道。&lt;/p&gt;
+&lt;p&gt;一般来说，那些决定不用系统自带的文本编辑器，而专门花时间学习Vim/Emacs的人都需要在文本上做比较多的工作，他们希望在工具这一块上做长期的投资——即使Vim/Emacs的入门需要一些精力和时间，但熟悉之后能提高工作效率并长期发挥作用，当然这些人之中有很多是程序员。如果你像我认识的一些朋友一样，对系统自带的文本编辑器，比如windows下的notepad，保持100%的满意，那么就不用接着往下看了，尽可跳过下文并继续留在那个与世隔绝的默认编辑器的桃花源里，这种说法好像比较鄙视notepad，但其实它主要是说：如果编辑需求复杂多变，那么编辑器相应的也需要变得复杂强大。&lt;/p&gt;
+&lt;p&gt;接下来这一个Emacs之道会有点长，因为Emacs被设计成能提供各种复杂多变的编辑功能，甚至是文本编辑之外的，例如玩游戏或收邮件等其它功能，所以Emacs才会有“伪装成操作系统的编辑器”这一别称，而且学习曲线会变得非常的，呃，奇怪&lt;a href=&#34;#1&#34;&gt;[1]&lt;/a&gt;。尽管下文有点长，但是记得带上你的毛巾&lt;a href=&#34;#2&#34;&gt;[2]&lt;/a&gt;，无论遇到什么情况，最重要的是，Don&amp;rsquo;t panic。&lt;/p&gt;
+&lt;p&gt;我把Emacs修炼的道路分为几个主要的阶段：&lt;/p&gt;
+
+&lt;h3 id=&#34;1-入门小徒&#34;&gt;1. 入门小徒&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#1-%e5%85%a5%e9%97%a8%e5%b0%8f%e5%be%92&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;初学Emacs，首先要了解Emacs的基本操作，Emacs自带的tutorial文档就是为零起点的新手而写的，它介绍了窗口(window)，文件，缓冲区等概念，并一步一步的指导初学者学习光标移动，插入修改，搜索，保存退出等基础功能，是最好的入门指南。默认的键绑定下在Emacs中使用C-h t可以打开这个tutorial文档，也有对应的中文译版叫《Emacs快速指南》，文档不长，整个看完并按文档指引练习一下，之后就可以用Emacs完成简单的文本编辑。&lt;/p&gt;
+&lt;p&gt;接下来可以阅读《Learning GNU Emacs》，这本由老牌黑客Eric Raymond参与编写的书是学习Emacs的经典书目，内容很多也很全面，它介绍了从用Emacs做基本的文本编辑，到用Emacs收发邮件阅读网页，到定制编辑宏以及做程序开发等各种功能。初学者可以只读前5章，对Emacs的环境及常用操作做一个比较细致的了解。这本书的原英文第1版讨论的是Emacs的18版本，之后第2版出版，讨论的是Emacs的19.30版，而2004年出版的第3版，则随着Emacs的版本升级把内容更新到21.3版，到2013的今天，Emacs的主版本号已经升到24，虽然这本书在过去一段时间也算是与时俱进，但从版本上来远远落后于Emacs更新的速度，不过，很多内容在Emacs中保持稳定，还是很有价值的，只是阅读的时候要注意一下版本变化。这本书也有中文译本，已经绝版，但对应的只是较旧的英文第2版，译文流畅印刷错误也少，译本质量尚佳，因为是针对初学者而写的入门书，讲解详细，辅以图示截屏帮助理解，读来比较轻松。&lt;/p&gt;
+&lt;p&gt;进一步学习的话，则根据各人的需求而选择了，需求不同则学习的内容也不同。希望使用Emacs来做大量重复编辑的人可以学习定制编辑宏，用来写笔记的可以学习outline-mode或org-mode，用来收邮件的可以学习mew等邮件客户端的用法。考虑到使用Emacs的人当中有很多的程序员，那么也根据编程语言的不同，学习的编辑模式也不同，Emacs对于多种编程语言都有着很好的支持，如C, C++, Java, Shell, Python, Perl, Erlang, Lisp&amp;hellip;&amp;hellip;还有常见标记语言如Html, XML和排版用的Tex, LaTeX和Troff等。此外你可能会需要一些特别的功能，这些功能在其它的编辑器/IDE也有，比如显示行号，在编写代码时的自动补全，全文格式化，代码折叠与展开，实时显示代码错误等，Emacs还有一些比较独特好玩的功能，如hungry delete。学习这些内容，除了《Learning GNU Emacs》这本书第5章后面的多个章节之外，网上也有很多的资料，不过就比较分散了，要找到Emacs是否有满足你特定需要的扩展，或者这些扩展怎么使用，google是一个很好帮手。&lt;/p&gt;
+&lt;p&gt;这个时候你已经很熟悉Emacs日常使用，以及为自己的编辑需要加了一些扩展和定制，在配置文件不断变大的同时，你可能也知道一点简单的Emacs Lisp写法，但对Emacs Lisp还没有深入的了解。&lt;/p&gt;
+&lt;p&gt;由于各人的编辑需求不一样，这个寻找某种特定功能并定制使用的过程可长可短，了解Emacs在各种编辑模式下的功能有助于进一步学习Emacs Lisp及Emacs的内部实现，但这不是必需的。即使你很快的进入下一阶段开始系统学习Emacs Lisp，但如果时不时会遇到新的编辑需要，还是会重复上述的扩展定制过程。以像我自己为例，因为需要编辑的代码种类越来越多，如后来的Markdown, Erlang，所以也对应的添加了markdown-mode, erlang-mode的定制代码。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-登堂入室&#34;&gt;2. 登堂入室&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#2-%e7%99%bb%e5%a0%82%e5%85%a5%e5%ae%a4&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;在接触Emacs的过程中，很多新手都会注意到一个事实：Emacs是用一种叫做Emacs Lisp的Lisp方言写的，如果不懂Emacs Lisp是无法进一步走入Emacs的殿堂的。所以在这里我把“开始系统的学习Emacs Lisp”做为进入到第2阶段的标志。&lt;/p&gt;
+&lt;p&gt;在Emacs自带的Info文档中，对Emacs的描述是：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Emacs is the extensible, customizable, self-documenting real-time display editor.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可以看到，可扩展性，可定制性和自文档化是Emacs三个特别强调的特点，前两个特点或者其它编辑器也有，比如Vim，但自我文档化这一点，可算是Emacs的一个独门绝技，是的，在visual studio中也有帮助系统，不过与Emacs的自文档化比起来，还是差得太远了，这方面可以比肩Lisp的编程语言不多，Python是其中一个，自文档化与交互式编程结合起来，整个编程环境会让写代码的人相当舒服。&lt;/p&gt;
+&lt;p&gt;要开始Emacs Lisp之旅，最好的学习资料也是Emacs自带的文档，在Info中有一个Emacs Lisp的入门教程《An Introduction to Programming in Emacs Lisp》，这个文档由另一位老牌黑客Robert Chassell所写，由浅入深地详细介绍了Emacs Lisp中的列表操作，函数，缓冲区操作，窄化，剪切粘贴，正则表达式，代码调试等内容，由于把读者定位为没学过编程的人，所以行文比较啰嗦，程序员读起来可能会有点不耐烦。它也有中文翻译版，书名叫做《GNU Emacs Lisp编程入门》，不过也比较旧了，是2001年由FSF中国组织翻译并出版的，年代久远，对应的Emacs版本是19，这本中译版也已经绝版，不过网上可以找到电子版。虽然后来大师洪峰在他某次答问中说这本中译版质量很高&lt;a href=&#34;#3&#34;&gt;[3]&lt;/a&gt;，我个人看过纸版全书之后觉得其实翻译和出版的错误也不少，像他读过那么多书的人肯定清楚一个译本的质量怎么才算是“很高”，不过此书的中文翻译是他组织的，有点敝帚自珍也是人之常情。&lt;/p&gt;
+&lt;p&gt;特别值得一提的是，在这本书的前言里，作者Robert说“希望读者养成阅读源代码的习惯”，并把Emacs当成一个代码的宝藏，学习其工作机制。书中的内容多是具体的代码细节，看过之后是会忘记的，但“深入代码”这个习惯一旦养成，受用无穷。我个人认为也可以依据同样的标准来定义玩Emacs的程度，真正Emacs玩得好，不是说要用过多少个扩展，用得有多么的熟悉，而是深入到源代码去了解其内部实现。&lt;/p&gt;
+&lt;p&gt;在读完《GNU Emacs Lisp编程入门》的基础上，可以找一些其它的Emacs Lisp入门级资料来看看，比如wiki上的Emacs Lisp Cookbook，上面就有常用的各种数据结构，文件目录操作等的代码示例。经过学习之后，到网上一些站点，比如&lt;a href=&#34;http://emacser.com/&#34;&gt;Emacs中文网&lt;/a&gt;或&lt;a href=&#34;http://ergoemacs.org/emacs/blog.html&#34;&gt;李杀网&lt;/a&gt;，看一些文章通读其中简单的Lisp代码已经没有困难。&lt;/p&gt;
+&lt;p&gt;同时，可以阅读一些Emacs中常用小功能的源代码，比如自动高亮括号的paren.el，高亮当前行的highlight-current-light.el，显示行号的linum.el，自动插入括号对的skeleton.el等，在读源代码的过程中有时会遇到未知的库函数和新的概念，通过查询Emacs的自带文档一般可以解决问题。&lt;/p&gt;
+&lt;p&gt;通过前面的学习，在前一阶段的基础上你已经掌握大量的Emacs Lisp，在阅读源代码上有了不少的积累，但由于没有全面系统的学习Emacs Lisp，有时候读起源代码来不懂的地方太多，会有种力不从心之感，这时候就可以开始进入第3阶段。&lt;/p&gt;
+
+&lt;h3 id=&#34;3-武林高手&#34;&gt;3. 武林高手&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#3-%e6%ad%a6%e6%9e%97%e9%ab%98%e6%89%8b&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;对于学习Emacs Lisp，最权威的两个文档当然是Emacs自带的Info文档《The Emacs Editor》和《The Emacs Lisp Reference Manual》，前者主要介绍作为编辑器的Emacs概念和机制，比如kill-ring，display, key-binding, 各种mode等，重点在使用，后者则全面系统的介绍了Emacs Lisp这门编程语言，比如各种数据结构及操作，宏，文加载等，重点在于编程，Emacs Lisp作为Emacs的实现语言，当然两个文档会有标题或内容看起来很类似的章节，但由于两个文档重点不一样，两者互为呼应补充而非重复。这两个都是大部头，要读完的话甚费时日，但其内容并不艰深，读起来还算轻松，耐心读完的话，会功力剧增，对Emacs的理解有很大的提高。虽然我在这里把两个文档一起列出，但其实阅读顺序和阅读习惯可以按各人的习惯自由安排：可以先读前一本，读完再读后一本；也可以先读后一本，在遇到新概念的时候再回头看看前一本的对应章节。这两种都是比较有效的读法。就像电影《黑客帝国》第一部所讲的，在Neo知道Matrix不是看起来那样的真实之后，进入Matrix中能看到一些不真实的事物，读完这两本书之后，你再进入Emacs的时候，看着界面的buffer，高亮的代码块，mode-line等，不再只是看到它们显示出来的样子，而且透过表面看到了里面运行的模块和流动的代码。&lt;/p&gt;
+&lt;p&gt;作为读书的补充，可以适当的找一些源代码来看，一些常用的扩展如auto-complete, yasnippet等代码目录结构不算复杂的都合适。我个人建议以兴趣和熟悉程度为出发点，以你熟悉的mode，或最感兴趣的扩展来作为开始，因为对外部功能了解越多，越有助于理解其内部代码，就像熟悉Linux的库和系统接口，有助于阅读内核源代码一样。&lt;/p&gt;
+&lt;p&gt;到此，你已经全面系统的学习过Emacs和Emacs Lisp，在阅读源代码上也有了大量的积累。在正式变为高手之前，还有需要做一件事情：写至少一个扩展，并奉献出来。在开源文化或黑客伦理中，一个人成为高手或黑客，不仅因为他技术高超，而且因为他有很好的奉献精神。写一个扩展需要很多的劳动，写一个规模大而且质量好的扩展更是辛苦。虽然在前面的学习过程中，你已经读过一些扩展的源代码了，但在开始正式自己写扩展之前，或者你有兴趣阅读一下《Writing GNU Emacs Extensions》这本书，了解一下如何从头到尾写一个扩展。这本由Bob Glickstein写的书于1997年由O&amp;rsquo;Reilly出版，虽然内容很好，但是真的远远落后于时代了，对应的Emacs版本是18，目前能找到的电子版印刷错误也较多。&lt;/p&gt;
+
+&lt;h3 id=&#34;4-飞升成仙&#34;&gt;4. 飞升成仙&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#4-%e9%a3%9e%e5%8d%87%e6%88%90%e4%bb%99&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;到了这个阶段，进一步提升自己的方向有两个，一曰深度，一曰广度。&lt;/p&gt;
+&lt;p&gt;深度方面，可以全面阅读Emacs的源代码，学习其底层的C核心，Emacs Lisp解释器的原理，学习Emacs的启动/运行过程，事件机制，与外部进程的接口，等等。还可以找一些较复杂较庞大的扩展代码来看，例如广为人知的巨兽&lt;a href=&#34;http://cedet.sourceforge.net/&#34;&gt;CEDET&lt;/a&gt;等，除了熟悉如何用Emacs Lisp来实际编写大项目之外，还需要懂得很多与具体应用紧密相关的内容，例如对于CEDET，就需要知道编程语言的词法文法解析过程。这种复杂项目对基础知识的要求较高，读起来较为艰深，需要做好“深挖洞，广积粮”的准备。&lt;/p&gt;
+&lt;p&gt;广度方面，可以广泛涉猎其它Lisp方言，学习Lisp的实现，历史及著名项目等，甚至可以弄一个Lisp Machine来玩玩，或者学习其它的函数式编程语言。这个话题太大，但我还是尽力尝试提供一点帮助信息。最大的两个Lisp方言当然是Common Lisp和Scheme，如果详细叙述如何学习Common Lisp或Scheme，那么可以需要写的篇幅比本文长得多，或者将来在我的博客上会出现《Common Lisp修炼之道》或《Scheme修炼之道》，但至少暂时是既无能力也无计划。这里只是简单列一下可供参考的书目：&lt;/p&gt;
+&lt;p&gt;《Structure and Interpretation of Computer Programs》，中译本《计算机程序的构造和解释》&lt;br&gt;
+《Ansi Common Lisp》，目前网上有在线中文翻译版本，前几章翻译得还不错&lt;br&gt;
+《Practical Common Lisp》， 伞哥(田春)翻译了中文版，2011年出版，有的地方读起来比较生涩&lt;br&gt;
+《On Lisp》，伞哥和其他人合作翻译，网上有电子版，翻译质量很高，就像前文所说，“很高”这两个字不是随便用的&lt;br&gt;
+《Paradigms of Artificial Intelligence Programming: Case Studies in Common Lisp》，由AI大牛Peter Norvig所写的，书名看起来只是AI方面的书，但其实也是一本很好的Common Lisp教程&lt;br&gt;
+《Common LISP The Language, 2nd》，描述Common Lisp的语言标准&lt;/p&gt;
+&lt;p&gt;还有很多Lisp好书都没有一一列出，此外函数式编程语言也不少，虽然有时学习曲线陡得像是悬崖峭壁，但如果你真的到了这一步，相信会有足够的兴趣和技能支撑你继续走下去，总之可以选择的方向太多，这篇小文只谈Emacs修炼，适可而止。&lt;/p&gt;
+&lt;p&gt;到了这个层次，当然你也要注重发光发热，提挈后辈，可以在社区或邮件组多活动活动，奉献代码，解答疑问。不过这个也是大话题了，网上组织众多各人习惯不同，非三言几语能够说得清楚，按下不表。&lt;/p&gt;
+&lt;p&gt;如果以上提到的这些内容你都已经深入钻研，深到地球核心，又广到天际之远，那么恭喜恭喜，你可以正式宣称“神丹炼成，择日飞升”，到这个时候，你所需要的只剩下《颈椎病和鼠标手康复指南》。两千年前庄子就说了，“吾生也有涯，而知也无涯。以有涯随无涯，殆已；已而为知者，殆而已矣。”喜欢折腾Emacs的朋友们，人生短暂，还是悠着点吧。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：&lt;/em&gt;&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[1]&lt;!-- raw HTML omitted --&gt; &lt;a href=&#34;http://coolshell.cn/articles/3125.html&#34;&gt;《主流文本编辑器学习曲线》&lt;/a&gt;这里有各种编辑器的学习曲线图示，Emacs的曲线比较奇怪。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[2]&lt;!-- raw HTML omitted --&gt; 《银河系漫游指南》中毛巾这个词条有一些特别的解释。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[3]&lt;!-- raw HTML omitted --&gt; 这个问答后来被整理成为《你是如何成为 Lisp 程序员的》一文，在网上可以找到。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/emacs">Emacs</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/emacs">Emacs</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/emacs-lisp">Emacs lisp</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/tutorial">tutorial</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/the-pragmatic-emacser/</guid>
+                <pubDate>Tue, 08 Jan 2013 16:04:00 +0800</pubDate>
+            </item>
+        
+    </channel>
+</rss>
+
+

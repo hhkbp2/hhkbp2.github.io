@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+    
+    
+    
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+
+    
+    <meta name="referrer" content="no-referrer">
+
+    
+    
+
+    
+    
+        <meta name="keywords" content="Common Lisp, Backquote, Macro, Lisp"/>
+    
+
+    <title>
+        
+            嵌套反引用有害 ❚ hhkbp2&#39;s blog
+        
+    </title>
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    <style>
+     
+     
+     :root {
+         --theme-color: #ac4142;
+         --theme-color-light: rgba(172, 65, 66, 0.1);
+         --theme-heading-color: #413b39;
+         --theme-body-color: #4d4642;
+         --theme-hl1-color: #6d625f;
+         --theme-hl2-color: #bdb5b3;
+         --theme-hl2-transp-color: rgba(189, 181, 179, 0.5);
+     }
+     
+     html {
+         line-height: 1.5;
+     }
+    </style>
+
+    
+    
+
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css">
+    
+    <link rel="preload" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css" as="style">
+
+    
+
+
+
+    
+        <style>
+         
+         /* Background */ .bg { background-color: #ffffff; }
+/* PreWrapper */ .chroma , .code-inline { background-color: #ffffff; }
+/* Other */ .chroma .x , .code-inline .x {  }
+/* Error */ .chroma .err , .code-inline .err { color: #a61717; background-color: #e3d2d2 }
+/* CodeLine */ .chroma .cl , .code-inline .cl {  }
+/* LineTableTD */ .chroma .lntd , .code-inline .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+/* LineTable */ .chroma .lntable , .code-inline .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .chroma .hl , .code-inline .hl { background-color: #ffffcc }
+/* LineNumbersTable */ .chroma .lnt , .code-inline .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .chroma .ln , .code-inline .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .chroma .line , .code-inline .line { display: flex; }
+/* Keyword */ .chroma .k , .code-inline .k { color: #000000; font-weight: bold }
+/* KeywordConstant */ .chroma .kc , .code-inline .kc { color: #000000; font-weight: bold }
+/* KeywordDeclaration */ .chroma .kd , .code-inline .kd { color: #000000; font-weight: bold }
+/* KeywordNamespace */ .chroma .kn , .code-inline .kn { color: #000000; font-weight: bold }
+/* KeywordPseudo */ .chroma .kp , .code-inline .kp { color: #000000; font-weight: bold }
+/* KeywordReserved */ .chroma .kr , .code-inline .kr { color: #000000; font-weight: bold }
+/* KeywordType */ .chroma .kt , .code-inline .kt { color: #445588; font-weight: bold }
+/* Name */ .chroma .n , .code-inline .n {  }
+/* NameAttribute */ .chroma .na , .code-inline .na { color: #008080 }
+/* NameBuiltin */ .chroma .nb , .code-inline .nb { color: #0086b3 }
+/* NameBuiltinPseudo */ .chroma .bp , .code-inline .bp { color: #999999 }
+/* NameClass */ .chroma .nc , .code-inline .nc { color: #445588; font-weight: bold }
+/* NameConstant */ .chroma .no , .code-inline .no { color: #008080 }
+/* NameDecorator */ .chroma .nd , .code-inline .nd { color: #3c5d5d; font-weight: bold }
+/* NameEntity */ .chroma .ni , .code-inline .ni { color: #800080 }
+/* NameException */ .chroma .ne , .code-inline .ne { color: #990000; font-weight: bold }
+/* NameFunction */ .chroma .nf , .code-inline .nf { color: #990000; font-weight: bold }
+/* NameFunctionMagic */ .chroma .fm , .code-inline .fm {  }
+/* NameLabel */ .chroma .nl , .code-inline .nl { color: #990000; font-weight: bold }
+/* NameNamespace */ .chroma .nn , .code-inline .nn { color: #555555 }
+/* NameOther */ .chroma .nx , .code-inline .nx {  }
+/* NameProperty */ .chroma .py , .code-inline .py {  }
+/* NameTag */ .chroma .nt , .code-inline .nt { color: #000080 }
+/* NameVariable */ .chroma .nv , .code-inline .nv { color: #008080 }
+/* NameVariableClass */ .chroma .vc , .code-inline .vc { color: #008080 }
+/* NameVariableGlobal */ .chroma .vg , .code-inline .vg { color: #008080 }
+/* NameVariableInstance */ .chroma .vi , .code-inline .vi { color: #008080 }
+/* NameVariableMagic */ .chroma .vm , .code-inline .vm {  }
+/* Literal */ .chroma .l , .code-inline .l {  }
+/* LiteralDate */ .chroma .ld , .code-inline .ld {  }
+/* LiteralString */ .chroma .s , .code-inline .s { color: #dd1144 }
+/* LiteralStringAffix */ .chroma .sa , .code-inline .sa { color: #dd1144 }
+/* LiteralStringBacktick */ .chroma .sb , .code-inline .sb { color: #dd1144 }
+/* LiteralStringChar */ .chroma .sc , .code-inline .sc { color: #dd1144 }
+/* LiteralStringDelimiter */ .chroma .dl , .code-inline .dl { color: #dd1144 }
+/* LiteralStringDoc */ .chroma .sd , .code-inline .sd { color: #dd1144 }
+/* LiteralStringDouble */ .chroma .s2 , .code-inline .s2 { color: #dd1144 }
+/* LiteralStringEscape */ .chroma .se , .code-inline .se { color: #dd1144 }
+/* LiteralStringHeredoc */ .chroma .sh , .code-inline .sh { color: #dd1144 }
+/* LiteralStringInterpol */ .chroma .si , .code-inline .si { color: #dd1144 }
+/* LiteralStringOther */ .chroma .sx , .code-inline .sx { color: #dd1144 }
+/* LiteralStringRegex */ .chroma .sr , .code-inline .sr { color: #009926 }
+/* LiteralStringSingle */ .chroma .s1 , .code-inline .s1 { color: #dd1144 }
+/* LiteralStringSymbol */ .chroma .ss , .code-inline .ss { color: #990073 }
+/* LiteralNumber */ .chroma .m , .code-inline .m { color: #009999 }
+/* LiteralNumberBin */ .chroma .mb , .code-inline .mb { color: #009999 }
+/* LiteralNumberFloat */ .chroma .mf , .code-inline .mf { color: #009999 }
+/* LiteralNumberHex */ .chroma .mh , .code-inline .mh { color: #009999 }
+/* LiteralNumberInteger */ .chroma .mi , .code-inline .mi { color: #009999 }
+/* LiteralNumberIntegerLong */ .chroma .il , .code-inline .il { color: #009999 }
+/* LiteralNumberOct */ .chroma .mo , .code-inline .mo { color: #009999 }
+/* Operator */ .chroma .o , .code-inline .o { color: #000000; font-weight: bold }
+/* OperatorWord */ .chroma .ow , .code-inline .ow { color: #000000; font-weight: bold }
+/* Punctuation */ .chroma .p , .code-inline .p {  }
+/* Comment */ .chroma .c , .code-inline .c { color: #999988; font-style: italic }
+/* CommentHashbang */ .chroma .ch , .code-inline .ch { color: #999988; font-style: italic }
+/* CommentMultiline */ .chroma .cm , .code-inline .cm { color: #999988; font-style: italic }
+/* CommentSingle */ .chroma .c1 , .code-inline .c1 { color: #999988; font-style: italic }
+/* CommentSpecial */ .chroma .cs , .code-inline .cs { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreproc */ .chroma .cp , .code-inline .cp { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreprocFile */ .chroma .cpf , .code-inline .cpf { color: #999999; font-weight: bold; font-style: italic }
+/* Generic */ .chroma .g , .code-inline .g {  }
+/* GenericDeleted */ .chroma .gd , .code-inline .gd { color: #000000; background-color: #ffdddd }
+/* GenericEmph */ .chroma .ge , .code-inline .ge { color: #000000; font-style: italic }
+/* GenericError */ .chroma .gr , .code-inline .gr { color: #aa0000 }
+/* GenericHeading */ .chroma .gh , .code-inline .gh { color: #999999 }
+/* GenericInserted */ .chroma .gi , .code-inline .gi { color: #000000; background-color: #ddffdd }
+/* GenericOutput */ .chroma .go , .code-inline .go { color: #888888 }
+/* GenericPrompt */ .chroma .gp , .code-inline .gp { color: #555555 }
+/* GenericStrong */ .chroma .gs , .code-inline .gs { font-weight: bold }
+/* GenericSubheading */ .chroma .gu , .code-inline .gu { color: #aaaaaa }
+/* GenericTraceback */ .chroma .gt , .code-inline .gt { color: #aa0000 }
+/* GenericUnderline */ .chroma .gl , .code-inline .gl { text-decoration: underline }
+/* TextWhitespace */ .chroma .w , .code-inline .w { color: #bbbbbb }
+
+         
+         /* Overrides on top of the theme and Chroma CSS */
+/* Chroma-based lines highlighting in code blocks */
+
+/* GenericHeading, GenericSubheading */
+.chroma .gh, .code-inline .gh,
+.chroma .gu, .code-inline .gu {
+    font-weight: bold;
+}
+
+/* Do not highlight error in pink background */
+/* Error */
+.chroma .err, .code-inline .err {
+    background-color: inherit;
+}
+
+/* LineTable */
+.chroma .lntable, .code-inline .lntable {
+    width: auto;
+    overflow-x: auto; /* Make the code block horizontally scrollable on narrow viewports. */
+    display: block;
+}
+
+/* LineNumbersTable, LineNumbers, Line, LineHighlight */
+/* Prevent the highlight from creating a strange artifact on line numbers. */
+.chroma .lnt, .code-inline .lnt,
+.chroma .ln, .code-inline .ln,
+.chroma .line, .code-inline .line,
+.chroma .hl, .code-inline .hl {
+    display: flex;
+}
+
+/* Set the line highlight color to match the site's theme. */
+/* LineHighlight */
+.chroma .hl, .code-inline .hl {
+    background-color: var(--theme-hl2-transp-color); /* This var is set in the head.html partial. */
+}
+
+/* Do not set the background color of inline src code*/
+.chroma.inline-src, .code-inline {
+    background-color: inherit;
+}
+
+         
+        </style>
+    
+
+    
+
+    
+    
+    
+
+    
+    <script src="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js"></script>
+    
+    <link rel="preload" href="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js" as="script">
+
+    
+    
+    <script defer src="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js"></script>
+    
+    <link rel="preload" href="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js" as="script">
+
+    
+
+    
+
+    
+    
+    
+
+    
+    
+<!-- rel="me" links for IndieAuth -->
+
+
+
+
+
+
+
+    
+ 
+<meta property="og:title" content="嵌套反引用有害" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hhkbp2.com/nested-backquotes-considered-harmful/" />
+
+    
+    
+
+
+    
+        <meta property="article:published_time" content="2013-03-10T21:37:00&#43;08:00"/>
+    
+    
+        <meta property="article:modified_time" content="2013-03-10T21:37:00&#43;08:00"/>
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+     <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="嵌套反引用有害"/>
+<meta name="twitter:description" content="" />
+
+
+    
+    
+    
+     
+
+
+
+
+
+    <meta name="author" content=""/>
+
+
+
+    
+    
+    
+    <meta name="hugo-build-date" content=""/>
+    <meta name="hugo-commit-hash" content=""/>
+    <meta name="generator" content="Hugo 0.118.2">
+</head>
+
+
+    
+        <body lang="en">
+    
+
+        
+        <div class="border" id="home"></div>
+
+        <div class="wrapper">   
+            
+<nav id="nav" class="nav-collapse opened" aria-hidden="false">
+    <ul class="navbar">
+        <li><a class="" href="/">Home</a></li>
+        
+            
+                <li><a class="" href="https://hhkbp2.com/posts/">Posts</a></li>
+            
+        
+            
+                <li><a class="" href="https://hhkbp2.com/about/">About</a></li>
+            
+        
+        
+    </ul>
+</nav>
+
+            <div class="container">
+                <header class="masthead">
+                    <div class="masthead-title no-text-decoration">
+                        <a href="/">hhkbp2&#39;s blog</a> <span class="blinking-cursor">❚</span>
+                    </div>
+                    <div class="masthead-tagline">
+                        Computer, programming and stuff.
+                    </div>
+                </header>
+
+                
+
+
+
+
+
+
+
+
+<article class="post h-entry posts">
+    <header>
+        <div class="center">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__common-lisp__"
+                                
+                                
+                                title="This is the only post tagged with ‘Common Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/common-lisp/">Common Lisp</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__backquote__"
+                                
+                                
+                                title="This is the only post tagged with ‘Backquote’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/backquote/">Backquote</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__macro__"
+                                
+                                
+                                title="This is the only post tagged with ‘Macro’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/macro/">Macro</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+
+        <h1 class="post-title p-name">嵌套反引用有害</h1>
+
+        
+        <data class="u-url" value="https://hhkbp2.com/nested-backquotes-considered-harmful/"></data>
+
+        <div class="date-syndication">
+            
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2013-03-10T21:37:00+0800" class="dt-published" title="Published date">Mar 10, 2013</time>
+        
+        
+    </div>
+
+
+        </div>
+         
+
+
+
+
+
+
+    </header>
+
+    <div class="content">
+        
+
+
+        
+
+
+
+
+
+                       
+
+
+        
+
+
+        <div class="e-content">
+            
+
+
+
+
+<p>本文翻译自<a href="http://bc.tech.coop/blog/041205.html">《Nested Backquotes considered harmful》</a>，只用于学习，请勿用于其它用途。</p>
+<hr>
+<p>好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛<a href="#1">[1]</a>或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)</p>
+<blockquote>
+<p>注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文<a href="www.linearity.org/bawden/ftp/pepm99.ps.gz">《Quasiquotation in Lisp》</a>值得一看（这是<a href="http://groups.google.com/groups?hl=en&amp;lr=&amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk">Jens Axel Søgaard</a>所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说<a href="#2">[2]</a>：<br>
+<code>为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。</code></p>
+</blockquote>
+<p>Bruno Haible最近<a href="groups.google.com/groups?hl=en&amp;lr=&amp;selm=con4h2%24odi%241%40laposte.ilog.fr">在c.l.l.解释了避免嵌套反引用的两个不同方法</a>。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>1. 在内层使用LIST, APPEND等函数代替反引用
+</span></span><span style="display:flex;"><span>2. 使用包含反引用的辅助函数
+</span></span></code></pre></div><p>Bruno为每个方法提供了例子。</p>
+<p>首先，下面给出的这段代码用了嵌套反引用：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-common-lisp" data-lang="common-lisp"><span style="display:flex;"><span>(<span style="color:#0086b3">defmacro</span> <span style="color:#008080">once-only</span> (<span style="color:#008080">variables</span> <span style="color:#000;font-weight:bold">&amp;rest</span> <span style="color:#008080">body</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#0086b3">assert</span> (<span style="color:#900;font-weight:bold">every</span> <span style="color:#900;font-weight:bold">#&#39;symbolp</span> <span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#000;font-weight:bold">let</span> ((<span style="color:#008080">temps</span> <span style="color:#008080">nil</span>))
+</span></span><span style="display:flex;"><span>    (<span style="color:#0086b3">dotimes</span> (<span style="color:#008080">i</span> (<span style="color:#900;font-weight:bold">length</span> <span style="color:#008080">variables</span>)) (<span style="color:#0086b3">push</span> (<span style="color:#900;font-weight:bold">gensym</span>) <span style="color:#008080">temps</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">if</span> (<span style="color:#900;font-weight:bold">every</span> <span style="color:#900;font-weight:bold">#&#39;</span><span style="color:#008080">side-effect-free?</span> (<span style="color:#458;font-weight:bold">list</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>       (<span style="color:#000;font-weight:bold">progn</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">body</span>)
+</span></span><span style="display:flex;"><span>       <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">let</span>
+</span></span><span style="display:flex;"><span>          (<span style="color:#000;font-weight:bold">,,@</span>(<span style="color:#900;font-weight:bold">mapcar</span> <span style="color:#900;font-weight:bold">#&#39;</span>(<span style="color:#0086b3">lambda</span> (<span style="color:#008080">tmp</span> <span style="color:#008080">var</span>)
+</span></span><span style="display:flex;"><span>                          <span style="color:#000;font-weight:bold">``</span>(<span style="color:#000;font-weight:bold">,</span><span style="color:#990073">&#39;,tmp</span> <span style="color:#000;font-weight:bold">,,</span><span style="color:#008080">var</span>))
+</span></span><span style="display:flex;"><span>                      <span style="color:#008080">temps</span> <span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>          <span style="color:#000;font-weight:bold">,</span>(<span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">,</span>(<span style="color:#900;font-weight:bold">mapcar</span> <span style="color:#900;font-weight:bold">#&#39;</span>(<span style="color:#0086b3">lambda</span> (<span style="color:#008080">var</span> <span style="color:#008080">tmp</span>) <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">,</span><span style="color:#008080">var</span> <span style="color:#990073">&#39;,tmp</span>))
+</span></span><span style="display:flex;"><span>                         <span style="color:#008080">variables</span> <span style="color:#008080">temps</span>)
+</span></span><span style="display:flex;"><span>             <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">body</span>)))))
+</span></span></code></pre></div><p>原来的代码使用方法1转换后如下：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-common-lisp" data-lang="common-lisp"><span style="display:flex;"><span>(<span style="color:#0086b3">defmacro</span> <span style="color:#008080">once-only</span> (<span style="color:#008080">variables</span> <span style="color:#000;font-weight:bold">&amp;rest</span> <span style="color:#008080">body</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#0086b3">assert</span> (<span style="color:#900;font-weight:bold">every</span> <span style="color:#900;font-weight:bold">#&#39;symbolp</span> <span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#000;font-weight:bold">let</span> ((<span style="color:#008080">temps</span> <span style="color:#008080">nil</span>))
+</span></span><span style="display:flex;"><span>    (<span style="color:#0086b3">dotimes</span> (<span style="color:#008080">i</span> (<span style="color:#900;font-weight:bold">length</span> <span style="color:#008080">variables</span>)) (<span style="color:#0086b3">push</span> (<span style="color:#900;font-weight:bold">gensym</span>) <span style="color:#008080">temps</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">if</span> (<span style="color:#900;font-weight:bold">every</span> <span style="color:#900;font-weight:bold">#&#39;</span><span style="color:#008080">side-effect-free?</span> (<span style="color:#458;font-weight:bold">list</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>       (<span style="color:#000;font-weight:bold">progn</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">body</span>)
+</span></span><span style="display:flex;"><span>       (<span style="color:#458;font-weight:bold">list</span> <span style="color:#990073">&#39;let</span>
+</span></span><span style="display:flex;"><span>         (<span style="color:#458;font-weight:bold">list</span> <span style="color:#000;font-weight:bold">,@</span>(<span style="color:#900;font-weight:bold">mapcar</span> <span style="color:#900;font-weight:bold">#&#39;</span>(<span style="color:#0086b3">lambda</span> (<span style="color:#008080">tmp</span> <span style="color:#008080">var</span>)
+</span></span><span style="display:flex;"><span>                             <span style="color:#000;font-weight:bold">`</span>(<span style="color:#458;font-weight:bold">list</span> <span style="color:#990073">&#39;,tmp</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">var</span>))
+</span></span><span style="display:flex;"><span>                         <span style="color:#008080">temps</span> <span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>         (<span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">,</span>(<span style="color:#900;font-weight:bold">mapcar</span> <span style="color:#900;font-weight:bold">#&#39;</span>(<span style="color:#0086b3">lambda</span> (<span style="color:#008080">var</span> <span style="color:#008080">tmp</span>) <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">,</span><span style="color:#008080">var</span> <span style="color:#990073">&#39;,tmp</span>))
+</span></span><span style="display:flex;"><span>                       <span style="color:#008080">variables</span> <span style="color:#008080">temps</span>)
+</span></span><span style="display:flex;"><span>           <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">body</span>)))))
+</span></span></code></pre></div><p>原来的代码使用方法2转换后如下：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-common-lisp" data-lang="common-lisp"><span style="display:flex;"><span>(<span style="color:#0086b3">defun</span> <span style="color:#008080">construct-binding</span> (<span style="color:#008080">variable</span> <span style="color:#008080">form</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">,</span><span style="color:#008080">variable</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">form</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(<span style="color:#0086b3">defun</span> <span style="color:#008080">construct-let-wrapper</span> (<span style="color:#008080">bindings</span> <span style="color:#008080">body-form</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">bindings</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">body-form</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(<span style="color:#0086b3">defmacro</span> <span style="color:#008080">once-only</span> (<span style="color:#008080">variables</span> <span style="color:#000;font-weight:bold">&amp;rest</span> <span style="color:#008080">body</span>)
+</span></span><span style="display:flex;"><span>  (<span style="color:#0086b3">assert</span> (<span style="color:#900;font-weight:bold">every</span> <span style="color:#900;font-weight:bold">#&#39;symbolp</span> <span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#000;font-weight:bold">let</span> ((<span style="color:#008080">temps</span> <span style="color:#008080">nil</span>))
+</span></span><span style="display:flex;"><span>    (<span style="color:#0086b3">dotimes</span> (<span style="color:#008080">i</span> (<span style="color:#900;font-weight:bold">length</span> <span style="color:#008080">variables</span>)) (<span style="color:#0086b3">push</span> (<span style="color:#900;font-weight:bold">gensym</span>) <span style="color:#008080">temps</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">if</span> (<span style="color:#900;font-weight:bold">every</span> <span style="color:#900;font-weight:bold">#&#39;</span><span style="color:#008080">side-effect-free?</span> (<span style="color:#458;font-weight:bold">list</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>       (<span style="color:#000;font-weight:bold">progn</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">body</span>)
+</span></span><span style="display:flex;"><span>       (<span style="color:#008080">construct-let-wrapper</span>
+</span></span><span style="display:flex;"><span>         (<span style="color:#458;font-weight:bold">list</span> <span style="color:#000;font-weight:bold">,@</span>(<span style="color:#900;font-weight:bold">mapcar</span> <span style="color:#900;font-weight:bold">#&#39;</span>(<span style="color:#0086b3">lambda</span> (<span style="color:#008080">tmp</span> <span style="color:#008080">var</span>)
+</span></span><span style="display:flex;"><span>                             <span style="color:#000;font-weight:bold">`</span>(<span style="color:#008080">construct-binding</span> <span style="color:#990073">&#39;,tmp</span> <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">var</span>))
+</span></span><span style="display:flex;"><span>                         <span style="color:#008080">temps</span> <span style="color:#008080">variables</span>))
+</span></span><span style="display:flex;"><span>         (<span style="color:#000;font-weight:bold">let</span> <span style="color:#000;font-weight:bold">,</span>(<span style="color:#900;font-weight:bold">mapcar</span> <span style="color:#900;font-weight:bold">#&#39;</span>(<span style="color:#0086b3">lambda</span> (<span style="color:#008080">var</span> <span style="color:#008080">tmp</span>) <span style="color:#000;font-weight:bold">`</span>(<span style="color:#000;font-weight:bold">,</span><span style="color:#008080">var</span> <span style="color:#990073">&#39;,tmp</span>))
+</span></span><span style="display:flex;"><span>                       <span style="color:#008080">variables</span> <span style="color:#008080">temps</span>)
+</span></span><span style="display:flex;"><span>           <span style="color:#000;font-weight:bold">,</span><span style="color:#008080">body</span>)))))
+</span></span></code></pre></div><p>两个方法中的任一个，产生的代码的可读性都比原来代码好得多。</p>
+<p>作为Bruno建议方法的一种替代，也许你会考虑使用<a href="http://www.cs.yale.edu/homes/dvm/">Drew McDermott</a>的BQ反引用工具（包含在<a href="ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz">YTools</a>中）。Drew在<a href="http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf">YTools手册</a>中对这个反引用问题有一个很好的解释：</p>
+<blockquote>
+<p>反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：</p>
+<ol>
+<li>
+<p>当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如<code> `(foo ,x)</code>的字符序列转换为如<code>(backquote (foo (bq-comma x)))</code>的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像<code>(list 'foo x)</code>构造函数形式。写入器将<code>(backquote (foo (bq-comma x)))</code>输出为<code> `(foo ,x)</code>。</p>
+<p>不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式<code>(quote x)</code>，因此有一个定义良好的来自外部形式<code>'x</code>的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于<code> `(foo ,x)</code>可以读作<code>(list 'foo x)</code>。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。</p>
+<p>为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它<code>!@</code>吧），这个宏建造一些并非列表结构的东西，你可以将<code>(apply #'make-a-foo (list 'baz a) l)</code>简写作<code>!@(make-a-foo (baz ,a) ,@l)</code>。当这个表达式<code>!@(...)</code>被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。</p>
+</li>
+<li>
+<p>用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）</p>
+<p>我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：</p>
+<pre><code>'(foo (bazaroo '(fcn a ,x)))
+</code></pre>
+<p>内层的引用不会“遮蔽”住<code>x</code>使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：</p>
+<pre><code>'(foo (bazaroo `(,fcn a ,',x)))
+</code></pre>
+<p>这个<code>,',</code>构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用<code>,,x</code>，因为这是说“当外层的反引用被展开时对<code>x</code>求值，得到<code>e</code>，然后当最内层反引用展开时求值<code>e</code>”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。</p>
+</li>
+</ol>
+<p>这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件<code>bq.lisp</code>提供一个可选的实现。</p>
+</blockquote>
+<p>因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>1. 使用嵌套反引用
+</span></span><span style="display:flex;"><span>2. 在内层使用LIST, APPEND等函数代替反引用
+</span></span><span style="display:flex;"><span>3. 使用包含反引用的辅助函数
+</span></span><span style="display:flex;"><span>4. 使用一个反引用的替代实现
+</span></span></code></pre></div><p>现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)</p>
+<p><em>注：</em><br>
+<!-- raw HTML omitted -->[1]<!-- raw HTML omitted --> 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。<br>
+<!-- raw HTML omitted -->[2]<!-- raw HTML omitted --> 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。</p>
+
+
+        </div>
+    </div>
+</article>
+
+
+
+                <footer>
+                    
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="no-text-decoration">
+    <div class="jump top"><a href="#" title="Top of this page">⮉</a></div>
+    <div class="jump bottom"><a href="#bottom" title="Bottom of this page">⮋</a></div>
+</div>
+
+
+ 
+    
+        <div class="hugotoc no-text-decoration">
+            <nav id="TableOfContents"></nav>
+            <a href="#" class="back-to-top">Back to top</a>
+        </div>
+    
+    
+<script src="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js"></script>
+
+<link rel="preload" href="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js" as="script">
+
+<script>(function() {
+     var $window = $(window);
+     if ($window.width() >= 1400) { 
+         var $toc = $('#TableOfContents');
+         if ($toc.length > 0) {
+             function onScroll(){
+                 var currentScroll = $window.scrollTop();
+                 var h = $('.content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .h-feed h2');
+                 var id = "";
+                 h.each(function (i, e) {
+                     e = $(e);
+                     if (e.offset().top - 10 <= currentScroll) {
+                         id = e.attr('id');
+                     }
+                 });
+                 var current = $toc.find('a.current');
+                 if (current.length == 1 && current.eq(0).attr('href') == '#' + id) return true;
+
+                 current.each(function (i, e) {
+                     $(e).removeClass('current').siblings('ul').hide();
+                 });
+                 $toc.find('a[href="#' + id + '"]').parentsUntil('#TableOfContents').each(function (i, e) {
+                     $(e).children('a').addClass('current').siblings('ul').show();
+                 });
+             }
+             $window.on('scroll', onScroll);
+             $(document).ready(function() {
+                 $toc.find('a').parent('li').find('ul').hide();
+                 onScroll();
+                 document.getElementsByClassName('hugotoc')[0].style.display = '';
+             });}}})();</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="backtotop center no-text-decoration clear-float">
+    <a href="#">back to <span class="top">top</span></a>
+</div>
+
+
+<div class="right">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__common-lisp__"
+                                
+                                
+                                title="This is the only post tagged with ‘Common Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/common-lisp/">Common Lisp</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__backquote__"
+                                
+                                
+                                title="This is the only post tagged with ‘Backquote’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/backquote/">Backquote</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__macro__"
+                                
+                                
+                                title="This is the only post tagged with ‘Macro’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/macro/">Macro</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+<div class="clear-float"></div>
+
+
+
+<div class="prev-next-navigator clear-float">
+    
+        <span class="prev-post left no-text-decoration">
+            <a href="https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/">«&nbsp;Curator 介绍</a>
+        </span>
+    
+    
+        <span class="next-post right no-text-decoration">
+            <a href="https://hhkbp2.com/the-pragmatic-emacser/">Emacs 修炼之道&nbsp;»</a>
+        </span>
+    
+</div>
+
+
+<a id="bottom"></a>
+
+
+
+
+
+                       
+
+
+
+
+
+
+
+                    <ul class="no-bullets feed right inline">
+    
+</ul>
+<div class="clear-float"></div>
+
+                </footer>
+                <hr />
+            </div>               
+
+            <footer> 
+                
+
+
+<ul class="social no-text-decoration">
+    
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<p class="generated">
+    Generated using <a href="https://github.com/gohugoio/hugo"><span class="nobr">Hugo</span></a> +  <a href="https://gitlab.com/kaushalmodi/hugo-theme-refined"><code class="nobr">hugo-theme-refined</code></a> 
+</p>
+
+<p>
+    
+</p>
+
+
+
+
+<div class="badges no-text-decoration">
+    
+    
+
+    
+</div>
+
+
+
+
+<script>var nav=responsiveNav("#nav");</script>
+
+
+
+
+
+    
+    <script defer src="/js/libs/fragmentions/wrapper.min.b19ddbd69b83019e75a4e9bd8b5a027c75675e00329aab620ed1d470c85782ba.js"></script>
+
+
+
+
+
+
+
+
+
+
+            </footer>
+        </div> 
+    </body>
+</html>

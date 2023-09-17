@@ -1,0 +1,282 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>
+            
+                    Ergodox on
+                
+            
+            hhkbp2&#39;s blog</title>
+        <link>https://hhkbp2.com/tags/ergodox/</link>
+        <description>Recent content  in Ergodox
+            on hhkbp2&#39;s blog</description>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 17 Sep 2023 18:23:56 +0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+            <atom:link href="https://hhkbp2.com/tags/ergodox/index.xml" rel="self" type="application/rss&#43;xml" />
+        
+            
+            <item>
+                <title>人体工学机械键盘 Ergodox</title>
+                <link>https://hhkbp2.com/all-about-ergodox/</link>
+                
+                
+                <description>&lt;p&gt;作为一个码农，我每天的工作主要就是敲打键盘，因为工作的特殊性，我平均每天面对电脑使用键盘鼠标至少达到10个小时，长期如此，我发现我的手腕时不时会出现无力、僵硬甚至酸痛的现象，这种感觉有时在夜晚睡觉时会特别明显，而右手又比左手要严重。后来经了解这是管腕综合症的症状，是由于长期敲击键盘和使用鼠标造成重复性的神经压迫受损引起的。要缓解这这种症状，除了平时注意多休息之外，我还特别了解过有没有什么工具对此有所帮助，然后发现其实我们最常用的传统键盘，在对手和肩的人体工学上并不是太科学。因为传统键盘是一个长方形的整体，它的键位分布也是各行平行，使用的时候就需要人弯曲手腕和肘弯来形成合适的角度，这种弯曲一旦长时间保持，就会造成手腕肩头等部位的习惯性疲劳甚至病症。如下图左边所示：&lt;/p&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/keyboard_ergonomics.jpg&#34; title=&#34;普通键盘和人体工学键盘对比图&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;一个考虑到人体工学的键盘，设计上应该是左右两边从中间分开，让身体两侧的肘部和手腕，形成更舒适自然的角度，如上图的右边所示。很多的人体工学键盘都带有这样的设计，其中包括微软出品的几款薄膜键盘：停产的Natural Keyboard Elite和后继者Natural Ergonomic Keyboard 4000，较新的Sculpt Ergonomic Keyboard。&lt;/p&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/microsoft_ergonomic_keyboard_elite.jpg&#34; title=&#34;微软人体工学键盘Elite&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;带人体工学设计的键盘还有较少见的Truly Ergonomic公司推出的&lt;a href=&#34;https://www.trulyergonomic.com/&#34;&gt;True Ergonomic Keyboard&lt;/a&gt;，&lt;a href=&#34;http://www.kinesis-ergo.com/&#34;&gt;Kinesis&lt;/a&gt;的Advantage和FreeStyle 2等，而像Cherry的&lt;a href=&#34;http://www.pcpop.com/doc/0/326/326420_all.shtml&#34;&gt;MX 5000&lt;/a&gt;这种早就停产的绝版产品已经难于在市场上觅到其踪影。&lt;/p&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/truly_ergonomic_keyboard.jpg&#34; title=&#34;Truly Ergonomic Keyboard&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;这些键盘左右两边都分叉开，有的可以自由调整分叉角度，有的则角度固定，左右两边都是连成一体的。这些键盘中有的全部键位都采用MX机械轴，有的则为薄膜键盘，薄膜键盘的一大缺点就是手感差，不像MX轴那样寿命长手感好。另外其中有的键盘键位与普通的差异比较大，由于不支持编程，无法自定义键位，用户必然需要一段较长的时间去适应它的独特键位。有没有一个键盘，既有人体工学的设计，也是全键位MX轴，甚至支持全键位编程，可以满足文字工作者对键盘在人体工学、手感和寿命各方面的要求呢？它就是Ergodox。&lt;/p&gt;
+
+&lt;h2 id=&#34;ergodox简介&#34;&gt;Ergodox简介&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#ergodox%e7%ae%80%e4%bb%8b&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;Ergodox是一个硬件开源项目，它的项目网站见&lt;a href=&#34;http://ergodox.org&#34;&gt;这里&lt;/a&gt;。它主要有如下几个特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;分体式设计&lt;br&gt;
+整个键盘分为左右两个相互独立的部分，左右两边相互对称，中间用线材连接用于通讯。除了常见的字母/数字键区之外，每边还有一个延伸的拇指区，和一些特殊的控制大键位。分体式设计使得用户在使用时可以将左右两边以任何角度或位置摆放，提供了很大的灵活性和舒适度。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;直列错行键位&lt;br&gt;
+在传统键位中，键位的行是平行的，行与行之间，不同列是错开的，这种设计来源于最早的机械式打字机设计，因为每个键的连杆都要错开一定角度，同一个位置不能有两条连杆重合，否则就会造成冲突。如下图所示：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/mechanical_typewriter.jpg&#34; title=&#34;传统机械式打字机&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;这种错列的设计从人手的角度来看并不科学，因为对于每一根手指，直上直下才是比较方便的，而且不同的手指长度不同，平行的行键位只是为了方便制造。后来计算机的键盘沿用了打字机这种错位的设计，但现代的键盘都是电信号触发的，连杆早已不复存在，这种平行错列的设计只是简单地追随传统。&lt;/p&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/straight_rows_keyboard.jpg&#34; title=&#34;常见的直行错列键位&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;Ergodox给出了一个更科学的设计：直列错行。每根手根负责一个直列，不同行即不同手指则按各指长度错开成一定距离。&lt;/p&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/ergodox_straight_columns.jpg&#34; title=&#34;Ergodox直列错行键位&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;全键位MX轴&lt;br&gt;
+全部键位都使用MX轴，其中每个键位可以自由搭配不同的轴，以供用户的个人定制。常见的MX轴定制方案有：基本键位一种轴，扩展(特殊)键位配另一种轴；或4指控制部分一种轴，拇指部分配另一种轴等。MX轴的使用既改善了手感也提升了寿命。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;全键位可编程&lt;br&gt;
+全键位可编程，满足了高端用户定制键位映射的需要，虽然键映射可以在不同类型的操作系统中做软件映射来做(如Mac中有karabiner，Windows中有Auto Hotkey)。但是在硬件层面做，可定制的范围更广可玩性更强，同时可以做到换系统即插即用的效果，而且Ergodox支持多达30个layout，足以满足绝大多数的键位定制需求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;获得ergodox&#34;&gt;获得Ergodox&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#%e8%8e%b7%e5%be%97ergodox&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;由于Ergodox是硬件开源的，有兴趣的用户可以根据官网给出的配件列表自行收集配件组装，如果你和我一样，基于不方便购买配件或没时间等原因，不愿意一点一点的攒配件，也可以通过网络购买。目前主要有两种方式可以买到Ergodox：&lt;/p&gt;
+
+&lt;h3 id=&#34;1-massdrop团购&#34;&gt;1. Massdrop团购&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#1-massdrop%e5%9b%a2%e8%b4%ad&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;&lt;a href=&#34;https://www.massdrop.com&#34;&gt;Massdrop&lt;/a&gt;是美国的一个团购网站，上面主要集中了一批对音响、电子、机械键盘等方面的爱好者，围绕着相关产品用户可以参与团购，社区交流等活动。早在两年之前，Massdrop就开展了Ergodox的团购，在&lt;a href=&#34;https://www.massdrop.com/buy/ergodox&#34;&gt;Massdrop的Ergodox主页&lt;/a&gt;上，有Ergodox的一个较详细介绍，包括它由哪些配件组成，可以选择不同颜色的MX轴体，半掌全掌两个不同的尺寸，DSA和DCS两种不同的键帽，不同颜色的阳极铝材质上面板，组装完成之后的成品图等等。由于Massdrop出售的只是Ergodox的零配件，并非组装好的键盘，因此它还提供了一个图文并茂的&lt;a href=&#34;https://www.massdrop.com/ext/ergodox/assembly&#34;&gt;组装教程&lt;/a&gt;，另外有一个方便Ergodox用户做定制键位的&lt;a href=&#34;https://www.massdrop.com/ext/ergodox&#34;&gt;键位编程配置网页&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;有兴趣团购的用户可以点击网页右边的蓝色&amp;quot;Request&amp;quot;按钮，来申请团购。一般每过3个月左右，申请人数到达200个之后，Massdrop就会开放团购，通知之前申请过团购的人去提交订单，当然之前没申请过的人也可以马上下单，下单的时候用户可以定制尺寸，MX轴颜色等选项，最后通过信用卡扣款。在团购结束之后，Massdrop会向上游供应商提出订单生产或购货，越多人组团下单，优惠的尺度越大，一般来说组团的人每批都能达到200个以上，成本会降低到$199，当然这只是键盘本身的价格，如果加订键帽则需要加钱。&lt;/p&gt;
+&lt;p&gt;在Massdrop团购耗时会比较长，以我参加的2014年9月这一批次团购的经验来看，除了要等待团购开放这段时间，下单付款之后，大概要8~9周后才开始发货，然后快递走UPSMI(UPS Mail Innovations)到国内大概花了3周，以此估算从下单到收到邮件需要12周也就是3个月的时间。因为Massdrop上出售的是零件，Ergodox的亚克力材质外壳、PCB、一堆零件和轴等等装在一起也是比较大件的包裹，包裹通过海关时运气不好的话可能被征关税。UPSMI包裹在国内这段是由EMS负责运送的，EMS的送货服务非常高明：包裹运到本地邮局，EMS的工作人员就打电话给我，叫我在限时之内去领取包裹，所以它也不用考虑邮件地址写得是否准确——因为最准确的投递服务就是让用户自行跑过去领，不用投递。当然EMS的工作人员还是经验丰富的，他们在通知我领包裹的电话里就提醒我包裹已经被税，去领取邮件时记得带上钱付关税。&lt;/p&gt;
+&lt;p&gt;在2014年9月这一批次我订的配件如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;配件&lt;/th&gt;
+&lt;th&gt;价格&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Ergodox本身(包括PCB，电容电阻等零件，亚克力壳，轴体)&lt;/td&gt;
+&lt;td&gt;$199&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;亚克力壳(全掌)加钱&lt;/td&gt;
+&lt;td&gt;$10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DCS键帽&lt;/td&gt;
+&lt;td&gt;$49.99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;银色铝质上面板&lt;/td&gt;
+&lt;td&gt;$39.99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;运费&lt;/td&gt;
+&lt;td&gt;$24.99&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;全部配件总计298.98美刀，加上运费共323.97美刀，按当时汇率换成人民币是1995块。由于包裹上贴着的配件单写的是这批团购的键盘价格$199，海关收关税是按包裹所标总价的10％征收。我按EMS工作人员的指示交了122块人民币的关税，把包裹带回家对照票据后发现如果按真正的配件价格来收取关税的话，需要多交几十块人民币的关税，由于Massdrop寄件人员没有将全部配件写在包裹外面的工作失误，使得我个人在为国家的光荣税收方面少作了一些贡献，作为人民群众的我表示情绪稳定。&lt;/p&gt;
+&lt;p&gt;收到配件之后，下一步就是组装了，除了Massdrop上面的&lt;a href=&#34;https://www.massdrop.com/ext/ergodox/assembly&#34;&gt;组装教程&lt;/a&gt;，另外在Youtube上面有一个名为&lt;a href=&#34;https://www.youtube.com/watch?v=x1irVrAl3Ts&#34;&gt;Ergo-Dox keyboard assembly&lt;/a&gt;的组装视频，对于新手比较有参考价值。组装过程中需要把电容，MX轴等焊接到PCB上，这需要用到烙铁，由于我很久都没有做过焊接而且手上也没有烙铁，焊锡这些工具，所以花了大概200块人民币通过淘宝购买了一些工具，其中包括入门级的黄花907自动调温烙铁，无铅焊锡，吸锡器，斜口钳，镊子等工具，因为拿不准用哪种型号的烙铁头适合焊接Ergodox的配件，所以多要了几个不同型号的烙铁头，全部焊装完成之后发现其实型号为MT-3927的1.6D平头烙铁头适合用于几乎所有焊点，而型号为900M-T-B的烙铁自带尖头用得不多，只有少数几个焊点适合用上，比如Ergodox对外的USB接头处几个小焊点。其中镊子最好是弯头的，用于夹住每个键位下面的小电容，方便做SMT焊接。&lt;/p&gt;
+&lt;p&gt;参考上面给出的组装教程网页和视频，一般人都可以完成整个焊接过程，不过特别提醒一下，组装之前要细看每一个步骤所用到的配件和安装说明，注意安装的正反面和位置，如果漏掉一些关键信息可能会造成问题，比如我在焊PCB下面对应每个键位SMT电容时，没有注意看电容上面的极性，当整个键盘都组装完成之后，烧入固件连上电脑才发现有一半的键没有反应，然后出动了万用表检查，才发现有问题的键位SMT电容焊反了(电容上有标记的一端应该对应PCB方块焊头的一头，而不是圆焊点的一头)，只能拆下来重新焊上。&lt;/p&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/ergodox_in_assembly.jpg&#34; title=&#34;Ergodox In Assembly&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;在整个焊接过程中，我个人认为刚才提到的SMT电容和对外的USB接头这两处是比较难焊接的，前者是因为电容很小，而且SMT容易虚焊，如果像Youtube视频那样用熔锡和热风枪来做是比较容易的，但用一般的烙铁操作起来比较繁琐，我用了一个土办法：先为一边点上热锡，用镊子夹住电容粘上去放好位置，再把另一边也点上热锡，最后轻轻按紧电容，两边焊点都用烙铁加热一下，以免虚焊。如此折腾下来，最后到整个键盘组装完成之后，没有发现有虚焊。第二个难点就是USB接头处，首先把Mini USB的接头裁切出来的时候要小心，尽量不要弄断各黑、白、绿、红各颜色接线里面的铜丝，焊接的时候各颜色的线头和PCB的连接处的位置保持好也很关键，Youtube视频中在焊实底面焊点之前，他在PCB上表面先点上一点焊锡以做固定，这办法比较有效。即使如此，由于这几个焊点小，线材小加上位置比较容易移动，而且焊接时间要控制好，一旦烙铁靠得太久线材就会开始熔掉，要焊好还是不太容易的。至于MX轴，由于对应的焊点比较粗，相对来说容易焊得多。像我没有太多焊接经验，组装好一整套Ergodox并确认功能正常(拆掉重装过SMT电容)大概需要花10多小时。&lt;/p&gt;
+&lt;p&gt;由于我个人不太喜欢灯(我觉得闪亮的键盘灯是一种打扰，Macbook上的键盘灯也从来不用)，而且手头的Ergodox键帽都是不透明的，在键轴上面加灯也看不见，所以我没有像标准安装教程所示的那样装灯。要注意的一点是，由于PCB在MX轴的下面，如果要装灯则需要先把MX轴的上盖拆下来，加上灯，再把MX轴焊到PCB上，上面给出的Youtube教程是先把MX轴焊到PCB，再用一个叫做beast switch tool的工具从上面打开MX的上盖加灯，这个switch tool很难买到&lt;a href=&#34;#1&#34;&gt;[1]&lt;/a&gt;，所以一般还是要先拆开上盖再焊MX轴。&lt;/p&gt;
+&lt;p&gt;焊接完成之后，给teensy芯片烧入固件，就可以正常使用了，为了确认焊接没出问题，烧录完固件之后可以第一时间试试每个键确认功能都正常，再装上亚克力外壳和键帽。一般来说亚克力板是比较容易粘上灰尘和指纹的，上表面指纹容易擦掉但是每层亚克力板之间的灰尘如果长期累积下来，对于有洁癖的人来说可能会觉得影响观感，所以我组装的时候保留了亚克力板表面深棕色的薄纸没有撕掉，上表面装上特别订购的铝质面板，这样一来上表面不会留指纹，也看不见键盘里面的亚克力面板之间的灰尘，不过由于上表面是金属，冬天会冻手，和Macbook键盘前面的手托类似。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-淘宝网购&#34;&gt;2. 淘宝网购&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#2-%e6%b7%98%e5%ae%9d%e7%bd%91%e8%b4%ad&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;由上面我自己的经历可以知道，通过Massdrop团购Ergodox零件再自行组装的成本是相当高昂的，需要花掉团购成本、关税、焊接工具成本共2500块人民币左右的金钱成本，而且要付出很大的人力和时间成本：很长的团购和到货时间，取国际邮件、购买烙铁等工具的时间，还有10多个小时的组装人工和时间。除非自己动手能给你带来很大的乐趣，不然通过这种方法来搞一套Ergodox并非良策。其实Ergodox所用到的电容电阻，MX轴等零件都是市面上比较容易搞到的大路货，PCB和亚克力板也可以在深圳华强北找商家打印或通过淘宝定制，它的成本远远低于Massdrop这一条渠道。话说回来，通过Massdrop买到的零件也有一些国内生产的配件(比如TRRS线)，当你耗费时日不远万里从国外搞到一套Ergodox的配件，打开包裹一看发现很多&amp;quot;Made In China&amp;quot;的时候，我不知道你会有什么反应，反正我是对着关税的收据一轮苦笑。&lt;/p&gt;
+&lt;p&gt;有个朋友rabinz比较早接触到Ergodox，他原本打算在国内攒零配件来组Ergodox，由于零配件一般是成批卖的，所以后来他攒了很多的零配件，此后更是在原有的Ergodox的基础上做了一些设计方面的改进。他在淘宝上开了一个网店，以一个实惠的价格出售整套组装好的Ergodox，并向用户提供一些定制服务：比如各种轴的搭配，大键区卫星轴、平衡轴的选择等，对Ergodox有兴趣的话可以去&lt;a href=&#34;http://shop115018335.taobao.com/?spm=a1z10.1-c.0.0.5ErRqZ&#34;&gt;那里&lt;/a&gt;看看。&lt;/p&gt;
+&lt;p&gt;我之前在网上多收了一副rabinz做的半掌Ergodox，下面简单的比较一下它和前面所讲的我自己组装的一套，看看两者有何区别。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;整体&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/ergodox_classic_overview.jpg&#34; title=&#34;Ergodox Classic&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/ergodox_fullhand_overview.jpg&#34; title=&#34;Ergodox Fullhand&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;两套都是Ergodox，硬件键位自然是相同。前者是半掌尺寸带灰色DSA键帽，上表面是透明的亚克力板；后者是全掌尺寸带黑色DCS键帽，上表面是不透明银色的阳极氧化铝板。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;接合&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/ergodox_screw.jpg&#34; title=&#34;Ergodox Classic Screw&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;半掌Ergodox使用了两条小螺钉在中间通过内嵌螺母连接在一起，在上下两个表面都做了沉孔处理，本来尺寸就较小的螺钉头只比亚克力面板表面高出一点；全掌的一套则使用单条大螺钉和螺母，螺钉头比较粗，上表板也没有做沉孔处理，所以螺钉头明显高出上表面很多，螺母头为半圆球形，尺寸相当于两个螺钉头。全掌的几块亚克力板总厚度比半掌的要薄，但由于上下两面的螺钉头占用了比较多的空间，所以从整体高度上来看，全掌的反而显得略厚。&lt;/p&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/ergodox_height.jpg&#34; title=&#34;Ergodox Height&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;钢板&lt;br&gt;
+从上面几个图明显看到，半掌键盘中间有一块黑色的钢板，全掌的则没有，机械键盘是否带钢板会对手感有所影响，带钢板的话受力时刚性会较好，按键触底会更硬朗一些。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大键区&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+&lt;figure&gt;
+    
+        &lt;img src=&#34;https://hhkbp2.com/all-about-ergodox/ergodox_thumb_area.jpg&#34; title=&#34;Ergodox Thumb Area&#34;/&gt; &lt;figcaption&gt;
+                
+            &lt;/figcaption&gt;&lt;/figure&gt;
+
+&lt;p&gt;半掌键盘是青轴，两个大键使用了卫星轴，而全掌的则是白轴，大键区只是普通单轴。在常见的机械键盘产品中，一般大于2X宽度的键轴都会加上卫星轴或者平衡轴，避免键轴受力走偏，以改善大键的手感。要安装卫星轴或平衡轴的话，需要从PCB到中间面板都准备相应的孔位，但Massdrop出售的Ergodox无论是PCB还是中间面板都没有准备对应的孔位，因此只能装上单轴。&lt;/p&gt;
+&lt;p&gt;经过上面的比较，容易看出rabinz做的Ergodox加入了一些优化，跟Massdrop渠道的自组Ergodox相比占有相当的优势，即使只考虑金钱成本，Massdrop的也高出很多，所以综合来看，通过淘宝向rabinz购买组装好的Ergodox成品，是更好的选择。如果你只是个一般用户，希望拥有一把Ergodox但不愿意自己攒零件动手焊接组装，那么通过淘宝向rabinz订购更是绝佳的选择。&lt;/p&gt;
+
+&lt;h2 id=&#34;体验与总结&#34;&gt;体验与总结&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#%e4%bd%93%e9%aa%8c%e4%b8%8e%e6%80%bb%e7%bb%93&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;有了Ergodox，我在敲打键盘时两手就能以舒服的角度随意放在桌面上，使用了一段时间的Ergodox之后，我手腕的不适症状已经大为减轻，它的人体工学设计起到了很好的效果。在我逐渐上手Ergodox的过程中也遇到一些问题，比如需要一点时间适应它独特(但设计正确)的键位布局：刚刚开始使用Ergodox时，我对Ergodox的键位布局还不是太习惯，由于它的直列错行布局跟一般键盘的直行错列不同，盲打时只要一离开Home Row手指经常会打错列，经过一段时间的练习之后，基本上已经熟悉它的布局，现在无论是普通键盘还是Ergodox，一上手都能操作自如。另外目前市面上并没有适用于全掌Ergodox的包(半掌Ergodox的包倒是有，可以到&lt;a href=&#34;https://www.massdrop.com/buy/ergodox-hard-case&#34;&gt;这里&lt;/a&gt;购买)，全掌Ergodox个头大便携性不好，只能放在家里使用。&lt;/p&gt;
+&lt;p&gt;总体来看，Ergodox设计独特，成本不菲，对于像我一样想改善管腕综合症症状的电脑用户，Ergodox是一个很值得买的机械键盘，对于喜欢DIY喜欢折腾机械键盘的玩家，Ergodox也是一个具有很高可玩性的产品。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：&lt;/em&gt;&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[1]&lt;!-- raw HTML omitted --&gt; 有关beast switch tool在Ergodox组装过程中的使用方法可以参考&lt;a href=&#34;http://www.chiphell.com/thread-939124-1-1.html&#34;&gt;这里&lt;/a&gt;，但它太难买到，你也可以参考&lt;a href=&#34;http://deskthority.net/workshop-f7/i-did-a-guide-of-how-to-open-cherry-switches-t2458.html&#34;&gt;这里&lt;/a&gt;用常见的文件夹自已DIY一个。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/keyboard">Keyboard</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/ergodox">Ergodox</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/mechanical-keyboard">Mechanical Keyboard</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/split-keyboard">Split Keyboard</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/all-about-ergodox/</guid>
+                <pubDate>Thu, 01 Jan 2015 22:09:00 +0800</pubDate>
+            </item>
+        
+    </channel>
+</rss>
+
+

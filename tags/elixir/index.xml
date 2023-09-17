@@ -1,0 +1,550 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>
+            
+                    Elixir on
+                
+            
+            hhkbp2&#39;s blog</title>
+        <link>https://hhkbp2.com/tags/elixir/</link>
+        <description>Recent content  in Elixir
+            on hhkbp2&#39;s blog</description>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 17 Sep 2023 18:23:56 +0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+            <atom:link href="https://hhkbp2.com/tags/elixir/index.xml" rel="self" type="application/rss&#43;xml" />
+        
+            
+            <item>
+                <title>Kapok 的设计与实现: Protocol</title>
+                <link>https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/</link>
+                
+                
+                <description>&lt;p&gt;&lt;a href=&#34;https://github.com/kapok-lang/kapok&#34;&gt;Kapok&lt;/a&gt;是我设计与实现的一个基于Erlang VM的现代Lisp编程语言。&lt;a href=&#34;https://hhkbp2.com/blog/2016/06/08/minds-echo/&#34;&gt;《念念不忘，亦有回响》&lt;/a&gt;这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中Protocol的具体设计和实现。&lt;/p&gt;
+
+&lt;h2 id=&#34;protocol是什么&#34;&gt;Protocol是什么&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#protocol%e6%98%af%e4%bb%80%e4%b9%88&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;为了更好地进行程序的编写，编程语言往往需要引入一些抽象，比如一个函数是一系列操作的封装，一个模块是一堆函数的封装，然后出于通用性的需要，又定义了函数签名来区分具有相同参数类型和参数个数的函数，对于具有相同函数签名的模块，在Erlang我们定义了行为(Behavior)。类似地，Protocol也是一种对数据类型和基于数据类型上实现的一些函数的抽象。在面向对象编程语言(OOP)非常流行的今天，这种抽象更多地被称为类与接口。&lt;/p&gt;
+&lt;p&gt;下面简单举例来说明Protocol是什么。在Erlang里面，如果我们要编写一段代码来处理不同的数据类型，往往需要在一大块集中代码里面针对每一种数据类型进行不同的处理。假设我们正在编写一个Json模块，这个模块要处理list, binary, number三种类型的encode(编码)操作，那么就有代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-&lt;span style=&#34;color:#800080&#34;&gt;module&lt;/span&gt;(json)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;encode&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;when&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;is_list&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;encode&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;when&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;is_binary&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;encode&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;when&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;is_number&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;Item&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果要添加更多的数据类型，那么就在模块内部添加对应那个数据类型的分支。但是如果你没有这个模块的源代码就无法添加，而且经过长时间添加多个类型支持后这个模块变得非常大，难于维护。Elixir引入了Protocol，针对上述的encode操作，可以定义成一个Protocol，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defprotocol&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于任何实现了&lt;code&gt;JSON&lt;/code&gt; Protocol的数据类型对象&lt;code&gt;data&lt;/code&gt;，都可以直接调用下述函数：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;.&lt;/span&gt;encode(data)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这些数据类型的&lt;code&gt;JSON&lt;/code&gt; Protocol实现可以分散放在各个文件中，没有要集中维护的问题，当你需要添加一个新的数据类型的支持时，也不需要已有模块的源代码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;, &lt;span style=&#34;color:#990073&#34;&gt;for&lt;/span&gt;: &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;List&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item) &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;, &lt;span style=&#34;color:#990073&#34;&gt;for&lt;/span&gt;: &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;BitString&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item) &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;JSON&lt;/span&gt;, &lt;span style=&#34;color:#990073&#34;&gt;for&lt;/span&gt;: &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;Number&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;def&lt;/span&gt; encode(item) &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过Protocol这样一个抽象，我们可以在函数式的编程语言中，定义对数据类型绑定一系列的接口，然后针对这些通用的接口来进行编程。针对接口编程一个常常被提到的用法是，在需要快速编写原型的时候，使用简单的数据类型进行接口编程，先快速实现功能，等到程序稳定下来，后期需要进行性能优化的时候，再将接口下面的数据类型更换成更高效的实现，这个过程中所有的接口使用代码都不需要修改。&lt;/p&gt;
+
+&lt;h2 id=&#34;elixir中protocol的实现&#34;&gt;Elixir中Protocol的实现&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#elixir%e4%b8%adprotocol%e7%9a%84%e5%ae%9e%e7%8e%b0&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;Protocol，或者说类接口，它的广义的概念可以追溯到20世纪80年代开始流行的面向对象编程语言，比如C++，甚至更早之前60~70年代就已经存在的Lisp，从那个年代流传至今的很多Lisp方言中，都或多或少有着这种抽象，比如Common Lisp中的Sequence的概念。而在Erlang VM上实现了Protocol的Elixir语言，它则是参考了Clojure的Protocol定义和实现。下面简单描述一下Elixir的Protocol实现。&lt;/p&gt;
+&lt;p&gt;从上面的例子我们可以看到，Protocol的本质是将数据类型和接口分开定义，并在运行时进行动态绑定。上述例子中，对于List类型，定义了对应的encode实现，调用Protocol的接口&lt;code&gt;JSON.encode(data)&lt;/code&gt;时，如果data是List类型，就进行动态分发，执行对应的encode实现。那么如何实现这种动态绑定或者说分发呢？由于Erlang是一个函数式编程语言，Erlang VM的基本语义中也只支持模块和函数，因为Protocol的每个实现可以分开，而Erlang VM中基础的编译单元是模块，一个简单的映射方法就是将每个Protocol实现映射为一个模块。而对于接口模块&lt;code&gt;JSON&lt;/code&gt;，很自然地也成为一个单独的模块。那么就只剩下一个问题了，即如何实现当调用&lt;code&gt;JSON.encode()&lt;/code&gt;时，将执行路径转到&lt;code&gt;defimpl JSON, for: List&lt;/code&gt;模块的&lt;code&gt;encode()&lt;/code&gt;函数，这里可以实现为在运行时拼接模块名，然后调用具体模块的函数。上述的Elixir代码中的例子，将编译成对应的Erlang代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          Elixir                                  Erlang
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defprotocol JSON do                     -module(JSON).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item)         生成          encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                        case item of
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_list(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.List&amp;#39;:encode(data);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_binary(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.BitString&amp;#39;:encode(data);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_number(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.Number&amp;#39;:encode(data)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                             data when is_struct_X(data) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                               &amp;#39;JSON.X&amp;#39;: encode(data)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                                           ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这里的struct_X表示除了几个基本数据类型以外的用户自定义struct类型，其中X为struct的名字，即对应Elixir中的代码&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defmodule&lt;/span&gt; &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;X&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defstruct&lt;/span&gt; &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于各个数据的类型的实现，可以映射为各个Erlang模块：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          Elixir                                         Erlang
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defimpl JSON, for: List do            生成      -module(&amp;#39;JSON.List&amp;#39;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item) # ...                        encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                               %% ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defimpl JSON, for: BitString do                 -module(&amp;#39;JSON.BitString&amp;#39;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item) # ...                        encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                               %% ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defimpl JSON, for: Number do                    -module(&amp;#39;JSON.Number&amp;#39;).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  def encode(item) # ...                        encode(item) -&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;end                                               %% ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注意其中的模块名是由Protocol名字，即这个例子中的JSON，和具体的数据类型名，即这个例子中的List, BitString, Number等，两者拼接而成。&lt;/p&gt;
+
+&lt;h2 id=&#34;kapok中protocol的实现&#34;&gt;Kapok中Protocol的实现&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#kapok%e4%b8%adprotocol%e7%9a%84%e5%ae%9e%e7%8e%b0&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;既然Elixir已经实现了Protocol，而且Kapok和Elixir都兼容于Erlang VM，那么除了另外捣腾一套Protocol的用法和实现之外，比较好的做法就是兼容Elixir的实现，从而达到重用所有Elixir己经有的库和代码的效果。Elixir中定义了每个Protocol模块都必需具备的接口函数，具体列出如下，它们都是通过defprocotol宏来实现的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;__protocol__/1&lt;/code&gt;
+当参数是&lt;code&gt;:name&lt;/code&gt;，返回Protocol名字
+当参数是&lt;code&gt;:functions&lt;/code&gt;，返回一个元素为Protocol接口函数和参数个数的关键字列表
+当参数是&lt;code&gt;:impls&lt;/code&gt;，返回一个实现的列表&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;impl_for/1&lt;/code&gt;
+接收一个struct，返回为此struct实现当前Protocol的模块名，如果不存在这样的实现模块则返回&lt;code&gt;:nil&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;impl_for!/1&lt;/code&gt;
+类似于上面的&lt;code&gt;impl_for/1&lt;/code&gt;，区别在于当实现模块不存在时不返回&lt;code&gt;:nil&lt;/code&gt;而是抛出异常&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在Kapok中，也定义类似的Macro&lt;code&gt;defprotocol&lt;/code&gt;来生成这些接口函数。类似地，对于Elixir中的&lt;code&gt;defstruct&lt;/code&gt;, &lt;code&gt;defimpl&lt;/code&gt; Macro，Kapok也定义了对应的Macro来生成对应的struct结构，和实现函数接口。&lt;/p&gt;
+&lt;p&gt;以上所述的种种Protocol结构都是通过Macro，这个强大的Lisp编程方式，来实现的。通过Macro处理手写代码，生成新代码，我们可以在Kapok实现一套类似于Elixir Protocol原语，无缝对接到已有的Elixir代码和库中。&lt;/p&gt;
+
+&lt;h2 id=&#34;kapok的protocol使用示例&#34;&gt;Kapok的Protocol使用示例&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#kapok%e7%9a%84protocol%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;最后附上一个Kapok代码示例，展示一下Protocol在Kapok中的定义和使用，便于理解。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-clojure&#34; data-lang=&#34;clojure&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 定义一个用于此示例的Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defprotocol &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;pr&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;A protocol to print something.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 此Protocol唯一接口用来打印某个数据&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;self&lt;/span&gt;]))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 为Atom数据类型实现pr Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;pr &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;Atom&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;require&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;io&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defn &lt;/span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;atom&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;print an atom: #&amp;#39;~p&amp;#39;~n&amp;#34;&lt;/span&gt; [&lt;span style=&#34;color:#008080&#34;&gt;atom&lt;/span&gt;])))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 为List数据类型实现pr Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;defimpl&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;pr &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;List&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 在print的实现代码中，直接使用了Elixir的Enum Protocol&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 所以这里用了一行代码引入Elixir.Enum模块&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;require&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Elixir.Enum&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;:as&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;enum&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           &lt;span style=&#34;color:#008080&#34;&gt;io&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defn &lt;/span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;list&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;print a char list: #\&amp;#34;&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 直接在List上调用enum.map，直接使用Elixir库代码&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;enum.map&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;list&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;fn &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;x&lt;/span&gt;] (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;~c&amp;#34;&lt;/span&gt; [&lt;span style=&#34;color:#008080&#34;&gt;x&lt;/span&gt;])))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;io.format&lt;/span&gt; &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;\&amp;#34;~n&amp;#34;&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;ns &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;protocol-examples&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;require&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;pr&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;defn &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;main&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 下面先后声明了Atom和List两种数据类型的实例，并调用pr.print接口&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;abc&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;pr.print&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let &lt;/span&gt;[&lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;abc&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;pr.print&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;data&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;;; 得到输出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;an&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;atom&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;abc&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;print &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;a&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;char &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;list&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;#&lt;/span&gt;&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;abc&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/lisp">Lisp</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/erlang">Erlang</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/elixir">Elixir</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/kapok">Kapok</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/</guid>
+                <pubDate>Mon, 19 Mar 2018 14:56:00 +0800</pubDate>
+            </item>
+        
+            
+            <item>
+                <title>Joxa: 一种基于 Erlang VM 的现代 Lisp 编程语言</title>
+                <link>https://hhkbp2.com/joxa-a-lisp-programming-language-base-on-erlang-vm/</link>
+                
+                
+                <description>&lt;p&gt;&lt;a href=&#34;http://joxa.org/&#34;&gt;Joxa&lt;/a&gt;是一种基于Erlang VM的现代Lisp编程语言，创始人是美国的Eric Merritt&lt;a href=&#34;#1&#34;&gt;[1]&lt;/a&gt;。通过在Erlang VM上引入一个精心设计的Lisp语法，它保留了Lisp和Erlang两者的众多优点：简洁而且语义清晰的Lisp语法，强大的Macro，鼓励交互式开发，支持高并发，函数式风格等，并且与现有的Erlang平台保持良好兼容。它是一门功能全面的通用编程语言。&lt;/p&gt;
+&lt;p&gt;Joxa的官方网站是&lt;a href=&#34;http://joxa.org/&#34;&gt;joxa.org&lt;/a&gt;，在这个官方网站上，有它的源代码&lt;a href=&#34;https://github.com/joxa/joxa&#34;&gt;github地址&lt;/a&gt;，以及&lt;a href=&#34;http://docs.joxa.org/en/latest/&#34;&gt;在线文档&lt;/a&gt;。为什么这门编程语言取名为Joxa呢？关于Joxa这个名字的由来，Eric Merritt曾经对我在邮件组的提问做过如下解释：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;其实这个名字并无特别的意义。很多年前我想开始一个“基于Java的某个项目”，于是有了它的缩写Joxa这个名字。这个项目从来没有开始做过，但我把域名买下来了并一直持有着。到今天，4个字母的域名已经很少能注册到了，所以我决定用它来做为这门语言的名字。&lt;a href=&#34;#2&#34;&gt;[2]&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;除了名字开头有个字母&amp;quot;J&amp;quot;，Joxa与Java并没有太大的关系了，Joxa主要受到了Erlang及基于JVM的编程语言Clojure的影响。下面我们先介绍一下Erlang和Clojure，再讨论Joxa受到了它们的哪些影响。&lt;/p&gt;
+
+&lt;h2 id=&#34;1-erlang-clojure以及joxa&#34;&gt;1. Erlang, Clojure以及Joxa&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#1-erlang-clojure%e4%bb%a5%e5%8f%8ajoxa&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+
+&lt;h3 id=&#34;11-erlang高并发的函数式容错编程语言&#34;&gt;1.1 Erlang，高并发的函数式容错编程语言&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#11-erlang%e9%ab%98%e5%b9%b6%e5%8f%91%e7%9a%84%e5%87%bd%e6%95%b0%e5%bc%8f%e5%ae%b9%e9%94%99%e7%bc%96%e7%a8%8b%e8%af%ad%e8%a8%80&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;Erlang是一门通用的并发程序设计语言，它由瑞典爱立信的Joe Armstrong在上世纪80年代开发，并于1998年对外开源，Erlang这个名字来源自丹麦数学家及统计学家Agner Krarup Erlang。经过近30年的发展，Erlang目前是支持高并发的编程语言翘楚之一，它在语言层面封装了Actor模型，实现了用户空间的轻量级进程，将消息传递作为Actor间通信的唯一方式，避免了由传统的线程和锁在并发方面的限制与缺点。Erlang被设计为电信级系统的编程语言，强调分布式，容错，软实时和公平调度，在语法上它主要受到Prolog及Lisp的影响，保留了函数式，动态，交互式开发等特点。具体来讲，Erlang这个名字可以分成3个方面的要素：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;编程语言Erlang本身&lt;/li&gt;
+&lt;li&gt;总称为OTP的一系列程序设计原则及代码库&lt;/li&gt;
+&lt;li&gt;称为Erlang VM或BEAM的Erlang虚拟机&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Erlang设计于近30年前，因此从现在的角度来看，它在语法，编程环境(包括文档等)及工具链等方面有很多地方都有改进空间。由于Erlang VM是目前工业界支持高并发的最成熟的VM之一，大量技术专家及工程师们在上面投入了无数的工作，通过在Erlang VM上设计一门新语言来重用Erlang VM的优良特性，既能发挥Erlang VM的长处，又能改善Erlang语言本身在语法、工具链等方面的缺点，扬长而避短，是比较完美的方案。业界近几年涌现了众多基于Erlang VM的编程语言，下面介绍其中几种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;LFE&lt;br&gt;
+&lt;a href=&#34;http://lfe.io/&#34;&gt;LFE&lt;/a&gt;是Lisp Flavored Erlang的缩写，它是由Robert Virding&lt;a href=&#34;#3&#34;&gt;[3]&lt;/a&gt;于2007年开始开发的一门函数式的并发的通用编程语言，LFE采用了Lisp-2&lt;a href=&#34;#4&#34;&gt;[4]&lt;/a&gt;风格的语法，通过将LFE代码编译为Core Erlang代码运行在BEAM上，保留了Erlang VM分布式，容错，软实时等优点，同时支持Lisp Macro，使得LFE兼有强大的元编程能力，并实现了一个功能丰富的REPL&lt;a href=&#34;#5&#34;&gt;[5]&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;Reia&lt;br&gt;
+&lt;a href=&#34;http://reia-lang.org/&#34;&gt;Reia&lt;/a&gt;是一门基于Erlang VM上的类似Ruby的脚本编程语言，它由Tony Arcieri&lt;a href=&#34;#6&#34;&gt;[6]&lt;/a&gt;于2010年中开始开发，它在Erlang VM的分布式，并发，容错，热更新的基础之上，引入了Ruby的友好语法，灵活的代码块，反射及元编程功能力。遗憾的是，Reia在2011年宣布不再更新。&lt;/li&gt;
+&lt;li&gt;Elixir&lt;br&gt;
+&lt;a href=&#34;http://elixir-lang.org/&#34;&gt;Elixir&lt;/a&gt;是一门动态的函数式编程语言，它由José Valim&lt;a href=&#34;#7&#34;&gt;[7]&lt;/a&gt;于2012年开发。Elixir同样采用了类Ruby的语法，通过支持强大的Macro功能，它在简洁的语言核心上，建立了一系列的标准库，包括Unicode字符串及相关操作，重写了单元测试框架，丰富的数据类型等，它吸收了Clojure的Protocol，严格和惰性API，还提供了现代的交互命令行，脚本相关的库函数及项目管理工具。通过将Elixir代码编译为Erlang AST，Elixir得以重用Erlang VM的高并发及高效率，克服了Ruby在并发方面的缺陷。由于得到Jose及其它Ruby界牛人的喜爱及宣传&lt;a href=&#34;#8&#34;&gt;[8]&lt;/a&gt;，Elixir在近两年开始流行起来。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于本文主要是讲Joxa，上述这几种编程语言只是简单带过，就不详细展开了。&lt;/p&gt;
+&lt;p&gt;上面几种编程语言的设计方案虽然有很多不同之处，但从整体思路上几乎是相同的，那就是：通过将代码编译成为Erlang VM上的代码，良好兼容Erlang VM，于是保留了上述3要素中的后两点，同时从头设计语言的语法，并在标准库，工具链等一些方面做补充完善。Joxa的设计也是类似，它选择了Lisp做为Erlang VM上的新语言，不过它走了一条和LFE不同的道路。Eric Merritt后来专门写了一个博客文章&lt;a href=&#34;http://blog.ericbmerritt.com/2012/02/21/differences-between-joxa-and-lfe.html&#34;&gt;《Differences Between Joxa and LFE》&lt;/a&gt;来谈Joxa和LFE的不同之处，他说：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;最主要和重要的区别在于这两门语言的目标。我认为Robert实现LFE的主要目标在于提供一个可变的语法可扩展的Erlang版本，如此一来人们就可以在需要时改变语言。同时我坚信Robert喜欢实现编程语言，他应该很享受实现LFE的过程。我当然也乐于实现Joxa，然而，当坐下来实现Joxa的时候我怀有一些非常特定的目标：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;我需要一个用于开发DSL(Domain Specific Language，领域特定语言)的平台&lt;/li&gt;
+&lt;li&gt;我想要一个更具交互性和动态的开发环境。类似于Slime和Swank那种&lt;a href=&#34;#9&#34;&gt;[9]&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;我希望充分利用所有已经存在的相当优秀的Lisp工具&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;上述每点都可以在Erlang里面解决。例如，我可以用Leex和Yecc&lt;a href=&#34;#10&#34;&gt;[10]&lt;/a&gt;实现DSL，但我实现DSL的最好体验总是来自Lisp：使用Lisp函数和Macro来打造这些DSL。不过我使用Erlang有很长时间了，我不愿意放弃Erlang VM上面的优良功能来换成Lisp的种种优点。唯一的解决方法似乎只有使用一门基于Erlang VM之上的Lisp语言。&lt;/p&gt;
+&lt;p&gt;显而易见的首先选择是LFE，于是我花了几周时间深入研究这门语言和它的内部实现。最后我得到这个结论：它并没有满足我的需求。剩下的唯一退路就是我自己重新创造一门语言(同时也有一点怀疑自己不太明智)。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;从整体来看，LFE更像一门披着Lisp外衣的Erlang，相当于给原来Erlang语法添加了括号和Macro，这与Eric Merritt理想中的Erlang VM上的Lisp语言相去甚远，于是他创造了Joxa，而Joxa的语法及风格受到Clojure的影响更大。为什么Clojure能受到Eric的如此青睐呢？它到底有什么出众之处呢？下面我们来了解一下。&lt;/p&gt;
+
+&lt;h3 id=&#34;12-clojurejvm上的函数式lisp编程语言&#34;&gt;1.2 Clojure，JVM上的函数式Lisp编程语言&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#12-clojurejvm%e4%b8%8a%e7%9a%84%e5%87%bd%e6%95%b0%e5%bc%8flisp%e7%bc%96%e7%a8%8b%e8%af%ad%e8%a8%80&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;Clojure是一门动态的强类型编程语言，作者是Rich Hickey。它寄居在JVM之上，设计成能够与JVM/Java良好互操作，既利用了JVM所提供的成熟高效的运行环境，也兼容众多流行的Java库与框架，同时它采用了Lisp语法和Macro，非常便于表达DSL，加上一套函数式的持久数据结构，并提供并发机制及惰性语义，使得简洁优雅语言成为函数式编程，并发编程的良好载体，同时重用了成熟流行的JVM平台，使得它便于在现有Java程序员中推广并流行，在这一点上区别于以往所有独立开发的函数式语言。此外它也吸收了Java中的面向对象思想和CLOS&lt;a href=&#34;#11&#34;&gt;[11]&lt;/a&gt;，发展出Protocol及多重方法。另外，Clojure自带一系列丰富的标准库，定义了一套项目管理规范，并提供了优秀的项目工具及REPL，使得它在开发环境，交互式开发方面成为佼佼者。&lt;/p&gt;
+&lt;p&gt;Clojure设计成为Java的一个库包，Clojure代码会编译成JVM byte code，正因为它以一种非侵入性的方式运行在JVM之上，所以在函数式的语言层面，会有一些其它函数式语言不可能出现的“瑕疵”，例如函数没有尾递归优化。兼容JVM平台的已有代码，在重用/连接已有项目方面既是一种优势，但有时混合函数式与命令式代码也会产生实际冲突。在并发方面，语言提供的多种并发原语，delay, future, promise，agent，STM等虽然强大，但从语言整体来看比较复杂。Clojure的很多地方可以体会到作者有意保持简单与功能(复杂)的平衡，在设计上做了务实折衷的克制。与此相反，另外一个基于JVM的语言Scala在设计上就显得博爱放任，看到各个好的特性就收入到语言当中，宛如中国古代的皇帝举国征选妃嫔。&lt;/p&gt;
+&lt;p&gt;相比各种“主流”编程语言，Clojure至今仍是小众语言，虽然如此，它的推出仍然不可谓不成功，既培养了一个健康壮大的社区，也在市场上占有一定的流行度，产生了一批具有相当影响力的项目，如流式数据处理框架&lt;a href=&#34;https://storm.apache.org/&#34;&gt;Storm&lt;/a&gt;等。Clojure成功地向人们展示了这几个可能性：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在JVM平台实现一个函数式，并发的动态编程语言&lt;/li&gt;
+&lt;li&gt;通过融合持久数据结构，Protocol等优异特性，复兴Lisp&lt;/li&gt;
+&lt;li&gt;如何语言设计上在功能、简单与务实之间取得折衷平衡并树立起自身的特色&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;正因为有些如此之多的优点，Clojure才对程序员们有着如此之大的吸引力。也难怪身为老Lisp爱好者的Eric Merritt在创造Joxa时会受到Clojure的较大的影响。下面我们来谈谈Joxa的设计。&lt;/p&gt;
+
+&lt;h3 id=&#34;13-joxa-erlang-vm上的新lisp编程语言&#34;&gt;1.3 Joxa, Erlang VM上的新Lisp编程语言&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#13-joxa-erlang-vm%e4%b8%8a%e7%9a%84%e6%96%b0lisp%e7%bc%96%e7%a8%8b%e8%af%ad%e8%a8%80&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;对照上述多种语言的实现，Joxa的设计主要有如下几个要点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;上层语言为Lisp，主要目标为用于写DSL(或者作为其它上层Lisp的元语言)，语言的核心部分要简洁&lt;/li&gt;
+&lt;li&gt;底层将Joxa代码编译成Erlang VM代码，将Joxa代码映射到Erlang上的对应语法结构，比如Joxa里面的函数即为Erlang函数&lt;/li&gt;
+&lt;li&gt;语言核心之外提供REPL，方便编译/执行脚本的命令行工具等&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中Lisp的语法可以参考简洁，优雅的Clojure，由于Erlang VM与JVM有着非常多的差异，正如Erlang语言与Java语言有着非常多的差异，所以可以预期的是，Joxa在语法上面不能完全保持与Clojure一致，同时这里面有一个目标用户的问题：Joxa更多的是为了Clojure程序员转向Erlang平台而设计，还是为了Erlang程序员转向Lisp而设计。若为前者，就尽量保留可能多的Clojure语法及规范，若为后者则将语法尽可能向Erlang靠拢比较理想。这时Joxa选择了后一种，即认为Joxa主要是解决Erlang现有的问题，所以从语法上来考虑，最后出来的结果很可能是一种Lisp与Erlang的独一无二的新结合。所有的Lisp语言从结构上来看，都具有一种类似数学的体系结构，包括以下几个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;一切表达式皆为List，List有两种，原子及函数调用。代码即数据(总结为同像性)&lt;/li&gt;
+&lt;li&gt;7个基本原语(又称之为特殊Form)加上可以操纵语言本身的Macro，两者作为核心，在此之上演化出整个语言&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这就像数学体系，最核心的部分是几条基本原理，然后通过逻辑推导，演化出其它数学分支以构成整个体系，可以不断向外扩展。Joxa将会有同样的结构，核心部分将保持尽可能的简洁，只包括基本原语及Macro，极简的核心既节省开发成本，也给外延留下尽可能大的空间。此处的外延包括针对特定问题领域而言的DSL，也包括其它上层的Lisp语言，从本质上来说这两者本来就没有区别，只不过因为针对的范围有大有小所以说法不同。从语法设计上，Joxa会跟LFE有如下的不同：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Joxa会是Lisp-1，而LFE是Lisp-2&lt;/li&gt;
+&lt;li&gt;Joxa的语法会向Lisp靠拢，而LFE更像Erlang&lt;/li&gt;
+&lt;li&gt;Joxa中Macro求值语义与Lisp更为一致，而LFE的Macro求值语义与函数求值语言不同&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;为了保持与Erlang VM现有的平台等保持无缝兼容，以充分利用现有的Erlang VM的开发规范与代码库等，第2点是必需的。将Joxa建立在Erlang VM平台的生态环境之上，固然是因为作者对Erlang VM的熟悉与喜欢，客观上也可以充分发挥Erlang生态的优势。从上面的叙述也可以看到，众多Erlang VM上的非Erlang编程语言也采用了这种“无缝兼容”设计，虽然它们在实现层面会有一些不同之处。这一点同时确定了Joxa将会保留Erlang的一些语言特性，例如按文件划分的模块化，函数式风格，代码要求先通过编译等。&lt;/p&gt;
+&lt;p&gt;第3点与开发环境相关，REPL是各种Lisp方言已经是司空见惯了，Erlang在设计的时候也吸收了这个概念，但是实现得不如Lisp的REPL那么好用，比如强制输入为表达式(每行的后面必须输入&amp;quot;.&amp;ldquo;号)，Record不能用等。Joxa的REPL会参考Clojure与Erlang的REPL，结合前者的完整性和后者的功能，在易用性给予特别的关注。同时针对编译、脚本化等开发流程中的各个阶段都提供编辑器、命令行工具等支持。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-设计与实现细节&#34;&gt;2. 设计与实现细节&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#2-%e8%ae%be%e8%ae%a1%e4%b8%8e%e5%ae%9e%e7%8e%b0%e7%bb%86%e8%8a%82&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;下面我们来详细讨论Joxa的设计与实现。根据上述的设计要点，要将Joxa代码要编译成Erlang VM代码，必需先熟悉Erlang代码的编译过程，在此过程中找出合适的切入点。&lt;/p&gt;
+
+&lt;h3 id=&#34;21-erlang编译过程&#34;&gt;2.1 Erlang编译过程&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#21-erlang%e7%bc%96%e8%af%91%e8%bf%87%e7%a8%8b&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;一个经典的编译过程可以分为如下图所示的多个阶段：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;classic_compilation.png&#34; alt=&#34;传统编译过程的各阶段&#34;&gt;&lt;/p&gt;
+&lt;p&gt;图1 经典编译过程的各阶段&lt;a href=&#34;#12&#34;&gt;[12]&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;经典的编译过程可以分为词法分析，语法分析，语义分析，中间代码生成，中间代码优化，机器码生成等多个阶段。Erlang的代码编译过程跟经典的编译过程基本一致，也可以分成类似的多个阶段，各个阶段的输入输出如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;erlang_compilation.png&#34; alt=&#34;Erlang编译过程的各阶段&#34;&gt;&lt;/p&gt;
+&lt;p&gt;图2 Erlang编译过程各阶段的输入输出&lt;/p&gt;
+&lt;p&gt;其中Core Erlang为于Erlang代码与VM内部中间代码之间的一层，它是在1999年前后提出的一种BEAM(Erlang VM的最新实现)上的语言，它被设计为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;语法清晰简单，严格的更高阶函数式语言&lt;/li&gt;
+&lt;li&gt;尽可能规范化，以便相关代码遍历工具的开发&lt;/li&gt;
+&lt;li&gt;从Erlang代码向Core Erlang代码的翻译应该直白，从Core Erlang向VM内部实现中间代码的翻译也应该简单&lt;/li&gt;
+&lt;li&gt;有良好定义的文本表示形式，语法简单无歧义，便于人阅读，调试及测试&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于Core Erlang是清晰简单，有良好定义的文本语言，便于作为目标语言，而且Erlang的代码优化和错误检测大多都在Core Erlang层进行，如果我们要在Erlang VM打造新编程语言，那么将新语言的代码编译成Core Erlang(或AST)，将会是一个很好的解决方案。很多Erlang VM上的语言都选择了这种方案，比如LFE，但也有语言选择了编译成Erlang AST，比如Elixir，精通Elixir Macro的人对Erlang AST应该比较熟悉。相对于Core Erlang，Erlang AST更接近于Erlang本身，层次也更高。Core Erlang相关的功能定义在&lt;code&gt;cerl.erl&lt;/code&gt;这个模块里面，包括对如模块、函数等各种Erlang语言结构的初始化、操纵等功能的一系列函数。&lt;/p&gt;
+
+&lt;h3 id=&#34;22--一个简单例子&#34;&gt;2.2  一个简单例子&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#22--%e4%b8%80%e4%b8%aa%e7%ae%80%e5%8d%95%e4%be%8b%e5%ad%90&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;下面举一个简单的Hello World程序作为例子&lt;a href=&#34;#13&#34;&gt;[13]&lt;/a&gt;，让读者对Erlang AST与Core Erlang有一个感性认识。原始的Erlang代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-&lt;span style=&#34;color:#800080&#34;&gt;module&lt;/span&gt;(test).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;-&lt;span style=&#34;color:#800080&#34;&gt;export&lt;/span&gt;([hello_world&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;]).
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;hello_world&lt;/span&gt;() &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#555&#34;&gt;io&lt;/span&gt;:&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;format&lt;/span&gt;(&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;Hello World&amp;#34;&lt;/span&gt;).
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对应的Core Erlang代码如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;module &amp;#39;test&amp;#39; [&amp;#39;hello_world&amp;#39;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    attributes []
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;#39;hello_world&amp;#39;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;fun&lt;/span&gt; () &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;-&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        call &lt;span style=&#34;color:#555&#34;&gt;&amp;#39;io&amp;#39;&lt;/span&gt;:&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;&amp;#39;format&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            (&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;“&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;Hello&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;World&lt;/span&gt;&lt;span style=&#34;color:#a61717;background-color:#e3d2d2&#34;&gt;”&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对比两份代码，可以看到Core Erlang与Erlang之间的映射还是很直观的。将原始的Erlang代码编译为Erlang AST，可以得到：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[{attribute,&lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;,module,test},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; {attribute,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,export,[{hello_world,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;}]},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; {function,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,hello_world,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   [{clause,&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,[],[],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     [{call,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {remote,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,{atom,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,io},{atom,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,format}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         [{string,&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;Hello World&amp;#34;&lt;/span&gt;}]}]}]}]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译为Core Erlang AST即得到：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-erlang&#34; data-lang=&#34;erlang&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{c_module,[],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  {c_literal,[],test},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    [{c_var,[],{hello_world,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;}}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     [{ {c_var,[],{hello_world,&lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;}},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       {c_fun,[&lt;span style=&#34;color:#099&#34;&gt;2&lt;/span&gt;,{file,[]}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         [],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         {c_call,[&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,{file,[]}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           {c_literal,[&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,{file,[]}],io},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           {c_literal,[&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,{file,[]}],format},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           [{c_literal,[&lt;span style=&#34;color:#099&#34;&gt;3&lt;/span&gt;,{file,[]}],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;Hello World&amp;#34;&lt;/span&gt;}]}}}]}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对比两者，容易看出Erlang AST更高层更抽象，Core Erlang AST更底层更规范。&lt;/p&gt;
+
+&lt;h3 id=&#34;23-编译器&#34;&gt;2.3 编译器&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#23-%e7%bc%96%e8%af%91%e5%99%a8&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;下面我们继续来讨论Joxa的编译过程，由于Core Erlang(及AST)可以由Erlang编译器编译成最终的机器码，我们只需将Joxa代码编译成Core Erlang AST便可实现将Joxa编译成机器码整个编译过程，从编译领域的分类来看，目标生成的代码是Core Erlang AST，操纵Core Erlang AST可以直接调用&lt;code&gt;cerl.erl&lt;/code&gt;的接口函数，因此编译器后端这一块相对是比较简单的，重点在于前端部分：即将Joxa代码编译成Core Erlang AST。由于Joxa是Lisp语法，Lisp代码以括号划分边界的代码树的方式来表示，本身就已经有良好的结构，所以前端部分也比较简单。区别于LFE或Elixir用Leex或Yecc来生成LALR&lt;a href=&#34;#14&#34;&gt;[14]&lt;/a&gt;式Lexer与Parser，Joxa采用了手写PEG&lt;a href=&#34;#15&#34;&gt;[15]&lt;/a&gt; Lexer和Parser的方式。PEG编译器的代码量较小，Joxa编译器是在Erlang PEG生成器&lt;a href=&#34;https://github.com/seancribbs/neotoma&#34;&gt;Neotoma&lt;/a&gt;生成代码的基础上写成的。(本节涉及到很多编译领域的术语或技术，由于本文主要是介绍Joxa，篇幅所限故不会详细解释这些术语或技术，有兴趣的读者可以自行寻找相关的资料做进一步了解)&lt;/p&gt;
+&lt;p&gt;特别值得一提的是，Joxa的编译过程是自举的，即Joxa编译器本身是由Joxa代码编写的，这与LFE或Elixir的编译器用Erlang编写不同。Joxa的自举要求先有一份以Core Erlang AST格式存在的具有正常编译功能的代码，这部分代码在Joxa的Github代码库中，相对根目录的路径是&lt;code&gt;src/ast&lt;/code&gt;(后面给出所有的代码路径都相对于根目录)。通过用Erlang编译器将这份AST代码编译成BEAM代码，然后就得到一个能直接在BEAM上执行的Joxa编译器，然后就可以运行此编译器，将编译器的Joxa源代码编译成Core Erlang AST格式。整个流程和依赖如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;joxa_self_bootstrap.png&#34; alt=&#34;Joxa的自举及编译流程&#34;&gt;&lt;/p&gt;
+&lt;p&gt;图3 Joxa的自举及编译流程&lt;/p&gt;
+&lt;p&gt;由上图可以看到整个流程三个步骤是一个循环，要成功实现自举，必然要先实现其中的一个部分，在此基础上才能实现其中其它两个部分。在Joxa的编译器实现中，AST这部分先由作者Eric人手先写出基本的语法解析功能，然后再编写对应功能的编译器的Joxa代码，用AST编译出来可执行的编译器，去验证对应的Joxa代码，然后再按此流程不断添加更多的功能，错误一般出现在编译Joxa代码的时候，此时遇到的错误是由新添加的AST代码还是Joxa代码引起的，有时并不容易定位出来。虽然Core Erlang简单清晰，但手写Core Erlang AST是相当繁琐的，而且由于Joxa语法本身还在不断演变，从头开发一个这样的自举编译器，其难度可以猜想是比较大的。我曾经为Joxa添加过Map语法的支持，对此开发流程的复杂性有较深的体会。编程语言的自举也可以按另外一个思路来做：先用另外一门常见的语言，比如C语言来写编译器，然后当语言的语法发展到比较稳定成熟的时候，再使用这门语言的本身来实现自身的编译器，由于已经有了一个能够工作经过充分检验的C编译器，所以自举的实现就有了一个可靠的保障，大大降低其难度。&lt;/p&gt;
+&lt;p&gt;编译器这部分的Joxa代码的路径是&lt;code&gt;src/joxa-cmp-*.jxa&lt;/code&gt;(其中&lt;code&gt;*&lt;/code&gt;符号表示通配)。按照编译器前端和后端的分类法，下面我们讨论一下各主要文件的代码分布。PEG的词法分析部分需要构造一系列对应于词素(lexeme)的正则表达式，首先需要有正则表达式的元操作的函数定义，所谓“元操作”，用各种编程语言里面的正则表达式的术语来说，即是元字符，比如&amp;rdquo;*&amp;ldquo;符号用于“匹配0个或多个”。在PEG里面元操作是通过函数来表达的，这部分的代码在&lt;code&gt;src/joxa-cmp-peg.jxa&lt;/code&gt;。词素，比如注释或数字，它们的定义放在&lt;code&gt;src/joxa-cmp-lexer.jxa&lt;/code&gt;。&lt;code&gt;src/joxa-cmp-parser.jxa&lt;/code&gt;则包含Parser的代码。编译器的主要逻辑放在&lt;code&gt;src/joxa-compiler.jxa&lt;/code&gt;，它调用Parser来解析读入的字符流，成功解析之后调用&lt;code&gt;make-forms&lt;/code&gt;函数递归遍历解析得到的语法树来生成Core Erlang AST，在编译过程中会执行对函数调用的合法性检查，Macro的递归展开等动作。后端的代码按语义的分类分成下述多个文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-binary.jxa           # Binary
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-call.jxa             # 函数调用
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-case.jxa             # case语句
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-defs.jxa             # 函数、宏定义
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-expr.jxa             # 表达式
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-joxa-info.jxa        # 模块info
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-literal.jxa          # 常量，常量表达式
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── joxa-cmp-ns.jxa               # namespace
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;└── joxa-cmp-spec.jxa             # spec
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以上即为Joxa编译器实现各部分代码的所在文件。整个编译器实现从代码量上来说并不大。&lt;/p&gt;
+
+&lt;h3 id=&#34;24-数据类型&#34;&gt;2.4 数据类型&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#24-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;与Elixir在Erlang数据类型的基础上添加了Range、正则表达式、Unicode字符串等新数据类型不同，Joxa支持的数据类型与Erlang保持一致，并没有添加新的数据类型，所有的数据类型包括如下几种&lt;a href=&#34;#16&#34;&gt;[16]&lt;/a&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;简单类型：不定长整数，浮点数，原子&lt;/li&gt;
+&lt;li&gt;系统类型：PID, Port, Reference&lt;/li&gt;
+&lt;li&gt;集合类型: Tuple, Record，Map, List, Binary&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;各种数据类型的字面量语法请参考Joxa的在线文档。值得一提的是，围绕Record的各种操作，Joxa在语法上做了包装，便于解耦Record的内部实现与接口，提高了可用性，Elixir在这个方面走得更远，引入了Clojure的Protocol。另外一个常用的集合类型set是通过Erlang库提供的，并没有赋予特别的语法。&lt;/p&gt;
+
+&lt;h3 id=&#34;25-特殊form及标准库基础原语&#34;&gt;2.5 特殊Form及标准库基础原语&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#25-%e7%89%b9%e6%ae%8aform%e5%8f%8a%e6%a0%87%e5%87%86%e5%ba%93%e5%9f%ba%e7%a1%80%e5%8e%9f%e8%af%ad&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;Joxa里面的特殊Form及标准库中的基础原语包括以下几个:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;let*&lt;/code&gt;, &lt;code&gt;let&lt;/code&gt;&lt;br&gt;
+用于绑定变量，不同于Erlang中的绑定操作或Clojure的&lt;code&gt;let&lt;/code&gt;操作，&lt;code&gt;let*&lt;/code&gt;并不支持Pattern Matching或解构，Pattern Matching或解构需要通过&lt;code&gt;case&lt;/code&gt;，标准库中的&lt;code&gt;let&lt;/code&gt;是一个用&lt;code&gt;let*&lt;/code&gt;和&lt;code&gt;case&lt;/code&gt;实现的对应支持Pattern Matching的版本&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;case&lt;/code&gt;&lt;br&gt;
+整个Joxa语言中为数很少的一个支持Pattern Matching的原语之一，与Erlang里面在函数签名，变量匹配，&lt;code&gt;case&lt;/code&gt;语句等各种语法结构都可以做Pattern Matching不同&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;receive&lt;/code&gt;&lt;br&gt;
+接收消息，但没有对应的&lt;code&gt;send&lt;/code&gt;原语，这可以通过调用Erlang模块或OTP库接口实现，支持Pattern Matching&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;do&lt;/code&gt;&lt;br&gt;
+分组表达式成一块，类似于Lisp里面的&lt;code&gt;progn&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;apply&lt;/code&gt;&lt;br&gt;
+以列表函数调用指定函数，类似于Lisp的&lt;code&gt;apply&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;fn&lt;/code&gt;&lt;br&gt;
+构造匿名函数，类似于Erlang的&lt;code&gt;fun&lt;/code&gt;，或Lisp的&lt;code&gt;lambda&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;defn&lt;/code&gt;, &lt;code&gt;defn+&lt;/code&gt;&lt;br&gt;
+定义模块内可见，模块外可见函数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;defspec&lt;/code&gt;&lt;br&gt;
+用于定义前置声明&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;defmacro&lt;/code&gt;, &lt;code&gt;defmacro+&lt;/code&gt;, &lt;code&gt;quote&lt;/code&gt;, &lt;code&gt;quasiquote&lt;/code&gt;, &lt;code&gt;~&lt;/code&gt;, &lt;code&gt;~@&lt;/code&gt;, &lt;code&gt;gensym&lt;/code&gt;, &lt;code&gt;macroexpand-1&lt;/code&gt;&lt;br&gt;
+Macro操作，下一节再展开讨论&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;use&lt;/code&gt;, &lt;code&gt;require&lt;/code&gt;, &lt;code&gt;as&lt;/code&gt;&lt;br&gt;
+namespace相关操作，源自于Clojure里面的对应物，要注意的是不同于Clojure默认会在所有namespace自动导入&lt;code&gt;clojure.core&lt;/code&gt;，Joxa并不会自动导入&lt;code&gt;joxa-core&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;try*&lt;/code&gt;, &lt;code&gt;try&lt;/code&gt;&lt;br&gt;
+两者&lt;code&gt;catch&lt;/code&gt;用于异常捕取，用法跟Erlang里面的对应物类似，两者的区别在于是否支持Pattern Matching，类似于&lt;code&gt;let*&lt;/code&gt;和&lt;code&gt;let&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;特殊常量，都以函数方式进行调用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  ($filename)       ;; 当前文件的文件名(连后缀)
+  ($namespace)      ;; 当前的namespace
+  ($line-number)    ;; 当前的行号
+  ($function-name)  ;; 当前的函数名
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;其它如&lt;code&gt;attr&lt;/code&gt;，&lt;code&gt;when&lt;/code&gt;等原语就不一一列举了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;26-macro&#34;&gt;2.6 Macro&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#26-macro&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;作为Lisp类语言的杀手级特性，以及表达DSL的终极利器，一直以来Macro在Lisp类语言中都有着重要的地位。Joxa中的Macro原语与Common Lisp或Clojure等之前的Lisp语言保持了一致，详细列出如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defmacro     -- 定义模块内部Macro
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;defmacro+    -- 定义对模块外部可见Macro
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;quote        -- 抑制求值
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;quasiquote   -- 对应Common Lisp里面的back quote，或Clojure里面的syntax quote，部分求值
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;~            -- unquote，对符号后面元素进行求值
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;~@           -- unquote-splicing，对符号后面的List元素进行求值并展开到当前位置
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;gensym       -- 动态生成新变量，用于保证Macro健康(或称Macro卫生)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;另外为方便调试，标准库中提供了&lt;code&gt;macroexpand-1&lt;/code&gt;函数，用于单次展开Macro，这个函数也沿袭于传统的Lisp语言，但是并没有提供&lt;code&gt;macroexpand&lt;/code&gt;(&lt;code&gt;macroexpand-all&lt;/code&gt;)。&lt;/p&gt;
+&lt;p&gt;在Joxa里面使用Macro，跟之前的Lisp语言并没有什么不同，以一个标准库&lt;code&gt;joxa-core&lt;/code&gt;模块里的代码为例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-clojure&#34; data-lang=&#34;clojure&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;defmacro+&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let &lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;args&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#0086b3&#34;&gt;rest &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;let*&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;process-arg-body&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;fn &lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;arg&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;arg&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              ([&lt;span style=&#34;color:#008080&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;e&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;               &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;~&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;e&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;~&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;~@&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              ((&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;. &lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;e&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;. &lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;rest&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;               &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;~&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;e&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;~&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;~&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;process-arg-body&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;rest&lt;/span&gt;))))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;              (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;detail&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;erlang/error&lt;/span&gt; {&lt;span style=&#34;color:#990073&#34;&gt;:malformed-let-expression&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;detail&lt;/span&gt;})))))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;process-arg-body&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;args&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Joxa在语法上直接定义为Lisp风格，因此在Macro的定义及使用上面，与传统一脉相承并无修改。在这个Macro定义里面，除了Pattern Matching，以及递归调用&lt;code&gt;process-arg-body&lt;/code&gt;之外，与传统Lisp语言并无不同，熟悉传统Lisp的人可以很快就读懂。对比的来看，在Elixir这样的非Lisp语言中引入Macro，由于上层语言的语法与AST并不一致，所以程序员必需记住/区分上层语言与AST两种环境，因此相对较为复杂，比如，在Elixir Macro的签名处Pattern Matching Erlang AST，就在以Elixir的语法编写的Macro定义中，暴露了底层的AST格式。这种复杂性虽然从设计上来说是必需的折衷，但在习惯了Lisp Macro的人看来可能不会太喜欢。Joxa作者Eric在2015年一次接受《This is not a Monad tutorial》的&lt;a href=&#34;https://medium.com/this-is-not-a-monad-tutorial/eric-merritt-erlang-and-distributed-systems-expert-gives-his-views-on-beam-languages-hindley-a09b15f53a2f&#34;&gt;采访&lt;/a&gt;中就表示过不喜欢Elixir Macro的复杂性。&lt;/p&gt;
+
+&lt;h3 id=&#34;27-标准库概览&#34;&gt;2.7 标准库概览&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#27-%e6%a0%87%e5%87%86%e5%ba%93%e6%a6%82%e8%a7%88&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;Joxa的标准库只包括少数几个基本函数以及对OTP的简单包装。详细列出如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;joxa-core&lt;/code&gt;&lt;br&gt;
+基本操作: &lt;code&gt;!=&lt;/code&gt;, &lt;code&gt;lte&lt;/code&gt;, &lt;code&gt;gte&lt;/code&gt;, &lt;code&gt;and&lt;/code&gt;, &lt;code&gt;or&lt;/code&gt;, &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;incr&lt;/code&gt;, &lt;code&gt;decr&lt;/code&gt;, &lt;code&gt;if&lt;/code&gt;, &lt;code&gt;when&lt;/code&gt;, &lt;code&gt;unless&lt;/code&gt;, &lt;code&gt;try&lt;/code&gt;, &lt;code&gt;let&lt;/code&gt;, &lt;code&gt;define&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;joxa-eunit&lt;/code&gt;&lt;br&gt;
+eunit相关函数封装&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;joxa-lists&lt;/code&gt;&lt;br&gt;
+list相关的功能函数： &lt;code&gt;dolist&lt;/code&gt;, &lt;code&gt;hd&lt;/code&gt;, &lt;code&gt;tl&lt;/code&gt;, &lt;code&gt;foldl&lt;/code&gt;, &lt;code&gt;map&lt;/code&gt;, &lt;code&gt;lists-binding&lt;/code&gt;, &lt;code&gt;#&lt;/code&gt;, &lt;code&gt;all&lt;/code&gt;, &lt;code&gt;any&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;joxa-records&lt;/code&gt;&lt;br&gt;
+Record相关函数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;joxa-shell&lt;/code&gt;&lt;br&gt;
+REPL函数的简单实现&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;joxa-otp&lt;/code&gt;, &lt;code&gt;joxa-otp-gen-server&lt;/code&gt;, &lt;code&gt;joxa-otp-supervisor&lt;/code&gt;, &lt;code&gt;joxa-otp-application&lt;/code&gt;&lt;br&gt;
+Erlang OTP相关接口的封装函数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;代码规模很小，跟Elixir的标准库相比差得很远。其功能比较简陋，称之为标准库也许太大，或者称之为帮助函数更加准确。由于Joxa可以直接调用Erlang代码，因此功能缺失之处可由其它Erlang库补充。&lt;/p&gt;
+
+&lt;h3 id=&#34;28-开发环境及工具链&#34;&gt;2.8 开发环境及工具链&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#28-%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%8f%8a%e5%b7%a5%e5%85%b7%e9%93%be&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;目前Joxa只有一个名为&lt;code&gt;joxa&lt;/code&gt;的命令行工具，用于编译Joxa源代码，启动REPL，这个工具的功能也比较简陋，跟Clojure的REPL还有很大的距离。源代码中有一个Emacs的Major Mode配置文件&lt;code&gt;emacs/joxa-mode.el&lt;/code&gt;，可以在用Emacs开发Joxa时设置缩进，关键字高亮，键绑定等。上面提到的与Slime和Swank集成，则尚未开发。&lt;/p&gt;
+
+&lt;h3 id=&#34;29-项目状态&#34;&gt;2.9 项目状态&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#29-%e9%a1%b9%e7%9b%ae%e7%8a%b6%e6%80%81&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;Joxa从2011年底开始开发，一直到2013年初都比较活跃，这之后代码提交量变得相当少，在当前这个时间点(2015年8月)回头看看提交日志，已经有一年多的时间没有任何更新。虽然还未完成原来的设计目标，wiki上面的计划也有很多开发要做，但是由于作者Eric工作上比较忙，而Joxa社区实在太弱小，除作者之外并没有其它的人员贡献过大量代码，因此短期之内似乎项目状态不会重新变得活跃。在Google Group上有Joxa的邮件组，在近一年多时间内也相当少人发言。在应用上，除了作者Eric将Joxa用于编写他的创业项目之外，目前市面上没有看到其它的应用&lt;a href=&#34;#17&#34;&gt;[17]&lt;/a&gt;。综合来看，Joxa的项目状态是比较停滞的。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-总结&#34;&gt;3. 总结&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#3-%e6%80%bb%e7%bb%93&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;
+
+
+&lt;p&gt;Joxa是一种基于Erlang VM的现代Lisp语言，有着简洁清晰的Lisp语法，支持强大的Macro，是在Erlang VM编写DSL的一个很好的载体，它无缝兼容Erlang VM平台，是一门功能全面的通用编程语言。它在语言设计及编译器实现方面质量优良，但目前完成度不高，工具链并不完整，市面上也少见应用。作为一门较新的基于Erlang VM的编程语言，它有待进一步的发展完善。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：&lt;/em&gt;&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[1]&lt;!-- raw HTML omitted --&gt; Eric Merritt是《Erlang and OTP in Action》(中文译本《Erlang/OTP并发编程实战》)一书的作者之一，Erlware项目联合创始人，Afiniate公司的CTO。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[2]&lt;!-- raw HTML omitted --&gt; 翻译自邮件原文&lt;br&gt;
+It doesn’t actually mean anything. Many years ago it was an acronym for some project I wanted to start ‘Java oriented something or other’. I never made that project but I bought the domain and have kept it these years. Four letter domains are pretty uncommon these days, so I just decided to use it as the name for the language. Thats all.&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[3]&lt;!-- raw HTML omitted --&gt; 作为Erlang语言联合创始人以及Joe Armstrong的长期亲密战友，Robert Virding自从当年在爱立信计算机科学实验室开始，长期以来在Erlang的设计，标准库，编译器，发展推广等方方面面都做了杰出的贡献。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[4]&lt;!-- raw HTML omitted --&gt; Lisp-1和Lisp-2的区别在于函数与变量是否共用同一命名空间，一个详细的解释可以参考文章&lt;a href=&#34;http://ergoemacs.org/emacs/lisp1_vs_lisp2.html&#34;&gt;《What&amp;rsquo;s Lisp-1, What&amp;rsquo;s Lisp-2? Bad Jargon or Good Jargon?》&lt;/a&gt;&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[5]&lt;!-- raw HTML omitted --&gt; REPL是Read-Eval-Print Loop的缩写，最早被用于指代开发Lisp程序过程中，交互式命令行不断执行读取程序员的输入代码，对其进行求值并打印出求值结果的循环动作。后来这个概念被Python，Ruby及各种交互式命令行工具吸收并推广开来。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[6]&lt;!-- raw HTML omitted --&gt; Tony Arcieri是一位美国的软件工程师，他的博客见&lt;a href=&#34;http://tonyarcieri.com/&#34;&gt;这里&lt;/a&gt;。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[7]&lt;!-- raw HTML omitted --&gt; José Valim是一位波兰的软件工程师，他最被人熟知的两个身份是Ruby On Rails的核心成员以及Elixir编程语言的创始人。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[8]&lt;!-- raw HTML omitted --&gt; 比如Joe Armstrong于2013年中写了博客文章&lt;a href=&#34;http://joearms.github.io/2013/05/31/a-week-with-elixir.html&#34;&gt;《A Week with Elixir》&lt;/a&gt;盛赞了Elixir“结合了Ruby和Erlang的优良特性”，Dave Thomas于2014年发布了新书&lt;a href=&#34;https://pragprog.com/book/elixir/programming-elixir&#34;&gt;《Programming Elixir》&lt;/a&gt;向有其它语言经验的程序员提供了一本系统的教程。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[9]&lt;!-- raw HTML omitted --&gt; 译者注：&lt;a href=&#34;https://common-lisp.net/project/slime/&#34;&gt;Slime&lt;/a&gt;是Superior Lisp Interaction Mode for Emacs的缩写，它为Emacs提供了一整套交互式开发Common Lisp的功能集，包括编译，调试，文档查找等等，Slime是客户端，Swank是对应的服务器端，它们共同组成了一个强大的程序开发环境。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[10]&lt;!-- raw HTML omitted --&gt; 译者注：&lt;a href=&#34;http://erlang.org/doc/man/leex.html&#34;&gt;Leex&lt;/a&gt;和&lt;a href=&#34;http://erlang.org/doc/man/yecc.html&#34;&gt;Yecc&lt;/a&gt;是Erlang语言的Lex和Yacc工具集。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[11]&lt;!-- raw HTML omitted --&gt; CLOS是the Common Lisp Object System的缩写，是指在Common Lisp中实现面向对象机制的一系列代码库。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[12]&lt;!-- raw HTML omitted --&gt; 此图来自编译领域的经典著作《Compilers: Principles, Techniques, &amp;amp; Tools》第三版，中译本《编译原理》。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[13]&lt;!-- raw HTML omitted --&gt; 这个例子来自Eric Merritt 2012年8月在Chicago Erlang User Group上的技术分享《Joxa: A Full Featured Lisp on the Erlang VM》，录像视频见&lt;a href=&#34;https://vimeo.com/49116180&#34;&gt;这里&lt;/a&gt;.&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[14]&lt;!-- raw HTML omitted --&gt; LALR是LookAhead LR的缩写，LR中的L表示对输入进行从左到右的扫描，R表示反向构造出一个最右的推导序列。LALR是流行的自底向上语法分析方法。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[15]&lt;!-- raw HTML omitted --&gt; PEG是Packrat Expression Parsing的缩写，它是一种相对较新的自顶向下语法分析方法。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[16]&lt;!-- raw HTML omitted --&gt; 其中Map的语法支持由我添加，写此文时未进入主干分支。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[17]&lt;!-- raw HTML omitted --&gt; 从推广应用的角度来看，在2011年中开始开发的Elixir在各个基于Erlang VM的新编程语言上是走得最前的。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/lisp">Lisp</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/erlang">Erlang</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/clojure">Clojure</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/elixir">Elixir</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/joxa-a-lisp-programming-language-base-on-erlang-vm/</guid>
+                <pubDate>Thu, 20 Aug 2015 20:34:00 +0800</pubDate>
+            </item>
+        
+    </channel>
+</rss>
+
+

@@ -1,0 +1,491 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>
+            
+                    State Machine on
+                
+            
+            hhkbp2&#39;s blog</title>
+        <link>https://hhkbp2.com/tags/state-machine/</link>
+        <description>Recent content  in State Machine
+            on hhkbp2&#39;s blog</description>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 17 Sep 2023 18:23:56 +0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+            <atom:link href="https://hhkbp2.com/tags/state-machine/index.xml" rel="self" type="application/rss&#43;xml" />
+        
+            
+            <item>
+                <title>层次状态机</title>
+                <link>https://hhkbp2.com/hierarchical-state-machine/</link>
+                
+                
+                <description>&lt;blockquote&gt;
+&lt;p&gt;计算机程序是写给人看的，只是顺便能运行。&lt;br&gt;
+　　　　　　　　　　　　　　——&lt;a href=&#34;http://book.douban.com/subject/1148282/&#34;&gt;《计算机程序的构造和解释》&lt;/a&gt;&lt;a href=&#34;#1&#34;&gt;[1]&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;fsm&#34;&gt;FSM&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#fsm&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;在计算机领域，FSM(有限状态机)是一个在自动机理论和程序设计实践中很常见的术语，简单来说，有限状态机表示的是系统根不同输入/不同条件在各个状态之间进行跳转的模型。可以通过图或表来描述有限状态机，这种图或表一般被称为状态图/状态转移图(State Chart)或状态转移表。因为图更加直观，本文统一使用状态图来描述有限状态机。&lt;/p&gt;
+&lt;p&gt;在状态图里面，一般用圆圈或方框来表示状态，用箭头来表示状态之间的跳转，箭头可以带上跳转需要的输入或条件，也可以带附带其它描述。一个从空白处引出，没有源状态的箭头则表示整个系统的启动，启动后进入的第一个状态可以称为开始状态，可以用双重圆圈特别标出。整个状态图就是一个有圆圈，箭头及描述的有向图形。下面是一个&lt;a href=&#34;http://zh.wikipedia.org/zh/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA&#34;&gt;简单例子&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;dfa.png&#34; alt=&#34;图1 计算输入包含奇数还是偶数个0的状态机&#34;&gt;&lt;/p&gt;
+&lt;p&gt;上图表示一个接受二进制输入(输入为0或者1)，计算输入包含奇数还是偶数个0的状态机。其中S1状态表示&amp;quot;偶数个0&amp;quot;，S2表示&amp;quot;奇数个0&amp;quot;。系统启动后，沿着图中最左边的箭头进入S1状态，此时没有读入任何输入（0个0）。S1圆圈上方带1的箭头表示如果输入是1，则跳转到S1，即保持原状态不变。如果输入是0，则跳转到S2。其它箭头也可以类似理解。当全部输入都处理完之后，只需看当前状态是S1还是S2即可得出结论：输入具有奇数个0还是偶数个0。&lt;/p&gt;
+&lt;p&gt;由于状态机可以将问题整体的分解成各个部分状态及跳转，直观地对系统进行建模，所以它不仅被用于理论研究过程当中，而且被广泛用于程序设计实践，在操作系统，网络协议栈，各种分布式应用中都可以见到它的身影。&lt;/p&gt;
+
+&lt;h3 id=&#34;程序设计中的fsm&#34;&gt;程序设计中的FSM&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e4%b8%ad%e7%9a%84fsm&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;由上面的表述我们得知，FSM是对系统的建模，是将问题/解决方案以一种条理化系统化的方式表达出来，映射到人的认知层面，而要在程序中表达FSM，也需要一定的建模工具，即用某种代码编写的方式(或称之为FSM模式)，将FSM以一种条理化系统化的方式映射到代码层面。在程序设计领域，到底有哪些常用的FSM实现方式呢？下面我们来做一个简单的回顾。&lt;/p&gt;
+&lt;p&gt;从简单到复杂，下面我们浏览一下常见的几种FSM实现模式&lt;a href=&#34;#2&#34;&gt;[2]&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h4 id=&#34;a-嵌套if-elseswitch模式&#34;&gt;a. 嵌套if-else/switch模式&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#a-%e5%b5%8c%e5%a5%97if-elseswitch%e6%a8%a1%e5%bc%8f&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;
+
+
+&lt;p&gt;自从1960年&lt;a href=&#34;http://www-formal.stanford.edu/jmc/recursive.html&#34;&gt;第一个Lisp实现&lt;/a&gt;引入条件表达式以来，&lt;em&gt;if-else/switch语句&lt;/em&gt;&lt;a href=&#34;#3&#34;&gt;[3]&lt;/a&gt;已经成为每个程序员手头必备的工具，每当需要&amp;quot;根据不同条件进入不同分支&amp;quot;，就搬出它来组织代码，这与FSM里面&amp;quot;状态之间根据不同输入进行跳转&amp;quot;的概念有简单的对应关系，这就使得if-else/switch语句成为人们要表达FSM时最先选择的方式。&lt;/p&gt;
+&lt;p&gt;仍然以图1例子进行说明，我们用if-else/switch语句编写它的实现代码，用一个变量state表示当前状态，state可以取两个值S1, S2，输入input表示下一个输入的数字是0还是1，那么就有下列代码&lt;a href=&#34;#4&#34;&gt;[4]&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; State &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Input &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	StateS1 State = &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;iota&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	StateS2 State
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	Zero Input = &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	One  Input = &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; state = StateS1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NumberOfZero&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;switch&lt;/span&gt; state {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; StateS1:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;switch&lt;/span&gt; i {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; Zero:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			state = StateS2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; One:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; StateS2:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;switch&lt;/span&gt; i {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; Zero:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			state = StateS1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; One:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面的代码有一个明显的嵌套形式的结构，最外层的&lt;code&gt;switch&lt;/code&gt;语句是根据当前状态state变量进入不同的分支，内层&lt;code&gt;switch&lt;/code&gt;针对的则是输入，所有代码像挂在衣柜中的衣服一样从上到下一一陈列，结构比较清晰。这种嵌套形式if-else/switch语句的FSM代码组织方式，我们将其称之为&lt;em&gt;嵌套if-else/switch&lt;/em&gt;模式。由于这种模式实现起来比较直观简明，所以它最为常见。&lt;/p&gt;
+&lt;p&gt;嵌套if-else/switch具有形式嵌套，代码集中化的特点，它只适合用来表达状态个数少，或者状态间跳转逻辑比较简单的FSM。嵌套意味着缩进层次的叠加，一个像图1那么简单的实现就需要缩进4层，如果状态间的逻辑变得复杂，所需要的缩进不断叠加，代码在水平方向上会发生膨胀；集中化意味着如果状态个数增多，输入变复杂，代码从垂直方向上会发生指数级别的膨胀。即使通过简化空分支，抽取逻辑到命名函数&lt;a href=&#34;#5&#34;&gt;[5]&lt;/a&gt;等方法来&amp;quot;压缩&amp;quot;水平/垂直方向上的代码行数，依然无法从根本上解决膨胀问题，代码膨胀后造成可读性和可写性的急剧下降，例如某个状态里面负责正确设置20个相关变量，而下翻了几屏代码之后，下面的某个状态又用到上面20个变量里面其中的5个，整个代码像一锅粥一样粘糊在一起，变得难于理解和维护。&lt;/p&gt;
+
+&lt;h4 id=&#34;a-状态表&#34;&gt;a. 状态表&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#a-%e7%8a%b6%e6%80%81%e8%a1%a8&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;
+
+
+&lt;p&gt;另一个比较流行的模式是状态表模式。状态表模式是指将所有的状态和跳转逻辑规划成一个表格来表达FSM。仍然以图1为例子，系统中有两个状态S1和S2，不算自跳转，S1和S2之间只有两个跳转，我们用不同行来表示不同的状态，用不同的列来表示不同的输入，那么整个状态图可以组织成一张表格：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;State\Input&lt;/th&gt;
+&lt;th&gt;Zero&lt;/th&gt;
+&lt;th&gt;One&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;S1&lt;/td&gt;
+&lt;td&gt;DoSomething, S2&lt;/td&gt;
+&lt;td&gt;null&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;S2&lt;/td&gt;
+&lt;td&gt;DoSomething, S1&lt;/td&gt;
+&lt;td&gt;null&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;对应S1行, Zero列的&amp;quot;DoSomething, S2&amp;quot;表示当处于状态S1时，如果遇到输入为Zero，那么就执行动作DoSomething，然后跳转到状态S2。由于图1的例子状态图非常简单，DoSomething动作为空，这里将它特别的列出来只是为了说明在更一般化的情况下如果有其它逻辑可以放到这里来。根据这个状态表，我们可以写出下列代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; State &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Input into
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;const&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	StateUndefined State = &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;iota&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	StateS1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	StateS2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	Zero Input = &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	One  Input = &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Action &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt;(i Input)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;DoSomething1&lt;/span&gt;(_ Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;// Do nothing here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;DoSomething2&lt;/span&gt;(_ Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;// Do nothing here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Item &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	Action    Action
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	NextState State
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; StateTable = [][]&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Item{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	[]&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Item{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;Item{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			Action:    DoSomething1,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			NextState: StateS2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;nil&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	[]&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Item{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;Item{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			Action:    DoSomething2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			NextState: StateS1,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;nil&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; state = StateS1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NumberOfZero&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	item &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; StateTable[&lt;span style=&#34;color:#0086b3&#34;&gt;int&lt;/span&gt;(state)][&lt;span style=&#34;color:#0086b3&#34;&gt;int&lt;/span&gt;(i)]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; item &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		item.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Action&lt;/span&gt;(i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; item.NextState &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;!=&lt;/span&gt; StateUndefined {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			state = item.NextState
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上述例子我们可以看到，用这种方式实现出来的代码跟画出来的状态表有一个直观的映射关系，它要求程序员将状态的划分和跳转逻辑细分到一定的合适大小的粒度，事件驱动的过程查找是对状态表的直接下标索引，性能也很高。状态表的大小是不同状态数量S和不同输入数量I的一个乘积 S * I，在常见的场景中，这张状态表可能十分大，占用大量的内存空间，然而中间包含的有效状态跳转项却相对少，也就是说状态表是一个稀疏的表。&lt;/p&gt;
+
+&lt;h4 id=&#34;c-状态模式&#34;&gt;c. 状态模式&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#c-%e7%8a%b6%e6%80%81%e6%a8%a1%e5%bc%8f&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;
+
+
+&lt;p&gt;在OOP的&lt;em&gt;设计模式&lt;/em&gt;&lt;a href=&#34;#6&#34;&gt;[6]&lt;/a&gt;中，有一个状态模式可以用于表达状态机。状态模式基于OOP中的代理和多态。父类定义一系列通用的接口来处理输入事件，做为状态机的对外接口形态。每个包含具体逻辑的子类各表示状态机里面的一个状态，实现父类定义好的事件处理接口。然后定义一个指向具体子类对象的变量标记当前的状态，在一个上下文相关的环境中执行此变量对应的事件处理方法，来表达状态机。依然使用上述例子，用状态模式编写出的代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Input &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;const&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	Zero Input = &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;iota&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	One
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; State &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;interface&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventZero&lt;/span&gt;(i Input)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventOne&lt;/span&gt;(i Input)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	S1 = &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;S1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	S2 = &lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;S2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; StateS1 &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	c &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Context
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;StateS1) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventZero&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;doSomething1&lt;/span&gt;(i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.c.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Tran&lt;/span&gt;(S2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;StateS1) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventOne&lt;/span&gt;(_ Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;// do nothing here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;StateS1) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;doSomething1&lt;/span&gt;(_ Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;// do nothing here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; StateS2 &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	c &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Context
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;StateS2) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventZero&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;doSomething2&lt;/span&gt;(i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.c.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Tran&lt;/span&gt;(S1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;StateS2) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventOne&lt;/span&gt;(_ Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;// do nothing here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;StateS2) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;doSomething2&lt;/span&gt;(_ Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;// do nothing here
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#998;font-style:italic&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Context &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	allStates    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;string&lt;/span&gt;]State
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	currentState State
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewContext&lt;/span&gt;() &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Context {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	object &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;Context{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	states &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#0086b3&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;string&lt;/span&gt;]State)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	states[S1] = &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;StateS1{c: object}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	states[S2] = &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;StateS2{c: object}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	object.allStates = states
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	object.currentState = states[S1]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;return&lt;/span&gt; object
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Context) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Tran&lt;/span&gt;(nextState &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; s, ok &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; self.allStates[nextState]; ok {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		self.currentState = s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;Context) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Handle&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;switch&lt;/span&gt; i {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; Zero:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		self.currentState.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventZero&lt;/span&gt;(i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; One:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		self.currentState.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;OnEventOne&lt;/span&gt;(i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; context = &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewContext&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NumberOfZero&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	context.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Handle&lt;/span&gt;(i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;状态模式将各个状态的逻辑局部化到每个状态类，事件分发和状态跳转的性能也很高，内存使用上也相当高效，没有稀疏表浪费内存的问题。它将状态和事件通过接口继承分隔开，实现的时候不需要列举所有事件，添加状态也只是添加子类实现，但要求有一个context类来管理上下文及所有相关的变量，状态类与context类之间的访问多了一个间接层，在某些语言里面可能会遇到封装问题(比如在C++里面访问private字段要使用friend关键字)。&lt;/p&gt;
+
+&lt;h4 id=&#34;d-优化的fsm实现&#34;&gt;d. 优化的FSM实现&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#d-%e4%bc%98%e5%8c%96%e7%9a%84fsm%e5%ae%9e%e7%8e%b0&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;
+
+
+&lt;p&gt;结合上述几种FSM实现模式，我们可以得到一个优化的FSM实现模式，它用对象方法表示状态，将状态表嵌套到每个状态方法中，因此它包含了上述几种模式的优点：事件和状态的分离，高效的状态跳转和内存使用，直接的变量访问，直观而且扩展方便。用它重写上述例子，得到下述的代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Input &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;const&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	Zero Input = &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;iota&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	One
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; EventType &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;uint32&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;const&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	EventInitialize EventType = &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;iota&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	EventFinalize
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	EventStateEntry
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	EventStateExit
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	EventUser
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; Event &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;interface&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Type&lt;/span&gt;() EventType
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; FSMEvent &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	T EventType
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;FSMEvent) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Type&lt;/span&gt;() EventType {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;return&lt;/span&gt; self.T
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	FSMEvents = []&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;FSMEvent{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;FSMEvent{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			T: EventInitialize,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;FSMEvent{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			T: EventFinalize,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;FSMEvent{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			T: EventStateEntry,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;FSMEvent{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			T: EventStateExit,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; FSM &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;interface&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Init&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Dispatch&lt;/span&gt;(i Input)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Tran&lt;/span&gt;(target &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;string&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; State &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt;(e Event)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;const&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	EventInput EventType = EventUser &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#099&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;iota&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; InputEvent &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	T EventType
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	I Input
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewInputEvent&lt;/span&gt;(i Input) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;InputEvent {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;InputEvent{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		T: EventInput,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		I: i,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;InputEvent) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Type&lt;/span&gt;() EventType {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;return&lt;/span&gt; self.T
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; BaseFSM &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	AllStates &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;string&lt;/span&gt;]State
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	S         State
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewBaseFSM&lt;/span&gt;() &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;BaseFSM {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;BaseFSM{}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;BaseFSM) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Register&lt;/span&gt;(name &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;string&lt;/span&gt;, state State) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.AllStates[name] = state
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;BaseFSM) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;InitState&lt;/span&gt;(s State) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.S = s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;S&lt;/span&gt;(FSMEvents[EventInitialize])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;BaseFSM) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Dispatch&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;S&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewInputEvent&lt;/span&gt;(i))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;BaseFSM) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Tran&lt;/span&gt;(target &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;string&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	s, ok &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; self.AllStates[target]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; !ok {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#0086b3&#34;&gt;panic&lt;/span&gt;(&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;invalid target state&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;S&lt;/span&gt;(FSMEvents[EventStateExit])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.S = s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;S&lt;/span&gt;(FSMEvents[EventStateEntry])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;type&lt;/span&gt; ZeroCounter &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;struct&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;BaseFSM
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	count &lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;int&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewZeroCounter&lt;/span&gt;() &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;ZeroCounter {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;&lt;/span&gt;ZeroCounter{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		BaseFSM: &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewBaseFSM&lt;/span&gt;(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		count:   &lt;span style=&#34;color:#099&#34;&gt;0&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;ZeroCounter) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Init&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Register&lt;/span&gt;(&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;S1&amp;#34;&lt;/span&gt;, self.S1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Register&lt;/span&gt;(&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;S2&amp;#34;&lt;/span&gt;, self.S2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;InitState&lt;/span&gt;(self.S1)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;ZeroCounter) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;S1&lt;/span&gt;(e Event) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;switch&lt;/span&gt; e.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Type&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; EventInitialize:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; EventStateEntry:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; EventStateExit:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; EventInput:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		event, _ &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; e.(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;InputEvent)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; event.I &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;==&lt;/span&gt; Zero {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			self.count&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;++&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Tran&lt;/span&gt;(&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;S2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; (self &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;ZeroCounter) &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;S2&lt;/span&gt;(e Event) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;switch&lt;/span&gt; e.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Type&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; EventStateEntry:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; EventStateExit:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;case&lt;/span&gt; EventInput:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		event, _ &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; e.(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;InputEvent)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; event.I &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;==&lt;/span&gt; Zero {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			self.count&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;++&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			self.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Tran&lt;/span&gt;(&lt;span style=&#34;color:#d14&#34;&gt;&amp;#34;S1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;var&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	counter &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;*&lt;/span&gt;ZeroCounter
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;init&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	counter &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NewZeroCounter&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	counter.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Init&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;NumberOfZero&lt;/span&gt;(i Input) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	counter.&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;Dispatch&lt;/span&gt;(i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这种模式中可以添加整个状态机的初始化动作，每个状态的进入/退出动作。上述代码中&lt;code&gt;ZeroCounter.S1()&lt;/code&gt;方法的&lt;code&gt;case EventInitialize&lt;/code&gt;分支可以放入状态机的初始化逻辑，每个状态方法的&lt;code&gt;case EventStateEntry&lt;/code&gt;和&lt;code&gt;case EventStateExit&lt;/code&gt;分支可以放入对应状态的进入/退出动作。这是一个重要的特性，在实际状态机编程中每个状态可以定制进入/退出动作是很有用的。&lt;/p&gt;
+
+&lt;h4 id=&#34;e-hsm&#34;&gt;e. HSM&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#e-hsm&#34;&gt;#&lt;/a&gt;&lt;/h4&gt;
+
+
+&lt;p&gt;上述几种模式中，状态之间都是相互独立的，状态图没有重合的部分，整个状态机都是平坦的。然而实际上很多问题的状态机模型都不会是那么简单，有可能问题域本身就有状态嵌套的概念，有时为了重用大段的处理逻辑或代码，我们也需要支持嵌套的状态。这方面一个经典的例子就是图形应用程序的编写，通过图形应用程序的框架(如MFC, GTK, Qt)编写应用程序，程序员只需要注册少数感兴趣的事件响应，如点击某个按钮，大部分其它的事件响应都由默认框架处理，如程序的关闭。用状态机来建模，框架就是父状态，而应用程序就是子状态，子状态只需要处理它感兴趣的少数事件，大部分事件都由向上传递到框架这个父状态来处理，这两种系统之间有一个直观的类比关系，如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;embedded_state_and_gui.jpg&#34; alt=&#34;Anatomy of a GUI application&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这种事件向父层传递，子层继承了父类行为的结构，我们将其称为&lt;em&gt;行为继承&lt;/em&gt;，以区别开OOP里面的&lt;em&gt;类继承&lt;/em&gt;。并把这种包含嵌套状态的状态机称为&lt;em&gt;HSM(hierarchical state machine)&lt;/em&gt;，层次状态机。&lt;/p&gt;
+&lt;p&gt;加上了对嵌套状态的支持之后，状态机的模型就可以变得任意复杂了，大大的扩大了状态机的适用场景和范围，如此一来用状态机对问题建模就好比用OOP对系统进行编程：识别出系统的状态及子状态，并将逻辑固化到状态及它们的跳转逻辑当中。&lt;/p&gt;
+&lt;p&gt;那么在状态机实现模式里如何支持嵌套状态呢？从整个状态图来看，状态/子状态所形成的这张大图本质上是一个单根的树结构，每个状态图有一个根结点top，每个状态是一个树结点，可以带任意多的子状态/子结点，每个子状态只有一个父结点，要表达嵌套状态，就是要构造出这样一棵树。&lt;/p&gt;
+
+&lt;h3 id=&#34;go-hsm&#34;&gt;go-hsm&amp;nbsp;&lt;a class=&#34;headline-hash no-text-decoration&#34; href=&#34;#go-hsm&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;
+
+
+&lt;p&gt;我用Golang编写了一个HSM框架&lt;a href=&#34;https://github.com/hhkbp2/go-hsm&#34;&gt;&lt;em&gt;go-hsm&lt;/em&gt;&lt;/a&gt;，设计要点如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;用类来表示状态，局部化状态内部变量及逻辑，整棵状态树由具体应用构造&lt;/li&gt;
+&lt;li&gt;支持嵌套状态及行为继承，支持进入退出动作，&lt;/li&gt;
+&lt;li&gt;支持自定义事件，支持静态和动态两种跳转&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;它的代码在&lt;a href=&#34;https://github.com/hhkbp2/go-hsm&#34;&gt;这里&lt;/a&gt;，go-hsm的使用例子则放在另一个项目&lt;a href=&#34;https://github.com/hhkbp2/go-hsm-examples&#34;&gt;&lt;em&gt;go-hsm-examples&lt;/em&gt;&lt;/a&gt;。由于Golang本身的语言特点，有一些地方的实现较其它语言多了一些缺点，比如Golang里面的binding是静态的，为了将子类对象的指针传播到父类方法，要显式传递self指针，子类的接口函数也需要由应用重写。但由于HSM本身的灵活强大，&lt;code&gt;go-hsm&lt;/code&gt;具有良好的可调整性及扩展性，是一个很好的状态机建模工具，一门灵活有效表达复杂状态机的&lt;a href=&#34;http://en.wikipedia.org/wiki/Domain-specific_language&#34;&gt;DSL(Domain Specific Language)&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：&lt;/em&gt;&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[1]&lt;!-- raw HTML omitted --&gt; &lt;a href=&#34;http://mitpress.mit.edu/sicp/&#34;&gt;《Structure and Interpretation of Computer Programs》&lt;/a&gt;一书的中文译本。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[2]&lt;!-- raw HTML omitted --&gt; 本文内容主要出自Miro Samek博士的经典著作《Practical Statecharts in C/C++: Quantum Programmming for Embedded Systems》，其中文译本书名为《嵌入式系统的微模块化程序设计：实用状态图C/C++实现》，翻译甚差，不推荐阅读。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[3]&lt;!-- raw HTML omitted --&gt; 各种编程语言里面的条件判断关键字和语句都不尽相同，有的if语句带&lt;code&gt;then&lt;/code&gt;关键字，有的不带&lt;code&gt;then&lt;/code&gt;，有的支持&lt;code&gt;switch&lt;/code&gt;，这里将它们简单统称为if-else/switch语句。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[4]&lt;!-- raw HTML omitted --&gt; 本文中所有代码都为Go语言代码。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[5]&lt;!-- raw HTML omitted --&gt; 之所以强调函数是命名的，是因为很多语言支持匿名函数(即lambda函数)，在嵌套if-else/switch模式内部写匿名函数定义对降低代码膨胀起不了作用。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[6]&lt;!-- raw HTML omitted --&gt; OOP领域设计模式的流行，源于这本书《Design Patterns: Elements of Reusable Object-Oriented Software》的出版，其中文译本见&lt;a href=&#34;http://book.douban.com/subject/1052241/&#34;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/linux">Linux</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/state-machine">State Machine</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/hsm">HSM</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/go">Go</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/hierarchical-state-machine/</guid>
+                <pubDate>Tue, 04 Nov 2014 19:22:00 +0800</pubDate>
+            </item>
+        
+    </channel>
+</rss>
+
+

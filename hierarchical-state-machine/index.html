@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+    
+    
+    
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+
+    
+    <meta name="referrer" content="no-referrer">
+
+    
+    
+
+    
+    
+        <meta name="keywords" content="State Machine, HSM, Go, Linux"/>
+    
+
+    <title>
+        
+            层次状态机 ❚ hhkbp2&#39;s blog
+        
+    </title>
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    <style>
+     
+     
+     :root {
+         --theme-color: #ac4142;
+         --theme-color-light: rgba(172, 65, 66, 0.1);
+         --theme-heading-color: #413b39;
+         --theme-body-color: #4d4642;
+         --theme-hl1-color: #6d625f;
+         --theme-hl2-color: #bdb5b3;
+         --theme-hl2-transp-color: rgba(189, 181, 179, 0.5);
+     }
+     
+     html {
+         line-height: 1.5;
+     }
+    </style>
+
+    
+    
+
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css">
+    
+    <link rel="preload" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css" as="style">
+
+    
+
+
+
+    
+        <style>
+         
+         /* Background */ .bg { background-color: #ffffff; }
+/* PreWrapper */ .chroma , .code-inline { background-color: #ffffff; }
+/* Other */ .chroma .x , .code-inline .x {  }
+/* Error */ .chroma .err , .code-inline .err { color: #a61717; background-color: #e3d2d2 }
+/* CodeLine */ .chroma .cl , .code-inline .cl {  }
+/* LineTableTD */ .chroma .lntd , .code-inline .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+/* LineTable */ .chroma .lntable , .code-inline .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .chroma .hl , .code-inline .hl { background-color: #ffffcc }
+/* LineNumbersTable */ .chroma .lnt , .code-inline .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .chroma .ln , .code-inline .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .chroma .line , .code-inline .line { display: flex; }
+/* Keyword */ .chroma .k , .code-inline .k { color: #000000; font-weight: bold }
+/* KeywordConstant */ .chroma .kc , .code-inline .kc { color: #000000; font-weight: bold }
+/* KeywordDeclaration */ .chroma .kd , .code-inline .kd { color: #000000; font-weight: bold }
+/* KeywordNamespace */ .chroma .kn , .code-inline .kn { color: #000000; font-weight: bold }
+/* KeywordPseudo */ .chroma .kp , .code-inline .kp { color: #000000; font-weight: bold }
+/* KeywordReserved */ .chroma .kr , .code-inline .kr { color: #000000; font-weight: bold }
+/* KeywordType */ .chroma .kt , .code-inline .kt { color: #445588; font-weight: bold }
+/* Name */ .chroma .n , .code-inline .n {  }
+/* NameAttribute */ .chroma .na , .code-inline .na { color: #008080 }
+/* NameBuiltin */ .chroma .nb , .code-inline .nb { color: #0086b3 }
+/* NameBuiltinPseudo */ .chroma .bp , .code-inline .bp { color: #999999 }
+/* NameClass */ .chroma .nc , .code-inline .nc { color: #445588; font-weight: bold }
+/* NameConstant */ .chroma .no , .code-inline .no { color: #008080 }
+/* NameDecorator */ .chroma .nd , .code-inline .nd { color: #3c5d5d; font-weight: bold }
+/* NameEntity */ .chroma .ni , .code-inline .ni { color: #800080 }
+/* NameException */ .chroma .ne , .code-inline .ne { color: #990000; font-weight: bold }
+/* NameFunction */ .chroma .nf , .code-inline .nf { color: #990000; font-weight: bold }
+/* NameFunctionMagic */ .chroma .fm , .code-inline .fm {  }
+/* NameLabel */ .chroma .nl , .code-inline .nl { color: #990000; font-weight: bold }
+/* NameNamespace */ .chroma .nn , .code-inline .nn { color: #555555 }
+/* NameOther */ .chroma .nx , .code-inline .nx {  }
+/* NameProperty */ .chroma .py , .code-inline .py {  }
+/* NameTag */ .chroma .nt , .code-inline .nt { color: #000080 }
+/* NameVariable */ .chroma .nv , .code-inline .nv { color: #008080 }
+/* NameVariableClass */ .chroma .vc , .code-inline .vc { color: #008080 }
+/* NameVariableGlobal */ .chroma .vg , .code-inline .vg { color: #008080 }
+/* NameVariableInstance */ .chroma .vi , .code-inline .vi { color: #008080 }
+/* NameVariableMagic */ .chroma .vm , .code-inline .vm {  }
+/* Literal */ .chroma .l , .code-inline .l {  }
+/* LiteralDate */ .chroma .ld , .code-inline .ld {  }
+/* LiteralString */ .chroma .s , .code-inline .s { color: #dd1144 }
+/* LiteralStringAffix */ .chroma .sa , .code-inline .sa { color: #dd1144 }
+/* LiteralStringBacktick */ .chroma .sb , .code-inline .sb { color: #dd1144 }
+/* LiteralStringChar */ .chroma .sc , .code-inline .sc { color: #dd1144 }
+/* LiteralStringDelimiter */ .chroma .dl , .code-inline .dl { color: #dd1144 }
+/* LiteralStringDoc */ .chroma .sd , .code-inline .sd { color: #dd1144 }
+/* LiteralStringDouble */ .chroma .s2 , .code-inline .s2 { color: #dd1144 }
+/* LiteralStringEscape */ .chroma .se , .code-inline .se { color: #dd1144 }
+/* LiteralStringHeredoc */ .chroma .sh , .code-inline .sh { color: #dd1144 }
+/* LiteralStringInterpol */ .chroma .si , .code-inline .si { color: #dd1144 }
+/* LiteralStringOther */ .chroma .sx , .code-inline .sx { color: #dd1144 }
+/* LiteralStringRegex */ .chroma .sr , .code-inline .sr { color: #009926 }
+/* LiteralStringSingle */ .chroma .s1 , .code-inline .s1 { color: #dd1144 }
+/* LiteralStringSymbol */ .chroma .ss , .code-inline .ss { color: #990073 }
+/* LiteralNumber */ .chroma .m , .code-inline .m { color: #009999 }
+/* LiteralNumberBin */ .chroma .mb , .code-inline .mb { color: #009999 }
+/* LiteralNumberFloat */ .chroma .mf , .code-inline .mf { color: #009999 }
+/* LiteralNumberHex */ .chroma .mh , .code-inline .mh { color: #009999 }
+/* LiteralNumberInteger */ .chroma .mi , .code-inline .mi { color: #009999 }
+/* LiteralNumberIntegerLong */ .chroma .il , .code-inline .il { color: #009999 }
+/* LiteralNumberOct */ .chroma .mo , .code-inline .mo { color: #009999 }
+/* Operator */ .chroma .o , .code-inline .o { color: #000000; font-weight: bold }
+/* OperatorWord */ .chroma .ow , .code-inline .ow { color: #000000; font-weight: bold }
+/* Punctuation */ .chroma .p , .code-inline .p {  }
+/* Comment */ .chroma .c , .code-inline .c { color: #999988; font-style: italic }
+/* CommentHashbang */ .chroma .ch , .code-inline .ch { color: #999988; font-style: italic }
+/* CommentMultiline */ .chroma .cm , .code-inline .cm { color: #999988; font-style: italic }
+/* CommentSingle */ .chroma .c1 , .code-inline .c1 { color: #999988; font-style: italic }
+/* CommentSpecial */ .chroma .cs , .code-inline .cs { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreproc */ .chroma .cp , .code-inline .cp { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreprocFile */ .chroma .cpf , .code-inline .cpf { color: #999999; font-weight: bold; font-style: italic }
+/* Generic */ .chroma .g , .code-inline .g {  }
+/* GenericDeleted */ .chroma .gd , .code-inline .gd { color: #000000; background-color: #ffdddd }
+/* GenericEmph */ .chroma .ge , .code-inline .ge { color: #000000; font-style: italic }
+/* GenericError */ .chroma .gr , .code-inline .gr { color: #aa0000 }
+/* GenericHeading */ .chroma .gh , .code-inline .gh { color: #999999 }
+/* GenericInserted */ .chroma .gi , .code-inline .gi { color: #000000; background-color: #ddffdd }
+/* GenericOutput */ .chroma .go , .code-inline .go { color: #888888 }
+/* GenericPrompt */ .chroma .gp , .code-inline .gp { color: #555555 }
+/* GenericStrong */ .chroma .gs , .code-inline .gs { font-weight: bold }
+/* GenericSubheading */ .chroma .gu , .code-inline .gu { color: #aaaaaa }
+/* GenericTraceback */ .chroma .gt , .code-inline .gt { color: #aa0000 }
+/* GenericUnderline */ .chroma .gl , .code-inline .gl { text-decoration: underline }
+/* TextWhitespace */ .chroma .w , .code-inline .w { color: #bbbbbb }
+
+         
+         /* Overrides on top of the theme and Chroma CSS */
+/* Chroma-based lines highlighting in code blocks */
+
+/* GenericHeading, GenericSubheading */
+.chroma .gh, .code-inline .gh,
+.chroma .gu, .code-inline .gu {
+    font-weight: bold;
+}
+
+/* Do not highlight error in pink background */
+/* Error */
+.chroma .err, .code-inline .err {
+    background-color: inherit;
+}
+
+/* LineTable */
+.chroma .lntable, .code-inline .lntable {
+    width: auto;
+    overflow-x: auto; /* Make the code block horizontally scrollable on narrow viewports. */
+    display: block;
+}
+
+/* LineNumbersTable, LineNumbers, Line, LineHighlight */
+/* Prevent the highlight from creating a strange artifact on line numbers. */
+.chroma .lnt, .code-inline .lnt,
+.chroma .ln, .code-inline .ln,
+.chroma .line, .code-inline .line,
+.chroma .hl, .code-inline .hl {
+    display: flex;
+}
+
+/* Set the line highlight color to match the site's theme. */
+/* LineHighlight */
+.chroma .hl, .code-inline .hl {
+    background-color: var(--theme-hl2-transp-color); /* This var is set in the head.html partial. */
+}
+
+/* Do not set the background color of inline src code*/
+.chroma.inline-src, .code-inline {
+    background-color: inherit;
+}
+
+         
+        </style>
+    
+
+    
+
+    
+    
+    
+
+    
+    <script src="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js"></script>
+    
+    <link rel="preload" href="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js" as="script">
+
+    
+    
+    <script defer src="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js"></script>
+    
+    <link rel="preload" href="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js" as="script">
+
+    
+
+    
+
+    
+    
+    
+
+    
+    
+<!-- rel="me" links for IndieAuth -->
+
+
+
+
+
+
+
+    
+ 
+<meta property="og:title" content="层次状态机" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hhkbp2.com/hierarchical-state-machine/" />
+
+    
+    
+
+
+    
+        <meta property="article:published_time" content="2014-11-04T19:22:00&#43;08:00"/>
+    
+    
+        <meta property="article:modified_time" content="2014-11-04T19:22:00&#43;08:00"/>
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+     <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="层次状态机"/>
+<meta name="twitter:description" content="" />
+
+
+    
+    
+    
+     
+
+
+
+
+
+    <meta name="author" content=""/>
+
+
+
+    
+    
+    
+    <meta name="hugo-build-date" content=""/>
+    <meta name="hugo-commit-hash" content=""/>
+    <meta name="generator" content="Hugo 0.118.2">
+</head>
+
+
+    
+        <body lang="en">
+    
+
+        
+        <div class="border" id="home"></div>
+
+        <div class="wrapper">   
+            
+<nav id="nav" class="nav-collapse opened" aria-hidden="false">
+    <ul class="navbar">
+        <li><a class="" href="/">Home</a></li>
+        
+            
+                <li><a class="" href="https://hhkbp2.com/posts/">Posts</a></li>
+            
+        
+            
+                <li><a class="" href="https://hhkbp2.com/about/">About</a></li>
+            
+        
+        
+    </ul>
+</nav>
+
+            <div class="container">
+                <header class="masthead">
+                    <div class="masthead-title no-text-decoration">
+                        <a href="/">hhkbp2&#39;s blog</a> <span class="blinking-cursor">❚</span>
+                    </div>
+                    <div class="masthead-tagline">
+                        Computer, programming and stuff.
+                    </div>
+                </header>
+
+                
+
+
+
+
+
+
+
+
+<article class="post h-entry posts">
+    <header>
+        <div class="center">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__linux__"
+                                
+                                
+                                title="See all 2 posts categorized in ‘Linux’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/linux/">Linux</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__state-machine__"
+                                
+                                
+                                title="This is the only post tagged with ‘State Machine’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/state-machine/">State Machine</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__hsm__"
+                                
+                                
+                                title="This is the only post tagged with ‘HSM’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/hsm/">HSM</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__go__"
+                                
+                                
+                                title="This is the only post tagged with ‘Go’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/go/">Go</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+
+        <h1 class="post-title p-name">层次状态机</h1>
+
+        
+        <data class="u-url" value="https://hhkbp2.com/hierarchical-state-machine/"></data>
+
+        <div class="date-syndication">
+            
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2014-11-04T19:22:00+0800" class="dt-published" title="Published date">Nov 4, 2014</time>
+        
+        
+    </div>
+
+
+        </div>
+         
+
+
+
+
+
+
+    </header>
+
+    <div class="content">
+        
+
+
+        
+
+
+
+
+
+                       
+
+
+        
+
+
+        <div class="e-content">
+            
+
+
+
+
+<blockquote>
+<p>计算机程序是写给人看的，只是顺便能运行。<br>
+　　　　　　　　　　　　　　——<a href="http://book.douban.com/subject/1148282/">《计算机程序的构造和解释》</a><a href="#1">[1]</a></p>
+</blockquote>
+
+<h3 id="fsm">FSM&nbsp;<a class="headline-hash no-text-decoration" href="#fsm">#</a></h3>
+
+
+<p>在计算机领域，FSM(有限状态机)是一个在自动机理论和程序设计实践中很常见的术语，简单来说，有限状态机表示的是系统根不同输入/不同条件在各个状态之间进行跳转的模型。可以通过图或表来描述有限状态机，这种图或表一般被称为状态图/状态转移图(State Chart)或状态转移表。因为图更加直观，本文统一使用状态图来描述有限状态机。</p>
+<p>在状态图里面，一般用圆圈或方框来表示状态，用箭头来表示状态之间的跳转，箭头可以带上跳转需要的输入或条件，也可以带附带其它描述。一个从空白处引出，没有源状态的箭头则表示整个系统的启动，启动后进入的第一个状态可以称为开始状态，可以用双重圆圈特别标出。整个状态图就是一个有圆圈，箭头及描述的有向图形。下面是一个<a href="http://zh.wikipedia.org/zh/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA">简单例子</a>。</p>
+<p><img src="dfa.png" alt="图1 计算输入包含奇数还是偶数个0的状态机"></p>
+<p>上图表示一个接受二进制输入(输入为0或者1)，计算输入包含奇数还是偶数个0的状态机。其中S1状态表示&quot;偶数个0&quot;，S2表示&quot;奇数个0&quot;。系统启动后，沿着图中最左边的箭头进入S1状态，此时没有读入任何输入（0个0）。S1圆圈上方带1的箭头表示如果输入是1，则跳转到S1，即保持原状态不变。如果输入是0，则跳转到S2。其它箭头也可以类似理解。当全部输入都处理完之后，只需看当前状态是S1还是S2即可得出结论：输入具有奇数个0还是偶数个0。</p>
+<p>由于状态机可以将问题整体的分解成各个部分状态及跳转，直观地对系统进行建模，所以它不仅被用于理论研究过程当中，而且被广泛用于程序设计实践，在操作系统，网络协议栈，各种分布式应用中都可以见到它的身影。</p>
+
+<h3 id="程序设计中的fsm">程序设计中的FSM&nbsp;<a class="headline-hash no-text-decoration" href="#%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e4%b8%ad%e7%9a%84fsm">#</a></h3>
+
+
+<p>由上面的表述我们得知，FSM是对系统的建模，是将问题/解决方案以一种条理化系统化的方式表达出来，映射到人的认知层面，而要在程序中表达FSM，也需要一定的建模工具，即用某种代码编写的方式(或称之为FSM模式)，将FSM以一种条理化系统化的方式映射到代码层面。在程序设计领域，到底有哪些常用的FSM实现方式呢？下面我们来做一个简单的回顾。</p>
+<p>从简单到复杂，下面我们浏览一下常见的几种FSM实现模式<a href="#2">[2]</a>。</p>
+
+<h4 id="a-嵌套if-elseswitch模式">a. 嵌套if-else/switch模式&nbsp;<a class="headline-hash no-text-decoration" href="#a-%e5%b5%8c%e5%a5%97if-elseswitch%e6%a8%a1%e5%bc%8f">#</a></h4>
+
+
+<p>自从1960年<a href="http://www-formal.stanford.edu/jmc/recursive.html">第一个Lisp实现</a>引入条件表达式以来，<em>if-else/switch语句</em><a href="#3">[3]</a>已经成为每个程序员手头必备的工具，每当需要&quot;根据不同条件进入不同分支&quot;，就搬出它来组织代码，这与FSM里面&quot;状态之间根据不同输入进行跳转&quot;的概念有简单的对应关系，这就使得if-else/switch语句成为人们要表达FSM时最先选择的方式。</p>
+<p>仍然以图1例子进行说明，我们用if-else/switch语句编写它的实现代码，用一个变量state表示当前状态，state可以取两个值S1, S2，输入input表示下一个输入的数字是0还是1，那么就有下列代码<a href="#4">[4]</a>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> State <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Input <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	StateS1 State = <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>	StateS2 State
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	Zero Input = <span style="color:#099">0</span>
+</span></span><span style="display:flex;"><span>	One  Input = <span style="color:#099">1</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> state = StateS1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NumberOfZero</span>(i Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> state {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> StateS1:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">switch</span> i {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> Zero:
+</span></span><span style="display:flex;"><span>			state = StateS2
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> One:
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> StateS2:
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">switch</span> i {
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> Zero:
+</span></span><span style="display:flex;"><span>			state = StateS1
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">case</span> One:
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上面的代码有一个明显的嵌套形式的结构，最外层的<code>switch</code>语句是根据当前状态state变量进入不同的分支，内层<code>switch</code>针对的则是输入，所有代码像挂在衣柜中的衣服一样从上到下一一陈列，结构比较清晰。这种嵌套形式if-else/switch语句的FSM代码组织方式，我们将其称之为<em>嵌套if-else/switch</em>模式。由于这种模式实现起来比较直观简明，所以它最为常见。</p>
+<p>嵌套if-else/switch具有形式嵌套，代码集中化的特点，它只适合用来表达状态个数少，或者状态间跳转逻辑比较简单的FSM。嵌套意味着缩进层次的叠加，一个像图1那么简单的实现就需要缩进4层，如果状态间的逻辑变得复杂，所需要的缩进不断叠加，代码在水平方向上会发生膨胀；集中化意味着如果状态个数增多，输入变复杂，代码从垂直方向上会发生指数级别的膨胀。即使通过简化空分支，抽取逻辑到命名函数<a href="#5">[5]</a>等方法来&quot;压缩&quot;水平/垂直方向上的代码行数，依然无法从根本上解决膨胀问题，代码膨胀后造成可读性和可写性的急剧下降，例如某个状态里面负责正确设置20个相关变量，而下翻了几屏代码之后，下面的某个状态又用到上面20个变量里面其中的5个，整个代码像一锅粥一样粘糊在一起，变得难于理解和维护。</p>
+
+<h4 id="a-状态表">a. 状态表&nbsp;<a class="headline-hash no-text-decoration" href="#a-%e7%8a%b6%e6%80%81%e8%a1%a8">#</a></h4>
+
+
+<p>另一个比较流行的模式是状态表模式。状态表模式是指将所有的状态和跳转逻辑规划成一个表格来表达FSM。仍然以图1为例子，系统中有两个状态S1和S2，不算自跳转，S1和S2之间只有两个跳转，我们用不同行来表示不同的状态，用不同的列来表示不同的输入，那么整个状态图可以组织成一张表格：</p>
+<table>
+<thead>
+<tr>
+<th>State\Input</th>
+<th>Zero</th>
+<th>One</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1</td>
+<td>DoSomething, S2</td>
+<td>null</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>DoSomething, S1</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p>对应S1行, Zero列的&quot;DoSomething, S2&quot;表示当处于状态S1时，如果遇到输入为Zero，那么就执行动作DoSomething，然后跳转到状态S2。由于图1的例子状态图非常简单，DoSomething动作为空，这里将它特别的列出来只是为了说明在更一般化的情况下如果有其它逻辑可以放到这里来。根据这个状态表，我们可以写出下列代码：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> State <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Input into
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	StateUndefined State = <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>	StateS1
+</span></span><span style="display:flex;"><span>	StateS2
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	Zero Input = <span style="color:#099">0</span>
+</span></span><span style="display:flex;"><span>	One  Input = <span style="color:#099">1</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Action <span style="color:#000;font-weight:bold">func</span>(i Input)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">DoSomething1</span>(_ Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// Do nothing here
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">DoSomething2</span>(_ Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// Do nothing here
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Item <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	Action    Action
+</span></span><span style="display:flex;"><span>	NextState State
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> StateTable = [][]<span style="color:#000;font-weight:bold">*</span>Item{
+</span></span><span style="display:flex;"><span>	[]<span style="color:#000;font-weight:bold">*</span>Item{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&amp;</span>Item{
+</span></span><span style="display:flex;"><span>			Action:    DoSomething1,
+</span></span><span style="display:flex;"><span>			NextState: StateS2,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">nil</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	[]<span style="color:#000;font-weight:bold">*</span>Item{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&amp;</span>Item{
+</span></span><span style="display:flex;"><span>			Action:    DoSomething2,
+</span></span><span style="display:flex;"><span>			NextState: StateS1,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">nil</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> state = StateS1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NumberOfZero</span>(i Input) {
+</span></span><span style="display:flex;"><span>	item <span style="color:#000;font-weight:bold">:=</span> StateTable[<span style="color:#0086b3">int</span>(state)][<span style="color:#0086b3">int</span>(i)]
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> item <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+</span></span><span style="display:flex;"><span>		item.<span style="color:#900;font-weight:bold">Action</span>(i)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> item.NextState <span style="color:#000;font-weight:bold">!=</span> StateUndefined {
+</span></span><span style="display:flex;"><span>			state = item.NextState
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>从上述例子我们可以看到，用这种方式实现出来的代码跟画出来的状态表有一个直观的映射关系，它要求程序员将状态的划分和跳转逻辑细分到一定的合适大小的粒度，事件驱动的过程查找是对状态表的直接下标索引，性能也很高。状态表的大小是不同状态数量S和不同输入数量I的一个乘积 S * I，在常见的场景中，这张状态表可能十分大，占用大量的内存空间，然而中间包含的有效状态跳转项却相对少，也就是说状态表是一个稀疏的表。</p>
+
+<h4 id="c-状态模式">c. 状态模式&nbsp;<a class="headline-hash no-text-decoration" href="#c-%e7%8a%b6%e6%80%81%e6%a8%a1%e5%bc%8f">#</a></h4>
+
+
+<p>在OOP的<em>设计模式</em><a href="#6">[6]</a>中，有一个状态模式可以用于表达状态机。状态模式基于OOP中的代理和多态。父类定义一系列通用的接口来处理输入事件，做为状态机的对外接口形态。每个包含具体逻辑的子类各表示状态机里面的一个状态，实现父类定义好的事件处理接口。然后定义一个指向具体子类对象的变量标记当前的状态，在一个上下文相关的环境中执行此变量对应的事件处理方法，来表达状态机。依然使用上述例子，用状态模式编写出的代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Input <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	Zero Input = <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>	One
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> State <span style="color:#000;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#900;font-weight:bold">OnEventZero</span>(i Input)
+</span></span><span style="display:flex;"><span>	<span style="color:#900;font-weight:bold">OnEventOne</span>(i Input)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	S1 = <span style="color:#d14">&#34;S1&#34;</span>
+</span></span><span style="display:flex;"><span>	S2 = <span style="color:#d14">&#34;S2&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> StateS1 <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	c <span style="color:#000;font-weight:bold">*</span>Context
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>StateS1) <span style="color:#900;font-weight:bold">OnEventZero</span>(i Input) {
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">doSomething1</span>(i)
+</span></span><span style="display:flex;"><span>	self.c.<span style="color:#900;font-weight:bold">Tran</span>(S2)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>StateS1) <span style="color:#900;font-weight:bold">OnEventOne</span>(_ Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// do nothing here
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>StateS1) <span style="color:#900;font-weight:bold">doSomething1</span>(_ Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// do nothing here
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> StateS2 <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	c <span style="color:#000;font-weight:bold">*</span>Context
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>StateS2) <span style="color:#900;font-weight:bold">OnEventZero</span>(i Input) {
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">doSomething2</span>(i)
+</span></span><span style="display:flex;"><span>	self.c.<span style="color:#900;font-weight:bold">Tran</span>(S1)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>StateS2) <span style="color:#900;font-weight:bold">OnEventOne</span>(_ Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// do nothing here
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>StateS2) <span style="color:#900;font-weight:bold">doSomething2</span>(_ Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#998;font-style:italic">// do nothing here
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Context <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	allStates    <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">string</span>]State
+</span></span><span style="display:flex;"><span>	currentState State
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewContext</span>() <span style="color:#000;font-weight:bold">*</span>Context {
+</span></span><span style="display:flex;"><span>	object <span style="color:#000;font-weight:bold">:=</span> <span style="color:#000;font-weight:bold">&amp;</span>Context{}
+</span></span><span style="display:flex;"><span>	states <span style="color:#000;font-weight:bold">:=</span> <span style="color:#0086b3">make</span>(<span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">string</span>]State)
+</span></span><span style="display:flex;"><span>	states[S1] = <span style="color:#000;font-weight:bold">&amp;</span>StateS1{c: object}
+</span></span><span style="display:flex;"><span>	states[S2] = <span style="color:#000;font-weight:bold">&amp;</span>StateS2{c: object}
+</span></span><span style="display:flex;"><span>	object.allStates = states
+</span></span><span style="display:flex;"><span>	object.currentState = states[S1]
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> object
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>Context) <span style="color:#900;font-weight:bold">Tran</span>(nextState <span style="color:#458;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> s, ok <span style="color:#000;font-weight:bold">:=</span> self.allStates[nextState]; ok {
+</span></span><span style="display:flex;"><span>		self.currentState = s
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>Context) <span style="color:#900;font-weight:bold">Handle</span>(i Input) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> i {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> Zero:
+</span></span><span style="display:flex;"><span>		self.currentState.<span style="color:#900;font-weight:bold">OnEventZero</span>(i)
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> One:
+</span></span><span style="display:flex;"><span>		self.currentState.<span style="color:#900;font-weight:bold">OnEventOne</span>(i)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> context = <span style="color:#900;font-weight:bold">NewContext</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NumberOfZero</span>(i Input) {
+</span></span><span style="display:flex;"><span>	context.<span style="color:#900;font-weight:bold">Handle</span>(i)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>状态模式将各个状态的逻辑局部化到每个状态类，事件分发和状态跳转的性能也很高，内存使用上也相当高效，没有稀疏表浪费内存的问题。它将状态和事件通过接口继承分隔开，实现的时候不需要列举所有事件，添加状态也只是添加子类实现，但要求有一个context类来管理上下文及所有相关的变量，状态类与context类之间的访问多了一个间接层，在某些语言里面可能会遇到封装问题(比如在C++里面访问private字段要使用friend关键字)。</p>
+
+<h4 id="d-优化的fsm实现">d. 优化的FSM实现&nbsp;<a class="headline-hash no-text-decoration" href="#d-%e4%bc%98%e5%8c%96%e7%9a%84fsm%e5%ae%9e%e7%8e%b0">#</a></h4>
+
+
+<p>结合上述几种FSM实现模式，我们可以得到一个优化的FSM实现模式，它用对象方法表示状态，将状态表嵌套到每个状态方法中，因此它包含了上述几种模式的优点：事件和状态的分离，高效的状态跳转和内存使用，直接的变量访问，直观而且扩展方便。用它重写上述例子，得到下述的代码：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Input <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	Zero Input = <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>	One
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> EventType <span style="color:#458;font-weight:bold">uint32</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	EventInitialize EventType = <span style="color:#099">0</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>	EventFinalize
+</span></span><span style="display:flex;"><span>	EventStateEntry
+</span></span><span style="display:flex;"><span>	EventStateExit
+</span></span><span style="display:flex;"><span>	EventUser
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> Event <span style="color:#000;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#900;font-weight:bold">Type</span>() EventType
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> FSMEvent <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	T EventType
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>FSMEvent) <span style="color:#900;font-weight:bold">Type</span>() EventType {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> self.T
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	FSMEvents = []<span style="color:#000;font-weight:bold">*</span>FSMEvent{
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&amp;</span>FSMEvent{
+</span></span><span style="display:flex;"><span>			T: EventInitialize,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&amp;</span>FSMEvent{
+</span></span><span style="display:flex;"><span>			T: EventFinalize,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&amp;</span>FSMEvent{
+</span></span><span style="display:flex;"><span>			T: EventStateEntry,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">&amp;</span>FSMEvent{
+</span></span><span style="display:flex;"><span>			T: EventStateExit,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> FSM <span style="color:#000;font-weight:bold">interface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#900;font-weight:bold">Init</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#900;font-weight:bold">Dispatch</span>(i Input)
+</span></span><span style="display:flex;"><span>	<span style="color:#900;font-weight:bold">Tran</span>(target <span style="color:#458;font-weight:bold">string</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> State <span style="color:#000;font-weight:bold">func</span>(e Event)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">const</span> (
+</span></span><span style="display:flex;"><span>	EventInput EventType = EventUser <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span> <span style="color:#000;font-weight:bold">+</span> <span style="color:#000;font-weight:bold">iota</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> InputEvent <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	T EventType
+</span></span><span style="display:flex;"><span>	I Input
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewInputEvent</span>(i Input) <span style="color:#000;font-weight:bold">*</span>InputEvent {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>InputEvent{
+</span></span><span style="display:flex;"><span>		T: EventInput,
+</span></span><span style="display:flex;"><span>		I: i,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>InputEvent) <span style="color:#900;font-weight:bold">Type</span>() EventType {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> self.T
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> BaseFSM <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	AllStates <span style="color:#000;font-weight:bold">map</span>[<span style="color:#458;font-weight:bold">string</span>]State
+</span></span><span style="display:flex;"><span>	S         State
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewBaseFSM</span>() <span style="color:#000;font-weight:bold">*</span>BaseFSM {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>BaseFSM{}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>BaseFSM) <span style="color:#900;font-weight:bold">Register</span>(name <span style="color:#458;font-weight:bold">string</span>, state State) {
+</span></span><span style="display:flex;"><span>	self.AllStates[name] = state
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>BaseFSM) <span style="color:#900;font-weight:bold">InitState</span>(s State) {
+</span></span><span style="display:flex;"><span>	self.S = s
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">S</span>(FSMEvents[EventInitialize])
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>BaseFSM) <span style="color:#900;font-weight:bold">Dispatch</span>(i Input) {
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">S</span>(<span style="color:#900;font-weight:bold">NewInputEvent</span>(i))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>BaseFSM) <span style="color:#900;font-weight:bold">Tran</span>(target <span style="color:#458;font-weight:bold">string</span>) {
+</span></span><span style="display:flex;"><span>	s, ok <span style="color:#000;font-weight:bold">:=</span> self.AllStates[target]
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">if</span> !ok {
+</span></span><span style="display:flex;"><span>		<span style="color:#0086b3">panic</span>(<span style="color:#d14">&#34;invalid target state&#34;</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">S</span>(FSMEvents[EventStateExit])
+</span></span><span style="display:flex;"><span>	self.S = s
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">S</span>(FSMEvents[EventStateEntry])
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">type</span> ZeroCounter <span style="color:#000;font-weight:bold">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">*</span>BaseFSM
+</span></span><span style="display:flex;"><span>	count <span style="color:#458;font-weight:bold">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NewZeroCounter</span>() <span style="color:#000;font-weight:bold">*</span>ZeroCounter {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">&amp;</span>ZeroCounter{
+</span></span><span style="display:flex;"><span>		BaseFSM: <span style="color:#900;font-weight:bold">NewBaseFSM</span>(),
+</span></span><span style="display:flex;"><span>		count:   <span style="color:#099">0</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>ZeroCounter) <span style="color:#900;font-weight:bold">Init</span>() {
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">Register</span>(<span style="color:#d14">&#34;S1&#34;</span>, self.S1)
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">Register</span>(<span style="color:#d14">&#34;S2&#34;</span>, self.S2)
+</span></span><span style="display:flex;"><span>	self.<span style="color:#900;font-weight:bold">InitState</span>(self.S1)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>ZeroCounter) <span style="color:#900;font-weight:bold">S1</span>(e Event) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> e.<span style="color:#900;font-weight:bold">Type</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> EventInitialize:
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> EventStateEntry:
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> EventStateExit:
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> EventInput:
+</span></span><span style="display:flex;"><span>		event, _ <span style="color:#000;font-weight:bold">:=</span> e.(<span style="color:#000;font-weight:bold">*</span>InputEvent)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> event.I <span style="color:#000;font-weight:bold">==</span> Zero {
+</span></span><span style="display:flex;"><span>			self.count<span style="color:#000;font-weight:bold">++</span>
+</span></span><span style="display:flex;"><span>			self.<span style="color:#900;font-weight:bold">Tran</span>(<span style="color:#d14">&#34;S2&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> (self <span style="color:#000;font-weight:bold">*</span>ZeroCounter) <span style="color:#900;font-weight:bold">S2</span>(e Event) {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">switch</span> e.<span style="color:#900;font-weight:bold">Type</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> EventStateEntry:
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> EventStateExit:
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">case</span> EventInput:
+</span></span><span style="display:flex;"><span>		event, _ <span style="color:#000;font-weight:bold">:=</span> e.(<span style="color:#000;font-weight:bold">*</span>InputEvent)
+</span></span><span style="display:flex;"><span>		<span style="color:#000;font-weight:bold">if</span> event.I <span style="color:#000;font-weight:bold">==</span> Zero {
+</span></span><span style="display:flex;"><span>			self.count<span style="color:#000;font-weight:bold">++</span>
+</span></span><span style="display:flex;"><span>			self.<span style="color:#900;font-weight:bold">Tran</span>(<span style="color:#d14">&#34;S1&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">var</span> (
+</span></span><span style="display:flex;"><span>	counter <span style="color:#000;font-weight:bold">*</span>ZeroCounter
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">init</span>() {
+</span></span><span style="display:flex;"><span>	counter <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">NewZeroCounter</span>()
+</span></span><span style="display:flex;"><span>	counter.<span style="color:#900;font-weight:bold">Init</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">NumberOfZero</span>(i Input) {
+</span></span><span style="display:flex;"><span>	counter.<span style="color:#900;font-weight:bold">Dispatch</span>(i)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在这种模式中可以添加整个状态机的初始化动作，每个状态的进入/退出动作。上述代码中<code>ZeroCounter.S1()</code>方法的<code>case EventInitialize</code>分支可以放入状态机的初始化逻辑，每个状态方法的<code>case EventStateEntry</code>和<code>case EventStateExit</code>分支可以放入对应状态的进入/退出动作。这是一个重要的特性，在实际状态机编程中每个状态可以定制进入/退出动作是很有用的。</p>
+
+<h4 id="e-hsm">e. HSM&nbsp;<a class="headline-hash no-text-decoration" href="#e-hsm">#</a></h4>
+
+
+<p>上述几种模式中，状态之间都是相互独立的，状态图没有重合的部分，整个状态机都是平坦的。然而实际上很多问题的状态机模型都不会是那么简单，有可能问题域本身就有状态嵌套的概念，有时为了重用大段的处理逻辑或代码，我们也需要支持嵌套的状态。这方面一个经典的例子就是图形应用程序的编写，通过图形应用程序的框架(如MFC, GTK, Qt)编写应用程序，程序员只需要注册少数感兴趣的事件响应，如点击某个按钮，大部分其它的事件响应都由默认框架处理，如程序的关闭。用状态机来建模，框架就是父状态，而应用程序就是子状态，子状态只需要处理它感兴趣的少数事件，大部分事件都由向上传递到框架这个父状态来处理，这两种系统之间有一个直观的类比关系，如下图所示：</p>
+<p><img src="embedded_state_and_gui.jpg" alt="Anatomy of a GUI application"></p>
+<p>这种事件向父层传递，子层继承了父类行为的结构，我们将其称为<em>行为继承</em>，以区别开OOP里面的<em>类继承</em>。并把这种包含嵌套状态的状态机称为<em>HSM(hierarchical state machine)</em>，层次状态机。</p>
+<p>加上了对嵌套状态的支持之后，状态机的模型就可以变得任意复杂了，大大的扩大了状态机的适用场景和范围，如此一来用状态机对问题建模就好比用OOP对系统进行编程：识别出系统的状态及子状态，并将逻辑固化到状态及它们的跳转逻辑当中。</p>
+<p>那么在状态机实现模式里如何支持嵌套状态呢？从整个状态图来看，状态/子状态所形成的这张大图本质上是一个单根的树结构，每个状态图有一个根结点top，每个状态是一个树结点，可以带任意多的子状态/子结点，每个子状态只有一个父结点，要表达嵌套状态，就是要构造出这样一棵树。</p>
+
+<h3 id="go-hsm">go-hsm&nbsp;<a class="headline-hash no-text-decoration" href="#go-hsm">#</a></h3>
+
+
+<p>我用Golang编写了一个HSM框架<a href="https://github.com/hhkbp2/go-hsm"><em>go-hsm</em></a>，设计要点如下：</p>
+<ol>
+<li>用类来表示状态，局部化状态内部变量及逻辑，整棵状态树由具体应用构造</li>
+<li>支持嵌套状态及行为继承，支持进入退出动作，</li>
+<li>支持自定义事件，支持静态和动态两种跳转</li>
+</ol>
+<p>它的代码在<a href="https://github.com/hhkbp2/go-hsm">这里</a>，go-hsm的使用例子则放在另一个项目<a href="https://github.com/hhkbp2/go-hsm-examples"><em>go-hsm-examples</em></a>。由于Golang本身的语言特点，有一些地方的实现较其它语言多了一些缺点，比如Golang里面的binding是静态的，为了将子类对象的指针传播到父类方法，要显式传递self指针，子类的接口函数也需要由应用重写。但由于HSM本身的灵活强大，<code>go-hsm</code>具有良好的可调整性及扩展性，是一个很好的状态机建模工具，一门灵活有效表达复杂状态机的<a href="http://en.wikipedia.org/wiki/Domain-specific_language">DSL(Domain Specific Language)</a>。</p>
+<p><em>注：</em><br>
+<!-- raw HTML omitted -->[1]<!-- raw HTML omitted --> <a href="http://mitpress.mit.edu/sicp/">《Structure and Interpretation of Computer Programs》</a>一书的中文译本。<br>
+<!-- raw HTML omitted -->[2]<!-- raw HTML omitted --> 本文内容主要出自Miro Samek博士的经典著作《Practical Statecharts in C/C++: Quantum Programmming for Embedded Systems》，其中文译本书名为《嵌入式系统的微模块化程序设计：实用状态图C/C++实现》，翻译甚差，不推荐阅读。<br>
+<!-- raw HTML omitted -->[3]<!-- raw HTML omitted --> 各种编程语言里面的条件判断关键字和语句都不尽相同，有的if语句带<code>then</code>关键字，有的不带<code>then</code>，有的支持<code>switch</code>，这里将它们简单统称为if-else/switch语句。<br>
+<!-- raw HTML omitted -->[4]<!-- raw HTML omitted --> 本文中所有代码都为Go语言代码。<br>
+<!-- raw HTML omitted -->[5]<!-- raw HTML omitted --> 之所以强调函数是命名的，是因为很多语言支持匿名函数(即lambda函数)，在嵌套if-else/switch模式内部写匿名函数定义对降低代码膨胀起不了作用。<br>
+<!-- raw HTML omitted -->[6]<!-- raw HTML omitted --> OOP领域设计模式的流行，源于这本书《Design Patterns: Elements of Reusable Object-Oriented Software》的出版，其中文译本见<a href="http://book.douban.com/subject/1052241/">这里</a>。</p>
+
+
+        </div>
+    </div>
+</article>
+
+
+
+                <footer>
+                    
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="no-text-decoration">
+    <div class="jump top"><a href="#" title="Top of this page">⮉</a></div>
+    <div class="jump bottom"><a href="#bottom" title="Bottom of this page">⮋</a></div>
+</div>
+
+
+ 
+    
+        <div class="hugotoc no-text-decoration">
+            <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#fsm">FSM</a></li>
+        <li><a href="#程序设计中的fsm">程序设计中的FSM</a></li>
+        <li><a href="#go-hsm">go-hsm</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            <a href="#" class="back-to-top">Back to top</a>
+        </div>
+    
+    
+<script src="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js"></script>
+
+<link rel="preload" href="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js" as="script">
+
+<script>(function() {
+     var $window = $(window);
+     if ($window.width() >= 1400) { 
+         var $toc = $('#TableOfContents');
+         if ($toc.length > 0) {
+             function onScroll(){
+                 var currentScroll = $window.scrollTop();
+                 var h = $('.content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .h-feed h2');
+                 var id = "";
+                 h.each(function (i, e) {
+                     e = $(e);
+                     if (e.offset().top - 10 <= currentScroll) {
+                         id = e.attr('id');
+                     }
+                 });
+                 var current = $toc.find('a.current');
+                 if (current.length == 1 && current.eq(0).attr('href') == '#' + id) return true;
+
+                 current.each(function (i, e) {
+                     $(e).removeClass('current').siblings('ul').hide();
+                 });
+                 $toc.find('a[href="#' + id + '"]').parentsUntil('#TableOfContents').each(function (i, e) {
+                     $(e).children('a').addClass('current').siblings('ul').show();
+                 });
+             }
+             $window.on('scroll', onScroll);
+             $(document).ready(function() {
+                 $toc.find('a').parent('li').find('ul').hide();
+                 onScroll();
+                 document.getElementsByClassName('hugotoc')[0].style.display = '';
+             });}}})();</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="backtotop center no-text-decoration clear-float">
+    <a href="#">back to <span class="top">top</span></a>
+</div>
+
+
+<div class="right">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__linux__"
+                                
+                                
+                                title="See all 2 posts categorized in ‘Linux’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/linux/">Linux</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__state-machine__"
+                                
+                                
+                                title="This is the only post tagged with ‘State Machine’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/state-machine/">State Machine</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__hsm__"
+                                
+                                
+                                title="This is the only post tagged with ‘HSM’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/hsm/">HSM</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__go__"
+                                
+                                
+                                title="This is the only post tagged with ‘Go’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/go/">Go</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+<div class="clear-float"></div>
+
+
+
+<div class="prev-next-navigator clear-float">
+    
+        <span class="prev-post left no-text-decoration">
+            <a href="https://hhkbp2.com/all-about-ergodox/">«&nbsp;人体工学机械键盘 Ergodox</a>
+        </span>
+    
+    
+        <span class="next-post right no-text-decoration">
+            <a href="https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/">Curator 介绍&nbsp;»</a>
+        </span>
+    
+</div>
+
+
+<a id="bottom"></a>
+
+
+
+
+
+                       
+
+
+
+
+
+
+
+                    <ul class="no-bullets feed right inline">
+    
+</ul>
+<div class="clear-float"></div>
+
+                </footer>
+                <hr />
+            </div>               
+
+            <footer> 
+                
+
+
+<ul class="social no-text-decoration">
+    
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<p class="generated">
+    Generated using <a href="https://github.com/gohugoio/hugo"><span class="nobr">Hugo</span></a> +  <a href="https://gitlab.com/kaushalmodi/hugo-theme-refined"><code class="nobr">hugo-theme-refined</code></a> 
+</p>
+
+<p>
+    
+</p>
+
+
+
+
+<div class="badges no-text-decoration">
+    
+    
+
+    
+</div>
+
+
+
+
+<script>var nav=responsiveNav("#nav");</script>
+
+
+
+
+
+    
+    <script defer src="/js/libs/fragmentions/wrapper.min.b19ddbd69b83019e75a4e9bd8b5a027c75675e00329aab620ed1d470c85782ba.js"></script>
+
+
+
+
+
+
+
+
+
+
+            </footer>
+        </div> 
+    </body>
+</html>

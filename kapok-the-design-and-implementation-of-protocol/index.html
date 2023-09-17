@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+    
+    
+    
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+
+    
+    <meta name="referrer" content="no-referrer">
+
+    
+    
+
+    
+    
+        <meta name="keywords" content="Erlang, Elixir, Kapok, Lisp"/>
+    
+
+    <title>
+        
+            Kapok 的设计与实现: Protocol ❚ hhkbp2&#39;s blog
+        
+    </title>
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    <style>
+     
+     
+     :root {
+         --theme-color: #ac4142;
+         --theme-color-light: rgba(172, 65, 66, 0.1);
+         --theme-heading-color: #413b39;
+         --theme-body-color: #4d4642;
+         --theme-hl1-color: #6d625f;
+         --theme-hl2-color: #bdb5b3;
+         --theme-hl2-transp-color: rgba(189, 181, 179, 0.5);
+     }
+     
+     html {
+         line-height: 1.5;
+     }
+    </style>
+
+    
+    
+
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css">
+    
+    <link rel="preload" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css" as="style">
+
+    
+
+
+
+    
+        <style>
+         
+         /* Background */ .bg { background-color: #ffffff; }
+/* PreWrapper */ .chroma , .code-inline { background-color: #ffffff; }
+/* Other */ .chroma .x , .code-inline .x {  }
+/* Error */ .chroma .err , .code-inline .err { color: #a61717; background-color: #e3d2d2 }
+/* CodeLine */ .chroma .cl , .code-inline .cl {  }
+/* LineTableTD */ .chroma .lntd , .code-inline .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+/* LineTable */ .chroma .lntable , .code-inline .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .chroma .hl , .code-inline .hl { background-color: #ffffcc }
+/* LineNumbersTable */ .chroma .lnt , .code-inline .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .chroma .ln , .code-inline .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .chroma .line , .code-inline .line { display: flex; }
+/* Keyword */ .chroma .k , .code-inline .k { color: #000000; font-weight: bold }
+/* KeywordConstant */ .chroma .kc , .code-inline .kc { color: #000000; font-weight: bold }
+/* KeywordDeclaration */ .chroma .kd , .code-inline .kd { color: #000000; font-weight: bold }
+/* KeywordNamespace */ .chroma .kn , .code-inline .kn { color: #000000; font-weight: bold }
+/* KeywordPseudo */ .chroma .kp , .code-inline .kp { color: #000000; font-weight: bold }
+/* KeywordReserved */ .chroma .kr , .code-inline .kr { color: #000000; font-weight: bold }
+/* KeywordType */ .chroma .kt , .code-inline .kt { color: #445588; font-weight: bold }
+/* Name */ .chroma .n , .code-inline .n {  }
+/* NameAttribute */ .chroma .na , .code-inline .na { color: #008080 }
+/* NameBuiltin */ .chroma .nb , .code-inline .nb { color: #0086b3 }
+/* NameBuiltinPseudo */ .chroma .bp , .code-inline .bp { color: #999999 }
+/* NameClass */ .chroma .nc , .code-inline .nc { color: #445588; font-weight: bold }
+/* NameConstant */ .chroma .no , .code-inline .no { color: #008080 }
+/* NameDecorator */ .chroma .nd , .code-inline .nd { color: #3c5d5d; font-weight: bold }
+/* NameEntity */ .chroma .ni , .code-inline .ni { color: #800080 }
+/* NameException */ .chroma .ne , .code-inline .ne { color: #990000; font-weight: bold }
+/* NameFunction */ .chroma .nf , .code-inline .nf { color: #990000; font-weight: bold }
+/* NameFunctionMagic */ .chroma .fm , .code-inline .fm {  }
+/* NameLabel */ .chroma .nl , .code-inline .nl { color: #990000; font-weight: bold }
+/* NameNamespace */ .chroma .nn , .code-inline .nn { color: #555555 }
+/* NameOther */ .chroma .nx , .code-inline .nx {  }
+/* NameProperty */ .chroma .py , .code-inline .py {  }
+/* NameTag */ .chroma .nt , .code-inline .nt { color: #000080 }
+/* NameVariable */ .chroma .nv , .code-inline .nv { color: #008080 }
+/* NameVariableClass */ .chroma .vc , .code-inline .vc { color: #008080 }
+/* NameVariableGlobal */ .chroma .vg , .code-inline .vg { color: #008080 }
+/* NameVariableInstance */ .chroma .vi , .code-inline .vi { color: #008080 }
+/* NameVariableMagic */ .chroma .vm , .code-inline .vm {  }
+/* Literal */ .chroma .l , .code-inline .l {  }
+/* LiteralDate */ .chroma .ld , .code-inline .ld {  }
+/* LiteralString */ .chroma .s , .code-inline .s { color: #dd1144 }
+/* LiteralStringAffix */ .chroma .sa , .code-inline .sa { color: #dd1144 }
+/* LiteralStringBacktick */ .chroma .sb , .code-inline .sb { color: #dd1144 }
+/* LiteralStringChar */ .chroma .sc , .code-inline .sc { color: #dd1144 }
+/* LiteralStringDelimiter */ .chroma .dl , .code-inline .dl { color: #dd1144 }
+/* LiteralStringDoc */ .chroma .sd , .code-inline .sd { color: #dd1144 }
+/* LiteralStringDouble */ .chroma .s2 , .code-inline .s2 { color: #dd1144 }
+/* LiteralStringEscape */ .chroma .se , .code-inline .se { color: #dd1144 }
+/* LiteralStringHeredoc */ .chroma .sh , .code-inline .sh { color: #dd1144 }
+/* LiteralStringInterpol */ .chroma .si , .code-inline .si { color: #dd1144 }
+/* LiteralStringOther */ .chroma .sx , .code-inline .sx { color: #dd1144 }
+/* LiteralStringRegex */ .chroma .sr , .code-inline .sr { color: #009926 }
+/* LiteralStringSingle */ .chroma .s1 , .code-inline .s1 { color: #dd1144 }
+/* LiteralStringSymbol */ .chroma .ss , .code-inline .ss { color: #990073 }
+/* LiteralNumber */ .chroma .m , .code-inline .m { color: #009999 }
+/* LiteralNumberBin */ .chroma .mb , .code-inline .mb { color: #009999 }
+/* LiteralNumberFloat */ .chroma .mf , .code-inline .mf { color: #009999 }
+/* LiteralNumberHex */ .chroma .mh , .code-inline .mh { color: #009999 }
+/* LiteralNumberInteger */ .chroma .mi , .code-inline .mi { color: #009999 }
+/* LiteralNumberIntegerLong */ .chroma .il , .code-inline .il { color: #009999 }
+/* LiteralNumberOct */ .chroma .mo , .code-inline .mo { color: #009999 }
+/* Operator */ .chroma .o , .code-inline .o { color: #000000; font-weight: bold }
+/* OperatorWord */ .chroma .ow , .code-inline .ow { color: #000000; font-weight: bold }
+/* Punctuation */ .chroma .p , .code-inline .p {  }
+/* Comment */ .chroma .c , .code-inline .c { color: #999988; font-style: italic }
+/* CommentHashbang */ .chroma .ch , .code-inline .ch { color: #999988; font-style: italic }
+/* CommentMultiline */ .chroma .cm , .code-inline .cm { color: #999988; font-style: italic }
+/* CommentSingle */ .chroma .c1 , .code-inline .c1 { color: #999988; font-style: italic }
+/* CommentSpecial */ .chroma .cs , .code-inline .cs { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreproc */ .chroma .cp , .code-inline .cp { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreprocFile */ .chroma .cpf , .code-inline .cpf { color: #999999; font-weight: bold; font-style: italic }
+/* Generic */ .chroma .g , .code-inline .g {  }
+/* GenericDeleted */ .chroma .gd , .code-inline .gd { color: #000000; background-color: #ffdddd }
+/* GenericEmph */ .chroma .ge , .code-inline .ge { color: #000000; font-style: italic }
+/* GenericError */ .chroma .gr , .code-inline .gr { color: #aa0000 }
+/* GenericHeading */ .chroma .gh , .code-inline .gh { color: #999999 }
+/* GenericInserted */ .chroma .gi , .code-inline .gi { color: #000000; background-color: #ddffdd }
+/* GenericOutput */ .chroma .go , .code-inline .go { color: #888888 }
+/* GenericPrompt */ .chroma .gp , .code-inline .gp { color: #555555 }
+/* GenericStrong */ .chroma .gs , .code-inline .gs { font-weight: bold }
+/* GenericSubheading */ .chroma .gu , .code-inline .gu { color: #aaaaaa }
+/* GenericTraceback */ .chroma .gt , .code-inline .gt { color: #aa0000 }
+/* GenericUnderline */ .chroma .gl , .code-inline .gl { text-decoration: underline }
+/* TextWhitespace */ .chroma .w , .code-inline .w { color: #bbbbbb }
+
+         
+         /* Overrides on top of the theme and Chroma CSS */
+/* Chroma-based lines highlighting in code blocks */
+
+/* GenericHeading, GenericSubheading */
+.chroma .gh, .code-inline .gh,
+.chroma .gu, .code-inline .gu {
+    font-weight: bold;
+}
+
+/* Do not highlight error in pink background */
+/* Error */
+.chroma .err, .code-inline .err {
+    background-color: inherit;
+}
+
+/* LineTable */
+.chroma .lntable, .code-inline .lntable {
+    width: auto;
+    overflow-x: auto; /* Make the code block horizontally scrollable on narrow viewports. */
+    display: block;
+}
+
+/* LineNumbersTable, LineNumbers, Line, LineHighlight */
+/* Prevent the highlight from creating a strange artifact on line numbers. */
+.chroma .lnt, .code-inline .lnt,
+.chroma .ln, .code-inline .ln,
+.chroma .line, .code-inline .line,
+.chroma .hl, .code-inline .hl {
+    display: flex;
+}
+
+/* Set the line highlight color to match the site's theme. */
+/* LineHighlight */
+.chroma .hl, .code-inline .hl {
+    background-color: var(--theme-hl2-transp-color); /* This var is set in the head.html partial. */
+}
+
+/* Do not set the background color of inline src code*/
+.chroma.inline-src, .code-inline {
+    background-color: inherit;
+}
+
+         
+        </style>
+    
+
+    
+
+    
+    
+    
+
+    
+    <script src="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js"></script>
+    
+    <link rel="preload" href="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js" as="script">
+
+    
+    
+    <script defer src="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js"></script>
+    
+    <link rel="preload" href="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js" as="script">
+
+    
+
+    
+
+    
+    
+    
+
+    
+    
+<!-- rel="me" links for IndieAuth -->
+
+
+
+
+
+
+
+    
+ 
+<meta property="og:title" content="Kapok 的设计与实现: Protocol" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/" />
+
+    
+    
+
+
+    
+        <meta property="article:published_time" content="2018-03-19T14:56:00&#43;08:00"/>
+    
+    
+        <meta property="article:modified_time" content="2018-03-19T14:56:00&#43;08:00"/>
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+     <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Kapok 的设计与实现: Protocol"/>
+<meta name="twitter:description" content="" />
+
+
+    
+    
+    
+     
+
+
+
+
+
+    <meta name="author" content=""/>
+
+
+
+    
+    
+    
+    <meta name="hugo-build-date" content=""/>
+    <meta name="hugo-commit-hash" content=""/>
+    <meta name="generator" content="Hugo 0.118.2">
+</head>
+
+
+    
+        <body lang="en">
+    
+
+        
+        <div class="border" id="home"></div>
+
+        <div class="wrapper">   
+            
+<nav id="nav" class="nav-collapse opened" aria-hidden="false">
+    <ul class="navbar">
+        <li><a class="" href="/">Home</a></li>
+        
+            
+                <li><a class="" href="https://hhkbp2.com/posts/">Posts</a></li>
+            
+        
+            
+                <li><a class="" href="https://hhkbp2.com/about/">About</a></li>
+            
+        
+        
+    </ul>
+</nav>
+
+            <div class="container">
+                <header class="masthead">
+                    <div class="masthead-title no-text-decoration">
+                        <a href="/">hhkbp2&#39;s blog</a> <span class="blinking-cursor">❚</span>
+                    </div>
+                    <div class="masthead-tagline">
+                        Computer, programming and stuff.
+                    </div>
+                </header>
+
+                
+
+
+
+
+
+
+
+
+<article class="post h-entry posts">
+    <header>
+        <div class="center">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__elixir__"
+                                
+                                
+                                title="See all 2 posts tagged with ‘Elixir’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/elixir/">Elixir</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__kapok__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Kapok’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/kapok/">Kapok</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+
+        <h1 class="post-title p-name">Kapok 的设计与实现: Protocol</h1>
+
+        
+        <data class="u-url" value="https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/"></data>
+
+        <div class="date-syndication">
+            
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2018-03-19T14:56:00+0800" class="dt-published" title="Published date">Mar 19, 2018</time>
+        
+        
+    </div>
+
+
+        </div>
+         
+
+
+
+
+
+
+    </header>
+
+    <div class="content">
+        
+
+
+        
+
+
+
+
+
+                       
+
+
+        
+
+
+        <div class="e-content">
+            
+
+
+
+
+<p><a href="https://github.com/kapok-lang/kapok">Kapok</a>是我设计与实现的一个基于Erlang VM的现代Lisp编程语言。<a href="/blog/2016/06/08/minds-echo/">《念念不忘，亦有回响》</a>这篇文章叙述了这门编程语言的概况。下面我们来聊一聊其中Protocol的具体设计和实现。</p>
+
+<h2 id="protocol是什么">Protocol是什么&nbsp;<a class="headline-hash no-text-decoration" href="#protocol%e6%98%af%e4%bb%80%e4%b9%88">#</a></h2>
+
+
+<p>为了更好地进行程序的编写，编程语言往往需要引入一些抽象，比如一个函数是一系列操作的封装，一个模块是一堆函数的封装，然后出于通用性的需要，又定义了函数签名来区分具有相同参数类型和参数个数的函数，对于具有相同函数签名的模块，在Erlang我们定义了行为(Behavior)。类似地，Protocol也是一种对数据类型和基于数据类型上实现的一些函数的抽象。在面向对象编程语言(OOP)非常流行的今天，这种抽象更多地被称为类与接口。</p>
+<p>下面简单举例来说明Protocol是什么。在Erlang里面，如果我们要编写一段代码来处理不同的数据类型，往往需要在一大块集中代码里面针对每一种数据类型进行不同的处理。假设我们正在编写一个Json模块，这个模块要处理list, binary, number三种类型的encode(编码)操作，那么就有代码：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-erlang" data-lang="erlang"><span style="display:flex;"><span>-<span style="color:#800080">module</span>(json)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#900;font-weight:bold">encode</span>(<span style="color:#008080">Item</span>) <span style="color:#000;font-weight:bold">when</span> <span style="color:#0086b3">is_list</span>(<span style="color:#008080">Item</span>) <span style="color:#000;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic">% ...
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#900;font-weight:bold">encode</span>(<span style="color:#008080">Item</span>) <span style="color:#000;font-weight:bold">when</span> <span style="color:#0086b3">is_binary</span>(<span style="color:#008080">Item</span>) <span style="color:#000;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic">% ...
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span><span style="color:#900;font-weight:bold">encode</span>(<span style="color:#008080">Item</span>) <span style="color:#000;font-weight:bold">when</span> <span style="color:#0086b3">is_number</span>(<span style="color:#008080">Item</span>) <span style="color:#000;font-weight:bold">-&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic">% ...
+</span></span></span></code></pre></div><p>如果要添加更多的数据类型，那么就在模块内部添加对应那个数据类型的分支。但是如果你没有这个模块的源代码就无法添加，而且经过长时间添加多个类型支持后这个模块变得非常大，难于维护。Elixir引入了Protocol，针对上述的encode操作，可以定义成一个Protocol，代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">defprotocol</span> <span style="color:#458;font-weight:bold">JSON</span> <span style="color:#000;font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">def</span> encode(item)
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">end</span>
+</span></span></code></pre></div><p>对于任何实现了<code>JSON</code> Protocol的数据类型对象<code>data</code>，都可以直接调用下述函数：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span><span style="color:#458;font-weight:bold">JSON</span><span style="color:#000;font-weight:bold">.</span>encode(data)
+</span></span></code></pre></div><p>这些数据类型的<code>JSON</code> Protocol实现可以分散放在各个文件中，没有要集中维护的问题，当你需要添加一个新的数据类型的支持时，也不需要已有模块的源代码。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">defimpl</span> <span style="color:#458;font-weight:bold">JSON</span>, <span style="color:#990073">for</span>: <span style="color:#458;font-weight:bold">List</span> <span style="color:#000;font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">def</span> encode(item) <span style="color:#998;font-style:italic"># ...</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">defimpl</span> <span style="color:#458;font-weight:bold">JSON</span>, <span style="color:#990073">for</span>: <span style="color:#458;font-weight:bold">BitString</span> <span style="color:#000;font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">def</span> encode(item) <span style="color:#998;font-style:italic"># ...</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">defimpl</span> <span style="color:#458;font-weight:bold">JSON</span>, <span style="color:#990073">for</span>: <span style="color:#458;font-weight:bold">Number</span> <span style="color:#000;font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">def</span> encode(item) <span style="color:#998;font-style:italic"># ...</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">end</span>
+</span></span></code></pre></div><p>通过Protocol这样一个抽象，我们可以在函数式的编程语言中，定义对数据类型绑定一系列的接口，然后针对这些通用的接口来进行编程。针对接口编程一个常常被提到的用法是，在需要快速编写原型的时候，使用简单的数据类型进行接口编程，先快速实现功能，等到程序稳定下来，后期需要进行性能优化的时候，再将接口下面的数据类型更换成更高效的实现，这个过程中所有的接口使用代码都不需要修改。</p>
+
+<h2 id="elixir中protocol的实现">Elixir中Protocol的实现&nbsp;<a class="headline-hash no-text-decoration" href="#elixir%e4%b8%adprotocol%e7%9a%84%e5%ae%9e%e7%8e%b0">#</a></h2>
+
+
+<p>Protocol，或者说类接口，它的广义的概念可以追溯到20世纪80年代开始流行的面向对象编程语言，比如C++，甚至更早之前60~70年代就已经存在的Lisp，从那个年代流传至今的很多Lisp方言中，都或多或少有着这种抽象，比如Common Lisp中的Sequence的概念。而在Erlang VM上实现了Protocol的Elixir语言，它则是参考了Clojure的Protocol定义和实现。下面简单描述一下Elixir的Protocol实现。</p>
+<p>从上面的例子我们可以看到，Protocol的本质是将数据类型和接口分开定义，并在运行时进行动态绑定。上述例子中，对于List类型，定义了对应的encode实现，调用Protocol的接口<code>JSON.encode(data)</code>时，如果data是List类型，就进行动态分发，执行对应的encode实现。那么如何实现这种动态绑定或者说分发呢？由于Erlang是一个函数式编程语言，Erlang VM的基本语义中也只支持模块和函数，因为Protocol的每个实现可以分开，而Erlang VM中基础的编译单元是模块，一个简单的映射方法就是将每个Protocol实现映射为一个模块。而对于接口模块<code>JSON</code>，很自然地也成为一个单独的模块。那么就只剩下一个问题了，即如何实现当调用<code>JSON.encode()</code>时，将执行路径转到<code>defimpl JSON, for: List</code>模块的<code>encode()</code>函数，这里可以实现为在运行时拼接模块名，然后调用具体模块的函数。上述的Elixir代码中的例子，将编译成对应的Erlang代码：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>          Elixir                                  Erlang
+</span></span><span style="display:flex;"><span>defprotocol JSON do                     -module(JSON).
+</span></span><span style="display:flex;"><span>  def encode(item)         生成          encode(item) -&gt;
+</span></span><span style="display:flex;"><span>end                                        case item of
+</span></span><span style="display:flex;"><span>                                             data when is_list(data) -&gt;
+</span></span><span style="display:flex;"><span>                                               &#39;JSON.List&#39;:encode(data);
+</span></span><span style="display:flex;"><span>                                             data when is_binary(data) -&gt;
+</span></span><span style="display:flex;"><span>                                               &#39;JSON.BitString&#39;:encode(data);
+</span></span><span style="display:flex;"><span>                                             data when is_number(data) -&gt;
+</span></span><span style="display:flex;"><span>                                               &#39;JSON.Number&#39;:encode(data)
+</span></span><span style="display:flex;"><span>                                             data when is_struct_X(data) -&gt;
+</span></span><span style="display:flex;"><span>                                               &#39;JSON.X&#39;: encode(data)
+</span></span><span style="display:flex;"><span>                                           ...
+</span></span></code></pre></div><p>这里的struct_X表示除了几个基本数据类型以外的用户自定义struct类型，其中X为struct的名字，即对应Elixir中的代码</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">defmodule</span> <span style="color:#458;font-weight:bold">X</span> <span style="color:#000;font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">defstruct</span> <span style="color:#998;font-style:italic"># ...</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">end</span>
+</span></span></code></pre></div><p>对于各个数据的类型的实现，可以映射为各个Erlang模块：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>          Elixir                                         Erlang
+</span></span><span style="display:flex;"><span>defimpl JSON, for: List do            生成      -module(&#39;JSON.List&#39;).
+</span></span><span style="display:flex;"><span>  def encode(item) # ...                        encode(item) -&gt;
+</span></span><span style="display:flex;"><span>end                                               %% ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>defimpl JSON, for: BitString do                 -module(&#39;JSON.BitString&#39;).
+</span></span><span style="display:flex;"><span>  def encode(item) # ...                        encode(item) -&gt;
+</span></span><span style="display:flex;"><span>end                                               %% ...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>defimpl JSON, for: Number do                    -module(&#39;JSON.Number&#39;).
+</span></span><span style="display:flex;"><span>  def encode(item) # ...                        encode(item) -&gt;
+</span></span><span style="display:flex;"><span>end                                               %% ...
+</span></span></code></pre></div><p>注意其中的模块名是由Protocol名字，即这个例子中的JSON，和具体的数据类型名，即这个例子中的List, BitString, Number等，两者拼接而成。</p>
+
+<h2 id="kapok中protocol的实现">Kapok中Protocol的实现&nbsp;<a class="headline-hash no-text-decoration" href="#kapok%e4%b8%adprotocol%e7%9a%84%e5%ae%9e%e7%8e%b0">#</a></h2>
+
+
+<p>既然Elixir已经实现了Protocol，而且Kapok和Elixir都兼容于Erlang VM，那么除了另外捣腾一套Protocol的用法和实现之外，比较好的做法就是兼容Elixir的实现，从而达到重用所有Elixir己经有的库和代码的效果。Elixir中定义了每个Protocol模块都必需具备的接口函数，具体列出如下，它们都是通过defprocotol宏来实现的：</p>
+<ul>
+<li>
+<p><code>__protocol__/1</code>
+当参数是<code>:name</code>，返回Protocol名字
+当参数是<code>:functions</code>，返回一个元素为Protocol接口函数和参数个数的关键字列表
+当参数是<code>:impls</code>，返回一个实现的列表</p>
+</li>
+<li>
+<p><code>impl_for/1</code>
+接收一个struct，返回为此struct实现当前Protocol的模块名，如果不存在这样的实现模块则返回<code>:nil</code></p>
+</li>
+<li>
+<p><code>impl_for!/1</code>
+类似于上面的<code>impl_for/1</code>，区别在于当实现模块不存在时不返回<code>:nil</code>而是抛出异常</p>
+</li>
+</ul>
+<p>在Kapok中，也定义类似的Macro<code>defprotocol</code>来生成这些接口函数。类似地，对于Elixir中的<code>defstruct</code>, <code>defimpl</code> Macro，Kapok也定义了对应的Macro来生成对应的struct结构，和实现函数接口。</p>
+<p>以上所述的种种Protocol结构都是通过Macro，这个强大的Lisp编程方式，来实现的。通过Macro处理手写代码，生成新代码，我们可以在Kapok实现一套类似于Elixir Protocol原语，无缝对接到已有的Elixir代码和库中。</p>
+
+<h2 id="kapok的protocol使用示例">Kapok的Protocol使用示例&nbsp;<a class="headline-hash no-text-decoration" href="#kapok%e7%9a%84protocol%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b">#</a></h2>
+
+
+<p>最后附上一个Kapok代码示例，展示一下Protocol在Kapok中的定义和使用，便于理解。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-clojure" data-lang="clojure"><span style="display:flex;"><span><span style="color:#998;font-style:italic">;; 定义一个用于此示例的Protocol</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#000;font-weight:bold">defprotocol </span><span style="color:#008080">pr</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#d14">&#34;A protocol to print something.&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic">;; 此Protocol唯一接口用来打印某个数据</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#0086b3">print </span>[<span style="color:#008080">self</span>]))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">;; 为Atom数据类型实现pr Protocol</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#900;font-weight:bold">defimpl</span> <span style="color:#0086b3">pr </span><span style="color:#008080">Atom</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#900;font-weight:bold">require</span> <span style="color:#008080">io</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#000;font-weight:bold">defn </span><span style="color:#0086b3">print </span>[<span style="color:#008080">atom</span>]
+</span></span><span style="display:flex;"><span>    (<span style="color:#900;font-weight:bold">io.format</span> <span style="color:#d14">&#34;print an atom: #&#39;~p&#39;~n&#34;</span> [<span style="color:#008080">atom</span>])))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">;; 为List数据类型实现pr Protocol</span>
+</span></span><span style="display:flex;"><span>(<span style="color:#900;font-weight:bold">defimpl</span> <span style="color:#0086b3">pr </span><span style="color:#008080">List</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic">;; 在print的实现代码中，直接使用了Elixir的Enum Protocol</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic">;; 所以这里用了一行代码引入Elixir.Enum模块</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#900;font-weight:bold">require</span> (<span style="color:#900;font-weight:bold">Elixir.Enum</span> <span style="color:#990073">:as</span> <span style="color:#008080">enum</span>)
+</span></span><span style="display:flex;"><span>           <span style="color:#008080">io</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#000;font-weight:bold">defn </span><span style="color:#0086b3">print </span>[<span style="color:#008080">list</span>]
+</span></span><span style="display:flex;"><span>    (<span style="color:#900;font-weight:bold">io.format</span> <span style="color:#d14">&#34;print a char list: #\&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">;; 直接在List上调用enum.map，直接使用Elixir库代码</span>
+</span></span><span style="display:flex;"><span>    (<span style="color:#900;font-weight:bold">enum.map</span> <span style="color:#008080">list</span>
+</span></span><span style="display:flex;"><span>              (<span style="color:#000;font-weight:bold">fn </span>[<span style="color:#008080">x</span>] (<span style="color:#900;font-weight:bold">io.format</span> <span style="color:#d14">&#34;~c&#34;</span> [<span style="color:#008080">x</span>])))
+</span></span><span style="display:flex;"><span>    (<span style="color:#900;font-weight:bold">io.format</span> <span style="color:#d14">&#34;\&#34;~n&#34;</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(<span style="color:#000;font-weight:bold">ns </span><span style="color:#008080">protocol-examples</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#900;font-weight:bold">require</span> <span style="color:#008080">pr</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(<span style="color:#000;font-weight:bold">defn </span><span style="color:#008080">main</span> []
+</span></span><span style="display:flex;"><span>  <span style="color:#998;font-style:italic">;; 下面先后声明了Atom和List两种数据类型的实例，并调用pr.print接口</span>
+</span></span><span style="display:flex;"><span>  (<span style="color:#000;font-weight:bold">let </span>[<span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">#</span><span style="color:#008080">abc</span>]
+</span></span><span style="display:flex;"><span>    (<span style="color:#900;font-weight:bold">pr.print</span> <span style="color:#008080">data</span>))
+</span></span><span style="display:flex;"><span>  (<span style="color:#000;font-weight:bold">let </span>[<span style="color:#008080">data</span> <span style="color:#000;font-weight:bold">#</span><span style="color:#d14">&#34;abc&#34;</span>]
+</span></span><span style="display:flex;"><span>    (<span style="color:#900;font-weight:bold">pr.print</span> <span style="color:#008080">data</span>)))
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">;; 得到输出</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">print </span><span style="color:#008080">an</span> <span style="color:#008080">atom</span><span style="color:#a61717;background-color:#e3d2d2">:</span> <span style="color:#000;font-weight:bold">#</span><span style="color:#990073">&#39;abc</span><span style="color:#000;font-weight:bold">&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">print </span><span style="color:#008080">a</span> <span style="color:#0086b3">char </span><span style="color:#008080">list</span><span style="color:#a61717;background-color:#e3d2d2">:</span> <span style="color:#000;font-weight:bold">#</span><span style="color:#d14">&#34;abc&#34;</span>
+</span></span></code></pre></div>
+
+        </div>
+    </div>
+</article>
+
+
+
+                <footer>
+                    
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+<div class="no-text-decoration">
+    <div class="jump top"><a href="#" title="Top of this page">⮉</a></div>
+    <div class="jump bottom"><a href="#bottom" title="Bottom of this page">⮋</a></div>
+</div>
+
+
+ 
+    
+        <div class="hugotoc no-text-decoration">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#protocol是什么">Protocol是什么</a></li>
+    <li><a href="#elixir中protocol的实现">Elixir中Protocol的实现</a></li>
+    <li><a href="#kapok中protocol的实现">Kapok中Protocol的实现</a></li>
+    <li><a href="#kapok的protocol使用示例">Kapok的Protocol使用示例</a></li>
+  </ul>
+</nav>
+            <a href="#" class="back-to-top">Back to top</a>
+        </div>
+    
+    
+<script src="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js"></script>
+
+<link rel="preload" href="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js" as="script">
+
+<script>(function() {
+     var $window = $(window);
+     if ($window.width() >= 1400) { 
+         var $toc = $('#TableOfContents');
+         if ($toc.length > 0) {
+             function onScroll(){
+                 var currentScroll = $window.scrollTop();
+                 var h = $('.content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .h-feed h2');
+                 var id = "";
+                 h.each(function (i, e) {
+                     e = $(e);
+                     if (e.offset().top - 10 <= currentScroll) {
+                         id = e.attr('id');
+                     }
+                 });
+                 var current = $toc.find('a.current');
+                 if (current.length == 1 && current.eq(0).attr('href') == '#' + id) return true;
+
+                 current.each(function (i, e) {
+                     $(e).removeClass('current').siblings('ul').hide();
+                 });
+                 $toc.find('a[href="#' + id + '"]').parentsUntil('#TableOfContents').each(function (i, e) {
+                     $(e).children('a').addClass('current').siblings('ul').show();
+                 });
+             }
+             $window.on('scroll', onScroll);
+             $(document).ready(function() {
+                 $toc.find('a').parent('li').find('ul').hide();
+                 onScroll();
+                 document.getElementsByClassName('hugotoc')[0].style.display = '';
+             });}}})();</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="backtotop center no-text-decoration clear-float">
+    <a href="#">back to <span class="top">top</span></a>
+</div>
+
+
+<div class="right">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__elixir__"
+                                
+                                
+                                title="See all 2 posts tagged with ‘Elixir’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/elixir/">Elixir</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__kapok__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Kapok’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/kapok/">Kapok</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+<div class="clear-float"></div>
+
+
+
+<div class="prev-next-navigator clear-float">
+    
+    
+        <span class="next-post right no-text-decoration">
+            <a href="https://hhkbp2.com/kapok-the-design-and-implementation-of-macro/">Kapok 的设计与实现: Macro&nbsp;»</a>
+        </span>
+    
+</div>
+
+
+<a id="bottom"></a>
+
+
+
+
+
+                       
+
+
+
+
+
+
+
+                    <ul class="no-bullets feed right inline">
+    
+</ul>
+<div class="clear-float"></div>
+
+                </footer>
+                <hr />
+            </div>               
+
+            <footer> 
+                
+
+
+<ul class="social no-text-decoration">
+    
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<p class="generated">
+    Generated using <a href="https://github.com/gohugoio/hugo"><span class="nobr">Hugo</span></a> +  <a href="https://gitlab.com/kaushalmodi/hugo-theme-refined"><code class="nobr">hugo-theme-refined</code></a> 
+</p>
+
+<p>
+    
+</p>
+
+
+
+
+<div class="badges no-text-decoration">
+    
+    
+
+    
+</div>
+
+
+
+
+<script>var nav=responsiveNav("#nav");</script>
+
+
+
+
+
+    
+    <script defer src="/js/libs/fragmentions/wrapper.min.b19ddbd69b83019e75a4e9bd8b5a027c75675e00329aab620ed1d470c85782ba.js"></script>
+
+
+
+
+
+
+
+
+
+
+            </footer>
+        </div> 
+    </body>
+</html>

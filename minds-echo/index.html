@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+    
+    
+    
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+
+    
+    <meta name="referrer" content="no-referrer">
+
+    
+    
+
+    
+    
+        <meta name="keywords" content="Erlang, Clojure, Kapok, Lisp"/>
+    
+
+    <title>
+        
+            念念不忘，亦有回响 ❚ hhkbp2&#39;s blog
+        
+    </title>
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    <style>
+     
+     
+     :root {
+         --theme-color: #ac4142;
+         --theme-color-light: rgba(172, 65, 66, 0.1);
+         --theme-heading-color: #413b39;
+         --theme-body-color: #4d4642;
+         --theme-hl1-color: #6d625f;
+         --theme-hl2-color: #bdb5b3;
+         --theme-hl2-transp-color: rgba(189, 181, 179, 0.5);
+     }
+     
+     html {
+         line-height: 1.5;
+     }
+    </style>
+
+    
+    
+
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css">
+    
+    <link rel="preload" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css" as="style">
+
+    
+
+
+
+    
+        <style>
+         
+         /* Background */ .bg { background-color: #ffffff; }
+/* PreWrapper */ .chroma , .code-inline { background-color: #ffffff; }
+/* Other */ .chroma .x , .code-inline .x {  }
+/* Error */ .chroma .err , .code-inline .err { color: #a61717; background-color: #e3d2d2 }
+/* CodeLine */ .chroma .cl , .code-inline .cl {  }
+/* LineTableTD */ .chroma .lntd , .code-inline .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+/* LineTable */ .chroma .lntable , .code-inline .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .chroma .hl , .code-inline .hl { background-color: #ffffcc }
+/* LineNumbersTable */ .chroma .lnt , .code-inline .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .chroma .ln , .code-inline .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .chroma .line , .code-inline .line { display: flex; }
+/* Keyword */ .chroma .k , .code-inline .k { color: #000000; font-weight: bold }
+/* KeywordConstant */ .chroma .kc , .code-inline .kc { color: #000000; font-weight: bold }
+/* KeywordDeclaration */ .chroma .kd , .code-inline .kd { color: #000000; font-weight: bold }
+/* KeywordNamespace */ .chroma .kn , .code-inline .kn { color: #000000; font-weight: bold }
+/* KeywordPseudo */ .chroma .kp , .code-inline .kp { color: #000000; font-weight: bold }
+/* KeywordReserved */ .chroma .kr , .code-inline .kr { color: #000000; font-weight: bold }
+/* KeywordType */ .chroma .kt , .code-inline .kt { color: #445588; font-weight: bold }
+/* Name */ .chroma .n , .code-inline .n {  }
+/* NameAttribute */ .chroma .na , .code-inline .na { color: #008080 }
+/* NameBuiltin */ .chroma .nb , .code-inline .nb { color: #0086b3 }
+/* NameBuiltinPseudo */ .chroma .bp , .code-inline .bp { color: #999999 }
+/* NameClass */ .chroma .nc , .code-inline .nc { color: #445588; font-weight: bold }
+/* NameConstant */ .chroma .no , .code-inline .no { color: #008080 }
+/* NameDecorator */ .chroma .nd , .code-inline .nd { color: #3c5d5d; font-weight: bold }
+/* NameEntity */ .chroma .ni , .code-inline .ni { color: #800080 }
+/* NameException */ .chroma .ne , .code-inline .ne { color: #990000; font-weight: bold }
+/* NameFunction */ .chroma .nf , .code-inline .nf { color: #990000; font-weight: bold }
+/* NameFunctionMagic */ .chroma .fm , .code-inline .fm {  }
+/* NameLabel */ .chroma .nl , .code-inline .nl { color: #990000; font-weight: bold }
+/* NameNamespace */ .chroma .nn , .code-inline .nn { color: #555555 }
+/* NameOther */ .chroma .nx , .code-inline .nx {  }
+/* NameProperty */ .chroma .py , .code-inline .py {  }
+/* NameTag */ .chroma .nt , .code-inline .nt { color: #000080 }
+/* NameVariable */ .chroma .nv , .code-inline .nv { color: #008080 }
+/* NameVariableClass */ .chroma .vc , .code-inline .vc { color: #008080 }
+/* NameVariableGlobal */ .chroma .vg , .code-inline .vg { color: #008080 }
+/* NameVariableInstance */ .chroma .vi , .code-inline .vi { color: #008080 }
+/* NameVariableMagic */ .chroma .vm , .code-inline .vm {  }
+/* Literal */ .chroma .l , .code-inline .l {  }
+/* LiteralDate */ .chroma .ld , .code-inline .ld {  }
+/* LiteralString */ .chroma .s , .code-inline .s { color: #dd1144 }
+/* LiteralStringAffix */ .chroma .sa , .code-inline .sa { color: #dd1144 }
+/* LiteralStringBacktick */ .chroma .sb , .code-inline .sb { color: #dd1144 }
+/* LiteralStringChar */ .chroma .sc , .code-inline .sc { color: #dd1144 }
+/* LiteralStringDelimiter */ .chroma .dl , .code-inline .dl { color: #dd1144 }
+/* LiteralStringDoc */ .chroma .sd , .code-inline .sd { color: #dd1144 }
+/* LiteralStringDouble */ .chroma .s2 , .code-inline .s2 { color: #dd1144 }
+/* LiteralStringEscape */ .chroma .se , .code-inline .se { color: #dd1144 }
+/* LiteralStringHeredoc */ .chroma .sh , .code-inline .sh { color: #dd1144 }
+/* LiteralStringInterpol */ .chroma .si , .code-inline .si { color: #dd1144 }
+/* LiteralStringOther */ .chroma .sx , .code-inline .sx { color: #dd1144 }
+/* LiteralStringRegex */ .chroma .sr , .code-inline .sr { color: #009926 }
+/* LiteralStringSingle */ .chroma .s1 , .code-inline .s1 { color: #dd1144 }
+/* LiteralStringSymbol */ .chroma .ss , .code-inline .ss { color: #990073 }
+/* LiteralNumber */ .chroma .m , .code-inline .m { color: #009999 }
+/* LiteralNumberBin */ .chroma .mb , .code-inline .mb { color: #009999 }
+/* LiteralNumberFloat */ .chroma .mf , .code-inline .mf { color: #009999 }
+/* LiteralNumberHex */ .chroma .mh , .code-inline .mh { color: #009999 }
+/* LiteralNumberInteger */ .chroma .mi , .code-inline .mi { color: #009999 }
+/* LiteralNumberIntegerLong */ .chroma .il , .code-inline .il { color: #009999 }
+/* LiteralNumberOct */ .chroma .mo , .code-inline .mo { color: #009999 }
+/* Operator */ .chroma .o , .code-inline .o { color: #000000; font-weight: bold }
+/* OperatorWord */ .chroma .ow , .code-inline .ow { color: #000000; font-weight: bold }
+/* Punctuation */ .chroma .p , .code-inline .p {  }
+/* Comment */ .chroma .c , .code-inline .c { color: #999988; font-style: italic }
+/* CommentHashbang */ .chroma .ch , .code-inline .ch { color: #999988; font-style: italic }
+/* CommentMultiline */ .chroma .cm , .code-inline .cm { color: #999988; font-style: italic }
+/* CommentSingle */ .chroma .c1 , .code-inline .c1 { color: #999988; font-style: italic }
+/* CommentSpecial */ .chroma .cs , .code-inline .cs { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreproc */ .chroma .cp , .code-inline .cp { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreprocFile */ .chroma .cpf , .code-inline .cpf { color: #999999; font-weight: bold; font-style: italic }
+/* Generic */ .chroma .g , .code-inline .g {  }
+/* GenericDeleted */ .chroma .gd , .code-inline .gd { color: #000000; background-color: #ffdddd }
+/* GenericEmph */ .chroma .ge , .code-inline .ge { color: #000000; font-style: italic }
+/* GenericError */ .chroma .gr , .code-inline .gr { color: #aa0000 }
+/* GenericHeading */ .chroma .gh , .code-inline .gh { color: #999999 }
+/* GenericInserted */ .chroma .gi , .code-inline .gi { color: #000000; background-color: #ddffdd }
+/* GenericOutput */ .chroma .go , .code-inline .go { color: #888888 }
+/* GenericPrompt */ .chroma .gp , .code-inline .gp { color: #555555 }
+/* GenericStrong */ .chroma .gs , .code-inline .gs { font-weight: bold }
+/* GenericSubheading */ .chroma .gu , .code-inline .gu { color: #aaaaaa }
+/* GenericTraceback */ .chroma .gt , .code-inline .gt { color: #aa0000 }
+/* GenericUnderline */ .chroma .gl , .code-inline .gl { text-decoration: underline }
+/* TextWhitespace */ .chroma .w , .code-inline .w { color: #bbbbbb }
+
+         
+         /* Overrides on top of the theme and Chroma CSS */
+/* Chroma-based lines highlighting in code blocks */
+
+/* GenericHeading, GenericSubheading */
+.chroma .gh, .code-inline .gh,
+.chroma .gu, .code-inline .gu {
+    font-weight: bold;
+}
+
+/* Do not highlight error in pink background */
+/* Error */
+.chroma .err, .code-inline .err {
+    background-color: inherit;
+}
+
+/* LineTable */
+.chroma .lntable, .code-inline .lntable {
+    width: auto;
+    overflow-x: auto; /* Make the code block horizontally scrollable on narrow viewports. */
+    display: block;
+}
+
+/* LineNumbersTable, LineNumbers, Line, LineHighlight */
+/* Prevent the highlight from creating a strange artifact on line numbers. */
+.chroma .lnt, .code-inline .lnt,
+.chroma .ln, .code-inline .ln,
+.chroma .line, .code-inline .line,
+.chroma .hl, .code-inline .hl {
+    display: flex;
+}
+
+/* Set the line highlight color to match the site's theme. */
+/* LineHighlight */
+.chroma .hl, .code-inline .hl {
+    background-color: var(--theme-hl2-transp-color); /* This var is set in the head.html partial. */
+}
+
+/* Do not set the background color of inline src code*/
+.chroma.inline-src, .code-inline {
+    background-color: inherit;
+}
+
+         
+        </style>
+    
+
+    
+
+    
+    
+    
+
+    
+    <script src="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js"></script>
+    
+    <link rel="preload" href="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js" as="script">
+
+    
+    
+    <script defer src="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js"></script>
+    
+    <link rel="preload" href="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js" as="script">
+
+    
+
+    
+
+    
+    
+    
+
+    
+    
+<!-- rel="me" links for IndieAuth -->
+
+
+
+
+
+
+
+    
+ 
+<meta property="og:title" content="念念不忘，亦有回响" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://hhkbp2.com/minds-echo/" />
+
+    
+    
+
+
+    
+        <meta property="article:published_time" content="2016-06-08T00:00:00&#43;08:00"/>
+    
+    
+        <meta property="article:modified_time" content="2016-06-08T00:00:00&#43;08:00"/>
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+     <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="念念不忘，亦有回响"/>
+<meta name="twitter:description" content="" />
+
+
+    
+    
+    
+     
+
+
+
+
+
+    <meta name="author" content=""/>
+
+
+
+    
+    
+    
+    <meta name="hugo-build-date" content=""/>
+    <meta name="hugo-commit-hash" content=""/>
+    <meta name="generator" content="Hugo 0.118.2">
+</head>
+
+
+    
+        <body lang="en">
+    
+
+        
+        <div class="border" id="home"></div>
+
+        <div class="wrapper">   
+            
+<nav id="nav" class="nav-collapse opened" aria-hidden="false">
+    <ul class="navbar">
+        <li><a class="" href="/">Home</a></li>
+        
+            
+                <li><a class="" href="https://hhkbp2.com/posts/">Posts</a></li>
+            
+        
+            
+                <li><a class="" href="https://hhkbp2.com/about/">About</a></li>
+            
+        
+        
+    </ul>
+</nav>
+
+            <div class="container">
+                <header class="masthead">
+                    <div class="masthead-title no-text-decoration">
+                        <a href="/">hhkbp2&#39;s blog</a> <span class="blinking-cursor">❚</span>
+                    </div>
+                    <div class="masthead-tagline">
+                        Computer, programming and stuff.
+                    </div>
+                </header>
+
+                
+
+
+
+
+
+
+
+
+<article class="post h-entry posts">
+    <header>
+        <div class="center">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__clojure__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Clojure’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/clojure/">Clojure</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__kapok__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Kapok’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/kapok/">Kapok</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+
+        <h1 class="post-title p-name">念念不忘，亦有回响</h1>
+
+        
+        <data class="u-url" value="https://hhkbp2.com/minds-echo/"></data>
+
+        <div class="date-syndication">
+            
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2016-06-08T00:00:00+0800" class="dt-published" title="Published date">Jun 8, 2016</time>
+        
+        
+    </div>
+
+
+        </div>
+         
+
+
+
+
+
+
+    </header>
+
+    <div class="content">
+        
+
+
+        
+
+
+
+
+
+                       
+
+
+        
+
+
+        <div class="e-content">
+            
+
+
+
+
+
+
+
+<figure>
+    
+        <img src="https://hhkbp2.com/minds-echo/lights_in_the_grandmaster.jpg" title="电影《一代宗师》佛前灯"/> <figcaption>
+                
+            </figcaption></figure>
+
+<p>多年以前，当我在Linux下选择Emacs做为编辑器的时候，似乎只是一个比较随机的选择。当时我已经接触并使用VI有一段日子，然而我使用它的体验并不算愉快，也许是我被VI命令模式和编辑模式搞乱了太多次，于是想找个其它编辑器试试，而当时我所知道的Linux终端字符界面编辑器并不多，Emacs是其中一个，然后我就开始使用Emacs，从此一发不可收拾，走上了一条不断修炼的漫漫长路。这段经历后来浓缩成了<a href="/blog/2013/01/08/the-pragmatic-emacser/">《Emacs修炼之道》</a>这篇文章。Emacs不仅给我提供了一个舒适高效的编辑器工具与环境，也引领我走入了Lisp语言的世界。</p>
+<p>Lisp语言诞生自几十年前，这几十年间世事沧桑，一个又一个浪潮在计算机行业冒升又落下，一门又一门新的编程语言流行而又衰落，Lisp语言早已退出流行的行列，然而却始终吸引着一小群程序员前仆后继地不断进入它的世界。除了传统的几种Lisp方言，2007年出现的Clojure将Lisp在JVM平台重新做了一个现代的实现，也掀起了一波新的潮流，吸引了很多人的关注和使用。几十年前诞生的编程语言，大多早已消失在历史的长河中了，为什么Lisp能够保持长期的生命力呢？正如看待黑客文化时有人主要关注它的政治正确，有人则将它看成是嗡嗡作响的经济引擎，不同的人对Lisp优点的看法也大不相同。有人喜欢Lisp以List作为唯一代码组织方式的简单明了，有人欣赏Lisp由核心几个特殊Form支撑起来的体系，对应着数学领域里面的公理上搭建大厦的体系结构，有人则更实利化只关注可以帮助提高开发效率的那些方面。在我看来，Lisp最吸引我的一点就是强大的元编程能力，非常便于编写DSL。当然这并不是说其它方面不重要，如交互式编程，强调函数式风格但又不强制函数式为唯一风格等特点也是可圈可点。</p>
+<p>Lisp的思想和设计是如此优秀，然而传统的几种方言的实现Scheme，Common Lisp还有另外几个方言都没能紧跟这个时代的步伐，Clojure的作者Rich Hickey必定是深知这点，才会创造了Clojure。感谢Rich，我们得以知道在某个语言的成熟VM上实现一个现代Lisp的可行性，也欣赏到了Clojure设计与哲学的种种优雅美丽之处。Clojure设计于运行在JVM之上，固然是它的成功关键，因为如此一来就可以重用成熟的JVM环境以及丰富的代码库，同时Java程序员这个群体也非常庞大，能吸引到的Clojure使用者也多。另一方面也产生了一些缺点，因为底层的JVM原本是为Java设计实现的，而Java的并发模型还停留在操作系统进程/线程和锁这一种方式，因此Clojure除了保留Java的并发原语之外，还在并发上做了多种尝试，像软事务内存，几种不同的原语delay, future, promise，还有几种不同的引用类型。如此多的新概念和原语不可谓不丰富，同时也是繁多复杂。每当我的脑细胞因为折腾可变与不变或者write skew而被烧死一部分的时候，我总是怀念Erlang Actor并发模型的简单。</p>
+<p>既然要顺适多核化的趋势，就需要语言本身的并发机制支持用户态进程/协程。那么为什么不直接使用Erlang呢？虽然Erlang并不是Lisp，但Erlang的设计也受到Lisp的影响，很多地方都有Lisp的影子，比如交互shell，热更新等。然而我对Erlang也有觉得不满意的地方，除了经常被, ; .几个符号搞晕之外，最大的不满是来自于在Erlang里做元编程的不便，但是Erlang代码又有很强烈的元编程需求，比如OTP里面的大片模板代码。因此在编写Erlang代码的时候，我又相当怀念Lisp的Macro。</p>
+<p>那么，能否把Erlang和Lisp两者的优点结合起来呢，就像在JVM上实现Clojure一样，也许可以在Erlang VM上实现一门Lisp语言？到我的脑海中冒出这个想法的时候，距离我最早接触Erlang已经有三年多时间，距离学习Clojure已经有两年，另外当时在工作上我也写了大半年的Golang，是的，近几年中我学习/使用过的编程语言也不少，基本上每年都会学一到两门新语言，虽然不是每个新学语言都有机会用来写大量的代码，但也算是见识了不少编程语言，也许是对很多好的语言有着更高的期望吧，没有哪种已知的编程语言令我觉得非常满意。带着把Erlang和Lisp结合的想法，我发现原来Erlang VM就像Java VM，VM之上也有中间语言层，可以基于这中间层来实现一门Lisp，而且，早在几年前，就已经有人这样做了。我发现了Robert Virding写的LFE，和Eric Merritt写的Joxa。</p>
+<p>作为参与设计Erlang的元老，Robert一直以来也是探索Erlang应用方面的先行者，早在2007年就写了LFE，并且影响了一众后来基于Erlang VM的新语言，如Elixir。LFE是Lisp Flavored Erlang的缩写，顾名思义，LFE就是把Erlang写成Lisp，除了多了一些括号之外(去掉了Erlang原来的分隔符如, ; .等)跟Erlang十分相似，LFE的设计目标在于提供一个可扩展语法的Erlang，它的实现也达到这个目标。然后跟我理想中的Lisp语言相去有一定距离，我并不喜欢它的Lisp-2风格，跟Erlang相似的模块设计如显式的export，只在编译时可用的Macro等方面。</p>
+<p>另外一个实现Joxa则是由Eric在2011年开始写的，Eric也是Erlang界的老前辈了，他先是试用过LFE，然后觉得并不如意才重新设计和实现了Joxa，之前我写过的文章<a href="/blog/2015/08/20/joxa-a-lisp-programming-language-base-on-erlang-vm/">《Joxa: 一种基于Erlang VM的现代Lisp编程语言》</a>详细描述了两者的渊源和差别，这里就不再展开了。总的来说，Joxa的Lisp味相对更浓一些，更符合我的个人口味。在过去的一年多时间里，我仔细阅读了Joxa的实现并添加了Erlang R17后引入的Map的语法。Joxa虽好，但有两个主要原因让我不得不考虑重新做一个实现：</p>
+<ol>
+<li>
+<p>Joxa目前的实现是用自举的方式将Lisp代码经过编译转换成Core Erlang，自举是很cool的一种实现编译器的方式，然而用在语法不够稳定的场景下，会提高后续语言开发的复杂度和难度。Core Erlang也是一个规模小巧设计良好的中间层，然而文档方面相当缺乏，很多时候必需花大量时间人手去获取从上层到它的翻译细节。相对来说更上层的Abstract Format虽然规模更大，然而文档较多，一些工具也只工作在这一层，所以更适合用于做为编译器的目标语言。在这一点上我和Eric讨论得出的一致结论是，要将Joxa用Erlang重写并将目标输出定位到Abstract Format，却因为彼此都忙暂时未有足够精力将其重写。</p>
+</li>
+<li>
+<p>Joxa的设计目标强调它要小而简，希望成为一个小的核心语言，如果其他人有需要就在其上定制扩展。这种设计也是Lisp语言的一种传统特色，由于扩展性强，可以做到核心小扩展大，类似的思想也被人在不同的语言和项目上实现，比如PyPy和Python 3。然而我更希望有一套功能较多较全的编程语言，因此需要在语法和代码规模上都需要添加(或者改动，但主要是添加)很多内容，这就与Joxa的目标有冲突。据我所知Eric对Joxa有明确的定位，应该不会乐意在Joxa里面接受这些添加或改变，因此最好我还是用一个新项目名字来重写一个基于Erlang VM的Lisp实现。</p>
+</li>
+</ol>
+<p>一直以来我有个朦胧的想法，希望在下一个我能够自己决定命名的项目，能够用上一个带有我居住所在地中国华南地区的风物，或者带有东南亚色彩的名字，在给这个新项目取名时，老家旧居楼房前面的两棵高大的木棉树出现在我的脑海，那是一种在南方非常常见非常普通的树，平时不会特别觉察到它们的存在，然而有时觉察到它们的存在却又不禁觉得特别，像鲁迅笔下所说：“在我的后园，可以看见墙外有两株树，一株是枣树，还有一株也是枣树”。于是就将这个新项目的名字取为木棉，英文是Kapok。</p>
+<p>我想，Kapok这个新的基于Erlang VM上的Lisp实现会包含如下这些内容：</p>
+<ol>
+<li>
+<p>一套类似Clojure风格的现代Lisp语法(Lisp-1)，当然在语法上并不能无脑照抄Clojure，比如方括号[]在Clojure中表示Vector，在Erlang却是List，那么Kapok里如何选择？若语义跟随前者，是用Erlang的tuple来实现Vector语义还是另外再做一套实现？若语义跟随后者，和普通圆括号()又如何区分，各自的使用场景如何确定？每处细节都需要仔细考量，这些细节也会影响其它方面，如下面将提到的兼容性。另外Clojure语法糖较多，而我不喜欢太甜。</p>
+</li>
+<li>
+<p>与Erlang VM保持最大的兼容，在Erlang VM上实现的多种语言，都选择了将语法及语义尽量向Erlang靠拢，比如新语言的函数直接编译成Erlang的函数，如此得以保持良好的兼容性，新语言的代码可以直接与Erlang VM基础设施与已有库代码进行相互调用，不像Clojure那样需要通过中间包装。Erlang是一门函数式语言，这意味着新语言最好也保持这种函数式的语义，当然也可以通过上层逻辑修改这种限制，比如另一门基于Erlang VM的语言Elixir通过在编译器做变量名映射的技巧使得在Elixir里同一个变量可以做多次绑定，如此一来Elixir在变量使用上更像命令式语言。基于两个原因我个人更偏向于在Kapok里面完全保留Erlang的函数式语义，一是它利于并发，二是它语义更清晰。</p>
+</li>
+<li>
+<p>新的语言机制，目前已经在考虑中的有：支持Clojure的Protocol(运行时类型分派，让语言更动态)，探索一套带类型标注的DSL来做强类型编程(强制编译时类型检查，让语言更静态)，Lazy API。其中第Protocal和Lazy API源自Clojure(当然Clojure也借鉴了其它语言)，并且已经在Elixir中得到实现。同时我对其它新想法持开放的态度。</p>
+</li>
+<li>
+<p>功能丰富接口现代的标准库，包括常用宏，文件，网络等方面，特别一提的是Erlang原生用字符列表来表示字符串并不理想，因此需要有一整套高效易用的unicode字符串标准库，在LFE和Elixir中都重新定义了binary string，这是一个比较好的方案，可以借鉴。</p>
+</li>
+<li>
+<p>强大且现代的开发工具集，包括：文档及Apropos接口/工具，编辑器集成(如Emacs mode), 项目管理工具(参考Mix)，交互性开发环境(集成Slime和Swank)等</p>
+</li>
+</ol>
+<p>上面的几点综合了Clojure, Erlang, Joxa, LFE, Elixir, Emacs等多种语言或机制，希望可以取多家之长，提供一套强大完整的开发环境。当然也可以说是一个大杂烩，然而不是无脑照搬，库和工具集可以丰富多样，然而基础语法需要保持简约节制，避免出现C++或Scala那样过于烧脑的设计。同时也要了解到上面几点内容只是一个初步的想法，后面可能会根据实际情况有所添加或改变。我一直有个用一门新编程语言编写一个开源数据库的朦胧想法，Kapok完善到一定程度之后，也许可以用Kapok来完成我这个想法。</p>
+<p>有了简要设计，就可以开工编写代码了，首先要实现的是1, 2两点，亦即核心编译器部分。要写Kapok的想法早在去年就已经产生，然而一直拖拖拉拉未能动手。去年年中祖母去世，让我明白到时间匆匆人生太短，有些事情想做就抓紧时间去做，迟早人生的终点只是青山上的一把黄土。于是开始动手，由于平时上下班剩余时间不多，生活琐事缠身，进展较为缓慢，拖拉了几个月逐渐完成了编译器前端，大概到今年初开始写后端，也算是慢慢重温了一遍大学时开的编译课程。最近有了一些时间，终于折腾到可以跑起来的程度。我想Kapok这个项目不可谓不大，终究不能短期内完成，要做到非常完善的程度，更是有待时日。就像长跑，并非重在一时之快慢，积跬步恒坚持，方能走得更久更远。我所需要做的，就是调整呼吸，跨开步子。</p>
+<p>于是就把Kapok开源了，github地址在<a href="https://github.com/kapok-lang/kapok">这里</a>，虽然暂时还有很多问题和缺点，也有很多想法未能实现，但我想这也算是一个不错的长跑起步。</p>
+<p>十年之前，当我第一次安装并启动Emacs的时候，决没有料到会十年之后它带领我在Lisp的世界走了这么远。几年之前在接触Erlang，Clojure的时候，没有想到有一天会用Erlang重写一门Clojure风格的Lisp语言。一年之前开始着手Kapok的时候，我也不知道这个项目要做到何时，做到什么程度。然后事情冥冥中就这样发生了，而我将沿着这条路继续向前走。王家卫电影《一代宗师》里面，宫先生说“念念不忘，必有回响”，行知做人跟练武一样，秉着意念坚持下去，终究能有一点回响。</p>
+
+
+        </div>
+    </div>
+</article>
+
+
+
+                <footer>
+                    
+
+
+
+    
+        
+    
+
+    
+        
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+    <section class="backlinks">
+        
+        <h2 id="backlinks">Backlinks <a class="headline-hash no-text-decoration" href="#backlinks">#</a></h2>
+        <nav>
+            <ul>
+                
+                    <li><a href="/kapok-the-design-and-implementation-of-protocol/">Kapok 的设计与实现: Protocol</a></li>
+                
+                    <li><a href="/kapok-the-design-and-implementation-of-macro/">Kapok 的设计与实现: Macro</a></li>
+                
+            </ul>
+        </nav>
+    </section>
+
+
+
+
+
+
+
+
+
+<div class="no-text-decoration">
+    <div class="jump top"><a href="#" title="Top of this page">⮉</a></div>
+    <div class="jump bottom"><a href="#bottom" title="Bottom of this page">⮋</a></div>
+</div>
+
+
+ 
+    
+        <div class="hugotoc no-text-decoration">
+            <nav id="TableOfContents"></nav>
+            <a href="#" class="back-to-top">Back to top</a>
+        </div>
+    
+    
+<script src="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js"></script>
+
+<link rel="preload" href="/js/libs/jquery/3.3.1/jquery.slim.min.min.22ee3db0c0e99fd0fbce3aee19672bd53d25469daf734bd4c165649f6eaf7d7f.js" as="script">
+
+<script>(function() {
+     var $window = $(window);
+     if ($window.width() >= 1400) { 
+         var $toc = $('#TableOfContents');
+         if ($toc.length > 0) {
+             function onScroll(){
+                 var currentScroll = $window.scrollTop();
+                 var h = $('.content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .h-feed h2');
+                 var id = "";
+                 h.each(function (i, e) {
+                     e = $(e);
+                     if (e.offset().top - 10 <= currentScroll) {
+                         id = e.attr('id');
+                     }
+                 });
+                 var current = $toc.find('a.current');
+                 if (current.length == 1 && current.eq(0).attr('href') == '#' + id) return true;
+
+                 current.each(function (i, e) {
+                     $(e).removeClass('current').siblings('ul').hide();
+                 });
+                 $toc.find('a[href="#' + id + '"]').parentsUntil('#TableOfContents').each(function (i, e) {
+                     $(e).children('a').addClass('current').siblings('ul').show();
+                 });
+             }
+             $window.on('scroll', onScroll);
+             $(document).ready(function() {
+                 $toc.find('a').parent('li').find('ul').hide();
+                 onScroll();
+                 document.getElementsByClassName('hugotoc')[0].style.display = '';
+             });}}})();</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="backtotop center no-text-decoration clear-float">
+    <a href="#">back to <span class="top">top</span></a>
+</div>
+
+
+<div class="right">
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__clojure__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Clojure’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/clojure/">Clojure</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__kapok__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Kapok’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/kapok/">Kapok</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+</div>
+<div class="clear-float"></div>
+
+
+
+<div class="prev-next-navigator clear-float">
+    
+        <span class="prev-post left no-text-decoration">
+            <a href="https://hhkbp2.com/kapok-the-design-and-implementation-of-macro/">«&nbsp;Kapok 的设计与实现: Macro</a>
+        </span>
+    
+    
+        <span class="next-post right no-text-decoration">
+            <a href="https://hhkbp2.com/joxa-a-lisp-programming-language-base-on-erlang-vm/">Joxa: 一种基于 Erlang VM 的现代 Lisp 编程语言&nbsp;»</a>
+        </span>
+    
+</div>
+
+
+<a id="bottom"></a>
+
+
+
+
+
+                       
+
+
+
+
+
+
+
+                    <ul class="no-bullets feed right inline">
+    
+</ul>
+<div class="clear-float"></div>
+
+                </footer>
+                <hr />
+            </div>               
+
+            <footer> 
+                
+
+
+<ul class="social no-text-decoration">
+    
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<p class="generated">
+    Generated using <a href="https://github.com/gohugoio/hugo"><span class="nobr">Hugo</span></a> +  <a href="https://gitlab.com/kaushalmodi/hugo-theme-refined"><code class="nobr">hugo-theme-refined</code></a> 
+</p>
+
+<p>
+    
+</p>
+
+
+
+
+<div class="badges no-text-decoration">
+    
+    
+
+    
+</div>
+
+
+
+
+<script>var nav=responsiveNav("#nav");</script>
+
+
+
+
+
+    
+    <script defer src="/js/libs/fragmentions/wrapper.min.b19ddbd69b83019e75a4e9bd8b5a027c75675e00329aab620ed1d470c85782ba.js"></script>
+
+
+
+
+
+
+
+
+
+
+            </footer>
+        </div> 
+    </body>
+</html>

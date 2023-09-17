@@ -1,0 +1,151 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>
+            
+                    Macro on
+                
+            
+            hhkbp2&#39;s blog</title>
+        <link>https://hhkbp2.com/tags/macro/</link>
+        <description>Recent content  in Macro
+            on hhkbp2&#39;s blog</description>
+        <language>en-us</language>
+        <lastBuildDate>Sun, 17 Sep 2023 18:23:56 +0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+            <atom:link href="https://hhkbp2.com/tags/macro/index.xml" rel="self" type="application/rss&#43;xml" />
+        
+            
+            <item>
+                <title>嵌套反引用有害</title>
+                <link>https://hhkbp2.com/nested-backquotes-considered-harmful/</link>
+                
+                
+                <description>&lt;p&gt;本文翻译自&lt;a href=&#34;http://bc.tech.coop/blog/041205.html&#34;&gt;《Nested Backquotes considered harmful》&lt;/a&gt;，只用于学习，请勿用于其它用途。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;好吧，我想嵌套反引用（nested backquote）不是真的有害，因为你的确可以用它来做一些没有它就很难做到的事情；然而，它又的确会导致非常难以理解的代码（它对于混乱代码比赛&lt;a href=&#34;#1&#34;&gt;[1]&lt;/a&gt;或许是有用的，但非常难以维护）。实际上，这篇文章的标题应该叫做“嵌套反引用令我头痛”，但我一直想写一篇标题叫做“那谁谁有害”的文章，于是，标题就是这个了。;-)&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注：如果你不知道什么是嵌套反引用，它为什么有用，或者感兴趣于了解更多关于写出或理解这种典型地由嵌套反引用生成的，用于生成代码的代码，那么Alan Bawden的杰出论文&lt;a href=&#34;www.linearity.org/bawden/ftp/pepm99.ps.gz&#34;&gt;《Quasiquotation in Lisp》&lt;/a&gt;值得一看（这是&lt;a href=&#34;http://groups.google.com/groups?hl=en&amp;amp;lr=&amp;amp;selm=41adc0bd%240%24276%24edfadb0f%40dread12.news.tele.dk&#34;&gt;Jens Axel Søgaard&lt;/a&gt;所推荐的）。Alan的论文描述了这项技术的历史和概况，而且读起来很有趣。Paul Graham在他的书《On Lisp》的第16章也谈到了嵌套反引用，他说&lt;a href=&#34;#2&#34;&gt;[2]&lt;/a&gt;：&lt;br&gt;
+&lt;code&gt;为了定义一个定义宏的宏，我们通常会要用到嵌套的反引用。嵌套反引用的难以理解是出了名的。尽管最终我们会对那些常见的情况了如指掌，但你不能指望随便挑一个反引用表达式，都能看一眼，就能立即说出它可以产生什么。这不能归罪于 Lisp。就像一个复杂的积分，没人能看一眼就得出积分的结果，但是我们不能因为这个就把问题归咎于积分的表示方法。道理是一样的。难点在于问题本身，而非表示问题的方法。&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Bruno Haible最近&lt;a href=&#34;groups.google.com/groups?hl=en&amp;amp;lr=&amp;amp;selm=con4h2%24odi%241%40laposte.ilog.fr&#34;&gt;在c.l.l.解释了避免嵌套反引用的两个不同方法&lt;/a&gt;。它们主要包含将嵌套反引用转换为简单反引用的做法。这两个方法他概述如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1. 在内层使用LIST, APPEND等函数代替反引用
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2. 使用包含反引用的辅助函数
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Bruno为每个方法提供了例子。&lt;/p&gt;
+&lt;p&gt;首先，下面给出的这段代码用了嵌套反引用：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defmacro&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;once-only&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;rest&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#0086b3&#34;&gt;assert&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;every&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;symbolp&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt; ((&lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;nil&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#0086b3&#34;&gt;dotimes&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;i&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;)) (&lt;span style=&#34;color:#0086b3&#34;&gt;push&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;gensym&lt;/span&gt;) &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;every&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;side-effect-free?&lt;/span&gt; (&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;progn&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,,@&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;mapcar&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;lambda&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;tmp&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                          &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;``&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;,tmp&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                      &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;mapcar&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;lambda&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;tmp&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;,tmp&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;             &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)))))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;原来的代码使用方法1转换后如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defmacro&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;once-only&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;rest&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#0086b3&#34;&gt;assert&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;every&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;symbolp&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt; ((&lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;nil&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#0086b3&#34;&gt;dotimes&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;i&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;)) (&lt;span style=&#34;color:#0086b3&#34;&gt;push&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;gensym&lt;/span&gt;) &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;every&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;side-effect-free?&lt;/span&gt; (&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;progn&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       (&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         (&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,@&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;mapcar&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;lambda&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;tmp&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                             &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;,tmp&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;mapcar&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;lambda&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;tmp&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;,tmp&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)))))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;原来的代码使用方法2转换后如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-common-lisp&#34; data-lang=&#34;common-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;construct-binding&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;variable&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;form&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;variable&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;form&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;construct-let-wrapper&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;bindings&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;body-form&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;bindings&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body-form&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;defmacro&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;once-only&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;&amp;amp;rest&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#0086b3&#34;&gt;assert&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;every&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;symbolp&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt; ((&lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;nil&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    (&lt;span style=&#34;color:#0086b3&#34;&gt;dotimes&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;i&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;)) (&lt;span style=&#34;color:#0086b3&#34;&gt;push&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;gensym&lt;/span&gt;) &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;every&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;side-effect-free?&lt;/span&gt; (&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;progn&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       (&lt;span style=&#34;color:#008080&#34;&gt;construct-let-wrapper&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         (&lt;span style=&#34;color:#458;font-weight:bold&#34;&gt;list&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,@&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;mapcar&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;lambda&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;tmp&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                             &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#008080&#34;&gt;construct-binding&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;,tmp&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                         &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         (&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;(&lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;mapcar&lt;/span&gt; &lt;span style=&#34;color:#900;font-weight:bold&#34;&gt;#&amp;#39;&lt;/span&gt;(&lt;span style=&#34;color:#0086b3&#34;&gt;lambda&lt;/span&gt; (&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;tmp&lt;/span&gt;) &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;`&lt;/span&gt;(&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#990073&#34;&gt;&amp;#39;,tmp&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                       &lt;span style=&#34;color:#008080&#34;&gt;variables&lt;/span&gt; &lt;span style=&#34;color:#008080&#34;&gt;temps&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#008080&#34;&gt;body&lt;/span&gt;)))))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;两个方法中的任一个，产生的代码的可读性都比原来代码好得多。&lt;/p&gt;
+&lt;p&gt;作为Bruno建议方法的一种替代，也许你会考虑使用&lt;a href=&#34;http://www.cs.yale.edu/homes/dvm/&#34;&gt;Drew McDermott&lt;/a&gt;的BQ反引用工具（包含在&lt;a href=&#34;ftp://ftp.cs.yale.edu/pub/mcdermott/software/ytools.tar.gz&#34;&gt;YTools&lt;/a&gt;中）。Drew在&lt;a href=&#34;http://www.cs.yale.edu/homes/dvm/papers/ytdoc.pdf&#34;&gt;YTools手册&lt;/a&gt;中对这个反引用问题有一个很好的解释：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;反引用是Lisp的一个不可或缺的特性。然而在标准说明中它并非尽善尽美。我主要有两个不满：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;当实现一个像反引用这样的机制时，需要3个东西：一个读取器，一个宏展开器，一个写入器。读取器将如&lt;code&gt; `(foo ,x)&lt;/code&gt;的字符序列转换为如&lt;code&gt;(backquote (foo (bq-comma x)))&lt;/code&gt;的内部形式（Allegro就是这样读取的）。之后宏展开器将backquote调用转变为像&lt;code&gt;(list &#39;foo x)&lt;/code&gt;构造函数形式。写入器将&lt;code&gt;(backquote (foo (bq-comma x)))&lt;/code&gt;输出为&lt;code&gt; `(foo ,x)&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;不幸的是，Common Lisp标准没有详细说明宏（macro）是什么。因此，它依赖于具体实现。对比来看，普通的引用（quote）有一个定义良好的内部形式&lt;code&gt;(quote x)&lt;/code&gt;，因此有一个定义良好的来自外部形式&lt;code&gt;&#39;x&lt;/code&gt;的转换。没有详细标准的问题就在于，要写一个你自己的工具配合读取器，宏取开器或写入器，是不可能的。例如，无法写一个可移植的代码遍历程序，针对反引用表达式来做一些特别的事情。事实上，一个Lisp实现甚至不要求有一个反引用的内部表示。读取器和宏展开器可以合并，以致于&lt;code&gt; `(foo ,x)&lt;/code&gt;可以读作&lt;code&gt;(list &#39;foo x)&lt;/code&gt;。此外反引用写入器的行为并非良好定义的，因为无法区别一个列表构造形式是不是由反引用转化来的。&lt;/p&gt;
+&lt;p&gt;为什么要与宏展开器交互呢，这里有个例子。你或许也想和读取器有交互。假设你希望创造一个泛化的反引用读取宏（就叫它&lt;code&gt;!@&lt;/code&gt;吧），这个宏建造一些并非列表结构的东西，你可以将&lt;code&gt;(apply #&#39;make-a-foo (list &#39;baz a) l)&lt;/code&gt;简写作&lt;code&gt;!@(make-a-foo (baz ,a) ,@l)&lt;/code&gt;。当这个表达式&lt;code&gt;!@(...)&lt;/code&gt;被读入时，很多Lisp实现会报一个类似“Comma not inside a backquote”（逗号出现在非反引用表达式中）的错，没有可移植的办法来干预读取过程来使它变成合法的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;用于阐明嵌套反引用的规则是，逗号是与围绕它的最内层的反引用配对的。（同时提取它的参数到上下文中，以便下一个逗号匹配到下一个反引用，如此类推。）&lt;/p&gt;
+&lt;p&gt;我想这是错误的，或者至少在某些情况下是错误的。我从左到右地读反引用代码，因此先看见最外层的反引用。人们会喜欢这样理解：从反引用的角度来看，所有在它里面的东西，除了用逗号标记的之外都是“不会动的（inert）”（即被引用住）。对于所有可能会出现在其中的表达式，除了反引用外，这是成立的。所以如果你正编辑一个复杂的反引用表达式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&#39;(foo (bazaroo &#39;(fcn a ,x)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;内层的引用不会“遮蔽”住&lt;code&gt;x&lt;/code&gt;使它免于被求值。但如果将内层的引用改成反引用，那么遮蔽就正正要发生。你必须把它改成这样：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&#39;(foo (bazaroo `(,fcn a ,&#39;,x)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个&lt;code&gt;,&#39;,&lt;/code&gt;构造只是外观丑陋而已。它的唯一作用是将它的参数提取出最内层的反引用；你不能用&lt;code&gt;,,x&lt;/code&gt;，因为这是说“当外层的反引用被展开时对&lt;code&gt;x&lt;/code&gt;求值，得到&lt;code&gt;e&lt;/code&gt;，然后当最内层反引用展开时求值&lt;code&gt;e&lt;/code&gt;”。注意求值是次序是从外到内，然而嵌套反引用的规则是从内到外。非常，非常的令人迷惑。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这些不是巨大缺陷：99.9%的反引用不是嵌套的，而且几乎没人关心一个反引用的内部表示是什么。可是如果你感兴趣，文件&lt;code&gt;bq.lisp&lt;/code&gt;提供一个可选的实现。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因此，正如Common Lisp里大多数的事物一样，如果你不喜欢某些东西，你可以改变它！当你需要写这类嵌套反引用的代码时，你有（至少）4种不同的可以考虑的选择（基于你有多少嵌套反引用工作要做，还有你个人对代码风格／可读性的偏好）：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1. 使用嵌套反引用
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2. 在内层使用LIST, APPEND等函数代替反引用
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;3. 使用包含反引用的辅助函数
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;4. 使用一个反引用的替代实现
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;现在，出山吧，去写一些这样的代码：一种形式的代码不断的生成下一种形式，像生物进化的过程那样一代一代衍生。;-)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：&lt;/em&gt;&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[1]&lt;!-- raw HTML omitted --&gt; 即Obfuscation Contest。国际C语言混乱代码大赛（IOCCC, The International Obfuscated C Code Contest）是一项著名的国际编程赛事。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;[2]&lt;!-- raw HTML omitted --&gt; 此段译文引用田春（伞哥）等人翻译的《On Lisp中文版》对应章节。&lt;/p&gt;
+</description>
+                
+                
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/categories/lisp">Lisp</category>
+                                
+                            
+                        
+                     
+                        
+                             
+                            
+                                
+                                 
+                                    <category domain="https://hhkbp2.com/tags/common-lisp">Common Lisp</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/backquote">Backquote</category>
+                                 
+                                    <category domain="https://hhkbp2.com/tags/macro">Macro</category>
+                                
+                            
+                        
+                    
+                
+                <guid>https://hhkbp2.com/nested-backquotes-considered-harmful/</guid>
+                <pubDate>Sun, 10 Mar 2013 21:37:00 +0800</pubDate>
+            </item>
+        
+    </channel>
+</rss>
+
+

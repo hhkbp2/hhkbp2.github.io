@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+    
+    
+    
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+
+    
+    <meta name="referrer" content="no-referrer">
+
+    
+    
+
+    
+    
+
+    <title>
+        
+            hhkbp2&#39;s blog ❚
+        
+    </title>
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
+    <style>
+     
+     
+     :root {
+         --theme-color: #ac4142;
+         --theme-color-light: rgba(172, 65, 66, 0.1);
+         --theme-heading-color: #413b39;
+         --theme-body-color: #4d4642;
+         --theme-hl1-color: #6d625f;
+         --theme-hl2-color: #bdb5b3;
+         --theme-hl2-transp-color: rgba(189, 181, 179, 0.5);
+     }
+     
+     html {
+         line-height: 1.5;
+     }
+    </style>
+
+    
+    
+
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css">
+    
+    <link rel="preload" href="/css/refined.min.2b8a165c1548d4a3fac47edd6e34071f93872f1131116f68d96d3b02ae7e15da.css" as="style">
+
+    
+
+
+
+    
+        <style>
+         
+         /* Background */ .bg { background-color: #ffffff; }
+/* PreWrapper */ .chroma , .code-inline { background-color: #ffffff; }
+/* Other */ .chroma .x , .code-inline .x {  }
+/* Error */ .chroma .err , .code-inline .err { color: #a61717; background-color: #e3d2d2 }
+/* CodeLine */ .chroma .cl , .code-inline .cl {  }
+/* LineTableTD */ .chroma .lntd , .code-inline .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+/* LineTable */ .chroma .lntable , .code-inline .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }
+/* LineHighlight */ .chroma .hl , .code-inline .hl { background-color: #ffffcc }
+/* LineNumbersTable */ .chroma .lnt , .code-inline .lnt { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* LineNumbers */ .chroma .ln , .code-inline .ln { white-space: pre; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+/* Line */ .chroma .line , .code-inline .line { display: flex; }
+/* Keyword */ .chroma .k , .code-inline .k { color: #000000; font-weight: bold }
+/* KeywordConstant */ .chroma .kc , .code-inline .kc { color: #000000; font-weight: bold }
+/* KeywordDeclaration */ .chroma .kd , .code-inline .kd { color: #000000; font-weight: bold }
+/* KeywordNamespace */ .chroma .kn , .code-inline .kn { color: #000000; font-weight: bold }
+/* KeywordPseudo */ .chroma .kp , .code-inline .kp { color: #000000; font-weight: bold }
+/* KeywordReserved */ .chroma .kr , .code-inline .kr { color: #000000; font-weight: bold }
+/* KeywordType */ .chroma .kt , .code-inline .kt { color: #445588; font-weight: bold }
+/* Name */ .chroma .n , .code-inline .n {  }
+/* NameAttribute */ .chroma .na , .code-inline .na { color: #008080 }
+/* NameBuiltin */ .chroma .nb , .code-inline .nb { color: #0086b3 }
+/* NameBuiltinPseudo */ .chroma .bp , .code-inline .bp { color: #999999 }
+/* NameClass */ .chroma .nc , .code-inline .nc { color: #445588; font-weight: bold }
+/* NameConstant */ .chroma .no , .code-inline .no { color: #008080 }
+/* NameDecorator */ .chroma .nd , .code-inline .nd { color: #3c5d5d; font-weight: bold }
+/* NameEntity */ .chroma .ni , .code-inline .ni { color: #800080 }
+/* NameException */ .chroma .ne , .code-inline .ne { color: #990000; font-weight: bold }
+/* NameFunction */ .chroma .nf , .code-inline .nf { color: #990000; font-weight: bold }
+/* NameFunctionMagic */ .chroma .fm , .code-inline .fm {  }
+/* NameLabel */ .chroma .nl , .code-inline .nl { color: #990000; font-weight: bold }
+/* NameNamespace */ .chroma .nn , .code-inline .nn { color: #555555 }
+/* NameOther */ .chroma .nx , .code-inline .nx {  }
+/* NameProperty */ .chroma .py , .code-inline .py {  }
+/* NameTag */ .chroma .nt , .code-inline .nt { color: #000080 }
+/* NameVariable */ .chroma .nv , .code-inline .nv { color: #008080 }
+/* NameVariableClass */ .chroma .vc , .code-inline .vc { color: #008080 }
+/* NameVariableGlobal */ .chroma .vg , .code-inline .vg { color: #008080 }
+/* NameVariableInstance */ .chroma .vi , .code-inline .vi { color: #008080 }
+/* NameVariableMagic */ .chroma .vm , .code-inline .vm {  }
+/* Literal */ .chroma .l , .code-inline .l {  }
+/* LiteralDate */ .chroma .ld , .code-inline .ld {  }
+/* LiteralString */ .chroma .s , .code-inline .s { color: #dd1144 }
+/* LiteralStringAffix */ .chroma .sa , .code-inline .sa { color: #dd1144 }
+/* LiteralStringBacktick */ .chroma .sb , .code-inline .sb { color: #dd1144 }
+/* LiteralStringChar */ .chroma .sc , .code-inline .sc { color: #dd1144 }
+/* LiteralStringDelimiter */ .chroma .dl , .code-inline .dl { color: #dd1144 }
+/* LiteralStringDoc */ .chroma .sd , .code-inline .sd { color: #dd1144 }
+/* LiteralStringDouble */ .chroma .s2 , .code-inline .s2 { color: #dd1144 }
+/* LiteralStringEscape */ .chroma .se , .code-inline .se { color: #dd1144 }
+/* LiteralStringHeredoc */ .chroma .sh , .code-inline .sh { color: #dd1144 }
+/* LiteralStringInterpol */ .chroma .si , .code-inline .si { color: #dd1144 }
+/* LiteralStringOther */ .chroma .sx , .code-inline .sx { color: #dd1144 }
+/* LiteralStringRegex */ .chroma .sr , .code-inline .sr { color: #009926 }
+/* LiteralStringSingle */ .chroma .s1 , .code-inline .s1 { color: #dd1144 }
+/* LiteralStringSymbol */ .chroma .ss , .code-inline .ss { color: #990073 }
+/* LiteralNumber */ .chroma .m , .code-inline .m { color: #009999 }
+/* LiteralNumberBin */ .chroma .mb , .code-inline .mb { color: #009999 }
+/* LiteralNumberFloat */ .chroma .mf , .code-inline .mf { color: #009999 }
+/* LiteralNumberHex */ .chroma .mh , .code-inline .mh { color: #009999 }
+/* LiteralNumberInteger */ .chroma .mi , .code-inline .mi { color: #009999 }
+/* LiteralNumberIntegerLong */ .chroma .il , .code-inline .il { color: #009999 }
+/* LiteralNumberOct */ .chroma .mo , .code-inline .mo { color: #009999 }
+/* Operator */ .chroma .o , .code-inline .o { color: #000000; font-weight: bold }
+/* OperatorWord */ .chroma .ow , .code-inline .ow { color: #000000; font-weight: bold }
+/* Punctuation */ .chroma .p , .code-inline .p {  }
+/* Comment */ .chroma .c , .code-inline .c { color: #999988; font-style: italic }
+/* CommentHashbang */ .chroma .ch , .code-inline .ch { color: #999988; font-style: italic }
+/* CommentMultiline */ .chroma .cm , .code-inline .cm { color: #999988; font-style: italic }
+/* CommentSingle */ .chroma .c1 , .code-inline .c1 { color: #999988; font-style: italic }
+/* CommentSpecial */ .chroma .cs , .code-inline .cs { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreproc */ .chroma .cp , .code-inline .cp { color: #999999; font-weight: bold; font-style: italic }
+/* CommentPreprocFile */ .chroma .cpf , .code-inline .cpf { color: #999999; font-weight: bold; font-style: italic }
+/* Generic */ .chroma .g , .code-inline .g {  }
+/* GenericDeleted */ .chroma .gd , .code-inline .gd { color: #000000; background-color: #ffdddd }
+/* GenericEmph */ .chroma .ge , .code-inline .ge { color: #000000; font-style: italic }
+/* GenericError */ .chroma .gr , .code-inline .gr { color: #aa0000 }
+/* GenericHeading */ .chroma .gh , .code-inline .gh { color: #999999 }
+/* GenericInserted */ .chroma .gi , .code-inline .gi { color: #000000; background-color: #ddffdd }
+/* GenericOutput */ .chroma .go , .code-inline .go { color: #888888 }
+/* GenericPrompt */ .chroma .gp , .code-inline .gp { color: #555555 }
+/* GenericStrong */ .chroma .gs , .code-inline .gs { font-weight: bold }
+/* GenericSubheading */ .chroma .gu , .code-inline .gu { color: #aaaaaa }
+/* GenericTraceback */ .chroma .gt , .code-inline .gt { color: #aa0000 }
+/* GenericUnderline */ .chroma .gl , .code-inline .gl { text-decoration: underline }
+/* TextWhitespace */ .chroma .w , .code-inline .w { color: #bbbbbb }
+
+         
+         /* Overrides on top of the theme and Chroma CSS */
+/* Chroma-based lines highlighting in code blocks */
+
+/* GenericHeading, GenericSubheading */
+.chroma .gh, .code-inline .gh,
+.chroma .gu, .code-inline .gu {
+    font-weight: bold;
+}
+
+/* Do not highlight error in pink background */
+/* Error */
+.chroma .err, .code-inline .err {
+    background-color: inherit;
+}
+
+/* LineTable */
+.chroma .lntable, .code-inline .lntable {
+    width: auto;
+    overflow-x: auto; /* Make the code block horizontally scrollable on narrow viewports. */
+    display: block;
+}
+
+/* LineNumbersTable, LineNumbers, Line, LineHighlight */
+/* Prevent the highlight from creating a strange artifact on line numbers. */
+.chroma .lnt, .code-inline .lnt,
+.chroma .ln, .code-inline .ln,
+.chroma .line, .code-inline .line,
+.chroma .hl, .code-inline .hl {
+    display: flex;
+}
+
+/* Set the line highlight color to match the site's theme. */
+/* LineHighlight */
+.chroma .hl, .code-inline .hl {
+    background-color: var(--theme-hl2-transp-color); /* This var is set in the head.html partial. */
+}
+
+/* Do not set the background color of inline src code*/
+.chroma.inline-src, .code-inline {
+    background-color: inherit;
+}
+
+         
+        </style>
+    
+
+    
+
+    
+    
+    
+
+    
+    <script src="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js"></script>
+    
+    <link rel="preload" href="/js/responsive-nav-orig.min.e2b5f2a956b488f466da513820636134defdc38b90ed566248960593f2bb4ba5.js" as="script">
+
+    
+    
+    <script defer src="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js"></script>
+    
+    <link rel="preload" href="/js/libs/fa/fontawesome-all.min.ff4d50a4c0c1d811d4910eb648811ac9021a1cb6fece2dfd8c6c271d0cdacd0b.js" as="script">
+
+    
+
+    
+
+    
+    
+    
+
+    
+    
+<!-- rel="me" links for IndieAuth -->
+
+
+
+
+
+
+
+    
+ 
+<meta property="og:title" content="hhkbp2&#39;s blog" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://hhkbp2.com/" />
+
+    
+    
+
+
+    
+        <meta property="og:updated_time" content="2018-03-19T14:56:00&#43;08:00"/>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+     <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="hhkbp2&#39;s blog"/>
+<meta name="twitter:description" content="" />
+
+
+    
+    
+    <link rel="alternate" type="application/rss+xml" href="https://hhkbp2.com/index.xml" title="Rss for hhkbp2's blog" />
+    
+     
+
+
+
+
+
+    <meta name="author" content=""/>
+
+
+
+    
+    
+    
+    <meta name="hugo-build-date" content=""/>
+    <meta name="hugo-commit-hash" content=""/>
+    <meta name="generator" content="Hugo 0.118.2">
+</head>
+
+
+    
+        <body lang="en">
+    
+
+        
+        <div class="border" id="home"></div>
+
+        <div class="wrapper">   
+            
+<nav id="nav" class="nav-collapse opened" aria-hidden="false">
+    <ul class="navbar">
+        <li><a class="active" href="/">Home</a></li>
+        
+            
+                <li><a class="" href="https://hhkbp2.com/posts/">Posts</a></li>
+            
+        
+            
+                <li><a class="" href="https://hhkbp2.com/about/">About</a></li>
+            
+        
+        
+    </ul>
+</nav>
+
+            <div class="container">
+                <header class="masthead">
+                    <div class="masthead-title no-text-decoration">
+                        <a href="/">hhkbp2&#39;s blog</a> <span class="blinking-cursor">❚</span>
+                    </div>
+                    <div class="masthead-tagline">
+                        Computer, programming and stuff.
+                    </div>
+                </header>
+
+                
+
+<div class="posts h-feed">
+    <header>
+        
+        <data class="u-url" value="https://hhkbp2.com/"></data>
+         
+
+
+
+
+
+
+        <data class="p-name" value="hhkbp2&#39;s blog"></data>
+    </header>
+    
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/'> Kapok 的设计与实现: Protocol</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__elixir__"
+                                
+                                
+                                title="See all 2 posts tagged with ‘Elixir’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/elixir/">Elixir</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__kapok__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Kapok’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/kapok/">Kapok</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2018-03-19T14:56:00+0800" class="dt-published" title="Published date">Mar 19, 2018</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>Kapok是我设计与实现的一个基于Erlang VM的现代Lisp编程语言。《念念不忘，亦有回响》这篇文章叙述了这门编程语言的概况。下面我们来</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/'
+               title="Read more about Kapok 的设计与实现: Protocol">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about Kapok 的设计与实现: Protocol</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/kapok-the-design-and-implementation-of-macro/'> Kapok 的设计与实现: Macro</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__clojure__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Clojure’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/clojure/">Clojure</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__kapok__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Kapok’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/kapok/">Kapok</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2017-08-14T16:20:00+0800" class="dt-published" title="Published date">Aug 14, 2017</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>Kapok是我设计与实现的一个基于Erlang VM的现代Lisp编程语言。《念念不忘，亦有回响》这篇文章叙述了这门编程语言的概况。下面我们来</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/kapok-the-design-and-implementation-of-macro/'
+               title="Read more about Kapok 的设计与实现: Macro">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about Kapok 的设计与实现: Macro</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/minds-echo/'> 念念不忘，亦有回响</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__clojure__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Clojure’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/clojure/">Clojure</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__kapok__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Kapok’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/kapok/">Kapok</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2016-06-08T00:00:00+0800" class="dt-published" title="Published date">Jun 8, 2016</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>多年以前，当我在Linux下选择Emacs做为编辑器的时候，似乎只是一个比较随机的选择。当时我已经接触并使用VI有一段日子，然而我使用它的体</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/minds-echo/'
+               title="Read more about 念念不忘，亦有回响">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about 念念不忘，亦有回响</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/joxa-a-lisp-programming-language-base-on-erlang-vm/'> Joxa: 一种基于 Erlang VM 的现代 Lisp 编程语言</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__erlang__"
+                                
+                                
+                                title="See all 4 posts tagged with ‘Erlang’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/erlang/">Erlang</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__clojure__"
+                                
+                                
+                                title="See all 3 posts tagged with ‘Clojure’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/clojure/">Clojure</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__elixir__"
+                                
+                                
+                                title="See all 2 posts tagged with ‘Elixir’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/elixir/">Elixir</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2015-08-20T20:34:00+0800" class="dt-published" title="Published date">Aug 20, 2015</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>Joxa是一种基于Erlang VM的现代Lisp编程语言，创始人是美国的Eric Merritt[1]。通过在Erlang VM上引入一个精心设</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/joxa-a-lisp-programming-language-base-on-erlang-vm/'
+               title="Read more about Joxa: 一种基于 Erlang VM 的现代 Lisp 编程语言">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about Joxa: 一种基于 Erlang VM 的现代 Lisp 编程语言</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/all-about-ergodox/'> 人体工学机械键盘 Ergodox</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__keyboard__"
+                                
+                                
+                                title="This is the only post categorized in ‘Keyboard’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/keyboard/">Keyboard</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__ergodox__"
+                                
+                                
+                                title="This is the only post tagged with ‘Ergodox’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/ergodox/">Ergodox</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__mechanical-keyboard__"
+                                
+                                
+                                title="This is the only post tagged with ‘Mechanical Keyboard’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/mechanical-keyboard/">Mechanical Keyboard</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__split-keyboard__"
+                                
+                                
+                                title="This is the only post tagged with ‘Split Keyboard’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/split-keyboard/">Split Keyboard</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2015-01-01T22:09:00+0800" class="dt-published" title="Published date">Jan 1, 2015</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>作为一个码农，我每天的工作主要就是敲打键盘，因为工作的特殊性，我平均每天面对电脑使用键盘鼠标至少达到10个小时，长期如此，我发现我的手腕时不</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/all-about-ergodox/'
+               title="Read more about 人体工学机械键盘 Ergodox">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about 人体工学机械键盘 Ergodox</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/hierarchical-state-machine/'> 层次状态机</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__linux__"
+                                
+                                
+                                title="See all 2 posts categorized in ‘Linux’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/linux/">Linux</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__state-machine__"
+                                
+                                
+                                title="This is the only post tagged with ‘State Machine’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/state-machine/">State Machine</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__hsm__"
+                                
+                                
+                                title="This is the only post tagged with ‘HSM’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/hsm/">HSM</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__go__"
+                                
+                                
+                                title="This is the only post tagged with ‘Go’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/go/">Go</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2014-11-04T19:22:00+0800" class="dt-published" title="Published date">Nov 4, 2014</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>计算机程序是写给人看的，只是顺便能运行。 ——《计算机程序的构造和解释》[1] FSM&nbsp;# 在计算机领域，FSM(有限状态机)是一个在自动机理论和程序设计</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/hierarchical-state-machine/'
+               title="Read more about 层次状态机">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about 层次状态机</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/'> Curator 介绍</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__linux__"
+                                
+                                
+                                title="See all 2 posts categorized in ‘Linux’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/linux/">Linux</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__zookeeper__"
+                                
+                                
+                                title="This is the only post tagged with ‘ZooKeeper’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/zookeeper/">ZooKeeper</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__curator__"
+                                
+                                
+                                title="This is the only post tagged with ‘Curator’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/curator/">Curator</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__client__"
+                                
+                                
+                                title="This is the only post tagged with ‘client’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/client/">client</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2014-03-08T16:27:00+0800" class="dt-published" title="Published date">Mar 8, 2014</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>本文翻译自Netflix[1]技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由Netflix工程师，Curator作者</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/'
+               title="Read more about Curator 介绍">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about Curator 介绍</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/nested-backquotes-considered-harmful/'> 嵌套反引用有害</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__lisp__"
+                                
+                                
+                                title="See all 5 posts categorized in ‘Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/lisp/">Lisp</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__common-lisp__"
+                                
+                                
+                                title="This is the only post tagged with ‘Common Lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/common-lisp/">Common Lisp</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__backquote__"
+                                
+                                
+                                title="This is the only post tagged with ‘Backquote’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/backquote/">Backquote</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__macro__"
+                                
+                                
+                                title="This is the only post tagged with ‘Macro’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/macro/">Macro</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2013-03-10T21:37:00+0800" class="dt-published" title="Published date">Mar 10, 2013</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>本文翻译自《Nested Backquotes considered harmful》，只用于学习，请勿用于其它用途。 好吧，我想嵌套反引用（nested backquote）不是真的有</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/nested-backquotes-considered-harmful/'
+               title="Read more about 嵌套反引用有害">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about 嵌套反引用有害</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/the-pragmatic-emacser/'> Emacs 修炼之道</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__emacs__"
+                                
+                                
+                                title="This is the only post categorized in ‘Emacs’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/emacs/">Emacs</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__emacs__"
+                                
+                                
+                                title="This is the only post tagged with ‘Emacs’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/emacs/">Emacs</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__emacs-lisp__"
+                                
+                                
+                                title="This is the only post tagged with ‘Emacs lisp’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/emacs-lisp/">Emacs lisp</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__tutorial__"
+                                
+                                
+                                title="This is the only post tagged with ‘tutorial’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/tutorial/">tutorial</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2013-01-08T16:04:00+0800" class="dt-published" title="Published date">Jan 8, 2013</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>&ldquo;Don&rsquo;t panic.&rdquo; -- The Hitchhiker&rsquo;s Guide to the Galaxy 作为一个Emacs控，在办公室我也积极的向别人推荐Emacs，有时候会需要向别人介绍和解释Emacs，比如它能够做什么，与</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/the-pragmatic-emacser/'
+               title="Read more about Emacs 修炼之道">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about Emacs 修炼之道</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+        <article class="summary h-entry posts">
+    <header>
+        <h2 class="post-title p-name no-text-decoration"><a class="u-url" href='https://hhkbp2.com/migrating-wordpress-to-octopress/'> 博客迁到Octopress</a> </h2>
+        
+    <div class="taxo no-text-decoration">
+         
+            
+                <ul class="no-bullets inline categories">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__life__"
+                                
+                                
+                                title="This is the only post categorized in ‘Life’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/categories/life/">Life</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+         
+            
+                <ul class="no-bullets inline tags">
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__blog__"
+                                
+                                
+                                title="This is the only post tagged with ‘Blog’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/blog/">Blog</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__octopress__"
+                                
+                                
+                                title="This is the only post tagged with ‘Octopress’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/octopress/">Octopress</a>
+                            </li>
+                        
+                    
+                        
+                        
+                        
+                        
+                            
+                            
+                            
+                            
+                            
+                            <li class="__wordpress__"
+                                
+                                
+                                title="This is the only post tagged with ‘Wordpress’"
+                                
+                            >
+                                <a class="p-category" href="https://hhkbp2.com/tags/wordpress/">Wordpress</a>
+                            </li>
+                        
+                    
+                </ul>
+            
+        
+    </div>
+
+
+        
+
+
+    
+    
+    <div class="post-date">
+        
+        <time datetime="2012-07-14T19:00:00+0800" class="dt-published" title="Published date">Jul 14, 2012</time>
+        
+        
+    </div>
+
+
+    </header>
+
+    <div class="post p-summary" >
+        
+<p>之前Wordpress博客租用的主机空间也快到期了，连同onhacking.com这个域名，都只是付了一年的费用。这一年里用Wordpres</p>
+
+    </div>
+
+    
+    
+    
+        <div class="readmore no-text-decoration">
+            <a href='https://hhkbp2.com/migrating-wordpress-to-octopress/'
+               title="Read more about 博客迁到Octopress">
+                read <span class="more"> more</span>
+                <span class="screen-readers-only" > about 博客迁到Octopress</span>
+            </a>
+        </div>
+    
+</article>
+      
+    
+</div>
+
+
+
+                <footer>
+                    
+
+<div class="pagination no-text-decoration">
+    
+        <span class="pagination-item newer">Newer</span>
+    
+    
+        <span class="pagination-item older">Older</span>
+    
+</div>
+
+
+    
+    
+
+
+                       
+
+
+
+
+                    <ul class="no-bullets feed right inline">
+    
+        
+        
+            <li class="inline no-text-decoration">
+                <a href="https://hhkbp2.com/index.xml">RSS</a>
+            </li>
+        
+    
+</ul>
+<div class="clear-float"></div>
+
+                </footer>
+                <hr />
+            </div>               
+
+            <footer> 
+                
+
+
+<ul class="social no-text-decoration">
+    
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<p class="generated">
+    Generated using <a href="https://github.com/gohugoio/hugo"><span class="nobr">Hugo</span></a> +  <a href="https://gitlab.com/kaushalmodi/hugo-theme-refined"><code class="nobr">hugo-theme-refined</code></a> 
+</p>
+
+<p>
+    
+</p>
+
+
+
+
+<div class="badges no-text-decoration">
+    
+    
+
+    
+</div>
+
+
+
+
+<script>var nav=responsiveNav("#nav");</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </footer>
+        </div> 
+    </body>
+</html>
