@@ -10,7 +10,7 @@
         <description>Recent content  in Octopress
             on hhkbp2&#39;s blog</description>
         <language>en-us</language>
-        <lastBuildDate>Sun, 24 Mar 2024 02:25:31 +0800</lastBuildDate>
+        <lastBuildDate>Sun, 24 Mar 2024 02:31:51 +0800</lastBuildDate>
         <generator>Hugo -- gohugo.io</generator>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
             <atom:link href="https://hhkbp2.com/tags/octopress/index.xml" rel="self" type="application/rss&#43;xml" />
@@ -23,32 +23,32 @@
                 
                 <description>&lt;p&gt;自2012年，我开始使用Octopress这个博客框架来写博客，直到2023年的现在。虽然我在这里写文章的频度不高，基于够用就不折腾的想法，很少对Octopress版本做更新，但最近发现继续用它来写博客有几个问题：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;项目已停止维护
+&lt;li&gt;项目已停止维护&lt;br&gt;
 Octopress项目在2016年已停止维护，它的依赖包和代码都比较老旧，部分甚至有安全漏洞却也不会得到更新。&lt;/li&gt;
-&lt;li&gt;依赖Ruby开发环境，安装迁移麻烦
+&lt;li&gt;依赖Ruby开发环境，安装迁移麻烦&lt;br&gt;
 Octopress依赖Ruby开发环境和工具链，每当换电脑要迁移的时候都要重新进行安装配置，比较麻烦。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Ruby这门编程语言，虽然我曾经正儿八经地学过，但是因为很少使用渐渐已经忘记七七八八了，因此希望找一个使用我熟悉语言实现的替代品，降低维护成本，不需要达到能改动代码的程度，但至少熟悉如何安装配置环境以及安装它的依赖包，以降低维护成本。经过一番搜索之后，发现目前类似Octopress定位的静态博客/网站生成框架有很多，综合来看Hugo这个项目最接近我的需求，个人觉得Hugo有以下几个优点：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;功能丰富，项目活跃
+&lt;li&gt;功能丰富，项目活跃&lt;br&gt;
 功能足够我个人使用，而且项目处于活跃发展状态，有一个不小的社区，网上文档较丰富。&lt;/li&gt;
-&lt;li&gt;用Go语言实现，方便部署迁移
+&lt;li&gt;用Go语言实现，方便部署迁移&lt;br&gt;
 Hugo使用Go语言实现，Go语言和它的工具链、依赖包部署安装比较容易，在不同机器之间迁移也相对容易。&lt;/li&gt;
-&lt;li&gt;速度快
+&lt;li&gt;速度快&lt;br&gt;
 由于Hugo使用Go语言实现，相比使用Ruby语言实现的Octopress在速度上具有天生的优势。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;使用Hugo来写博客，与使用Octopress类似，都是先写好Markdown格式的文章，然后编译生成静态网站发布到GitHub Pages。要将我的博客从Octopress迁移到Hugo，只需要将全站框架和博客文章迁移过来。迁移过程主要包括下列步骤：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;迁移全站框架
+&lt;p&gt;迁移全站框架&lt;br&gt;
 我在Octopress上使用一个叫 &lt;a href=&#34;https://github.com/lucaslew/whitespace&#34;&gt;whitespace&lt;/a&gt; 的主题，它是一个白色背景的简单主题，虽然原来主题已经比较简单，但我还是在其基础上去掉了一些个人不需要的元素，最后得到一个非常简单的只带几个标签的一栏式简化主题。对Hugo的主题做过一番查找，找到一个主题&lt;a href=&#34;https://gitlab.com/kaushalmodi/hugo-theme-refined&#34;&gt;hugo-theme-refined&lt;/a&gt;比较符合我的需求和审美，于是在Hugo标准模板的基础上修改为hugo-theme-refined主题，并添加posts, about等几个标签并迁移对应的内容，就搭建好了一个Hugo博客的框架。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;迁移博客文章
+&lt;p&gt;迁移博客文章&lt;br&gt;
 Hugo在文章头部的写法与Octopress有较大差异，要迁移Octopress的博客文章到Hugo，需要经过转换。我的博客正式发表的文章不多，但过去留下不少草稿，因此不能逐个文章手动修改来迁移。Hugo官方文档网页提供了一个转换工具&lt;a href=&#34;https://gohugo.io/tools/migrations/#octopress&#34;&gt;octohug&lt;/a&gt;，经过测试并不能完全识别我的Octopress文章头部的所有标签，因此我参考octohug另外写了一个工具&lt;a href=&#34;https://github.com/hhkbp2/octo2hugo&#34;&gt;octo2hugo&lt;/a&gt;，使用这个工具将Octopress目录中的文章批量转换成适合Hugo的格式，然后复制所有文章中用到的图片到Hugo对应目录，就完成了博客文章的迁移。在这次迁移中把文章URL的日期部分去掉了，并且将每篇文章和图片放到同一个目录。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;调整优化
+&lt;p&gt;调整优化&lt;br&gt;
 最后对Hugo博客做一些配置调整和优化，主要有配置合适的baseURL, 添加自定义域名CNAME，正文字体调整为更适合中文内容的霞鹜文楷（为了加载速度使用了霞鹜文楷lite版本的在线字体），代码字体调整为Jetbrains Mono等。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
