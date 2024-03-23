@@ -21,12 +21,12 @@
 
     
     
-        <meta name="keywords" content="ZooKeeper, Curator, client, Linux"/>
+        <meta name="keywords" content="Blog, Octopress, Hugo, Life"/>
     
 
     <title>
         
-            Curator 介绍 ❚ hhkbp2&#39;s blog
+            博客从Octopress迁移到Hugo ❚ hhkbp2&#39;s blog
         
     </title>
 
@@ -253,20 +253,20 @@
 
     
  
-<meta property="og:title" content="Curator 介绍" />
+<meta property="og:title" content="博客从Octopress迁移到Hugo" />
 <meta property="og:description" content=" " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/" />
+<meta property="og:url" content="https://hhkbp2.com/migrating-octopress-to-hugo/" />
 
     
     
 
 
     
-        <meta property="article:published_time" content="2014-03-08T16:27:00&#43;08:00"/>
+        <meta property="article:published_time" content="2023-09-29T22:21:22&#43;08:00"/>
     
     
-        <meta property="article:modified_time" content="2014-03-08T16:27:00&#43;08:00"/>
+        <meta property="article:modified_time" content="2023-09-29T22:21:22&#43;08:00"/>
     
 
 
@@ -283,7 +283,7 @@
 
 
      <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Curator 介绍"/>
+<meta name="twitter:title" content="博客从Octopress迁移到Hugo"/>
 <meta name="twitter:description" content=" " />
 
 
@@ -370,13 +370,13 @@
                             
                             
                             
-                            <li class="__linux__"
+                            <li class="__life__"
                                 
                                 
-                                title="See all 0 posts categorized in ‘Linux’"
+                                title="See all 0 posts categorized in ‘Life’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/categories/linux/">Linux</a>
+                                <a class="p-category" href="https://hhkbp2.com/categories/life/">Life</a>
                             </li>
                         
                     
@@ -395,13 +395,13 @@
                             
                             
                             
-                            <li class="__zookeeper__"
+                            <li class="__blog__"
                                 
                                 
-                                title="See all 0 posts tagged with ‘ZooKeeper’"
+                                title="See all 0 posts tagged with ‘Blog’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/tags/zookeeper/">ZooKeeper</a>
+                                <a class="p-category" href="https://hhkbp2.com/tags/blog/">Blog</a>
                             </li>
                         
                     
@@ -414,13 +414,13 @@
                             
                             
                             
-                            <li class="__curator__"
+                            <li class="__octopress__"
                                 
                                 
-                                title="See all 0 posts tagged with ‘Curator’"
+                                title="See all 0 posts tagged with ‘Octopress’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/tags/curator/">Curator</a>
+                                <a class="p-category" href="https://hhkbp2.com/tags/octopress/">Octopress</a>
                             </li>
                         
                     
@@ -433,13 +433,13 @@
                             
                             
                             
-                            <li class="__client__"
+                            <li class="__hugo__"
                                 
                                 
-                                title="See all 0 posts tagged with ‘client’"
+                                title="See all 0 posts tagged with ‘Hugo’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/tags/client/">client</a>
+                                <a class="p-category" href="https://hhkbp2.com/tags/hugo/">Hugo</a>
                             </li>
                         
                     
@@ -450,10 +450,10 @@
 
 </div>
 
-        <h1 class="post-title p-name">Curator 介绍</h1>
+        <h1 class="post-title p-name">博客从Octopress迁移到Hugo</h1>
 
         
-        <data class="u-url" value="https://hhkbp2.com/introducing-curator-the-netflix-zookeeper-library/"></data>
+        <data class="u-url" value="https://hhkbp2.com/migrating-octopress-to-hugo/"></data>
 
         <div class="date-syndication">
             
@@ -463,7 +463,7 @@
     
     <div class="post-date">
         
-        <time datetime="2014-03-08T16:27:00+0800" class="dt-published" title="Published date">Mar 8, 2014</time>
+        <time datetime="2023-09-29T22:21:22+0800" class="dt-published" title="Published date">Sep 29, 2023</time>
         
         
     </div>
@@ -501,100 +501,38 @@
 
 
 
-<p>本文翻译自Netflix<a href="#1">[1]</a>技术博客文章《Introducing Curator - The Netflix ZooKeeper Library》，原文由Netflix工程师，Curator作者Jordan Zimmerman编写，原文在<a href="http://techblog.netflix.com/2011/11/introducing-curator-netflix-zookeeper.html">这里</a>。接触Curator已经快一年时间，期间有过写一篇介绍性文章的念头，但一直没有动手，后来回顾手头的资料，觉得其实这篇文章虽然简洁了一点，但也是一个很好的介绍，于是翻译在这里。仅用于学习，请勿用于其它用途。</p>
-<hr>
-
-<h3 id="netflix的开源">Netflix的开源&nbsp;<a class="headline-hash no-text-decoration" href="#netflix%e7%9a%84%e5%bc%80%e6%ba%90">#</a></h3>
-
-
-<p>Netflix致力于开源，我们过去写过<a href="http://techblog.netflix.com/2010/12/why-we-use-and-contribute-to-open.html">相关的博客</a>，今天我们公布Netflix开源项目的门户网页。网页<a href="https://github.com/netflix">托管在Github上</a>，有几个项目在并行推进当中(其中包括我们今天对外发布的<a href="https://github.com/netflix/curator">Curator</a>)：</p>
-<ul>
-<li>Curator - Netflix的ZooKeeper库</li>
-<li>Astyanax - Netflix的Cassandra客户端</li>
-<li>Priam - Cassandra的跨进程备份/恢复功能，Token管理，配置中心化管理</li>
-<li>CassJMeter - 运行Cassandra测试的JMeter插件</li>
-</ul>
-
-<h3 id="zookeeper">ZooKeeper&nbsp;<a class="headline-hash no-text-decoration" href="#zookeeper">#</a></h3>
-
-
-<p>ZooKeeper是一个高性能的分布式协调服务框架。它将通用的服务，如命名，配置管理，同步，分组服务等，通过简单的接口展现出来。要全面的了解ZooKeeper，请参考以下网页：</p>
-<ul>
-<li><a href="http://zookeeper.apache.org/">ZooKeeper主站</a></li>
-<li><a href="http://zookeeper.apache.org/doc/current/recipes.html">ZooKeeper Recipes</a></li>
-<li><a href="https://cwiki.apache.org/ZOOKEEPER/faq.html">ZooKeeper FAQ</a></li>
-<li><a href="https://cwiki.apache.org/confluence/display/ZOOKEEPER/Index">ZooKeeper Info文档</a></li>
-<li><a href="http://research.yahoo.com/node/2120">很好的解释ZooKeeper的视频</a></li>
-</ul>
-
-<h3 id="难以用好">难以用好&nbsp;<a class="headline-hash no-text-decoration" href="#%e9%9a%be%e4%bb%a5%e7%94%a8%e5%a5%bd">#</a></h3>
-
-
-<p>ZooKeeper本身自带一个Java客户端，但使用这个客户端繁琐<a href="#2">[2]</a>而且容易出错。客户端的使用者需要做大量的手动维护性工作。比如：</p>
-<p>连接问题</p>
-<ul>
-<li>初始化连接：ZooKeeper客户端与服务器进行握手，这需要花一些时间。如果握手未完成，任何要与服务器端同步执行的方法(如，create()，getData()等)都会抛出异常。</li>
-<li>Failover：如果ZooKeeper客户端与服务器连接断开，它会failover到集群中另外一台服务器。然后，这个过程会使客户端退回到&quot;初始化连接&quot;的模式。</li>
-<li>Session过期：有些边际情况可以导致ZooKeeper session过期。客户端需要监视这个状态，关闭并重建ZooKeeper客户端实例。</li>
-</ul>
-<p>恢复问题</p>
-<ul>
-<li>当在Server创建顺序节点(sequential ZNode)时，有可能出现这种情况：节点成功创建了，但server在将节点名返回给客户端之前崩溃了。</li>
-<li>ZooKeeper客户端可能会抛出几个可恢复的异常，使用者需要捕捉这些异常并做重试操作。</li>
-</ul>
-<p>Recipe<a href="#3">[3]</a>方面</p>
-<ul>
-<li>标准的ZooKeeper recipe(如锁，选leader等)只是得到最低程序的描述，要正确地编写出来比较困难。</li>
-<li>有一些重要的边界情况在recipe描述里没有提到。例如，锁recipe的描述中，没有说到如何处理服务器成功创建了顺序(Sequential)/临时(Ephemeral)节点，但在向客户端返回结点名之前就崩溃的情况。如果没有得到正确处理，可能会导致死锁。</li>
-<li>某些使用场景下，必须要注意可能出现的连接问题。例如，选leader过程要监视连接的稳定性。如果连接到的服务器崩溃了，leader就不能假定自己继续为leader，除非已经成功failover到另外的服务器。</li>
-</ul>
-<p>上述问题(和其它类似的问题)必须由每个ZooKeeper使用者来处理。问题解决方案既不容易编写，也不是显而易见的，需要消耗相当多的时间。而Curator处理了所有的问题。</p>
-
-<h3 id="curator是什么">Curator是什么&nbsp;<a class="headline-hash no-text-decoration" href="#curator%e6%98%af%e4%bb%80%e4%b9%88">#</a></h3>
-
-
-<p>Curator n ˈkyoor͝ˌātər:，展品或者其它收藏品的看守者，管理员，ZooKeeper的Keeper。它由3个相关的项目组成：</p>
-<ul>
-<li>curator-client - ZooKeeper自带客户端的替代者，它负责处理低层次的维护工作，并提供某些有用的小功能</li>
-<li>curator-framework - Curator Framework大大地简化ZooKeeper使用的高层次API。它在ZooKeeper客户端之上添加了很多功能，并处理了与ZooKeeper集群连接管理和重试操作的复杂性。</li>
-<li>curator-recipes - ZooKeeper某些通用recipe的实现。它是基于Curator Framework之上实现的。</li>
-</ul>
-<p>Curator专注于锁，选Leader等这些recipe。大部分对ZooKeeper感兴趣的人不需要关心连接管理等细节。他们想要的只是简单的使用这些recipe。Curator就是以此作为目标。</p>
-<p>Curator通过以下方式处理了使用ZooKeeper的复杂度：</p>
-<ul>
-<li>重试机制：Curator支持可插拔式的(pluggable)重试机制。所有会产生可恢复异常的ZooKeeper操作都会在配置好的重试策略下得到重试。Curator自带了几个标准的重试策略(如二元指数后退策略)。</li>
-<li>连接状态监视：Curator不断监视ZooKeeper连接的状态，Curator用户可以监听连接状态变化并相应的作出回应。</li>
-<li>ZooKeeper客户端实例管理：Curator通过标准的ZooKeeper类实例来管理与ZooKeeper集群的实际连接。然而，这些实例是管理在内部(尽管你若需要也可以访问)，在需要的时候被重新创建。因此，Curator提供了对ZooKeeper集群的可靠处理(不像ZooKeeper自带的实现)。</li>
-<li>正确，可靠的recipe：Curator实现了大部分重要的ZooKeeper recipe(还有一些附加的recipe)。它们的实现使用了ZooKeeper的最佳实践，处理了所有已知的边界情况(像前面所说的)。</li>
-<li>Curator专注于那些让你的代码更强健，因为你完全专心于你感兴趣的ZooKeeper功能，而不用担心怎么正确完成那些的维护性工作。</li>
-</ul>
-
-<h3 id="zookeeper在netflix">ZooKeeper在Netflix&nbsp;<a class="headline-hash no-text-decoration" href="#zookeeper%e5%9c%a8netflix">#</a></h3>
-
-
-<p>ZooKeeper/Curator在Netflix得到了广泛的使用。使用情景有：</p>
-<ul>
-<li>InterProcessMutex在各种顺序ID生成器中被用来保证值的唯一性</li>
-<li>Cassandra备份</li>
-<li>TrackID服务</li>
-<li>我们的Chukwa收集器使用LeaderSelector来做各种维护性的任务</li>
-<li>我们用了一些第三方的服务，但它们只允许有限数目的并发用户。InterProcessSemphore被用来处理这个。</li>
-<li>各种Cache</li>
-</ul>
-
-<h3 id="获取curator">获取Curator&nbsp;<a class="headline-hash no-text-decoration" href="#%e8%8e%b7%e5%8f%96curator">#</a></h3>
-
-
-<ul>
-<li>Curator二进制被上传到了Maven Central，这让获取它变得很容易</li>
-<li>Curator的源代码放在Github上托管<a href="#4">[4]</a>：<a href="https://github.com/Netflix/curator">https://github.com/Netflix/curator</a></li>
-<li>全面的文档放在：<a href="https://github.com/Netflix/curator/wiki">https://github.com/Netflix/curator/wiki</a></li>
-</ul>
-<p><em>注：</em><br>
-<!-- raw HTML omitted -->[1]<!-- raw HTML omitted --> Netflix是一个美国的在线DVD租赁公司，后来转型到网络流媒体服务。参考<a href="http://zh.wikipedia.org/wiki/Netflix">维基百科Netflix词条</a>。<br>
-<!-- raw HTML omitted -->[2]<!-- raw HTML omitted --> 原文为non-trivial，意思应该是搞反了。<br>
-<!-- raw HTML omitted -->[3]<!-- raw HTML omitted --> Recipe中文意思为“菜谱，配方”，感觉翻译过来不能很好的表达英文&quot;一系列约定步骤&quot;的意思，故不译。<br>
-<!-- raw HTML omitted -->[4]<!-- raw HTML omitted --> Curator在去年(2013年)年中已经正式成为Apache Incubator项目，代码改为托管在Github Apache的对应目录下。主页和文档的位置也有所变化。</p>
+<p>自2012年，我开始使用Octopress这个博客框架来写博客，直到2023年的现在。虽然我在这里写文章的频度不高，基于够用就不折腾的想法，很少对Octopress版本做更新，但最近发现继续用它来写博客有几个问题：</p>
+<ol>
+<li>项目已停止维护
+Octopress项目在2016年已停止维护，它的依赖包和代码都比较老旧，部分甚至有安全漏洞却也不会得到更新。</li>
+<li>依赖Ruby开发环境，安装迁移麻烦
+Octopress依赖Ruby开发环境和工具链，每当换电脑要迁移的时候都要重新进行安装配置，比较麻烦。</li>
+</ol>
+<p>Ruby这门编程语言，虽然我曾经正儿八经地学过，但是因为很少使用渐渐已经忘记七七八八了，因此希望找一个使用我熟悉语言实现的替代品，降低维护成本，不需要达到能改动代码的程度，但至少熟悉如何安装配置环境以及安装它的依赖包，以降低维护成本。经过一番搜索之后，发现目前类似Octopress定位的静态博客/网站生成框架有很多，综合来看Hugo这个项目最接近我的需求，个人觉得Hugo有以下几个优点：</p>
+<ol>
+<li>功能丰富，项目活跃
+功能足够我个人使用，而且项目处于活跃发展状态，有一个不小的社区，网上文档较丰富。</li>
+<li>用Go语言实现，方便部署迁移
+Hugo使用Go语言实现，Go语言和它的工具链、依赖包部署安装比较容易，在不同机器之间迁移也相对容易。</li>
+<li>速度快
+由于Hugo使用Go语言实现，相比使用Ruby语言实现的Octopress在速度上具有天生的优势。</li>
+</ol>
+<p>使用Hugo来写博客，与使用Octopress类似，都是先写好Markdown格式的文章，然后编译生成静态网站发布到GitHub Pages。要将我的博客从Octopress迁移到Hugo，只需要将全站框架和博客文章迁移过来。迁移过程主要包括下列步骤：</p>
+<ol>
+<li>
+<p>迁移全站框架
+我在Octopress上使用一个叫 <a href="https://github.com/lucaslew/whitespace">whitespace</a> 的主题，它是一个白色背景的简单主题，虽然原来主题已经比较简单，但我还是在其基础上去掉了一些个人不需要的元素，最后得到一个非常简单的只带几个标签的一栏式简化主题。对Hugo的主题做过一番查找，找到一个主题<a href="https://gitlab.com/kaushalmodi/hugo-theme-refined">hugo-theme-refined</a>比较符合我的需求和审美，于是在Hugo标准模板的基础上修改为hugo-theme-refined主题，并添加posts, about等几个标签并迁移对应的内容，就搭建好了一个Hugo博客的框架。</p>
+</li>
+<li>
+<p>迁移博客文章
+Hugo在文章头部的写法与Octopress有较大差异，要迁移Octopress的博客文章到Hugo，需要经过转换。我的博客正式发表的文章不多，但过去留下不少草稿，因此不能逐个文章手动修改来迁移。Hugo官方文档网页提供了一个转换工具<a href="https://gohugo.io/tools/migrations/#octopress">octohug</a>，经过测试并不能完全识别我的Octopress文章头部的所有标签，因此我参考octohug另外写了一个工具<a href="https://github.com/hhkbp2/octo2hugo">octo2hugo</a>，使用这个工具将Octopress目录中的文章批量转换成适合Hugo的格式，然后复制所有文章中用到的图片到Hugo对应目录，就完成了博客文章的迁移。在这次迁移中把文章URL的日期部分去掉了，并且将每篇文章和图片放到同一个目录。</p>
+</li>
+<li>
+<p>调整优化
+最后对Hugo博客做一些配置调整和优化，主要有配置合适的baseURL, 添加自定义域名CNAME，正文字体调整为更适合中文内容的霞鹜文楷（为了加载速度使用了霞鹜文楷lite版本的在线字体），代码字体调整为Jetbrains Mono等。</p>
+</li>
+</ol>
+<p>迁移后的新博客依旧保留了简洁够用的风格，用Hugo写博客使用体验比Octopress要好，无论是编译全站还是实时预览Hugo都快得多，我博客上的文章并不多，还是能感受到明显的差别。我对这次迁移的效果感到满意，希望Hugo历久长青，支持我的博客走过下一个十年。</p>
 
 
         </div>
@@ -644,20 +582,7 @@
  
     
         <div class="hugotoc no-text-decoration">
-            <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#netflix的开源">Netflix的开源</a></li>
-        <li><a href="#zookeeper">ZooKeeper</a></li>
-        <li><a href="#难以用好">难以用好</a></li>
-        <li><a href="#curator是什么">Curator是什么</a></li>
-        <li><a href="#zookeeper在netflix">ZooKeeper在Netflix</a></li>
-        <li><a href="#获取curator">获取Curator</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+            <nav id="TableOfContents"></nav>
             <a href="#" class="back-to-top">Back to top</a>
         </div>
     
@@ -737,13 +662,13 @@
                             
                             
                             
-                            <li class="__linux__"
+                            <li class="__life__"
                                 
                                 
-                                title="See all 0 posts categorized in ‘Linux’"
+                                title="See all 0 posts categorized in ‘Life’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/categories/linux/">Linux</a>
+                                <a class="p-category" href="https://hhkbp2.com/categories/life/">Life</a>
                             </li>
                         
                     
@@ -762,13 +687,13 @@
                             
                             
                             
-                            <li class="__zookeeper__"
+                            <li class="__blog__"
                                 
                                 
-                                title="See all 0 posts tagged with ‘ZooKeeper’"
+                                title="See all 0 posts tagged with ‘Blog’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/tags/zookeeper/">ZooKeeper</a>
+                                <a class="p-category" href="https://hhkbp2.com/tags/blog/">Blog</a>
                             </li>
                         
                     
@@ -781,13 +706,13 @@
                             
                             
                             
-                            <li class="__curator__"
+                            <li class="__octopress__"
                                 
                                 
-                                title="See all 0 posts tagged with ‘Curator’"
+                                title="See all 0 posts tagged with ‘Octopress’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/tags/curator/">Curator</a>
+                                <a class="p-category" href="https://hhkbp2.com/tags/octopress/">Octopress</a>
                             </li>
                         
                     
@@ -800,13 +725,13 @@
                             
                             
                             
-                            <li class="__client__"
+                            <li class="__hugo__"
                                 
                                 
-                                title="See all 0 posts tagged with ‘client’"
+                                title="See all 0 posts tagged with ‘Hugo’"
                                 
                             >
-                                <a class="p-category" href="https://hhkbp2.com/tags/client/">client</a>
+                                <a class="p-category" href="https://hhkbp2.com/tags/hugo/">Hugo</a>
                             </li>
                         
                     
@@ -822,13 +747,9 @@
 
 <div class="prev-next-navigator clear-float">
     
-        <span class="prev-post left no-text-decoration">
-            <a href="https://hhkbp2.com/hierarchical-state-machine/">«&nbsp;层次状态机</a>
-        </span>
-    
     
         <span class="next-post right no-text-decoration">
-            <a href="https://hhkbp2.com/nested-backquotes-considered-harmful/">嵌套反引用有害&nbsp;»</a>
+            <a href="https://hhkbp2.com/kapok-the-design-and-implementation-of-protocol/">Kapok 的设计与实现: Protocol&nbsp;»</a>
         </span>
     
 </div>
